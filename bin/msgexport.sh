@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -67,7 +69,7 @@ function export_mailbox($mbox, $filename)
 
     for ($i = 0; $i < $count; $i++) {
         $headers = $IMAP->get_message_headers($index[$i]);
-        $from = current(rcube_mime::decode_address_list($headers->from, 1, false));
+        $from = current(\rcube_mime::decode_address_list($headers->from, 1, false));
 
         fwrite($out, sprintf("From %s %s UID %d\n", $from['mailto'], $headers->date, $headers->uid));
         $IMAP->get_raw_body($headers->uid, $out);
@@ -84,7 +86,7 @@ function export_mailbox($mbox, $filename)
 
 // get arguments
 $opts = ['h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file'];
-$args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX'];
+$args = \rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX'];
 
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
@@ -102,7 +104,7 @@ if (empty($args['user'])) {
 }
 
 // prompt for password
-$args['pass'] = rcube_utils::prompt_silent('Password: ');
+$args['pass'] = \rcube_utils::prompt_silent('Password: ');
 
 // parse $host URL
 $a_host = parse_url($args['host']);
@@ -117,7 +119,7 @@ if (!empty($a_host['host'])) {
 }
 
 // instantiate IMAP class
-$IMAP = new rcube_imap(null);
+$IMAP = new \rcube_imap(null);
 
 // try to connect to IMAP server
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -325,12 +327,12 @@ class rcube_message_header
         if ($decode && $value !== null) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    $val = rcube_mime::decode_header($val, $this->charset);
-                    $value[$key] = rcube_charset::clean($val);
+                    $val = \rcube_mime::decode_header($val, $this->charset);
+                    $value[$key] = \rcube_charset::clean($val);
                 }
             } else {
-                $value = rcube_mime::decode_header($value, $this->charset);
-                $value = rcube_charset::clean($value);
+                $value = \rcube_mime::decode_header($value, $this->charset);
+                $value = \rcube_charset::clean($value);
             }
         }
 
@@ -359,7 +361,7 @@ class rcube_message_header
      *
      * @param array $arr Hash array with header values
      *
-     * @return rcube_message_header instance filled with headers values
+     * @return \rcube_message_header instance filled with headers values
      */
     public static function from_array($arr)
     {
@@ -369,52 +371,5 @@ class rcube_message_header
         }
 
         return $obj;
-    }
-}
-
-/**
- * Class for sorting an array of rcube_message_header objects in a predetermined order.
- */
-class rcube_message_header_sorter
-{
-    /** @var array Message UIDs */
-    private $uids = [];
-
-    /**
-     * Set the predetermined sort order.
-     *
-     * @param array $index Numerically indexed array of IMAP UIDs
-     */
-    public function set_index($index)
-    {
-        $index = array_flip($index);
-
-        $this->uids = $index;
-    }
-
-    /**
-     * Sort the array of header objects
-     *
-     * @param array $headers Array of rcube_message_header objects indexed by UID
-     */
-    public function sort_headers(&$headers)
-    {
-        uksort($headers, [$this, 'compare_uids']);
-    }
-
-    /**
-     * Sort method called by uksort()
-     *
-     * @param int $a Array key (UID)
-     * @param int $b Array key (UID)
-     */
-    public function compare_uids($a, $b)
-    {
-        // then find each sequence number in my ordered list
-        $posa = isset($this->uids[$a]) ? intval($this->uids[$a]) : -1;
-        $posb = isset($this->uids[$b]) ? intval($this->uids[$b]) : -1;
-
-        // return the relative position as the comparison value
-        return $posa - $posb;
     }
 }

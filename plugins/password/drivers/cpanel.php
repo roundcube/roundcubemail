@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * cPanel Password Driver
  *
@@ -40,14 +42,14 @@ class rcube_cpanel_password
      */
     public function save($curpass, $newpass, $username)
     {
-        $client = password::get_http_client();
+        $client = \password::get_http_client();
 
         $url = self::url();
 
         $options = [
             'auth' => [$username, $curpass],
             'form_params' => [
-                'email' => password::username('%l'),
+                'email' => \password::username('%l'),
                 'password' => $newpass,
             ],
             'http_errors' => true,
@@ -56,8 +58,8 @@ class rcube_cpanel_password
         try {
             $response = $client->post($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
-            rcube::raise_error("Password plugin: Failed to post to {$url}: {$e->getMessage()}", true);
+        } catch (\Exception $e) {
+            \rcube::raise_error("Password plugin: Failed to post to {$url}: {$e->getMessage()}", true);
 
             return PASSWORD_ERROR;
         }
@@ -72,7 +74,7 @@ class rcube_cpanel_password
      */
     public static function url()
     {
-        $config = rcmail::get_instance()->config;
+        $config = \rcmail::get_instance()->config;
         $storage_host = $_SESSION['storage_host'];
 
         $host = $config->get('password_cpanel_host', $storage_host);

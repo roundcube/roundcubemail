@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_delete extends rcmail_action
+class rcmail_action_settings_response_delete extends \rcmail_action
 {
     public static $mode = self::MODE_AJAX;
 
@@ -26,12 +28,12 @@ class rcmail_action_settings_response_delete extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
-        if ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+        if ($id = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GP)) {
             $plugin = $rcmail->plugins->exec_hook('response_delete', ['id' => $id]);
 
             $deleted = !$plugin['abort'] ? $rcmail->user->delete_response($id) : $plugin['result'];

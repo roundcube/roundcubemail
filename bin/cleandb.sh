@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -28,4 +30,4 @@ if (!empty($_SERVER['argv'][1])) {
     $days = 7;
 }
 
-rcmail_utils::db_clean($days);
+\rcmail_utils::db_clean($days);

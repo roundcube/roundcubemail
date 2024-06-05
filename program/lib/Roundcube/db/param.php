@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -29,9 +31,9 @@ class rcube_db_param
     /**
      * Object constructor
      *
-     * @param rcube_db $db    Database driver
-     * @param mixed    $value Parameter value
-     * @param string   $type  Parameter type (One of rcube_db::TYPE_* constants)
+     * @param \rcube_db $db    Database driver
+     * @param mixed     $value Parameter value
+     * @param string    $type  Parameter type (One of rcube_db::TYPE_* constants)
      */
     public function __construct($db, $value, $type = null)
     {
@@ -43,10 +45,10 @@ class rcube_db_param
     /**
      * Returns the value as string for inlining into SQL query
      */
-    #[Override]
+    #[\Override]
     public function __toString()
     {
-        if ($this->type === rcube_db::TYPE_SQL) {
+        if ($this->type === \rcube_db::TYPE_SQL) {
             return (string) $this->value;
         }
 

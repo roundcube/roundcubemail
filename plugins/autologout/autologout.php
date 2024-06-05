@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Plugin to auto log out users with a POST request sent from an external site.
  *
@@ -24,14 +26,14 @@
  * $("#loSubmitButton").click();)
  */
 
-class autologout extends rcube_plugin
+class autologout extends \rcube_plugin
 {
     public $task = 'logout';
 
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
@@ -42,7 +44,7 @@ class autologout extends rcube_plugin
      */
     public function startup($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Change task and action to logout
         if (!empty($_SESSION['user_id']) && !empty($_POST['_autologout']) && $this->known_client()) {

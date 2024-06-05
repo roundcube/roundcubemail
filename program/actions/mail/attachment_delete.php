@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment_upload
+class rcmail_action_mail_attachment_delete extends \rcmail_action_mail_attachment_upload
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,12 +29,12 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         self::init();
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->delete_uploaded_file(self::$file_id)) {
             $rcmail->output->command('remove_from_attachment_list', 'rcmfile' . self::$file_id);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -23,9 +25,9 @@
 /**
  * Class to provide memcached session storage
  */
-class rcube_session_memcached extends rcube_session
+class rcube_session_memcached extends \rcube_session
 {
-    /** @var Memcached|false|null The memcache driver */
+    /** @var \Memcached|false|null The memcache driver */
     private $memcache;
 
     /** @var bool Debug state */
@@ -34,17 +36,17 @@ class rcube_session_memcached extends rcube_session
     /**
      * Object constructor
      *
-     * @param rcube_config $config Configuration
+     * @param \rcube_config $config Configuration
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
-        $this->memcache = rcube::get_instance()->get_memcached();
+        $this->memcache = \rcube::get_instance()->get_memcached();
         $this->debug = $config->get('memcache_debug');
 
         if (!$this->memcache) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604,
                 'type' => 'memcache',
                 'message' => 'Failed to connect to memcached. Please check configuration',
@@ -63,7 +65,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -74,7 +76,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
@@ -87,7 +89,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         if ($key) {
@@ -109,7 +111,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return string Serialized data string
      */
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         if ($arr = $this->memcache->get($key)) {
@@ -134,7 +136,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -160,7 +162,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
@@ -195,6 +197,6 @@ class rcube_session_memcached extends rcube_session
             $line .= ' ' . $data;
         }
 
-        rcube::debug('memcache', $line, $result);
+        \rcube::debug('memcache', $line, $result);
     }
 }

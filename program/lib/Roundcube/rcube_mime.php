@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -45,7 +47,7 @@ class rcube_mime
             return self::$default_charset;
         }
 
-        if ($charset = rcube::get_instance()->config->get('default_charset')) {
+        if ($charset = \rcube::get_instance()->config->get('default_charset')) {
             return $charset;
         }
 
@@ -60,7 +62,7 @@ class rcube_mime
      *
      * @param string $raw_body The message source
      *
-     * @return rcube_message_part The message structure
+     * @return \rcube_message_part The message structure
      */
     public static function parse_message($raw_body)
     {
@@ -71,7 +73,7 @@ class rcube_mime
             'default_charset' => self::get_charset(),
         ];
 
-        $mime = new rcube_mime_decode($conf);
+        $mime = new \rcube_mime_decode($conf);
 
         return $mime->decode($raw_body);
     }
@@ -188,7 +190,7 @@ class rcube_mime
                 // Append everything that is before the text to be decoded
                 if ($start != $pos) {
                     $substr = substr($input, $start, $pos - $start);
-                    $out .= $fallback === false ? $substr : rcube_charset::convert($substr, $default_charset);
+                    $out .= $fallback === false ? $substr : \rcube_charset::convert($substr, $default_charset);
                     $start = $pos;
                 }
                 $start += $length;
@@ -243,14 +245,14 @@ class rcube_mime
                     $text = quoted_printable_decode($text);
                 }
 
-                $out .= rcube_charset::convert($text, $charset);
+                $out .= \rcube_charset::convert($text, $charset);
                 $tmp = [];
             }
 
             // add the last part of the input string
             if ($start != strlen($input)) {
                 $input = substr($input, $start);
-                $out .= $fallback === false ? $input : rcube_charset::convert($input, $default_charset);
+                $out .= $fallback === false ? $input : \rcube_charset::convert($input, $default_charset);
             }
 
             // return the results
@@ -258,7 +260,7 @@ class rcube_mime
         }
 
         // no encoding information, use fallback
-        return $fallback === false ? $input : rcube_charset::convert($input, $default_charset);
+        return $fallback === false ? $input : \rcube_charset::convert($input, $default_charset);
     }
 
     /**
@@ -609,7 +611,7 @@ class rcube_mime
         //       Iconv's substr/strlen are 100x slower (#1489113)
 
         if ($charset && $charset != RCUBE_CHARSET) {
-            $charset = rcube_charset::parse_charset($charset);
+            $charset = \rcube_charset::parse_charset($charset);
             mb_internal_encoding($charset);
         }
 
@@ -719,7 +721,7 @@ class rcube_mime
     public static function file_content_type($path, $name, $failover = 'application/octet-stream', $is_stream = false, $skip_suffix = false)
     {
         $mime_type = null;
-        $config = rcube::get_instance()->config;
+        $config = \rcube::get_instance()->config;
 
         // Detect mimetype using filename extension
         if (!$skip_suffix) {
@@ -769,7 +771,7 @@ class rcube_mime
         static $mime_ext = [];
 
         if (empty($mime_ext)) {
-            foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
+            foreach (\rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
                 $mime_ext = array_merge($mime_ext, (array) @include ($fpath));
             }
         }
@@ -805,7 +807,7 @@ class rcube_mime
         // load mapping file
         $file_paths = [];
 
-        if ($mime_types = rcube::get_instance()->config->get('mime_types')) {
+        if ($mime_types = \rcube::get_instance()->config->get('mime_types')) {
             $file_paths[] = $mime_types;
         }
 
@@ -853,7 +855,7 @@ class rcube_mime
 
         // fallback to some well-known types most important for daily emails
         if (empty($mime_types)) {
-            foreach (rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
+            foreach (\rcube::get_instance()->config->resolve_paths('mimetypes.php') as $fpath) {
                 $mime_extensions = array_merge($mime_extensions, (array) @include ($fpath));
             }
 
@@ -928,7 +930,7 @@ class rcube_mime
      */
     public static function fix_email($email)
     {
-        $parts = rcube_utils::explode_quoted_string('@', $email);
+        $parts = \rcube_utils::explode_quoted_string('@', $email);
 
         foreach ($parts as $idx => $part) {
             // remove redundant quoting (#1490040)

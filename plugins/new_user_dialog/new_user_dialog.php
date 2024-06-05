@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Present identities settings dialog to new users
  *
@@ -11,12 +13,12 @@
  * @author Thomas Bruederli
  * @author Aleksander Machniak
  */
-class new_user_dialog extends rcube_plugin
+class new_user_dialog extends \rcube_plugin
 {
     public $task = '';
     public $noframe = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('identity_create', [$this, 'create_identity']);
@@ -31,7 +33,7 @@ class new_user_dialog extends rcube_plugin
     {
         // set session flag when a new user was created and the default identity seems to be incomplete
         if (!empty($p['login']) && empty($p['complete']) && !empty($p['record']['standard'])) {
-            $rcmail = rcmail::get_instance();
+            $rcmail = \rcmail::get_instance();
             $rcmail->user->save_prefs(['newuserdialog' => true]);
         }
     }
@@ -42,7 +44,7 @@ class new_user_dialog extends rcube_plugin
      */
     public function render_page($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($p['template'] != 'login' && $rcmail->config->get('newuserdialog')) {
             $this->add_texts('localization');
@@ -51,10 +53,10 @@ class new_user_dialog extends rcube_plugin
             $identities_level = intval($rcmail->config->get('identities_level', 0));
 
             // compose user-identity dialog
-            $table = new html_table(['cols' => 2, 'class' => 'propform']);
+            $table = new \html_table(['cols' => 2, 'class' => 'propform']);
 
-            $table->add('title', html::label('newuserdialog-name', $this->gettext('name')));
-            $table->add(null, html::tag('input', [
+            $table->add('title', \html::label('newuserdialog-name', $this->gettext('name')));
+            $table->add(null, \html::tag('input', [
                     'id' => 'newuserdialog-name',
                     'type' => 'text',
                     'name' => '_name',
@@ -63,18 +65,18 @@ class new_user_dialog extends rcube_plugin
                 ])
             );
 
-            $table->add('title', html::label('newuserdialog-email', $this->gettext('email')));
-            $table->add(null, html::tag('input', [
+            $table->add('title', \html::label('newuserdialog-email', $this->gettext('email')));
+            $table->add(null, \html::tag('input', [
                     'id' => 'newuserdialog-email',
                     'type' => 'text',
                     'name' => '_email',
-                    'value' => rcube_utils::idn_to_utf8($identity['email']),
+                    'value' => \rcube_utils::idn_to_utf8($identity['email']),
                     'disabled' => in_array($identities_level, [1, 3, 4]),
                 ])
             );
 
-            $table->add('title', html::label('newuserdialog-org', $this->gettext('organization')));
-            $table->add(null, html::tag('input', [
+            $table->add('title', \html::label('newuserdialog-org', $this->gettext('organization')));
+            $table->add(null, \html::tag('input', [
                     'id' => 'newuserdialog-org',
                     'type' => 'text',
                     'name' => '_organization',
@@ -83,8 +85,8 @@ class new_user_dialog extends rcube_plugin
                 ])
             );
 
-            $table->add('title', html::label('newuserdialog-sig', $this->gettext('signature')));
-            $table->add(null, html::tag('textarea', [
+            $table->add('title', \html::label('newuserdialog-sig', $this->gettext('signature')));
+            $table->add(null, \html::tag('textarea', [
                     'id' => 'newuserdialog-sig',
                     'name' => '_signature',
                     'rows' => '5',
@@ -93,17 +95,17 @@ class new_user_dialog extends rcube_plugin
             ));
 
             // add overlay input box to html page
-            $rcmail->output->add_footer(html::tag('form', [
+            $rcmail->output->add_footer(\html::tag('form', [
                     'id' => 'newuserdialog',
                     'action' => $rcmail->url('plugin.newusersave'),
                     'method' => 'post',
                     'class' => 'formcontent',
                     'style' => 'display: none',
                 ],
-                html::p('hint', rcube::Q($this->gettext('identitydialoghint'))) . $table->show()
+                \html::p('hint', \rcube::Q($this->gettext('identitydialoghint'))) . $table->show()
             ));
 
-            $title = rcube::JQ($this->gettext('identitydialogtitle'));
+            $title = \rcube::JQ($this->gettext('identitydialogtitle'));
             $script = "
 var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '{$title}', [{
     text: rcmail.get_label('save'),
@@ -143,16 +145,16 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
      */
     public function save_data()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $identity = $rcmail->user->get_identity();
         $ident_level = intval($rcmail->config->get('identities_level', 0));
         $disabled = [];
 
         $save_data = [
-            'name' => rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST),
-            'email' => rcube_utils::get_input_string('_email', rcube_utils::INPUT_POST),
-            'organization' => rcube_utils::get_input_string('_organization', rcube_utils::INPUT_POST),
-            'signature' => rcube_utils::get_input_string('_signature', rcube_utils::INPUT_POST),
+            'name' => \rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST),
+            'email' => \rcube_utils::get_input_string('_email', \rcube_utils::INPUT_POST),
+            'organization' => \rcube_utils::get_input_string('_organization', \rcube_utils::INPUT_POST),
+            'signature' => \rcube_utils::get_input_string('_signature', \rcube_utils::INPUT_POST),
         ];
 
         if ($ident_level == 4) {
@@ -167,7 +169,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
 
         if (empty($save_data['name']) || empty($save_data['email'])) {
             $rcmail->output->show_message('formincomplete', 'error');
-        } elseif (!rcube_utils::check_email($save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']))) {
+        } elseif (!\rcube_utils::check_email($save_data['email'] = \rcube_utils::idn_to_ascii($save_data['email']))) {
             $rcmail->output->show_message('emailformaterror', 'error', ['email' => $save_data['email']]);
         } else {
             // execute hook

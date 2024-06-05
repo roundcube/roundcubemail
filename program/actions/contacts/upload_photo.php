@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
+class rcmail_action_contacts_upload_photo extends \rcmail_action_contacts_index
 {
     /**
      * Supported image format types
@@ -32,10 +34,10 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // clear all stored output properties (like scripts and env vars)
         $rcmail->output->reset();
@@ -44,7 +46,7 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
             $filepath = $_FILES['_photo']['tmp_name'];
 
             // check file type and resize image
-            $image = new rcube_image($_FILES['_photo']['tmp_name']);
+            $image = new \rcube_image($_FILES['_photo']['tmp_name']);
             $imageprop = $image->props();
             $inserted = false;
 
@@ -54,7 +56,7 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
                 && !empty($imageprop['height'])
             ) {
                 $maxsize = intval($rcmail->config->get('contact_photo_size', 160));
-                $tmpfname = rcube_utils::temp_filename('imgconvert');
+                $tmpfname = \rcube_utils::temp_filename('imgconvert');
                 $save_hook = 'attachment_upload';
 
                 // scale image to a maximum size

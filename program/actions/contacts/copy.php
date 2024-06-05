@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_copy extends rcmail_action_contacts_index
+class rcmail_action_contacts_copy extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,14 +29,14 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $cids = self::get_cids();
-        $target = rcube_utils::get_input_string('_to', rcube_utils::INPUT_POST);
-        $target_group = rcube_utils::get_input_string('_togid', rcube_utils::INPUT_POST);
+        $target = \rcube_utils::get_input_string('_to', \rcube_utils::INPUT_POST);
+        $target_group = \rcube_utils::get_input_string('_togid', \rcube_utils::INPUT_POST);
 
         $success = 0;
         $errormsg = 'copyerror';
@@ -82,7 +84,7 @@ class rcmail_action_contacts_copy extends rcmail_action_contacts_index
                 } elseif (!empty($a_record['name'])) {
                     $result = $TARGET->search('name', $a_record['name'], 1, true, true);
                 } else {
-                    $result = new rcube_result_set();
+                    $result = new \rcube_result_set();
                 }
 
                 // insert contact record

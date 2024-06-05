@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -50,7 +52,7 @@ class rcube_result_multifolder
     /**
      * Initializes object with SORT command response
      *
-     * @param rcube_result_index|rcube_result_thread $result Search result
+     * @param \rcube_result_index|\rcube_result_thread $result Search result
      */
     public function add($result)
     {
@@ -66,7 +68,7 @@ class rcube_result_multifolder
     /**
      * Append message UIDs from the given result to our index
      *
-     * @param rcube_result_index|rcube_result_thread $result Search result
+     * @param \rcube_result_index|\rcube_result_thread $result Search result
      */
     protected function append_result($result)
     {
@@ -287,7 +289,7 @@ class rcube_result_multifolder
      *
      * @param string $folder Folder name
      *
-     * @return false|rcube_result_index|rcube_result_thread A result set or false if none found
+     * @return false|\rcube_result_index|\rcube_result_thread A result set or false if none found
      */
     public function get_set($folder)
     {
@@ -352,7 +354,7 @@ class rcube_result_multifolder
                 $data_str = '* SORT' . ($data[$folder] ?? '');
             }
 
-            $set = new rcube_result_index($folder, $data_str, strtoupper($this->order));
+            $set = new \rcube_result_index($folder, $data_str, strtoupper($this->order));
 
             if (in_array($folder, $this->sdata['incomplete'])) {
                 $set->incomplete = true;

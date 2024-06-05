@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,10 +26,10 @@ define('INSTALL_PATH', realpath(__DIR__ . '/../../../') . '/');
 
 require INSTALL_PATH . 'program/include/clisetup.php';
 
-$rcmail = rcube::get_instance();
+$rcmail = \rcube::get_instance();
 
 // get arguments
-$args = rcube_utils::get_opt([
+$args = \rcube_utils::get_opt([
     'u' => 'user',
     'h' => 'host',
     'd' => 'dir',
@@ -40,7 +42,7 @@ if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'help') {
 }
 
 if (empty($args['dir'])) {
-    rcube::raise_error('--dir argument is required', true);
+    \rcube::raise_error('--dir argument is required', true);
 }
 
 $host = get_host($args);
@@ -92,7 +94,7 @@ function get_host($args)
         } elseif (is_array($hosts) && count($hosts) == 1) {
             $args['host'] = reset($hosts);
         } else {
-            rcube::raise_error('Specify a host name', true);
+            \rcube::raise_error('Specify a host name', true);
         }
 
         // host can be a URL like tls://192.168.12.44
@@ -112,10 +114,10 @@ function get_user_id($username, $host)
     $db = $rcmail->get_dbh();
 
     // find user in local database
-    $user = rcube_user::query($username, $host);
+    $user = \rcube_user::query($username, $host);
 
     if (empty($user)) {
-        rcube::raise_error("User does not exist: {$username}");
+        \rcube::raise_error("User does not exist: {$username}");
     }
 
     return $user->ID;
@@ -156,7 +158,7 @@ function import_dir($user_id, $dir, $dry_run = false)
             $datasize = strlen($data);
 
             if ($datasize > $maxsize) {
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 605,
                     'message' => "Enigma: Failed to save {$file}. Size exceeds max_allowed_packet.",
                 ], true, false);
@@ -176,7 +178,7 @@ function import_dir($user_id, $dir, $dry_run = false)
                 $user_id, $file, $mtime, $data);
 
             if ($db->is_error($result)) {
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 605,
                     'message' => "Enigma: Failed to save {$file} into database.",
                 ], true, false);

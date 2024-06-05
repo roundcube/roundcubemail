@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_move extends rcmail_action_mail_index
+class rcmail_action_mail_move extends \rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,10 +28,10 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // count messages before changing anything
         $threading = (bool) $rcmail->storage->get_threading();
@@ -40,7 +42,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             $old_count = $rcmail->storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
-        $target = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
+        $target = \rcube_utils::get_input_string('_target_mbox', \rcube_utils::INPUT_POST, true);
 
         if (empty($_POST['_uid']) || !strlen($target)) {
             $rcmail->output->show_message('internalerror', 'error');
@@ -52,7 +54,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         $count = 0;
         $sources = [];
 
-        foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+        foreach (\rcmail_action::get_uids(null, null, $multifolder, \rcube_utils::INPUT_POST) as $mbox => $uids) {
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
             } elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
@@ -82,7 +84,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
             $addrows = true;
         }
 
-        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
+        $search_request = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC);
 
         // refresh saved search set after moving some messages
         if ($search_request && $rcmail->storage->get_search_set()) {
@@ -90,7 +92,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         }
 
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
-            if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
+            if ($next = \rcube_utils::get_input_string('_next_uid', \rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             } else {
                 $rcmail->output->command('command', 'list');
@@ -132,7 +134,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
-            $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
+            $count = \rcube_utils::get_input_string('_count', \rcube_utils::INPUT_POST);
         }
 
         // add new rows from next page (if any)

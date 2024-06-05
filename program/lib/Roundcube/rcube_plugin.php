@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -33,7 +35,7 @@ abstract class rcube_plugin
     /**
      * Instance of Plugin API
      *
-     * @var rcube_plugin_api
+     * @var \rcube_plugin_api
      */
     public $api;
 
@@ -81,7 +83,7 @@ abstract class rcube_plugin
     /**
      * Default constructor.
      *
-     * @param rcube_plugin_api $api Plugin API
+     * @param \rcube_plugin_api $api Plugin API
      */
     public function __construct($api)
     {
@@ -155,10 +157,10 @@ abstract class rcube_plugin
         $this->loaded_config[] = $fname;
 
         $fpath = slashify($this->home) . $fname;
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         if (($is_local = is_file($fpath)) && !$rcube->config->load_from_file($fpath)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 527,
                 'message' => "Failed to load config from {$fpath}",
             ], true, false);
@@ -204,7 +206,7 @@ abstract class rcube_plugin
      */
     public function add_texts($dir, $add2client = false)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $texts = $rcube->read_localization(realpath(slashify($this->home) . $dir));
 
         // prepend domain to text keys and add to the application texts repository
@@ -236,7 +238,7 @@ abstract class rcube_plugin
      */
     public function add_label(...$args)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         if (method_exists($rcube->output, 'add_label')) {
             if (count($args) == 1 && is_array($args[0])) {
@@ -259,7 +261,7 @@ abstract class rcube_plugin
      */
     public function gettext($p)
     {
-        return rcube::get_instance()->gettext($p, $this->ID);
+        return \rcube::get_instance()->gettext($p, $this->ID);
     }
 
     /**
@@ -384,7 +386,7 @@ abstract class rcube_plugin
      */
     public function local_skin_path($extra_dir = null, $skin_name = null)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $skins = array_keys((array) $rcube->output->skins);
         $skin_path = '';
 

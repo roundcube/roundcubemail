@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_spell_html extends rcmail_action
+class rcmail_action_utils_spell_html extends \rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,23 +29,23 @@ class rcmail_action_utils_spell_html extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $method = rcube_utils::get_input_string('method', rcube_utils::INPUT_POST);
-        $lang = rcube_utils::get_input_string('lang', rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $method = \rcube_utils::get_input_string('method', \rcube_utils::INPUT_POST);
+        $lang = \rcube_utils::get_input_string('lang', \rcube_utils::INPUT_POST);
         $result = [];
 
-        $spellchecker = new rcube_spellchecker($lang);
+        $spellchecker = new \rcube_spellchecker($lang);
 
         if ($method == 'addToDictionary') {
-            $data = rcube_utils::get_input_string('word', rcube_utils::INPUT_POST);
+            $data = \rcube_utils::get_input_string('word', \rcube_utils::INPUT_POST);
 
             $spellchecker->add_word($data);
             $result['result'] = true;
         } else {
-            $data = rcube_utils::get_input_string('text', rcube_utils::INPUT_POST, true);
+            $data = \rcube_utils::get_input_string('text', \rcube_utils::INPUT_POST, true);
             $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
             if ($data && !$spellchecker->check($data)) {
@@ -55,7 +57,7 @@ class rcmail_action_utils_spell_html extends rcmail_action
         header('Content-Type: application/json; charset=' . RCUBE_CHARSET);
 
         if ($error = $spellchecker->error()) {
-            rcube::raise_error('Spellcheck error: ' . $error, true);
+            \rcube::raise_error('Spellcheck error: ' . $error, true);
 
             echo json_encode(['error' => $rcmail->gettext('internalerror')]);
             exit;

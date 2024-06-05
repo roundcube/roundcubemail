@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -57,7 +59,7 @@ class rcube_plugin_api
     /**
      * This implements the 'singleton' design pattern
      *
-     * @return rcube_plugin_api The one and only instance if this class
+     * @return \rcube_plugin_api The one and only instance if this class
      */
     public static function get_instance()
     {
@@ -82,7 +84,7 @@ class rcube_plugin_api
      * This has to be done after rcmail::load_gui() or rcmail::json_init()
      * was called because plugins need to have access to rcmail->output
      *
-     * @param rcube  $app  Instance of the rcube base class
+     * @param \rcube $app  Instance of the rcube base class
      * @param string $task Current application task (used for conditional plugin loading)
      */
     public function init($app, $task = '')
@@ -139,7 +141,7 @@ class rcube_plugin_api
 
             // trigger fatal error if still not loaded
             if (!$loaded) {
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 520,
                     'message' => "Required plugin {$plugin_name} was not loaded",
                 ], true, true);
@@ -167,7 +169,7 @@ class rcube_plugin_api
 
         // Validate the plugin name to prevent from path traversal
         if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 520,
                 'message' => "Invalid plugin name: {$plugin_name}",
             ], true, false);
@@ -181,7 +183,7 @@ class rcube_plugin_api
 
             if (!is_readable($fn)) {
                 if ($require) {
-                    rcube::raise_error([
+                    \rcube::raise_error([
                         'code' => 520,
                         'message' => "Failed to load plugin file {$fn}",
                     ], true, false);
@@ -190,13 +192,15 @@ class rcube_plugin_api
                 return false;
             }
 
-            if (!class_exists($plugin_name, false)) {
-                include $fn;
+            if (!class_exists($plugin_name)) {
+                if (!class_exists($plugin_name, false)) {
+                    include $fn;
+                }
             }
 
             // instantiate class if exists
             if (!class_exists($plugin_name, false)) {
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 520,
                     'message' => "No plugin class {$plugin_name} found in {$fn}",
                 ], true, false);
@@ -243,7 +247,7 @@ class rcube_plugin_api
     /**
      * Check if we should prevent this plugin from initializing
      *
-     * @param rcube_plugin $plugin Plugin object
+     * @param \rcube_plugin $plugin Plugin object
      *
      * @return bool
      */
@@ -298,7 +302,7 @@ class rcube_plugin_api
 
         // Validate the plugin name to prevent from path traversal
         if (preg_match('/[^a-zA-Z0-9_-]/', $plugin_name)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 520,
                 'message' => "Invalid plugin name: {$plugin_name}",
             ], true, false);
@@ -382,9 +386,9 @@ class rcube_plugin_api
         if (empty($info)) {
             $package = INSTALL_PATH . "/plugins/{$plugin_name}/package.xml";
             if (is_readable($package) && ($file = file_get_contents($package))) {
-                $doc = new DOMDocument();
+                $doc = new \DOMDocument();
                 $doc->loadXML($file);
-                $xpath = new DOMXPath($doc);
+                $xpath = new \DOMXPath($doc);
                 $xpath->registerNamespace('rc', 'http://pear.php.net/dtd/package-2.0');
 
                 // XPaths of plugin metadata elements
@@ -439,7 +443,7 @@ class rcube_plugin_api
         // @phpstan-ignore-next-line
         if (is_callable($callback)) {
             if (isset($this->deprecated_hooks[$hook])) {
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 522,
                     'message' => "Deprecated hook name. {$hook} -> " . $this->deprecated_hooks[$hook],
                 ], true, false);
@@ -447,7 +451,7 @@ class rcube_plugin_api
             }
             $this->handlers[$hook][] = $callback;
         } else {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 521,
                 'message' => "Invalid callback function for {$hook}",
             ], true, false);
@@ -530,7 +534,7 @@ class rcube_plugin_api
             $this->actions[$action] = $callback;
             $this->actionmap[$action] = $owner;
         } else {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 523,
                 'message' => "Cannot register action {$action}; already taken by another plugin",
             ], true, false);
@@ -545,14 +549,14 @@ class rcube_plugin_api
      */
     public function exec_action($action)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (isset($this->actions[$rcmail->task . '.' . $action])) {
             call_user_func($this->actions[$rcmail->task . '.' . $action]);
         } elseif (isset($this->actions[$action])) {
             call_user_func($this->actions[$action]);
         } elseif ($rcmail->action != 'refresh') {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 524,
                 'message' => "No handler found for action {$action}",
             ], true, true);
@@ -580,7 +584,7 @@ class rcube_plugin_api
             $this->output->add_handler($name, $callback);
             $this->objectsmap[$name] = $owner;
         } else {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 525,
                 'message' => "Cannot register template handler {$name};"
                     . ' already taken by another plugin or no output object available',
@@ -602,20 +606,20 @@ class rcube_plugin_api
         }
 
         if ($task != asciiwords($task, true)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 526,
                 'message' => "Invalid task name: {$task}."
                     . ' Only characters [a-z0-9_.-] are allowed',
             ], true, false);
-        } elseif (in_array($task, rcmail::$main_tasks)) {
-            rcube::raise_error([
+        } elseif (in_array($task, \rcmail::$main_tasks)) {
+            \rcube::raise_error([
                 'code' => 526,
                 'message' => "Cannot register task {$task};"
                     . ' already taken by another plugin or the application itself',
             ], true, false);
         } else {
             $this->tasks[$task] = $owner;
-            rcmail::$main_tasks[] = $task;
+            \rcmail::$main_tasks[] = $task;
             return true;
         }
 
@@ -669,7 +673,7 @@ class rcube_plugin_api
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
-                $rcube = rcube::get_instance();
+                $rcube = \rcube::get_instance();
                 $devel_mode = $rcube->config->get('devel_mode');
                 $assets_dir = $rcube->config->get('assets_dir');
                 $path = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
@@ -726,7 +730,7 @@ class rcube_plugin_api
     /**
      * Returns loaded plugin
      *
-     * @return rcube_plugin|null Plugin instance
+     * @return \rcube_plugin|null Plugin instance
      */
     public function get_plugin($name)
     {

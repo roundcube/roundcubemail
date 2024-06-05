@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * SQL Password Driver
  *
@@ -36,14 +38,14 @@ class rcube_sql_password
      */
     public function save($curpass, $passwd)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!($sql = $rcmail->config->get('password_query'))) {
             $sql = 'SELECT update_passwd(%P, %u)';
         }
 
         if ($dsn = $rcmail->config->get('password_db_dsn')) {
-            $db = rcube_db::factory(self::parse_dsn($dsn), '', false);
+            $db = \rcube_db::factory(self::parse_dsn($dsn), '', false);
             $db->set_debug((bool) $rcmail->config->get('sql_debug'));
         } else {
             $db = $rcmail->get_dbh();
@@ -55,14 +57,14 @@ class rcube_sql_password
 
         // new password - default hash method
         if (strpos($sql, '%P') !== false) {
-            $password = password::hash_password($passwd);
+            $password = \password::hash_password($passwd);
 
             $sql = str_replace('%P', $db->quote($password), $sql);
         }
 
         // old password - default hash method
         if (strpos($sql, '%O') !== false) {
-            $password = password::hash_password($curpass);
+            $password = \password::hash_password($curpass);
 
             $sql = str_replace('%O', $db->quote($password), $sql);
         }
@@ -88,13 +90,13 @@ class rcube_sql_password
 
         // convert domains to/from punycode
         if ($rcmail->config->get('password_idn_ascii')) {
-            $domain_part = rcube_utils::idn_to_ascii($domain_part);
-            $username = rcube_utils::idn_to_ascii($username);
-            $host = rcube_utils::idn_to_ascii($host);
+            $domain_part = \rcube_utils::idn_to_ascii($domain_part);
+            $username = \rcube_utils::idn_to_ascii($username);
+            $host = \rcube_utils::idn_to_ascii($host);
         } else {
-            $domain_part = rcube_utils::idn_to_utf8($domain_part);
-            $username = rcube_utils::idn_to_utf8($username);
-            $host = rcube_utils::idn_to_utf8($host);
+            $domain_part = \rcube_utils::idn_to_utf8($domain_part);
+            $username = \rcube_utils::idn_to_utf8($username);
+            $host = \rcube_utils::idn_to_utf8($host);
         }
 
         // at least we should always have the local part
@@ -133,8 +135,8 @@ class rcube_sql_password
     {
         if (strpos($dsn, '%')) {
             // parse DSN and replace variables in hostname
-            $parsed = rcube_db::parse_dsn($dsn);
-            $host = rcube_utils::parse_host($parsed['hostspec']);
+            $parsed = \rcube_db::parse_dsn($dsn);
+            $host = \rcube_utils::parse_host($parsed['hostspec']);
 
             // build back the DSN string
             if ($host != $parsed['hostspec']) {

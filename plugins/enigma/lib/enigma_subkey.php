@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-------------------------------------------------------------------------+
  | SubKey class for the Enigma Plugin                                      |
@@ -35,7 +37,7 @@ class enigma_subkey
     public function get_short_id()
     {
         // E.g. 04622F2089E037A5 => 89E037A5
-        return enigma_key::format_id($this->id);
+        return \enigma_key::format_id($this->id);
     }
 
     /**
@@ -45,7 +47,7 @@ class enigma_subkey
      */
     public function get_fingerprint()
     {
-        return enigma_key::format_fingerprint($this->fingerprint);
+        return \enigma_key::format_fingerprint($this->fingerprint);
     }
 
     /**
@@ -86,7 +88,7 @@ class enigma_subkey
      */
     public function is_expired()
     {
-        $now = new DateTime('now');
+        $now = new \DateTime('now');
 
         return !empty($this->expires) && $this->expires < $now;
     }
@@ -108,7 +110,7 @@ class enigma_subkey
             return (int) $this->created->format('U');
         }
 
-        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+        $date_format = \rcube::get_instance()->config->get('date_format', 'Y-m-d');
 
         return $this->created->format($date_format);
     }
@@ -124,7 +126,7 @@ class enigma_subkey
             return null;
         }
 
-        $date_format = rcube::get_instance()->config->get('date_format', 'Y-m-d');
+        $date_format = \rcube::get_instance()->config->get('date_format', 'Y-m-d');
 
         return $this->expires->format($date_format);
     }

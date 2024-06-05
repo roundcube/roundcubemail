@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Roundcube Help Plugin
  *
@@ -10,7 +12,7 @@
  * Configuration (see config.inc.php.dist)
  */
 
-class help extends rcube_plugin
+class help extends \rcube_plugin
 {
     // all task excluding 'login' and 'logout'
     public $task = '?(?!login|logout).*';
@@ -18,7 +20,7 @@ class help extends rcube_plugin
     // we've got no ajax handlers
     public $noajax = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->load_config();
@@ -38,7 +40,7 @@ class help extends rcube_plugin
 
     public function startup($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!$rcmail->output->framed) {
             // add taskbar button
@@ -62,7 +64,7 @@ class help extends rcube_plugin
 
     public function action()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->action == 'about') {
             $rcmail->output->set_pagetitle($this->gettext('about'));
@@ -84,7 +86,7 @@ class help extends rcube_plugin
 
     public function help_content($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         // $rcmail->output->set_env('content', $content);
 
         if (!empty($_GET['_content'])) {
@@ -98,7 +100,7 @@ class help extends rcube_plugin
 
     public function tablink($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $attrib['name'] = 'helplink' . $attrib['action'];
         $attrib['href'] = $rcmail->url(['_action' => $attrib['action'], '_extwin' => !empty($_REQUEST['_extwin']) ? 1 : null]);
@@ -115,7 +117,7 @@ class help extends rcube_plugin
 
     public function help_metadata()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $content = [];
 
         // About
@@ -155,14 +157,14 @@ class help extends rcube_plugin
 
     public function error_page($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (
             $args['code'] == 403
-            && $rcmail->request_status == rcube::REQUEST_ERROR_URL
+            && $rcmail->request_status == \rcube::REQUEST_ERROR_URL
             && ($url = $rcmail->config->get('help_csrf_info'))
         ) {
-            $args['text'] .= '<p>' . html::a(['href' => $url, 'target' => '_blank'], $this->gettext('csrfinfo')) . '</p>';
+            $args['text'] .= '<p>' . \html::a(['href' => $url, 'target' => '_blank'], $this->gettext('csrfinfo')) . '</p>';
         }
 
         return $args;
@@ -171,7 +173,7 @@ class help extends rcube_plugin
     private function resolve_language($path)
     {
         // resolve language placeholder
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $langmap = $rcmail->config->get('help_language_map', ['*' => 'en_US']);
         $lang = $_SESSION['language'] ?? 'en_US';
         $lang = !empty($langmap[$lang]) ? $langmap[$lang] : $langmap['*'];

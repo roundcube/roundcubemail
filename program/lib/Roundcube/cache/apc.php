@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -22,7 +24,7 @@
 /**
  * Interface implementation class for accessing APC cache
  */
-class rcube_cache_apc extends rcube_cache
+class rcube_cache_apc extends \rcube_cache
 {
     /**
      * Indicates if APC module is enabled and in a required version
@@ -35,7 +37,7 @@ class rcube_cache_apc extends rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         $this->type = 'apc';
         $this->enabled = function_exists('apc_exists'); // APC 3.1.4 required
@@ -45,7 +47,7 @@ class rcube_cache_apc extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         // No need for GC, entries are expunged automatically
@@ -54,7 +56,7 @@ class rcube_cache_apc extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         // No need for GC, entries are expunged automatically
@@ -67,7 +69,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function get_item($key)
     {
         if (!$this->enabled) {
@@ -91,7 +93,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function add_item($key, $data)
     {
         if (!$this->enabled) {
@@ -118,7 +120,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function delete_item($key)
     {
         if (!$this->enabled) {

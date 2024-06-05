@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Sample plugin to try out some hooks.
  * This performs an automatic login if accessed from localhost
@@ -7,14 +9,14 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  */
-class autologon extends rcube_plugin
+class autologon extends \rcube_plugin
 {
     public $task = 'login';
 
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

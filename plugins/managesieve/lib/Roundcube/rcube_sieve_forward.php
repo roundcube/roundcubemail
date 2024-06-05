@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Managesieve Forward Engine
  *
@@ -21,13 +23,13 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-class rcube_sieve_forward extends rcube_sieve_engine
+class rcube_sieve_forward extends \rcube_sieve_engine
 {
     protected $error;
     protected $script_name;
     protected $forward = [];
 
-    #[Override]
+    #[\Override]
     public function actions()
     {
         $error = $this->start('forward');
@@ -54,7 +56,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
      *
      * @return int Connection status: 0 on success, >0 on failure
      */
-    #[Override]
+    #[\Override]
     protected function load_script($script_name = null)
     {
         if ($this->script_name !== null) {
@@ -196,10 +198,10 @@ class rcube_sieve_forward extends rcube_sieve_engine
             return;
         }
 
-        $status = rcube_utils::get_input_string('forward_status', rcube_utils::INPUT_POST);
-        $action = rcube_utils::get_input_string('forward_action', rcube_utils::INPUT_POST);
-        $target = rcube_utils::get_input_string('action_target', rcube_utils::INPUT_POST, true);
-        $target_domain = rcube_utils::get_input_string('action_domain', rcube_utils::INPUT_POST);
+        $status = \rcube_utils::get_input_string('forward_status', \rcube_utils::INPUT_POST);
+        $action = \rcube_utils::get_input_string('forward_action', \rcube_utils::INPUT_POST);
+        $target = \rcube_utils::get_input_string('action_target', \rcube_utils::INPUT_POST, true);
+        $target_domain = \rcube_utils::get_input_string('action_domain', \rcube_utils::INPUT_POST);
 
         $date_extension = in_array('date', $this->exts);
 
@@ -207,7 +209,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
             $target .= '@' . $target_domain;
         }
 
-        if (empty($target) || !rcube_utils::check_email($target)) {
+        if (empty($target) || !\rcube_utils::check_email($target)) {
             $error = 'noemailwarning';
         }
 
@@ -262,8 +264,8 @@ class rcube_sieve_forward extends rcube_sieve_engine
         );
 
         // form elements
-        $status = new html_select(['name' => 'forward_status', 'id' => 'forward_status', 'class' => 'custom-select']);
-        $action = new html_select(['name' => 'forward_action', 'id' => 'forward_action', 'class' => 'custom-select']);
+        $status = new \html_select(['name' => 'forward_status', 'id' => 'forward_status', 'class' => 'custom-select']);
+        $action = new \html_select(['name' => 'forward_action', 'id' => 'forward_action', 'class' => 'custom-select']);
 
         $status->add($this->plugin->gettext('forward.on'), 'on');
         $status->add($this->plugin->gettext('forward.off'), 'off');
@@ -281,7 +283,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         if (!empty($domains)) {
             sort($domains);
 
-            $domain_select = new html_select(['name' => 'action_domain', 'id' => 'action_domain', 'class' => 'custom-select']);
+            $domain_select = new \html_select(['name' => 'action_domain', 'id' => 'action_domain', 'class' => 'custom-select']);
             $domain_select->add(array_combine($domains, $domains));
 
             if ($redirect && !empty($this->forward['target'])) {
@@ -296,21 +298,21 @@ class rcube_sieve_forward extends rcube_sieve_engine
         // redirect target
         $action_target = '<span id="action_target_span" class="input-group">'
             . '<input type="text" name="action_target" id="action_target"'
-            . ' value="' . ($redirect ? rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
+            . ' value="' . ($redirect ? \rcube::Q($this->forward['target'], 'strict', false) : '') . '"'
             . (!empty($domain_select) ? ' size="20"' : ' size="35"') . '/>'
             . (!empty($domain_select) ? ' <span class="input-group-prepend input-group-append"><span class="input-group-text">@</span></span> '
                 . $domain_select->show(!empty($this->forward['domain']) ? $this->forward['domain'] : null) : '')
             . '</span>';
 
         // Message tab
-        $table = new html_table(['cols' => 2]);
+        $table = new \html_table(['cols' => 2]);
 
-        $table->add('title', html::label('forward_action', $this->plugin->gettext('forward.action')));
+        $table->add('title', \html::label('forward_action', $this->plugin->gettext('forward.action')));
         $table->add('forward input-group input-group-combo',
             $action->show(!empty($this->forward['action']) ? $this->forward['action'] : null) . ' ' . $action_target
         );
 
-        $table->add('title', html::label('forward_status', $this->plugin->gettext('forward.status')));
+        $table->add('title', \html::label('forward_status', $this->plugin->gettext('forward.status')));
         $table->add(null, $status->show(!isset($this->forward['disabled']) || $this->forward['disabled'] ? 'off' : 'on'));
 
         $out .= $table->show($attrib);
@@ -361,7 +363,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
         $date_extension = in_array('date', $this->exts);
 
         if ($data['action'] == 'redirect' || $data['action'] == 'copy') {
-            if (empty($data['target']) || !rcube_utils::check_email($data['target'])) {
+            if (empty($data['target']) || !\rcube_utils::check_email($data['target'])) {
                 $this->error = 'Invalid address in action target: ' . $data['target'];
                 return false;
             }
@@ -390,7 +392,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     /**
      * API: connect to managesieve server
      */
-    #[Override]
+    #[\Override]
     public function connect($username, $password)
     {
         $error = parent::connect($username, $password);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  * AmavisD Blacklist driver
  *
@@ -48,13 +50,13 @@ class markasjunk_amavis_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $this->user_email = $rcube->user->data['username'];
 
         $config_file = $rcube->config->get('markasjunk_amacube_config');
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 527,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
@@ -62,7 +64,7 @@ class markasjunk_amavis_blacklist
             return false;
         }
 
-        $db = rcube_db::factory($rcube->config->get('amacube_db_dsn'), '', true);
+        $db = \rcube_db::factory($rcube->config->get('amacube_db_dsn'), '', true);
         $db->set_debug((bool) $rcube->config->get('sql_debug'));
         $db->db_connect('w');
 
@@ -70,7 +72,7 @@ class markasjunk_amavis_blacklist
 
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 603,
                 'type' => 'db',
                 'message' => $err_str,
@@ -82,18 +84,18 @@ class markasjunk_amavis_blacklist
             $rid = $res_array['id'];
         } else {
             if ($debug) {
-                rcube::write_log('markasjunk', $this->user_email . ' not found in users table');
+                \rcube::write_log('markasjunk', $this->user_email . ' not found in users table');
             }
 
             return false;
         }
 
         foreach ($uids as $uid) {
-            $message = new rcube_message($uid);
+            $message = new \rcube_message($uid);
             $email = $message->sender['mailto'];
 
             // skip invalid emails
-            if (!rcube_utils::check_email($email, false)) {
+            if (!\rcube_utils::check_email($email, false)) {
                 continue;
             }
 
@@ -103,7 +105,7 @@ class markasjunk_amavis_blacklist
                 $sid = $res_array['id'];
             } else {
                 if ($debug) {
-                    rcube::write_log('markasjunk', "{$email} not found in mailaddr table - add it");
+                    \rcube::write_log('markasjunk', "{$email} not found in mailaddr table - add it");
                 }
 
                 $sql_result = $db->query('INSERT INTO `mailaddr` ( `priority`, `email` ) VALUES ( 20, ? )', $email);
@@ -112,7 +114,7 @@ class markasjunk_amavis_blacklist
                     $sid = $db->insert_id();
                 } else {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot add {$email} to mailaddr table: " . $db->is_error($sql_result));
+                        \rcube::write_log('markasjunk', "Cannot add {$email} to mailaddr table: " . $db->is_error($sql_result));
                     }
 
                     return false;
@@ -143,7 +145,7 @@ class markasjunk_amavis_blacklist
 
                 if (!$sql_result) {
                     if ($debug) {
-                        rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with {$email}");
+                        \rcube::write_log('markasjunk', "Cannot update wblist for user {$this->user_email} with {$email}");
                     }
 
                     return false;

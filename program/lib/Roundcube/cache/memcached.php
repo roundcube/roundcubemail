@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -22,12 +24,12 @@
 /**
  * Interface implementation class for accessing Memcached cache
  */
-class rcube_cache_memcached extends rcube_cache
+class rcube_cache_memcached extends \rcube_cache
 {
     /**
      * Instance of memcached handler
      *
-     * @var Memcached|false|null
+     * @var \Memcached|false|null
      */
     protected static $memcache;
 
@@ -36,7 +38,7 @@ class rcube_cache_memcached extends rcube_cache
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $this->type = 'memcache';
-        $this->debug = rcube::get_instance()->config->get('memcache_debug');
+        $this->debug = \rcube::get_instance()->config->get('memcache_debug');
 
         // Maximum TTL is 30 days, bigger values are treated by Memcached
         // as unix timestamp which is not what we want
@@ -50,7 +52,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return Memcached|false
+     * @return \Memcached|false
      */
     public static function engine()
     {
@@ -62,27 +64,27 @@ class rcube_cache_memcached extends rcube_cache
         if (!class_exists('Memcached')) {
             self::$memcache = false;
 
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
                 'message' => 'Failed to find Memcached. Make sure php-memcached is installed',
             ], true, true);
         }
 
         // add all configured hosts to pool
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $pconnect = $rcube->config->get('memcache_pconnect', true);
         $timeout = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
         $hosts = $rcube->config->get('memcache_hosts');
         $persistent_id = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
 
-        self::$memcache = new Memcached($persistent_id);
+        self::$memcache = new \Memcached($persistent_id);
 
         self::$memcache->setOptions([
-            Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
-            Memcached::OPT_RETRY_TIMEOUT => $timeout,
-            Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
-            Memcached::OPT_COMPRESSION => true,
+            \Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
+            \Memcached::OPT_RETRY_TIMEOUT => $timeout,
+            \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
+            \Memcached::OPT_COMPRESSION => true,
         ]);
 
         if (!$pconnect || !count(self::$memcache->getServerList())) {
@@ -104,10 +106,10 @@ class rcube_cache_memcached extends rcube_cache
         // test connection
         $result = self::$memcache->increment('__CONNECTIONTEST__');
 
-        if ($result === false && ($res_code = self::$memcache->getResultCode()) !== Memcached::RES_NOTFOUND) {
+        if ($result === false && ($res_code = self::$memcache->getResultCode()) !== \Memcached::RES_NOTFOUND) {
             self::$memcache = false;
 
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604, 'type' => 'memcache', 'line' => __LINE__, 'file' => __FILE__,
                 'message' => "Memcache connection failure (code: {$res_code}).",
             ], true, false);
@@ -119,7 +121,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         // No need for GC, entries are expunged automatically
@@ -128,7 +130,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         // No need for GC, entries are expunged automatically
@@ -141,7 +143,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function get_item($key)
     {
         if (!self::$memcache) {
@@ -165,7 +167,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function add_item($key, $data)
     {
         if (!self::$memcache) {
@@ -188,7 +190,7 @@ class rcube_cache_memcached extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function delete_item($key)
     {
         if (!self::$memcache) {

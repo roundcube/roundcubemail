@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_get extends rcmail_action
+class rcmail_action_settings_response_get extends \rcmail_action
 {
     public static $mode = self::MODE_AJAX;
 
@@ -26,18 +28,18 @@ class rcmail_action_settings_response_get extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
-        $id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
+        $id = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GET);
 
         if ($id && ($response = $rcmail->get_compose_response($id))) {
-            $is_html = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_GET);
+            $is_html = (bool) \rcube_utils::get_input_string('_is_html', \rcube_utils::INPUT_GET);
 
             if ($is_html && empty($response['is_html'])) {
-                $converter = new rcube_text2html($response['data'], false, ['wrap' => true]);
+                $converter = new \rcube_text2html($response['data'], false, ['wrap' => true]);
 
                 $response['data'] = $converter->get_html();
                 $response['is_html'] = true;

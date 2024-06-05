@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
+class rcmail_action_mail_attachment_upload extends \rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -32,18 +34,18 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         self::init();
 
         // clear all stored output properties (like scripts and env vars)
         $rcmail->output->reset();
 
-        $uploadid = rcube_utils::get_input_string('_uploadid', rcube_utils::INPUT_GPC);
-        $uri = rcube_utils::get_input_string('_uri', rcube_utils::INPUT_POST);
+        $uploadid = \rcube_utils::get_input_string('_uploadid', \rcube_utils::INPUT_GPC);
+        $uri = \rcube_utils::get_input_string('_uri', \rcube_utils::INPUT_POST);
 
         // handle dropping a reference to an attachment part of some message
         if ($uri) {
@@ -62,17 +64,17 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 // @TODO: at some point we might support drag-n-drop between
                 // two different accounts on the same server, for now make sure
                 // this is the same server and the same user
-                [$host, $port] = rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
+                [$host, $port] = \rcube_utils::explode(':', $_SERVER['HTTP_HOST']);
 
                 if (
                     $host == $url['host']
                     && $port == ($url['port'] ?? null)
                     && $rcmail->get_user_name() == rawurldecode($url['user'])
                 ) {
-                    $message = new rcube_message($params['_uid'], $params['_mbox']);
+                    $message = new \rcube_message($params['_uid'], $params['_mbox']);
 
                     if (!empty($message->headers)) {
-                        $attachment = rcmail_action_mail_compose::save_attachment($message, $params['_part'], self::$COMPOSE_ID);
+                        $attachment = \rcmail_action_mail_compose::save_attachment($message, $params['_part'], self::$COMPOSE_ID);
                     }
                 }
             }
@@ -106,7 +108,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 if (!$err) {
                     $filename = $_FILES['_attachments']['name'][$i];
                     $filesize = $_FILES['_attachments']['size'][$i];
-                    $filetype = rcube_mime::file_content_type($filepath, $filename, $_FILES['_attachments']['type'][$i]);
+                    $filetype = \rcube_mime::file_content_type($filepath, $filename, $_FILES['_attachments']['type'][$i]);
 
                     if ($err = self::check_message_size($filesize, $filetype)) {
                         if (!in_array($err, $errors)) {
@@ -133,7 +135,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                     self::attachment_success($attachment, $uploadid);
                 } else {  // upload failed
                     if ($err == \UPLOAD_ERR_INI_SIZE || $err == \UPLOAD_ERR_FORM_SIZE) {
-                        $size = self::show_bytes(rcube_utils::max_upload_size());
+                        $size = self::show_bytes(\rcube_utils::max_upload_size());
                         $msg = $rcmail->gettext(['name' => 'filesizeerror', 'vars' => ['size' => $size]]);
                     } elseif (!empty($attachment['error'])) {
                         $msg = $attachment['error'];
@@ -161,7 +163,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
     public static function init()
     {
-        self::$COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
+        self::$COMPOSE_ID = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GPC);
         self::$COMPOSE = null;
         self::$SESSION_KEY = 'compose_data_' . self::$COMPOSE_ID;
 
@@ -173,46 +175,46 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             exit('Invalid session var!');
         }
 
-        self::$file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GPC);
+        self::$file_id = \rcube_utils::get_input_string('_file', \rcube_utils::INPUT_GPC);
         self::$file_id = preg_replace('/^rcmfile/', '', self::$file_id) ?: 'unknown';
     }
 
     public static function attachment_success($attachment, $uploadid)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $id = $attachment['id'];
 
         if (!empty(self::$COMPOSE['deleteicon']) && is_file(self::$COMPOSE['deleteicon'])) {
-            $button = html::img([
+            $button = \html::img([
                 'src' => self::$COMPOSE['deleteicon'],
                 'alt' => $rcmail->gettext('delete'),
             ]);
         } elseif (!empty(self::$COMPOSE['textbuttons'])) {
-            $button = rcube::Q($rcmail->gettext('delete'));
+            $button = \rcube::Q($rcmail->gettext('delete'));
         } else {
             $button = '';
         }
 
         $link_content = sprintf(
             '<span class="attachment-name">%s</span><span class="attachment-size">(%s)</span>',
-            rcube::Q($attachment['name']), self::show_bytes($attachment['size'])
+            \rcube::Q($attachment['name']), self::show_bytes($attachment['size'])
         );
 
-        $content_link = html::a([
+        $content_link = \html::a([
             'href' => '#load',
             'class' => 'filename',
             'onclick' => sprintf(
                 "return %s.command('load-attachment','rcmfile%s', this, event)",
-                rcmail_output::JS_OBJECT_NAME,
+                \rcmail_output::JS_OBJECT_NAME,
                 $id
             ),
         ], $link_content);
 
-        $delete_link = html::a([
+        $delete_link = \html::a([
             'href' => '#delete',
             'onclick' => sprintf(
                 "return %s.command('remove-attachment','rcmfile%s', this, event)",
-                rcmail_output::JS_OBJECT_NAME,
+                \rcmail_output::JS_OBJECT_NAME,
                 $id
             ),
             'title' => $rcmail->gettext('delete'),
@@ -230,7 +232,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
                 'html' => $content,
                 'name' => $attachment['name'],
                 'mimetype' => $attachment['mimetype'],
-                'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
+                'classname' => \rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
                 'complete' => true,
             ],
             $uploadid
@@ -248,7 +250,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
      */
     public static function check_message_size($filesize, $filetype)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $limit = parse_bytes($rcmail->config->get('max_message_size'));
         $size = 10 * 1024; // size of message body
 

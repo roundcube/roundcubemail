@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 namespace Roundcube\Tests\Rcmail;
 
 use Roundcube\Tests\ActionTestCase;

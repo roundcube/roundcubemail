@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_mark extends rcmail_action_mail_index
+class rcmail_action_mail_mark extends \rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,21 +28,21 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $_uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $flag = rcube_utils::get_input_string('_flag', rcube_utils::INPUT_POST);
-        $folders = rcube_utils::get_input_string('_folders', rcube_utils::INPUT_POST);
-        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $_uids = \rcube_utils::get_input_value('_uid', \rcube_utils::INPUT_POST);
+        $flag = \rcube_utils::get_input_string('_flag', \rcube_utils::INPUT_POST);
+        $folders = \rcube_utils::get_input_string('_folders', \rcube_utils::INPUT_POST);
+        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST);
 
         if (empty($_uids) || empty($flag)) {
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send();
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $threading = (bool) $rcmail->storage->get_threading();
         $skip_deleted = (bool) $rcmail->config->get('skip_deleted');
         $read_deleted = (bool) $rcmail->config->get('read_when_deleted');
@@ -64,7 +66,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         } elseif ($folders == 'cur') {
             $input = [$mbox => '*'];
         } else {
-            $input = self::get_uids(null, null, $dummy, rcube_utils::INPUT_POST);
+            $input = self::get_uids(null, null, $dummy, \rcube_utils::INPUT_POST);
         }
 
         $marked = 0;
@@ -89,7 +91,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         }
 
         if ($flag == 'DELETED' && $read_deleted && !empty($_POST['_ruid'])) {
-            if ($ruids = rcube_utils::get_input_value('_ruid', rcube_utils::INPUT_POST)) {
+            if ($ruids = \rcube_utils::get_input_value('_ruid', \rcube_utils::INPUT_POST)) {
                 foreach (self::get_uids($ruids) as $_mbox => $uids) {
                     $read += (int) $rcmail->storage->set_flag($uids, 'SEEN', $_mbox);
                 }
@@ -108,13 +110,13 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             $rcmail->output->set_env('last_flag', $flag);
         } elseif ($flag == 'DELETED' && $skip_deleted) {
             if ($from == 'show') {
-                if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
+                if ($next = \rcube_utils::get_input_value('_next_uid', \rcube_utils::INPUT_GPC)) {
                     $rcmail->output->command('show_message', $next);
                 } else {
                     $rcmail->output->command('command', 'list');
                 }
             } else {
-                $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
+                $search_request = \rcube_utils::get_input_value('_search', \rcube_utils::INPUT_GPC);
 
                 // refresh saved search set after moving some messages
                 if ($search_request && $rcmail->storage->get_search_set()) {
@@ -148,7 +150,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                 $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
                 if ($threading) {
-                    $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);
+                    $count = \rcube_utils::get_input_value('_count', \rcube_utils::INPUT_POST);
                 }
 
                 // add new rows from next page (if any)

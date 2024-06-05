@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -21,7 +23,7 @@
 /**
  * View class to produce JSON responses
  */
-class rcmail_output_json extends rcmail_output
+class rcmail_output_json extends \rcmail_output
 {
     protected $texts = [];
     protected $commands = [];
@@ -54,7 +56,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @param string $title New page title
      */
-    #[Override]
+    #[\Override]
     public function set_pagetitle($title)
     {
         if ($this->config->get('devel_mode') && !empty($_SESSION['username'])) {
@@ -72,7 +74,7 @@ class rcmail_output_json extends rcmail_output
      * @param string   $obj  Object name
      * @param callable $func Function name to call
      */
-    #[Override]
+    #[\Override]
     public function add_handler($obj, $func)
     {
         // ignore
@@ -83,7 +85,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @param array $arr Hash array with object=>handler pairs
      */
-    #[Override]
+    #[\Override]
     public function add_handlers($arr)
     {
         // ignore
@@ -95,7 +97,7 @@ class rcmail_output_json extends rcmail_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Additional arguments
      */
-    #[Override]
+    #[\Override]
     public function command($cmd, ...$args)
     {
         array_unshift($args, $cmd);
@@ -112,7 +114,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
-    #[Override]
+    #[\Override]
     public function add_label(...$args)
     {
         if (count($args) == 1 && is_array($args[0])) {
@@ -135,7 +137,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @uses self::command()
      */
-    #[Override]
+    #[\Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
@@ -156,7 +158,7 @@ class rcmail_output_json extends rcmail_output
     /**
      * Delete all stored env variables and commands
      */
-    #[Override]
+    #[\Override]
     public function reset()
     {
         parent::reset();
@@ -172,7 +174,7 @@ class rcmail_output_json extends rcmail_output
      *
      * @see rcmail::url()
      */
-    #[Override]
+    #[\Override]
     public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
@@ -184,7 +186,7 @@ class rcmail_output_json extends rcmail_output
     /**
      * Send an AJAX response to the client.
      */
-    #[Override]
+    #[\Override]
     public function send()
     {
         $this->remote_response();
@@ -197,7 +199,7 @@ class rcmail_output_json extends rcmail_output
      * @param int    $code    Error code
      * @param string $message Error message
      */
-    #[Override]
+    #[\Override]
     public function raise_error($code, $message)
     {
         if ($code == 403) {
@@ -226,10 +228,10 @@ class rcmail_output_json extends rcmail_output
         // unset default env vars
         unset($this->env['task'], $this->env['action'], $this->env['comm_path']);
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $response = ['action' => $rcmail->action];
 
-        if ($unlock = rcube_utils::get_input_string('_unlock', rcube_utils::INPUT_GPC)) {
+        if ($unlock = \rcube_utils::get_input_string('_unlock', \rcube_utils::INPUT_GPC)) {
             $response['unlock'] = $unlock;
         }
 

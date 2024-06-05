@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -59,7 +61,7 @@ if ($argc < 2) {
     exit('Usage: ' . basename($argv[0]) . " encrypted-hdr-part [encrypted-hdr-part ...]\n");
 }
 
-$RCMAIL = rcube::get_instance();
+$RCMAIL = \rcube::get_instance();
 
 for ($i = 1; $i < $argc; $i++) {
     printf("%s\n", $RCMAIL->decrypt($argv[$i]));

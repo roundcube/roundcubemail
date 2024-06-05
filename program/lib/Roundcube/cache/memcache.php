@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -22,12 +24,12 @@
 /**
  * Interface implementation class for accessing Memcache cache
  */
-class rcube_cache_memcache extends rcube_cache
+class rcube_cache_memcache extends \rcube_cache
 {
     /**
      * Instance of memcache handler
      *
-     * @var Memcache|false|null
+     * @var \Memcache|false|null
      */
     protected static $memcache;
 
@@ -36,7 +38,7 @@ class rcube_cache_memcache extends rcube_cache
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
         $this->type = 'memcache';
-        $this->debug = rcube::get_instance()->config->get('memcache_debug');
+        $this->debug = \rcube::get_instance()->config->get('memcache_debug');
 
         self::engine();
     }
@@ -44,7 +46,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache|false
+     * @return \Memcache|false
      */
     public static function engine()
     {
@@ -56,7 +58,7 @@ class rcube_cache_memcache extends rcube_cache
         if (!class_exists('Memcache')) {
             self::$memcache = false;
 
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604,
                 'type' => 'memcache',
                 'line' => __LINE__,
@@ -66,7 +68,7 @@ class rcube_cache_memcache extends rcube_cache
         }
 
         // add all configured hosts to pool
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $pconnect = $rcube->config->get('memcache_pconnect', true);
         $timeout = $rcube->config->get('memcache_timeout', 1);
         $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
@@ -80,7 +82,7 @@ class rcube_cache_memcache extends rcube_cache
                 $seen["{$host}:{$port}"] = true;
                 $available--;
 
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 604, 'type' => 'memcache',
                     'line' => __LINE__, 'file' => __FILE__,
                     'message' => "Memcache failure on host {$host}:{$port}",
@@ -88,7 +90,7 @@ class rcube_cache_memcache extends rcube_cache
             }
         };
 
-        self::$memcache = new Memcache();
+        self::$memcache = new \Memcache();
 
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {
@@ -117,7 +119,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         // No need for GC, entries are expunged automatically
@@ -126,7 +128,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         // No need for GC, entries are expunged automatically
@@ -139,7 +141,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function get_item($key)
     {
         if (!self::$memcache) {
@@ -163,7 +165,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function add_item($key, $data)
     {
         if (!self::$memcache) {
@@ -190,7 +192,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function delete_item($key)
     {
         if (!self::$memcache) {

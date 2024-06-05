@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_move extends rcmail_action_contacts_index
+class rcmail_action_contacts_move extends \rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -28,14 +30,14 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $cids = self::get_cids();
-        $target = rcube_utils::get_input_string('_to', rcube_utils::INPUT_POST);
-        $target_group = rcube_utils::get_input_string('_togid', rcube_utils::INPUT_POST);
+        $target = \rcube_utils::get_input_string('_to', \rcube_utils::INPUT_POST);
+        $target_group = \rcube_utils::get_input_string('_togid', \rcube_utils::INPUT_POST);
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $all = 0;
         $deleted = 0;
         $success = 0;
@@ -88,7 +90,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 } elseif (!empty($record['name'])) {
                     $result = $TARGET->search('name', $record['name'], 1, true, true);
                 } else {
-                    $result = new rcube_result_set();
+                    $result = new \rcube_result_set();
                 }
 
                 // insert contact record
@@ -166,7 +168,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 // create resultset object
                 $count = count($records);
                 $first = ($page - 1) * $page_size;
-                $result = new rcube_result_set($count, $first);
+                $result = new \rcube_result_set($count, $first);
                 $pages = ceil((count($records) + $deleted) / $page_size);
 
                 // last page and it's empty, display previous one
@@ -181,7 +183,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
                     $first += $page_size;
                     // create resultset object
-                    $res = new rcube_result_set($count, $first - $deleted);
+                    $res = new \rcube_result_set($count, $first - $deleted);
 
                     if ($page_size < $count) {
                         $records = array_slice($records, $first - $deleted, $deleted);

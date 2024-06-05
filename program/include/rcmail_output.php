@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -21,7 +23,7 @@
 /**
  * Class for output generation
  */
-abstract class rcmail_output extends rcube_output
+abstract class rcmail_output extends \rcube_output
 {
     public const JS_OBJECT_NAME = 'rcmail';
     public const BLANK_GIF = 'R0lGODlhDwAPAIAAAMDAwAAAACH5BAEAAAAALAAAAAAPAA8AQAINhI+py+0Po5y02otnAQA7';
@@ -73,8 +75,8 @@ abstract class rcmail_output extends rcube_output
         $meta = INSTALL_PATH . "skins/{$skin}/meta.json";
         if (is_readable($meta) && ($json = json_decode(file_get_contents($meta), true))) {
             $data = $json;
-            $data['author_link'] = !empty($json['url']) ? html::a(['href' => $json['url'], 'target' => '_blank'], rcube::Q($json['author'])) : rcube::Q($json['author']);
-            $data['license_link'] = !empty($json['license-url']) ? html::a(['href' => $json['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($json['license'])) : rcube::Q($json['license']);
+            $data['author_link'] = !empty($json['url']) ? \html::a(['href' => $json['url'], 'target' => '_blank'], \rcube::Q($json['author'])) : \rcube::Q($json['author']);
+            $data['license_link'] = !empty($json['license-url']) ? \html::a(['href' => $json['license-url'], 'target' => '_blank', 'tabindex' => '-1'], \rcube::Q($json['license'])) : \rcube::Q($json['license']);
         }
 
         $composer = INSTALL_PATH . "/skins/{$skin}/composer.json";
@@ -92,7 +94,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Delete all stored env variables and commands
      */
-    #[Override]
+    #[\Override]
     public function reset()
     {
         parent::reset();

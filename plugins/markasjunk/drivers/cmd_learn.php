@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Command line learn driver
  *
@@ -40,7 +42,7 @@ class markasjunk_cmd_learn
 
     private function _do_salearn($uids, $spam, $src_mbox)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $temp_dir = realpath($rcube->config->get('temp_dir'));
         $command = $rcube->config->get($spam ? 'markasjunk_spam_cmd' : 'markasjunk_ham_cmd');
         $debug = $rcube->config->get('markasjunk_debug');
@@ -69,12 +71,12 @@ class markasjunk_cmd_learn
             $tmp_command = $command;
 
             if (strpos($tmp_command, '%s') !== false) {
-                $message = new rcube_message($uid);
+                $message = new \rcube_message($uid);
                 $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
             }
 
             if (!empty($header_names)) {
-                /** @var rcube_imap $storage */
+                /** @var \rcube_imap $storage */
                 $storage = $rcube->get_storage();
                 $storage->check_connection();
                 $headers = $storage->conn->fetchHeader($src_mbox, $uid, true, false, $header_names);
@@ -90,7 +92,7 @@ class markasjunk_cmd_learn
                         $tmp_command = str_replace('%h:' . $header, escapeshellarg($val), $tmp_command);
                     } else {
                         if ($debug) {
-                            rcube::write_log('markasjunk', "header {$header} not found in message {$src_mbox}/{$uid}");
+                            \rcube::write_log('markasjunk', "header {$header} not found in message {$src_mbox}/{$uid}");
                         }
 
                         continue 2;
@@ -111,7 +113,7 @@ class markasjunk_cmd_learn
                     $tmp_command .= "\n{$output}";
                 }
 
-                rcube::write_log('markasjunk', $tmp_command);
+                \rcube::write_log('markasjunk', $tmp_command);
             }
 
             if (isset($tmpfname)) {

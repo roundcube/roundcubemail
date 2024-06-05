@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Copy spam/ham messages to a directory for learning later
  *
@@ -38,7 +40,7 @@ class markasjunk_dir_learn
 
     private function _do_messagemove($uids, $spam)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $dest_dir = unslashify($rcube->config->get($spam ? 'markasjunk_spam_dir' : 'markasjunk_ham_dir'));
 
         if (!$dest_dir) {
@@ -57,7 +59,7 @@ class markasjunk_dir_learn
             file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
 
             if ($debug) {
-                rcube::write_log('markasjunk', $tmpfname);
+                \rcube::write_log('markasjunk', $tmpfname);
             }
         }
     }

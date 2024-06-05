@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -139,7 +141,7 @@ class rcube_message_part
     /**
      * Normalize and set some part properties from the structure or raw headers
      *
-     * @param string|rcube_message_header|null $headers Part's raw headers
+     * @param string|\rcube_message_header|null $headers Part's raw headers
      *
      * @return string Attachment file name
      */
@@ -152,7 +154,7 @@ class rcube_message_part
             if (is_object($headers)) {
                 $headers = get_object_vars($headers);
             } else {
-                $headers = !empty($headers) ? rcube_mime::parse_headers($headers) : $this->headers;
+                $headers = !empty($headers) ? \rcube_mime::parse_headers($headers) : $this->headers;
             }
 
             $ctype = $headers['content-type'] ?? '';
@@ -199,18 +201,18 @@ class rcube_message_part
             $this->filename = rawurldecode($filename_encoded);
 
             if (!empty($filename_charset)) {
-                $this->filename = rcube_charset::convert($this->filename, $filename_charset);
+                $this->filename = \rcube_charset::convert($this->filename, $filename_charset);
             }
         } elseif (isset($filename_mime)) {
             // Note: Do not use charset of part/message nor the default charset (#9376)
-            $this->filename = rcube_mime::decode_mime_string($filename_mime, false);
+            $this->filename = \rcube_mime::decode_mime_string($filename_mime, false);
         }
 
         // Workaround for invalid Content-Type (#6816)
         // Some servers for "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
         if ($this->mimetype == 'text/plain' && !empty($headers['content-type'])) {
             $tokens = preg_split('/;[\s\r\n\t]*/', $headers['content-type']);
-            $type = rcube_mime::fix_mimetype($tokens[0]);
+            $type = \rcube_mime::fix_mimetype($tokens[0]);
 
             if ($type != $this->mimetype) {
                 $this->mimetype = $type;

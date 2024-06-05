@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -19,7 +21,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_autocomplete extends rcmail_action
+class rcmail_action_mail_autocomplete extends \rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -28,15 +30,15 @@ class rcmail_action_mail_autocomplete extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $MAXNUM = (int) $rcmail->config->get('autocomplete_max', 15);
         $mode = (int) $rcmail->config->get('addressbook_search_mode');
         $single = (bool) $rcmail->config->get('autocomplete_single');
-        $search = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC, true);
-        $reqid = rcube_utils::get_input_string('_reqid', rcube_utils::INPUT_GPC);
+        $search = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC, true);
+        $reqid = \rcube_utils::get_input_string('_reqid', \rcube_utils::INPUT_GPC);
 
         $contacts = [];
 
@@ -44,7 +46,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
             $sort_keys = [];
             $books_num = count($book_types);
             $search_lc = mb_strtolower($search);
-            $mode |= rcube_addressbook::SEARCH_GROUPS;
+            $mode |= \rcube_addressbook::SEARCH_GROUPS;
             $fields = $rcmail->config->get('contactlist_fields');
 
             foreach ($book_types as $abook_id) {
@@ -64,7 +66,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                 continue;
                             }
 
-                            $name = rcube_addressbook::compose_list_name($record);
+                            $name = \rcube_addressbook::compose_list_name($record);
                             $contact = format_email_recipient($email, $name);
 
                             // skip entries that don't match
@@ -83,7 +85,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     'source' => $abook_id,
                                 ];
 
-                                $display = rcube_addressbook::compose_search_name($record, $email, $name);
+                                $display = \rcube_addressbook::compose_search_name($record, $email, $name);
 
                                 if ($display && $display != $contact['name']) {
                                     $contact['display'] = $display;
@@ -190,8 +192,8 @@ class rcmail_action_mail_autocomplete extends rcmail_action
      */
     public static function autocomplete_addressbooks()
     {
-        $rcmail = rcmail::get_instance();
-        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $rcmail = \rcmail::get_instance();
+        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
 
         if (strlen($source)) {
             $book_types = [$source];

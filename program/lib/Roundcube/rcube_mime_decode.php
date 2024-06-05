@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -63,7 +65,7 @@ class rcube_mime_decode
      * @param string $input   The input to decode
      * @param bool   $convert Convert result to rcube_message_part structure
      *
-     * @return rcube_message_part|false Decoded results or False on failure
+     * @return \rcube_message_part|false Decoded results or False on failure
      */
     public function decode($input, $convert = true)
     {
@@ -91,11 +93,11 @@ class rcube_mime_decode
      * @param string $body          Body section
      * @param string $default_ctype Default content type
      *
-     * @return rcube_message_part|false Decoded results or False on error
+     * @return \rcube_message_part|false Decoded results or False on error
      */
     protected function do_decode($headers, $body, $default_ctype = 'text/plain')
     {
-        $return = new rcube_message_part();
+        $return = new \rcube_message_part();
         $headers = $this->parseHeaders($headers);
 
         foreach ($headers as $value) {
@@ -147,7 +149,7 @@ class rcube_mime_decode
                     $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                     if ($this->params['include_bodies']) {
-                        $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
+                        $return->body = $this->params['decode_bodies'] ? \rcube_mime::decode($body, $encoding) : $body;
                     }
 
                     break;
@@ -155,7 +157,7 @@ class rcube_mime_decode
                     $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
                     if ($this->params['include_bodies']) {
-                        $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
+                        $return->body = $this->params['decode_bodies'] ? \rcube_mime::decode($body, $encoding) : $body;
                     }
 
                     break;
@@ -184,14 +186,14 @@ class rcube_mime_decode
                     unset($obj);
 
                     if ($this->params['include_bodies']) {
-                        $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body) : $body;
+                        $return->body = $this->params['decode_bodies'] ? \rcube_mime::decode($body) : $body;
                     }
 
                     break;
                 default:
                     if ($this->params['include_bodies']) {
                         $encoding = !empty($content_transfer_encoding['value']) ? $content_transfer_encoding['value'] : '7bit';
-                        $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body, $encoding) : $body;
+                        $return->body = $this->params['decode_bodies'] ? \rcube_mime::decode($body, $encoding) : $body;
                     }
 
                     break;
@@ -202,7 +204,7 @@ class rcube_mime_decode
             $return->ctype_secondary = $ctype[1];
 
             if ($this->params['include_bodies']) {
-                $return->body = $this->params['decode_bodies'] ? rcube_mime::decode($body) : $body;
+                $return->body = $this->params['decode_bodies'] ? \rcube_mime::decode($body) : $body;
             }
         }
 
@@ -345,24 +347,24 @@ class rcube_mime_decode
      */
     protected function decodeHeader($input)
     {
-        return rcube_mime::decode_mime_string($input, $this->params['default_charset']);
+        return \rcube_mime::decode_mime_string($input, $this->params['default_charset']);
     }
 
     /**
      * Recursive method to convert a rcube_mime_decode structure
      * into a rcube_message_part object.
      *
-     * @param rcube_message_part $part   A message part struct
-     * @param int                $count  Part count
-     * @param string             $parent Parent MIME ID
+     * @param \rcube_message_part $part   A message part struct
+     * @param int                 $count  Part count
+     * @param string              $parent Parent MIME ID
      *
-     * @return rcube_message_part
+     * @return \rcube_message_part
      *
      * @see self::decode()
      */
     protected function structure_part($part, $count = 0, $parent = '')
     {
-        $struct = new rcube_message_part();
+        $struct = new \rcube_message_part();
         $struct->mime_id = $part->mime_id ?: (empty($parent) ? (string) $count : "{$parent}.{$count}");
         $struct->headers = $part->headers;
         $struct->mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;

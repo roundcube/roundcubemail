@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_prefs_save extends rcmail_action
+class rcmail_action_settings_prefs_save extends \rcmail_action
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -27,12 +29,12 @@ class rcmail_action_settings_prefs_save extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
-        $CURR_SECTION = rcube_utils::get_input_string('_section', rcube_utils::INPUT_POST);
+        $CURR_SECTION = \rcube_utils::get_input_string('_section', \rcube_utils::INPUT_POST);
         $dont_override = (array) $rcmail->config->get('dont_override');
         $a_user_prefs = [];
 
@@ -113,9 +115,9 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 break;
             case 'addressbook':
                 $a_user_prefs = [
-                    'default_addressbook' => rcube_utils::get_input_string('_default_addressbook', rcube_utils::INPUT_POST, true),
-                    'collected_recipients' => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
-                    'collected_senders' => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
+                    'default_addressbook' => \rcube_utils::get_input_string('_default_addressbook', \rcube_utils::INPUT_POST, true),
+                    'collected_recipients' => \rcube_utils::get_input_string('_collected_recipients', \rcube_utils::INPUT_POST, true),
+                    'collected_senders' => \rcube_utils::get_input_string('_collected_senders', \rcube_utils::INPUT_POST, true),
                     'autocomplete_single' => isset($_POST['_autocomplete_single']),
                     'addressbook_sort_col' => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
                     'addressbook_name_listing' => self::prefs_input_int('addressbook_name_listing'),
@@ -142,8 +144,8 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'lock_special_folders' => !in_array('lock_special_folders', $dont_override),
                 ];
 
-                foreach (rcube_storage::$folder_types as $type) {
-                    $a_user_prefs[$type . '_mbox'] = rcube_utils::get_input_string('_' . $type . '_mbox', rcube_utils::INPUT_POST, true);
+                foreach (\rcube_storage::$folder_types as $type) {
+                    $a_user_prefs[$type . '_mbox'] = \rcube_utils::get_input_string('_' . $type . '_mbox', \rcube_utils::INPUT_POST, true);
                 }
 
                 break;
@@ -155,7 +157,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 break;
         }
 
-        $plugin = rcmail::get_instance()->plugins->exec_hook('preferences_save',
+        $plugin = \rcmail::get_instance()->plugins->exec_hook('preferences_save',
             ['prefs' => $a_user_prefs, 'section' => $CURR_SECTION]);
 
         $a_user_prefs = $plugin['prefs'];
@@ -221,7 +223,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 $storage = $rcmail->get_storage();
                 $specials = [];
 
-                foreach (rcube_storage::$folder_types as $type) {
+                foreach (\rcube_storage::$folder_types as $type) {
                     $specials[$type] = $a_user_prefs[$type . '_mbox'];
                 }
 
@@ -258,8 +260,8 @@ class rcmail_action_settings_prefs_save extends rcmail_action
      */
     public static function prefs_input($name, $regex)
     {
-        $rcmail = rcmail::get_instance();
-        $value = rcube_utils::get_input_value('_' . $name, rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $value = \rcube_utils::get_input_value('_' . $name, \rcube_utils::INPUT_POST);
 
         if (!is_string($value)) {
             $value = null;
@@ -277,8 +279,8 @@ class rcmail_action_settings_prefs_save extends rcmail_action
      */
     public static function prefs_input_int($name)
     {
-        $rcmail = rcmail::get_instance();
-        $value = rcube_utils::get_input_value('_' . $name, rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $value = \rcube_utils::get_input_value('_' . $name, \rcube_utils::INPUT_POST);
 
         return (int) $value;
     }

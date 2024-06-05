@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -33,7 +35,7 @@ function print_usage()
 }
 
 // get arguments
-$args = rcube_utils::get_opt([
+$args = \rcube_utils::get_opt([
     'u' => 'user',
     'd' => 'delete:bool',
     't' => 'type',
@@ -57,11 +59,11 @@ if ($pref_value === null) {
 }
 
 if (!empty($args['config'])) {
-    $rcube = rcube::get_instance();
+    $rcube = \rcube::get_instance();
     $rcube->config->load_from_file($args['config']);
 }
 
 $type = $args['type'] ?? null;
 $user = $args['user'] ?? null;
 
-rcmail_utils::mod_pref($pref_name, $pref_value, $user, $type);
+\rcmail_utils::mod_pref($pref_name, $pref_value, $user, $type);

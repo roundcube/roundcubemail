@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -31,7 +33,7 @@ function print_usage()
 
 // get arguments
 $opts = ['h' => 'host', 'u' => 'user', 'p' => 'pass', 'm' => 'mbox', 'f' => 'file'];
-$args = rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX'];
+$args = \rcube_utils::get_opt($opts) + ['host' => 'localhost', 'mbox' => 'INBOX'];
 
 if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
@@ -41,7 +43,7 @@ if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
     print_usage();
     exit;
 } elseif (!is_file($args['file'])) {
-    rcube::raise_error('Cannot read message file.', false, true);
+    \rcube::raise_error('Cannot read message file.', false, true);
 }
 
 // prompt for username if not set
@@ -53,7 +55,7 @@ if (empty($args['user'])) {
 
 // prompt for password
 if (empty($args['pass'])) {
-    $args['pass'] = rcube_utils::prompt_silent('Password: ');
+    $args['pass'] = \rcube_utils::prompt_silent('Password: ');
 }
 
 // parse $host URL
@@ -69,7 +71,7 @@ if (!empty($a_host['host'])) {
 }
 
 // instantiate IMAP class
-$IMAP = new rcube_imap(null);
+$IMAP = new \rcube_imap(null);
 
 // try to connect to IMAP server
 if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) {
@@ -86,7 +88,7 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
                 if ($IMAP->save_message($args['mbox'], rtrim($message))) {
                     $count++;
                 } else {
-                    rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
+                    \rcube::raise_error("Failed to save message to {$args['mbox']}", false, true);
                 }
                 $message = '';
             }
@@ -109,5 +111,5 @@ if ($IMAP->connect($host, $args['user'], $args['pass'], $imap_port, $imap_ssl)) 
         echo "Adding messages failed!\n";
     }
 } else {
-    rcube::raise_error('IMAP login failed.', false, true);
+    \rcube::raise_error('IMAP login failed.', false, true);
 }

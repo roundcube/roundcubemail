@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * expect driver
  *
@@ -45,7 +47,7 @@ class rcube_expect_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $bin = $rcmail->config->get('password_expect_bin');
         $script = $rcmail->config->get('password_expect_script');
         $params = $rcmail->config->get('password_expect_params');
@@ -60,7 +62,7 @@ class rcube_expect_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
+        \rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
 
         return PASSWORD_ERROR;
     }

@@ -8,6 +8,8 @@ use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Assert;
 
+use function Roundcube\WIP\array_first;
+
 /**
  * Laravel Dusk Browser extensions
  */

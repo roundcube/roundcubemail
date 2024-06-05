@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -21,7 +23,7 @@
 /**
  * Spellchecking backend implementation to work with a Googiespell service
  */
-class rcube_spellchecker_googie extends rcube_spellchecker_engine
+class rcube_spellchecker_googie extends \rcube_spellchecker_engine
 {
     public const GOOGIE_HOST = 'https://spell.roundcube.net';
 
@@ -32,7 +34,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    #[Override]
+    #[\Override]
     public function languages()
     {
         return [
@@ -50,7 +52,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    #[Override]
+    #[\Override]
     public function check($text)
     {
         $this->content = $text;
@@ -61,7 +63,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
 
         $this->matches = $matches = [];
 
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $client = $rcube->get_http_client();
 
         // spell check uri is configured
@@ -88,7 +90,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
                     'body' => $gtext,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing, the error set below should be logged by the caller
         }
 
@@ -125,7 +127,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    #[Override]
+    #[\Override]
     public function get_suggestions($word)
     {
         $this->check($word);
@@ -147,7 +149,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    #[Override]
+    #[\Override]
     public function get_words($text = null)
     {
         if ($text) {

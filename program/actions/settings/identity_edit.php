@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_edit extends rcmail_action
+class rcmail_action_settings_identity_edit extends \rcmail_action
 {
     protected static $mode = self::MODE_HTTP;
     protected static $record;
@@ -27,16 +29,16 @@ class rcmail_action_settings_identity_edit extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
         // edit-identity
         if ($rcmail->action == 'edit-identity'
-            && ($id = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_GPC))
+            && ($id = \rcube_utils::get_input_string('_iid', \rcube_utils::INPUT_GPC))
         ) {
             self::$record = $rcmail->user->get_identity($id);
 
@@ -80,7 +82,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
     public static function identity_form($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
@@ -127,7 +129,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             'encryption' => [
                 'name' => $rcmail->gettext('identityencryption'),
                 'attrs' => ['class' => 'identity-encryption', 'style' => 'display:none'],
-                'content' => html::div('identity-encryption-block', ''),
+                'content' => \html::div('identity-encryption-block', ''),
             ],
         ];
 
@@ -159,7 +161,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         }
 
         if (!empty(self::$record['email'])) {
-            self::$record['email'] = rcube_utils::idn_to_utf8(self::$record['email']);
+            self::$record['email'] = \rcube_utils::idn_to_utf8(self::$record['email']);
         }
 
         // Allow plugins to modify identity form content
@@ -190,7 +192,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
 
             $content = '';
             if (is_array($fieldset['content'])) {
-                $table = new html_table(['cols' => 2]);
+                $table = new \html_table(['cols' => 2]);
 
                 foreach ($fieldset['content'] as $col => $colprop) {
                     $colprop['id'] = 'rcmfd_' . $col;
@@ -205,10 +207,10 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                         $value = $colprop['value'];
                     } else {
                         $val = self::$record[$col] ?? '';
-                        $value = rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
+                        $value = \rcube_output::get_edit_field($col, $val, $colprop, $colprop['type']);
                     }
 
-                    $table->add('title', html::label($colprop['id'], rcube::Q($label)));
+                    $table->add('title', \html::label($colprop['id'], \rcube::Q($label)));
                     $table->add(null, $value);
                 }
 
@@ -217,8 +219,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 $content = $fieldset['content'];
             }
 
-            $content = html::tag('legend', null, rcube::Q($fieldset['name'])) . $content;
-            $out .= html::tag('fieldset', !empty($fieldset['attrs']) ? $fieldset['attrs'] : [], $content) . "\n";
+            $content = \html::tag('legend', null, \rcube::Q($fieldset['name'])) . $content;
+            $out .= \html::tag('fieldset', !empty($fieldset['attrs']) ? $fieldset['attrs'] : [], $content) . "\n";
         }
 
         $out .= $form_end;
@@ -228,7 +230,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         $form_id = 'identityImageUpload';
 
         $out .= '<form id="' . $form_id . '" style="display: none">'
-            . html::div('hint', $rcmail->gettext(['name' => 'maxuploadsize', 'vars' => ['size' => $max_size]]))
+            . \html::div('hint', $rcmail->gettext(['name' => 'maxuploadsize', 'vars' => ['size' => $max_size]]))
             . '</form>';
 
         $rcmail->output->add_gui_object('uploadform', $form_id);

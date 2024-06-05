@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * SASL Password Driver
  *
@@ -38,7 +40,7 @@ class rcube_sasl_password
     {
         $curdir = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
-        $args = rcmail::get_instance()->config->get('password_saslpasswd_args', '');
+        $args = \rcmail::get_instance()->config->get('password_saslpasswd_args', '');
 
         if ($fh = popen("{$curdir}/chgsaslpasswd -p {$args} {$username}", 'w')) {
             fwrite($fh, $newpass . "\n");
@@ -49,7 +51,7 @@ class rcube_sasl_password
             }
         }
 
-        rcube::raise_error("Password plugin: Unable to execute {$curdir}/chgsaslpasswd", true);
+        \rcube::raise_error("Password plugin: Unable to execute {$curdir}/chgsaslpasswd", true);
 
         return PASSWORD_ERROR;
     }

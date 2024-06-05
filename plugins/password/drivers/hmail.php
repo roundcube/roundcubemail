@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * hMailserver password driver
  *
@@ -27,18 +29,18 @@ class rcube_hmail_password
 {
     public function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         try {
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
             if ($remote) {
-                $obApp = new COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
+                $obApp = new \COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
             } else {
-                $obApp = new COM('hMailServer.Application');
+                $obApp = new \COM('hMailServer.Application');
             }
-        } catch (Exception $e) {
-            rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())), true);
-            rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
+        } catch (\Exception $e) {
+            \rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())), true);
+            \rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 
             return PASSWORD_ERROR;
         }
@@ -48,7 +50,7 @@ class rcube_hmail_password
         } else {
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
-                rcube::raise_error('Password plugin: $config[\'username_domain\'] is not defined.', true);
+                \rcube::raise_error('Password plugin: $config[\'username_domain\'] is not defined.', true);
                 return PASSWORD_ERROR;
             }
             $username = $username . '@' . $domain;
@@ -63,9 +65,9 @@ class rcube_hmail_password
             $obAccount->Save();
 
             return PASSWORD_SUCCESS;
-        } catch (Exception $e) {
-            rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())));
-            rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
+        } catch (\Exception $e) {
+            \rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())));
+            \rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 
             return PASSWORD_ERROR;
         }

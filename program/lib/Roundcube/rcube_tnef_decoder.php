@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use RtfHtmlPhp\Document;
 use RtfHtmlPhp\Html\HtmlFormatter;
 
@@ -175,10 +177,10 @@ class rcube_tnef_decoder
                     $document = new Document($message['stream']);
                     $formatter = new HtmlFormatter(RCUBE_CHARSET);
                     $message = $formatter->format($document);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // ignore the body
                     $message = null;
-                    rcube::raise_error('Failed to extract RTF/HTML content from TNEF attachment', true);
+                    \rcube::raise_error('Failed to extract RTF/HTML content from TNEF attachment', true);
                 }
             } else {
                 $message = null;
@@ -471,11 +473,11 @@ class rcube_tnef_decoder
     protected function convertString($str, $use_codepage = false)
     {
         if ($use_codepage && $this->codepage
-            && ($charset = rcube_charset::$windows_codepages[$this->codepage])
+            && ($charset = \rcube_charset::$windows_codepages[$this->codepage])
         ) {
-            $str = rcube_charset::convert($str, $charset, RCUBE_CHARSET);
+            $str = \rcube_charset::convert($str, $charset, RCUBE_CHARSET);
         } elseif (($pos = strpos($str, "\0")) !== false && $pos != strlen($str) - 1) {
-            $str = rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
+            $str = \rcube_charset::convert($str, 'UTF-16LE', RCUBE_CHARSET);
         }
 
         return trim($str);

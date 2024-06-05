@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Dovecot passwdfile Password Driver
  *
@@ -36,10 +38,10 @@ class rcube_dovecot_passwdfile_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
 
-        $password = password::hash_password($newpass);
+        $password = \password::hash_password($newpass);
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content = '';
 
@@ -47,7 +49,7 @@ class rcube_dovecot_passwdfile_password
         $fp = fopen($mailuserfile, 'r');
 
         if (empty($fp)) {
-            rcube::raise_error("Password plugin: Unable to read password file {$mailuserfile}.", true);
+            \rcube::raise_error("Password plugin: Unable to read password file {$mailuserfile}.", true);
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -74,7 +76,7 @@ class rcube_dovecot_passwdfile_password
 
         fclose($fp);
 
-        rcube::raise_error("Password plugin: Failed to save file {$mailuserfile}.", true);
+        \rcube::raise_error("Password plugin: Failed to save file {$mailuserfile}.", true);
 
         return PASSWORD_ERROR;
     }

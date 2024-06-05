@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  * Roundcube Password Driver for Plesk-RPC.
  *
@@ -59,12 +61,12 @@ class rcube_plesk_password
     public function save($currpass, $newpass, $username)
     {
         // get config
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $host = $rcmail->config->get('password_plesk_host');
         $port = $rcmail->config->get('password_plesk_rpc_port', 8443);
         $path = $rcmail->config->get('password_plesk_rpc_path');
 
-        $this->client = password::get_http_client();
+        $this->client = \password::get_http_client();
         $this->url = "https://{$host}:{$port}/{$path}";
 
         // try to change password and return the status
@@ -90,7 +92,7 @@ class rcube_plesk_password
      */
     public function send_request($packet)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $user = $rcmail->config->get('password_plesk_user');
         $pass = $rcmail->config->get('password_plesk_pass');
 
@@ -110,8 +112,8 @@ class rcube_plesk_password
             $body = $response->getBody()->getContents();
 
             return $body && strpos($body, '<?xml') === 0 ? $body : null;
-        } catch (Exception $e) {
-            rcube::raise_error("Error on {$this->url}: {$e->getMessage()}", true);
+        } catch (\Exception $e) {
+            \rcube::raise_error("Error on {$this->url}: {$e->getMessage()}", true);
         }
 
         return null;
@@ -127,7 +129,7 @@ class rcube_plesk_password
     private function domain_info($domain)
     {
         // build xml
-        $request = new SimpleXMLElement('<packet></packet>');
+        $request = new \SimpleXMLElement('<packet></packet>');
         $site = $request->addChild('site');
         $get = $site->addChild('get');
         $filter = $get->addChild('filter');
@@ -141,7 +143,7 @@ class rcube_plesk_password
 
         // send the request and make it to simple-xml-object
         if ($res = $this->send_request($packet)) {
-            $xml = new SimpleXMLElement($res);
+            $xml = new \SimpleXMLElement($res);
         }
 
         // Old Plesk versions require version attribute, add it and try again
@@ -155,7 +157,7 @@ class rcube_plesk_password
 
             // send the request and make it to simple-xml-object
             if ($res = $this->send_request($packet)) {
-                $xml = new SimpleXMLElement($res);
+                $xml = new \SimpleXMLElement($res);
             }
         }
 
@@ -197,7 +199,7 @@ class rcube_plesk_password
         }
 
         // build xml-packet
-        $request = new SimpleXMLElement('<packet></packet>');
+        $request = new \SimpleXMLElement('<packet></packet>');
         $mail = $request->addChild('mail');
         $update = $mail->addChild('update');
         $add = $update->addChild('set');
@@ -219,7 +221,7 @@ class rcube_plesk_password
 
         // send the request to plesk
         if ($res = $this->send_request($packet)) {
-            $xml = new SimpleXMLElement($res);
+            $xml = new \SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
             if ($res == 'ok') {

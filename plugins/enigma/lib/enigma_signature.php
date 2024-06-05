@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-------------------------------------------------------------------------+
  | Signature class for the Enigma Plugin                                   |
@@ -32,9 +34,9 @@ class enigma_signature
     /**
      * Find key user id matching the email message sender
      *
-     * @param enigma_engine $engine  Enigma engine
-     * @param rcube_message $message Message object
-     * @param string        $part_id Message part identifier
+     * @param \enigma_engine $engine  Enigma engine
+     * @param \rcube_message $message Message object
+     * @param string         $part_id Message part identifier
      *
      * @return string User identifier (name + email)
      */
@@ -63,7 +65,7 @@ class enigma_signature
                 }
             }
 
-            $from = rcube_mime::decode_address_list($from, 1, true, $charset);
+            $from = \rcube_mime::decode_address_list($from, 1, true, $charset);
             $from = (array) $from[1];
 
             if (!empty($from)) {

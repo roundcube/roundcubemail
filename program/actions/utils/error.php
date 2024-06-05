@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,17 +19,17 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_error extends rcmail_action
+class rcmail_action_utils_error extends \rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $ERROR_CODE = !empty($args['code']) ? $args['code'] : 500;
         $ERROR_MESSAGE = !empty($args['message']) ? $args['message'] : null;
@@ -40,9 +42,9 @@ class rcmail_action_utils_error extends rcmail_action
         }
         // forbidden due to request check
         elseif ($ERROR_CODE == 403) {
-            if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == rcube::REQUEST_ERROR_URL) {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET' && $rcmail->request_status == \rcube::REQUEST_ERROR_URL) {
                 $url = $rcmail->url($_GET, true, false, true);
-                $add = html::a($url, $rcmail->gettext('clicktoresumesession'));
+                $add = \html::a($url, $rcmail->gettext('clicktoresumesession'));
             } else {
                 $add = $rcmail->gettext('errcontactserveradmin');
             }
@@ -70,7 +72,7 @@ class rcmail_action_utils_error extends rcmail_action
 
             $error_title = $rcmail->gettext('errcomposesession');
             $error_text = nl2br($rcmail->gettext('errcomposesessionexplain'))
-                . '<p>' . html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
+                . '<p>' . \html::a($url, $rcmail->gettext('clicktocompose')) . '</p>';
         }
         // database connection error
         elseif ($ERROR_CODE == 601) {

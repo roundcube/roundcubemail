@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Subscription Options
  *
@@ -22,17 +24,17 @@
  * @author Ziba Scott
  * @license GNU GPLv3+
  */
-class subscriptions_option extends rcube_plugin
+class subscriptions_option extends \rcube_plugin
 {
     public $task = 'mail|settings';
 
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $dont_override = rcmail::get_instance()->config->get('dont_override', []);
+        $dont_override = \rcmail::get_instance()->config->get('dont_override', []);
 
         if (!in_array('use_subscriptions', $dont_override)) {
             $this->add_hook('preferences_list', [$this, 'prefs_list']);
@@ -54,12 +56,12 @@ class subscriptions_option extends rcube_plugin
     {
         if ($args['section'] == 'server') {
             $this->add_texts('localization/', false);
-            $use_subscriptions = rcmail::get_instance()->config->get('use_subscriptions', true);
+            $use_subscriptions = \rcmail::get_instance()->config->get('use_subscriptions', true);
             $field_id = 'rcmfd_use_subscriptions';
-            $checkbox = new html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
+            $checkbox = new \html_checkbox(['name' => '_use_subscriptions', 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['use_subscriptions'] = [
-                'title' => html::label($field_id, rcube::Q($this->gettext('useimapsubscriptions'))),
+                'title' => \html::label($field_id, \rcube::Q($this->gettext('useimapsubscriptions'))),
                 'content' => $checkbox->show($use_subscriptions ? 1 : 0),
             ];
         }
@@ -77,7 +79,7 @@ class subscriptions_option extends rcube_plugin
     public function prefs_save($args)
     {
         if ($args['section'] == 'server') {
-            $rcmail = rcmail::get_instance();
+            $rcmail = \rcmail::get_instance();
             $use_subscriptions = $rcmail->config->get('use_subscriptions', true);
 
             $args['prefs']['use_subscriptions'] = isset($_POST['_use_subscriptions']);
@@ -97,10 +99,10 @@ class subscriptions_option extends rcube_plugin
 
     public function mailboxes_list($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!$rcmail->config->get('use_subscriptions', true)) {
-            /** @var rcube_imap $storage */
+            /** @var \rcube_imap $storage */
             $storage = $rcmail->get_storage();
 
             if ($folders = $storage->list_folders_direct($args['root'], $args['name'])) {
@@ -118,7 +120,7 @@ class subscriptions_option extends rcube_plugin
 
     public function folders_list($args)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!$rcmail->config->get('use_subscriptions', true)) {
             foreach ($args['list'] as $idx => $data) {

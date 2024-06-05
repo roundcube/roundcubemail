@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use Masterminds\HTML5;
 
 /*
@@ -255,9 +257,9 @@ class rcube_washtml
         $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
 
         // Decode insecure character sequences
-        $style = rcube_utils::xss_entity_decode($style);
+        $style = \rcube_utils::xss_entity_decode($style);
 
-        foreach (rcube_utils::parse_css_block($style) as $rule) {
+        foreach (\rcube_utils::parse_css_block($style) as $rule) {
             $cssid = $rule[0];
             $value = '';
 
@@ -297,7 +299,7 @@ class rcube_washtml
     /**
      * Take a node and return allowed attributes and check values
      *
-     * @param DOMElement $node Document element
+     * @param \DOMElement $node Document element
      *
      * @return string Washed element attributes
      */
@@ -518,9 +520,9 @@ class rcube_washtml
      * Check if a specified element has an attribute with specified value.
      * Do it in case-insensitive manner.
      *
-     * @param DOMElement $node       The element
-     * @param string     $attr_name  The attribute name
-     * @param string     $attr_value The attribute value to find
+     * @param \DOMElement $node       The element
+     * @param string      $attr_name  The attribute name
+     * @param string      $attr_value The attribute value to find
      *
      * @return bool True if the specified attribute exists and has the expected value
      */
@@ -543,8 +545,8 @@ class rcube_washtml
      * The main loop that recurse on a node tree.
      * It output only allowed tags with allowed attributes and allowed inline styles
      *
-     * @param DOMNode $node  HTML element
-     * @param int     $level Recurrence level (safe initial value found empirically)
+     * @param \DOMNode $node  HTML element
+     * @param int      $level Recurrence level (safe initial value found empirically)
      *
      * @return string HTML content
      */
@@ -560,7 +562,7 @@ class rcube_washtml
             // log error message once
             if (empty($this->max_nesting_level_error)) {
                 $this->max_nesting_level_error = true;
-                rcube::raise_error([
+                \rcube::raise_error([
                     'code' => 500,
                     'message' => "Maximum nesting level exceeded (xdebug.max_nesting_level={$this->max_nesting_level})",
                 ], true, false);
@@ -575,7 +577,7 @@ class rcube_washtml
         do {
             switch ($node->nodeType) {
                 case \XML_ELEMENT_NODE:
-                    /** @var DOMElement $node */
+                    /** @var \DOMElement $node */
                     $tagName = strtolower($node->nodeName);
 
                     if ($tagName == 'link') {
@@ -603,7 +605,7 @@ class rcube_washtml
                         $dump .= '<' . $node->nodeName;
 
                         if ($tagName == 'svg') {
-                            $xpath = new DOMXPath($node->ownerDocument);
+                            $xpath = new \DOMXPath($node->ownerDocument);
                             foreach ($xpath->query('namespace::*') as $ns) {
                                 if ($ns->nodeName != 'xmlns:xml') {
                                     $dump .= sprintf(' %s="%s"',
@@ -679,14 +681,14 @@ class rcube_washtml
                 // https://github.com/Masterminds/html5-php/issues/181
                 $html5 = new HTML5(['disable_html_ns' => true]);
                 $node = $html5->loadHTML($this->fix_html5($html));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore, fallback to DOMDocument
             }
         }
 
         if (empty($node)) {
             // Charset seems to be ignored (probably if defined in the HTML document)
-            $node = new DOMDocument('1.0', $this->config['charset']);
+            $node = new \DOMDocument('1.0', $this->config['charset']);
             @$node->{$method}($html, \LIBXML_PARSEHUGE | \LIBXML_COMPACT | \LIBXML_NONET);
         }
 
@@ -747,7 +749,7 @@ class rcube_washtml
         $html = preg_replace($html_search, $html_replace, $html);
 
         $err = ['message' => 'Could not clean up HTML!'];
-        if ($html === null && rcube_utils::preg_error($err)) {
+        if ($html === null && \rcube_utils::preg_error($err)) {
             return '';
         }
 
@@ -832,7 +834,7 @@ class rcube_washtml
     {
         // check for <base href=...>
         if (preg_match('!(<base.*href=["\']?)([hftps]{3,5}://[a-z0-9/.%-]+)!i', $body, $regs)) {
-            $replacer = new rcube_base_replacer($regs[2]);
+            $replacer = new \rcube_base_replacer($regs[2]);
             $body = $replacer->replace($body);
         }
 

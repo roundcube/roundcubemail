@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,7 +26,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(['v' => 'version', 'y' => 'accept:bool']);
+$opts = \rcube_utils::get_opt(['v' => 'version', 'y' => 'accept:bool']);
 
 // ask user if no version is specified
 if (empty($opts['version'])) {
@@ -37,7 +39,7 @@ if (empty($opts['version'])) {
     }
 }
 
-$RCI = rcmail_install::get_instance();
+$RCI = \rcmail_install::get_instance();
 $RCI->load_config();
 
 if ($RCI->configured) {
@@ -168,7 +170,7 @@ if ($RCI->configured) {
     // check database schema
     if (!empty($RCI->config['db_dsnw'])) {
         echo "Executing database schema update.\n";
-        $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true]);
+        $success = \rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true]);
     }
 
     // update composer dependencies
@@ -263,7 +265,7 @@ if ($RCI->configured) {
             echo "\n    }\n\n";
         }
 
-        if (!rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
+        if (!\rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
             $exit_code = 1;
             if ($composer_bin = find_composer()) {
                 echo 'Executing ' . $composer_bin . " to update dependencies...\n";
@@ -279,7 +281,7 @@ if ($RCI->configured) {
 
     // index contacts for fulltext searching
     if ($opts['version'] && version_compare(version_parse($opts['version']), '0.6.0', '<')) {
-        rcmail_utils::indexcontacts();
+        \rcmail_utils::indexcontacts();
     }
 
     if ($success) {
@@ -313,7 +315,7 @@ function find_composer()
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
-        $which = trim(rcube::exec("which {$check_file}"));
+        $which = trim(\rcube::exec("which {$check_file}"));
         if (!empty($which)) {
             return $which;
         }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,28 +19,28 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_viewsource extends rcmail_action
+class rcmail_action_mail_viewsource extends \rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!empty($_GET['_save'])) {
-            $rcmail->request_security_check(rcube_utils::INPUT_GET);
+            $rcmail->request_security_check(\rcube_utils::INPUT_GET);
         }
 
         ob_end_clean();
 
         // similar code as in program/steps/mail/get.inc
-        if ($uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET)) {
+        if ($uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_GET)) {
             if ($pos = strpos($uid, '.')) {
-                $message = new rcube_message($uid);
+                $message = new \rcube_message($uid);
                 $headers = $message->headers;
                 $part_id = substr($uid, $pos + 1);
             } else {
@@ -53,7 +55,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
             ];
 
             if (!empty($_GET['_save'])) {
-                $subject = rcube_mime::decode_header($headers->subject, $headers->charset);
+                $subject = \rcube_mime::decode_header($headers->subject, $headers->charset);
                 $filename = self::filename_from_subject(mb_substr($subject, 0, 128));
                 $filename = ($filename ?: $uid) . '.eml';
 
@@ -74,7 +76,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $rcmail->storage->print_raw_body($uid, empty($_GET['_save']));
             }
         } else {
-            rcube::raise_error("Message UID {$uid} not found", true, true);
+            \rcube::raise_error("Message UID {$uid} not found", true, true);
         }
 
         exit;

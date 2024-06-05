@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Gearman Password Driver
  *
@@ -31,14 +33,14 @@ class rcube_gearman_password
     public function save($currpass, $newpass, $username)
     {
         if (extension_loaded('gearman')) {
-            $rcmail = rcmail::get_instance();
+            $rcmail = \rcmail::get_instance();
             $payload = [
                 'username' => $username,
                 'oldPassword' => $currpass,
                 'newPassword' => $newpass,
             ];
 
-            $gmc = new GearmanClient();
+            $gmc = new \GearmanClient();
             $gmc->addServer($rcmail->config->get('password_gearman_host', 'localhost'));
 
             $result = $gmc->doNormal('setPassword', json_encode($payload));
@@ -48,9 +50,9 @@ class rcube_gearman_password
                 return PASSWORD_SUCCESS;
             }
 
-            rcube::raise_error("Password plugin: Gearman authentication failed for user {$username}", true);
+            \rcube::raise_error("Password plugin: Gearman authentication failed for user {$username}", true);
         } else {
-            rcube::raise_error('Password plugin: PECL Gearman module not loaded', true);
+            \rcube::raise_error('Password plugin: PECL Gearman module not loaded', true);
         }
 
         return PASSWORD_ERROR;

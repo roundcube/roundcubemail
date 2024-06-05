@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_check_recent extends rcmail_action_mail_index
+class rcmail_action_mail_check_recent extends \rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,10 +29,10 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // If there's no folder or messages list, there's nothing to update
         // This can happen on 'refresh' request
@@ -44,7 +46,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
         $page = $rcmail->storage->get_page();
         $page_size = $rcmail->storage->get_pagesize();
 
-        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
+        $search_request = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC);
         if ($search_request && $_SESSION['search_request'] != $search_request) {
             $search_request = null;
         }
@@ -164,7 +166,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
 
         // handle flag updates
         if (!$list_cleared) {
-            $uids = rcube_utils::get_input_value('_uids', rcube_utils::INPUT_POST);
+            $uids = \rcube_utils::get_input_value('_uids', \rcube_utils::INPUT_POST);
             $uids = self::get_uids($uids, null, $multifolder);
 
             $recent_flags = [];

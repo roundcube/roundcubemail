@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -46,22 +48,22 @@ class rcmail_attachment_handler
     {
         ob_end_clean();
 
-        $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
-        $file_id = rcube_utils::get_input_string('_file', rcube_utils::INPUT_GET);
-        $compose_id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
-        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
-        $rcube = rcmail::get_instance();
+        $part_id = \rcube_utils::get_input_string('_part', \rcube_utils::INPUT_GET);
+        $file_id = \rcube_utils::get_input_string('_file', \rcube_utils::INPUT_GET);
+        $compose_id = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GET);
+        $uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_GET);
+        $rcube = \rcmail::get_instance();
 
         $this->download = !empty($_GET['_download']);
 
         // similar code as in program/steps/mail/show.inc
         if (!empty($uid)) {
             $rcube->config->set('prefer_html', true);
-            $this->message = new rcube_message($uid, null, !empty($_GET['_safe']));
+            $this->message = new \rcube_message($uid, null, !empty($_GET['_safe']));
             $this->part = $this->message->mime_parts[$part_id] ?? null;
 
             if ($this->part) {
-                $this->filename = rcmail_action_mail_index::attachment_name($this->part);
+                $this->filename = \rcmail_action_mail_index::attachment_name($this->part);
                 $this->mimetype = $this->part->mimetype;
                 $this->size = $this->part->size;
                 $this->ident = $this->message->headers->messageID . ':' . $this->part->mime_id . ':' . $this->size . ':' . $this->mimetype;
@@ -112,7 +114,7 @@ class rcmail_attachment_handler
         // check connection status
         self::check_storage_status();
 
-        $this->mimetype = rcube_mime::fix_mimetype($this->mimetype);
+        $this->mimetype = \rcube_mime::fix_mimetype($this->mimetype);
     }
 
     /**
@@ -158,7 +160,7 @@ class rcmail_attachment_handler
             'mimetype' => $this->mimetype,
         ];
 
-        return rcmail_action_mail_index::part_image_type($part);
+        return \rcmail_action_mail_index::part_image_type($part);
     }
 
     /**
@@ -169,7 +171,7 @@ class rcmail_attachment_handler
     public function size()
     {
         $part = $this->part ?: ((object) ['size' => $this->size, 'exact_size' => true]);
-        return rcmail_action::message_part_size($part);
+        return \rcmail_action::message_part_size($part);
     }
 
     /**
@@ -207,7 +209,7 @@ class rcmail_attachment_handler
             }
         } elseif ($this->upload) {
             // This hook retrieves the attachment contents from the file storage backend
-            $attachment = rcube::get_instance()->plugins->exec_hook('attachment_get', $this->upload);
+            $attachment = \rcube::get_instance()->plugins->exec_hook('attachment_get', $this->upload);
 
             if ($fp && $fp != -1) {
                 if ($attachment['data']) {
@@ -304,12 +306,12 @@ class rcmail_attachment_handler
 
         // get part body if not available
         // fix formatting and charset
-        $body = rcube_message::format_part_body($this->body(), $part);
+        $body = \rcube_message::format_part_body($this->body(), $part);
 
         // show images?
         $is_safe = $this->is_safe();
 
-        return rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false]);
+        return \rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false]);
     }
 
     /**
@@ -326,7 +328,7 @@ class rcmail_attachment_handler
         ];
 
         // initialize HTML washer
-        $washer = new rcube_washtml($wash_opts);
+        $washer = new \rcube_washtml($wash_opts);
 
         // allow CSS styles, will be sanitized by rcmail_washtml_callback()
         $washer->add_callback('style', 'rcmail_action_mail_index::washtml_callback');
@@ -339,10 +341,10 @@ class rcmail_attachment_handler
      */
     public static function check_storage_status()
     {
-        $error = rcmail::get_instance()->storage->get_error_code();
+        $error = \rcmail::get_instance()->storage->get_error_code();
 
         // Check if we have a connection error
-        if ($error == rcube_imap_generic::ERROR_BAD) {
+        if ($error == \rcube_imap_generic::ERROR_BAD) {
             ob_end_clean();
 
             // Get action is often executed simultaneously.
@@ -356,7 +358,7 @@ class rcmail_attachment_handler
                 usleep(rand(10, 30) * 100000); // 1-3 sec.
                 header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
             } else {
-                rcube::raise_error('Unable to get/display message part. IMAP connection error', true, true);
+                \rcube::raise_error('Unable to get/display message part. IMAP connection error', true, true);
             }
 
             // Don't kill session, just quit (#1486995)
@@ -367,7 +369,7 @@ class rcmail_attachment_handler
     public function is_safe()
     {
         if ($this->message) {
-            return rcmail_action_mail_index::check_safe($this->message);
+            return \rcmail_action_mail_index::check_safe($this->message);
         }
 
         return !empty($_GET['_safe']);

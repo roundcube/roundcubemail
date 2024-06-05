@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  * LDAP - Password Modify Extended Operation Driver
  *
@@ -29,13 +31,13 @@
 
 require_once __DIR__ . '/ldap_simple.php';
 
-class rcube_ldap_exop_password extends rcube_ldap_simple_password
+class rcube_ldap_exop_password extends \rcube_ldap_simple_password
 {
-    #[Override]
+    #[\Override]
     public function save($curpass, $passwd)
     {
         if (!function_exists('ldap_exop_passwd')) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 100,
                 'type' => 'ldap',
                 'message' => 'Password plugin: ldap_exop_passwd not supported',

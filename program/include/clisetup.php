@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -27,4 +29,4 @@ require_once INSTALL_PATH . 'program/include/iniset.php';
 // Unset max. execution time limit, set to 120 seconds in iniset.php
 @set_time_limit(0);
 
-$rcmail = rcmail::get_instance();
+$rcmail = \rcmail::get_instance();

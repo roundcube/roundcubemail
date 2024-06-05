@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -23,7 +25,7 @@
 /**
  * Model class to access an LDAP directories
  */
-class rcube_ldap_generic extends Net_LDAP3
+class rcube_ldap_generic extends \Net_LDAP3
 {
     /** private properties */
     protected $cache;
@@ -45,13 +47,13 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Establish a connection to the LDAP server
      */
-    #[Override]
+    #[\Override]
     public function connect($host = null)
     {
         // Net_LDAP3 does not support IDNA yet
         // also parse_host() here is very Roundcube specific
-        $host = rcube_utils::parse_host($host, $this->config['mail_domain']);
-        $host = rcube_utils::idn_to_ascii($host);
+        $host = \rcube_utils::parse_host($host, $this->config['mail_domain']);
+        $host = \rcube_utils::idn_to_ascii($host);
 
         return parent::connect($host);
     }
@@ -68,19 +70,19 @@ class rcube_ldap_generic extends Net_LDAP3
             case \LOG_INFO:
             case \LOG_NOTICE:
                 if (!empty($this->config['debug'])) {
-                    rcube::write_log('ldap', $msg);
+                    \rcube::write_log('ldap', $msg);
                 }
 
                 break;
             case \LOG_EMERG:
             case \LOG_ALERT:
             case \LOG_CRIT:
-                rcube::raise_error($msg, true, true);
+                \rcube::raise_error($msg, true, true);
                 break;
             case \LOG_ERR:
             case \LOG_WARNING:
                 $this->error = $msg;
-                rcube::raise_error($msg, true, false);
+                \rcube::raise_error($msg, true, false);
                 break;
         }
     }
@@ -277,7 +279,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @return array Hash array with attributes as keys
      */
-    #[Override]
+    #[\Override]
     public static function normalize_entry($entry, $flat = false)
     {
         if (!isset($entry['count'])) {
@@ -328,7 +330,7 @@ class rcube_ldap_generic extends Net_LDAP3
 
         $groups = [];
         $value = str_replace('*', '', $value);
-        $words = $mode == 0 ? rcube_utils::tokenize_string($value, 1) : [$value];
+        $words = $mode == 0 ? \rcube_utils::tokenize_string($value, 1) : [$value];
 
         // set wildcards
         $wp = $ws = '';

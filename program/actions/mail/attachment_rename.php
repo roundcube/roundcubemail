@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_attachment_rename extends rcmail_action_mail_attachment_upload
+class rcmail_action_mail_attachment_rename extends \rcmail_action_mail_attachment_upload
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,14 +29,14 @@ class rcmail_action_mail_attachment_rename extends rcmail_action_mail_attachment
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         self::init();
 
-        $filename = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
+        $filename = \rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST);
         $filename = trim($filename);
 
         if (strlen($filename) && $rcmail->update_uploaded_file(self::$file_id, ['name' => $filename])) {

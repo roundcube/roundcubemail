@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
+class rcmail_action_settings_prefs_edit extends \rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
     protected static $section;
@@ -28,14 +30,14 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $rcmail->output->set_pagetitle($rcmail->gettext('preferences'));
 
-        self::$section = rcube_utils::get_input_string('_section', rcube_utils::INPUT_GPC);
+        self::$section = \rcube_utils::get_input_string('_section', \rcube_utils::INPUT_GPC);
         [self::$sections] = self::user_prefs(self::$section);
 
         // register UI objects
@@ -49,7 +51,7 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
     public static function user_prefs_form($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // add some labels to client
         $rcmail->output->add_label('nopagesizewarning', 'nosupporterror');
@@ -63,12 +65,12 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
 
         if (!empty(self::$sections[self::$section]['header'])) {
             $div_attr = ['id' => 'preferences-header', 'class' => 'boxcontent'];
-            $out .= html::div($div_attr, self::$sections[self::$section]['header']);
+            $out .= \html::div($div_attr, self::$sections[self::$section]['header']);
         }
 
         foreach (self::$sections[self::$section]['blocks'] as $class => $block) {
             if (!empty($block['options'])) {
-                $table = new html_table(['cols' => 2]);
+                $table = new \html_table(['cols' => 2]);
 
                 foreach ($block['options'] as $option) {
                     if (isset($option['title'])) {
@@ -79,9 +81,9 @@ class rcmail_action_settings_prefs_edit extends rcmail_action_settings_index
                     }
                 }
 
-                $out .= html::tag('fieldset', $class, html::tag('legend', null, $block['name']) . $table->show($attrib));
+                $out .= \html::tag('fieldset', $class, \html::tag('legend', null, $block['name']) . $table->show($attrib));
             } elseif (!empty($block['content'])) {
-                $out .= html::tag('fieldset', null, html::tag('legend', null, $block['name']) . $block['content']);
+                $out .= \html::tag('fieldset', null, \html::tag('legend', null, $block['name']) . $block['content']);
             }
         }
 

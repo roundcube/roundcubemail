@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -29,14 +31,14 @@ class rcube_imap_cache
     /**
      * Instance of rcube_imap
      *
-     * @var rcube_imap
+     * @var \rcube_imap
      */
     private $imap;
 
     /**
      * Instance of rcube_db
      *
-     * @var rcube_db
+     * @var \rcube_db
      */
     private $db;
 
@@ -104,12 +106,12 @@ class rcube_imap_cache
     /**
      * Object constructor.
      *
-     * @param rcube_db   $db           DB handler
-     * @param rcube_imap $imap         IMAP handler
-     * @param int        $userid       User identifier
-     * @param bool       $skip_deleted skip_deleted flag
-     * @param int        $ttl          Expiration time of memcache/apc items
-     * @param int        $threshold    Maximum cached message size
+     * @param \rcube_db   $db           DB handler
+     * @param \rcube_imap $imap         IMAP handler
+     * @param int         $userid       User identifier
+     * @param bool        $skip_deleted skip_deleted flag
+     * @param int         $ttl          Expiration time of memcache/apc items
+     * @param int         $threshold    Maximum cached message size
      */
     public function __construct($db, $imap, $userid, $skip_deleted, $ttl = 0, $threshold = 0)
     {
@@ -163,7 +165,7 @@ class rcube_imap_cache
      * @param string $sort_order Sorting order (ASC|DESC)
      * @param bool   $existing   Skip index initialization if it doesn't exist in DB
      *
-     * @return rcube_result_index|null Messages index
+     * @return \rcube_result_index|null Messages index
      */
     public function get_index($mailbox, $sort_field = null, $sort_order = null, $existing = false)
     {
@@ -276,7 +278,7 @@ class rcube_imap_cache
      *
      * @param string $mailbox Folder name
      *
-     * @return rcube_result_thread Messages threaded index
+     * @return \rcube_result_thread Messages threaded index
      */
     public function get_thread($mailbox)
     {
@@ -401,7 +403,7 @@ class rcube_imap_cache
      *                        from IMAP server
      * @param bool   $cache   Enables internal cache usage
      *
-     * @return rcube_message_header Message data
+     * @return \rcube_message_header Message data
      */
     public function get_message($mailbox, $uid, $update = true, $cache = true)
     {
@@ -493,7 +495,7 @@ class rcube_imap_cache
         unset($msg->flags);
 
         $msg = $this->db->encode($msg, true);
-        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', \rcube_db::TYPE_SQL);
 
         $this->db->insert_or_update(
             $this->messages_table,
@@ -683,7 +685,7 @@ class rcube_imap_cache
      */
     public static function gc()
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $db = $rcube->get_dbh();
         $now = $db->now();
 
@@ -721,7 +723,7 @@ class rcube_imap_cache
             unset($data[0]);
 
             if (empty($index)) {
-                $index = new rcube_result_index($mailbox);
+                $index = new \rcube_result_index($mailbox);
             }
 
             return [
@@ -759,7 +761,7 @@ class rcube_imap_cache
             unset($data[0]);
 
             if (empty($thread)) {
-                $thread = new rcube_result_thread($mailbox);
+                $thread = new \rcube_result_thread($mailbox);
             }
 
             return [
@@ -790,7 +792,7 @@ class rcube_imap_cache
         ];
 
         $data = implode('@', $data);
-        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', \rcube_db::TYPE_SQL);
 
         $this->db->insert_or_update(
             $this->index_table,
@@ -817,7 +819,7 @@ class rcube_imap_cache
         ];
 
         $data = implode('@', $data);
-        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', \rcube_db::TYPE_SQL);
 
         $this->db->insert_or_update(
             $this->thread_table,
@@ -936,7 +938,7 @@ class rcube_imap_cache
                 return false;
             } else {
                 // get all undeleted messages excluding cached UIDs
-                $existing = rcube_imap_generic::compressMessageSet($object->get());
+                $existing = \rcube_imap_generic::compressMessageSet($object->get());
                 $ids = $this->imap->search_once($mailbox, "ALL UNDELETED NOT UID {$existing}");
 
                 if (!$ids->is_empty()) {
@@ -1094,7 +1096,7 @@ class rcube_imap_cache
                 $mbox_data = $this->imap->folder_data($mailbox);
 
                 // Removed messages found
-                $uids = isset($mbox_data['VANISHED']) ? rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']) : null;
+                $uids = isset($mbox_data['VANISHED']) ? \rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']) : null;
                 if (!empty($uids)) {
                     $removed = array_merge($removed, $uids);
                     // Invalidate index
@@ -1138,7 +1140,7 @@ class rcube_imap_cache
      *
      * @param array $sql_arr Message row data
      *
-     * @return rcube_message_header Message object
+     * @return \rcube_message_header Message object
      */
     private function build_message($sql_arr)
     {
@@ -1182,7 +1184,7 @@ class rcube_imap_cache
     /**
      * Prepares message object to be stored in database.
      *
-     * @param rcube_message_header|rcube_message_part $msg
+     * @param \rcube_message_header|\rcube_message_part $msg
      */
     private function message_object_prepare(&$msg, &$size = 0)
     {
@@ -1230,7 +1232,7 @@ class rcube_imap_cache
             // fetch sorted sequence numbers
             $index = $this->imap->index_direct($mailbox, $sort_field, $sort_order);
         } else {
-            $index = new rcube_result_index($mailbox, '* SORT');
+            $index = new \rcube_result_index($mailbox, '* SORT');
         }
 
         return $index;
@@ -1250,6 +1252,6 @@ class rcube_imap_cache
             return $this->imap->threads_direct($mailbox);
         }
 
-        return new rcube_result_thread($mailbox, '* THREAD');
+        return new \rcube_result_thread($mailbox, '* THREAD');
     }
 }

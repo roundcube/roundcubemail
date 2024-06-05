@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_about extends rcmail_action
+class rcmail_action_settings_about extends \rcmail_action
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -27,10 +29,10 @@ class rcmail_action_settings_about extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $rcmail->output->set_pagetitle($rcmail->gettext('about'));
 
@@ -56,19 +58,19 @@ class rcmail_action_settings_about extends rcmail_action
 
     public static function supportlink($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($url = $rcmail->config->get('support_url')) {
             $label = !empty($attrib['label']) ? $attrib['label'] : 'support';
             $attrib['href'] = $url;
 
-            return html::a($attrib, $rcmail->gettext($label));
+            return \html::a($attrib, $rcmail->gettext($label));
         }
     }
 
     public static function plugins_list($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (empty($attrib['id'])) {
             $attrib['id'] = 'rcmpluginlist';
@@ -100,7 +102,7 @@ class rcmail_action_settings_about extends rcmail_action
 
         ksort($plugin_info, \SORT_LOCALE_STRING);
 
-        $table = new html_table($attrib);
+        $table = new \html_table($attrib);
 
         // add table header
         $table->add_header('name', $rcmail->gettext('plugin'));
@@ -115,30 +117,30 @@ class rcmail_action_settings_about extends rcmail_action
             }
 
             if ($uri) {
-                $uri = html::a([
+                $uri = \html::a([
                         'target' => '_blank',
-                        'href' => rcube::Q($uri),
+                        'href' => \rcube::Q($uri),
                     ],
-                    rcube::Q($rcmail->gettext('download'))
+                    \rcube::Q($rcmail->gettext('download'))
                 );
             }
 
             $license = $data['license'] ?? '';
 
             if (!empty($data['license_uri'])) {
-                $license = html::a([
+                $license = \html::a([
                         'target' => '_blank',
-                        'href' => rcube::Q($data['license_uri']),
+                        'href' => \rcube::Q($data['license_uri']),
                     ],
-                    rcube::Q($data['license'])
+                    \rcube::Q($data['license'])
                 );
             } else {
-                $license = rcube::Q($license);
+                $license = \rcube::Q($license);
             }
 
             $table->add_row();
-            $table->add('name', rcube::Q(!empty($data['name']) ? $data['name'] : $name));
-            $table->add('version', !empty($data['version']) ? rcube::Q($data['version']) : '');
+            $table->add('name', \rcube::Q(!empty($data['name']) ? $data['name'] : $name));
+            $table->add('version', !empty($data['version']) ? \rcube::Q($data['version']) : '');
             $table->add('license', $license);
             $table->add('source', $uri);
         }
@@ -148,14 +150,14 @@ class rcmail_action_settings_about extends rcmail_action
 
     public static function skin_info($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $meta = $rcmail->output->get_skin_info();
 
-        $content = html::p(null,
-            html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . (!empty($meta['version']) ? '&nbsp;(' . $meta['version'] . ')' : '') . html::br() .
-                (!empty($meta['author_link']) ? html::span('skinauthor', $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]])) . html::br() : '') .
-                (!empty($meta['license_link']) ? html::span('skinlicense', $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link']) . html::br() : '') .
-                (!empty($meta['uri']) ? html::span('skinhomepage', $rcmail->gettext('source') . ':&nbsp;' . html::a(['href' => $meta['uri'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($rcmail->gettext('download')))) : ''))
+        $content = \html::p(null,
+            \html::span('skinitem', \html::span('skinname', \rcube::Q($meta['name'])) . (!empty($meta['version']) ? '&nbsp;(' . $meta['version'] . ')' : '') . \html::br() .
+                (!empty($meta['author_link']) ? \html::span('skinauthor', $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]])) . \html::br() : '') .
+                (!empty($meta['license_link']) ? \html::span('skinlicense', $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link']) . \html::br() : '') .
+                (!empty($meta['uri']) ? \html::span('skinhomepage', $rcmail->gettext('source') . ':&nbsp;' . \html::a(['href' => $meta['uri'], 'target' => '_blank', 'tabindex' => '-1'], \rcube::Q($rcmail->gettext('download')))) : ''))
         );
 
         return $content;

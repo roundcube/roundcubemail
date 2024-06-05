@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_responses extends rcmail_action_settings_index
+class rcmail_action_settings_responses extends \rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,10 +28,10 @@ class rcmail_action_settings_responses extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $rcmail->output->set_pagetitle($rcmail->gettext('responses'));
         $rcmail->output->include_script('list.js');
@@ -47,7 +49,7 @@ class rcmail_action_settings_responses extends rcmail_action_settings_index
      */
     public static function responses_list($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $attrib += ['id' => 'rcmresponseslist', 'tagname' => 'table'];
 

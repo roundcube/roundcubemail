@@ -60,6 +60,9 @@
         "roundcube/virtuser_query": "*",
         "roundcube/zipdownload": "*"
     },
+    "conflict": {
+        "symfony/finder": "<4.4.30 || >=5 <5.3.7"
+    },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
         "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP"
@@ -212,9 +215,13 @@
     ],
     "autoload": {
         "classmap": [
+            "program/unnamespaced-legacy-classes.php",
             "program/actions/",
             "program/include/",
             "program/lib/"
+        ],
+        "files": [
+            "program/unnamespaced-legacy-functions.php"
         ]
     },
     "autoload-dev": {

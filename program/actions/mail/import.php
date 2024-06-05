@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -18,7 +20,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_import extends rcmail_action
+class rcmail_action_mail_import extends \rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -28,10 +30,10 @@ class rcmail_action_mail_import extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // clear all stored output properties (like scripts and env vars)
         $rcmail->output->reset();
@@ -46,7 +48,7 @@ class rcmail_action_mail_import extends rcmail_action
 
                 if (!$err) {
                     // check file content type first
-                    $ctype = rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]);
+                    $ctype = \rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]);
                     [$mtype_primary, $mtype_secondary] = explode('/', $ctype);
 
                     if (in_array($ctype, ['application/zip', 'application/x-zip'])) {
@@ -122,16 +124,16 @@ class rcmail_action_mail_import extends rcmail_action
             return;
         }
 
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
         $files = [];
 
         if ($zip->open($path)) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $entry = $zip->getNameIndex($i);
-                $tmpfname = rcube_utils::temp_filename('zipimport');
+                $tmpfname = \rcube_utils::temp_filename('zipimport');
 
                 if (copy("zip://{$path}#{$entry}", $tmpfname)) {
-                    $ctype = rcube_mime::file_content_type($tmpfname, $entry);
+                    $ctype = \rcube_mime::file_content_type($tmpfname, $entry);
                     [$mtype_primary] = explode('/', $ctype);
 
                     if (in_array($mtype_primary, ['text', 'message'])) {
@@ -171,8 +173,8 @@ class rcmail_action_mail_import extends rcmail_action
                 && (preg_match($mboxdate_rx, $dt_str, $m) || preg_match($imapdate_rx, $dt_str, $m))
             ) {
                 try {
-                    $date = new DateTime($m[0], new DateTimeZone('UTC'));
-                } catch (Exception $e) {
+                    $date = new \DateTime($m[0], new \DateTimeZone('UTC'));
+                } catch (\Exception $e) {
                     // ignore
                 }
             }
@@ -181,13 +183,13 @@ class rcmail_action_mail_import extends rcmail_action
         // unquote ">From " lines in message body
         $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
         $message = rtrim($message);
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->storage->save_message($folder, $message, '', false, [], $date)) {
             return true;
         }
 
-        rcube::raise_error("Failed to import message to {$folder}", true, false);
+        \rcube::raise_error("Failed to import message to {$folder}", true, false);
 
         return false;
     }

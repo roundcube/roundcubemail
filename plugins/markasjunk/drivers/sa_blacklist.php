@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * SpamAssassin Blacklist driver
  *
@@ -46,7 +48,7 @@ class markasjunk_sa_blacklist
 
     private function _do_list($uids, $spam)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $this->sa_user = $rcube->config->get('sauserprefs_userid', '%u');
         $this->sa_table = $rcube->config->get('sauserprefs_sql_table_name');
         $this->sa_username_field = $rcube->config->get('sauserprefs_sql_username_field');
@@ -69,7 +71,7 @@ class markasjunk_sa_blacklist
         $debug = $rcube->config->get('markasjunk_debug');
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 527,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
@@ -77,13 +79,13 @@ class markasjunk_sa_blacklist
             return false;
         }
 
-        $db = rcube_db::factory($rcube->config->get('sauserprefs_db_dsnw'), $rcube->config->get('sauserprefs_db_dsnr'), $rcube->config->get('sauserprefs_db_persistent'));
+        $db = \rcube_db::factory($rcube->config->get('sauserprefs_db_dsnw'), $rcube->config->get('sauserprefs_db_dsnr'), $rcube->config->get('sauserprefs_db_persistent'));
         $db->set_debug((bool) $rcube->config->get('sql_debug'));
         $db->db_connect('w');
 
         // check DB connections and exit on failure
         if ($err_str = $db->is_error()) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 603,
                 'type' => 'db',
                 'message' => $err_str,
@@ -91,11 +93,11 @@ class markasjunk_sa_blacklist
         }
 
         foreach ($uids as $uid) {
-            $message = new rcube_message($uid);
+            $message = new \rcube_message($uid);
             $email = $message->sender['mailto'];
 
             // skip invalid emails
-            if (!rcube_utils::check_email($email, false)) {
+            if (!\rcube_utils::check_email($email, false)) {
                 continue;
             }
 
@@ -128,7 +130,7 @@ class markasjunk_sa_blacklist
                     );
 
                     if ($debug) {
-                        rcube::write_log('markasjunk', $this->sa_user . ' blocklist ' . $email);
+                        \rcube::write_log('markasjunk', $this->sa_user . ' blocklist ' . $email);
                     }
                 }
             } else {
@@ -159,7 +161,7 @@ class markasjunk_sa_blacklist
                         $email);
 
                     if ($debug) {
-                        rcube::write_log('markasjunk', $this->sa_user . ' welcomelist ' . $email);
+                        \rcube::write_log('markasjunk', $this->sa_user . ' welcomelist ' . $email);
                     }
                 }
             }

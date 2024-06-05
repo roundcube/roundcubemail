@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * DB based User-to-Email and Email-to-User lookup
  *
@@ -25,16 +27,16 @@
  * @author Tim Gerundt
  * @license GNU GPLv3+
  */
-class virtuser_query extends rcube_plugin
+class virtuser_query extends \rcube_plugin
 {
     private $config;
     private $app;
     private $db;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $this->app = rcmail::get_instance();
+        $this->app = \rcmail::get_instance();
         $this->config = $this->app->config->get('virtuser_query');
 
         if (!empty($this->config)) {
@@ -71,11 +73,11 @@ class virtuser_query extends rcube_plugin
             if (strpos($sql_arr[0], '@')) {
                 if (!empty($p['extended']) && count($sql_arr) > 1) {
                     $result[] = [
-                        'email' => rcube_utils::idn_to_ascii($sql_arr[0]),
+                        'email' => \rcube_utils::idn_to_ascii($sql_arr[0]),
                         'name' => $sql_arr[1] ?? '',
                         'organization' => $sql_arr[2] ?? '',
-                        'reply-to' => isset($sql_arr[3]) ? rcube_utils::idn_to_ascii($sql_arr[3]) : '',
-                        'bcc' => isset($sql_arr[4]) ? rcube_utils::idn_to_ascii($sql_arr[4]) : '',
+                        'reply-to' => isset($sql_arr[3]) ? \rcube_utils::idn_to_ascii($sql_arr[3]) : '',
+                        'bcc' => isset($sql_arr[4]) ? \rcube_utils::idn_to_ascii($sql_arr[4]) : '',
                         'signature' => $sql_arr[5] ?? '',
                         'html_signature' => isset($sql_arr[6]) ? intval($sql_arr[6]) : 0,
                     ];
@@ -150,7 +152,7 @@ class virtuser_query extends rcube_plugin
         if (!$this->db) {
             if ($dsn = $this->app->config->get('virtuser_query_dsn')) {
                 // connect to the virtuser database
-                $this->db = rcube_db::factory($dsn);
+                $this->db = \rcube_db::factory($dsn);
                 $this->db->set_debug((bool) $this->app->config->get('sql_debug'));
                 $this->db->db_connect('r'); // connect in read mode
             } else {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,4 +19,4 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_create extends rcmail_action_settings_folder_edit {}
+class rcmail_action_settings_folder_create extends \rcmail_action_settings_folder_edit {}

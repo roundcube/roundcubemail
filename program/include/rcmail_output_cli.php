@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -20,7 +22,7 @@
 /**
  * Class for output generation
  */
-class rcmail_output_cli extends rcmail_output
+class rcmail_output_cli extends \rcmail_output
 {
     public $type = 'cli';
 
@@ -29,7 +31,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::command()
      */
-    #[Override]
+    #[\Override]
     public function command($cmd, ...$args)
     {
         // NOP
@@ -40,7 +42,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::add_label()
      */
-    #[Override]
+    #[\Override]
     public function add_label(...$args)
     {
         // NOP
@@ -51,7 +53,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::show_message()
      */
-    #[Override]
+    #[\Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($this->app->text_exists($message)) {
@@ -66,7 +68,7 @@ class rcmail_output_cli extends rcmail_output
      *
      * @see rcube_output::redirect()
      */
-    #[Override]
+    #[\Override]
     public function redirect($p = [], $delay = 1)
     {
         // NOP
@@ -75,7 +77,7 @@ class rcmail_output_cli extends rcmail_output
     /**
      * Send output to the client.
      */
-    #[Override]
+    #[\Override]
     public function send()
     {
         // NOP

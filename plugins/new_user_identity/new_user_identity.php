@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * New user identity
  *
@@ -10,7 +12,7 @@
  * @author Kris Steinhoff
  * @license GNU GPLv3+
  */
-class new_user_identity extends rcube_plugin
+class new_user_identity extends \rcube_plugin
 {
     public $task = 'login';
 
@@ -20,10 +22,10 @@ class new_user_identity extends rcube_plugin
     /**
      * Plugin initialization. API hooks binding.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $this->rc = rcmail::get_instance();
+        $this->rc = \rcmail::get_instance();
 
         $this->add_hook('user_create', [$this, 'lookup_user_name']);
         $this->add_hook('login_after', [$this, 'login_after']);
@@ -46,7 +48,7 @@ class new_user_identity extends rcube_plugin
                 $args['email_list'] = [];
 
                 if (empty($args['user_email']) && strpos($user_email, '@')) {
-                    $args['user_email'] = rcube_utils::idn_to_ascii($user_email);
+                    $args['user_email'] = \rcube_utils::idn_to_ascii($user_email);
                 }
 
                 if (!empty($args['user_email'])) {
@@ -60,7 +62,7 @@ class new_user_identity extends rcube_plugin
 
                     foreach ((array) $user[$key] as $alias) {
                         if (strpos($alias, '@')) {
-                            $args['email_list'][] = rcube_utils::idn_to_ascii($alias);
+                            $args['email_list'][] = \rcube_utils::idn_to_ascii($alias);
                         }
                     }
                 }
@@ -142,13 +144,13 @@ class new_user_identity extends rcube_plugin
         $domain = $this->rc->config->mail_domain($host);
         $props = $ldap_config[$addressbook];
 
-        $this->ldap = new new_user_identity_ldap_backend($props, $debug, $domain, $match);
+        $this->ldap = new \new_user_identity_ldap_backend($props, $debug, $domain, $match);
 
         return $this->ldap->ready;
     }
 }
 
-class new_user_identity_ldap_backend extends rcube_ldap
+class new_user_identity_ldap_backend extends \rcube_ldap
 {
     public function __construct($p, $debug, $mail_domain, $search)
     {

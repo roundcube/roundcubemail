@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use GuzzleHttp\Client as HttpClient;
 
 /*
@@ -38,19 +40,19 @@ class rcube
 
     public const DEBUG_LINE_LENGTH = 4096;
 
-    /** @var rcube_config Stores instance of rcube_config */
+    /** @var \rcube_config Stores instance of rcube_config */
     public $config;
 
     /** @var ?rcube_db SQL database handler */
     public $db;
 
-    /** @var Memcache|false|null Memcache cache handler */
+    /** @var \Memcache|false|null Memcache cache handler */
     public $memcache;
 
-    /** @var Memcached|false|null Memcached cache handler */
+    /** @var \Memcached|false|null Memcached cache handler */
     public $memcached;
 
-    /** @var Redis|false|null Redis cache handler */
+    /** @var \Redis|false|null Redis cache handler */
     public $redis;
 
     /** @var ?rcube_session Session handler */
@@ -65,7 +67,7 @@ class rcube
     /** @var ?rcube_output Output handler */
     public $output;
 
-    /** @var rcube_plugin_api|rcube_dummy_plugin_api Instance of rcube_plugin_api */
+    /** @var \rcube_plugin_api|\rcube_dummy_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
     /** @var ?rcube_user User database handler */
@@ -98,7 +100,7 @@ class rcube
      * @param int    $mode Options to initialize with this instance. See rcube::INIT_WITH_* constants
      * @param string $env  Environment name to run (e.g. live, dev, test)
      *
-     * @return rcube The one and only instance
+     * @return \rcube The one and only instance
      */
     public static function get_instance($mode = 0, $env = '')
     {
@@ -118,8 +120,8 @@ class rcube
     protected function __construct($env = '')
     {
         // load configuration
-        $this->config = new rcube_config($env);
-        $this->plugins = new rcube_dummy_plugin_api();
+        $this->config = new \rcube_config($env);
+        $this->plugins = new \rcube_dummy_plugin_api();
 
         register_shutdown_function([$this, 'shutdown']);
     }
@@ -145,19 +147,19 @@ class rcube
 
         // create plugin API and load plugins
         if ($mode & self::INIT_WITH_PLUGINS) {
-            $this->plugins = rcube_plugin_api::get_instance();
+            $this->plugins = \rcube_plugin_api::get_instance();
         }
     }
 
     /**
      * Get the current database connection
      *
-     * @return rcube_db Database object
+     * @return \rcube_db Database object
      */
     public function get_dbh()
     {
         if (!$this->db) {
-            $this->db = rcube_db::factory(
+            $this->db = \rcube_db::factory(
                 $this->config->get('db_dsnw'),
                 $this->config->get('db_dsnr'),
                 $this->config->get('db_persistent')
@@ -172,12 +174,12 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache|false The memcache engine
+     * @return \Memcache|false The memcache engine
      */
     public function get_memcache()
     {
         if (!isset($this->memcache)) {
-            $this->memcache = rcube_cache_memcache::engine();
+            $this->memcache = \rcube_cache_memcache::engine();
         }
 
         return $this->memcache;
@@ -186,12 +188,12 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return Memcached|false The memcached engine
+     * @return \Memcached|false The memcached engine
      */
     public function get_memcached()
     {
         if (!isset($this->memcached)) {
-            $this->memcached = rcube_cache_memcached::engine();
+            $this->memcached = \rcube_cache_memcached::engine();
         }
 
         return $this->memcached;
@@ -200,12 +202,12 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return Redis|false The redis engine
+     * @return \Redis|false The redis engine
      */
     public function get_redis()
     {
         if (!isset($this->redis)) {
-            $this->redis = rcube_cache_redis::engine();
+            $this->redis = \rcube_cache_redis::engine();
         }
 
         return $this->redis;
@@ -220,12 +222,12 @@ class rcube
      * @param bool       $packed  Enables/disables data serialization
      * @param bool       $indexed Use indexed cache
      *
-     * @return rcube_cache|null User cache object
+     * @return \rcube_cache|null User cache object
      */
     public function get_cache($name, $type = 'db', $ttl = 0, $packed = true, $indexed = false)
     {
         if (!isset($this->caches[$name]) && ($userid = $this->get_user_id())) {
-            $this->caches[$name] = rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
+            $this->caches[$name] = \rcube_cache::factory($type, $userid, $name, $ttl, $packed, $indexed);
         }
 
         return $this->caches[$name] ?? null;
@@ -237,7 +239,7 @@ class rcube
      * @param string $name   Cache identifier
      * @param bool   $packed Enables/disables data serialization
      *
-     * @return rcube_cache|null Shared cache object, Null if the cache is disabled
+     * @return \rcube_cache|null Shared cache object, Null if the cache is disabled
      */
     public function get_cache_shared($name, $packed = true)
     {
@@ -257,7 +259,7 @@ class rcube
                 $ttl = $this->config->get('shared_cache_ttl', '10d');
             }
 
-            $this->caches[$shared_name] = rcube_cache::factory($type, null, $name, $ttl, $packed);
+            $this->caches[$shared_name] = \rcube_cache::factory($type, null, $name, $ttl, $packed);
         }
 
         return $this->caches[$shared_name];
@@ -284,7 +286,7 @@ class rcube
      */
     public function smtp_init($connect = false)
     {
-        $this->smtp = new rcube_smtp();
+        $this->smtp = new \rcube_smtp();
 
         if ($connect) {
             $this->smtp->connect();
@@ -294,7 +296,7 @@ class rcube
     /**
      * Initialize and get storage object
      *
-     * @return rcube_storage Storage object
+     * @return \rcube_storage Storage object
      */
     public function get_storage()
     {
@@ -460,7 +462,7 @@ class rcube
         $sess_path = $this->config->get('session_path');
         $sess_samesite = $this->config->get('session_samesite');
         $lifetime = $this->config->get('session_lifetime', 0) * 60;
-        $is_secure = $this->config->get('use_https') || rcube_utils::https_check();
+        $is_secure = $this->config->get('use_https') || \rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -494,7 +496,7 @@ class rcube
         }
 
         // Start the session
-        $this->session = rcube_session::factory($this->config);
+        $this->session = \rcube_session::factory($this->config);
         $this->session->register_gc_handler([$this, 'gc']);
         $this->session->start();
     }
@@ -504,7 +506,7 @@ class rcube
      */
     public function gc()
     {
-        rcube_cache::gc();
+        \rcube_cache::gc();
         $this->get_storage()->cache_gc();
         $this->gc_temp();
     }
@@ -906,7 +908,7 @@ class rcube
 
         $ckey = $this->config->get_crypto_key($key);
         $method = $this->config->get_crypto_method();
-        $iv = rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
+        $iv = \rcube_utils::random_bytes(openssl_cipher_iv_length($method), true);
         $tag = null;
 
         // This distinction is for PHP 7.3 which throws a warning when
@@ -989,7 +991,7 @@ class rcube
             if (empty($_SESSION['secure_token']) && $generate) {
                 // generate x characters long token
                 $length = $len > 1 ? $len : 16;
-                $token = rcube_utils::random_bytes($length);
+                $token = \rcube_utils::random_bytes($length);
 
                 $plugin = $this->plugins->exec_hook('secure_token', ['value' => $token, 'length' => $length]);
 
@@ -1012,7 +1014,7 @@ class rcube
     public function get_request_token()
     {
         if (empty($_SESSION['request_token'])) {
-            $plugin = $this->plugins->exec_hook('request_token', ['value' => rcube_utils::random_bytes(32)]);
+            $plugin = $this->plugins->exec_hook('request_token', ['value' => \rcube_utils::random_bytes(32)]);
 
             $_SESSION['request_token'] = $plugin['value'];
         }
@@ -1028,7 +1030,7 @@ class rcube
      *
      * @return bool True if request token is valid false if not
      */
-    public function check_request($mode = rcube_utils::INPUT_POST)
+    public function check_request($mode = \rcube_utils::INPUT_POST)
     {
         // check secure token in URL if enabled
         if ($token = $this->get_secure_url_token()) {
@@ -1046,19 +1048,19 @@ class rcube
         $sess_tok = $this->get_request_token();
 
         // ajax requests
-        if (rcube_utils::request_header('X-Roundcube-Request') === $sess_tok) {
+        if (\rcube_utils::request_header('X-Roundcube-Request') === $sess_tok) {
             return true;
         }
 
         // skip empty requests
-        if (($mode == rcube_utils::INPUT_POST && empty($_POST))
-            || ($mode == rcube_utils::INPUT_GET && empty($_GET))
+        if (($mode == \rcube_utils::INPUT_POST && empty($_POST))
+            || ($mode == \rcube_utils::INPUT_GET && empty($_GET))
         ) {
             return true;
         }
 
         // default method of securing requests
-        $token = rcube_utils::get_input_value('_token', $mode);
+        $token = \rcube_utils::get_input_value('_token', $mode);
 
         if (empty($_COOKIE[ini_get('session.name')]) || $token !== $sess_tok) {
             $this->request_status = self::REQUEST_ERROR_TOKEN;
@@ -1186,7 +1188,7 @@ class rcube
      */
     public static function Q($str, $mode = 'strict', $newlines = true)
     {
-        return rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
+        return \rcube_utils::rep_specialchars_output($str, 'html', $mode, $newlines);
     }
 
     /**
@@ -1199,7 +1201,7 @@ class rcube
      */
     public static function JQ($str)
     {
-        return rcube_utils::rep_specialchars_output($str, 'js');
+        return \rcube_utils::rep_specialchars_output($str, 'js');
     }
 
     /**
@@ -1212,7 +1214,7 @@ class rcube
      */
     public static function SQ($str)
     {
-        return rcube_utils::rep_specialchars_output($str, 'html', 'strict', false);
+        return \rcube_utils::rep_specialchars_output($str, 'html', 'strict', false);
     }
 
     /**
@@ -1310,7 +1312,7 @@ class rcube
             $session_key = intval(self::$instance->config->get('log_session_id', 8));
         }
 
-        $date = rcube_utils::date_format($date_format);
+        $date = \rcube_utils::date_format($date_format);
 
         // trigger logging hook
         if (self::$instance) {
@@ -1382,19 +1384,19 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param int|array|Throwable|string|PEAR_Error $arg       Error object, int, string or named parameters array:
-     *                                                         - code:    Error code (required)
-     *                                                         - type:    Error type: php, db, imap, etc.
-     *                                                         - message: Error message
-     *                                                         - file:    File where error occurred
-     *                                                         - line:    Line where error occurred
-     * @param bool                                  $log       True to log the error
-     * @param bool                                  $terminate Terminate script execution
+     * @param int|array|\Throwable|string|\PEAR_Error $arg       Error object, int, string or named parameters array:
+     *                                                           - code:    Error code (required)
+     *                                                           - type:    Error type: php, db, imap, etc.
+     *                                                           - message: Error message
+     *                                                           - file:    File where error occurred
+     *                                                           - line:    Line where error occurred
+     * @param bool                                    $log       True to log the error
+     * @param bool                                    $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
         // handle PHP exceptions and errors
-        if ($arg instanceof Throwable) {
+        if ($arg instanceof \Throwable) {
             $arg = [
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
@@ -1439,7 +1441,7 @@ class rcube
 
         // installer
         if (!$cli && class_exists('rcmail_install', false)) {
-            $rci = rcmail_install::get_instance();
+            $rci = \rcmail_install::get_instance();
             $rci->raise_error($arg);
             return;
         }
@@ -1464,7 +1466,7 @@ class rcube
         // terminate script
         if ($terminate) {
             if (defined('ROUNDCUBE_TEST_MODE')) {
-                throw new Exception('Error raised');
+                throw new \Exception('Error raised');
             }
 
             exit(1);
@@ -1584,7 +1586,7 @@ class rcube
     /**
      * Setter for system user object
      *
-     * @param rcube_user $user Current user instance
+     * @param \rcube_user $user Current user instance
      */
     public function set_user($user)
     {
@@ -1736,7 +1738,7 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    $message    Reference to Mail_mime object
+     * @param \Mail_mime   $message    Reference to Mail_mime object
      * @param string       $from       Sender address string
      * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
      *                                 or an array of recipients, each RFC822 valid
@@ -1790,7 +1792,7 @@ class rcube
 
         if ($message->getParam('delay_file_io')) {
             // use common temp dir
-            $body_file = rcube_utils::temp_filename('msg');
+            $body_file = \rcube_utils::temp_filename('msg');
             $mime_result = $message->saveMessageBody($body_file);
 
             if (is_a($mime_result, 'PEAR_Error')) {
@@ -1835,11 +1837,11 @@ class rcube
             if ($this->config->get('smtp_log')) {
                 // get all recipient addresses
                 $mailto = implode(',', $a_recipients);
-                $mailto = rcube_mime::decode_address_list($mailto, null, false, null, true);
+                $mailto = \rcube_mime::decode_address_list($mailto, null, false, null, true);
 
                 self::write_log('sendmail', sprintf('User %s [%s]; Message %s for %s; %s',
                     $this->user->get_username(),
-                    rcube_utils::remote_addr(),
+                    \rcube_utils::remote_addr(),
                     $headers['Message-ID'],
                     implode(', ', $mailto),
                     !empty($response) ? implode('; ', $response) : '')
@@ -1861,30 +1863,5 @@ class rcube
         }
 
         return $sent;
-    }
-}
-
-/**
- * Lightweight plugin API class serving as a dummy if plugins are not enabled
- */
-class rcube_dummy_plugin_api
-{
-    /**
-     * Triggers a plugin hook.
-     *
-     * @param string       $hook Hook name
-     * @param array|string $args Hook arguments
-     *
-     * @return array Hook arguments
-     *
-     * @see rcube_plugin_api::exec_hook()
-     */
-    public function exec_hook($hook, $args = [])
-    {
-        if (!is_array($args)) {
-            $args = ['arg' => $args];
-        }
-
-        return $args += ['abort' => false];
     }
 }

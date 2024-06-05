@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * New Mail Notifier plugin
  *
@@ -26,7 +28,7 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-class newmail_notifier extends rcube_plugin
+class newmail_notifier extends \rcube_plugin
 {
     public $task = 'mail|settings';
 
@@ -38,10 +40,10 @@ class newmail_notifier extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $this->rc = rcmail::get_instance();
+        $this->rc = \rcmail::get_instance();
 
         // Preferences hooks
         if ($this->rc->task == 'settings') {
@@ -109,13 +111,13 @@ class newmail_notifier extends rcube_plugin
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
                 $field_id = '_' . $key;
-                $input = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
+                $input = new \html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
                 $content = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '(); return false'],
+                    . ' ' . \html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '(); return false'],
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = [
-                    'title' => html::label($field_id, rcube::Q($this->gettext($type))),
+                    'title' => \html::label($field_id, \rcube::Q($this->gettext($type))),
                     'content' => $content,
                 ];
             }
@@ -126,7 +128,7 @@ class newmail_notifier extends rcube_plugin
 
         if (!in_array($key, $dont_override)) {
             $field_id = '_' . $key;
-            $select = new html_select(['name' => $field_id, 'id' => $field_id, 'class' => 'custom-select']);
+            $select = new \html_select(['name' => $field_id, 'id' => $field_id, 'class' => 'custom-select']);
 
             foreach ([5, 10, 15, 30, 45, 60] as $sec) {
                 $label = $this->rc->gettext(['name' => 'afternseconds', 'vars' => ['n' => $sec]]);
@@ -134,7 +136,7 @@ class newmail_notifier extends rcube_plugin
             }
 
             $args['blocks']['new_message']['options'][$key] = [
-                'title' => html::label($field_id, rcube::Q($this->gettext('desktoptimeout'))),
+                'title' => \html::label($field_id, \rcube::Q($this->gettext('desktoptimeout'))),
                 'content' => $select->show((int) $this->rc->config->get($key)),
             ];
         }
@@ -160,13 +162,13 @@ class newmail_notifier extends rcube_plugin
         foreach (['basic', 'desktop', 'sound'] as $type) {
             $key = 'newmail_notifier_' . $type;
             if (!in_array($key, $dont_override)) {
-                $args['prefs'][$key] = !empty(rcube_utils::get_input_value('_' . $key, rcube_utils::INPUT_POST));
+                $args['prefs'][$key] = !empty(\rcube_utils::get_input_value('_' . $key, \rcube_utils::INPUT_POST));
             }
         }
 
         $option = 'newmail_notifier_desktop_timeout';
         if (!in_array($option, $dont_override)) {
-            if ($value = (int) rcube_utils::get_input_value('_' . $option, rcube_utils::INPUT_POST)) {
+            if ($value = (int) \rcube_utils::get_input_value('_' . $option, \rcube_utils::INPUT_POST)) {
                 $args['prefs'][$option] = $value;
             }
         }

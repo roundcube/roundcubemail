@@ -85,6 +85,11 @@ spl_autoload_register('rcmail_autoload');
  */
 function rcmail_autoload(string $classname): bool
 {
+    require_once __DIR__ . '/../unnamespaced-legacy-functions.php';
+    require_once __DIR__ . '/../unnamespaced-legacy-classes.php';
+
+    $classname = preg_replace('~.+\\\~', '', $classname);
+
     if (strpos($classname, 'rcmail') === 0) {
         if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {
             $filepath = INSTALL_PATH . "program/actions/{$matches[1]}/{$matches[2]}.php";

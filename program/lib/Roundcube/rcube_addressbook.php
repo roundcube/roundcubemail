@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -176,7 +178,7 @@ abstract class rcube_addressbook
      * @param int    $subset  Only return this number of records of the current page, use negative values for tail
      * @param bool   $nocount True to skip the count query (select only)
      *
-     * @return rcube_result_set Indexed list of contact records, each a hash array
+     * @return \rcube_result_set Indexed list of contact records, each a hash array
      */
     abstract public function list_records($cols = null, $subset = 0, $nocount = false);
 
@@ -230,7 +232,7 @@ abstract class rcube_addressbook
      * @param bool            $nocount  True to skip the count query (select only)
      * @param string|string[] $required Field or list of fields that cannot be empty
      *
-     * @return rcube_result_set Contact records and 'count' value
+     * @return \rcube_result_set Contact records and 'count' value
      */
     abstract public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = []);
 
@@ -240,7 +242,7 @@ abstract class rcube_addressbook
      * The current filter criteria are defined by the search filter (see search()/set_search_set()) and the currently
      * active group (see set_group()), if applicable.
      *
-     * @return rcube_result_set Result set with values for 'count' and 'first'
+     * @return \rcube_result_set Result set with values for 'count' and 'first'
      */
     abstract public function count();
 
@@ -257,7 +259,7 @@ abstract class rcube_addressbook
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc True to return record as associative array, otherwise a result set is returned
      *
-     * @return rcube_result_set|array|null Result object with all record fields
+     * @return \rcube_result_set|array|null Result object with all record fields
      */
     abstract public function get_record($id, $assoc = false);
 
@@ -336,13 +338,13 @@ abstract class rcube_addressbook
      */
     public function validate(&$save_data, $autofix = false)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $valid = true;
 
         // check validity of email addresses
         foreach ($this->get_col_values('email', $save_data, true) as $email) {
             if (strlen($email)) {
-                if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+                if (!\rcube_utils::check_email(\rcube_utils::idn_to_ascii($email))) {
                     $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
                     $this->set_error(self::ERROR_VALIDATE, $error);
                     $valid = false;
@@ -388,8 +390,8 @@ abstract class rcube_addressbook
     /**
      * Create new contact records for every item in the record set
      *
-     * @param rcube_result_set $recset Recordset to insert
-     * @param bool             $check  True to check for duplicates first
+     * @param \rcube_result_set $recset Recordset to insert
+     * @param bool              $check  True to check for duplicates first
      *
      * @return array List of created record IDs
      */
@@ -398,7 +400,7 @@ abstract class rcube_addressbook
         $ids = [];
 
         // @phpstan-ignore-next-line
-        if ($recset instanceof rcube_result_set) {
+        if ($recset instanceof \rcube_result_set) {
             foreach ($recset as $row) {
                 if ($insert = $this->insert($row, $check)) {
                     $ids[] = $insert;
@@ -611,7 +613,7 @@ abstract class rcube_addressbook
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
                 } else {
-                    [, $type] = rcube_utils::explode(':', $c);
+                    [, $type] = \rcube_utils::explode(':', $c);
                     if ($type !== null && isset($out[$type])) {
                         $out[$type] = array_merge((array) $out[$type], (array) $values);
                     } else {
@@ -639,7 +641,7 @@ abstract class rcube_addressbook
      */
     public static function compose_display_name($contact, $full_email = false)
     {
-        $contact = rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
+        $contact = \rcube::get_instance()->plugins->exec_hook('contact_displayname', $contact);
         $fn = $contact['name'] ?? '';
 
         // default display name composition according to vcard standard
@@ -684,7 +686,7 @@ abstract class rcube_addressbook
         static $compose_mode;
 
         if (!isset($compose_mode)) {
-            $compose_mode = (int) rcube::get_instance()->config->get('addressbook_name_listing', 0);
+            $compose_mode = (int) \rcube::get_instance()->config->get('addressbook_name_listing', 0);
         }
 
         $get_names = static function ($contact, $fields) {
@@ -724,7 +726,7 @@ abstract class rcube_addressbook
 
                 break;
             default:
-                $plugin = rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
+                $plugin = \rcube::get_instance()->plugins->exec_hook('contact_listname', ['contact' => $contact]);
                 $fn = $plugin['fn'];
         }
 
@@ -765,7 +767,7 @@ abstract class rcube_addressbook
         static $template;
 
         if (empty($templ) && !isset($template)) {  // cache this
-            $template = rcube::get_instance()->config->get('contact_search_name');
+            $template = \rcube::get_instance()->config->get('contact_search_name');
             if (empty($template)) {
                 $template = '{name} <{email}>';
             }
@@ -855,8 +857,8 @@ abstract class rcube_addressbook
         // use only strict comparison (mode = 1)
         // @TODO: partial search, e.g. match only day and month
         if (in_array($colname, $this->date_cols)) {
-            return ($value = rcube_utils::anytodatetime($value))
-                && ($search = rcube_utils::anytodatetime($search))
+            return ($value = \rcube_utils::anytodatetime($value))
+                && ($search = \rcube_utils::anytodatetime($search))
                 && $value->format('Ymd') == $search->format('Ymd');
         }
 

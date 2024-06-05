@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube webmail client                     |
@@ -103,12 +105,12 @@ if (!preg_match($regexp, $path)) {
 }
 
 // Register autoloader
-spl_autoload_register('rcube_autoload');
+spl_autoload_register(__NAMESPACE__ . '\rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
     // @phpstan-ignore-next-line
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, static function ($err) { rcube::raise_error($err, true); });
+    \PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, static function ($err) { \rcube::raise_error($err, true); });
 }
 
 /**
@@ -411,6 +413,11 @@ function version_parse($version)
  */
 function rcube_autoload(string $classname): bool
 {
+    require_once __DIR__ . '/../../unnamespaced-legacy-functions.php';
+    require_once __DIR__ . '/../../unnamespaced-legacy-classes.php';
+
+    $classname = preg_replace('~.+\\\~', '', $classname);
+
     if (strpos($classname, 'rcube') === 0) {
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
         $classname = 'Roundcube/' . $classname;

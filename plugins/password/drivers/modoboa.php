@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Modoboa Password Driver
  *
@@ -39,11 +41,11 @@ class rcube_modoboa_password
     public function save($curpass, $passwd, $username)
     {
         // Init config access
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $token = $rcmail->config->get('password_modoboa_api_token');
         $IMAPhost = $_SESSION['imap_host'];
 
-        $client = password::get_http_client();
+        $client = \password::get_http_client();
         $url = "https://{$IMAPhost}/api/v1/accounts/?search=" . urlencode($username);
 
         $options = [
@@ -59,8 +61,8 @@ class rcube_modoboa_password
         try {
             $response = $client->get($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
-            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
+        } catch (\Exception $e) {
+            \rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -88,8 +90,8 @@ class rcube_modoboa_password
         try {
             $response = $client->put($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
-            rcube::raise_error("Password plugin: Error on {$url} : {$e->getMessage()}", true);
+        } catch (\Exception $e) {
+            \rcube::raise_error("Password plugin: Error on {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
 

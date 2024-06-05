@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube webmail client                     |
@@ -36,9 +38,9 @@ abstract class rcube_output
      */
     public function __construct()
     {
-        $this->app = rcube::get_instance();
+        $this->app = \rcube::get_instance();
         $this->config = $this->app->config;
-        $this->browser = new rcube_browser();
+        $this->browser = new \rcube_browser();
     }
 
     /**
@@ -143,7 +145,7 @@ abstract class rcube_output
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
-        if ($this->browser->ie && rcube_utils::https_check()) {
+        if ($this->browser->ie && \rcube_utils::https_check()) {
             header('Pragma: private');
             header('Cache-Control: private, must-revalidate');
         } else {
@@ -239,7 +241,7 @@ abstract class rcube_output
 
         if ($disposition == 'inline' && stripos($ctype, 'text') === 0) {
             $charset = $this->charset;
-            if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
+            if (!empty($params['type_charset']) && \rcube_charset::is_valid($params['type_charset'])) {
                 $charset = $params['type_charset'];
             }
 
@@ -254,7 +256,7 @@ abstract class rcube_output
             } else {
                 $filename = rawurlencode($filename);
                 $charset = $this->charset;
-                if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
+                if (!empty($params['charset']) && \rcube_charset::is_valid($params['charset'])) {
                     $charset = $params['charset'];
                 }
 
@@ -316,14 +318,14 @@ abstract class rcube_output
 
         if ($type == 'checkbox') {
             $attrib['value'] = '1';
-            $input = new html_checkbox($attrib);
+            $input = new \html_checkbox($attrib);
         } elseif ($type == 'textarea') {
             if (!empty($attrib['size'])) {
                 $attrib['cols'] = $attrib['size'];
             }
-            $input = new html_textarea($attrib);
+            $input = new \html_textarea($attrib);
         } elseif ($type == 'select') {
-            $input = new html_select($attrib);
+            $input = new \html_select($attrib);
             if (empty($attrib['skip-empty'])) {
                 $input->add('---', '');
             }
@@ -331,17 +333,17 @@ abstract class rcube_output
                 $input->add(array_values($attrib['options']), array_keys($attrib['options']));
             }
         } elseif ($type == 'password' || (isset($attrib['type']) && $attrib['type'] == 'password')) {
-            $input = new html_passwordfield($attrib);
+            $input = new \html_passwordfield($attrib);
         } else {
             if (!isset($attrib['type']) || ($attrib['type'] != 'text' && $attrib['type'] != 'hidden')) {
                 $attrib['type'] = 'text';
             }
-            $input = new html_inputfield($attrib);
+            $input = new \html_inputfield($attrib);
         }
 
         // use value from post
         if (isset($_POST[$fname])) {
-            $postvalue = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+            $postvalue = \rcube_utils::get_input_value($fname, \rcube_utils::INPUT_POST, true);
             if (!empty($attrib['array'])) {
                 if (!isset($colcounts[$name])) {
                     $colcounts[$name] = 0;

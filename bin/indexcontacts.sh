@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,4 +26,4 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 ini_set('memory_limit', -1);
 
-rcmail_utils::indexcontacts();
+\rcmail_utils::indexcontacts();

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -417,14 +419,14 @@ class rcube_csv2vcard
     {
         // convert to UTF-8 (supports default_charset and RCUBE_CHARSET as input)
         // TODO: If the input charset is invalid we should probably just abort here
-        if ($charset = rcube_charset::check($csv)) {
-            $csv = rcube_charset::convert($csv, $charset);
+        if ($charset = \rcube_charset::check($csv)) {
+            $csv = \rcube_charset::convert($csv, $charset);
         }
 
         $csv = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $csv); // also remove BOM
 
         // Split CSV file into lines
-        $lines = rcube_utils::explode_quoted_string('[\r\n]+', $csv);
+        $lines = \rcube_utils::explode_quoted_string('[\r\n]+', $csv);
 
         // Parse first 2 lines of file to identify fields
         // 2 lines because for gmail CSV we need to get the value from the "Type" fields to identify which is which
@@ -676,7 +678,7 @@ class rcube_csv2vcard
         }
 
         // Create vcard object
-        $vcard = new rcube_vcard();
+        $vcard = new \rcube_vcard();
         foreach ($contact as $name => $value) {
             $name = explode(':', $name);
             if (is_array($value) && $name[0] != 'address') {

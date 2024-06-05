@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *
@@ -7,7 +9,7 @@
  *
  * @author Thomas Bruederli, Johannes Hessellund, pommi, Thomas Lueder
  */
-class squirrelmail_usercopy extends rcube_plugin
+class squirrelmail_usercopy extends \rcube_plugin
 {
     public $task = 'login';
 
@@ -15,7 +17,7 @@ class squirrelmail_usercopy extends rcube_plugin
     private $identities_level = 0;
     private $abook = [];
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('user_create', [$this, 'create_user']);
@@ -24,7 +26,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
     public function create_user($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Read plugin's config
         $this->initialize();
@@ -45,7 +47,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
     public function create_identity($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // prefs are set in create_user()
         if ($this->prefs) {
@@ -127,8 +129,8 @@ class squirrelmail_usercopy extends rcube_plugin
 
                         if (!empty($addresses[$email])) {
                             $contact_id = $addresses[$email];
-                        } elseif (rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
-                            $rec['email'] = rcube_utils::idn_to_utf8($email);
+                        } elseif (\rcube_utils::check_email(\rcube_utils::idn_to_ascii($email))) {
+                            $rec['email'] = \rcube_utils::idn_to_utf8($email);
                             if ($contact_id = $contacts->insert($rec, true)) {
                                 $addresses[$email] = $contact_id;
                             }
@@ -150,7 +152,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
     private function initialize()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Load plugin's config file
         $this->load_config();
@@ -166,7 +168,7 @@ class squirrelmail_usercopy extends rcube_plugin
 
     private function read_squirrel_prefs($uname)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // File based backend
         if ($rcmail->config->get('squirrelmail_driver') == 'file' && ($srcdir = $rcmail->config->get('squirrelmail_data_dir'))) {
@@ -182,7 +184,7 @@ class squirrelmail_usercopy extends rcube_plugin
             if (is_readable($prefsfile)) {
                 $this->prefs = [];
                 foreach (file($prefsfile) as $line) {
-                    [$key, $value] = rcube_utils::explode('=', $line);
+                    [$key, $value] = \rcube_utils::explode('=', $line);
                     $this->prefs[$key] = $this->convert_charset(rtrim($value), $file_charset);
                 }
 
@@ -228,7 +230,7 @@ class squirrelmail_usercopy extends rcube_plugin
             $this->prefs = [];
 
             // connect to squirrelmail database
-            $db = rcube_db::factory($rcmail->config->get('squirrelmail_dsn'));
+            $db = \rcube_db::factory($rcmail->config->get('squirrelmail_dsn'));
 
             $db->set_debug($rcmail->config->get('sql_debug'));
             $db->db_connect('r'); // connect in read mode
@@ -246,7 +248,7 @@ class squirrelmail_usercopy extends rcube_plugin
                 . ' WHERE `user` = ?', $uname); // ? is replaced with emailaddress
 
             while ($sql_array = $db->fetch_assoc($sql_result)) { // fetch one row from result
-                $this->prefs[$sql_array['prefkey']] = rcube_charset::convert(rtrim($sql_array['prefval']), $db_charset);
+                $this->prefs[$sql_array['prefkey']] = \rcube_charset::convert(rtrim($sql_array['prefval']), $db_charset);
             }
 
             // retrieve address table data
@@ -257,11 +259,11 @@ class squirrelmail_usercopy extends rcube_plugin
             // fetch one row from result
             while ($sql_array = $db->fetch_assoc($sql_result)) {
                 $rec = [
-                    'name' => rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset),
-                    'firstname' => rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset),
-                    'surname' => rcube_charset::convert(rtrim($sql_array['lastname']), $db_charset),
-                    'email' => rcube_charset::convert(rtrim($sql_array['email']), $db_charset),
-                    'notes' => rcube_charset::convert(rtrim($sql_array['label']), $db_charset),
+                    'name' => \rcube_charset::convert(rtrim($sql_array['nickname']), $db_charset),
+                    'firstname' => \rcube_charset::convert(rtrim($sql_array['firstname']), $db_charset),
+                    'surname' => \rcube_charset::convert(rtrim($sql_array['lastname']), $db_charset),
+                    'email' => \rcube_charset::convert(rtrim($sql_array['email']), $db_charset),
+                    'notes' => \rcube_charset::convert(rtrim($sql_array['label']), $db_charset),
                 ];
 
                 if ($rec['name'] && $rec['email']) {
@@ -274,9 +276,9 @@ class squirrelmail_usercopy extends rcube_plugin
     private function convert_charset($str, $charset = null)
     {
         if (!$charset) {
-            return rcube_charset::clean($str);
+            return \rcube_charset::clean($str);
         }
 
-        return rcube_charset::convert($str, $charset, RCUBE_CHARSET);
+        return \rcube_charset::convert($str, $charset, RCUBE_CHARSET);
     }
 }

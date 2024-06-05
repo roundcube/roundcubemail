@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * HTTP Basic Authentication
  *
@@ -16,11 +18,11 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  */
-class http_authentication extends rcube_plugin
+class http_authentication extends \rcube_plugin
 {
     private $redirect_query;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
@@ -32,7 +34,7 @@ class http_authentication extends rcube_plugin
     public function startup($args)
     {
         if (!empty($_SERVER['PHP_AUTH_USER'])) {
-            $rcmail = rcmail::get_instance();
+            $rcmail = \rcmail::get_instance();
             $rcmail->add_shutdown_function(['http_authentication', 'shutdown']);
 
             // handle login action
@@ -56,9 +58,9 @@ class http_authentication extends rcube_plugin
         // Load plugin's config file
         $this->load_config();
 
-        $host = rcmail::get_instance()->config->get('http_authentication_host');
+        $host = \rcmail::get_instance()->config->get('http_authentication_host');
         if (is_string($host) && trim($host) !== '' && empty($args['host'])) {
-            $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
+            $args['host'] = \rcube_utils::idn_to_ascii(\rcube_utils::parse_host($host));
         }
 
         // Allow entering other user data in login form,
@@ -84,7 +86,7 @@ class http_authentication extends rcube_plugin
     {
         // redirect to configured URL in order to clear HTTP auth credentials
         if (!empty($_SERVER['PHP_AUTH_USER']) && $args['user'] == $_SERVER['PHP_AUTH_USER']) {
-            if ($url = rcmail::get_instance()->config->get('logout_url')) {
+            if ($url = \rcmail::get_instance()->config->get('logout_url')) {
                 header("Location: {$url}", true, 307);
                 exit;
             }
@@ -95,7 +97,7 @@ class http_authentication extends rcube_plugin
     {
         // There's no need to store password (even if encrypted) in session
         // We'll set it back on startup (#1486553)
-        rcmail::get_instance()->session->remove('password');
+        \rcmail::get_instance()->session->remove('password');
     }
 
     public function login($args)

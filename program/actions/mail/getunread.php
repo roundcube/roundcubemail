@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_getunread extends rcmail_action_mail_index
+class rcmail_action_mail_getunread extends \rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,10 +29,10 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $a_folders = $rcmail->storage->list_folders_subscribed('', '*', 'mail');
 
         if (!empty($a_folders)) {

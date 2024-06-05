@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,26 +26,26 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('system')) {
-    rcube::raise_error('PHP system() function is required. Check disable_functions in php.ini.', false, true);
+    \rcube::raise_error('PHP system() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $target_dir = unslashify(end($_SERVER['argv']));
 $accept = in_array('-y', $_SERVER['argv']) ? 'y' : null;
 
 if (empty($target_dir) || !is_dir(realpath($target_dir))) {
-    rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh [-y] <TARGET>", false, true);
+    \rcube::raise_error("Invalid target: not a directory\nUsage: installto.sh [-y] <TARGET>", false, true);
 }
 
 // read version from iniset.php
 $iniset = @file_get_contents($target_dir . '/program/include/iniset.php');
 if (!preg_match('/define\(.RCMAIL_VERSION.,\s*.([0-9.]+[a-z0-9-]*)/', $iniset, $m)) {
-    rcube::raise_error("No valid Roundcube installation found at {$target_dir}", false, true);
+    \rcube::raise_error("No valid Roundcube installation found at {$target_dir}", false, true);
 }
 
 $oldversion = $m[1];
 
 if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '>')) {
-    rcube::raise_error("Target installation already in version {$oldversion}.", false, true);
+    \rcube::raise_error("Target installation already in version {$oldversion}.", false, true);
 }
 
 if (version_compare(version_parse($oldversion), version_parse(RCMAIL_VERSION), '==')) {
@@ -60,7 +62,7 @@ if (strtolower($input) == 'y') {
     $adds = [];
     $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'public_html'];
 
-    if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("{$target_dir}/composer.json") || rcmail_install::vendor_dir_untouched($target_dir))) {
+    if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("{$target_dir}/composer.json") || \rcmail_install::vendor_dir_untouched($target_dir))) {
         $dirs[] = 'vendor';
     }
     if (file_exists("{$target_dir}/installer")) {
@@ -73,7 +75,7 @@ if (strtolower($input) == 'y') {
         $command = 'rsync -aC --out-format=%n ' . $delete . INSTALL_PATH . "{$dir}/ {$target_dir}/{$dir}/";
 
         if (system($command, $ret) === false || $ret > 0) {
-            rcube::raise_error("Failed to execute command: {$command}", false, true);
+            \rcube::raise_error("Failed to execute command: {$command}", false, true);
         }
     }
 
@@ -82,7 +84,7 @@ if (strtolower($input) == 'y') {
         $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$source_file} {$target_dir}/{$file}";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
-            rcube::raise_error("Failed to execute command: {$command}", false, true);
+            \rcube::raise_error("Failed to execute command: {$command}", false, true);
         }
     }
 

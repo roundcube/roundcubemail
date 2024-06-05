@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * MarkAsJunk JS events example
  * This is an example of how to interact with the markasjunk JS event
@@ -35,7 +37,7 @@ class markasjunk_jsevent
 
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // only execute this code on page load
         if ($rcmail->output->type != 'html') {

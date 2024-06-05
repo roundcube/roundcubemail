@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
@@ -23,7 +25,7 @@ use BaconQrCode\Writer;
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
+class rcmail_action_contacts_qrcode extends \rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -32,14 +34,14 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         // Get contact ID and source ID from request
         $cids = self::get_cids();
         $source = key($cids);
         $cid = $cids ? array_first($cids[$source]) : null;
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // read contact record
         $abook = self::contact_source($source, true);
@@ -77,7 +79,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
             return null;
         }
 
-        $vcard = new rcube_vcard();
+        $vcard = new \rcube_vcard();
 
         // QR code input is limited, use only common fields
         $fields = ['name', 'firstname', 'surname', 'middlename', 'nickname',

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -17,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_save_pref extends rcmail_action
+class rcmail_action_utils_save_pref extends \rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,13 +29,13 @@ class rcmail_action_utils_save_pref extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $name = rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST);
-        $value = rcube_utils::get_input_value('_value', rcube_utils::INPUT_POST);
-        $sessname = rcube_utils::get_input_string('_session', rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $name = \rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST);
+        $value = \rcube_utils::get_input_value('_value', \rcube_utils::INPUT_POST);
+        $sessname = \rcube_utils::get_input_string('_session', \rcube_utils::INPUT_POST);
 
         // Whitelisted preferences and session variables, others
         // can be added by plugins
@@ -51,7 +53,7 @@ class rcmail_action_utils_save_pref extends rcmail_action
         $whitelist_sess = array_merge($whitelist_sess, $rcmail->plugins->allowed_session_prefs);
 
         if (!in_array($name, $whitelist) || ($sessname && !in_array($sessname, $whitelist_sess))) {
-            rcube::raise_error(sprintf('Hack attempt detected (user: %s)', $rcmail->get_user_name()), true);
+            \rcube::raise_error(sprintf('Hack attempt detected (user: %s)', $rcmail->get_user_name()), true);
 
             $rcmail->output->reset();
             $rcmail->output->send();
