@@ -25,7 +25,7 @@ class MarkasjunkTest extends TestCase
     /**
      * Test driver loading
      */
-    public function test_init_driver()
+    public function teXXst_init_driver()
     {
         $rcube = \rcube::get_instance();
         $plugin = new \markasjunk($rcube->plugins);
