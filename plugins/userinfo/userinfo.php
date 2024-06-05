@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Sample plugin that adds a new tab to the settings section
  * to display some information about the current user

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use RtfHtmlPhp\Document;
 use RtfHtmlPhp\Html\HtmlFormatter;
 

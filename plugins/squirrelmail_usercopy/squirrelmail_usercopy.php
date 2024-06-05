@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *

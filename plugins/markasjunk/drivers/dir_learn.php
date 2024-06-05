@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Copy spam/ham messages to a directory for learning later
  *

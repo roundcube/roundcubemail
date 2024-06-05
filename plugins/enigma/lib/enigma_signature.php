@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  +-------------------------------------------------------------------------+
  | Signature class for the Enigma Plugin                                   |

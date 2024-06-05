@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;

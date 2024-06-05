@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  * Roundcube Password Driver for Plesk-RPC.
  *

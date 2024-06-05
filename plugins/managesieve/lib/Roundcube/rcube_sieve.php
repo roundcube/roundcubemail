@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /*
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *

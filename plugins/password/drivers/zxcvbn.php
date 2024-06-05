@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use ZxcvbnPhp\Zxcvbn;
 
 /**

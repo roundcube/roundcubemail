@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Communigate driver for the Password Plugin for Roundcube
  *

@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Roundcube password driver for generic HTTP APIs.
  *

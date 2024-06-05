@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Plugin to auto log out users with a POST request sent from an external site.
  *

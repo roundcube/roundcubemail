@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 use GuzzleHttp\Psr7\Query;
 
 /**

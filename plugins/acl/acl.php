@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *

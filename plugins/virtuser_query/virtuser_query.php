@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * DB based User-to-Email and Email-to-User lookup
  *

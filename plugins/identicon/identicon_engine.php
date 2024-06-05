@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * @license GNU GPLv3+
  * @author Aleksander Machniak <alec@alec.pl>

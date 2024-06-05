@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * File based User-to-Email and Email-to-User lookup
  *

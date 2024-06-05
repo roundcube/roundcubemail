@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 /**
  * Detects VCard attachments and show a button to add them to address book
  * Adds possibility to attach a contact vcard to mail messages

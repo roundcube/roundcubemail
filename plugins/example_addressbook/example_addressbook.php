@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\WIP;
+
 require_once __DIR__ . '/example_addressbook_backend.php';
 
 /**
