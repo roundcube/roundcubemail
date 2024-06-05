@@ -219,6 +219,9 @@
             "program/actions/",
             "program/include/",
             "program/lib/"
+        ],
+        "files": [
+            "program/unnamespaced-legacy-functions.php"
         ]
     },
     "autoload-dev": {

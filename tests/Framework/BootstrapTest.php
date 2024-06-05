@@ -4,6 +4,20 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
 
+use function Roundcube\WIP\abbreviate_string;
+use function Roundcube\WIP\array_first;
+use function Roundcube\WIP\array_keys_recursive;
+use function Roundcube\WIP\asciiwords;
+use function Roundcube\WIP\format_email;
+use function Roundcube\WIP\format_email_recipient;
+use function Roundcube\WIP\get_offset_sec;
+use function Roundcube\WIP\in_array_nocase;
+use function Roundcube\WIP\is_ascii;
+use function Roundcube\WIP\parse_bytes;
+use function Roundcube\WIP\slashify;
+use function Roundcube\WIP\unslashify;
+use function Roundcube\WIP\version_parse;
+
 /**
  * Test class to test rcube_shared functions
  */

@@ -105,7 +105,7 @@ if (!preg_match($regexp, $path)) {
 }
 
 // Register autoloader
-spl_autoload_register('rcube_autoload');
+spl_autoload_register(__NAMESPACE__ . '\rcube_autoload');
 
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
@@ -413,6 +413,7 @@ function version_parse($version)
  */
 function rcube_autoload(string $classname): bool
 {
+    require_once __DIR__ . '/../../unnamespaced-legacy-functions.php';
     require_once __DIR__ . '/../../unnamespaced-legacy-classes.php';
 
     $classname = preg_replace('~.+\\\~', '', $classname);
