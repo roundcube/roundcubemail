@@ -80,7 +80,7 @@ class rcmail extends \rcube
     #[\Override]
     public static function get_instance($mode = 0, $env = '')
     {
-        if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
+        if (!self::$instance || !is_a(self::$instance, self::class)) {
             // In cli-server mode env=test
             if ($env === null && \PHP_SAPI == 'cli-server') {
                 $env = 'test';
