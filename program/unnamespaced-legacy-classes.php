@@ -1,6 +1,20 @@
 <?php
 
 namespace Roundcube\WIP {
+    use Composer\Autoload\ClassLoader;
+
+    // handle calls from https://github.com/composer/composer/blob/2.7.6/src/Composer/Autoload/ClassLoader.php#L427
+    if (!isset($legacyAutoloadClassName)) {
+        $trace = debug_backtrace(0, 3);
+        if (
+            ($trace[2]['class'] ?? null) === ClassLoader::class
+            && $trace[2]['function'] === 'loadClass'
+            && is_string($trace[2]['args'][0] ?? null)
+        ) {
+            $legacyAutoloadClassName = $trace[2]['args'][0];
+        }
+    }
+
     if (!isset($legacyAutoloadClassName)) {
         function rcube_autoload_legacy(string $classname)
         {
