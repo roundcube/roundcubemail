@@ -530,7 +530,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Set internal list page
      *
-     * @param number $page Page number to list
+     * @param int $page Page number to list
      */
     #[Override]
     public function set_page($page)
@@ -542,7 +542,7 @@ class rcube_ldap extends rcube_addressbook
     /**
      * Set internal page size
      *
-     * @param number $size Number of records to display on one page
+     * @param int $size Number of records to display on one page
      */
     #[Override]
     public function set_pagesize($size)
