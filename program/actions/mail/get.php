@@ -232,6 +232,11 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 }
             }
 
+            // Deliver plaintext with HTML-markup
+            if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
+                $rcmail->output->sendExit($attachment->print_body());
+            }
+            
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
