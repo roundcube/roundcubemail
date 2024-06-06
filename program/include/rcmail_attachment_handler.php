@@ -291,6 +291,15 @@ class rcmail_attachment_handler
         return $this->body(0, -1);
     }
 
+    public function print_body() {
+        $rcmail = rcmail::get_instance();
+        $body_args = [
+            'safe' => $this->message->is_safe,
+            'plain' => !$rcmail->config->get('prefer_html'),
+        ];
+        return rcmail_action_mail_index::print_body($this->body(), $this->part, $body_args);
+    }
+
     /**
      * Returns formatted HTML if the attachment is HTML
      */
