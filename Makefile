@@ -67,7 +67,7 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git/bin; rm -f transifexpull.sh package2composer.sh)
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
-	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile)
+	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile package.json package-lock.json node_modules)
 	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php installer/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
