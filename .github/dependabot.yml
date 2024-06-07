@@ -12,7 +12,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/skins/elastic"
-    schedule:
-      interval: "weekly"
