@@ -72,7 +72,7 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
 buildtools: /tmp/composer.phar
-	npm install --include=dev
+	npm install --include=dev --omit=optional
 
 /tmp/composer.phar:
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/tmp/
