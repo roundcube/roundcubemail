@@ -3945,7 +3945,8 @@ function rcube_elastic_ui()
                 }
             };
 
-        $(textarea).on('input', resize).trigger('input');
+        $(textarea).on('input', resize);
+        setTimeout(resize, 100);
     };
 
     // Initializes smart list input
