@@ -37,6 +37,11 @@ jobs:
           distribution: 'zulu'
           java-version: '8'
 
+      - name: Setup NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
@@ -49,21 +54,12 @@ jobs:
           composer require "laravel/dusk:^7.9" --no-update
 
       - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
+        run: |
+          composer update --prefer-dist --no-interaction --no-progress
+          npm install
 
       - name: Roundcube configuration
         run: cp .github/config-test.inc.php config/config-test.inc.php
-
-      - name: Setup NPM
-        uses: actions/setup-node@v4
-        with:
-          node-version: '16'
-
-      - name: Setup NPM deps
-        run: |
-            npm install --force -g less
-            npm install --force -g less-plugin-clean-css
-            npm install --force -g uglify-js
 
       - name: Downgrade dependencies (for PHP 8.3 only)
         if: matrix.php == '8.3'
