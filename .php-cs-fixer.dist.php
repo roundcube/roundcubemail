@@ -7,7 +7,7 @@ $finder = Finder::create()
     ->in([__DIR__])
     ->exclude([
         'node_modules',
-        'vendor'
+        'vendor',
     ])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')

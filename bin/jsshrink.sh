@@ -1,21 +1,23 @@
 #!/bin/sh
 
-set -e
-
 PWD=`dirname "$0"`
 LANG_IN='ECMASCRIPT5'
+BIN=`which uglifyjs`
+if [ -e "$PWD/../node_modules/.bin/uglifyjs" ]; then
+    BIN="$PWD/../node_modules/.bin/uglifyjs"
+fi
+
+set -e
 
 do_shrink() {
     rm -f "$2"
     # copy the first comment block with license information for LibreJS
     grep -q '@lic' $1 && sed -n '/\/\*/,/\*\// { p; /\*\//q; }' $1 > $2
-    uglifyjs --compress --mangle -- $1 >> $2
+    $BIN --compress --mangle -- $1 >> $2
 }
 
-if which uglifyjs > /dev/null 2>&1; then
-    :
-else
-    echo "uglifyjs not found. Please install e.g. 'npm install -g uglify-js'."
+if [ -z "$BIN" ]; then
+    echo "uglifyjs not found. Please run 'npm install'."
     exit 1
 fi
 

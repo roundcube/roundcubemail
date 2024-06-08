@@ -61,9 +61,9 @@ roundcubemail-git: buildtools
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic; \
-		../../node_modules/.bin/lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
-		../../node_modules/.bin/lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
-		../../node_modules/.bin/lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
+		npx lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
+		npx lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
+		npx lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
 	(cd roundcubemail-git/bin; rm -f transifexpull.sh package2composer.sh)
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
