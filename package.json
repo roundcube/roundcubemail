@@ -14,7 +14,7 @@
     "tinymce": "^5.10.9",
     "openpgp": "^5.0.0",
     "codemirror": "^5.58.3",
-    "bootstrap": "^4.5.3",
+    "bootstrap": "^5.3.3",
     "less": "^4.1.3"
   }
 }
