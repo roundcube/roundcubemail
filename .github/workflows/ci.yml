@@ -27,7 +27,9 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress
+          npm install --omit=optional
 
       - name: Check Coding Style - PHP
         run: vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff --verbose
@@ -36,9 +38,7 @@ jobs:
         run: composer validate --strict --no-check-lock && composer normalize --dry-run --no-check-lock
 
       - name: Check Coding Style - JS
-        run: |
-          npm add -D eslint eslint-plugin-import eslint-config-airbnb-base eslint-plugin-unicorn
-          npx eslint --ext .js .
+        run: npx eslint --ext .js .
 
       - name: Plugins - Check composer.json format
         run: |
