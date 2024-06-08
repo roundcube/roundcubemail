@@ -11,7 +11,7 @@
   },
   "optionalDependencies": {
     "jquery": "^3.7.1",
-    "tinymce": "^5.10.9",
+    "tinymce": "^7.1.2",
     "openpgp": "^5.0.0",
     "codemirror": "^5.58.3",
     "bootstrap": "^4.5.3",
