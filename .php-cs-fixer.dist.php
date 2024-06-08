@@ -5,7 +5,10 @@ use PhpCsFixer\Finder;
 
 $finder = Finder::create()
     ->in([__DIR__])
-    ->exclude(['vendor'])
+    ->exclude([
+        'node_modules',
+        'vendor'
+    ])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
     ->name('*.sh');
