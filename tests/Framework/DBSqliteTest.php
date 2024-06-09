@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -10,6 +11,8 @@ use PHPUnit\Framework\TestCase;
  * @group database
  * @group sqlite
  */
+#[Group('database')]
+#[Group('sqlite')]
 class DBSqliteTest extends TestCase
 {
     /**

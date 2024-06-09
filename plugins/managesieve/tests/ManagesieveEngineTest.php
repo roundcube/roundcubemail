@@ -2,6 +2,7 @@
 
 namespace Roundcube\Plugins\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Roundcube\Tests\ActionTestCase;
 
 use function Roundcube\Tests\invokeMethod;
@@ -67,6 +68,7 @@ class ManagesieveEngineTest extends ActionTestCase
      *
      * @dataProvider provide_strip_value_cases
      */
+    #[DataProvider('provide_strip_value_cases')]
     public function test_strip_value($expected, $args)
     {
         $rcube = \rcube::get_instance();

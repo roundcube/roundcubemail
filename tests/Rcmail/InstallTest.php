@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 use Roundcube\Tests\ActionTestCase;
 
 /**
@@ -81,6 +82,7 @@ class InstallTest extends ActionTestCase
      *
      * @requires OSFAMILY Linux
      */
+    #[RequiresOperatingSystemFamily('Linux')]
     public function test_check_mime_extensions()
     {
         $rcmail = \rcmail::get_instance();

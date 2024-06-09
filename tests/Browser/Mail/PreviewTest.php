@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Mail;
 
+use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\Dialog;
 use Roundcube\Tests\Browser\TestCase;
@@ -135,6 +136,7 @@ class PreviewTest extends TestCase
      *
      * @group failsonga-phone
      */
+    #[Group('failsonga-phone')]
     public function testPreviewMorelink()
     {
         $this->browse(static function ($browser) {

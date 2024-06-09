@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Mail;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\Toolbarmenu;
 use Roundcube\Tests\Browser\TestCase;
@@ -94,6 +95,7 @@ class ListTest extends TestCase
     /**
      * @depends testList
      */
+    #[Depends('testList')]
     public function testListSelection()
     {
         $this->browse(static function ($browser) {

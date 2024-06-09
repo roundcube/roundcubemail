@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Plugins\Markasjunk;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\TestCase;
 
@@ -93,6 +94,7 @@ class MailTest extends TestCase
      *
      * @depends testMailUI
      */
+    #[Depends('testMailUI')]
     public function testMailView()
     {
         $this->browse(static function ($browser) {

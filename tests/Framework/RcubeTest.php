@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\RequiresFunction;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -67,6 +68,7 @@ class RcubeTest extends TestCase
      *
      * @requires function shell_exec
      */
+    #[RequiresFunction('shell_exec')]
     public function test_exec()
     {
         if (\PHP_OS_FAMILY === 'Windows') {

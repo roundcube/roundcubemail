@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,6 +37,7 @@ class SpoofcheckerTest extends TestCase
     /**
      * @dataProvider provide_check_cases
      */
+    #[DataProvider('provide_check_cases')]
     public function test_check($email, $expected)
     {
         $this->assertSame($expected, \rcube_spoofchecker::check($email));

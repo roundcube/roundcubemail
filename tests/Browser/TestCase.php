@@ -7,6 +7,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\Chrome\SupportsChrome;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
@@ -33,6 +34,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @beforeClass
      */
+    #[BeforeClass]
     public static function prepare(): void
     {
         static::startWebServer();
