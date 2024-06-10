@@ -203,12 +203,31 @@ class newmail_notifier extends rcube_plugin
         if ($unseen->count()) {
             $this->notified = true;
 
+            $from = null;
+            $subject = null;
+            // Attempt to fetch headers for the latest unseen message
+            $latest_uid = $unseen->max();
+            if ($latest_uid !== null) {
+                $headers = $storage->fetch_headers($mbox, [$latest_uid]);
+                // fetch_headers returns an array, but we only care about the first one.
+                $headers = array_shift($headers);
+                if ($headers !== null) {
+                    $from = $headers->from;
+                    $subject = $headers->subject;
+                }
+            }
+
             $this->rc->output->set_env('newmail_notifier_timeout', $this->rc->config->get('newmail_notifier_desktop_timeout'));
             $this->rc->output->command('plugin.newmail_notifier',
                 [
+                    // Config
                     'basic' => $this->opt['basic'],
                     'sound' => $this->opt['sound'],
                     'desktop' => $this->opt['desktop'],
+                    // Data
+                    'from' => $from,
+                    'subject' => $subject,
+                    'count' => $unseen->count(),
                 ]
             );
         }

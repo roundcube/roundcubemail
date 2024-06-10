@@ -37,7 +37,19 @@ function newmail_notifier_run(prop) {
         newmail_notifier_sound();
     }
     if (prop.desktop) {
-        newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
+        var title = prop.from || rcmail.get_label('title', 'newmail_notifier');
+        var body = prop.subject || rcmail.get_label('body', 'newmail_notifier');
+
+        // If there's more than one unread email, show the number of other emails
+        var otherCount = prop.count - 1;
+        if (otherCount >= 1) {
+            title += prop.from
+                // Have sender name, e.g. "Daniel L +3"
+                ? ' +' +otherCount
+                // No sender name, e.g. "New Mail! (3)
+                : '('+otherCount + ')';
+        }
+        newmail_notifier_desktop(title, body);
     }
 }
 
@@ -96,11 +108,11 @@ function newmail_notifier_sound() {
 
 // Desktop notification
 // - Require window.Notification API support (Chrome 22+ or Firefox 22+)
-function newmail_notifier_desktop(body, disabled_callback) {
+function newmail_notifier_desktop(title, body, disabled_callback) {
     var timeout = rcmail.env.newmail_notifier_timeout || 10,
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
         success_callback = function () {
-            var popup = new window.Notification(rcmail.get_label('title', 'newmail_notifier'), {
+            var popup = new window.Notification(title, {
                 dir: 'auto',
                 lang: '',
                 body: body,
@@ -134,9 +146,13 @@ function newmail_notifier_desktop(body, disabled_callback) {
 }
 
 function newmail_notifier_test_desktop() {
-    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
-        rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
-    });
+    var status = newmail_notifier_desktop(
+        rcmail.get_label('title', 'newmail_notifier'),
+        rcmail.get_label('testbody', 'newmail_notifier'),
+        function () {
+            rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
+        }
+    );
 
     if (!status) {
         rcmail.display_message(rcmail.get_label('desktopunsupported', 'newmail_notifier'), 'error');
