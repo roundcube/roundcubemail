@@ -709,3 +709,4 @@ $labels['helplistkeyboardnavmessages'] = "Strzałki prawo/lewo: Rozwiniecie/zwin
 ENTER: Otwarcie bieżącej wiadomości.
 DELETE: Usunięcie/Przeniesienie wiadomości do Kosza.";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: Otwarcie bieżącego kontaktu.";
+$labels['keepformatting'] = 'Zachowaj formatowanie';
