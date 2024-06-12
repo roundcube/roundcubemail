@@ -244,6 +244,7 @@ $labels['charset'] = 'Kodowanie znaków';
 $labels['editortype'] = 'Typ edytora';
 $labels['returnreceipt'] = 'Potwierdzenie odbioru';
 $labels['dsn'] = 'Status dostarczenia (DSN)';
+$labels['keepformatting'] = 'Zachowaj formatowanie';
 $labels['mailreplyintro'] = 'W dniu $date, $sender napisał(a):';
 $labels['originalmessage'] = 'Wiadomość oryginalna';
 $labels['selectimage'] = 'Wybierz obraz';
@@ -709,4 +710,3 @@ $labels['helplistkeyboardnavmessages'] = "Strzałki prawo/lewo: Rozwiniecie/zwin
 ENTER: Otwarcie bieżącej wiadomości.
 DELETE: Usunięcie/Przeniesienie wiadomości do Kosza.";
 $labels['helplistkeyboardnavcontacts'] = "ENTER: Otwarcie bieżącego kontaktu.";
-$labels['keepformatting'] = 'Zachowaj formatowanie';
