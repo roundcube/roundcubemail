@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -487,6 +488,7 @@ class WashtmlTest extends TestCase
      *
      * @dataProvider provide_wash_svg_tests_cases
      */
+    #[DataProvider('provide_wash_svg_tests_cases')]
     public function test_wash_svg_tests($input, $expected)
     {
         $washer = new \rcube_washtml();
@@ -553,6 +555,7 @@ class WashtmlTest extends TestCase
      *
      * @dataProvider provide_wash_xss_tests_cases
      */
+    #[DataProvider('provide_wash_xss_tests_cases')]
     public function test_wash_xss_tests($input, $expected)
     {
         $washer = new \rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);

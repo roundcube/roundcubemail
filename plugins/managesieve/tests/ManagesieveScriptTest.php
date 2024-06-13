@@ -2,6 +2,7 @@
 
 namespace Roundcube\Plugins\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ManagesieveScriptTest extends TestCase
@@ -11,6 +12,7 @@ class ManagesieveScriptTest extends TestCase
      *
      * @dataProvider provide_parser_cases
      */
+    #[DataProvider('provide_parser_cases')]
     public function test_parser($input, $output, $message)
     {
         // get capabilities list from the script
@@ -75,6 +77,7 @@ class ManagesieveScriptTest extends TestCase
     /**
      * @dataProvider provide_tokenizer_cases
      */
+    #[DataProvider('provide_tokenizer_cases')]
     public function test_tokenizer($num, $input, $output)
     {
         $res = json_encode(\rcube_sieve_script::tokenize($input, $num));

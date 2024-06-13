@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 use function Roundcube\Tests\invokeMethod;
@@ -12,6 +13,8 @@ use function Roundcube\Tests\invokeMethod;
  * @group database
  * @group postgres
  */
+#[Group('database')]
+#[Group('postgres')]
 class DBPgsqlTest extends TestCase
 {
     /**

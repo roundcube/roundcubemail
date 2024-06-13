@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,6 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group mbstring
  */
+#[Group('mbstring')]
 class CharsetTest extends TestCase
 {
     /**
@@ -30,6 +33,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_clean_cases
      */
+    #[DataProvider('provide_clean_cases')]
     public function test_clean($input, $output)
     {
         $this->assertSame($output, \rcube_charset::clean($input));
@@ -59,6 +63,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_is_valid_cases
      */
+    #[DataProvider('provide_is_valid_cases')]
     public function test_is_valid($input, $result)
     {
         $this->assertSame($result, \rcube_charset::is_valid($input));
@@ -78,6 +83,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_parse_charset_cases
      */
+    #[DataProvider('provide_parse_charset_cases')]
     public function test_parse_charset($input, $output)
     {
         $this->assertSame($output, \rcube_charset::parse_charset($input));
@@ -114,6 +120,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_convert_cases
      */
+    #[DataProvider('provide_convert_cases')]
     public function test_convert($input, $output, $from, $to)
     {
         $this->assertSame($output, \rcube_charset::convert($input, $from, $to));
@@ -132,6 +139,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_utf7_to_utf8_cases
      */
+    #[DataProvider('provide_utf7_to_utf8_cases')]
     public function test_utf7_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
@@ -151,6 +159,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_utf7imap_to_utf8_cases
      */
+    #[DataProvider('provide_utf7imap_to_utf8_cases')]
     public function test_utf7imap_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
@@ -170,6 +179,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_utf8_to_utf7imap_cases
      */
+    #[DataProvider('provide_utf8_to_utf7imap_cases')]
     public function test_utf8_to_utf7imap($input, $output)
     {
         // @phpstan-ignore-next-line
@@ -189,6 +199,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_utf16_to_utf8_cases
      */
+    #[DataProvider('provide_utf16_to_utf8_cases')]
     public function test_utf16_to_utf8($input, $output)
     {
         // @phpstan-ignore-next-line
@@ -209,6 +220,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_detect_cases
      */
+    #[DataProvider('provide_detect_cases')]
     public function test_detect($input, $fallback, $output)
     {
         // @phpstan-ignore-next-line
@@ -228,6 +240,7 @@ class CharsetTest extends TestCase
     /**
      * @dataProvider provide_detect_with_lang_cases
      */
+    #[DataProvider('provide_detect_with_lang_cases')]
     public function test_detect_with_lang($input, $lang, $output)
     {
         // @phpstan-ignore-next-line

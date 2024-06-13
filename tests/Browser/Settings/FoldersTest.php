@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Settings;
 
+use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\TestCase;
@@ -73,6 +74,8 @@ class FoldersTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testFolderCreate()
     {
         $this->browse(static function ($browser) {

@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Roundcube\Tests\ActionTestCase;
 
 /**
@@ -153,6 +154,7 @@ class SendmailTest extends ActionTestCase
     /**
      * @dataProvider provide_email_input_format_cases
      */
+    #[DataProvider('provide_email_input_format_cases')]
     public function test_email_input_format($input, $output, $charset)
     {
         $sendmail = new \rcmail_sendmail();

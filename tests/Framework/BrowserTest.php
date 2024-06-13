@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,6 +13,7 @@ class BrowserTest extends TestCase
     /**
      * @dataProvider provide_browser_cases
      */
+    #[DataProvider('provide_browser_cases')]
     public function test_browser($useragent, $opera, $chrome, $ie, $edge, $safari, $mz)
     {
         $object = $this->getBrowser($useragent);
@@ -27,6 +29,7 @@ class BrowserTest extends TestCase
     /**
      * @dataProvider provide_os_cases
      */
+    #[DataProvider('provide_os_cases')]
     public function test_os($useragent, $windows, $linux, $unix, $mac)
     {
         $object = $this->getBrowser($useragent);
@@ -40,6 +43,7 @@ class BrowserTest extends TestCase
     /**
      * @dataProvider provide_version_cases
      */
+    #[DataProvider('provide_version_cases')]
     public function test_version($useragent, $version)
     {
         $object = $this->getBrowser($useragent);

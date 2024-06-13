@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Plugins\AttachmentReminder;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\Dialog;
 use Roundcube\Tests\Browser\TestCase;
@@ -60,6 +61,7 @@ class PluginTest extends TestCase
      *
      * @depends testPreferences
      */
+    #[Depends('testPreferences')]
     public function testMailCompose()
     {
         $this->browse(static function ($browser) {
