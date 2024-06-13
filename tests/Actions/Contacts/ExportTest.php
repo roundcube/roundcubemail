@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 use Roundcube\Tests\StderrMock;
@@ -56,6 +57,7 @@ class ExportTest extends ActionTestCase
      *
      * @depends test_export_all
      */
+    #[Depends('test_export_all')]
     public function test_export_selected()
     {
         $action = new \rcmail_action_contacts_export();
@@ -99,6 +101,7 @@ class ExportTest extends ActionTestCase
      *
      * @depends test_export_all
      */
+    #[Depends('test_export_all')]
     public function test_export_search()
     {
         $this->markTestIncomplete();

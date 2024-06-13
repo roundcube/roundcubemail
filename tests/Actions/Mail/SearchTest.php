@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Actions\Mail;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 
@@ -290,6 +291,7 @@ class SearchTest extends ActionTestCase
      *
      * @dataProvider provide_search_input_cases
      */
+    #[DataProvider('provide_search_input_cases')]
     public function test_search_input($input, $output)
     {
         if (is_array($input)) {
@@ -328,6 +330,7 @@ class SearchTest extends ActionTestCase
      *
      * @dataProvider provide_search_interval_criteria_cases
      */
+    #[DataProvider('provide_search_interval_criteria_cases')]
     public function test_search_interval_criteria($input, $output)
     {
         $result = \rcmail_action_mail_search::search_interval_criteria($input);

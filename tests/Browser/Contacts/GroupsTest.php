@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Contacts;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\Dialog;
 use Roundcube\Tests\Browser\Components\Popupmenu;
@@ -94,6 +95,7 @@ class GroupsTest extends TestCase
      *
      * @depends testGroupCreate
      */
+    #[Depends('testGroupCreate')]
     public function testGroupRename()
     {
         $this->browse(static function ($browser) {
@@ -146,6 +148,7 @@ class GroupsTest extends TestCase
      *
      * @depends testGroupRename
      */
+    #[Depends('testGroupRename')]
     public function testGroupDelete()
     {
         $this->browse(static function ($browser) {

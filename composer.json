@@ -23,7 +23,7 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpunit/phpunit": "^9.6",
+        "phpunit/phpunit": "^9.6 || ^10.0 || ^11.0",
         "roundcube/acl": "*",
         "roundcube/additional_message_headers": "*",
         "roundcube/archive": "*",

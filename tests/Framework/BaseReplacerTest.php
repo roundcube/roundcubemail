@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,6 +55,7 @@ class BaseReplacerTest extends TestCase
      *
      * @dataProvider provide_absolute_url_cases
      */
+    #[DataProvider('provide_absolute_url_cases')]
     public function test_absolute_url($path, $base, $expected)
     {
         $replacer = new \rcube_base_replacer('test');

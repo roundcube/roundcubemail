@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -114,6 +115,7 @@ class Text2HtmlTest extends TestCase
      *
      * @dataProvider provide_text2html_cases
      */
+    #[DataProvider('provide_text2html_cases')]
     public function test_text2html($input, $output, $options)
     {
         $t2h = new \rcube_text2html($input, false, $options);

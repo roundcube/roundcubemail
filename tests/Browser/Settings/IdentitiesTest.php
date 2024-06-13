@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Browser\Settings;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\Components\Dialog;
@@ -48,6 +50,8 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityCreate()
     {
         $this->browse(static function ($browser) {
@@ -148,6 +152,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityCreate')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityDelete()
     {
         $this->browse(static function ($browser) {
@@ -187,6 +194,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityDelete')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityUpdate()
     {
         $this->browse(static function ($browser) {
@@ -235,6 +245,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityUpdate')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentitiesInComposer()
     {
         // Add one more identity

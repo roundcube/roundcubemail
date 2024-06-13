@@ -3,6 +3,7 @@
 namespace Roundcube\Tests\Browser\Mail;
 
 use Facebook\WebDriver\WebDriverKeys;
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\Components\HtmlEditor;
@@ -83,6 +84,7 @@ class ComposeTest extends TestCase
     /**
      * @depends testCompose
      */
+    #[Depends('testCompose')]
     public function testPlainEditor()
     {
         // Test for #7230: Shift+PageUp text selection
@@ -114,6 +116,7 @@ class ComposeTest extends TestCase
     /**
      * @depends testCompose
      */
+    #[Depends('testCompose')]
     public function testRecipientInput()
     {
         // Test for #7231: Recipient input bug when using click

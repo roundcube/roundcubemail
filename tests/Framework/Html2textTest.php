@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -97,6 +98,7 @@ class Html2textTest extends TestCase
     /**
      * @dataProvider provide_html2text_cases
      */
+    #[DataProvider('provide_html2text_cases')]
     public function test_html2text($title, $in, $out)
     {
         $ht = new \rcube_html2text(null, false, \rcube_html2text::LINKS_NONE);
@@ -252,6 +254,7 @@ Links:
      *
      * @dataProvider provide_links_no_list_cases
      */
+    #[DataProvider('provide_links_no_list_cases')]
     public function test_links_no_list($input, $output)
     {
         $h2t = new \rcube_html2text($input, false, \rcube_html2text::LINKS_NONE);
@@ -265,6 +268,7 @@ Links:
      *
      * @dataProvider provide_links_no_list_cases
      */
+    #[DataProvider('provide_links_no_list_cases')]
     public function test_links_no_list_bc_with_boolean($input, $output)
     {
         $h2t = new \rcube_html2text($input, false, false);

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Browser\Settings;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\Components\Dialog;
@@ -49,6 +51,8 @@ class ResponsesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testResponseCreate()
     {
         \rcmail::get_instance()->get_dbh()->exec_script("
@@ -133,6 +137,9 @@ class ResponsesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testResponseCreate')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testResponseDelete()
     {
         $this->browse(static function ($browser) {
@@ -170,6 +177,9 @@ class ResponsesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testResponseDelete')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testResponsesInComposer()
     {
         $this->browse(static function ($browser) {
@@ -216,6 +226,9 @@ class ResponsesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testResponsesInComposer')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testResponseUpdate()
     {
         $this->browse(static function ($browser) {
