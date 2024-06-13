@@ -7,7 +7,7 @@
         "bacon/bacon-qr-code": "^2.0.8",
         "guzzlehttp/guzzle": "^7.3.0",
         "masterminds/html5": "~2.8.0",
-        "pear/auth_sasl": "^1.1.0",
+        "pear/auth_sasl": "~1.1.0 || ~1.2.0",
         "pear/crypt_gpg": "~1.6.3",
         "pear/mail_mime": "~1.10.11",
         "pear/net_sieve": "~1.4.7",
