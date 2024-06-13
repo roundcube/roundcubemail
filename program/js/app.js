@@ -694,6 +694,8 @@ function rcube_webmail() {
                 break;
         }
 
+        this.addAllEventListenersFromElements();
+
         // select first input field in an edit form
         if (this.gui_objects.editform) {
             $('input,select,textarea', this.gui_objects.editform)
@@ -10695,6 +10697,75 @@ function rcube_webmail() {
             var img = new Image();
             img.src = urls[i];
         }
+    };
+
+    /**
+     * Add eventListeners parsed from element datasets. This allows to avoid
+     * inline javascript event handlers (which require a very lax CSP).
+     * The first element of the array is the function on `rcmail` to call.
+     * All further elements of the array are arguments that are handed to the
+     * called function.
+     * In that list, '__THIS__' is replaced with the element that the event was
+     * attached to, and '__EVENT__' is the event itself.
+     * E.g. with this element:
+     * <a data-click='["aMethodToCall", "arg1"]' data-dblclick='["something", "__THIS__"]'>something</a>
+     * A click will cause a call to `this[aMethodToCall]("arg1")`, and a double
+     * click will cause a call to `this[something](theDoubleClickedElement)`.
+     */
+    this.addEventListenerFromElement = function (elem, eventName) {
+        var value = elem.dataset['on' + eventName];
+        if (!value) {
+            return;
+        }
+        var eventArgs = JSON.parse(value);
+        var methodName = eventArgs.shift();
+        if (!methodName) {
+            this.log("data-on-event '" + eventName + "' has invalid value (no method name)");
+            return;
+        }
+        if (typeof this[methodName] !== 'function') {
+            this.log("'" + methodName + "' is not a valid method name of this class");
+            return;
+        }
+        // Inject a reference to the event target element, if required.
+        eventArgs = eventArgs.map(function (arg) {
+            if (arg === '__THIS__') {
+                return elem;
+            }
+            return arg;
+        });
+        elem.addEventListener(eventName, (ev) => {
+            // Inject a reference to the event object, if required.
+            var localEventArgs = eventArgs.map(function (arg) {
+                if (arg === '__EVENT__') {
+                    return ev;
+                }
+                return arg;
+            });
+            this[methodName](...localEventArgs);
+        });
+    };
+
+    this.addEventListenerFromElements = function (eventName) {
+        $('[data-on' + eventName + ']').each((_idx, elem) => {
+            this.addEventListenerFromElement(elem, eventName);
+        });
+    };
+
+    this.addAllEventListenersFromElements = function () {
+        [
+            'click',
+            'dblclick',
+            'mouseup',
+            'mousedown',
+            'mouseout',
+            'mouseover',
+            'error',
+            'load',
+            'change',
+        ].forEach(function (name) {
+            ref.addEventListenerFromElements(name);
+        });
     };
 } // end object rcube_webmail
 
