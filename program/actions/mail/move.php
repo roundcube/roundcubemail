@@ -53,16 +53,6 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         $sources = [];
 
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
-            $abortedUids = [];
-            foreach ($uids as $uid) {
-                $plugin = $rcmail->plugins->exec_hook('message_move', ['mailbox' => $mbox, 'target' => $target, 'uid' => $uid]);
-                if (isset($plugin['abort']) && $plugin['abort']) {
-                    $abortedUids[] = $uid;
-                }
-            }
-
-            $uids = array_diff($uids, $abortedUids);
-
             if ($mbox === $target) {
                 $count += is_array($uids) ? count($uids) : 1;
             } elseif ($rcmail->storage->move_message($uids, $target, $mbox)) {
