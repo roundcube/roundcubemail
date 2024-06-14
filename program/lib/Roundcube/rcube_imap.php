@@ -2590,13 +2590,15 @@ class rcube_imap extends rcube_storage
         }
 
         $abortedUids = [];
-        foreach ($uids as $uid) {
+        $uidsArray = explode(',', $uids);
+        foreach ($uidsArray as $uid) {
             $plugin = $this->plugins->exec_hook('message_move', ['mailbox' => $from_mbox, 'target' => $to_mbox, 'uid' => $uid]);
             if (isset($plugin['abort']) && $plugin['abort']) {
                 $abortedUids[] = $uid;
             }
         }
-        $uids = array_diff($uids, $abortedUids);
+        $uidsArray = array_diff($uidsArray, $abortedUids);
+        $uids = implode(',', $uidsArray);
 
         $config = rcube::get_instance()->config;
         $to_trash = $to_mbox == $config->get('trash_mbox');
@@ -2707,14 +2709,17 @@ class rcube_imap extends rcube_storage
         if (!$this->check_connection()) {
             return false;
         }
+
         $abortedUids = [];
-        foreach ($uids as $uid) {
+        $uidsArray = explode(',', $uids);
+        foreach ($uidsArray as $uid) {
             $plugin = $this->plugins->exec_hook('message_delete', ['mailbox' => $folder, 'uid' => $uid]);
             if (isset($plugin['abort']) && $plugin['abort']) {
                 $abortedUids[] = $uid;
             }
         }
-        $uids = array_diff($uids, $abortedUids);
+        $uidsArray = array_diff($uidsArray, $abortedUids);
+        $uids = implode(',', $uidsArray);
 
         $deleted = $this->conn->flag($folder, $uids, 'DELETED');
 
