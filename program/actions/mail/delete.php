@@ -49,6 +49,8 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         }
 
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
+            $rcmail->plugins->exec_hook('message_delete', ['mailbox' => $mbox, 'uids' => $uids]);
+
             $deleted += (int) $rcmail->storage->delete_message($uids, $mbox);
             $count += is_array($uids) ? count($uids) : 1;
             $sources[] = $mbox;

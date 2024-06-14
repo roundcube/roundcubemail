@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Plugin API: Added message_delete hook (#9499)
+- Plugin API: Added message_move hook (#9499)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Renamed composer.json.dist to composer.json (#9279)
