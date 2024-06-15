@@ -189,6 +189,13 @@ It is also recommended to change the document root to <install path>/public_html
 after installation if Roundcube runs at root of a dedicated virtual host. This
 will automatically keep sensitive files out of reach for http requests.
 
+CONTENT-SECURITY-POLICY
+-----------------------
+
+If you use a Content-Security-Policy, please note that Roundcube *requires* the
+`script-src` parameter to include `'unsafe-inline' 'unsafe-eval'`. No external
+sources are required (by default).
+
 
 UPGRADING
 =========
