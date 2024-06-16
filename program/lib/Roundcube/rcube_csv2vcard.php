@@ -184,7 +184,7 @@ class rcube_csv2vcard
     public function set_map($elements, $available)
     {
         // sanitize input
-        $elements = array_filter($elements, function ($val) use ($available) {
+        $elements = array_filter($elements, static function ($val) use ($available) {
             return in_array($val, $available);
         });
 
