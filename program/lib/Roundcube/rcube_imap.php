@@ -2589,8 +2589,8 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $plugin = $this->plugins->exec_hook('message_move', ['mailbox' => $from_mbox, 'target' => $to_mbox, 'uids' => $uids]);
-        if (isset($plugin['abort']) && $plugin['abort']) {
+        $plugin = $this->plugins->exec_hook('message_move', ['from_folder' => $from_mbox, 'target_folder' => $to_mbox, 'uids' => $uids]);
+        if ($plugin['abort']) {
             return false;
         }
 
@@ -2704,8 +2704,8 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $plugin = $this->plugins->exec_hook('message_delete', ['mailbox' => $folder, 'uids' => $uids]);
-        if (isset($plugin['abort']) && $plugin['abort']) {
+        $plugin = $this->plugins->exec_hook('message_delete', ['folder' => $folder, 'uids' => $uids]);
+        if ($plugin['abort']) {
             return false;
         }
 
