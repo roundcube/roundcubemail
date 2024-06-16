@@ -101,7 +101,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         $map = rcube_utils::get_input_value('_map', rcube_utils::INPUT_GPC);
                         $map = array_filter($map);
 
-                        $csv->set_map($map);
+                        $csv->set_map($map, array_keys(self::list_fields($with_groups)));
                         $csv->import($file_content, false, $skip_head);
 
                         unlink($filepath);

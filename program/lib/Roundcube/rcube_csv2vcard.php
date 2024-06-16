@@ -23,169 +23,6 @@
 class rcube_csv2vcard
 {
     /**
-     * CSV to vCard fields mapping
-     *
-     * @var array
-     */
-    protected $csv2vcard_map = [
-        // MS Outlook 2010
-        'anniversary' => 'anniversary',
-        'assistants_name' => 'assistant',
-        'assistants_phone' => 'phone:assistant',
-        'birthday' => 'birthday',
-        'business_city' => 'locality:work',
-        'business_countryregion' => 'country:work',
-        'business_fax' => 'phone:workfax',
-        'business_phone' => 'phone:work',
-        'business_phone_2' => 'phone:work2',
-        'business_postal_code' => 'zipcode:work',
-        'business_state' => 'region:work',
-        'business_street' => 'street:work',
-        // 'business_street_2'     => '',
-        // 'business_street_3'     => '',
-        'car_phone' => 'phone:car',
-        'categories' => 'groups',
-        // 'children'              => '',
-        'company' => 'organization',
-        // 'company_main_phone'    => '',
-        'department' => 'department',
-        'email_2_address' => 'email:other',
-        // 'email_2_type'          => '',
-        'email_3_address' => 'email:other',
-        // 'email_3_type'          => '',
-        'email_address' => 'email:other',
-        // 'email_type'            => '',
-        'first_name' => 'firstname',
-        'gender' => 'gender',
-        'home_city' => 'locality:home',
-        'home_countryregion' => 'country:home',
-        'home_fax' => 'phone:homefax',
-        'home_phone' => 'phone:home',
-        'home_phone_2' => 'phone:home2',
-        'home_postal_code' => 'zipcode:home',
-        'home_state' => 'region:home',
-        'home_street' => 'street:home',
-        // 'home_street_2'         => '',
-        // 'home_street_3'         => '',
-        // 'initials'              => '',
-        // 'isdn'                  => '',
-        'job_title' => 'jobtitle',
-        // 'keywords'              => '',
-        // 'language'              => '',
-        'last_name' => 'surname',
-        // 'location'              => '',
-        'managers_name' => 'manager',
-        'middle_name' => 'middlename',
-        // 'mileage'               => '',
-        'mobile_phone' => 'phone:mobile',
-        'notes' => 'notes',
-        // 'office_location'       => '',
-        'other_city' => 'locality:other',
-        'other_countryregion' => 'country:other',
-        'other_fax' => 'phone:other',
-        'other_phone' => 'phone:other',
-        'other_postal_code' => 'zipcode:other',
-        'other_state' => 'region:other',
-        'other_street' => 'street:other',
-        // 'other_street_2'        => '',
-        // 'other_street_3'        => '',
-        'pager' => 'phone:pager',
-        'primary_phone' => 'phone:main',
-        // 'profession'            => '',
-        // 'radio_phone'           => '',
-        'spouse' => 'spouse',
-        'suffix' => 'suffix',
-        'title' => 'prefix',
-        'web_page' => 'website:homepage',
-
-        // Thunderbird
-        'birth_day' => 'birthday-d',
-        'birth_month' => 'birthday-m',
-        'birth_year' => 'birthday-y',
-        'display_name' => 'name',
-        'fax_number' => 'phone:homefax',
-        'home_address' => 'street:home',
-        // 'home_address_2'        => '',
-        'home_country' => 'country:home',
-        'home_zipcode' => 'zipcode:home',
-        'mobile_number' => 'phone:mobile',
-        'nickname' => 'nickname',
-        'organization' => 'organization',
-        'pager_number' => 'phone:pager',
-        'primary_email' => 'email:home',
-        'secondary_email' => 'email:other',
-        'web_page_1' => 'website:homepage',
-        'web_page_2' => 'website:other',
-        'work_phone' => 'phone:work',
-        'work_address' => 'street:work',
-        // 'work_address_2'        => '',
-        'work_country' => 'country:work',
-        'work_zipcode' => 'zipcode:work',
-        'last' => 'surname',
-        'first' => 'firstname',
-        'work_city' => 'locality:work',
-        'work_state' => 'region:work',
-        'home_city_short' => 'locality:home',
-        'home_state_short' => 'region:home',
-
-        // Atmail
-        'date_of_birth' => 'birthday',
-        // 'email'                 => 'email:pref',
-        'home_mobile' => 'phone:mobile',
-        'home_zip' => 'zipcode:home',
-        'info' => 'notes',
-        'user_photo' => 'photo',
-        'url' => 'website:homepage',
-        'work_company' => 'organization',
-        'work_dept' => 'department',
-        'work_fax' => 'phone:workfax',
-        'work_mobile' => 'phone:other',
-        'work_title' => 'jobtitle',
-        'work_zip' => 'zipcode:work',
-        'group' => 'groups',
-
-        // GMail
-        'groups' => 'groups',
-        'group_membership' => 'groups',
-        'given_name' => 'firstname',
-        'additional_name' => 'middlename',
-        'family_name' => 'surname',
-        'name' => 'name',
-        'name_prefix' => 'prefix',
-        'name_suffix' => 'suffix',
-
-        // Format of Letter Hub test files from
-        // https://letterhub.com/sample-csv-file-with-contacts/
-        'company_name' => 'organization',
-        'address' => 'street:home',
-        'city' => 'locality:home',
-        // 'county'                => '',
-        'state' => 'region:home',
-        'zip' => 'zipcode:home',
-        'phone1' => 'phone:home',
-        'phone' => 'phone:work',
-        'email' => 'email:home',
-
-        // roundcube fields
-        'email_home' => 'email:home',
-        'email_work' => 'email:work',
-        'email_other' => 'email:other',
-        'phone_video' => 'phone:video',
-        'maidenname' => 'maidenname',
-        'im_aim' => 'im:aim',
-        'im_icq' => 'im:icq',
-        'im_jabber' => 'im:jabber',
-        'im_msn' => 'im:msn',
-        'im_skype' => 'im:skype',
-        'im_yahoo' => 'im:yahoo',
-        'web_blog' => 'website:blog',
-        'web_home' => 'website:homepage',
-        'web_other' => 'website:other',
-        'web_profile' => 'website:profile',
-        'web_work' => 'website:work',
-    ];
-
-    /**
      * CSV label to text mapping for English read from localization
      *
      * @var array
@@ -265,9 +102,6 @@ class rcube_csv2vcard
         ],
     ];
 
-    /** @var array Localized labels map */
-    protected $local_label_map = [];
-
     /** @var rcube_vcard[] List of contacts as vCards */
     protected $vcards = [];
 
@@ -288,7 +122,7 @@ class rcube_csv2vcard
             $map = self::read_localization_file(RCUBE_LOCALIZATION_DIR . $lang . '/csv2vcard.inc');
 
             if (!empty($map)) {
-                $this->local_label_map = array_merge($this->label_map, $map);
+                $this->label_map = array_merge_recursive($this->label_map, $map);
             }
         }
     }
@@ -347,11 +181,11 @@ class rcube_csv2vcard
      *
      * @param array $elements Field mapping
      */
-    public function set_map($elements)
+    public function set_map($elements, $available)
     {
         // sanitize input
-        $elements = array_filter($elements, function ($val) {
-            return in_array($val, $this->csv2vcard_map);
+        $elements = array_filter($elements, function ($val) use ($available) {
+            return in_array($val, $available);
         });
 
         $this->map = $elements;
@@ -395,55 +229,19 @@ class rcube_csv2vcard
     {
         $elements = $this->parse_line($lines[0]);
 
-        $label_map = array_flip($this->label_map);
-        $local_label_map = array_flip($this->local_label_map);
-
         if (count($lines) == 2) {
             // first line of contents needed to properly identify fields in gmail CSV
             $contents = $this->parse_line($lines[1]);
         }
 
-        $map1 = [];
-        $map2 = [];
         $size = count($elements);
 
-        // check English labels
+        // check labels
         for ($i = 0; $i < $size; $i++) {
-            if (!empty($label_map[$elements[$i]])) {
-                $label = $label_map[$elements[$i]];
-                if (!empty($this->csv2vcard_map[$label])) {
-                    $map1[$i] = $this->csv2vcard_map[$label];
-                }
+            if ($field = self::search_map($elements[$i], $this->label_map)) {
+                $this->map[$i] = $field;
             }
         }
-
-        // check localized labels
-        if (!empty($local_label_map)) {
-            for ($i = 0; $i < $size; $i++) {
-                $label = $local_label_map[$elements[$i]];
-
-                // special localization label
-                if ($label && $label[0] == '_') {
-                    $label = substr($label, 1);
-                }
-
-                if ($label && !empty($this->csv2vcard_map[$label])) {
-                    $map2[$i] = $this->csv2vcard_map[$label];
-                }
-            }
-        }
-
-        // If nothing recognized fallback to simple non-localized labels
-        if (empty($map1) && empty($map2)) {
-            for ($i = 0; $i < $size; $i++) {
-                $label = str_replace(' ', '_', strtolower($elements[$i]));
-                if (!empty($this->csv2vcard_map[$label])) {
-                    $map1[$i] = $this->csv2vcard_map[$label];
-                }
-            }
-        }
-
-        $this->map = count($map1) >= count($map2) ? $map1 : $map2;
 
         if (!empty($contents)) {
             foreach ($this->gmail_label_map as $key => $items) {
@@ -573,10 +371,31 @@ class rcube_csv2vcard
 
             // @phpstan-ignore-next-line
             if (!empty($map)) {
-                $texts = array_merge($texts, $map);
+                $texts = array_merge_recursive($texts, $map);
             }
         }
 
         return $texts;
+    }
+
+    /**
+     * Search csv2vcard mapping array
+     *
+     * @param string $needle Field name to search for
+     * @param array  $map    Field map to be searched
+     *
+     * @return string|null vcard field id
+     */
+    protected static function search_map($needle, $map)
+    {
+        $result = null;
+        foreach ($map as $key => $headings) {
+            if (array_search($needle, $headings) !== false) {
+                $result = $key;
+                break;
+            }
+        }
+
+        return $result;
     }
 }
