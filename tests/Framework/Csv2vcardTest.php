@@ -107,7 +107,7 @@ class Csv2vcardTest extends TestCase
         $csv_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/all.csv');
         $vcf_text = file_get_contents(TESTS_DIR . '/src/Csv2vcard/all.vcf');
 
-        $csv = new rcube_csv2vcard();
+        $csv = new \rcube_csv2vcard();
         $csv->import($csv_text);
         $result = $csv->export();
 
