@@ -2589,7 +2589,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $plugin = $this->plugins->exec_hook('message_move', ['from_folder' => $from_mbox, 'target_folder' => $to_mbox, 'uids' => $uids]);
+        $plugin = $this->plugins->exec_hook('message_move', ['source_folder' => $from_mbox, 'target_folder' => $to_mbox, 'uids' => $uids]);
         if ($plugin['abort']) {
             return false;
         }
