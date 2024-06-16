@@ -3049,7 +3049,14 @@ class rcube_imap_generic
                 $prev = '';
             }
 
-            return base64_decode($chunk);
+            // There might be multiple base64 blocks in a single message part,
+            // we have to pass them separately to base64_decode() (#9290)
+            $result = '';
+            foreach (preg_split('|=+|', $chunk, -1, \PREG_SPLIT_NO_EMPTY) as $_chunk) {
+                $result .= base64_decode($_chunk);
+            }
+
+            return $result;
         }
 
         // QUOTED-PRINTABLE

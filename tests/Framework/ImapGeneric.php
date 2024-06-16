@@ -152,6 +152,26 @@ class Framework_ImapGeneric extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test for decodeContent() with base64 encoding (multiple bodies)
+     */
+    public function test_decode_content_base64_multiple()
+    {
+        $expected = $content = str_repeat('a', 100);
+        $encoded = chunk_split(base64_encode($content), 72, "\r\n");
+
+        $expected .= ($content = str_repeat('b', 101));
+        $encoded .= chunk_split(base64_encode($content), 72, "\r\n");
+
+        $expected .= ($content = str_repeat('c', 102));
+        $encoded .= chunk_split(base64_encode($content), 72, "\r\n");
+
+        $expected .= ($content = str_repeat('d', 103));
+        $encoded .= chunk_split(base64_encode($content), 72, "\r\n");
+
+        $this->runDecodeContent($expected, $encoded, 1);
+    }
+
+    /**
      * Test for decodeContent() with quoted-printable encoding
      */
     function test_decode_content_qp()
