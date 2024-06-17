@@ -27,7 +27,7 @@ parameters:
         - '~^Call to function base64_decode\(\) requires parameter #2 to be (set|true).~'
 
         -
-            message: '~^Parameter #1 \$browser \(Tests\\Browser\\Browser\) of method Tests\\Browser\\Components\\\w+::assert\(\) should be contravariant with parameter \$browser \(Laravel\\Dusk\\Browser\) of method Laravel\\Dusk\\Component::assert\(\)$~'
+            message: '~^Parameter #1 \$browser \(Roundcube\\Tests\\Browser\\Browser\) of method Roundcube\\Tests\\Browser\\Components\\\w+::assert\(\) should be contravariant with parameter \$browser \(Laravel\\Dusk\\Browser\) of method Laravel\\Dusk\\Component::assert\(\)$~'
             count: 7
             path: tests/Browser/Components/*.php
 
