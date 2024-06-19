@@ -29,6 +29,7 @@ $required_php_exts = [
     'Multibyte' => 'mbstring',
     'OpenSSL' => 'openssl',
     'Filter' => 'filter',
+    'Ctype' => 'ctype',
 ];
 
 $optional_php_exts = [
@@ -87,6 +88,7 @@ $source_urls = [
     'XMLWriter' => 'https://www.php.net/manual/en/book.xmlwriter.php',
     'Zip' => 'https://www.php.net/manual/en/book.zip.php',
     'Filter' => 'https://www.php.net/manual/en/book.filter.php',
+    'Ctype' => 'https://www.php.net/manual/en/book.ctype.php',
     'pdo_mysql' => 'https://www.php.net/manual/en/ref.pdo-mysql.php',
     'pdo_pgsql' => 'https://www.php.net/manual/en/ref.pdo-pgsql.php',
     'pdo_sqlite' => 'https://www.php.net/manual/en/ref.pdo-sqlite.php',
