@@ -2589,6 +2589,11 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
+        $plugin = $this->plugins->exec_hook('message_move', ['source_folder' => $from_mbox, 'target_folder' => $to_mbox, 'uids' => $uids]);
+        if ($plugin['abort']) {
+            return false;
+        }
+
         $config = rcube::get_instance()->config;
         $to_trash = $to_mbox == $config->get('trash_mbox');
 
@@ -2696,6 +2701,11 @@ class rcube_imap extends rcube_storage
         }
 
         if (!$this->check_connection()) {
+            return false;
+        }
+
+        $plugin = $this->plugins->exec_hook('message_delete', ['folder' => $folder, 'uids' => $uids]);
+        if ($plugin['abort']) {
             return false;
         }
 
