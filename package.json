@@ -4,7 +4,7 @@
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-unicorn": "^53.0.0",
+    "eslint-plugin-unicorn": "^54.0.0",
     "less": "^4.2.0",
     "less-plugin-clean-css": "^1.5.1",
     "uglify-js": "^3.17.4"
