@@ -10716,3 +10716,5 @@ rcube_webmail.prototype.get_cookie = getCookie;
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+
+window.rcmail = new rcube_webmail();
