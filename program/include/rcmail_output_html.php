@@ -141,16 +141,11 @@ class rcmail_output_html extends rcmail_output
             */
             EOF;
         // add common javascripts
-        $this->add_script($lic, 'head_top');
-        $this->add_script('var ' . self::JS_OBJECT_NAME . ' = new rcube_webmail();', 'head_top');
-
-        // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(self::JS_OBJECT_NAME . '.init();', 'docready');
-
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
         $this->include_script('common.js');
         $this->include_script('app.js');
+        $this->include_script('rcmail-init.js', 'foot');
 
         // register common UI objects
         $this->add_handlers([
