@@ -621,7 +621,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      */
     public static function message_body($attrib)
     {
-        if (empty(self::$MESSAGE) || (empty(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))) {
+        // Exit early if there's no content to be shown anyway.
+        // `mime_parts` also includes a message's body, even if it originally
+        // was the only part of the message.
+        if (empty(self::$MESSAGE) || empty(self::$MESSAGE->mime_parts)) {
             return '';
         }
 
