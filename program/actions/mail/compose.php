@@ -1378,11 +1378,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $content_link = html::a([
                         'href' => '#load',
                         'class' => 'filename',
-                        'onclick' => sprintf(
-                            "return %s.command('load-attachment','rcmfile%s', this, event)",
-                            rcmail_output::JS_OBJECT_NAME,
-                            $id
-                        ),
+                        'data-onclick' => json_encode([
+                            'command',
+                            'load-attachment',
+                            "rcmfile{$id}",
+                            '__THIS__',
+                            '__EVENT__',
+                        ]),
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                     ],
                     $link_content
@@ -1391,11 +1393,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $delete_link = html::a([
                         'href' => '#delete',
                         'title' => $rcmail->gettext('delete'),
-                        'onclick' => sprintf(
-                            "return %s.command('remove-attachment','rcmfile%s', this, event)",
-                            rcmail_output::JS_OBJECT_NAME,
-                            $id
-                        ),
+                        'data-onclick' => json_encode([
+                            'command',
+                            'remove-attachment',
+                            "rcmfile{$id}",
+                            '__THIS__',
+                            '__EVENT__',
+                        ]),
                         'class' => 'delete',
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                         'aria-label' => $rcmail->gettext('delete') . ' ' . $a_prop['name'],
@@ -1510,7 +1514,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href' => '#list',
                     'rel' => '%s',
-                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list-addresses','%s',this)",
+                    'data-onclick' => json_encode(['command', 'list-addresses', '%s', '__THIS__']),
                 ],
                 '%s'
             )
@@ -1581,11 +1585,13 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     'class' => rtrim('insertresponse ' . $attrib['itemclass']),
                     'unselectable' => 'on',
                     'tabindex' => '0',
-                    'onclick' => sprintf(
-                        "return %s.command('insert-response', '%s', this, event)",
-                        rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ($response['id'])
-                    ),
+                    'data-onclick' => json_encode([
+                        'command',
+                        'insert-response',
+                        $response['id'],
+                        '__THIS__',
+                        '__EVENT__',
+                    ]),
                 ],
                 rcube::Q($response['name'])
             );

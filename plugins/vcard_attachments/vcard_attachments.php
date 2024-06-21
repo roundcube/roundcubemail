@@ -127,10 +127,10 @@ class vcard_attachments extends rcube_plugin
 
             if (count($contacts) == 1) {
                 $display = array_first($contacts);
-                $attr['onclick'] = "return plugin_vcard_import('" . rcube::JQ(key($contacts)) . "')";
+                $attr['data-onclick'] = json_encode(['vcard_attachments_plugin_vcard_import', key($contacts)]);
             } else {
                 $display = $this->gettext(['name' => 'contactsattached', 'vars' => ['num' => count($contacts)]]);
-                $attr['onclick'] = 'return plugin_vcard_import()';
+                $attr['data-onclick'] = json_encode(['vcard_attachments_plugin_vcard_import']);
 
                 $rcmail->output->set_env('vcards', $contacts);
                 $rcmail->output->add_label('vcard_attachments.addvcardmsg', 'import');

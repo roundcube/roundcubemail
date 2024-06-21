@@ -221,19 +221,17 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $li_class = $class;
 
             if (!self::$PRINT_MODE) {
+                $rcmail->output->include_script('mail-action-show.js');
                 $link_attrs = [
                     'href' => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
-                    'onclick' => sprintf('%s.command(\'load-attachment\',\'%s\',this); return false',
-                        rcmail_output::JS_OBJECT_NAME, $attach_prop->mime_id),
-                    'onmouseover' => $title ? '' : 'rcube_webmail.long_subject_title_ex(this, 0)',
+                    'data-mime-id' => $attach_prop->mime_id,
                     'title' => $title,
                     'class' => 'filename',
                 ];
 
                 if ($mimetype != 'message/rfc822' && empty($attach_prop->size)) {
                     $li_class .= ' no-menu';
-                    $link_attrs['onclick'] = sprintf('%s.alert_dialog(%s.get_label(\'emptyattachment\')); return false',
-                        rcmail_output::JS_OBJECT_NAME, rcmail_output::JS_OBJECT_NAME);
+                    $link_attrs['data-emptyattachment'] = 'true';
                     $rcmail->output->add_label('emptyattachment');
                 }
 
@@ -261,7 +259,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
         $buttons = html::a(
-            ['href' => '#loadremote', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')"],
+            ['href' => '#loadremote', 'data-onclick' => json_encode(['command', 'load-remote'])],
             rcube::Q($rcmail->gettext('allow'))
         );
 
@@ -271,7 +269,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
                     'href' => '#loadremotealways',
-                    'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote', {$arg})",
+                    'data-onclick' => json_encode(['command', 'load-remote', $arg]),
                     'style' => 'white-space:nowrap',
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
@@ -327,7 +325,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('isdraft')))
             . '&nbsp;'
             . html::a(
-                ['href' => '#edit', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('edit')"],
+                ['href' => '#edit', 'data-onclick' => json_encode(['command', 'edit'])],
                 rcube::Q($rcmail->gettext('edit'))
             );
 
@@ -382,7 +380,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             // set error handler on <img>
             $error_handler = true;
-            $attrib['onerror'] = "this.onerror = null; this.src = '{$placeholder}';";
+            $attrib['data-onerror'] = json_encode(['onerror_set_placeholder_src', '__EVENT__', $placeholder]);
         }
 
         if (!empty(self::$MESSAGE->sender)) {
@@ -602,7 +600,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $html .= html::div([
             'class' => 'more-headers show-headers',
-            'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('show-headers','',this)",
+            'data-onclick' => json_encode(['command', 'show-headers', '', '__THIS__']),
             'title' => $rcmail->gettext('togglefullheaders'),
         ], '');
 
@@ -753,11 +751,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $supported = in_array($mimetype, self::$CLIENT_MIMETYPES);
                         $show_link_attr = [
                             'href' => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
-                            'onclick' => sprintf(
-                                '%s.command(\'load-attachment\',\'%s\',this); return false',
-                                rcmail_output::JS_OBJECT_NAME,
-                                $attach_prop->mime_id
-                            ),
+                            'data-onclick' => json_encode(['command', 'load-attachment', $attach_prop->mime_id, '__THIS__']),
                         ];
                         $download_link_attr = [
                             'href' => $show_link_attr['href'] . '&_download=1',
@@ -773,7 +767,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                     'title' => $attach_prop->filename,
                                     'alt' => $attach_prop->filename,
                                     'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
-                                    'onload' => $supported ? '' : '$(this).parents(\'p.image-attachment\').show()',
+                                    'data-onload' => $supported ? '' : json_encode(['show_sibling_image_attachments', '__THIS__']),
                                 ])
                             ) .
                             html::span('image-filename', rcube::Q($attach_prop->filename)) .

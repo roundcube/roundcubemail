@@ -66,7 +66,7 @@ class ShowTest extends ActionTestCase
     public function test_render_email_value()
     {
         $input = 'test@<email.tld';
-        $expected = '<a href="mailto:test@&lt;email.tld" onclick="return rcmail.command(\'compose\',\'test@&lt;email.tld\',this)"'
+        $expected = '<a href="mailto:test@&lt;email.tld" data-onclick="' . htmlentities(json_encode(['command', 'compose', $input, '__THIS__'])) . '"'
             . ' title="Compose mail to" class="email">test@&lt;email.tld</a>';
         $this->assertSame($expected, \rcmail_action_contacts_show::render_email_value($input));
     }

@@ -747,6 +747,8 @@ function rule_op_select(obj, id, header) {
     target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
 }
 
+rcube_webmail.prototype.managesieve_rule_op_select = rule_op_select;
+
 function rule_trans_select(id) {
     var obj = document.getElementById('rule_trans_op' + id),
         target = document.getElementById('rule_trans_type' + id);
@@ -846,6 +848,8 @@ function action_type_select(id) {
         }
     }
 }
+
+rcube_webmail.prototype.managesieve_action_type_select = action_type_select;
 
 function vacation_action_select() {
     var selected = $('#vacation_action').val();
@@ -1282,4 +1286,8 @@ rcube_webmail.prototype.managesieve_dialog_resize = function (o) {
     }
 
     dialog.dialog('option', { height: Math.min(h - 20, height + 120), width: Math.min(w - 20, width + 65) });
+};
+
+rcube_webmail.prototype.ui_switch_nav_list = function (elem) {
+    UI.switch_nav_list(elem);
 };

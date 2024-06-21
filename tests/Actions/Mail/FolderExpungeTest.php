@@ -81,7 +81,7 @@ class FolderExpungeTest extends ActionTestCase
             $js_calls[0]
         );
         $this->assertSame('set_quota', $js_calls[1][0]);
-        $this->assertSame('message_list.clear', $js_calls[2][0]);
+        $this->assertSame('message_list_clear', $js_calls[2][0]);
     }
 
     /**

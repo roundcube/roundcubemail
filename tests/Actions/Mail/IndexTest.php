@@ -171,7 +171,7 @@ class IndexTest extends ActionTestCase
 
         $link = $action->options_menu_link(['icon' => 'ico.png']);
 
-        $expected = '<a href="#list-options" onclick="return rcmail.command(\'menu-open\', \'messagelistmenu\', this, event)"'
+        $expected = '<a href="#list-options" data-onclick="' . htmlentities(json_encode(['command', 'menu-open', 'messagelistmenu', '__THIS__', '__EVENT__'])) . '"'
             . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
 
         $this->assertSame($expected, $link);
@@ -233,9 +233,9 @@ class IndexTest extends ActionTestCase
 
         $result = $action->address_string('test@domain.com', null, true, true);
         $expected = '<span class="adr"><a href="mailto:test@domain.com" class="rcmContactAddress" '
-            . 'onclick="return rcmail.command(\'compose\',\'test@domain.com\',this)" title="test@domain.com">'
+            . 'data-onclick="' . htmlentities(json_encode(['command', 'compose', 'test@domain.com', '__THIS__'])) . '" title="test@domain.com">'
             . 'test@domain.com</a><a href="#add" title="Add to address book" class="rcmaddcontact" '
-            . 'onclick="return rcmail.command(\'add-contact\',\'test@domain.com\',this)"></a></span>';
+            . 'data-onclick="' . htmlentities(json_encode(['command', 'add-contact', 'test@domain.com', '__THIS__'])) . '"></a></span>';
 
         $this->assertSame($expected, $result);
 
@@ -372,7 +372,7 @@ class IndexTest extends ActionTestCase
         $this->assertDoesNotMatchRegularExpression('/src="skins/', $html, 'Remove local references');
         $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $html, 'Remove on* attributes');
         $this->assertStringNotContainsString('onload', $html, 'Handle invalid style');
-        $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, 'Clean mailto links');
+        $this->assertDoesNotMatchRegularExpression('/data-onclick="' . htmlentities(json_encode(['command', 'compose', 'xss@somehost.net', '__THIS__'])) . '"/', $html, 'Clean mailto links');
         $this->assertDoesNotMatchRegularExpression('/alert/', $html, 'Remove alerts');
     }
 
@@ -528,10 +528,10 @@ class IndexTest extends ActionTestCase
         $part->body = quoted_printable_decode(file_get_contents(TESTS_DIR . 'src/plainbody.txt'));
         $html = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
-        $this->assertMatchesRegularExpression(
-            '/<a href="mailto:nobody@roundcube.net" onclick="return rcmail.command\(\'compose\',\'nobody@roundcube.net\',this\)">nobody@roundcube.net<\/a>/',
+        $this->assertStringContainsString(
+            '<a href="mailto:nobody@roundcube.net" data-onclick="' . htmlentities(json_encode(['command', 'compose', 'nobody@roundcube.net', '__THIS__'])) . '">nobody@roundcube.net</a>',
             $html,
-            'Mailto links with onclick'
+            'Mailto links with data-onclick'
         );
         $this->assertMatchesRegularExpression(
             '#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#',
@@ -559,7 +559,7 @@ class IndexTest extends ActionTestCase
         $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $mailto = '<a href="mailto:me@me.com"'
-            . ' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
+            . ' data-onclick="' . htmlentities(json_encode(['command', 'compose', 'me@me.com?subject=this is the subject&body=this is the body', '__THIS__'])) . '" rel="noreferrer">e-mail</a>';
 
         $this->assertMatchesRegularExpression('|' . preg_quote($mailto, '|') . '|', $html, 'Extended mailto links');
     }
