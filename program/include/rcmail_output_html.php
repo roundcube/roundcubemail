@@ -1985,11 +1985,14 @@ class rcmail_output_html extends rcmail_output
 
         $page_footer .= html::div(['id' => 'js-data', 'style' => 'display: none', 'hidden' => true], $this->get_js_commands());
 
+        $page_footer .= $this->footer . "\n";
+
+        // Make sure to add the 'foot' scripts after the footer data, because
+        // that data can contain e.g. relevant elements for popups that are
+        // triggered from `rcmail.init()`.
         if (!empty($this->script_files['foot'])) {
             $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
         }
-
-        $page_footer .= $this->footer . "\n";
 
         // find page header
         if ($hpos = stripos($output, '</head>')) {
