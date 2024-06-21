@@ -40,7 +40,7 @@ class EditTest extends ActionTestCase
         $this->assertSame('Edit contact', $output->getProperty('pagetitle'));
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('contactphoto', 'contactpic');") !== false);
+        $this->assertTrue(strpos($result, '["gui_object","contactphoto","contactpic"]') !== false);
     }
 
     /**
@@ -96,10 +96,11 @@ class EditTest extends ActionTestCase
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = \rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
 
-        $scripts = $output->getProperty('scripts');
+        $commands = $output->getProperty('js_commands');
+        $gui_object_commands = array_filter($commands, static function ($arr) { return $arr['0'] === 'gui_object'; });
         $filedrop = $output->get_env('filedrop');
 
-        $this->assertSame("rcmail.gui_object('filedrop', 'test');", trim($scripts['head']));
+        $this->assertSame([['gui_object', 'filedrop', 'test']], $gui_object_commands);
         $this->assertSame('upload-photo', $filedrop['action']);
         $this->assertSame('_photo', $filedrop['fieldname']);
         $this->assertSame(1, $filedrop['single']);

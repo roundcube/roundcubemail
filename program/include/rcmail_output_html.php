@@ -36,7 +36,6 @@ class rcmail_output_html extends rcmail_output
     protected $scripts_path = '';
     protected $script_files = [];
     protected $css_files = [];
-    protected $scripts = [];
     protected $task;
     protected $meta_tags = [];
     protected $link_tags = ['shortcut icon' => ''];
@@ -485,7 +484,7 @@ class rcmail_output_html extends rcmail_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('{$obj}', '{$id}');");
+        $this->js_commands[] = ['gui_object', $obj, $id];
     }
 
     /**
@@ -589,7 +588,6 @@ class rcmail_output_html extends rcmail_output
         $this->framed = $framed || !empty($this->env['framed']);
         $this->js_labels = [];
         $this->js_commands = [];
-        $this->scripts = [];
         $this->header = '';
         $this->footer = '';
         $this->body = '';
@@ -681,23 +679,6 @@ class rcmail_output_html extends rcmail_output
         // Fix assets path on blankpage
         if (!empty($this->js_env['blankpage'])) {
             $this->js_env['blankpage'] = $this->asset_url($this->js_env['blankpage'], true);
-        }
-
-        $commands = $this->get_js_commands($framed);
-
-        // if all js commands go to parent window we can ignore all
-        // script files and skip rcube_webmail initialization (#1489792)
-        // but not on error pages where skins may need jQuery, etc.
-        if ($framed && empty($this->js_env['server_error'])) {
-            $this->scripts = [];
-            $this->script_files = [];
-            $this->header = '';
-            $this->footer = '';
-        }
-
-        // write all javascript commands
-        if (!empty($commands)) {
-            $this->add_script($commands, 'head_top');
         }
 
         $this->page_headers();
@@ -848,7 +829,7 @@ class rcmail_output_html extends rcmail_output
     /**
      * Return executable javascript code for all registered commands
      */
-    protected function get_js_commands(&$framed = null)
+    protected function get_js_commands()
     {
         $out = '';
         $parent_commands = 0;
@@ -874,36 +855,20 @@ class rcmail_output_html extends rcmail_output
 
         $commands = array_merge($top_commands, $this->js_commands);
 
-        foreach ($commands as $args) {
-            $method = array_shift($args);
-            $parent = $this->framed || preg_match('/^parent\./', $method);
-
-            foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg, $this->devel_mode);
+        // If this is framed, prefix all commands (which are the first element
+        // of each sub-array) so they're called on the parent's `rcmail`
+        // instance.
+        if ($this->framed) {
+            // Using `for` because we modify the array's content and want to
+            // avoid the pitfalls of `foreach` and passing by reference.
+            for ($i = 0; $i < count($commands); $i++) {
+                if (strpos($commands[$i][0], 'parent.') !== 0) {
+                    $commands[$i][0] = "parent.{$commands[$i][0]}";
+                }
             }
-
-            if ($parent) {
-                $parent_commands++;
-                $method = preg_replace('/^parent\./', '', $method);
-                $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
-                $method = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
-            } else {
-                $method = self::JS_OBJECT_NAME . '.' . $method;
-            }
-
-            $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
         }
 
-        $framed = $parent_prefix && $parent_commands == count($commands);
-
-        // make the output more compact if all commands go to parent window
-        if ($framed) {
-            $out = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ") {\n"
-                . str_replace($parent_prefix, "\tparent.", $out)
-                . "}\n";
-        }
-
-        return $out;
+        return self::json_serialize($commands, $this->devel_mode);
     }
 
     /**
@@ -1796,16 +1761,15 @@ class rcmail_output_html extends rcmail_output
 
         // register button in the system
         if (!empty($attrib['command'])) {
-            $this->add_script(sprintf(
-                "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
-                self::JS_OBJECT_NAME,
+            $this->js_commands[] = [
+                'register_button',
                 $command,
                 $attrib['id'],
                 $attrib['type'],
                 !empty($attrib['imageact']) ? $this->abs_url($attrib['imageact']) : (!empty($attrib['classact']) ? $attrib['classact'] : ''),
                 !empty($attrib['imagesel']) ? $this->abs_url($attrib['imagesel']) : (!empty($attrib['classsel']) ? $attrib['classsel'] : ''),
-                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : ''
-            ));
+                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : '',
+            ];
 
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
@@ -1925,21 +1889,6 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
-     * Add inline javascript code
-     *
-     * @param string $script   JS code snippet
-     * @param string $position Target position [head|head_top|foot|docready]
-     */
-    public function add_script($script, $position = 'head')
-    {
-        if (!isset($this->scripts[$position])) {
-            $this->scripts[$position] = rtrim($script);
-        } else {
-            $this->scripts[$position] .= "\n" . rtrim($script);
-        }
-    }
-
-    /**
      * Link an external css file
      *
      * @param string $file File URL
@@ -1988,15 +1937,6 @@ class rcmail_output_html extends rcmail_output
             return $output . html::script($script);
         };
 
-        $merge_scripts = static function ($output, $script) {
-            return $output . html::script([], $script);
-        };
-
-        // put docready commands into page footer
-        if (!empty($this->scripts['docready'])) {
-            $this->add_script("\$(function() {\n" . $this->scripts['docready'] . "\n});", 'foot');
-        }
-
         $page_header = '';
         $page_footer = '';
         $meta = '';
@@ -2037,25 +1977,19 @@ class rcmail_output_html extends rcmail_output
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head = $this->scripts['head_top'] ?? '';
-        $head .= $this->scripts['head'] ?? '';
-
-        $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";
 
         if (!empty($this->script_files['head_bottom'])) {
             $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
         }
 
+        $page_footer .= html::div(['id' => 'js-data', 'style' => 'display: none', 'hidden' => true], $this->get_js_commands());
+
         if (!empty($this->script_files['foot'])) {
             $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
         }
 
         $page_footer .= $this->footer . "\n";
-
-        if (!empty($this->scripts['foot'])) {
-            $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
-        }
 
         // find page header
         if ($hpos = stripos($output, '</head>')) {
@@ -2419,11 +2353,7 @@ class rcmail_output_html extends rcmail_output
             return;
         }
 
-        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) . ';
-            for (var i=0; i<images.length; i++) {
-                img = new Image();
-                img.src = images[i];
-            }', 'docready');
+        $this->command('preload_images', $images);
     }
 
     /**

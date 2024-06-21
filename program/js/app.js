@@ -224,6 +224,9 @@ function rcube_webmail() {
     // initialize webmail client
     this.init = function () {
         var n;
+
+        this.interpret_js_data();
+
         this.task = this.env.task;
 
         if (!this.env.blankpage) {
@@ -795,6 +798,46 @@ function rcube_webmail() {
         // start keep-alive and refresh intervals
         this.start_refresh();
         this.start_keepalive();
+    };
+
+    /**
+     * Handle "commands" passed in via #js-data. Through this, server code can
+     * trigger Javascript-methods to be called or events to be thrown (for
+     * plugin JS-code).
+     */
+    this.interpret_js_data = function () {
+        // Do not use `.textContent`, and neither jQuery's `.text()` here,
+        // because both modify the actual string!
+        var raw = $('#js-data').html();
+        if (!raw) {
+            return;
+        }
+        var data = JSON.parse(raw);
+        data.forEach((args) => {
+            if (!Array.isArray(args)) {
+                this.log("Unexpected data in '#js-data'! This is not an array: ", args);
+            }
+            var command = args.shift();
+            if (command.startsWith('plugin.')) {
+                // Plugin code is reached via events.
+                this.triggerEvent(command, args);
+                return;
+            }
+            if (command.startsWith('parent.')) {
+                command = command.replace(/^parent\./, '');
+                if (typeof parent.rcmail[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                parent.rcmail[command](...args);
+            } else {
+                if (typeof this[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                this[command](...args);
+            }
+        });
     };
 
     this.log = function (msg) {
@@ -10649,6 +10692,13 @@ function rcube_webmail() {
     this.print_dialog = function () {
         // setTimeout for Safari
         setTimeout('window.print()', 10);
+    };
+
+    this.preload_images = function (urls) {
+        for (var i=0; i<urls.length; i++) {
+            var img = new Image();
+            img.src = urls[i];
+        }
     };
 } // end object rcube_webmail
 
