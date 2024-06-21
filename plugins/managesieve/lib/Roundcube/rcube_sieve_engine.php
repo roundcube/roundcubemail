@@ -2747,8 +2747,7 @@ class rcube_sieve_engine
             return;
         }
 
-        $script = rcmail_output::JS_OBJECT_NAME . '.managesieve_tip_register(' . json_encode($this->tips) . ');';
-        $this->rc->output->add_script($script, 'docready');
+        $this->rc->output->command('managesieve_tip_register', $this->tips);
     }
 
     protected function list_input($id, $name, $value, $size = null, $hidden = false, $attrib = [])
