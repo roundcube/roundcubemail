@@ -171,7 +171,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->add_script('rcmail.set_quota(' . rcube_output::json_serialize($quota) . ');', 'docready');
+        $rcmail->output->command('set_quota', rcube_output::json_serialize($quota));
 
         return html::span($attrib, '&nbsp;');
     }
@@ -431,10 +431,8 @@ abstract class rcmail_action
         }
 
         if (!empty($editorId)) {
-            $script = rcmail_output::JS_OBJECT_NAME . ".enable_command('toggle-editor', true);"
-                . rcmail_output::JS_OBJECT_NAME . ".editor_init(null, '{$editorId}');";
-
-            $rcmail->output->add_script($script, 'docready');
+            $rcmail->output->command('enable_command', 'toggle-editor', true);
+            $rcmail->output->command('editor_init', null, $editorId);
         }
 
         $rcmail->output->include_script('tinymce/tinymce.min.js');
