@@ -513,18 +513,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
-            $rcmail->output->add_script(sprintf(
-                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n" .
-                "googie.lang_chck_spell = \"%s\";\n" .
-                "googie.lang_rsm_edt = \"%s\";\n" .
-                "googie.lang_close = \"%s\";\n" .
-                "googie.lang_revert = \"%s\";\n" .
-                "googie.lang_no_error_found = \"%s\";\n" .
-                "googie.lang_learn_word = \"%s\";\n" .
-                "googie.setLanguages(%s);\n" .
-                "googie.setCurrentLanguage('%s');\n" .
-                "googie.setDecoration(false);\n" .
-                "googie.decorateTextarea(rcmail.env.composebody);\n",
+            $rcmail->output->include_script('googiespell_init.js');
+            $rcmail->output->command('googiespell_init',
                 $rcmail->output->asset_url($rcmail->output->get_skin_path()),
                 $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
                 !empty($dictionary) ? 'true' : 'false',
@@ -534,9 +524,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 rcube::JQ(rcube::Q($rcmail->gettext('revertto'))),
                 rcube::JQ(rcube::Q($rcmail->gettext('nospellerrors'))),
                 rcube::JQ(rcube::Q($rcmail->gettext('addtodict'))),
-                rcube_output::json_serialize($spellcheck_langs),
+                $spellcheck_langs,
                 $lang
-            ), 'foot');
+            );
 
             $rcmail->output->add_label('checking');
             $rcmail->output->set_env('spell_langs', $spellcheck_langs);
