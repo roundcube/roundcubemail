@@ -2341,29 +2341,6 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
-     * GUI object 'preloader'
-     * Loads javascript code for images preloading
-     *
-     * @param array $attrib Named parameters
-     */
-    protected function preloader($attrib): void
-    {
-        $images = preg_split('/[\s\t\n,]+/', $attrib['images'], -1, \PREG_SPLIT_NO_EMPTY);
-        $images = array_map([$this, 'abs_url'], $images);
-        $images = array_map([$this, 'asset_url'], $images);
-
-        if (empty($images) || (isset($_REQUEST['_task']) && $_REQUEST['_task'] == 'logout')) {
-            return;
-        }
-
-        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) . ';
-            for (var i=0; i<images.length; i++) {
-                img = new Image();
-                img.src = images[i];
-            }', 'docready');
-    }
-
-    /**
      * GUI object 'searchform'
      * Returns code for search function
      *
