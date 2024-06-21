@@ -120,7 +120,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                     'html_signature' => [
                         'type' => 'checkbox',
                         'label' => $rcmail->gettext('htmlsignature'),
-                        'onclick' => "return rcmail.command('toggle-editor', {id: 'rcmfd_signature', html: this.checked}, '', event)",
+                        'data-onclick' => json_encode(['toggle_html_signature_editor', '__EVENT__']),
                     ],
                 ],
             ],

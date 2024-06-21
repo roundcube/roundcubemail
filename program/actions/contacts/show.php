@@ -165,11 +165,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
 
         return html::a([
                 'href' => 'mailto:' . $email,
-                'onclick' => sprintf(
-                    "return %s.command('compose','%s',this)",
-                    rcmail_output::JS_OBJECT_NAME,
-                    rcube::JQ($email)
-                ),
+                'data-onclick' => json_encode(['command', 'compose', rcube::JQ($email), '__THIS__']),
                 'title' => $rcmail->gettext('composeto'),
                 'class' => 'email',
             ],

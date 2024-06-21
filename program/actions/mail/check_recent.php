@@ -143,7 +143,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 $rcmail->output->set_env('current_page', $all_count ? $page : 1);
 
                 // remove old rows (and clear selection if new list is empty)
-                $rcmail->output->add_js_call('message_list.clear', $all_count ? false : true);
+                $rcmail->output->add_js_call('message_list_clear', $all_count ? false : true);
 
                 if ($all_count) {
                     $a_headers = $rcmail->storage->list_messages($mbox_name, null, self::sort_column(), self::sort_order());

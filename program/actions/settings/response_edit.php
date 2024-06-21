@@ -92,7 +92,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
         $chk_attr = [
             'id' => 'ffis_html',
             'disabled' => $readonly,
-            'onclick' => "return rcmail.command('toggle-editor', {id: 'fftext', html: this.checked}, '', event)",
+            'data-onclick' => json_encode(['command', 'toggle_html_editor', '__EVENT__']),
         ];
 
         // Add HTML editor script(s)

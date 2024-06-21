@@ -393,12 +393,12 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             . (!empty($this->vacation['addresses']) ? rcube::Q(implode("\n", (array) $this->vacation['addresses']), 'strict', false) : '')
             . '</textarea>';
         $status = new html_select(['name' => 'vacation_status', 'id' => 'vacation_status', 'class' => 'custom-select']);
-        $action = new html_select(['name' => 'vacation_action', 'id' => 'vacation_action', 'class' => 'custom-select', 'onchange' => 'vacation_action_select()']);
+        $action = new html_select(['name' => 'vacation_action', 'id' => 'vacation_action', 'class' => 'custom-select', 'data-onchange' => json_encode(['vacation_action_select'])]);
         $addresses_link = new html_inputfield([
             'type' => 'button',
             'href' => '#',
             'class' => 'button',
-            'onclick' => rcmail_output::JS_OBJECT_NAME . '.managesieve_vacation_addresses()',
+            'data-onclick' => json_encode(['managesieve_vacation_addresses']),
         ]);
 
         $redirect = !empty($this->vacation['action'])

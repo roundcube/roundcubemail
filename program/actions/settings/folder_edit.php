@@ -230,10 +230,8 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
 
                     // create link with folder-size command
                     if (!isset($size) || $size === false) {
-                        $onclick = sprintf("return %s.command('folder-size', '%s', this)",
-                            rcmail_output::JS_OBJECT_NAME, rcube::JQ($mbox));
-
-                        $attr = ['href' => '#', 'onclick' => $onclick, 'id' => 'folder-size'];
+                        $onclick = json_encode(['command', 'folder-size', $mbox, '__THIS__']);
+                        $attr = ['href' => '#', 'data-onclick' => $onclick, 'id' => 'folder-size'];
                         $size = html::a($attr, $rcmail->gettext('getfoldersize'));
                     }
                 } else {

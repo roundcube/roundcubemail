@@ -723,11 +723,13 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail = rcmail::get_instance();
         $title = $rcmail->gettext(!empty($attrib['label']) ? $attrib['label'] : 'listoptions');
         $inner = $title;
-        $onclick = sprintf(
-            "return %s.command('menu-open', '%s', this, event)",
-            rcmail_output::JS_OBJECT_NAME,
-            !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu'
-        );
+        $onclick = json_encode([
+            'command',
+            'menu-open',
+            !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu',
+            '__THIS__',
+            '__EVENT__',
+        ]);
 
         // Backwards compatibility, attribute renamed in v1.5
         if (isset($attrib['optionsmenuicon'])) {
@@ -742,7 +744,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         return html::a([
                 'href' => '#list-options',
-                'onclick' => $onclick,
+                'data-onclick' => $onclick,
                 'class' => $attrib['class'] ?? 'listmenu',
                 'id' => $attrib['id'] ?? 'listmenulink',
                 'title' => $title,
@@ -1337,13 +1339,15 @@ class rcmail_action_mail_index extends rcmail_action
 
                 if (!empty($addresses)) {
                     $attrib['href'] = 'mailto:' . implode(',', $addresses);
-                    $attrib['onclick'] = sprintf(
-                        "return %s.command('compose','%s',this)",
-                        rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ(implode(',', $mailto) . ($url ? "?{$url}" : '')));
+                    $attrib['data-onclick'] = json_encode([
+                        'command',
+                        'compose',
+                        implode(',', $mailto) . ($url ? "?{$url}" : ''),
+                        '__THIS__',
+                    ]);
                 } else {
                     $attrib['href'] = '#NOP';
-                    $attrib['onclick'] = '';
+                    $attrib['data-onclick'] = '';
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
@@ -1356,7 +1360,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         // allowed attributes for a|link|area tags
-        $allow = ['href', 'name', 'target', 'onclick', 'id', 'class', 'style', 'title',
+        $allow = ['href', 'name', 'target', 'id', 'class', 'style', 'title',
             'rel', 'type', 'media', 'alt', 'coords', 'nohref', 'hreflang', 'shape'];
 
         return html::tag($tag, $attrib, $content, $allow);
@@ -1423,8 +1427,12 @@ class rcmail_action_mail_index extends rcmail_action
                     $attrs = [
                         'href' => 'mailto:' . $mailto,
                         'class' => 'rcmContactAddress',
-                        'onclick' => sprintf("return %s.command('compose','%s',this)",
-                            rcmail_output::JS_OBJECT_NAME, rcube::JQ(format_email_recipient($mailto, $name))),
+                        'data-onclick' => json_encode([
+                            'command',
+                            'compose',
+                            format_email_recipient($mailto, $name),
+                            '__THIS__',
+                        ]),
                     ];
 
                     if ($show_email && $name && $mailto) {
@@ -1451,8 +1459,7 @@ class rcmail_action_mail_index extends rcmail_action
                             'href' => '#add',
                             'title' => $label,
                             'class' => 'rcmaddcontact',
-                            'onclick' => sprintf("return %s.command('add-contact','%s',this)",
-                                rcmail_output::JS_OBJECT_NAME, rcube::JQ($string)),
+                            'data-onclick' => json_encode(['command', 'add-contact', $string, '__THIS__']),
                         ],
                         $addicon == 'virtual' ? '' : $icon
                     );
@@ -1489,17 +1496,20 @@ class rcmail_action_mail_index extends rcmail_action
                 $out .= ', ' . html::a([
                         'href' => '#more',
                         'class' => 'morelink',
-                        'onclick' => '$(this).hide().next().show()',
+                        'data-onclick' => json_encode(['hide_and_show_next', '__THIS__']),
                     ], $label)
                     . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
             } else {
                 $out .= ', ' . html::a([
                     'href' => '#more',
                     'class' => 'morelink',
-                    'onclick' => sprintf("return %s.simple_dialog('%s','%s',null,{cancel_button:'close'})",
-                        rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ(implode(', ', $allvalues)),
-                        rcube::JQ($title)),
+                    'data-onclick' => json_encode([
+                        'simple_dialog',
+                        implode(', ', $allvalues),
+                        $title,
+                        null,
+                        ['cancel_button' => 'close'],
+                    ]),
                 ], $label);
             }
         }

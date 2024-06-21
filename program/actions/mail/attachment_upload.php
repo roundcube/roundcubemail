@@ -201,20 +201,12 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
         $content_link = html::a([
             'href' => '#load',
             'class' => 'filename',
-            'onclick' => sprintf(
-                "return %s.command('load-attachment','rcmfile%s', this, event)",
-                rcmail_output::JS_OBJECT_NAME,
-                $id
-            ),
+            'data-onclick' => json_encode(['command', 'load-attachment', "rcmfile{$id}", '__THIS__', '__EVENT__']),
         ], $link_content);
 
         $delete_link = html::a([
             'href' => '#delete',
-            'onclick' => sprintf(
-                "return %s.command('remove-attachment','rcmfile%s', this, event)",
-                rcmail_output::JS_OBJECT_NAME,
-                $id
-            ),
+            'data-onclick' => json_encode(['command', 'remove-attachment', "rcmfile{$id}", '__THIS__', '__EVENT__']),
             'title' => $rcmail->gettext('delete'),
             'class' => 'delete',
             'aria-label' => $rcmail->gettext('delete') . ' ' . $attachment['name'],
