@@ -611,7 +611,7 @@ class enigma_ui
             $max_filesize = rcmail_action::upload_init();
             $upload_button = new html_button([
                 'class' => 'button import',
-                'onclick' => "return rcmail.command('plugin.enigma-import','',this,event)",
+                'data-onclick' => json_encode(['command', 'plugin.enigma-import', '', '__THIS__', '__EVENT__']),
             ]);
 
             $form = html::div(null, html::p(null, rcube::Q($this->enigma->gettext('keyimporttext'), 'show'))
@@ -639,7 +639,7 @@ class enigma_ui
 
             $search_button = new html_button([
                 'class' => 'button search',
-                'onclick' => "return rcmail.command('plugin.enigma-import-search','',this,event)",
+                'data-onclick' => json_encode(['command', 'plugin.enigma-import-search', '', '__THIS__', '__EVENT__']),
             ]);
 
             $form = html::div(null,
@@ -848,7 +848,7 @@ class enigma_ui
             $this->enigma->add_button([
                     'type' => 'link',
                     'command' => 'plugin.enigma',
-                    'onclick' => "rcmail.command('menu-open', 'enigmamenu', event.target, event)",
+                    'data-onclick' => json_encode(['command', 'menu-open', 'enigmamenu', '__THIS__', '__EVENT__']),
                     'class' => 'button enigma',
                     'title' => 'encryptionoptions',
                     'label' => 'encryption',
@@ -1107,7 +1107,7 @@ class enigma_ui
             $p['content'] = html::p(['class' => 'enigmaattachment boxinformation aligned-buttons'],
                 html::span(null, rcube::Q($this->enigma->gettext('keyattfound'))) .
                 html::tag('button', [
-                        'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".enigma_import_attachment('" . rcube::JQ($part) . "')",
+                        'data-onclick' => json_encode(['enigma_import_attachment', $part]),
                         'title' => $this->enigma->gettext('keyattimport'),
                         'class' => 'import btn-sm',
                     ], rcube::Q($this->rc->gettext('import'))

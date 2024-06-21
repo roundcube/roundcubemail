@@ -63,6 +63,8 @@ class rcmail_action_settings_index extends rcmail_action
                 'settingstabs' => [$this, 'settings_tabs'],
                 'sectionslist' => [$this, 'sections_list'],
             ]);
+            // Add JS helpers.
+            $rcmail->output->include_script('actions.js');
         }
     }
 
@@ -335,7 +337,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     'alt' => $meta['name'],
                                     'width' => 64,
                                     'height' => 64,
-                                    'onerror' => "this.onerror = null; this.src = 'data:image/gif;base64," . rcmail_output::BLANK_GIF . "';",
+                                    'data-onerror' => json_encode(['onerror_set_placeholder_src', '__EVENT__', 'data:image/gif;base64,' . rcmail_output::BLANK_GIF]),
                                 ]);
 
                                 $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
@@ -563,7 +565,7 @@ class rcmail_action_settings_index extends rcmail_action
                             'name' => '_prefer_html',
                             'id' => $field_id,
                             'value' => 1,
-                            'onchange' => "$('#rcmfd_show_images').prop('disabled', !this.checked).val(0)",
+                            'data-onchange' => json_encode(['disable_show_images_if_plaintext_preferred', '__THIS__']),
                         ]);
 
                         $blocks['main']['options']['prefer_html'] = [
@@ -1295,7 +1297,7 @@ class rcmail_action_settings_index extends rcmail_action
                         ]);
 
                         // #1486114, #1488279, #1489219
-                        $onchange = "if ($(this).val() == 'INBOX') $(this).val('')";
+                        $onchange = json_encode(['reset_value_if_inbox', '__THIS__']);
                     } else {
                         $onchange = null;
                         $select = new html_select();
@@ -1306,7 +1308,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_drafts_mbox', 'name' => '_drafts_mbox', 'onchange' => $onchange];
+                        $attrs = ['id' => '_drafts_mbox', 'name' => '_drafts_mbox', 'data-onchange' => $onchange];
                         $blocks['main']['options']['drafts_mbox'] = [
                             'title' => html::label($attrs['id'], rcube::Q($rcmail->gettext('drafts'))),
                             'content' => $select->show($config['drafts_mbox'], $attrs),
@@ -1318,7 +1320,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_sent_mbox', 'name' => '_sent_mbox', 'onchange' => ''];
+                        $attrs = ['id' => '_sent_mbox', 'name' => '_sent_mbox', 'data-onchange' => ''];
                         $blocks['main']['options']['sent_mbox'] = [
                             'title' => html::label($attrs['id'], rcube::Q($rcmail->gettext('sent'))),
                             'content' => $select->show($config['sent_mbox'], $attrs),
@@ -1330,7 +1332,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_junk_mbox', 'name' => '_junk_mbox', 'onchange' => $onchange];
+                        $attrs = ['id' => '_junk_mbox', 'name' => '_junk_mbox', 'data-onchange' => $onchange];
                         $blocks['main']['options']['junk_mbox'] = [
                             'title' => html::label($attrs['id'], rcube::Q($rcmail->gettext('junk'))),
                             'content' => $select->show($config['junk_mbox'], $attrs),
@@ -1342,7 +1344,7 @@ class rcmail_action_settings_index extends rcmail_action
                             continue 2;
                         }
 
-                        $attrs = ['id' => '_trash_mbox', 'name' => '_trash_mbox', 'onchange' => $onchange];
+                        $attrs = ['id' => '_trash_mbox', 'name' => '_trash_mbox', 'data-onchange' => $onchange];
                         $blocks['main']['options']['trash_mbox'] = [
                             'title' => html::label($attrs['id'], rcube::Q($rcmail->gettext('trash'))),
                             'content' => $select->show($config['trash_mbox'], $attrs),
@@ -1477,7 +1479,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $field_id = 'rcmfd_mailvelope_main_keyring';
                         $input = new html_checkbox(['name' => '_mailvelope_main_keyring', 'id' => $field_id, 'value' => 1]);
-                        $mailvelope_enable_button = new html_button(['type' => 'button', 'class' => 'btn btn-secondary', 'onclick' => rcmail_output::JS_OBJECT_NAME . '.mailvelope_enable()']);
+                        $mailvelope_enable_button = new html_button(['type' => 'button', 'class' => 'btn btn-secondary', 'data-onclick' => json_encode(['mailvelope_enable'])]);
 
                         $blocks['mailvelope']['options']['mailvelope_status'] = [
                             'content' => html::div(

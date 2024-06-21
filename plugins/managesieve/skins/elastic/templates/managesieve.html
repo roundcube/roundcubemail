@@ -18,7 +18,7 @@
 		<a class="button icon toolbar-menu-button" href="#list-menu"><span class="inner"><roundcube:label name="menu" /></span></a>
 	</div>
 	<roundcube:if condition="!env:managesieve_no_set_list" />
-	<div class="pagenav pagenav-list menu" onclick="UI.switch_nav_list(this)">
+	<div class="pagenav pagenav-list menu" data-onclick='["ui_switch_nav_list", "__THIS__"]'>
 		<a class="expand"><span class="inner"></span></a>
 		<span id="filterset-name" class="pagenav-text"></span>
 		<h2 class="voice" id="aria-label-filtersets"><roundcube:label name="managesieve.filtersets" /></h2>

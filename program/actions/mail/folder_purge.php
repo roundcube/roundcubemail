@@ -76,7 +76,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
                 $rcmail->output->set_env('messagecount', 0);
                 $rcmail->output->set_env('pagecount', 0);
                 $rcmail->output->set_env('exists', 0);
-                $rcmail->output->add_js_call('message_list.clear');
+                $rcmail->output->add_js_call('message_list_clear');
                 $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text(), $mbox);
                 $rcmail->output->add_js_call('set_quota', self::quota_content(null, $mbox));
             }
