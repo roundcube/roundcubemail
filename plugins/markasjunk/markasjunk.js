@@ -145,4 +145,30 @@ if (window.rcmail) {
             return false;
         }
     });
+
+    rcmail.addEventListener('plugin.markasjunk-init', function (addition_spam_folders, suspicious_folders) {
+        rcmail.addEventListener('markasjunk-update', function (props) {
+            // ignore this special code when in a multifolder listing
+            if (rcmail.is_multifolder_listing()) {
+                return;
+            }
+
+            if ($.inArray(rcmail.env.mailbox, addition_spam_folders) > -1) {
+                props.disp.spam = false;
+                props.disp.ham = true;
+            }
+            else if ($.inArray(rcmail.env.mailbox, suspicious_folders) > -1) {
+                props.disp.spam = true;
+                props.disp.ham = true;
+
+                // from here it is also possible to alter the buttons themselves...
+                props.objs.spamobj.find('a > span').text('As possibly spam');
+            }
+            else {
+                props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
+            }
+
+            return props;
+        });
+    });
 }
