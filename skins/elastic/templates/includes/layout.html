@@ -29,15 +29,7 @@
 		<roundcube:link rel="stylesheet" href="/styles/print.css" condition="env:action == 'print'" />
 	<roundcube:endif />
 	<roundcube:if condition="env:action != 'print' && !config:devel_mode && config:dark_mode_support" />
-		<script>
-		try {
-			if (document.cookie.indexOf('colorMode=dark') > -1
-				|| (document.cookie.indexOf('colorMode=light') === -1 && window.matchMedia('(prefers-color-scheme: dark)').matches)
-			) {
-				document.documentElement.className += ' dark-mode';
-			}
-		} catch (e) { }
-		</script>
+		<script src="/dark-mode.js"></script>
 	<roundcube:endif />
 </head>
 <body class="task-<roundcube:exp expression="env:error_task ?: env:task ?: 'error'"> action-<roundcube:exp expression="asciiwords(env:action, true, '-') ?: 'none'">">
