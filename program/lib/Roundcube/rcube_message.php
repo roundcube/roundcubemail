@@ -50,6 +50,14 @@ class rcube_message
     protected $got_html_part = false;
     protected $tnef_decode = false;
 
+    /**
+     * This holds a list of Content-IDs and Content-Locations by which parts of
+     * this message are referenced (e.g. in HTML parts).
+     *
+     * @var array
+     */
+    protected $replacement_references;
+
     public $uid;
     public $folder;
     public $headers;
@@ -564,6 +572,54 @@ class rcube_message
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get a cached list of replacement references, which are collected during
+     * parsing from Content-Id and Content-Location headers of mime-parts.
+     */
+    protected function get_replacement_references(): array
+    {
+        if ($this->replacement_references === null) {
+            $this->replacement_references = [];
+            foreach ($this->mime_parts as $mime_part) {
+                foreach ($mime_part->replaces as $key => $value) {
+                    $this->replacement_references[] = preg_replace('/^cid:/', '', $key);
+                }
+            }
+        }
+        return $this->replacement_references;
+    }
+
+    /**
+     * Checks if a given message part is referred to from another message part.
+     * Usually this happens if an HTML-part includes images to show inline, but
+     * technically there can be other cases, too.
+     * In any case, an attachment that is *not* referred to, shall be shown to
+     * the users (either in/after the message body or as downloadable file).
+     *
+     * @param rcube_message_part $part Message part
+     *
+     * @return bool True if the part is an attachment part
+     */
+    public function is_referred_attachment(rcube_message_part $part): bool
+    {
+        $references = $this->get_replacement_references();
+
+        // This code is intentionally verbose to keep it comprehensible.
+        // Filter out attachments that are reference by their Content-ID in
+        // another mime-part.
+        if (!empty($part->content_id) && in_array($part->content_id, $references)) {
+            return true;
+        }
+
+        // Filter out attachments that are reference by their
+        // Content-Location in another mime-part.
+        if (!empty($part->content_location) && in_array($part->content_location, $references)) {
+            return true;
         }
 
         return false;
