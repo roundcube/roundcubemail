@@ -42,38 +42,7 @@ class markasjunk_jsevent
             return;
         }
 
-        $js_addition_spam_folders = json_encode($this->addition_spam_folders);
-        $js_suspicious_folders = json_encode($this->suspicious_folders);
-
-        $script = <<<EOL
-            rcmail.addEventListener('markasjunk-update', function(props) {
-                var addition_spam_folders = {$js_addition_spam_folders};
-                var suspicious_folders = {$js_suspicious_folders};
-
-                // ignore this special code when in a multifolder listing
-                if (rcmail.is_multifolder_listing())
-                    return;
-
-                if ($.inArray(rcmail.env.mailbox, addition_spam_folders) > -1) {
-                    props.disp.spam = false;
-                    props.disp.ham = true;
-                }
-                else if ($.inArray(rcmail.env.mailbox, suspicious_folders) > -1) {
-                    props.disp.spam = true;
-                    props.disp.ham = true;
-
-                    // from here it is also possible to alter the buttons themselves...
-                    props.objs.spamobj.find('a > span').text('As possibly spam');
-                }
-                else {
-                    props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
-                }
-
-                return props;
-            });
-            EOL;
-
-        $rcmail->output->add_script($script, 'docready');
+        $rcmail->output->command('plugin.markasjunk-init', $this->addition_spam_folders, $this->suspicious_folders);
     }
 
     public function spam(&$uids, $mbox)

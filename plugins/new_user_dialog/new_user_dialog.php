@@ -104,34 +104,8 @@ class new_user_dialog extends rcube_plugin
             ));
 
             $title = rcube::JQ($this->gettext('identitydialogtitle'));
-            $script = "
-var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), '{$title}', [{
-    text: rcmail.get_label('save'),
-    'class': 'mainaction save',
-    click: function() {
-      var request = {};
-      $.each($('form', this).serializeArray(), function() {
-        request[this.name] = this.value;
-      });
-
-      rcmail.http_post('plugin.newusersave', request, true);
-      return false;
-    }
-  }],
-  {
-    resizable: false,
-    closeOnEscape: false,
-    width: 500,
-    open: function() { $('#newuserdialog').show(); $('#newuserdialog-name').focus(); },
-    beforeClose: function() {
-      return false;
-    }
-  }
-);
-rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialog('destroy'); };
-";
-            // disable keyboard events for messages list (#1486726)
-            $rcmail->output->add_script($script, 'docready');
+            $rcmail->output->command('plugin.new_user_dialog_open', $title);
+            $this->include_script('new_user_dialog.js');
         }
     }
 
@@ -187,7 +161,7 @@ rcube_webmail.prototype.new_user_dialog_close = function() { newuserdialog.dialo
                 // save prefs to not show dialog again
                 $rcmail->user->save_prefs(['newuserdialog' => null]);
                 // hide dialog
-                $rcmail->output->command('new_user_dialog_close');
+                $rcmail->output->command('plugin.new_user_dialog_close');
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
             } else {
                 // show error
