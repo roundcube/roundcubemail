@@ -238,13 +238,13 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 // Inject styles
                 // TODO: this is ugly, do we really need it? How can we make this more elegant? Re-use rcmail_html_page?
                 $styles_path = $rcmail->output->get_skin_file('/styles/styles.css');
-                $body = html::tag('html', [], 
+                $body = html::tag('html', [],
                     html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
                     . html::tag('body', ['class' => 'message-part'], $body)
                 );
                 $rcmail->output->sendExit($body);
             }
-            
+
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();

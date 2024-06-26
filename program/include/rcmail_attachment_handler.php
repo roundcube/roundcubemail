@@ -291,7 +291,8 @@ class rcmail_attachment_handler
         return $this->body(0, -1);
     }
 
-    public function print_body() {
+    public function print_body()
+    {
         $rcmail = rcmail::get_instance();
         $body_args = [
             'safe' => $this->message->is_safe,

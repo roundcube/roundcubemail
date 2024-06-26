@@ -717,7 +717,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     $out .= html::iframe([
                                 'sandbox' => 'allow-same-origin',
                                 'id' => $container_id,
-                                'class' => "framed-message-part $container_class",
+                                'class' => "framed-message-part {$container_class}",
                                 'style' => 'width: 100%; border: none', // TODO: move this into CSS.
                                 'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
                             ]);
