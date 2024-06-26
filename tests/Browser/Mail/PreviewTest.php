@@ -56,8 +56,8 @@ class PreviewTest extends TestCase
 
                 // Images
                 $browser->withinFrame('#message-htmlpart1', function ($browser) {
-                    $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
-                    $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                    $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#attached > img', 'src'));
+                    $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#remote > img', 'src'));
                 });
 
                 // Attachments list
@@ -154,8 +154,8 @@ class PreviewTest extends TestCase
                 $browser->waitFor('img.contactphoto');
 
                 $browser->withinFrame('#message-part1', static function ($browser) {
-                    $browser->assertSeeIn('body.message-part div.pre', 'Plain text message body.')
-                        ->assertVisible('body.message-part div.pre .sig');
+                    $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                        ->assertVisible('div.pre .sig');
                 });
                 $browser->assertSeeIn('.subject', 'Lines');
 
