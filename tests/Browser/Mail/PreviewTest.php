@@ -55,8 +55,10 @@ class PreviewTest extends TestCase
                     ->assertSeeIn('#remote-objects-message', 'To protect your privacy remote resources have been blocked.');
 
                 // Images
-                $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
-                $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                $browser->withinFrame('.framed-message-part', function ($browser) {
+                    $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
+                    $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                });
 
                 // Attachments list
                 $browser->assertMissing('#attachment-list');
@@ -151,9 +153,11 @@ class PreviewTest extends TestCase
             $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
-                $browser->assertSeeIn('.subject', 'Lines')
-                    ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
-                    ->assertVisible('.message-part div.pre .sig');
+                $browser->withinFrame('.framed-message-part', static function ($browser) {
+                    $browser->assertSeeIn('.message-part div.pre', 'Plain text message body.')
+                        ->assertVisible('.message-part div.pre .sig');
+                });
+                $browser->assertSeeIn('.subject', 'Lines');
 
                 $browser->assertMissing('.header-headers')
                     ->click('a.headers-details')
