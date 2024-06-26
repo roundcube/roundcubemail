@@ -847,7 +847,52 @@ class enigma_engine
             return;
         }
 
-        // @TODO
+        $this->load_smime_driver();
+
+        $struct = $p['structure'];
+        $msg    = $p['object'];
+        $part   = $struct->parts[1];
+
+        // Get body is done in smime driver
+        $body = $msg->uid;
+
+        // Decrypt
+        $result = $this->smime_decrypt($body, $signature);
+
+        if ($result === true) {
+                // Parse decrypted message
+                $struct = $this->parse_body($body);
+
+                // Modify original message structure
+                $this->modify_structure($p, $struct, strlen($body));
+
+                // Parse the structure (there may be encrypted/signed parts inside
+                $this->part_structure([
+                                'object'    => $p['object'],
+                                'structure' => $struct,
+                                'mimetype'  => $struct->mimetype
+                        ], $body);
+
+                // Attach the decryption message to all parts
+                $this->decryptions[$struct->mime_id] = $result;
+                foreach ((array) $struct->parts as $sp) {
+                        $this->decryptions[$sp->mime_id] = $result;
+                        if ($signature) {
+                                $this->signatures[$sp->mime_id] = $signature;
+                        }
+                }
+        }
+        else {
+            $this->decryptions[$part->mime_id] = $result;
+
+            // Make sure decryption status message will be displayed
+            $part->type = 'content';
+            $p['object']->parts[] = $part;
+
+            // don't show encrypted part on attachments list
+            // don't show "cannot display encrypted message" text
+            $p['abort'] = true;
+        }
     }
 
     /**
@@ -907,6 +952,32 @@ class enigma_engine
                 self::raise_error($result, __LINE__);
             }
 
+            return $result;
+        }
+
+        $msg_body = $result;
+
+        return true;
+    }
+
+    /**
+     * smime message decryption.
+     *
+     * @param mixed            &$msg_body  Message body
+     * @param enigma_signature &$signature Signature verification result
+     *
+     * @return mixed True or enigma_error
+     */
+    private function smime_decrypt(&$msg_body, &$signature = null)
+    {
+        // msg_body is message->id to get raw body in smime_driver
+        // operations are done with files
+
+        $result = $this->smime_driver->decrypt($msg_body, [], $signature);
+
+        if ($result instanceof enigma_error) {
+            self::raise_error($result, __LINE__);
+            $msg_body = ''; // erase message->uid
             return $result;
         }
 

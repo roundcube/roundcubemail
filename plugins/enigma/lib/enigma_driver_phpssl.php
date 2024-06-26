@@ -84,7 +84,46 @@ class enigma_driver_phpssl extends enigma_driver
     #[Override]
     public function decrypt($text, $keys = [], &$signature = null)
     {
-        return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
+        //text needs to be $message->uid
+
+        // use common temp dir
+        $msg_file  = rcube_utils::temp_filename('enigmsg');
+        $cert_file = rcube_utils::temp_filename('enigcrt');
+        $part_file = rcube_utils::temp_filename('enigprt');
+
+        $fh = fopen($msg_file, "w");
+        $this->rc->storage->get_raw_body($text, $fh);
+        fclose($fh);
+
+        $result = '';
+
+        // try with certificate verification
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file); // needs this first to try and create the cert file, then you can try and decrypt the rest, maybe a bug in php... in console you can run the command at once
+        $sig      = openssl_pkcs7_verify($msg_file, 0, $cert_file, [], $cert_file, $part_file);
+        $validity = true;
+
+        if ($sig !== true) {
+            // try without certificate verification
+            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file); // needs this first to try and create the cert file, then you can try and decrypt the rest, maybe a bug in php... in console you can run the command at once
+            $sig      = openssl_pkcs7_verify($msg_file, PKCS7_NOVERIFY, $cert_file, [], $cert_file, $part_file);
+            $validity = enigma_error::UNVERIFIED;
+        }
+
+        if ($sig === true) {
+            $signature = $this->parse_sig_cert($cert_file, $validity);
+            $result = file_get_contents($part_file);
+        }
+        else {
+            $errorstr = $this->get_openssl_error();
+            $result = new enigma_error(enigma_error::INTERNAL, $errorstr);
+        }
+
+        // remove temp files
+        @unlink($msg_file);
+        @unlink($cert_file);
+        @unlink($part_file);
+
+        return $result;
     }
 
     #[Override]
