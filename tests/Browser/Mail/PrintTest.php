@@ -56,8 +56,8 @@ class PrintTest extends TestCase
 
             // Check iframed body.
             $browser->withinFrame('#message-part1', static function ($browser) {
-                $browser->assertSeeIn('body.message-part div.pre', 'Plain text message body.')
-                    ->assertVisible('.message-part div.pre .sig');
+                $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                    ->assertVisible('div.pre .sig');
             });
             // Check headers.
             $browser->assertVisible('img.contactphoto')
