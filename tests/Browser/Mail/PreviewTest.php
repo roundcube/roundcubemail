@@ -153,11 +153,11 @@ class PreviewTest extends TestCase
             $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
+                $browser->assertSeeIn('.subject', 'Lines');
                 $browser->withinFrame('#message-part1', static function ($browser) {
                     $browser->assertSeeIn('div.pre', 'Plain text message body.')
                         ->assertVisible('div.pre .sig');
                 });
-                $browser->assertSeeIn('.subject', 'Lines');
 
                 $browser->assertMissing('.header-headers')
                     ->click('a.headers-details')
