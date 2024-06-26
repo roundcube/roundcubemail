@@ -154,10 +154,6 @@ class PreviewTest extends TestCase
                 $browser->waitFor('img.contactphoto');
 
                 $browser->assertSeeIn('.subject', 'Lines');
-                $browser->withinFrame('#message-part1', static function ($iframe) {
-                    $iframe->assertSeeIn('div.pre', 'Plain text message body.')
-                        ->assertVisible('div.pre .sig');
-                });
 
                 $browser->assertMissing('.header-headers')
                     ->click('a.headers-details')
@@ -167,6 +163,11 @@ class PreviewTest extends TestCase
                     ->assertDontSeeIn('.header.cc', 'test11@domain.tld')
                     ->assertSeeIn('.header.cc a.morelink', '2 more...')
                     ->click('.header.cc a.morelink');
+
+                $browser->withinFrame('#message-part1', static function ($browser) {
+                    $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                        ->assertVisible('div.pre .sig');
+                });
             });
 
             $browser->with(new Dialog(), static function ($browser) {
