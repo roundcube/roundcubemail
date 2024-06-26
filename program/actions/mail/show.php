@@ -204,7 +204,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             // Skip inline images
-            if (strpos($mimetype, 'image/') === 0 && !self::is_attachment(self::$MESSAGE, $attach_prop)) {
+            if (strpos($mimetype, 'image/') === 0 && self::$MESSAGE->is_referred_attachment($attach_prop)) {
                 continue;
             }
 
@@ -260,6 +260,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
+        // TODO: Avoid inline-event.
         $buttons = html::a(
             ['href' => '#loadremote', 'onclick' => rcmail_output::JS_OBJECT_NAME . ".command('load-remote')"],
             rcube::Q($rcmail->gettext('allow'))
@@ -621,7 +622,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      */
     public static function message_body($attrib)
     {
-        if (empty(self::$MESSAGE) || (empty(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))) {
+        // Exit early if there's no content to be shown anyway.
+        // `mime_parts` also includes a message's body, even if it originally
+        // was the only part of the message.
+        if (empty(self::$MESSAGE) || empty(self::$MESSAGE->mime_parts)) {
             return '';
         }
 
@@ -695,30 +699,28 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     // Set attributes of the part container
                     $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
                     $container_id = $container_class . (++$part_no);
-                    $container_attrib = ['class' => $container_class, 'id' => $container_id];
-
-                    $body_args = [
-                        'safe' => $safe_mode,
-                        'plain' => !$rcmail->config->get('prefer_html'),
-                        'css_prefix' => 'v' . $part_no,
-                        'body_class' => 'rcmBody',
-                        'container_id' => $container_id,
-                        'container_attrib' => $container_attrib,
-                    ];
-
-                    // Parse the part content for display
-                    $body = self::print_body($body, $part, $body_args);
 
                     // check if the message body is PGP encrypted
                     if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
                         $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
                     }
 
-                    if ($part->ctype_secondary == 'html') {
-                        $body = self::html4inline($body, $body_args);
+                    if ($part->mimetype === 'text/html') {
+                        // "Wash" the HTML part so we can determine if remote
+                        // objects are present as a side effect. At this point
+                        // we're not interested in the result.
+                        // TODO: can we get the information somehow cheaper?
+                        self::wash_html($body, ['inline_html' => false], $part->replaces);
                     }
 
-                    $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
+                    $out .= html::div(['class' => 'message-prefix'], $plugin['prefix']);
+                    $out .= html::iframe([
+                                'sandbox' => 'allow-same-origin',
+                                'id' => $container_id,
+                                'class' => "framed-message-part {$container_class}",
+                                'style' => 'width: 100%; border: none', // TODO: move this into CSS.
+                                'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
+                            ]);
                 }
             }
         } else {
@@ -745,7 +747,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 // Content-Type: image/*...
                 if ($mimetype = self::part_image_type($attach_prop)) {
                     // Skip inline images
-                    if (!self::is_attachment(self::$MESSAGE, $attach_prop)) {
+                    if (self::$MESSAGE->is_referred_attachment($attach_prop)) {
                         continue;
                     }
 
@@ -888,31 +890,5 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $rcmail->output->set_env('mdn_request', true);
             }
         }
-    }
-
-    /**
-     * Check whether the message part is a normal attachment
-     *
-     * @param rcube_message      $message Message object
-     * @param rcube_message_part $part    Message part
-     *
-     * @return bool
-     */
-    protected static function is_attachment($message, $part)
-    {
-        // Inline attachment with Content-Id specified
-        if (!empty($part->content_id) && $part->disposition == 'inline') {
-            return false;
-        }
-
-        // Any image attached to multipart/related message (#7184)
-        $parent_id = preg_replace('/\.[0-9]+$/', '', $part->mime_id);
-        $parent = $message->mime_parts[$parent_id] ?? null;
-
-        if ($parent && $parent->mimetype == 'multipart/related') {
-            return false;
-        }
-
-        return true;
     }
 }
