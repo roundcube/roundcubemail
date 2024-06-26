@@ -154,8 +154,8 @@ class PreviewTest extends TestCase
                 $browser->waitFor('img.contactphoto');
 
                 $browser->assertSeeIn('.subject', 'Lines');
-                $browser->withinFrame('#message-part1', static function ($browser) {
-                    $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                $browser->withinFrame('#message-part1', static function ($iframe) {
+                    $iframe->assertSeeIn('div.pre', 'Plain text message body.')
                         ->assertVisible('div.pre .sig');
                 });
 
