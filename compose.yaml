@@ -1,0 +1,62 @@
+services:
+  mailhost:
+    image: docker.io/greenmail/standalone
+  browserhost:
+    image: 'seleniarm/standalone-chromium'
+    ports:
+      - '9151:4444'
+    volumes:
+      - '/dev/shm:/dev/shm'
+      - './tests/Browser/downloads:/downloads'
+
+  browsertests:
+    depends_on:
+      - mailhost
+      - browserhost
+    hostname: 'testrunner'
+    image: roundcubemail-testrunner
+    volumes:
+      - '.:/app'
+    environment:
+      WEBDRIVER_CONNECT_URL: 'http://browserhost:4444'
+      SERVER_URL: 'http://testrunner:8000'
+      SERVER_BIND: '0.0.0.0:8000'
+      BROWSER_DOWNLOAD_PATH: '/downloads'
+
+
+  tests:
+    depends_on:
+      - mailhost
+    image: roundcubemail-testrunner
+    volumes:
+      - '.:/app'
+    environment:
+      BROWSER_URL: 'http://browserhost:4444'
+      BROWSER_DOWNLOAD_PATH: '/downloads'
+    command: 
+      - ./vendor/bin/phpunit 
+      - -c
+      - tests/phpunit.xml
+      - --fail-on-warning
+      - --fail-on-risky
+
+  codespell:
+    image: roundcubemail-testrunner
+    volumes:
+      - '.:/app'
+    command:
+      - vendor/bin/php-cs-fixer
+      - fix
+      - --dry-run
+      - --using-cache=no
+      - --diff
+      - --verbose
+
+  codestyle:
+    image: roundcubemail-testrunner
+    volumes:
+      - '.:/app'
+    command:
+      - npx
+      - eslint
+      - .
