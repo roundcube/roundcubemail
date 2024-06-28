@@ -38,7 +38,6 @@ abstract class TestCase extends PHPUnitTestCase
     public static function prepare(): void
     {
         static::startWebServer();
-        static::startChromeDriver();
     }
 
     /**
@@ -60,8 +59,8 @@ abstract class TestCase extends PHPUnitTestCase
         $prefs = [
             'profile.default_content_settings.popups' => 0,
             'download.prompt_for_download' => false,
-            'download.default_directory' => TESTS_DIR . 'downloads',
-            'downloadPath' => TESTS_DIR . 'downloads',
+            'download.default_directory' => getenv('BROWSER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads',
+            'downloadPath' => getenv('BROWSER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads',
         ];
 
         $options->setExperimentalOption('prefs', $prefs);
@@ -90,7 +89,7 @@ abstract class TestCase extends PHPUnitTestCase
         }
 
         return RemoteWebDriver::create(
-            'http://localhost:9515',
+            getenv('WEBDRIVER_CONNECT_URL') ?: 'http://localhost:9515',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY,
                 $options
@@ -108,7 +107,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         $this->app = \rcmail::get_instance();
 
-        Browser::$baseUrl = 'http://localhost:8000';
+        Browser::$baseUrl = getenv('SERVER_URL') ?: 'http://localhost:8000';
         Browser::$storeScreenshotsAt = TESTS_DIR . 'screenshots';
         Browser::$storeConsoleLogAt = TESTS_DIR . 'console';
 
@@ -154,7 +153,7 @@ abstract class TestCase extends PHPUnitTestCase
     protected static function startWebServer()
     {
         $path = realpath(__DIR__ . '/../../public_html');
-        $cmd = ['php', '-S', 'localhost:8000'];
+        $cmd = ['php', '-S', getenv('SERVER_BIND') ?: 'localhost:8000'];
         $env = [];
 
         static::$phpProcess = new Process($cmd, null, $env);

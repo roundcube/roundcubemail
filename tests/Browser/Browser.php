@@ -235,7 +235,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function readDownloadedFile($filename)
     {
-        $filename = TESTS_DIR . "downloads/{$filename}";
+        $filename = $this->getDownloadedFilePath($filename);
 
         // Give the browser a chance to finish download
         $n = 0;
@@ -256,7 +256,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function removeDownloadedFile($filename)
     {
-        @unlink(TESTS_DIR . "downloads/{$filename}");
+        @unlink($this->getDownloadedFilePath($filename));
 
         return $this;
     }
@@ -341,5 +341,12 @@ class Browser extends \Laravel\Dusk\Browser
         }
 
         return $this;
+    }
+
+    public function getDownloadedFilePath($filename)
+    {
+        $basedir = getenv('TESTRUNNER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads';
+        $basedir = rtrim($basedir, \DIRECTORY_SEPARATOR);
+        return $basedir . \DIRECTORY_SEPARATOR . $filename;
     }
 }

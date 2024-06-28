@@ -37,17 +37,8 @@ jobs:
       - name: Install Aspell/Hunspell
         run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
-      - name: Setup composer
-        run: composer require "kolab/net_ldap3:~1.1.4" --no-update
-
-      - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
-
-      - name: Roundcube configuration
-        run: cp .github/config-test.inc.php config/config-test.inc.php
-
-      - name: Execute tests (highest)
-        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
+      - name: Execute tests
+        run: .ci/run_tests.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
@@ -55,12 +46,6 @@ jobs:
         with:
           name: Logs
           path: logs/errors.log
-
-      - name: Downgrade dependencies
-        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
-
-      - name: Execute tests (lowest)
-        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
 
   tests_windows:
     runs-on: windows-latest
@@ -92,7 +77,7 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Roundcube configuration
-        run: cp .github/config-test.inc.php config/config-test.inc.php
+        run: cp .ci/config-test.inc.php config/config-test.inc.php
 
       - name: Execute tests (highest)
         run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
