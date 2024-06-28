@@ -16,6 +16,11 @@ module.exports = {
         '/vendor',
         '/public_html',
         '/plugins/jqueryui/js',
+        '/plugins/managesieve/codemirror',
+        '/program/js/tinymce',
+        '/program/js/publickey.js',
+        'node_modules',
+        '*.min.js',
     ],
     rules: {
         'brace-style': ['error', '1tbs'],
