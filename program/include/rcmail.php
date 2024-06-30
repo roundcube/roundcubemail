@@ -648,14 +648,15 @@ class rcmail extends rcube
      * Perform login to the mail server and to the webmail service.
      * This will also create a new user entry if auto_create_user is configured.
      *
-     * @param string $username    Mail storage (IMAP) user name
-     * @param string $password    Mail storage (IMAP) password
-     * @param string $host        Mail storage (IMAP) host
-     * @param bool   $cookiecheck Enables cookie check
+     * @param string $username     Mail storage (IMAP) user name
+     * @param string $password     Mail storage (IMAP) password
+     * @param string $host         Mail storage (IMAP) host
+     * @param bool   $cookiecheck  Enables cookie check
+     * @param bool   $just_connect Breaks after successful connect
      *
      * @return bool True on success, False on failure
      */
-    public function login($username, $password, $host = null, $cookiecheck = false)
+    public function login($username, $password, $host = null, $cookiecheck = false, $just_connect = false)
     {
         $this->login_error = null;
 
@@ -764,14 +765,17 @@ class rcmail extends rcube
         $storage = $this->get_storage();
 
         // try to log in
-        if (!$storage->connect($host, $username, $password, $port, $ssl)) {
-            if ($user) {
-                $user->failed_login();
-            }
-
-            // Wait a second to slow down brute-force attacks (#1490549)
-            sleep(1);
+        if (!$this->imap_connect($storage, $host, $username, $password, $port, $ssl, $user)) {
             return false;
+        }
+
+        // Only set user if just wanting to connect.
+        // Note that for other scenarios user will also be set after successful login.
+        if ($just_connect) {
+            if (is_object($user)) {
+                $this->set_user($user);
+            }
+            return true;
         }
 
         // user already registered -> update user's record
