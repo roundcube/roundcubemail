@@ -457,6 +457,7 @@ class rcmail_sendmail
             return false;
         }
 
+        // @phpstan-ignore-next-line
         if ($mailbody_file) {
             $this->temp_files[$message->headers()['Message-ID']] = $mailbody_file;
         }

@@ -11,6 +11,26 @@ parameters:
         - vendor
 
     ignoreErrors:
+        # relax strict rules
+        - '~^Only booleans are allowed in .+, .+ given( on the (left|right) side)?\.~'
+        - '~^Variable (static )?(property access|method call) on .+\.~'
+        - '~^Variable variables are not allowed.~'
+        - '~^Variable .* might not be defined\.~'
+        - '~Call to function array_filter\(\) requires parameter #2 to be passed to avoid loose comparison semantics.~'
+        # TODO
+        - '~^Dynamic call to static method .+\.~' # TODO in https://github.com/roundcube/roundcubemail/pull/9314
+        - '~^Construct empty\(\) is not allowed\. Use more strict comparison\.~'
+        - '~^Loose comparison via "[=!]=" is not allowed\.~'
+        - '~^Casting to .+ something that''s already .+\.~'
+        - '~^Short ternary operator is not allowed\. Use null coalesce operator if applicable or consider using long ternary\.~'
+        - '~^Call to function (array_search|in_array)\(\) requires parameter #3 to be set\.~'
+        - '~^Call to function base64_decode\(\) requires parameter #2 to be (set|true).~'
+
+        -
+            message: '~^Parameter #1 \$browser \(Roundcube\\Tests\\Browser\\Browser\) of method Roundcube\\Tests\\Browser\\Components\\\w+::assert\(\) should be contravariant with parameter \$browser \(Laravel\\Dusk\\Browser\) of method Laravel\\Dusk\\Component::assert\(\)$~'
+            count: 7
+            path: tests/Browser/Components/*.php
+
         # https://github.com/php/pecl-authentication-krb5
         -
             path: 'program/lib/Roundcube/rcube_imap_generic.php'
