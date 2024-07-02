@@ -14,8 +14,9 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
-$labels['downloadall'] = 'Descargar todos os adxuntos';
-$labels['download'] = 'Descargar';
-$labels['downloadmbox'] = 'En formato mbox (.zip)';
-$labels['downloadmaildir'] = 'En formato maildir (.zip)';
+$labels['downloadall'] = 'Descargar todos os arquivos anexos';
+$labels['download'] = 'Descargar...';
+$labels['downloadmbox'] = 'Formato mbox (.zip)';
+$labels['downloadmaildir'] = 'Formato maildir (.zip)';
 $labels['downloademl'] = 'Código fonte (.eml)';
+$labels['sizelimiterror'] = 'O tamaño total das mensaxes seleccionadas supera o límite ($size)';

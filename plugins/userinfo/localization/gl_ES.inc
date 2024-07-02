@@ -14,7 +14,9 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-userinfo/
 */
 
-$labels['userinfo'] = 'Información de persoa usuaria';
+$labels['userinfo'] = 'Información do usuario';
+$labels['infoforuser'] = 'Información para $user';
 $labels['created'] = 'Creado';
 $labels['lastlogin'] = 'Última conexión';
 $labels['defaultidentity'] = 'Identidade predeterminada';
+$labels['userid'] = 'Identificación';

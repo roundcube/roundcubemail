@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Por favor, introduzca un tamaño de página';
 $messages['nosenderwarning'] = 'Por favor, Ingresá la dirección de correo electrónico del remitente.';
 $messages['recipientsadded'] = 'Destinatario(s) agregado(s) satisfactoriamente.';
 $messages['norecipientwarning'] = 'Por favor, introduzca al menos un destinatario';
-$messages['disclosedrecipwarning'] = 'Todos los destinatarios verán las direcciones de correo electrónico de los demás. Para evitar esto y proteger su privacidad, podés utilizar el campo CCO.';
 $messages['disclosedreciptitle'] = 'Demasiados destinatarios públicos';
 $messages['nosubjectwarning']  = 'El campo "Asunto" esta vacío. ¿Desea completarlo en este momento?';
 $messages['nosubjecttitle']  = 'Sin asunto';

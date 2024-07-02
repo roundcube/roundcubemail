@@ -17,3 +17,5 @@
 $labels['help'] = 'Axuda';
 $labels['about'] = 'Acerca de';
 $labels['license'] = 'Licenza';
+$labels['csrfinfo'] = 'Máis información sobre CSRF e como te protexemos';
+$labels['arialabelhelpcontent'] = 'Axuda e soporte';

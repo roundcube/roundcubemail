@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Bitte geben Sie die Einträge pro Seite an.';
 $messages['nosenderwarning'] = 'Bitte geben Sie die E-Mail-Adresse des Senders an.';
 $messages['recipientsadded'] = 'Empfänger erfolgreich hinzugefügt.';
 $messages['norecipientwarning'] = 'Bitte geben Sie mindestens einen Empfänger an.';
-$messages['disclosedrecipwarning'] = 'Alle Empfänger sehen die E-Mail Adressen der anderen Empfänger. Um deren Privatsphäre zu schützen, können Sie das BCC-Feld verwenden.';
 $messages['disclosedreciptitle'] = 'Zu viele öffentliche Empfänger';
 $messages['nosubjectwarning']  = 'Die Betreffzeile ist leer. Möchten Sie jetzt einen Betreff eingeben?';
 $messages['nosubjecttitle']  = 'Kein Betreff';

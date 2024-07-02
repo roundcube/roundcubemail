@@ -16,4 +16,4 @@
 
 $labels['hide'] = 'Elrejtés';
 $labels['show'] = 'Megjelenítés';
-$labels['quotelimit'] = 'Idézet elrejtése ha a sorok száma több mint';
+$labels['quotelimit'] = 'Idézet elrejtése, ha a sorok száma több, mint';

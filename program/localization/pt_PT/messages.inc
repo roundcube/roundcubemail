@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Por favor, introduza o tamanho da página.';
 $messages['nosenderwarning'] = 'Por favor, introduza o endereço de email do remetente.';
 $messages['recipientsadded'] = 'Destinatário(s) adicionado(s) com sucesso.';
 $messages['norecipientwarning'] = 'Por favor, insira pelo menos um destinatário.';
-$messages['disclosedrecipwarning'] = 'Todos os destinatários verão os endereços de email uns dos outros. Para evitar esta situação e proteger a sua privacidade, pode usar o campo Bcc.';
 $messages['disclosedreciptitle'] = 'Demasiados destinatários públicos';
 $messages['nosubjectwarning']  = 'O campo "Assunto" não foi preenchido. Deseja incluí-lo agora?';
 $messages['nosubjecttitle']  = 'Sem assunto';

@@ -13,6 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages['forgotattachment'] = "Esqueceches adxuntar un ficheiro?";
-$messages['reminderoption'] = "Lembrete de adxuntos esquecidos";
-$messages['keywords'] = "anexo, arquivo, engadir, anexo, anexando, pechado, CV, carta de presentación";
+$messages['missingattachment'] = "Falta o arquivo anexo?";
+$messages['forgotattachment'] = "Esqueciches anexar un arquivo?";
+$messages['reminderoption'] = "Lembrar arquivos anexos esquecidos";
+$messages['keywords'] = "anexo, arquivo, anexar, anexado, anexando, arquivo anexado, CV, carta de presentación";

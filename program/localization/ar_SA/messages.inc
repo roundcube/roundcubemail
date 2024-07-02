@@ -100,7 +100,6 @@ $messages['nopagesizewarning'] = 'الرجاء إدخال حجم الصفحة';
 $messages['nosenderwarning'] = 'الرجاء إدخال عنوان البريد الإلكتروني للمرسِل.';
 $messages['recipientsadded'] = 'تمت إضافة المستلم(ين) بنجاح.';
 $messages['norecipientwarning'] = 'الرجاء إدخال اسم مستقبل واحد على الأقل';
-$messages['disclosedrecipwarning'] = 'سيرى جميع المستلمين عناوين البريد الإلكتروني لبعضهم البعض. لمنع ذلك وحماية خصوصيتهم ، يمكنك استخدام حقل نسخة مخفية الوجهة.';
 $messages['disclosedreciptitle'] = 'عدد كبير جدًا من المستلمين العامين';
 $messages['nosubjectwarning']  = 'حقل "الموضوع" فارغ. هل تريد كتابة موضوعللرسالة؟';
 $messages['nosubjecttitle']  = 'لا يوجد عنوان';

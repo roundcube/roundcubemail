@@ -14,5 +14,5 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
-$labels['identitydialogtitle'] = 'Kérem töltse ki a küldő azonosítóját';
+$labels['identitydialogtitle'] = 'Kérem, töltse ki a küldő azonosítóját';
 $labels['identitydialoghint'] = 'Ez az ablak csak az első belépéskor jelenik meg.';

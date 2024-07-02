@@ -89,7 +89,6 @@ $messages['nopagesizewarning'] = 'Vnesite velikost strani';
 $messages['nosenderwarning'] = 'Vnesite elektronski naslov pošiljatelja.';
 $messages['recipientsadded'] = 'Naslovnik[i] uspešno dodan[i]';
 $messages['norecipientwarning'] = 'Vnesite vsaj enega prejemnika sporočila';
-$messages['disclosedrecipwarning'] = 'Vsi prejemniki bodo videli naslove drugih prejemnikov sporočila. Uporabite polje Skp, da zaščitite njihovo zasebnost.';
 $messages['disclosedreciptitle'] = 'Preveliko število javnih naslovov prejemnikov';
 $messages['nosubjectwarning']  = 'Polje "Zadeva" je prazno. Želite dodati besedilo v to polje?';
 $messages['nosubjecttitle']  = 'Brez naslova';

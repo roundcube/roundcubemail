@@ -98,7 +98,6 @@ $messages['nopagesizewarning'] = 'Унесите величину страниц
 $messages['nosenderwarning'] = 'Унесите е-адресу пошиљаоца.';
 $messages['recipientsadded'] = 'Примаоци успешно додати.';
 $messages['norecipientwarning'] = 'Унесите бар једног примаоца.';
-$messages['disclosedrecipwarning'] = 'Сви примаоци ће видети адресе осталих прималаца. Да бисте ово избегли и заштитили њихову приватност, користите БЦЦ поље.';
 $messages['disclosedreciptitle'] = 'Превише јавних корисика';
 $messages['nosubjectwarning']  = 'Поље „Наслов“ је празно. Желите ли да унесете наслов?';
 $messages['nosubjecttitle']  = 'Нема теме';

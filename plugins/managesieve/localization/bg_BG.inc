@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'първи знак с малка буква';
 $labels['varupperfirst'] = 'първи знак с главна буква';
 $labels['varquotewildcard'] = 'цитиране на специални знаци';
 $labels['varlength'] = 'дължина';
+$labels['varencodeurl'] = 'percent-encoded (за URL адреси)';
 $labels['notify'] = 'Изпрати известие';
 $labels['notifytarget'] = 'Известие към:';
 $labels['notifymessage'] = 'Съдържание на известие (опционално):';

@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
 $messages['nosenderwarning'] = 'Podaj adres e-mail nadawcy!';
 $messages['recipientsadded'] = 'Odbiorcy zostali dodani pomyślnie.';
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
-$messages['disclosedrecipwarning'] = 'Wszyscy odbiorcy będą widzieć adresy e-mail innych. Aby temu zapobiec i chronić ich prywatność możesz użyć pola Bcc.';
 $messages['disclosedreciptitle'] = 'Zbyt wielu publicznych odbiorców';
 $messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nosubjecttitle']  = 'Brak tematu';

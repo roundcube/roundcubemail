@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'تۇنجى ھەرىپ كىچىك';
 $labels['varupperfirst'] = 'تۇنجى ھەرىپ چوڭ';
 $labels['varquotewildcard'] = 'ئالاھىدە ھەرىپلەرنى نەقىللەش';
 $labels['varlength'] = 'ئۇزۇنلۇق';
+$labels['varencodeurl'] = 'پىرسەنت-شىفىرلىق(ئۇلىنىشلار ئۈچۈن)';
 $labels['notify'] = 'ئۇقتۇرۇش ئەۋەتىش';
 $labels['notifytarget'] = 'ئۇقتۇرۇش نىشانى:';
 $labels['notifymessage'] = 'ئۇقتۇرۇش ئۇچۇرى (ئىختىيارى):';

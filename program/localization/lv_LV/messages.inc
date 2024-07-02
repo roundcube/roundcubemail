@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Lūdzu ievadiet lapas izmēru';
 $messages['nosenderwarning'] = 'Lūdzu ievadiet sūtītāja e-pasta adresi';
 $messages['recipientsadded'] = 'Adresāti pievienoti veiksmīgi.';
 $messages['norecipientwarning'] = 'Lūdzu ievadiet vismaz vienu saņēmēju';
-$messages['disclosedrecipwarning'] = 'Katrs adresāts redzēs pārējos adresātus. Lai to novērstu un nodrošinātu adresātu privātumu, lūdzu izmantojiet Bcc lauku.';
 $messages['disclosedreciptitle'] = 'Pārāk daudz publisku adresātu';
 $messages['nosubjectwarning']  = 'Lauks "temats" ir tukšs. Vai vēlaties to aizpildīt tagad?';
 $messages['nosubjecttitle']  = 'Bez tēmas';

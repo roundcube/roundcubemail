@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Zadejte, prosím, velikost stránky.';
 $messages['nosenderwarning'] = 'Zadejte e-mailovou adresu odesílatele.';
 $messages['recipientsadded'] = 'Příjemci byli přidáni.';
 $messages['norecipientwarning'] = 'Zadejte, prosím, alespoň jednoho příjemce.';
-$messages['disclosedrecipwarning'] = 'Všichni příjemci uvidí adresy ostatních příjemců. Pro ochranu soukromí příjemců můžete použít pole Skrytá kopie (Bcc).';
 $messages['disclosedreciptitle'] = 'Příliš mnoho veřejných příjemců';
 $messages['nosubjectwarning']  = 'Předmět nebyl vyplněn. Přejete si jej zadat nyní?';
 $messages['nosubjecttitle']  = 'Žádný předmět';

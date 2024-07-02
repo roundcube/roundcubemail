@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Angi sidestørrelsen';
 $messages['nosenderwarning'] = 'Angi avsenderadressen';
 $messages['recipientsadded'] = 'Mottake(e) har blitt lagt til';
 $messages['norecipientwarning'] = 'Skriv inn minst én mottaker';
-$messages['disclosedrecipwarning'] = 'Alle mottakere vil kunne se hverandre. For å unngå dette og for å beskytte deres privatliv, vennligst bruk Bcc-feltet.';
 $messages['disclosedreciptitle'] = 'For mange offentlige mottakere';
 $messages['nosubjectwarning']  = 'Emnefeltet er tomt. Vil du skrive det inn nå?';
 $messages['nosubjecttitle']  = 'Intet emne';

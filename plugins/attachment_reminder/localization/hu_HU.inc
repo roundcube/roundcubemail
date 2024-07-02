@@ -14,6 +14,6 @@
 */
 
 $messages['missingattachment'] = "Hiányzó csatolmány?";
-$messages['forgotattachment'] = "Nem felejtetted el a csatolandó file-t?";
-$messages['reminderoption'] = "Emlékeztessen a csatolandó csatolmányra";
-$messages['keywords'] = "csatolmány, file, csatolás, csatolt, csatolni, közrezárt, CV, kisérőlevél";
+$messages['forgotattachment'] = "Nem felejtetted el a csatolandó fájlt?";
+$messages['reminderoption'] = "Emlékeztessen az elfelejtett csatolmányra";
+$messages['keywords'] = "csatolmány, file, fájl, csatolás, csatolt, csatolni, közrezárt, CV, kísérőlevél, melléklet, mellékel, mellékelt";
