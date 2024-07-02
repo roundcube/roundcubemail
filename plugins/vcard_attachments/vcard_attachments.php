@@ -51,7 +51,7 @@ class vcard_attachments extends rcube_plugin
                 $this->add_texts('localization', true);
                 $this->include_stylesheet($this->local_skin_path() . '/style.css');
                 $this->include_script('vcardattach.js');
-                $this->add_button([
+                $this-> add_button([
                         'type'     => 'link',
                         'label'    => 'vcard_attachments.vcard',
                         'command'  => 'attach-vcard',
