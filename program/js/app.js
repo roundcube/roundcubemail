@@ -10575,6 +10575,10 @@ function rcube_webmail() {
             path = this.env.assets_path + path;
         }
 
+        if (!path.startsWith('static.php/') && path.indexOf('://') == -1) {
+            path = 'static.php/' + path;
+        }
+
         return path;
     };
 
