@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Zipdownload plugin         |
+ | Localization file of the Roundcube Webmail client                     |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,12 +11,8 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/timezones/
 */
 
-$labels['downloadall'] = 'Discargar tote le annexos';
-$labels['download'] = 'Discargar…';
-$labels['downloadmbox'] = 'Formato Mbox (.zip)';
-$labels['downloadmaildir'] = 'Formato Maildir (.zip)';
-$labels['downloademl'] = 'Fonte (.eml)';
-$labels['sizelimiterror'] = 'Le dimension total del messages seligite excede le limite ($size)';
+$labels['tz:utc'] = 'UTC';
+$labels['tz:africa'] = 'Africa';

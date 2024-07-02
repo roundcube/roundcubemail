@@ -15,12 +15,12 @@
 */
 
 $labels['basic'] = 'Amosar notificacións no navegador cando entre unha mensaxe nova';
-$labels['desktop'] = 'Amosar notificacións no escritorio cando chegue unha mensaxe nova';
-$labels['sound'] = 'Reproducir un son cando chegue unha nova mensaxe';
+$labels['desktop'] = 'Amosar notificacións no escritorio cando entre unha mensaxe nova';
+$labels['sound'] = 'Reproducir un son cando entre unha mensaxe nova';
 $labels['test'] = 'Proba';
-$labels['title'] = 'Novo Correo!';
-$labels['body'] = 'Recibiches unha nova mensaxe';
-$labels['testbody'] = 'Esta é unha notificación de proba';
-$labels['desktopdisabled'] = 'As notificacións de escritorio están desactivadas no teu navegador';
+$labels['title'] = 'Correo novo!';
+$labels['body'] = 'Recibiches unha nova mensaxe.';
+$labels['testbody'] = 'Esta é unha notificación de proba.';
+$labels['desktopdisabled'] = 'As notificacións de escritorio están desactivadas no teu navegador.';
 $labels['desktopunsupported'] = 'O teu navegador non soporta notificacións de escritorio.';
 $labels['desktoptimeout'] = 'Pechar notificación de escritorio';

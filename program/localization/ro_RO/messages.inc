@@ -87,7 +87,6 @@ $messages['nonamewarning']  = 'Vă rugăm să introduceţi un nume';
 $messages['nopagesizewarning'] = 'Vă rugăm să introduceţi mărimea paginii';
 $messages['nosenderwarning'] = 'Vă rugăm introduceți adresa de e-mail a expeditorului.';
 $messages['norecipientwarning'] = 'Vă rugăm să introduceţi cel puţin un destinatar';
-$messages['disclosedrecipwarning'] = 'Toți destinatarii vor vedea adresele email ale celorlalți. Pentru a preveni acest lucru și pentru a le proteja confidențialitatea, puteți folosi câmpul Bcc.';
 $messages['disclosedreciptitle'] = 'Prea mulți destinatari';
 $messages['nosubjectwarning']  = 'Mesajul nu are subiect. Vreţi să introduceţi unul acum?';
 $messages['nosubjecttitle']  = 'Fără subiect';

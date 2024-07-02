@@ -100,7 +100,6 @@ $messages['nopagesizewarning'] = '請輸入一頁顯示多少郵件';
 $messages['nosenderwarning'] = '請輸入寄件者的電郵位址';
 $messages['recipientsadded'] = '成功加入收件者。';
 $messages['norecipientwarning'] = '請輸入至少一位收件者';
-$messages['disclosedrecipwarning'] = '所有收件者都會看到其他人的電郵位址。要防止這件事發生，以及保護其隱私，可以用「密件副本(Bcc)」欄位';
 $messages['disclosedreciptitle'] = '太多公開收件者';
 $messages['nosubjectwarning']  = '「主旨」欄是空的。要輸入主旨嗎？';
 $messages['nosubjecttitle']  = '無主旨';

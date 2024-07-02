@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'נא להוסיף גודל דף';
 $messages['nosenderwarning'] = 'נא להקיש כתובת דוא"ל של השולח';
 $messages['recipientsadded'] = 'הנמען התוסף בהצלחה';
 $messages['norecipientwarning'] = 'נא להוסיף לפחות נמען אחד';
-$messages['disclosedrecipwarning'] = 'כל המכותבים יראו הכתובות של כולם. כדי למנוע זאת ולשמור על פרטיותם, ניתן להשתמש בתכונה של מכותבים נסתרים (Bcc)';
 $messages['disclosedreciptitle'] = 'יותר מדי מכותבים גלויים';
 $messages['nosubjectwarning']  = 'שורת הנושא ריקה. האם ברצונך להוסיף נושא כעת?';
 $messages['nosubjecttitle']  = 'אין נושא';

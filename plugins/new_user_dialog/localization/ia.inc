@@ -14,5 +14,5 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
-$labels['identitydialogtitle'] = 'Per favor, completa vostre identitate de expeditor';
+$labels['identitydialogtitle'] = 'Per favor, completa tu identitate de expeditor';
 $labels['identitydialoghint'] = 'Iste quadro solmente appare un vice al prime apertura de session.';

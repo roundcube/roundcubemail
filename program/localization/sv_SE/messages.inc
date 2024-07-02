@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Ange en sidstorlek.';
 $messages['nosenderwarning'] = 'Ange en avsändaradress.';
 $messages['recipientsadded'] = 'Mottagare tillagda.';
 $messages['norecipientwarning'] = 'Ange minst en mottagare.';
-$messages['disclosedrecipwarning'] = 'Alla mottagare kommer att kunna se varandras adresser. Undvik detta genom att ange adresserna i fältet Dold kopia istället.';
 $messages['disclosedreciptitle'] = 'Alltför många mottagaradresser';
 $messages['nosubjectwarning']  = 'Ämnesraden är tom. Vill du ange ett ämne nu?';
 $messages['nosubjecttitle']  = 'Inget ämne';

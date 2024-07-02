@@ -15,7 +15,7 @@
 */
 
 
-$labels['welcome'] = 'Bienvenue à $product';
+$labels['welcome'] = 'Bienvenue au courriel Web $product';
 $labels['username'] = 'Nom d’utilisateur';
 $labels['password'] = 'Mot de passe';
 $labels['server'] = 'Serveur';
@@ -120,6 +120,7 @@ $labels['forwardmessage'] = 'Transférer le courriel';
 $labels['bouncemsg'] = 'Renvoyer (retourné)';
 $labels['bounce'] = 'Renvoyer';
 $labels['deletemessage'] = 'Supprimer le courriel';
+$labels['undeletemessage'] = 'Restaurer le message';
 $labels['movemessagetotrash'] = 'Déplacer le courriel vers la corbeille';
 $labels['printmessage'] = 'Imprimer ce courriel';
 $labels['previousmessage'] = 'Afficher le courriel précédent';
@@ -135,6 +136,10 @@ $labels['markunread'] = 'Comme non lu';
 $labels['markflagged'] = 'Comme signalé';
 $labels['markunflagged'] = 'Comme non signalé';
 $labels['markundeleted'] = 'Comme non supprimé';
+$labels['markasread'] = 'Marquer comme lu';
+$labels['markasunread'] = 'Marquer comme non lu';
+$labels['markasflagged'] = 'Marqué comme signalé';
+$labels['markasunflagged'] = 'Marqué comme non signalé';
 $labels['moreactions'] = 'Plus d’actions…';
 $labels['markallread'] = 'Tout marquer comme lu';
 $labels['folders-cur'] = 'Dossier sélectionné seulement';
@@ -360,6 +365,8 @@ $labels['instantmessenger'] = 'MI';
 $labels['notes'] = 'Notes';
 $labels['male'] = 'homme';
 $labels['female'] = 'femme';
+$labels['nonbinary'] = 'non binaire';
+$labels['othergender'] = 'autre';
 $labels['manager'] = 'Gestionnaire';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Conjoint/conjointe';
@@ -626,6 +633,7 @@ $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['destination'] = 'Destination';
 $labels['license'] = 'Licence';
+$labels['skinauthor'] = 'par $author';
 $labels['support'] = 'Obtenir du soutien';
 $labels['savedsearches'] = 'Recherches enregistrées';
 $labels['dateformatY'] = 'AAAA';

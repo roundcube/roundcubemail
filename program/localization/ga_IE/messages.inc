@@ -91,7 +91,6 @@ $messages['nopagesizewarning'] = 'Cuir isteach méid leathanaigh le do thoil.';
 $messages['nosenderwarning'] = 'Cuir isteach seoladh ríomhphoist an tseoltóra.';
 $messages['recipientsadded'] = 'Cuireadh faighteoir(í) go rathúil leis.';
 $messages['norecipientwarning'] = 'Abair liom faighteoir amhain ar a laghad';
-$messages['disclosedrecipwarning'] = 'Feicfidh gach faighteoir seoltaí ríomhphoist a chéile. Chun sin a sheachaint agus a bpríobháideachas a chosaint, is féidir feidhm a bhaint as an réimse Bcc.';
 $messages['disclosedreciptitle'] = 'An iomarca faighteoirí poiblí';
 $messages['nosubjectwarning']  = 'Níl aon ábhair ar an teachtaireacht, ba mhaith tú déarfaidh mé ábair?';
 $messages['nosubjecttitle']  = 'Gan ábhar';

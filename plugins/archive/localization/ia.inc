@@ -17,7 +17,7 @@
 $labels['buttontext'] = 'Archivar';
 $labels['buttontitle'] = 'Archivar iste message';
 $labels['archived'] = 'Archivate con successo';
-$labels['archivedreload'] = 'Archivate con successo. Recarga le pagina pro vider le nove dossieres de archivo.';
+$labels['archivedreload'] = 'Archivate con successo. Recarga le pagina pro vider le nove dossiers de archivo.';
 $labels['archiveerror'] = 'Alcun messages non poteva esser archivate';
 $labels['archivefolder'] = 'Archivo';
 $labels['settingstitle'] = 'Archivo';
@@ -26,6 +26,8 @@ $labels['archivetypeyear'] = 'Anno (p.ex. Archivo/2012)';
 $labels['archivetypemonth'] = 'Mense (p.ex. Archivo/2012/06)';
 $labels['archivetypetbmonth'] = 'Mense - compatibile con Thunderbird (p.ex. Archivo/2012/2012-06)';
 $labels['archivetypefolder'] = 'Dossier original';
+$labels['archivetypefolderyear'] = 'Anno e dossier original (p.ex. Archivo/2012/…)';
+$labels['archivetypefoldermonth'] = 'Anno, mense e dossier original (p.ex. Archivo/2012/06/…)';
 $labels['archivetypesender'] = 'E-mail del expeditor';
 $labels['unkownsender'] = 'incognite';
 $labels['readonarchive'] = 'Marcar le message como legite in le archivo';

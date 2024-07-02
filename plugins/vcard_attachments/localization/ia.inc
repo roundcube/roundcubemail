@@ -16,5 +16,9 @@
 
 $labels['addvcardmsg'] = 'Adder le vCard al adressario';
 $labels['vcardsavefailed'] = 'Impossibile salveguardar le vCard';
-$labels['attachvcard'] = 'Attachar vCard';
+$labels['attachvcard'] = 'Annexar vCard';
+$labels['vcardattached'] = 'File vCard annexate.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Retransmitter vCard';
+$labels['contactsattached'] = 'Il ha $num contactos annexate a iste message.';
+$labels['importedsuccessfully'] = 'Le contacto(s) ha essite importate in le adressario.';
