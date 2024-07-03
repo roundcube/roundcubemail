@@ -11,7 +11,7 @@ class MailTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        Bootstrap::init_imap();
+        Bootstrap::init_imap(true);
         Bootstrap::purge_mailbox('INBOX');
 
         // import single email messages

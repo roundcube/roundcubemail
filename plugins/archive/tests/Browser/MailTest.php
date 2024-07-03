@@ -12,7 +12,7 @@ class MailTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         Bootstrap::init_db();
-        Bootstrap::init_imap();
+        Bootstrap::init_imap(true);
         Bootstrap::purge_mailbox('INBOX');
         Bootstrap::purge_mailbox('Archive');
 
