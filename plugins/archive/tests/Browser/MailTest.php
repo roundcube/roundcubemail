@@ -58,6 +58,7 @@ class MailTest extends TestCase
 
             // Folders list
             $browser->whenAvailable('#mailboxlist', static function ($browser) {
+                $browser->waitFor('li.mailbox.archive .unreadcount');
                 $browser->assertSeeIn('li.mailbox.archive .unreadcount', '1')
                     ->click('li.mailbox.archive')
                     ->waitUntilNotBusy();

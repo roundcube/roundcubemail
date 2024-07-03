@@ -70,9 +70,11 @@ class MailTest extends TestCase
 
             // Test More > Download > Maildir format (two messages selected)
             $browser->clickToolbarMenuItem('more', null, false)
+                ->waitFor('#message-menu')
                 ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
+                ->waitFor('#zipdownload-menu')
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
                     $browser->click('a.download.maildir');
 
