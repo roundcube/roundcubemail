@@ -110,9 +110,28 @@ class MailTest extends TestCase
         $filename = $browser->getDownloadedFilePath($filename);
 
         // Give the browser a chance to finish download
-        if (!file_exists($filename)) {
-            sleep(2);
+        $attempts = 0;
+        while (!file_exists($filename)) {
+            if ($attempts > 9) {
+                throw new \Exception("File not found even after waiting period: {$filename}");
+            }
+            sleep(1);
+            $attempts++;
         }
+        // Wait until the file size doesn't change anymore to be sure to have
+        // the full file. Under some circumstances the file apparently was used
+        // before its content was fully written (and sync'ed across the FS
+        // mounts).
+        $attempts = 0;
+        do {
+            if ($attempts > 9) {
+                throw new \Exception("File size continues to change, something is wrong! File: {$filename}");
+            }
+            $filesize1 = stat($filename)['size'];
+            sleep(1);
+            $filesize2 = stat($filename)['size'];
+            $attempts++;
+        } while ($filesize1 !== $filesize2);
 
         $zip = new \ZipArchive();
         $files = [];
