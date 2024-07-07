@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'llythyren gyntaf yn fach';
 $labels['varupperfirst'] = 'llythyren gyntaf yn briflythyren';
 $labels['varquotewildcard'] = 'dyfynnu nodau arbennig';
 $labels['varlength'] = 'hyd';
+$labels['varencodeurl'] = 'amgodwyd-canran (ar gyfer URLs)';
 $labels['notify'] = 'Anfon hysbysiad';
 $labels['notifytarget'] = 'Target hysbysu:';
 $labels['notifymessage'] = 'Neges hysbysu (dewisol):';

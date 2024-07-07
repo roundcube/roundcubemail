@@ -108,7 +108,7 @@ class PasswordTest extends TestCase
         $this->assertMatchesRegularExpression('/^\{SHA256-CRYPT\}\$5\$[a-zA-Z0-9]{16}\$[a-zA-Z0-9.\/]{43}$/', $pass);
 
         $pass = \password::hash_password('test', 'hash-bcrypt');
-        $this->assertMatchesRegularExpression('/^\{BLF-CRYPT\}\$2y\$10\$[a-zA-Z0-9.\/]{53}$/', $pass);
+        $this->assertMatchesRegularExpression('/^\{BLF-CRYPT\}\$2y\$[0123456789]{2}\$[a-zA-Z0-9.\/]{53}$/', $pass);
 
         // TODO: Test all algos
     }

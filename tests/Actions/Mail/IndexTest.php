@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Actions\Mail;
 
+use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\ActionTestCase;
 
 use function Roundcube\Tests\setProperty;
@@ -433,6 +434,7 @@ class IndexTest extends ActionTestCase
      *
      * @group mbstring
      */
+    #[Group('mbstring')]
     public function test_washtml_utf8()
     {
         $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');

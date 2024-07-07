@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @group database
  */
+#[Group('database')]
 class DBTest extends TestCase
 {
     /**

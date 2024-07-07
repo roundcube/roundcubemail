@@ -87,7 +87,6 @@ $messages['nonamewarning']  = 'Iltimos, Ismni kiriting.';
 $messages['nopagesizewarning'] = 'Iltimos, sahifa o‘lchamini kiriting.';
 $messages['nosenderwarning'] = 'Iltimos, jo‘natuvchi elektron manzilini kirting.';
 $messages['norecipientwarning'] = 'Iltimos, kamida bir dona qabul qiluvchini kiriting.';
-$messages['disclosedrecipwarning'] = 'Barcha qabul qiluvchilar boshqalarning elektron manzilini ko‘ra olishadi, buni oldini olish va ularning shaxiy daxlsizligini ta’minlash uchun BCC maydonidan foydalaning.';
 $messages['disclosedreciptitle'] = 'Tashqi qabul qiluvchilar juda ko‘p.';
 $messages['nosubjectwarning']  = '"Mavzu" maydoni to‘ldirilmagan. Uni to‘ldirishni istaysizmi?';
 $messages['nosubjecttitle']  = 'Mavzusiz';

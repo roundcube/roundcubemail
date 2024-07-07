@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -56,6 +57,7 @@ class StringReplacerTest extends TestCase
     /**
      * @dataProvider provide_replace_cases
      */
+    #[DataProvider('provide_replace_cases')]
     public function test_replace($input, $output)
     {
         $replacer = new \rcube_string_replacer();

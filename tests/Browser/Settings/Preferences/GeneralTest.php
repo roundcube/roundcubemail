@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Settings\Preferences;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\TestCase;
@@ -102,6 +103,7 @@ class GeneralTest extends TestCase
      *
      * @depends testGeneral
      */
+    #[Depends('testGeneral')]
     public function testPreferencesChange()
     {
         // Values we're changing to

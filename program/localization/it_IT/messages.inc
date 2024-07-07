@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Per favore, immetti il numero di righe per pag
 $messages['nosenderwarning'] = 'Per favore, inserisci l\'indirizzo email del mittente.';
 $messages['recipientsadded'] = 'Destinatari/o aggiunti/o correttamente';
 $messages['norecipientwarning'] = 'Per favore, immetti almeno un destinatario';
-$messages['disclosedrecipwarning'] = 'Tutti i destinatari vedranno i rispettivi indirizzi di posta elettronica. Per evitare questo e proteggerne la riservatezza puoi usare il campo Ccn.';
 $messages['disclosedreciptitle'] = 'Troppi destinatari pubblici';
 $messages['nosubjectwarning']  = 'L\'oggetto è vuoto. Vuoi inserirlo adesso?';
 $messages['nosubjecttitle']  = 'Nessun oggetto';

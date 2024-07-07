@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -319,6 +320,7 @@ class OutputHtmlTest extends TestCase
      *
      * @dataProvider provide_conditions_cases
      */
+    #[DataProvider('provide_conditions_cases')]
     public function test_conditions($input, $output)
     {
         $object = new \rcmail_output_html();

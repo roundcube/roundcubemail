@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Contacts;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\Components\App;
 use Roundcube\Tests\Browser\Components\Dialog;
@@ -61,6 +62,7 @@ class ImportTest extends TestCase
      *
      * @depends testImportUI
      */
+    #[Depends('testImportUI')]
     public function testImportProcess()
     {
         $this->browse(static function ($browser) {
@@ -103,6 +105,7 @@ class ImportTest extends TestCase
      *
      * @depends testImportProcess
      */
+    #[Depends('testImportProcess')]
     public function testImportResult()
     {
         $this->browse(static function ($browser) {

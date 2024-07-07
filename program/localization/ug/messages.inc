@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'بەت چوڭلۇقىنى كىرگۈزۈڭ.';
 $messages['nosenderwarning'] = 'ئەۋەتكۈچى ئېلىخەت ئادىرسىنى كىرگۈزۈڭ.';
 $messages['recipientsadded'] = 'تاپشۇرۋالغۇچى(لار) مۇۋاپىقىيەتلىك قۇشۇلدى.';
 $messages['norecipientwarning'] = 'ئەڭ كەمدە بىر تاپشۇرۋالغۇچى كىرگۈزۈڭ.';
-$messages['disclosedrecipwarning'] = 'بارلىق تاپشۇرۋالغۇچىلار بىر-بىرىنىڭ ئېلىخەت ئادىرىسلىرىنى كۆرەلەيدۇ. بۇنىڭدىن ساقلىنىش ھەمدە مەخپىيەتلىكنى ساقلاش ئۈچۈن، سىز Bcc ئورنىنى ئىشلىتەلەيسىز.';
 $messages['disclosedreciptitle'] = 'بەك كۆپ ئاممىۋىي تاپشۇرۋالغۇچىلار';
 $messages['nosubjectwarning']  = '"تېما" كاتەكچىسى قۇرۇق. بىرنى كىرگۈزۈشنى خالامسىز؟';
 $messages['nosubjecttitle']  = 'تېما يوق';

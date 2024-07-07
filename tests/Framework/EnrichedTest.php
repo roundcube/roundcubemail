@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -67,6 +68,7 @@ class EnrichedTest extends TestCase
      *
      * @dataProvider provide_formatting_cases
      */
+    #[DataProvider('provide_formatting_cases')]
     public function test_formatting($enriched, $expected)
     {
         $result = \rcube_enriched::to_html($enriched);

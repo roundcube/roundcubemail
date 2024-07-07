@@ -92,7 +92,6 @@ $messages['nopagesizewarning'] = '请输入每页显示的邮件数量。';
 $messages['nosenderwarning'] = '请输入发件人的电子邮件地址。';
 $messages['recipientsadded'] = '联系人添加成功';
 $messages['norecipientwarning'] = '至少输入一个收件人。';
-$messages['disclosedrecipwarning'] = '所有的收件人都能看到其他收件人的地址。如果您不想这么做并且想保护他人隐私，您可以使用"密送 (Bcc)"一栏。';
 $messages['disclosedreciptitle'] = '太多公共收件人';
 $messages['nosubjectwarning']  = '主题为空。您要输入一个主题吗？';
 $messages['nosubjecttitle']  = '无主题';

@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser\Contacts;
 
+use PHPUnit\Framework\Attributes\Depends;
 use Roundcube\Tests\Browser\Bootstrap;
 use Roundcube\Tests\Browser\TestCase;
 
@@ -41,6 +42,7 @@ class ExportTest extends TestCase
      *
      * @depends testExportAll
      */
+    #[Depends('testExportAll')]
     public function testExportSelected()
     {
         $this->browse(function ($browser) {

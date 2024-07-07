@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'primer caracter en minúsculas';
 $labels['varupperfirst'] = 'primer caracter en mayúsculas';
 $labels['varquotewildcard'] = 'entrecomillar caracteres especiales';
 $labels['varlength'] = 'longitud';
+$labels['varencodeurl'] = 'porciento-codificado (para URLs)';
 $labels['notify'] = 'Enviar notificación';
 $labels['notifytarget'] = 'Destino de la notificación:';
 $labels['notifymessage'] = 'Mensaje de notificación (opcional):';
