@@ -1478,6 +1478,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $field_id = 'rcmfd_mailvelope_main_keyring';
                         $input = new html_checkbox(['name' => '_mailvelope_main_keyring', 'id' => $field_id, 'value' => 1]);
+                        $mailvelope_enable_button = new html_button(['type' => 'button', 'class' => 'btn btn-secondary', 'onclick' => rcmail_output::JS_OBJECT_NAME . '.mailvelope_enable()']);
 
                         $blocks['mailvelope']['options']['mailvelope_status'] = [
                             'content' => html::div(
@@ -1487,6 +1488,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     rcube::Q($rcmail->gettext('mailvelopenotfound'))
                                 )
                                 . html::script([], "if (!parent.mailvelope) \$('#mailvelope-warning').show()")
+                                . $mailvelope_enable_button->show(rcube::Q($rcmail->gettext('mailvelopeenable')))
                             ),
                         ];
 
