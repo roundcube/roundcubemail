@@ -3982,6 +3982,19 @@ function rcube_webmail() {
         }
     };
 
+    /**
+     * Triggger Mailvelope to add the current domain to the list of authorized
+     * domains (with API access).
+     */
+    this.mailvelope_enable = function () {
+        // Remove warning and enabling button if mailvelope was enabled.
+        window.addEventListener('mailvelope', function (ev) {
+            $('#mailvelope-warning').hide();
+        });
+        // Trigger Mailvelope.
+        $('body').append('<iframe style="display: none;" src="https://api.mailvelope.com/authorize-domain/?api=true" />');
+    };
+
     // Load Mailvelope functionality (and initialize keyring if needed)
     this.mailvelope_load = function (action) {
         var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,

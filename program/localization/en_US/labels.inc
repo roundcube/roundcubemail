@@ -681,6 +681,7 @@ $labels['encryption'] = 'Encryption';
 $labels['mailvelopeoptions'] = 'Mailvelope options';
 $labels['mailvelopemainkeyring'] = 'Use Mailvelope main keyring';
 $labels['mailvelopenotfound'] = 'Mailvelope extension is not enabled/installed in your browser.';
+$labels['mailvelopeenable'] = 'Enable';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';
