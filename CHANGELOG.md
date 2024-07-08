@@ -26,6 +26,7 @@
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
 - Use draft settings (like DSN) on "Edit as new" (#9349)
+- Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
 - OAuth: Add support for OAuth/OpenIDC discovery (#8201)
 - OAuth: Add support for invalidating the OAuth-session on logout (#8057)
