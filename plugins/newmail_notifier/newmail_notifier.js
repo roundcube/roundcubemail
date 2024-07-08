@@ -37,18 +37,16 @@ function newmail_notifier_run(prop) {
         newmail_notifier_sound();
     }
     if (prop.desktop) {
-        var title = prop.from || rcmail.get_label('title', 'newmail_notifier');
-        var body = prop.subject || rcmail.get_label('body', 'newmail_notifier');
-
-        // If there's more than one unread email, show the number of other emails
-        var otherCount = prop.count - 1;
-        if (otherCount >= 1) {
-            title += prop.from
-                // Have sender name, e.g. "Daniel L +3"
-                ? ' +' +otherCount
-                // No sender name, e.g. "New Mail! (3)
-                : '('+otherCount + ')';
+        var title;
+        var body;
+        if (prop.count === 1) {
+            title = prop.from || rcmail.get_label('title', 'newmail_notifier');
+            body = prop.subject || rcmail.get_label('body', 'newmail_notifier');
+        } else {
+            title = '(' + prop.count + ') ' + rcmail.get_label('title', 'newmail_notifier');
+            body = rcmail.get_label('body', 'newmail_notifier');
         }
+
         newmail_notifier_desktop(title, body);
     }
 }
@@ -146,13 +144,9 @@ function newmail_notifier_desktop(title, body, disabled_callback) {
 }
 
 function newmail_notifier_test_desktop() {
-    var status = newmail_notifier_desktop(
-        rcmail.get_label('title', 'newmail_notifier'),
-        rcmail.get_label('testbody', 'newmail_notifier'),
-        function () {
-            rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
-        }
-    );
+    var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
+        rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
+    });
 
     if (!status) {
         rcmail.display_message(rcmail.get_label('desktopunsupported', 'newmail_notifier'), 'error');

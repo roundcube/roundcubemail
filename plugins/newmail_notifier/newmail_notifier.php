@@ -210,10 +210,15 @@ class newmail_notifier extends rcube_plugin
             if ($latest_uid !== null) {
                 $headers = $storage->fetch_headers($mbox, [$latest_uid]);
                 // fetch_headers returns an array, but we only care about the first one.
-                $headers = array_shift($headers);
+                $headers = array_first($headers);
                 if ($headers !== null) {
-                    $from = $headers->from;
-                    $subject = $headers->subject;
+                    $subject = trim(
+                        rcube_mime::decode_header($headers->subject, $headers->charset)
+                    );
+                    $from_details = array_first(
+                        rcube_mime::decode_address_list($headers->from, 1, true, $headers->charset)
+                    );
+                    $from = $from_details['name'];
                 }
             }
 
