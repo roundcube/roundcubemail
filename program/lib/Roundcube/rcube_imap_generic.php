@@ -2959,7 +2959,7 @@ class rcube_imap_generic
                         $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
 
                         if ($file) {
-                            if (fwrite($file, $chunk) === false) {
+                            if (($result = fwrite($file, $chunk)) === false) {
                                 break;
                             }
                         } elseif ($print) {
@@ -2974,7 +2974,7 @@ class rcube_imap_generic
 
         if ($result !== false) {
             if ($file) {
-                return fwrite($file, $result);
+                return is_string($result) ? fwrite($file, $result) !== false : true;
             }
 
             if ($print) {
