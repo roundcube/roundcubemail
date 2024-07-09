@@ -171,7 +171,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->command('set_quota', rcube_output::json_serialize($quota));
+        $rcmail->output->command('set_quota', $quota);
 
         return html::span($attrib, '&nbsp;');
     }
