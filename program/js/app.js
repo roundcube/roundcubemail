@@ -10768,3 +10768,4 @@ rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.remov
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
 
 window.rcmail = new rcube_webmail();
+document.addEventListener('DOMContentLoaded', function () { window.rcmail.init(); });
