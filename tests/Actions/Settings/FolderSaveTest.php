@@ -40,9 +40,9 @@ class FolderSaveTest extends ActionTestCase
 
         $this->assertSame('iframe', $output->template);
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, '["parent.display_message","Folder created successfully.","confirmation",0]') !== false);
-        $this->assertTrue(strpos($result, '["parent.add_folder_row","NewTest",') !== false);
-        $this->assertTrue(strpos($result, '["parent.subscription_select"]') !== false);
+        $this->assertTrue(strpos($result, htmlentities('["parent.display_message","Folder created successfully.","confirmation",0]')) !== false);
+        $this->assertTrue(strpos($result, htmlentities('["parent.add_folder_row","NewTest",')) !== false);
+        $this->assertTrue(strpos($result, htmlentities('["parent.subscription_select"]')) !== false);
     }
 
     /**
