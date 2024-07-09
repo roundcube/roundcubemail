@@ -31,6 +31,6 @@ class ResponseCreateTest extends ActionTestCase
         $this->assertSame('Add response', $output->getProperty('pagetitle'));
         $this->assertFalse($output->get_env('readonly'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, '["gui_object","editform","form"]') !== false);
+        $this->assertTrue(strpos($result, htmlentities('["gui_object","editform","form"]')) !== false);
     }
 }

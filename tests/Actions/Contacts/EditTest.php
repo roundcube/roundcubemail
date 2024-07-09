@@ -40,7 +40,7 @@ class EditTest extends ActionTestCase
         $this->assertSame('Edit contact', $output->getProperty('pagetitle'));
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, '["gui_object","contactphoto","contactpic"]') !== false);
+        $this->assertTrue(strpos($result, htmlentities('["gui_object","contactphoto","contactpic"]')) !== false);
     }
 
     /**
