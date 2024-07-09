@@ -38,6 +38,9 @@ abstract class TestCase extends PHPUnitTestCase
     public static function prepare(): void
     {
         static::startWebServer();
+        if (!getenv('WEBDRIVER_CONNECT_URL')) {
+            static::startChromeDriver();
+        }
     }
 
     /**
