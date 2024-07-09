@@ -144,7 +144,6 @@ class rcmail_output_html extends rcmail_output
         $this->include_script('jquery.min.js');
         $this->include_script('common.js');
         $this->include_script('app.js');
-        $this->include_script('rcmail-init.js', 'foot');
 
         // register common UI objects
         $this->add_handlers([
