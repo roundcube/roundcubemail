@@ -43,7 +43,7 @@ class ResponseEditTest extends ActionTestCase
         $this->assertSame('Edit response', $output->getProperty('pagetitle'));
         $this->assertTrue($output->get_env('readonly'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, '["gui_object","editform","form"]') !== false);
+        $this->assertTrue(strpos($result, htmlentities('["gui_object","editform","form"]')) !== false);
         $this->assertTrue(strpos($result, 'tinymce.min.js') !== false);
         $this->assertTrue(strpos($result, 'Static Response One</textarea>') !== false);
 

@@ -807,7 +807,7 @@ function rcube_webmail() {
     this.interpret_js_data = function () {
         // Do not use `.textContent`, and neither jQuery's `.text()` here,
         // because both modify the actual string!
-        var raw = $('#js-data').html();
+        var raw = document.getElementById('js-data').dataset.js;
         if (!raw) {
             return;
         }

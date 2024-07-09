@@ -1982,7 +1982,7 @@ class rcmail_output_html extends rcmail_output
             $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
         }
 
-        $page_footer .= html::div(['id' => 'js-data', 'style' => 'display: none', 'hidden' => true], $this->get_js_commands());
+        $page_footer .= html::div(['id' => 'js-data', 'style' => 'display: none', 'hidden' => true, 'data-js' => $this->get_js_commands()], '');
 
         $page_footer .= $this->footer . "\n";
 
