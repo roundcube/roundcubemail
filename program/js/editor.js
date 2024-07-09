@@ -77,145 +77,152 @@ function rcube_text_editor(config, id) {
             deprecation_warnings: false,
         };
 
-    // register spellchecker for plain text editor
-    this.spellcheck_observer = function () {};
-    if (config.spellchecker) {
-        this.spellchecker = config.spellchecker;
-        if (config.spellcheck_observer) {
-            this.spellchecker.spelling_state_observer = this.spellcheck_observer = config.spellcheck_observer;
+    this.init = function () {
+        this.googiespell_init();
+        if (window.googie) {
+            config.spellchecker = window.googie;
         }
-    }
 
-    // Note: must be registered only once (#1490311)
-    if (!tinymce.registered_request_token) {
-        tinymce.registered_request_token = true;
-        tinymce.util.XHR.on('beforeSend', function (e) {
-            // secure spellchecker requests with Roundcube token
-            e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
-            // A hacky way of setting spellchecker language (there's no API for this in Tiny)
-            if (e.settings && e.settings.data) {
-                e.settings.data = e.settings.data.replace(/^(method=[a-zA-Z]+&lang=)([^&]+)/, '$1' + rcmail.env.spell_lang);
+        // register spellchecker for plain text editor
+        this.spellcheck_observer = function () {};
+        if (config.spellchecker) {
+            this.spellchecker = config.spellchecker;
+            if (config.spellcheck_observer) {
+                this.spellchecker.spelling_state_observer = this.spellcheck_observer = config.spellcheck_observer;
             }
-        });
-    }
-
-    // minimal editor
-    if (config.mode == 'identity' || config.mode == 'response') {
-        conf.toolbar += ' | charmap hr link unlink image code $extra';
-        $.extend(conf, {
-            plugins: 'autolink charmap code hr image link paste tabfocus',
-            file_picker_types: 'image',
-        });
-    }
-    // full-featured editor
-    else {
-        conf.toolbar += ' | bullist numlist outdent indent ltr rtl blockquote'
-        + ' | link unlink table | $extra charmap image media | code searchreplace undo redo',
-        $.extend(conf, {
-            plugins: 'autolink charmap code directionality link lists image media nonbreaking'
-                + ' paste table tabfocus searchreplace spellchecker',
-            spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
-            spellchecker_language: rcmail.env.spell_lang,
-        });
-    }
-
-    // add TinyMCE plugins/buttons from Roundcube plugin
-    $.each(config.extra_plugins || [], function () {
-        if (conf.plugins.indexOf(this) < 0) {
-            conf.plugins = conf.plugins + ' ' + this;
         }
-    });
-    $.each(config.extra_buttons || [], function () {
-        if (conf.toolbar.indexOf(this) < 0) {
-            conf.toolbar = conf.toolbar.replace('$extra', '$extra ' + this);
-        }
-    });
 
-    // disable TinyMCE plugins/buttons from Roundcube plugin
-    $.each(config.disabled_plugins || [], function () {
-        conf.plugins = conf.plugins.replace(this, '');
-    });
-    $.each(config.disabled_buttons || [], function () {
-        conf.toolbar = conf.toolbar.replace(this, '');
-    });
-
-    // font list, convert to TinyMCE format
-    var fonts = [];
-    $.each(config.font_formats || [], function (key) {
-        fonts.push(key + '=' + this.replace(/"/g, '').toLowerCase());
-    });
-    conf.font_formats = fonts.join('; ');
-    if (fonts.length > 1) {
-        conf.toolbar = conf.toolbar.replace('$font', 'fontselect $font');
-    }
-
-    // font size list
-    conf.fontsize_formats = config.fontsize_formats.join(' ');
-    if (config.fontsize_formats.length > 1) {
-        conf.toolbar = conf.toolbar.replace('$font', 'fontsizeselect $font');
-    }
-
-    conf.toolbar = conf.toolbar.replace(/($extra|$font)/, '').replace(/\|\s+\|/g, '|');
-
-    // support external configuration settings e.g. from skin
-    if (window.rcmail_editor_settings) {
-        $.extend(conf, window.rcmail_editor_settings);
-    }
-
-    conf.setup = function (ed) {
-        ed.on('init', function () {
-            ref.init_callback(ed);
-        });
-        // add handler for spellcheck button state update
-        ed.on('SpellcheckStart SpellcheckEnd', function (args) {
-            ref.spellcheck_active = args.type == 'spellcheckstart';
-            ref.spellcheck_observer();
-        });
-        ed.on('keypress', function () {
-            rcmail.compose_type_activity++;
-        });
-        ed.on('PastePostProcess', function (e) {
-            $(e.node).find('img').each(function () {
-                var id = 'i' + Date.now();
-
-                // No referrer for privacy
-                this.referrerPolicy = 'no-referrer';
-
-                // Need an attribute to find the image element after paste
-                this.setAttribute('data-img-id', id);
-
-                // Replace the 'src' with data: URI after the image has been loaded
-                // This way if we fetch the image again the browser will fetch it from cache
-                this.onload = function () {
-                    this.onload = null; ref.replace_img_src(this.src, id);
-                };
+        // Note: must be registered only once (#1490311)
+        if (!tinymce.registered_request_token) {
+            tinymce.registered_request_token = true;
+            tinymce.util.XHR.on('beforeSend', function (e) {
+                // secure spellchecker requests with Roundcube token
+                e.xhr.setRequestHeader('X-Roundcube-Request', rcmail.env.request_token);
+                // A hacky way of setting spellchecker language (there's no API for this in Tiny)
+                if (e.settings && e.settings.data) {
+                    e.settings.data = e.settings.data.replace(/^(method=[a-zA-Z]+&lang=)([^&]+)/, '$1' + rcmail.env.spell_lang);
+                }
             });
-        });
-        // make links open on shift-click
-        ed.on('click', function (e) {
-            var link = $(e.target).closest('a');
-            if (link.length && e.shiftKey) {
-                window.open(link.get(0).href, '_blank');
-                return false;
+        }
+
+        // minimal editor
+        if (config.mode == 'identity' || config.mode == 'response') {
+            conf.toolbar += ' | charmap hr link unlink image code $extra';
+            $.extend(conf, {
+                plugins: 'autolink charmap code hr image link paste tabfocus',
+                file_picker_types: 'image',
+            });
+        }
+        // full-featured editor
+        else {
+            conf.toolbar += ' | bullist numlist outdent indent ltr rtl blockquote'
+            + ' | link unlink table | $extra charmap image media | code searchreplace undo redo',
+            $.extend(conf, {
+                plugins: 'autolink charmap code directionality link lists image media nonbreaking'
+                    + ' paste table tabfocus searchreplace spellchecker',
+                spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
+                spellchecker_language: rcmail.env.spell_lang,
+            });
+        }
+
+        // add TinyMCE plugins/buttons from Roundcube plugin
+        $.each(config.extra_plugins || [], function () {
+            if (conf.plugins.indexOf(this) < 0) {
+                conf.plugins = conf.plugins + ' ' + this;
             }
         });
-        ed.on('focus blur', function (e) {
-            $(ed.getContainer()).toggleClass('focused');
+        $.each(config.extra_buttons || [], function () {
+            if (conf.toolbar.indexOf(this) < 0) {
+                conf.toolbar = conf.toolbar.replace('$extra', '$extra ' + this);
+            }
         });
 
-        if (conf.setup_callback) {
-            conf.setup_callback(ed);
+        // disable TinyMCE plugins/buttons from Roundcube plugin
+        $.each(config.disabled_plugins || [], function () {
+            conf.plugins = conf.plugins.replace(this, '');
+        });
+        $.each(config.disabled_buttons || [], function () {
+            conf.toolbar = conf.toolbar.replace(this, '');
+        });
+
+        // font list, convert to TinyMCE format
+        var fonts = [];
+        $.each(config.font_formats || [], function (key) {
+            fonts.push(key + '=' + this.replace(/"/g, '').toLowerCase());
+        });
+        conf.font_formats = fonts.join('; ');
+        if (fonts.length > 1) {
+            conf.toolbar = conf.toolbar.replace('$font', 'fontselect $font');
         }
+
+        // font size list
+        conf.fontsize_formats = config.fontsize_formats.join(' ');
+        if (config.fontsize_formats.length > 1) {
+            conf.toolbar = conf.toolbar.replace('$font', 'fontsizeselect $font');
+        }
+
+        conf.toolbar = conf.toolbar.replace(/($extra|$font)/, '').replace(/\|\s+\|/g, '|');
+
+        // support external configuration settings e.g. from skin
+        if (window.rcmail_editor_settings) {
+            $.extend(conf, window.rcmail_editor_settings);
+        }
+
+        conf.setup = function (ed) {
+            ed.on('init', function () {
+                ref.init_callback(ed);
+            });
+            // add handler for spellcheck button state update
+            ed.on('SpellcheckStart SpellcheckEnd', function (args) {
+                ref.spellcheck_active = args.type == 'spellcheckstart';
+                ref.spellcheck_observer();
+            });
+            ed.on('keypress', function () {
+                rcmail.compose_type_activity++;
+            });
+            ed.on('PastePostProcess', function (e) {
+                $(e.node).find('img').each(function () {
+                    var id = 'i' + Date.now();
+
+                    // No referrer for privacy
+                    this.referrerPolicy = 'no-referrer';
+
+                    // Need an attribute to find the image element after paste
+                    this.setAttribute('data-img-id', id);
+
+                    // Replace the 'src' with data: URI after the image has been loaded
+                    // This way if we fetch the image again the browser will fetch it from cache
+                    this.onload = function () {
+                        this.onload = null; ref.replace_img_src(this.src, id);
+                    };
+                });
+            });
+            // make links open on shift-click
+            ed.on('click', function (e) {
+                var link = $(e.target).closest('a');
+                if (link.length && e.shiftKey) {
+                    window.open(link.get(0).href, '_blank');
+                    return false;
+                }
+            });
+            ed.on('focus blur', function (e) {
+                $(ed.getContainer()).toggleClass('focused');
+            });
+
+            if (conf.setup_callback) {
+                conf.setup_callback(ed);
+            }
+        };
+
+        rcmail.triggerEvent('editor-init', { config: conf, ref: ref, id: id });
+
+        // textarea identifier
+        this.id = id;
+        // reference to active editor (if in HTML mode)
+        this.editor = null;
+
+        tinymce.init(conf);
     };
-
-    rcmail.triggerEvent('editor-init', { config: conf, ref: ref, id: id });
-
-    // textarea identifier
-    this.id = id;
-    // reference to active editor (if in HTML mode)
-    this.editor = null;
-
-    tinymce.init(conf);
 
     // react to real individual tinyMCE editor init
     this.init_callback = function (editor) {
@@ -946,5 +953,27 @@ function rcube_text_editor(config, id) {
                 }
             });
         });
+    };
+
+    this.googiespell_init = function () {
+        // Don't initialize if it's already present or dependencies are not met.
+        if (window.googie || !window.GoogieSpell || !rcmail.env.googiespell_asset_url) {
+            return;
+        }
+        window.googie = new window.GoogieSpell(
+            rcmail.env.googiespell_asset_url + '/images/googiespell/',
+            rcmail.env.googiespell_base_url + '&lang=',
+            rcmail.env.googiespell_use_dict
+        );
+        googie.lang_chck_spell = rcmail.env.googiespell_lang_chck_spell;
+        googie.lang_rsm_edt = rcmail.env.googiespell_lang_rsm_edt;
+        googie.lang_close = rcmail.env.googiespell_lang_close;
+        googie.lang_revert = rcmail.env.googiespell_lang_revert;
+        googie.lang_no_error_found = rcmail.env.googiespell_lang_no_error_found;
+        googie.lang_learn_word = rcmail.env.googiespell_lang_learn_word;
+        googie.setLanguages(rcmail.env.googiespell_languages);
+        googie.setCurrentLanguage(rcmail.env.googiespell_currentLanguage);
+        googie.setDecoration(false);
+        googie.decorateTextarea(rcmail.env.composebody);
     };
 }

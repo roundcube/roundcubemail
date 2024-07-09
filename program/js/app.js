@@ -417,18 +417,17 @@ function rcube_webmail() {
                     // add more commands (not enabled)
                     $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
 
-                    if (window.googie) {
-                        this.env.editor_config.spellchecker = googie;
-                        this.env.editor_config.spellcheck_observer = function (s) {
-                            ref.spellcheck_state();
-                        };
-
-                        this.env.compose_commands.push('spellcheck');
-                        this.enable_command('spellcheck', true);
-                    }
+                    this.env.editor_config.spellcheck_observer = function (s) {
+                        ref.spellcheck_state();
+                    };
 
                     // initialize HTML editor
                     this.editor_init(null, this.env.composebody);
+
+                    if (window.googie) {
+                        this.env.compose_commands.push('spellcheck');
+                        this.enable_command('spellcheck', true);
+                    }
 
                     // init message compose form
                     this.init_messageform();
@@ -9386,6 +9385,7 @@ function rcube_webmail() {
     // initialize HTML editor
     this.editor_init = function (config, id) {
         this.editor = new rcube_text_editor(config || this.env.editor_config, id);
+        this.editor.init();
     };
 
 
