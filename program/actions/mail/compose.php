@@ -513,20 +513,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
-            $rcmail->output->include_script('googiespell_init.js');
-            $rcmail->output->command('googiespell_init',
-                $rcmail->output->asset_url($rcmail->output->get_skin_path()),
-                $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
-                !empty($dictionary) ? 'true' : 'false',
-                rcube::JQ(rcube::Q($rcmail->gettext('checkspelling'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('resumeediting'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('close'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('revertto'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('nospellerrors'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('addtodict'))),
-                $spellcheck_langs,
-                $lang
-            );
+            $rcmail->output->set_env('googiespell_asset_url', $rcmail->output->asset_url($rcmail->output->get_skin_path()));
+            $rcmail->output->set_env('googiespell_base_url', $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]));
+            $rcmail->output->set_env('googiespell_use_dict', !empty($dictionary) ? 'true' : 'false');
+            $rcmail->output->set_env('googiespell_lang_chck_spell', rcube::JQ(rcube::Q($rcmail->gettext('checkspelling'))));
+            $rcmail->output->set_env('googiespell_lang_rsm_edt', rcube::JQ(rcube::Q($rcmail->gettext('resumeediting'))));
+            $rcmail->output->set_env('googiespell_lang_close', rcube::JQ(rcube::Q($rcmail->gettext('close'))));
+            $rcmail->output->set_env('googiespell_lang_revert', rcube::JQ(rcube::Q($rcmail->gettext('revertto'))));
+            $rcmail->output->set_env('googiespell_lang_no_error_found', rcube::JQ(rcube::Q($rcmail->gettext('nospellerrors'))));
+            $rcmail->output->set_env('googiespell_lang_learn_word', rcube::JQ(rcube::Q($rcmail->gettext('addtodict'))));
+            $rcmail->output->set_env('googiespell_languages', $spellcheck_langs);
+            $rcmail->output->set_env('googiespell_currentLanguage', $lang);
 
             $rcmail->output->add_label('checking');
             $rcmail->output->set_env('spell_langs', $spellcheck_langs);
