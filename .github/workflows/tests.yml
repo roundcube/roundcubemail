@@ -70,20 +70,12 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Setup composer
-        run: composer require "kolab/net_ldap3:~1.1.4" --no-update
+      - name: Execute tests
+        run: .ci/run_tests.sh
 
-      - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
-
-      - name: Roundcube configuration
-        run: cp .ci/config-test.inc.php config/config-test.inc.php
-
-      - name: Execute tests (highest)
-        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
-
-      - name: Downgrade dependencies
-        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
-
-      - name: Execute tests (lowest)
-        run: vendor/bin/phpunit -c tests/phpunit.xml --fail-on-warning --fail-on-risky
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: logs/errors.log
