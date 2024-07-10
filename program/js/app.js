@@ -424,7 +424,7 @@ function rcube_webmail() {
                     // initialize HTML editor
                     this.editor_init(null, this.env.composebody);
 
-                    if (window.googie) {
+                    if (this.editor.spellchecker) {
                         this.env.compose_commands.push('spellcheck');
                         this.enable_command('spellcheck', true);
                     }
@@ -4170,7 +4170,7 @@ function rcube_webmail() {
 
             // re-enable commands that operate on the compose body
             ref.enable_command('toggle-editor', 'insert-response', true);
-            ref.enable_command('spellcheck', !!window.googie);
+            ref.enable_command('spellcheck', !!ref.editor.spellchecker);
             ref.enable_command('insert-sig', !!(ref.env.signatures && ref.env.identity && ref.env.signatures[ref.env.identity]));
 
             ref.triggerEvent('compose-encrypted', { active: false });
