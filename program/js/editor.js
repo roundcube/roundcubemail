@@ -78,15 +78,12 @@ function rcube_text_editor(config, id) {
         };
 
     this.init = function () {
-        this.googiespell_init();
-        if (window.googie) {
-            config.spellchecker = window.googie;
-        }
+        var googie = this.googiespell_init();
 
         // register spellchecker for plain text editor
         this.spellcheck_observer = function () {};
-        if (config.spellchecker) {
-            this.spellchecker = config.spellchecker;
+        if (googie) {
+            this.spellchecker = googie;
             if (config.spellcheck_observer) {
                 this.spellchecker.spelling_state_observer = this.spellcheck_observer = config.spellcheck_observer;
             }
@@ -957,23 +954,26 @@ function rcube_text_editor(config, id) {
 
     this.googiespell_init = function () {
         // Don't initialize if it's already present or dependencies are not met.
-        if (window.googie || !window.GoogieSpell || !rcmail.env.googiespell_asset_url) {
+        if (!window.GoogieSpell || !rcmail.env.googiespell_conf) {
             return;
         }
-        window.googie = new window.GoogieSpell(
-            rcmail.env.googiespell_asset_url + '/images/googiespell/',
-            rcmail.env.googiespell_base_url + '&lang=',
-            rcmail.env.googiespell_use_dict
+        var conf = rcmail.env.googiespell_conf;
+        var googie = new window.GoogieSpell(
+            conf.asset_url + '/images/googiespell/',
+            conf.base_url + '&lang=',
+            conf.use_dict
         );
-        googie.lang_chck_spell = rcmail.env.googiespell_lang_chck_spell;
-        googie.lang_rsm_edt = rcmail.env.googiespell_lang_rsm_edt;
-        googie.lang_close = rcmail.env.googiespell_lang_close;
-        googie.lang_revert = rcmail.env.googiespell_lang_revert;
-        googie.lang_no_error_found = rcmail.env.googiespell_lang_no_error_found;
-        googie.lang_learn_word = rcmail.env.googiespell_lang_learn_word;
-        googie.setLanguages(rcmail.env.googiespell_languages);
-        googie.setCurrentLanguage(rcmail.env.googiespell_currentLanguage);
+        googie.lang_chck_spell = conf.lang_chck_spell;
+        googie.lang_rsm_edt = conf.lang_rsm_edt;
+        googie.lang_close = conf.lang_close;
+        googie.lang_revert = conf.lang_revert;
+        googie.lang_no_error_found = conf.lang_no_error_found;
+        googie.lang_learn_word = conf.lang_learn_word;
+        googie.setLanguages(conf.languages);
+        googie.setCurrentLanguage(conf.currentLanguage);
         googie.setDecoration(false);
         googie.decorateTextarea(rcmail.env.composebody);
+
+        return googie;
     };
 }

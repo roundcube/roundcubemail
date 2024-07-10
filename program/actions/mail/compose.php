@@ -513,17 +513,19 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
-            $rcmail->output->set_env('googiespell_asset_url', $rcmail->output->asset_url($rcmail->output->get_skin_path()));
-            $rcmail->output->set_env('googiespell_base_url', $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]));
-            $rcmail->output->set_env('googiespell_use_dict', !empty($dictionary) ? 'true' : 'false');
-            $rcmail->output->set_env('googiespell_lang_chck_spell', rcube::JQ(rcube::Q($rcmail->gettext('checkspelling'))));
-            $rcmail->output->set_env('googiespell_lang_rsm_edt', rcube::JQ(rcube::Q($rcmail->gettext('resumeediting'))));
-            $rcmail->output->set_env('googiespell_lang_close', rcube::JQ(rcube::Q($rcmail->gettext('close'))));
-            $rcmail->output->set_env('googiespell_lang_revert', rcube::JQ(rcube::Q($rcmail->gettext('revertto'))));
-            $rcmail->output->set_env('googiespell_lang_no_error_found', rcube::JQ(rcube::Q($rcmail->gettext('nospellerrors'))));
-            $rcmail->output->set_env('googiespell_lang_learn_word', rcube::JQ(rcube::Q($rcmail->gettext('addtodict'))));
-            $rcmail->output->set_env('googiespell_languages', $spellcheck_langs);
-            $rcmail->output->set_env('googiespell_currentLanguage', $lang);
+            $rcmail->output->set_env('googiespell_conf', [
+                'asset_url' => $rcmail->output->asset_url($rcmail->output->get_skin_path()),
+                'base_url' => $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
+                'use_dict' => !empty($dictionary) ? 'true' : 'false',
+                'lang_chck_spell' => $rcmail->gettext('checkspelling'),
+                'lang_rsm_edt' => $rcmail->gettext('resumeediting'),
+                'lang_close' => $rcmail->gettext('close'),
+                'lang_revert' => $rcmail->gettext('revertto'),
+                'lang_no_error_found' => $rcmail->gettext('nospellerrors'),
+                'lang_learn_word' => $rcmail->gettext('addtodict'),
+                'languages' => $spellcheck_langs,
+                'currentLanguage' => $lang,
+            ]);
 
             $rcmail->output->add_label('checking');
             $rcmail->output->set_env('spell_langs', $spellcheck_langs);
