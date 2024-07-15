@@ -63,7 +63,7 @@ class html
      *
      * @param string       $tagname Tag name
      * @param array|string $attrib  Tag attributes as key/value pairs, or 'class' attribute value
-     * @param string       $content Optional Tag content (creates a container tag)
+     * @param array|string $content Optional Tag content (creates a container tag)
      * @param array        $allowed List with allowed attributes, omit to allow all
      *
      * @return string The XHTML tag
@@ -81,6 +81,9 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
+            if (is_array($content)) {
+                $content = implode('', $content);
+            }
 
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
