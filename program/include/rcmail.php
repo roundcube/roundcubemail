@@ -61,12 +61,6 @@ class rcmail extends rcube
     private $address_books = [];
     private $action_args = [];
 
-    public const ERROR_STORAGE = -2;
-    public const ERROR_INVALID_REQUEST = 1;
-    public const ERROR_INVALID_HOST = 2;
-    public const ERROR_COOKIES_DISABLED = 3;
-    public const ERROR_RATE_LIMIT = 4;
-
     /**
      * This implements the 'singleton' design pattern
      *
@@ -751,71 +745,27 @@ class rcmail extends rcube
             $username = rcube_utils::idn_to_ascii($username);
         }
 
-        // user already registered -> overwrite username
-        if ($user = rcube_user::query($username, $host)) {
-            $username = $user->data['username'];
-
-            // Brute-force prevention
-            if ($user->is_locked()) {
-                $this->login_error = self::ERROR_RATE_LIMIT;
-                return false;
-            }
-        }
-
         $storage = $this->get_storage();
 
         // try to log in
-        if (!$this->imap_connect($storage, $host, $username, $password, $port, $ssl, $user)) {
+        $user = $this->storage_connect($storage, $host, $username, $password, $port, $ssl, $just_connect);
+
+        if (!$user) {
             return false;
         }
 
-        // Only set user if just wanting to connect.
-        // Note that for other scenarios user will also be set after successful login.
+        if (is_int($user) && $user == self::ERROR_RATE_LIMIT) {
+            $this->login_error = self::ERROR_RATE_LIMIT;
+            return false;
+        }
+
+        // This is enough if just connecting
         if ($just_connect) {
-            if (is_object($user)) {
-                $this->set_user($user);
-            }
             return true;
         }
 
-        // user already registered -> update user's record
-        if (is_object($user)) {
-            // update last login timestamp
-            $user->touch();
-        }
-        // create new system user
-        elseif ($this->config->get('auto_create_user')) {
-            // Temporarily set user email and password, so plugins can use it
-            // this way until we set it in session later. This is required e.g.
-            // by the user-specific LDAP operations from new_user_identity plugin.
-            $domain = $this->config->mail_domain($host);
-            $this->user_email = strpos($username, '@') ? $username : sprintf('%s@%s', $username, $domain);
-            $this->password = $password;
-
-            $user = rcube_user::create($username, $host);
-
-            $this->user_email = null;
-            $this->password = null;
-
-            if (!$user) {
-                self::raise_error([
-                    'code' => 620,
-                    'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
-                ], true, false);
-            }
-        } else {
-            self::raise_error([
-                'code' => 621,
-                'message' => "Access denied for new user {$username}. 'auto_create_user' is disabled",
-            ], true, false);
-        }
-
         // login succeeded
-        if (is_object($user) && $user->ID) {
-            // Configure environment
-            $this->set_user($user);
-            $this->set_storage_prop();
-
+        if ($user->ID) {
             // set session vars
             $_SESSION['user_id'] = $user->ID;
             $_SESSION['username'] = $user->data['username'];
@@ -1996,7 +1946,7 @@ class rcmail extends rcube
      *
      * @return bool True on success, False on error
      */
-    public function storage_connect()
+    public function connect_storage_from_session()
     {
         $storage = $this->get_storage();
 

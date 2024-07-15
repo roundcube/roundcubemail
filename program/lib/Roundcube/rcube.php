@@ -38,6 +38,13 @@ class rcube
 
     public const DEBUG_LINE_LENGTH = 4096;
 
+    // Error codes
+    public const ERROR_STORAGE = -2;
+    public const ERROR_INVALID_REQUEST = 1;
+    public const ERROR_INVALID_HOST = 2;
+    public const ERROR_COOKIES_DISABLED = 3;
+    public const ERROR_RATE_LIMIT = 4;
+
     /** @var rcube_config Stores instance of rcube_config */
     public $config;
 
@@ -1872,13 +1879,23 @@ class rcube
      * @param string        $password     IMAP password
      * @param int           $port         IMAP port to connect to
      * @param string        $ssl          SSL schema or false if plain connection
-     * @param rcube_user    $user         Roundcube user (if it already exists)
      * @param array         $imap_options Additional IMAP options
+     * @param bool          $just_connect Breaks after successful connect
      *
-     * @return bool Return true on successful login
+     * @return rcube_user|int|null Return user object on success, null or error code on failure
      */
-    public function imap_connect($imap, $host, $username, $password, $port, $ssl, $user = null, $imap_options = [])
+    public function storage_connect($imap, $host, $username, $password, $port, $ssl, $imap_options = [], $just_connect = false)
     {
+        // user already registered -> overwrite username
+        if ($user = rcube_user::query($username, $host)) {
+            $username = $user->data['username'];
+
+            // Brute-force prevention
+            if ($user->is_locked()) {
+                return self::ERROR_RATE_LIMIT;
+            }
+        }
+
         // enable proxy authentication
         if (!empty($imap_options)) {
             $imap->set_options($imap_options);
@@ -1892,10 +1909,52 @@ class rcube
 
             // Wait a second to slow down brute-force attacks (#1490549)
             sleep(1);
-            return false;
+            return null;
         }
 
-        return true;
+        // Only set user if just wanting to connect.
+        // Note that for other scenarios user will also be set after successful login.
+        if (!$just_connect) {
+            // user already registered -> update user's record
+            if (is_object($user)) {
+                // update last login timestamp
+                $user->touch();
+            }
+            // create new system user
+            elseif ($this->config->get('auto_create_user')) {
+                // Temporarily set user email and password, so plugins can use it
+                // this way until we set it in session later. This is required e.g.
+                // by the user-specific LDAP operations from new_user_identity plugin.
+                $domain = $this->config->mail_domain($host);
+                $this->user_email = strpos($username, '@') ? $username : sprintf('%s@%s', $username, $domain);
+                $this->password = $password;
+
+                $user = rcube_user::create($username, $host);
+
+                $this->user_email = null;
+                $this->password = null;
+
+                if (!$user) {
+                    self::raise_error([
+                        'code' => 620,
+                        'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
+                    ], true, false);
+                }
+            } else {
+                self::raise_error([
+                    'code' => 621,
+                    'message' => "Access denied for new user {$username}. 'auto_create_user' is disabled",
+                ], true, false);
+            }
+        }
+
+        if (is_object($user) && $user->ID) {
+            // Configure environment
+            $this->set_user($user);
+            $this->set_storage_prop();
+        }
+
+        return $user;
     }
 }
 
