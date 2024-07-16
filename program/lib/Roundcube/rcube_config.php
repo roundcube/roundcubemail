@@ -300,8 +300,8 @@ class rcube_config
 
         foreach ($this->resolve_paths($file) as $fpath) {
             if ($fpath && is_file($fpath)) {
-                if(false === is_readable($fpath)) {
-                    trigger_error($fpath . ' is not readable. Please check ownership of file', \E_USER_WARNING);
+                if (false === is_readable($fpath)) {
+                    trigger_error($fpath . ' is not readable', \E_USER_WARNING);
                 } else {
                     // use output buffering, we don't need any output here
                     ob_start();
