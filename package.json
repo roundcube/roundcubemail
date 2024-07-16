@@ -13,7 +13,7 @@
     "jquery": "^3.7.1",
     "tinymce": "^5.10.9",
     "openpgp": "^5.0.0",
-    "codemirror": "^5.58.3",
+    "codemirror": "^6.0.1",
     "bootstrap": "^4.5.3",
     "less": "^4.1.3"
   }
