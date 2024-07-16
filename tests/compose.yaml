@@ -5,7 +5,7 @@ services:
     image: docker.io/selenium/standalone-chromium
     volumes:
       - '/dev/shm:/dev/shm'
-      - './tests/Browser/downloads:/downloads'
+      - './Browser/downloads:/downloads'
 
   browser_tests:
     depends_on:
@@ -14,14 +14,14 @@ services:
     hostname: 'testrunner'
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
-      - '.:/app'
-      - './tests/Browser/downloads:/downloads'
+      - '..:/app'
+      - './Browser/downloads:/downloads'
     environment:
       WEBDRIVER_CONNECT_URL: 'http://browserhost:4444'
       SERVER_URL: 'http://testrunner:8000'
       SERVER_BIND: '0.0.0.0:8000'
       BROWSER_DOWNLOADS_DIR: '/downloads'
-      TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
+      TESTRUNNER_DOWNLOADS_DIR: './Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
     command: 
@@ -32,14 +32,14 @@ services:
       - mailhost
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
-      - '.:/app'
+      - '..:/app'
     command:
       - .ci/run_tests.sh
 
   codespell:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
-      - '.:/app'
+      - '..:/app'
     command:
       - vendor/bin/php-cs-fixer
       - fix
@@ -51,7 +51,7 @@ services:
   codestyle:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
-      - '.:/app'
+      - '..:/app'
     command:
       - npx
       - eslint
