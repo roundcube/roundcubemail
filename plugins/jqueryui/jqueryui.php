@@ -121,7 +121,7 @@ class jqueryui extends rcube_plugin
         $rcube->output->include_css('plugins/jqueryui/' . $css);
         $rcube->output->include_script($script, 'head', false);
         $rcube->output->include_script('plugins/jqueryui/js/jqueryui-minicolors-init.js');
-        $rcube->output->command('plugin.jqueryui-minicolors-init', $config_str);
+        $rcube->output->command('jqueryui_minicolors_init', $config_str);
         $rcube->output->set_env('minicolors_config', $config);
     }
 

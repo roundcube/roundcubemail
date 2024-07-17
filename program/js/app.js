@@ -800,9 +800,8 @@ function rcube_webmail() {
     };
 
     /**
-     * Handle "commands" passed in via #js-data. Through this, server code can
-     * trigger Javascript-methods to be called or events to be thrown (for
-     * plugin JS-code).
+     * Handle function calls passed in via #js-calls. Through this, server code
+     * can trigger Javascript-methods to be called.
      */
     this.interpret_js_data = function () {
         // Do not use `.textContent`, and neither jQuery's `.text()` here,

@@ -1,5 +1,5 @@
-rcmail.addEventListener('plugin.new_user_dialog_open', function (title) {
-    var newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), title, [{
+rcube_webmail.prototype.new_user_dialog_open = function (title) {
+    window.newuserdialog = rcmail.show_popup_dialog($('#newuserdialog'), title, [{
         text: rcmail.get_label('save'),
         class: 'mainaction save',
         click: function () {
@@ -22,8 +22,10 @@ rcmail.addEventListener('plugin.new_user_dialog_open', function (title) {
         },
     }
     );
+}
 
-    rcmail.addEventListener('plugin.new_user_dialog_close', function (title) {
-        newuserdialog.dialog('destroy');
-    });
-});
+rcube_webmail.prototype.new_user_dialog_close = function (title) {
+    if (window.newuserdialog) {
+        window.newuserdialog.dialog('destroy');
+    }
+}
