@@ -54,7 +54,7 @@ class rcmail_action_contacts_group_create extends rcmail_action_contacts_index
 
         if (!empty($created)) {
             $rcmail->output->show_message('groupcreated', 'confirmation');
-            $rcmail->output->command('insert_contact_group', ['source' => $source] + $created);
+            $rcmail->output->add_js_call('insert_contact_group', ['source' => $source] + $created);
         } elseif (empty($created)) {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');

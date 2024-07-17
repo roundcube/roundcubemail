@@ -171,7 +171,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $_SESSION['page'] = 1;
 
         if ($adv) {
-            $rcmail->output->command('list_contacts_clear');
+            $rcmail->output->add_js_call('list_contacts_clear');
         }
 
         if ($result->count > 0) {
@@ -185,22 +185,22 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         // update message count display
         $rcmail->output->set_env('search_request', $search_request);
         $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
-        $rcmail->output->command('set_rowcount', self::get_rowcount_text($result));
+        $rcmail->output->add_js_call('set_rowcount', self::get_rowcount_text($result));
         // Re-set current source
         $rcmail->output->set_env('search_id', $sid);
         $rcmail->output->set_env('source', '');
         $rcmail->output->set_env('group', '');
         // Re-set list header
-        $rcmail->output->command('set_group_prop', null);
+        $rcmail->output->add_js_call('set_group_prop', null);
 
         if (!$sid) {
             // unselect currently selected directory/group
-            $rcmail->output->command('unselect_directory');
+            $rcmail->output->add_js_call('unselect_directory');
             // enable "Save search" command
-            $rcmail->output->command('enable_command', 'search-create', true);
+            $rcmail->output->add_js_call('enable_command', 'search-create', true);
         }
 
-        $rcmail->output->command('update_group_commands');
+        $rcmail->output->add_js_call('update_group_commands');
 
         // send response
         $rcmail->output->send();

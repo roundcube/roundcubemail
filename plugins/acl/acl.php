@@ -135,7 +135,7 @@ class acl extends rcube_plugin
             $users = array_values($keys);
         }
 
-        $this->rc->output->command('ksearch_query_results', $users, $search, $reqid);
+        $this->rc->output->add_js_call('ksearch_query_results', $users, $search, $reqid);
         $this->rc->output->send();
     }
 
@@ -533,7 +533,7 @@ class acl extends rcube_plugin
             if ($user != $self && $username != $self) {
                 if ($this->rc->storage->set_acl($mbox, $user, $acl)) {
                     $display = $this->resolve_acl_identifier($username, $title);
-                    $this->rc->output->command('acl_update', [
+                    $this->rc->output->add_js_call('acl_update', [
                         'id' => rcube_utils::html_identifier($user),
                         'username' => $username,
                         'title' => $title,
@@ -566,7 +566,7 @@ class acl extends rcube_plugin
         foreach ($user as $u) {
             $u = trim($u);
             if ($this->rc->storage->delete_acl($mbox, $u)) {
-                $this->rc->output->command('acl_remove_row', rcube_utils::html_identifier($u));
+                $this->rc->output->add_js_call('acl_remove_row', rcube_utils::html_identifier($u));
             } else {
                 $error = true;
             }
@@ -599,7 +599,7 @@ class acl extends rcube_plugin
 
         $out = preg_replace(['/^<table[^>]+>/', '/<\/table>$/'], '', $out);
 
-        $this->rc->output->command('acl_list_update', $out);
+        $this->rc->output->add_js_call('acl_list_update', $out);
     }
 
     /**

@@ -57,7 +57,7 @@ class markasjunk_edit_headers
             $saved = $rcube->storage->save_message($dst_mbox, $raw_message);
 
             if ($saved !== false) {
-                $rcube->output->command('markasjunk_move', null, [$uid]);
+                $rcube->output->add_js_call('markasjunk_move', null, [$uid]);
                 $new_uids[] = $saved;
             }
         }

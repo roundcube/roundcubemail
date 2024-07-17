@@ -86,8 +86,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             if ($plugin['attachment']) {
                 self::attachment_success($plugin['attachment'], $uploadid);
             } else {
-                $rcmail->output->command('display_message', $rcmail->gettext('filelinkerror'), 'error');
-                $rcmail->output->command('remove_from_attachment_list', $uploadid);
+                $rcmail->output->add_js_call('display_message', $rcmail->gettext('filelinkerror'), 'error');
+                $rcmail->output->add_js_call('remove_from_attachment_list', $uploadid);
             }
 
             $rcmail->output->send();
@@ -110,8 +110,8 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
                     if ($err = self::check_message_size($filesize, $filetype)) {
                         if (!in_array($err, $errors)) {
-                            $rcmail->output->command('display_message', $err, 'error');
-                            $rcmail->output->command('remove_from_attachment_list', $uploadid);
+                            $rcmail->output->add_js_call('display_message', $err, 'error');
+                            $rcmail->output->add_js_call('remove_from_attachment_list', $uploadid);
                             $errors[] = $err;
                         }
 
@@ -143,19 +143,19 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
 
                     if (!empty($attachment['error']) || $err != \UPLOAD_ERR_NO_FILE) {
                         if (!in_array($msg, $errors)) {
-                            $rcmail->output->command('display_message', $msg, 'error');
-                            $rcmail->output->command('remove_from_attachment_list', $uploadid);
+                            $rcmail->output->add_js_call('display_message', $msg, 'error');
+                            $rcmail->output->add_js_call('remove_from_attachment_list', $uploadid);
                             $errors[] = $msg;
                         }
                     }
                 }
             }
         } elseif (self::upload_failure()) {
-            $rcmail->output->command('remove_from_attachment_list', $uploadid);
+            $rcmail->output->add_js_call('remove_from_attachment_list', $uploadid);
         }
 
         // send html page with JS calls as response
-        $rcmail->output->command('auto_save_start', false);
+        $rcmail->output->add_js_call('auto_save_start', false);
         $rcmail->output->send('iframe');
     }
 
@@ -226,7 +226,7 @@ class rcmail_action_mail_attachment_upload extends rcmail_action_mail_index
             $content = $content_link . $delete_link;
         }
 
-        $rcmail->output->command('add2attachment_list', "rcmfile{$id}", [
+        $rcmail->output->add_js_call('add2attachment_list', "rcmfile{$id}", [
                 'html' => $content,
                 'name' => $attachment['name'],
                 'mimetype' => $attachment['mimetype'],

@@ -152,7 +152,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $_SESSION['contactcsvimport']['map'] = $map;
 
                 // Re-enable the import button
-                $rcmail->output->command('parent.import_state_set', 'error');
+                $rcmail->output->add_js_call('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
                 self::$stats = new stdClass();
@@ -246,7 +246,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $importstep = 'import_confirm';
                 $_SESSION['contactcsvimport'] = null;
 
-                $rcmail->output->command('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
+                $rcmail->output->add_js_call('parent.import_state_set', self::$stats->inserted ? 'reload' : 'ok');
             } else {
                 if ($upload_error == self::UPLOAD_ERR_CSV_FIELDS) {
                     $rcmail->output->show_message('csvfilemismatch', 'error');
@@ -254,7 +254,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     self::upload_error($upload_error);
                 }
 
-                $rcmail->output->command('parent.import_state_set', 'error');
+                $rcmail->output->add_js_call('parent.import_state_set', 'error');
             }
         }
 

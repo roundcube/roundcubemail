@@ -159,7 +159,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
         }
 
         if (!$deleted || $deleted != $all) {
-            $rcmail->output->command('list_contacts');
+            $rcmail->output->add_js_call('list_contacts');
         } else {
             // update saved search after data changed
             if (($records = self::search_update(true)) !== false) {
@@ -171,7 +171,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
                 // last page and it's empty, display previous one
                 if ($result->count && $result->count <= ($page_size * ($page - 1))) {
-                    $rcmail->output->command('list_page', 'prev');
+                    $rcmail->output->add_js_call('list_page', 'prev');
                     $rowcount = $rcmail->gettext('loading');
                 }
                 // get records from the next page to add to the list
@@ -199,7 +199,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
                 // last page and it's empty, display previous one
                 if ($result->count && $result->count <= ($page_size * ($page - 1))) {
-                    $rcmail->output->command('list_page', 'prev');
+                    $rcmail->output->add_js_call('list_page', 'prev');
                     $rowcount = $rcmail->gettext('loading');
                 }
                 // get records from the next page to add to the list
@@ -215,7 +215,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
 
             // update message count display
             $rcmail->output->set_env('pagecount', isset($result) ? ceil($result->count / $page_size) : 0);
-            $rcmail->output->command('set_rowcount', $rowcount);
+            $rcmail->output->add_js_call('set_rowcount', $rowcount);
 
             // add new rows from next page (if any)
             if (!empty($records)) {

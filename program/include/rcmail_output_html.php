@@ -29,7 +29,7 @@ class rcmail_output_html extends rcmail_output
     protected $objects = [];
     protected $js_env = [];
     protected $js_labels = [];
-    protected $js_commands = [];
+    protected $js_calls = [];
     protected $skin_paths = [];
     protected $skin_extends = [];
     protected $skin_name = '';
@@ -483,7 +483,22 @@ class rcmail_output_html extends rcmail_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->js_commands[] = ['gui_object', $obj, $id];
+        $this->js_calls[] = ['gui_object', $obj, $id];
+    }
+
+    /**
+     * Deprecated function to call a client method.
+     * Left here to allow a grace period for old code.
+     *
+     * @deprecated
+     *
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Method arguments
+     */
+    public function command($cmd, ...$args)
+    {
+        rcube::write_log('errors', 'rcmail_output_html->command() is deprecated, replace it with a call to rcmail_output_html->add_js_call()');
+        return $this->add_js_call($cmd, ...$args);
     }
 
     /**
@@ -493,14 +508,14 @@ class rcmail_output_html extends rcmail_output
      * @param mixed  ...$args Method arguments
      */
     #[Override]
-    public function command($cmd, ...$args)
+    public function add_js_call($cmd, ...$args)
     {
         if (strpos($cmd, 'plugin.') !== false) {
-            $this->js_commands[] = ['triggerEvent', $cmd, $args[0]];
+            $this->js_calls[] = ['triggerEvent', $cmd, $args[0]];
         } else {
             array_unshift($args, $cmd);
 
-            $this->js_commands[] = $args;
+            $this->js_calls[] = $args;
         }
     }
 
@@ -530,7 +545,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message display time in seconds
      *
-     * @uses self::command()
+     * @uses self::add_js_call()
      */
     #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
@@ -547,7 +562,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $this->message = $message;
-            $this->command('display_message', $msgtext, $type, $timeout * 1000);
+            $this->add_js_call('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 
@@ -586,7 +601,7 @@ class rcmail_output_html extends rcmail_output
         $this->env = $this->js_env = $env;
         $this->framed = $framed || !empty($this->env['framed']);
         $this->js_labels = [];
-        $this->js_commands = [];
+        $this->js_calls = [];
         $this->header = '';
         $this->footer = '';
         $this->body = '';
@@ -852,7 +867,7 @@ class rcmail_output_html extends rcmail_output
             $top_commands[] = ['hide_message', $unlock];
         }
 
-        $commands = array_merge($top_commands, $this->js_commands);
+        $commands = array_merge($top_commands, $this->js_calls);
 
         // If this is framed, prefix all commands (which are the first element
         // of each sub-array) so they're called on the parent's `rcmail`
@@ -1406,7 +1421,7 @@ class rcmail_output_html extends rcmail_output
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'container':
                 if (!empty($attrib['name']) && !empty($attrib['id'])) {
-                    $this->command('gui_container', $attrib['name'], $attrib['id']);
+                    $this->add_js_call('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
                     $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
                     return $hook['content'];
@@ -1760,7 +1775,7 @@ class rcmail_output_html extends rcmail_output
 
         // register button in the system
         if (!empty($attrib['command'])) {
-            $this->js_commands[] = [
+            $this->js_calls[] = [
                 'register_button',
                 $command,
                 $attrib['id'],
@@ -1982,7 +1997,7 @@ class rcmail_output_html extends rcmail_output
             $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
         }
 
-        $page_footer .= html::div(['id' => 'js-data', 'style' => 'display: none', 'hidden' => true, 'data-js' => $this->get_js_commands()], '');
+        $page_footer .= html::div(['id' => 'js-calls', 'style' => 'display: none', 'hidden' => true, 'data-js' => $this->get_js_commands()], '');
 
         $page_footer .= $this->footer . "\n";
 
@@ -2355,7 +2370,7 @@ class rcmail_output_html extends rcmail_output
             return;
         }
 
-        $this->command('preload_images', $images);
+        $this->add_js_call('preload_images', $images);
     }
 
     /**

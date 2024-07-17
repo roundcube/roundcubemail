@@ -48,9 +48,9 @@ class rcmail_action_contacts_search_delete extends rcmail_action
 
         if ($result) {
             $rcmail->output->show_message('savedsearchdeleted', 'confirmation');
-            $rcmail->output->command('remove_search_item', rcube::Q($id));
+            $rcmail->output->add_js_call('remove_search_item', rcube::Q($id));
             // contact list will be cleared, clear also page counter
-            $rcmail->output->command('set_rowcount', $rcmail->gettext('nocontactsfound'));
+            $rcmail->output->add_js_call('set_rowcount', $rcmail->gettext('nocontactsfound'));
             $rcmail->output->set_env('pagecount', 0);
         } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchdeleteerror';

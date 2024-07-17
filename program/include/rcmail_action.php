@@ -171,7 +171,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->command('set_quota', $quota);
+        $rcmail->output->add_js_call('set_quota', $quota);
 
         return html::span($attrib, '&nbsp;');
     }
@@ -431,8 +431,8 @@ abstract class rcmail_action
         }
 
         if (!empty($editorId)) {
-            $rcmail->output->command('enable_command', 'toggle-editor', true);
-            $rcmail->output->command('editor_init', null, $editorId);
+            $rcmail->output->add_js_call('enable_command', 'toggle-editor', true);
+            $rcmail->output->add_js_call('editor_init', null, $editorId);
         }
 
         $rcmail->output->include_script('tinymce/tinymce.min.js');
@@ -583,7 +583,7 @@ abstract class rcmail_action
             $msg = $rcmail->gettext('fileuploaderror');
         }
 
-        $rcmail->output->command('display_message', $msg, 'error');
+        $rcmail->output->add_js_call('display_message', $msg, 'error');
     }
 
     /**
@@ -610,7 +610,7 @@ abstract class rcmail_action
             $msg = $rcmail->gettext('fileuploaderror');
         }
 
-        $rcmail->output->command('display_message', $msg, 'error');
+        $rcmail->output->add_js_call('display_message', $msg, 'error');
 
         return true;
     }

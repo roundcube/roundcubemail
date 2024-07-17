@@ -244,7 +244,7 @@ class vcard_attachments extends rcube_plugin
                 }
 
                 if ($existing->count) {
-                    // $rcmail->output->command('display_message', $this->gettext('contactexists'), 'warning');
+                    // $rcmail->output->add_js_call('display_message', $this->gettext('contactexists'), 'warning');
                     $valid = false;
                 }
             }
@@ -262,9 +262,9 @@ class vcard_attachments extends rcube_plugin
         }
 
         if ($errors || empty($vcards)) {
-            $rcmail->output->command('display_message', $this->gettext('vcardsavefailed'), 'error');
+            $rcmail->output->add_js_call('display_message', $this->gettext('vcardsavefailed'), 'error');
         } else {
-            $rcmail->output->command('display_message', $this->gettext('importedsuccessfully'), 'confirmation');
+            $rcmail->output->add_js_call('display_message', $this->gettext('importedsuccessfully'), 'confirmation');
         }
 
         $rcmail->output->send();

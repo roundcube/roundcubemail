@@ -104,7 +104,7 @@ class new_user_dialog extends rcube_plugin
             ));
 
             $title = rcube::JQ($this->gettext('identitydialogtitle'));
-            $rcmail->output->command('plugin.new_user_dialog_open', $title);
+            $rcmail->output->add_js_call('new_user_dialog_open', $title);
             $this->include_script('new_user_dialog.js');
         }
     }
@@ -161,7 +161,7 @@ class new_user_dialog extends rcube_plugin
                 // save prefs to not show dialog again
                 $rcmail->user->save_prefs(['newuserdialog' => null]);
                 // hide dialog
-                $rcmail->output->command('new_user_dialog_close');
+                $rcmail->output->add_js_call('new_user_dialog_close');
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
             } else {
                 // show error

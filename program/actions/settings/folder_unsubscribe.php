@@ -42,7 +42,7 @@ class rcmail_action_settings_folder_unsubscribe extends rcmail_action
             $rcmail->output->show_message('folderunsubscribed', 'confirmation');
         } else {
             self::display_server_error('errorsaving');
-            $rcmail->output->command('reset_subscription', $mbox, true);
+            $rcmail->output->add_js_call('reset_subscription', $mbox, true);
         }
 
         $rcmail->output->send();

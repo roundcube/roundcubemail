@@ -144,7 +144,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
                 // update the changed col in list
                 $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
-                $rcmail->output->command('parent.update_identity_row', $iid, rcube::Q(trim($name)));
+                $rcmail->output->add_js_call('parent.update_identity_row', $iid, rcube::Q(trim($name)));
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
@@ -185,7 +185,7 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 
                 // add a new row to the list
                 $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
-                $rcmail->output->command('parent.update_identity_row', $insert_id, rcube::Q(trim($name)), true);
+                $rcmail->output->add_js_call('parent.update_identity_row', $insert_id, rcube::Q(trim($name)), true);
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
