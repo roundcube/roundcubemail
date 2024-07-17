@@ -95,7 +95,7 @@ class rcmail_action_mail_import extends rcmail_action
     public static function zip_extract($path)
     {
         if (!class_exists('ZipArchive', false)) {
-            return;
+            return [];
         }
 
         $zip = new ZipArchive();
