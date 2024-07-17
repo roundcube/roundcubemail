@@ -6,6 +6,7 @@
 - Fix fatal error when parsing some TNEF attachments (#9462)
 - Fix double scrollbar when composing a mail with many plain text lines (#7760)
 - Fix decoding mail parts with multiple base64-encoded text blocks (#9290)
+- Fix bug where some messages could get malformed in an import from a MBOX file (#9510)
 
 ## Release 1.6.7
 

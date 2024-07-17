@@ -29,6 +29,9 @@ class ActionTestCase extends PHPUnit\Framework\TestCase
 
         $rcmail = rcmail::get_instance();
         $rcmail->shutdown();
+
+        $_FILES = [];
+        rcmail::get_instance()->storage->methodCalls = [];
     }
 
     public function setUp(): void

@@ -59,39 +59,7 @@ class rcmail_action_mail_import extends rcmail_action
                     }
 
                     foreach ((array) $filepath as $file) {
-                        // read the first few lines to detect header-like structure
-                        $fp = fopen($file, 'r');
-                        do {
-                            $line = fgets($fp);
-                        }
-                        while ($line !== false && trim($line) == '');
-
-                        if (!preg_match('/^From .+/', $line) && !preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
-                            continue;
-                        }
-
-                        $message = $lastline = '';
-                        fseek($fp, 0);
-
-                        while (($line = fgets($fp)) !== false) {
-                            // importing mbox file, split by From - lines
-                            if ($lastline === '' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
-                                if (!empty($message)) {
-                                    $imported += (int) self::save_message($folder, $message);
-                                }
-
-                                $message  = $line;
-                                $lastline = '';
-                                continue;
-                            }
-
-                            $message .= $line;
-                            $lastline = rtrim($line);
-                        }
-
-                        if (!empty($message)) {
-                            $imported += (int) self::save_message($folder, $message);
-                        }
+                        $imported += self::import_file($file, $folder);
 
                         // remove temp files extracted from zip
                         if (is_array($filepath)) {
@@ -120,6 +88,13 @@ class rcmail_action_mail_import extends rcmail_action
         $rcmail->output->send('iframe');
     }
 
+    /**
+     * Extract files from a zip archive
+     *
+     * @param string $path ZIP file location
+     *
+     * @return array List of extracted files
+     */
     public static function zip_extract($path)
     {
         if (!class_exists('ZipArchive', false)) {
@@ -153,11 +128,69 @@ class rcmail_action_mail_import extends rcmail_action
         return $files;
     }
 
-    public static function save_message($folder, &$message)
+    /**
+     * Parse input file in mbox or eml format, save email messages
+     *
+     * @param string $file   Filename
+     * @param string $folder IMAP folder
+     *
+     * @return int Number of imported messages
+     */
+    public static function import_file($file, $folder)
+    {
+        $fp = fopen($file, 'r');
+
+        // read the first few lines to detect header-like structure
+        do {
+            $line = fgets($fp);
+        } while ($line !== false && trim($line) == '');
+
+        $format = null;
+        if (strncmp($line, 'From ', 5) === 0) {
+            $format = 'mbox';
+        } elseif (preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
+            $format = 'eml';
+        } else {
+            return 0;
+        }
+
+        $imported = 0;
+        $message = '';
+
+        fseek($fp, 0);
+
+        while (($line = fgets($fp)) !== false) {
+            // importing mbox file, split by From - lines
+            if ($format == 'mbox' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
+                if (strlen($message)) {
+                    $imported += (int) self::save_message($folder, $message, $format);
+                }
+
+                $message = $line;
+                $lastline = '';
+                continue;
+            }
+
+            $message .= $line;
+        }
+
+        if (strlen($message)) {
+            $imported += (int) self::save_message($folder, $message, $format);
+        }
+
+        fclose($fp);
+
+        return $imported;
+    }
+
+    /**
+     * Append the message to an IMAP folder
+     */
+    public static function save_message($folder, &$message, $format = 'mbox')
     {
         $date = null;
 
-        if (strncmp($message, 'From ', 5) === 0) {
+        if ($format == 'mbox') {
             // Extract the mbox from_line
             $pos     = strpos($message, "\n");
             $from    = substr($message, 0, $pos);
@@ -182,10 +215,11 @@ class rcmail_action_mail_import extends rcmail_action
                     // ignore
                 }
             }
+
+            // unquote ">From " lines in message body
+            $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
         }
 
-        // unquote ">From " lines in message body
-        $message = preg_replace('/\n>([>]*)From /', "\n\\1From ", $message);
         $message = rtrim($message);
         $rcmail  = rcmail::get_instance();
 
