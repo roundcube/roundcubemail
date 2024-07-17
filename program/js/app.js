@@ -817,11 +817,6 @@ function rcube_webmail() {
                 this.log("Unexpected data in '#js-data'! This is not an array: ", args);
             }
             var command = args.shift();
-            if (command.startsWith('plugin.')) {
-                // Plugin code is reached via events.
-                this.triggerEvent(command, args);
-                return;
-            }
             if (command.startsWith('parent.')) {
                 command = command.replace(/^parent\./, '');
                 if (typeof parent.rcmail[command] !== 'function') {
