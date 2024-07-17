@@ -95,6 +95,32 @@ rcube_webmail.prototype.markasjunk_is_spam_mbox = function () {
     return !this.is_multifolder_listing() && this.env.mailbox == this.env.markasjunk_spam_mailbox;
 };
 
+rcube_webmail.prototype.markasjunk_init = function (addition_spam_folders, suspicious_folders) {
+    rcmail.addEventListener('markasjunk-update', function (props) {
+        // ignore this special code when in a multifolder listing
+        if (rcmail.is_multifolder_listing()) {
+            return;
+        }
+
+        if ($.inArray(rcmail.env.mailbox, addition_spam_folders) > -1) {
+            props.disp.spam = false;
+            props.disp.ham = true;
+        }
+        else if ($.inArray(rcmail.env.mailbox, suspicious_folders) > -1) {
+            props.disp.spam = true;
+            props.disp.ham = true;
+
+            // from here it is also possible to alter the buttons themselves...
+            props.objs.spamobj.find('a > span').text('As possibly spam');
+        }
+        else {
+            props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
+        }
+
+        return props;
+    });
+}
+
 if (window.rcmail) {
     rcmail.addEventListener('init', function () {
         // register command (directly enable in message view mode)
@@ -144,31 +170,5 @@ if (window.rcmail) {
             rcmail.markasjunk_mark(is_spam);
             return false;
         }
-    });
-
-    rcmail.addEventListener('plugin.markasjunk-init', function (addition_spam_folders, suspicious_folders) {
-        rcmail.addEventListener('markasjunk-update', function (props) {
-            // ignore this special code when in a multifolder listing
-            if (rcmail.is_multifolder_listing()) {
-                return;
-            }
-
-            if ($.inArray(rcmail.env.mailbox, addition_spam_folders) > -1) {
-                props.disp.spam = false;
-                props.disp.ham = true;
-            }
-            else if ($.inArray(rcmail.env.mailbox, suspicious_folders) > -1) {
-                props.disp.spam = true;
-                props.disp.ham = true;
-
-                // from here it is also possible to alter the buttons themselves...
-                props.objs.spamobj.find('a > span').text('As possibly spam');
-            }
-            else {
-                props.objs.spamobj.find('a > span').text(rcmail.get_label('markasjunk.markasjunk'));
-            }
-
-            return props;
-        });
     });
 }

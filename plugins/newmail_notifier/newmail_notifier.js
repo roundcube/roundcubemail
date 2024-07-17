@@ -18,8 +18,7 @@
  */
 
 if (window.rcmail && rcmail.env.task == 'mail') {
-    rcmail.addEventListener('plugin.newmail_notifier', newmail_notifier_run)
-        .addEventListener('actionbefore', newmail_notifier_stop)
+    rcmail.addEventListener('actionbefore', newmail_notifier_stop)
         .addEventListener('init', function () {
             // bind to messages list select event, so favicon will be reverted on message preview too
             if (rcmail.message_list) {
@@ -29,7 +28,7 @@ if (window.rcmail && rcmail.env.task == 'mail') {
 }
 
 // Executes notification methods
-function newmail_notifier_run(prop) {
+rcube_webmail.prototype.newmail_notifier_run = function (prop) {
     if (prop.basic) {
         newmail_notifier_basic();
     }
@@ -133,7 +132,7 @@ function newmail_notifier_desktop(body, disabled_callback) {
     }
 }
 
-function newmail_notifier_test_desktop() {
+rcube_webmail.prototype.newmail_notifier_test_desktop = function () {
     var status = newmail_notifier_desktop(rcmail.get_label('testbody', 'newmail_notifier'), function () {
         rcmail.display_message(rcmail.get_label('desktopdisabled', 'newmail_notifier'), 'error');
     });
@@ -143,10 +142,6 @@ function newmail_notifier_test_desktop() {
     }
 }
 
-function newmail_notifier_test_basic() {
-    newmail_notifier_basic();
-}
+rcube_webmail.prototype.newmail_notifier_test_basic = newmail_notifier_basic;
 
-function newmail_notifier_test_sound() {
-    newmail_notifier_sound();
-}
+rcube_webmail.prototype.newmail_notifier_test_sound = newmail_notifier_sound;
