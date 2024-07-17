@@ -204,7 +204,7 @@ class newmail_notifier extends rcube_plugin
             $this->notified = true;
 
             $this->rc->output->set_env('newmail_notifier_timeout', $this->rc->config->get('newmail_notifier_desktop_timeout'));
-            $this->rc->output->command('newmail_notifier_run',
+            $this->rc->output->add_js_call('newmail_notifier_run',
                 [
                     'basic' => $this->opt['basic'],
                     'sound' => $this->opt['sound'],

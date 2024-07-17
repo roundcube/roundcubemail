@@ -112,7 +112,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
                 }
 
                 if (!empty($_POST['_quota'])) {
-                    $rcmail->output->command('set_quota', self::quota_content(null, $mbox_name));
+                    $rcmail->output->add_js_call('set_quota', self::quota_content(null, $mbox_name));
                 }
 
                 $rcmail->output->set_env('exists', $rcmail->storage->count($mbox_name, 'EXISTS', true));
@@ -139,18 +139,18 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
 
                 $rcmail->output->set_env('messagecount', $all_count);
                 $rcmail->output->set_env('pagecount', ceil($all_count / $page_size));
-                $rcmail->output->command('set_rowcount', self::get_messagecount_text($all_count), $mbox_name);
+                $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text($all_count), $mbox_name);
                 $rcmail->output->set_env('current_page', $all_count ? $page : 1);
 
                 // remove old rows (and clear selection if new list is empty)
-                $rcmail->output->command('message_list.clear', $all_count ? false : true);
+                $rcmail->output->add_js_call('message_list.clear', $all_count ? false : true);
 
                 if ($all_count) {
                     $a_headers = $rcmail->storage->list_messages($mbox_name, null, self::sort_column(), self::sort_order());
                     // add message rows
                     self::js_message_list($a_headers, false);
                     // remove messages that don't exists from list selection array
-                    $rcmail->output->command('update_selection');
+                    $rcmail->output->add_js_call('update_selection');
                 }
 
                 $list_cleared = true;
@@ -158,7 +158,7 @@ class rcmail_action_mail_check_recent extends rcmail_action_mail_index
 
             // set trash folder state
             if ($mbox_name === $trash) {
-                $rcmail->output->command('set_trash_count', $rcmail->storage->count($mbox_name, 'EXISTS', true));
+                $rcmail->output->add_js_call('set_trash_count', $rcmail->storage->count($mbox_name, 'EXISTS', true));
             }
         }
 

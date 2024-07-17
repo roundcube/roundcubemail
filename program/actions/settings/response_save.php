@@ -71,7 +71,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
 
             if ($updated) {
                 $rcmail->output->show_message('successfullysaved', 'confirmation');
-                $rcmail->output->command('parent.update_response_row', $id, rcube::Q($response['name']));
+                $rcmail->output->add_js_call('parent.update_response_row', $id, rcube::Q($response['name']));
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
@@ -93,7 +93,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
                 $response['id'] = $_GET['_id'] = $insert_id;
 
                 // add a new row to the list
-                $rcmail->output->command('parent.update_response_row', $insert_id, rcube::Q($response['name']), true);
+                $rcmail->output->add_js_call('parent.update_response_row', $insert_id, rcube::Q($response['name']), true);
             } else {
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($error, 'error', null, false);

@@ -227,7 +227,7 @@ class archive extends rcube_plugin
         // @phpstan-ignore-next-line
         if ($this->result['error']) {
             if (!$from_show_action) {
-                $rcmail->output->command('list_mailbox');
+                $rcmail->output->add_js_call('list_mailbox');
             }
 
             $rcmail->output->show_message($this->gettext('archiveerror'), 'warning');
@@ -236,7 +236,7 @@ class archive extends rcube_plugin
 
         if (!empty($_POST['_refresh'])) {
             // FIXME: send updated message rows instead of reloading the entire list
-            $rcmail->output->command('refresh_list');
+            $rcmail->output->add_js_call('refresh_list');
             $addrows = false;
         } else {
             $addrows = true;
@@ -249,9 +249,9 @@ class archive extends rcube_plugin
 
         if ($from_show_action) {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
-                $rcmail->output->command('show_message', $next);
+                $rcmail->output->add_js_call('show_message', $next);
             } else {
-                $rcmail->output->command('command', 'list');
+                $rcmail->output->add_js_call('command', 'list');
             }
 
             $rcmail->output->send();
@@ -287,8 +287,8 @@ class archive extends rcube_plugin
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_quota', rcmail_action::quota_content(null, $quota_root));
-        $rcmail->output->command('set_rowcount', rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
+        $rcmail->output->add_js_call('set_quota', rcmail_action::quota_content(null, $quota_root));
+        $rcmail->output->add_js_call('set_rowcount', rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
             $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);

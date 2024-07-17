@@ -67,21 +67,21 @@ class FolderExpungeTest extends ActionTestCase
 
         $action->run();
 
-        $commands = $output->getProperty('commands');
+        $js_calls = $output->getProperty('js_calls');
 
         $this->assertNull($output->getOutput());
         $this->assertSame('list', \rcmail::get_instance()->action);
-        $this->assertCount(3, $commands);
+        $this->assertCount(3, $js_calls);
         $this->assertSame([
                 'display_message',
                 'Folder successfully compacted.',
                 'confirmation',
                 0,
             ],
-            $commands[0]
+            $js_calls[0]
         );
-        $this->assertSame('set_quota', $commands[1][0]);
-        $this->assertSame('message_list.clear', $commands[2][0]);
+        $this->assertSame('set_quota', $js_calls[1][0]);
+        $this->assertSame('message_list.clear', $js_calls[2][0]);
     }
 
     /**

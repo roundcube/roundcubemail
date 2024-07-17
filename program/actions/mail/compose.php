@@ -1254,7 +1254,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 'name' => 'msgsizeerrorfwd',
                 'vars' => ['num' => $size_errors, 'size' => $limit],
             ]);
-            $rcmail->output->command('display_message', $error, 'error');
+            $rcmail->output->add_js_call('display_message', $error, 'error');
         }
     }
 

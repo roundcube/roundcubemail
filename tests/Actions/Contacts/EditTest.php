@@ -96,8 +96,8 @@ class EditTest extends ActionTestCase
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
         $result = \rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
 
-        $commands = $output->getProperty('js_commands');
-        $gui_object_commands = array_filter($commands, static function ($arr) { return $arr['0'] === 'gui_object'; });
+        $js_calls = $output->getProperty('js_calls');
+        $gui_object_commands = array_filter($js_calls, static function ($arr) { return $arr['0'] === 'gui_object'; });
         $filedrop = $output->get_env('filedrop');
 
         $this->assertSame([['gui_object', 'filedrop', 'test']], $gui_object_commands);

@@ -132,7 +132,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 if ($v > 0) {
                     $rcmail->output->set_env('mail_read_time', $v);
                 } elseif ($v == 0) {
-                    $rcmail->output->command('set_unread_message', $MESSAGE->uid, $mbox_name);
+                    $rcmail->output->add_js_call('set_unread_message', $MESSAGE->uid, $mbox_name);
                     $rcmail->plugins->exec_hook('message_read', [
                         'uid' => $MESSAGE->uid,
                         'mailbox' => $mbox_name,

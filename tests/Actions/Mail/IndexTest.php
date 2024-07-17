@@ -156,9 +156,9 @@ class IndexTest extends ActionTestCase
         $action->js_message_list([]);
 
         $this->assertFalse($output->get_env('multifolder_listing'));
-        $commands = $output->getProperty('commands');
-        $this->assertCount(1, $commands);
-        $this->assertSame('set_message_coltypes', $commands[0][0]);
+        $js_calls = $output->getProperty('js_calls');
+        $this->assertCount(1, $js_calls);
+        $this->assertSame('set_message_coltypes', $js_calls[0][0]);
     }
 
     /**

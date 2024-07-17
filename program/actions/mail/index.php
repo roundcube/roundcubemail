@@ -490,10 +490,10 @@ class rcmail_action_mail_index extends rcmail_action
 
         // get name of smart From/To column in folder context
         $smart_col = self::message_list_smart_column_name();
-        $rcmail->output->command('set_message_coltypes', array_values($a_show_cols), $thead, $smart_col);
+        $rcmail->output->add_js_call('set_message_coltypes', array_values($a_show_cols), $thead, $smart_col);
 
         if ($multifolder && $_SESSION['search_scope'] == 'all') {
-            $rcmail->output->command('select_folder', '');
+            $rcmail->output->add_js_call('select_folder', '');
         }
 
         $rcmail->output->set_env('multifolder_listing', $multifolder);
@@ -606,11 +606,11 @@ class rcmail_action_mail_index extends rcmail_action
                 $a_msg_cols = array_merge($a_msg_cols, $header->list_cols);
             }
 
-            $rcmail->output->command('add_message_row', $header->uid, $a_msg_cols, $a_msg_flags, $insert_top);
+            $rcmail->output->add_js_call('add_message_row', $header->uid, $a_msg_cols, $a_msg_flags, $insert_top);
         }
 
         if ($rcmail->storage->get_threading()) {
-            $rcmail->output->command('init_threads', $roots, $mbox);
+            $rcmail->output->add_js_call('init_threads', $roots, $mbox);
         }
     }
 
@@ -834,7 +834,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if ($unseen !== $old_unseen || ($mbox_name == 'INBOX')) {
-            $rcmail->output->command('set_unread_count', $mbox_name, $unseen,
+            $rcmail->output->add_js_call('set_unread_count', $mbox_name, $unseen,
                 $mbox_name == 'INBOX', $unseen && $mark ? $mark : '');
         }
 

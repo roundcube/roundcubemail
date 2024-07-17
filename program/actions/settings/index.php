@@ -371,7 +371,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                     if ($current) {
                         $product_name = $rcmail->config->get('product_name', 'Roundcube Webmail');
-                        $rcmail->output->command('check_protocol_handler', $product_name, '#mailtoprotohandler');
+                        $rcmail->output->add_js_call('check_protocol_handler', $product_name, '#mailtoprotohandler');
                     }
 
                     $blocks['browser']['options']['mailtoprotohandler'] = [

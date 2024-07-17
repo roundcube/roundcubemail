@@ -58,7 +58,7 @@ class rcmail_action_contacts_group_delmembers extends rcmail_action_contacts_ind
 
         if (!empty($result)) {
             $rcmail->output->show_message('contactremovedfromgroup', 'confirmation');
-            $rcmail->output->command('remove_group_contacts', ['source' => $source, 'gid' => $gid]);
+            $rcmail->output->add_js_call('remove_group_contacts', ['source' => $source, 'gid' => $gid]);
         } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');

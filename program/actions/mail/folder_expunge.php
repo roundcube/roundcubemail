@@ -40,8 +40,8 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
             $rcmail->output->show_message('folderexpunged', 'confirmation');
 
             if (!empty($_REQUEST['_reload'])) {
-                $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
-                $rcmail->output->command('message_list.clear');
+                $rcmail->output->add_js_call('set_quota', self::quota_content(null, $mbox));
+                $rcmail->output->add_js_call('message_list.clear');
                 $rcmail->action = 'list';
                 return;
             }

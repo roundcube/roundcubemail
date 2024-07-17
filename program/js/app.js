@@ -225,7 +225,7 @@ function rcube_webmail() {
     this.init = function () {
         var n;
 
-        this.interpret_js_data();
+        this.interpret_js_calls();
 
         this.task = this.env.task;
 
@@ -803,17 +803,17 @@ function rcube_webmail() {
      * Handle function calls passed in via #js-calls. Through this, server code
      * can trigger Javascript-methods to be called.
      */
-    this.interpret_js_data = function () {
+    this.interpret_js_calls = function () {
         // Do not use `.textContent`, and neither jQuery's `.text()` here,
         // because both modify the actual string!
-        var raw = document.getElementById('js-data').dataset.js;
+        var raw = document.getElementById('js-calls').dataset.js;
         if (!raw) {
             return;
         }
         var data = JSON.parse(raw);
         data.forEach((args) => {
             if (!Array.isArray(args)) {
-                this.log("Unexpected data in '#js-data'! This is not an array: ", args);
+                this.log("Unexpected data in '#js-calls'! This is not an array: ", args);
             }
             var command = args.shift();
             if (command.startsWith('parent.')) {

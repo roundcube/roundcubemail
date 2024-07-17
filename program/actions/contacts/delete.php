@@ -46,7 +46,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 // more than one source, some of these sources can be readonly
                 if (count($cids) == 1) {
                     $rcmail->output->show_message('contactdelerror', 'error');
-                    $rcmail->output->command('list_contacts');
+                    $rcmail->output->add_js_call('list_contacts');
                     $rcmail->output->send();
                 }
 
@@ -73,7 +73,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
                 $group = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
                 $rcmail->output->show_message($error, 'error');
-                $rcmail->output->command('list_contacts', $source, $group);
+                $rcmail->output->add_js_call('list_contacts', $source, $group);
                 $rcmail->output->send();
             } else {
                 $delcnt += $deleted;
@@ -111,7 +111,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
             // last page and it's empty, display previous one
             if ($result->count && $result->count <= ($page_size * ($page - 1))) {
-                $rcmail->output->command('list_page', 'prev');
+                $rcmail->output->add_js_call('list_page', 'prev');
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
@@ -139,7 +139,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
             // last page and it's empty, display previous one
             if ($result->count && $result->count <= ($page_size * ($page - 1))) {
-                $rcmail->output->command('list_page', 'prev');
+                $rcmail->output->add_js_call('list_page', 'prev');
                 $rowcount = $rcmail->gettext('loading');
             }
             // get records from the next page to add to the list
@@ -155,7 +155,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
 
         // update message count display
         $rcmail->output->set_env('pagecount', isset($result) ? ceil($result->count / $page_size) : 0);
-        $rcmail->output->command('set_rowcount', $rowcount);
+        $rcmail->output->add_js_call('set_rowcount', $rowcount);
 
         // add new rows from next page (if any)
         if (!empty($records)) {

@@ -58,14 +58,14 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
 
         if ($success) {
             $rcmail->output->show_message('folderpurged', 'confirmation');
-            $rcmail->output->command('set_unread_count', $mbox, 0);
+            $rcmail->output->add_js_call('set_unread_count', $mbox, 0);
             self::set_unseen_count($mbox, 0);
 
             // set trash folder state
             if ($mbox === $trash_mbox) {
-                $rcmail->output->command('set_trash_count', 0);
+                $rcmail->output->add_js_call('set_trash_count', 0);
             } elseif (strlen($trash_mbox)) {
-                $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
+                $rcmail->output->add_js_call('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
 
             if (!$delete && strlen($trash_mbox)) {
@@ -76,9 +76,9 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
                 $rcmail->output->set_env('messagecount', 0);
                 $rcmail->output->set_env('pagecount', 0);
                 $rcmail->output->set_env('exists', 0);
-                $rcmail->output->command('message_list.clear');
-                $rcmail->output->command('set_rowcount', self::get_messagecount_text(), $mbox);
-                $rcmail->output->command('set_quota', self::quota_content(null, $mbox));
+                $rcmail->output->add_js_call('message_list.clear');
+                $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text(), $mbox);
+                $rcmail->output->add_js_call('set_quota', self::quota_content(null, $mbox));
             }
         } else {
             self::display_server_error();

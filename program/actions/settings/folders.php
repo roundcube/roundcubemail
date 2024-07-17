@@ -366,10 +366,10 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $protected = !empty($options['protected']) || !empty($options['noselect']);
 
         if ($oldname === null) {
-            $rcmail->output->command('add_folder_row', $name, $name_utf8, $display_name,
+            $rcmail->output->add_js_call('add_folder_row', $name, $name_utf8, $display_name,
                 $protected, $subscribe, $class_name);
         } else {
-            $rcmail->output->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
+            $rcmail->output->add_js_call('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
                 $protected, $class_name);
         }
     }
