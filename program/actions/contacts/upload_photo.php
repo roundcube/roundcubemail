@@ -78,7 +78,7 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
             }
 
             if ($inserted) {
-                $rcmail->output->command('replace_contact_photo', $attachment['id']);
+                $rcmail->output->add_js_call('replace_contact_photo', $attachment['id']);
             } else {
                 // upload failed
                 self::upload_error($_FILES['_photo']['error'], $attachment);
@@ -87,7 +87,7 @@ class rcmail_action_contacts_upload_photo extends rcmail_action_contacts_index
             self::upload_failure();
         }
 
-        $rcmail->output->command('photo_upload_end');
+        $rcmail->output->add_js_call('photo_upload_end');
         $rcmail->output->send('iframe');
     }
 }

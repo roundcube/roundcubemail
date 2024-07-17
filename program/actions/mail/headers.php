@@ -72,7 +72,7 @@ class rcmail_action_mail_headers extends rcmail_action_mail_index
             if ($inline) {
                 $rcmail->output->set_env('dialog_class', 'text-nowrap');
             } else {
-                $rcmail->output->command('set_headers', $source);
+                $rcmail->output->add_js_call('set_headers', $source);
             }
         } elseif (!$inline) {
             $rcmail->output->show_message('messageopenerror', 'error');

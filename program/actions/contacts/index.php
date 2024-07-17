@@ -703,7 +703,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $classes[] = 'readonly';
             }
 
-            $rcmail->output->command($prefix . 'add_contact_row', $row['ID'], $a_row_cols, implode(' ', $classes),
+            $rcmail->output->add_js_call($prefix . 'add_contact_row', $row['ID'], $a_row_cols, implode(' ', $classes),
                 array_intersect_key($row, ['ID' => 1, 'readonly' => 1, '_type' => 1, 'email' => 1, 'name' => 1])
             );
         }

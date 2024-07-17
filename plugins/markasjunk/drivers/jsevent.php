@@ -42,7 +42,7 @@ class markasjunk_jsevent
             return;
         }
 
-        $rcmail->output->command('markasjunk_init', $this->addition_spam_folders, $this->suspicious_folders);
+        $rcmail->output->add_js_call('markasjunk_init', $this->addition_spam_folders, $this->suspicious_folders);
     }
 
     public function spam(&$uids, $mbox)

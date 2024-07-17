@@ -81,7 +81,7 @@ class password extends rcube_plugin
         if ($this->rc->config->get('password_force_new_user')) {
             if ($this->rc->config->get('newuserpassword') && $this->check_host_login_exceptions()) {
                 if (!($this->rc->task == 'settings' && strpos($this->rc->action, 'plugin.password') === 0)) {
-                    $this->rc->output->command('redirect', '?_task=settings&_action=plugin.password&_first=1', false);
+                    $this->rc->output->add_js_call('redirect', '?_task=settings&_action=plugin.password&_first=1', false);
                 }
             }
 
@@ -111,12 +111,12 @@ class password extends rcube_plugin
         $this->rc->output->set_pagetitle($this->gettext('changepasswd'));
 
         if (rcube_utils::get_input_value('_first', rcube_utils::INPUT_GET)) {
-            $this->rc->output->command('display_message', $this->gettext('firstloginchange'), 'notice');
+            $this->rc->output->add_js_call('display_message', $this->gettext('firstloginchange'), 'notice');
         } elseif (!empty($_SESSION['password_expires'])) {
             if ($_SESSION['password_expires'] == 1) {
-                $this->rc->output->command('display_message', $this->gettext('passwdexpired'), 'error');
+                $this->rc->output->add_js_call('display_message', $this->gettext('passwdexpired'), 'error');
             } else {
-                $this->rc->output->command('display_message', $this->gettext([
+                $this->rc->output->add_js_call('display_message', $this->gettext([
                     'name' => 'passwdexpirewarning',
                     'vars' => ['expirationdatetime' => $_SESSION['password_expires']],
                 ]), 'warning');
@@ -137,7 +137,7 @@ class password extends rcube_plugin
         $force_save = $this->rc->config->get('password_force_save');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
-            $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
+            $this->rc->output->add_js_call('display_message', $this->gettext('nopassword'), 'error');
         } else {
             $charset = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
             $rc_charset = strtoupper($this->rc->output->get_charset());
@@ -158,26 +158,26 @@ class password extends rcube_plugin
             $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
 
             if ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
-                $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
+                $this->rc->output->add_js_call('display_message', $this->gettext('passwordforbidden'), 'error');
             }
             // other passwords validity checks
             elseif ($conpwd != $newpwd) {
-                $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
+                $this->rc->output->add_js_call('display_message', $this->gettext('passwordinconsistency'), 'error');
             } elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
-                $this->rc->output->command('display_message', $res, 'error');
+                $this->rc->output->add_js_call('display_message', $res, 'error');
             } elseif ($required_length && strlen($newpwd) < $required_length) {
-                $this->rc->output->command('display_message', $this->gettext(
+                $this->rc->output->add_js_call('display_message', $this->gettext(
                     ['name' => 'passwordshort', 'vars' => ['length' => $required_length]]), 'error');
             } elseif ($res = $this->_check_strength($newpwd)) {
-                $this->rc->output->command('display_message', $res, 'error');
+                $this->rc->output->add_js_call('display_message', $res, 'error');
             }
             // password is the same as the old one, warn user, return error
             elseif (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
-                $this->rc->output->command('display_message', $res, 'error');
+                $this->rc->output->add_js_call('display_message', $res, 'error');
             }
             // try to save the password
             elseif (!($res = $this->_save($curpwd, $newpwd))) {
-                $this->rc->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+                $this->rc->output->add_js_call('display_message', $this->gettext('successfullysaved'), 'confirmation');
 
                 // allow additional actions after password change (e.g. reset some backends)
                 $plugin = $this->rc->plugins->exec_hook('password_change', [
@@ -201,7 +201,7 @@ class password extends rcube_plugin
                 // Remove expiration date/time
                 $this->rc->session->remove('password_expires');
             } else {
-                $this->rc->output->command('display_message', $res, 'error');
+                $this->rc->output->add_js_call('display_message', $res, 'error');
             }
         }
 

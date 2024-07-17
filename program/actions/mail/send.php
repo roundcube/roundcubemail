@@ -159,7 +159,7 @@ class rcmail_action_mail_send extends rcmail_action
                         }
 
                         $rcmail->output->show_message('mispellingsfound', 'error');
-                        $rcmail->output->command('spellcheck_resume', $result);
+                        $rcmail->output->add_js_call('spellcheck_resume', $result);
                         $rcmail->output->send('iframe');
                     }
                 }
@@ -221,7 +221,7 @@ class rcmail_action_mail_send extends rcmail_action
         if (!$saved && $savedraft) {
             self::display_server_error('errorsaving');
             // start the auto-save timer again
-            $rcmail->output->command('auto_save_start');
+            $rcmail->output->add_js_call('auto_save_start');
             $rcmail->output->send('iframe');
         }
 
@@ -264,12 +264,12 @@ class rcmail_action_mail_send extends rcmail_action
 
                 // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
                 $COMPOSE['param']['draft_uid'] = $plugin['uid'];
-                $rcmail->output->command('set_draft_id', $plugin['uid']);
-                $rcmail->output->command('compose_field_hash', true);
+                $rcmail->output->add_js_call('set_draft_id', $plugin['uid']);
+                $rcmail->output->add_js_call('compose_field_hash', true);
             }
 
             // start the auto-save timer again
-            $rcmail->output->command('auto_save_start');
+            $rcmail->output->add_js_call('auto_save_start');
         } else {
             // Collect folders which could contain the composed message,
             // we'll refresh the list if currently opened folder is one of them (#1490238)
@@ -299,7 +299,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
                 $_SESSION['last_compose_session'] = $COMPOSE_ID;
 
-                $rcmail->output->command('remove_compose_data', $COMPOSE_ID);
+                $rcmail->output->add_js_call('remove_compose_data', $COMPOSE_ID);
 
                 if ($store_folder) {
                     $folders[] = $store_target;
@@ -308,7 +308,7 @@ class rcmail_action_mail_send extends rcmail_action
 
             $msg = $rcmail->gettext($saveonly ? 'successfullysaved' : 'messagesent');
 
-            $rcmail->output->command('sent_successfully', 'confirmation', $msg, $folders, $save_error);
+            $rcmail->output->add_js_call('sent_successfully', 'confirmation', $msg, $folders, $save_error);
         }
 
         $rcmail->output->send('iframe');

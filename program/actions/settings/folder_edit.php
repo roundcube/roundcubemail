@@ -306,7 +306,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
         $rcmail->output->set_env('folder', $mbox);
 
         if ($mbox !== '' && empty($_POST)) {
-            $rcmail->output->command('parent.set_quota', self::quota_content(null, $mbox));
+            $rcmail->output->add_js_call('parent.set_quota', self::quota_content(null, $mbox));
         }
 
         return $out;

@@ -73,7 +73,7 @@ class rcmail_action_mail_import extends rcmail_action
 
             if ($imported) {
                 $rcmail->output->show_message($rcmail->gettext(['name' => 'importmessagesuccess', 'nr' => $imported, 'vars' => ['nr' => $imported]]), 'confirmation');
-                $rcmail->output->command('command', 'list');
+                $rcmail->output->add_js_call('command', 'list');
             } else {
                 $rcmail->output->show_message('importmessageerror', 'error');
             }

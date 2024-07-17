@@ -18,11 +18,11 @@ class OutputJsonTest extends ActionTestCase
         $output = new \rcmail_output_json();
 
         $reflection = new \ReflectionClass($output);
-        $commands = $reflection->getProperty('commands');
-        $commands->setAccessible(true);
+        $js_calls = $reflection->getProperty('js_calls');
+        $js_calls->setAccessible(true);
 
         $output->show_message('unknown');
 
-        $this->assertSame([['display_message', 'unknown', 'notice', 0]], $commands->getValue($output));
+        $this->assertSame([['display_message', 'unknown', 'notice', 0]], $js_calls->getValue($output));
     }
 }

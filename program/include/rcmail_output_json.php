@@ -24,7 +24,7 @@
 class rcmail_output_json extends rcmail_output
 {
     protected $texts = [];
-    protected $commands = [];
+    protected $js_calls = [];
     protected $callbacks = [];
     protected $message;
     protected $header_sent = false;
@@ -63,7 +63,7 @@ class rcmail_output_json extends rcmail_output
             $name = $this->config->get('product_name');
         }
 
-        $this->command('set_pagetitle', empty($name) ? $title : $name . ' :: ' . $title);
+        $this->add_js_call('set_pagetitle', empty($name) ? $title : $name . ' :: ' . $title);
     }
 
     /**
@@ -90,20 +90,35 @@ class rcmail_output_json extends rcmail_output
     }
 
     /**
+     * Deprecated function to call a client method.
+     * Left here to allow a grace period for old code.
+     *
+     * @deprecated
+     *
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Method arguments
+     */
+    public function command($cmd, ...$args)
+    {
+        rcube::write_log('errors', 'rcmail_output_json->command() is deprecated, replace it with a call to rcmail_output_html->add_js_call()');
+        return $this->add_js_call($cmd, ...$args);
+    }
+
+    /**
      * Call a client method
      *
      * @param string $cmd     Method to call
      * @param mixed  ...$args Additional arguments
      */
     #[Override]
-    public function command($cmd, ...$args)
+    public function add_js_call($cmd, ...$args)
     {
         array_unshift($args, $cmd);
 
         if (strpos($args[0], 'plugin.') === 0) {
             $this->callbacks[] = $args;
         } else {
-            $this->commands[] = $args;
+            $this->js_calls[] = $args;
         }
     }
 
@@ -133,7 +148,7 @@ class rcmail_output_json extends rcmail_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message displaying time in seconds
      *
-     * @uses self::command()
+     * @uses self::add_js_call()
      */
     #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
@@ -149,19 +164,19 @@ class rcmail_output_json extends rcmail_output
             }
 
             $this->message = $message;
-            $this->command('display_message', $msgtext, $type, $timeout * 1000);
+            $this->add_js_call('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 
     /**
-     * Delete all stored env variables and commands
+     * Delete all stored env variables and js_calls
      */
     #[Override]
     public function reset()
     {
         parent::reset();
         $this->texts = [];
-        $this->commands = [];
+        $this->js_calls = [];
     }
 
     /**
@@ -242,7 +257,7 @@ class rcmail_output_json extends rcmail_output
         }
 
         // send function calls
-        $response['exec'] = $this->get_js_commands() . $add;
+        $response['exec'] = $this->get_js_calls() . $add;
 
         if (!empty($this->callbacks)) {
             $response['callbacks'] = $this->callbacks;
@@ -259,13 +274,13 @@ class rcmail_output_json extends rcmail_output
     }
 
     /**
-     * Return executable javascript code for all registered commands
+     * Return executable javascript code for all registered js_calls
      */
-    protected function get_js_commands()
+    protected function get_js_calls()
     {
         $out = '';
 
-        foreach ($this->commands as $args) {
+        foreach ($this->js_calls as $args) {
             $method = array_shift($args);
             foreach ($args as $i => $arg) {
                 $args[$i] = self::json_serialize($arg, $this->devel_mode, false);

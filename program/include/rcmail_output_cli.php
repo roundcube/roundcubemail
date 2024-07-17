@@ -30,7 +30,7 @@ class rcmail_output_cli extends rcmail_output
      * @see rcube_output::command()
      */
     #[Override]
-    public function command($cmd, ...$args)
+    public function add_js_call($cmd, ...$args)
     {
         // NOP
     }

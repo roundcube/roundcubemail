@@ -79,11 +79,11 @@ class rcmail_action_contacts_list extends rcmail_action_contacts_index
             }
         }
 
-        $rcmail->output->command('set_group_prop', $group_data);
+        $rcmail->output->add_js_call('set_group_prop', $group_data);
 
         // update message count display
         $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
-        $rcmail->output->command('set_rowcount', self::get_rowcount_text($result));
+        $rcmail->output->add_js_call('set_rowcount', self::get_rowcount_text($result));
 
         // create javascript list
         self::js_contacts_list($result);
