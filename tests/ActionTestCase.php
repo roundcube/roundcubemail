@@ -34,6 +34,8 @@ class ActionTestCase extends TestCase
         $rcmail->shutdown();
 
         \html::$doctype = 'xhtml';
+
+        $_FILES = [];
     }
 
     #[\Override]
