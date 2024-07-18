@@ -28,4 +28,4 @@ rcube_webmail.prototype.new_user_dialog_close = function (title) {
     if (window.newuserdialog) {
         window.newuserdialog.dialog('destroy');
     }
-}
+};
