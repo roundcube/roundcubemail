@@ -129,7 +129,7 @@ class html
             $attr = ['class' => $attr];
         }
 
-        return self::tag('div', $attr, $cont, array_merge(self::$common_attrib, ['onclick']));
+        return self::tag('div', $attr, $cont, self::$common_attrib);
     }
 
     /**
@@ -166,7 +166,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src', 'alt', 'width', 'height', 'border', 'usemap', 'onclick', 'onerror', 'onload'];
+        $allowed = ['src', 'alt', 'width', 'height', 'border', 'usemap'];
 
         return self::tag('img', $attr + ['alt' => ''], null, array_merge(self::$common_attrib, $allowed));
     }
@@ -187,7 +187,7 @@ class html
             $attr = ['href' => $attr];
         }
 
-        $allowed = ['href', 'target', 'name', 'rel', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup'];
+        $allowed = ['href', 'target', 'name', 'rel'];
 
         return self::tag('a', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
@@ -246,7 +246,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen'];
+        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'allowfullscreen'];
 
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
@@ -406,7 +406,7 @@ class html_inputfield extends html
     protected $type = 'text';
     protected $allowed = [
         'type', 'name', 'value', 'size', 'tabindex', 'autocapitalize', 'required',
-        'autocomplete', 'checked', 'onchange', 'onclick', 'disabled', 'readonly',
+        'autocomplete', 'checked', 'disabled', 'readonly',
         'spellcheck', 'results', 'maxlength', 'src', 'multiple', 'accept',
         'placeholder', 'autofocus', 'pattern', 'oninput',
     ];
@@ -467,7 +467,7 @@ class html_hiddenfield extends html
 {
     protected $tagname = 'input';
     protected $type = 'hidden';
-    protected $allowed = ['type', 'name', 'value', 'onchange', 'disabled', 'readonly'];
+    protected $allowed = ['type', 'name', 'value', 'disabled', 'readonly'];
     protected $fields = [];
 
     /**
@@ -587,7 +587,7 @@ class html_textarea extends html
 {
     protected $tagname = 'textarea';
     protected $allowed = ['name', 'rows', 'cols', 'wrap', 'tabindex',
-        'onchange', 'disabled', 'readonly', 'spellcheck'];
+        'disabled', 'readonly', 'spellcheck'];
 
     /**
      * Get HTML code for this object
@@ -632,7 +632,7 @@ class html_select extends html
     protected $tagname = 'select';
     protected $options = [];
     protected $allowed = ['name', 'size', 'tabindex', 'autocomplete',
-        'multiple', 'onchange', 'disabled', 'rel'];
+        'multiple', 'disabled', 'rel'];
 
     /**
      * Add a new option to this drop-down
