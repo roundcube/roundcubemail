@@ -62,6 +62,7 @@
 - Fix double scrollbar when composing a mail with many plain text lines (#7760)
 - Fix decoding mail parts with multiple base64-encoded text blocks (#9290)
 - Fix bug where some messages could get malformed in an import from a MBOX file (#9510)
+- Fix invalid line break characters in multi-line text in Sieve scripts (#9543)
 
 ## Release 1.6.7
 
