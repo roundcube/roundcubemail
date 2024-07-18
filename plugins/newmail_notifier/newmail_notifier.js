@@ -38,7 +38,7 @@ rcube_webmail.prototype.newmail_notifier_run = function (prop) {
     if (prop.desktop) {
         newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
     }
-}
+};
 
 // Stops notification
 function newmail_notifier_stop(prop) {
@@ -140,7 +140,7 @@ rcube_webmail.prototype.newmail_notifier_test_desktop = function () {
     if (!status) {
         rcmail.display_message(rcmail.get_label('desktopunsupported', 'newmail_notifier'), 'error');
     }
-}
+};
 
 rcube_webmail.prototype.newmail_notifier_test_basic = newmail_notifier_basic;
 
