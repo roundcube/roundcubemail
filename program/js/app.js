@@ -10691,7 +10691,7 @@ function rcube_webmail() {
     };
 
     this.preload_images = function (urls) {
-        for (var i=0; i<urls.length; i++) {
+        for (var i = 0; i < urls.length; i++) {
             var img = new Image();
             img.src = urls[i];
         }
