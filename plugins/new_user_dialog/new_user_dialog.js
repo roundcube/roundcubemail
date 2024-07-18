@@ -22,7 +22,7 @@ rcube_webmail.prototype.new_user_dialog_open = function (title) {
         },
     }
     );
-}
+};
 
 rcube_webmail.prototype.new_user_dialog_close = function (title) {
     if (window.newuserdialog) {
