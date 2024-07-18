@@ -1254,14 +1254,15 @@ class rcube_sieve_script
             $str = array_pop($str);
         }
 
+        $str = (string) $str;
+
         // multi-line string
         if (preg_match('/[\r\n\0]/', $str)) {
             return sprintf("text:\r\n%s\r\n.\r\n", self::escape_multiline_string($str));
         }
+
         // quoted-string
-        else {
-            return '"' . addcslashes($str, '\\"') . '"';
-        }
+        return '"' . addcslashes($str, '\\"') . '"';
     }
 
     /**
@@ -1273,7 +1274,7 @@ class rcube_sieve_script
      */
     static function escape_multiline_string($str)
     {
-        $str = preg_split('/(\r?\n)/', $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $str = preg_split('/\r?\n/', $str);
 
         foreach ($str as $idx => $line) {
             // dot-stuffing
@@ -1282,7 +1283,7 @@ class rcube_sieve_script
             }
         }
 
-        return implode($str);
+        return implode("\r\n", $str);
     }
 
     /**
