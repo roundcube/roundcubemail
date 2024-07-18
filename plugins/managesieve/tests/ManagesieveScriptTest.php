@@ -91,8 +91,8 @@ class ManagesieveScriptTest extends TestCase
         $this->assertSame('""', $output);
         $output = \rcube_sieve_script::escape_string(['"']);
         $this->assertSame('"\""', $output);
-        $output = \rcube_sieve_script::escape_string('\\a');
-        $this->assertSame('"\\\\a"', $output);
+        $output = \rcube_sieve_script::escape_string('\a');
+        $this->assertSame('"\\\a"', $output);
         $output = \rcube_sieve_script::escape_string(['"', 'b']);
         $this->assertSame('["\"","b"]', $output);
 
