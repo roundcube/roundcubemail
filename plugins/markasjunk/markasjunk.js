@@ -119,7 +119,7 @@ rcube_webmail.prototype.markasjunk_init = function (addition_spam_folders, suspi
 
         return props;
     });
-}
+};
 
 if (window.rcmail) {
     rcmail.addEventListener('init', function () {
