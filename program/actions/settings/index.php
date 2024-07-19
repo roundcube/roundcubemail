@@ -63,8 +63,6 @@ class rcmail_action_settings_index extends rcmail_action
                 'settingstabs' => [$this, 'settings_tabs'],
                 'sectionslist' => [$this, 'sections_list'],
             ]);
-            // Add JS helpers.
-            $rcmail->output->include_script('actions.js');
         }
     }
 
