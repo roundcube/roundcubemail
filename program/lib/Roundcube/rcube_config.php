@@ -317,7 +317,6 @@ class rcube_config
                         $this->merge($rcmail_config);
                         $success = true;
                     }
-
                 }
             }
         }
