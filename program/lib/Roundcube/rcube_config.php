@@ -300,12 +300,12 @@ class rcube_config
 
         foreach ($this->resolve_paths($file) as $fpath) {
             if ($fpath && is_file($fpath)) {
-                if (false === is_readable($fpath)) {
+                if (is_readable($fpath) === false) {
                     trigger_error($fpath . ' is not readable', \E_USER_WARNING);
                 } else {
                     // use output buffering, we don't need any output here
                     ob_start();
-                    include($fpath);
+                    include $fpath;
                     ob_end_clean();
 
                     if (isset($config) && is_array($config)) {
