@@ -217,87 +217,85 @@ class rcube_image
 
         // use GD extension
         if ($props['gd_type'] && $props['width'] > 0 && $props['height'] > 0) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
-                $image = @imagecreatefromjpeg($this->image_file);
-                $type  = 'jpg';
-            }
-            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
-                $image = @imagecreatefromgif($this->image_file);
-                $type  = 'gif';
-            }
-            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
-                $image = @imagecreatefrompng($this->image_file);
-                $type  = 'png';
-            }
-            else {
-                // @TODO: print error to the log?
-                return false;
-            }
-
-            if ($image === false) {
-                return false;
-            }
-
-            $scale = $size / max($props['width'], $props['height']);
-
-            // Imagemagick resize is implemented in shrinking mode (see -resize argument above)
-            // we do the same here, if an image is smaller than specified size
-            // we do nothing but copy original file to destination file
-            if ($scale >= 1) {
-                $result = $this->image_file == $filename || copy($this->image_file, $filename);
-            }
-            else {
-                $width     = intval($props['width']  * $scale);
-                $height    = intval($props['height'] * $scale);
-                $new_image = imagecreatetruecolor($width, $height);
-
-                if ($new_image === false) {
+            try {
+                if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
+                    $image = imagecreatefromjpeg($this->image_file);
+                    $type = 'jpg';
+                } elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+                    $image = imagecreatefromgif($this->image_file);
+                    $type = 'gif';
+                } elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+                    $image = imagecreatefrompng($this->image_file);
+                    $type = 'png';
+                } else {
+                    // @TODO: print error to the log?
                     return false;
                 }
 
-                // Fix transparency of gif/png image
-                if ($props['gd_type'] != IMAGETYPE_JPEG) {
-                    imagealphablending($new_image, false);
-                    imagesavealpha($new_image, true);
-                    $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
-                    imagefilledrectangle($new_image, 0, 0, $width, $height, $transparent);
+                if ($image === false) {
+                    return false;
                 }
 
-                imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
-                $image = $new_image;
+                $scale = $size / max($props['width'], $props['height']);
 
-                // fix orientation of image if EXIF data exists and specifies orientation (GD strips the EXIF data)
-                if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
-                    $exif = @exif_read_data($this->image_file);
-                    if ($exif && !empty($exif['Orientation'])) {
-                        switch ($exif['Orientation']) {
-                            case 3:
-                                $image = imagerotate($image, 180, 0);
-                                break;
-                            case 6:
-                                $image = imagerotate($image, -90, 0);
-                                break;
-                            case 8:
-                                $image = imagerotate($image, 90, 0);
-                                break;
+                // Imagemagick resize is implemented in shrinking mode (see -resize argument above)
+                // we do the same here, if an image is smaller than specified size
+                // we do nothing but copy original file to destination file
+                if ($scale >= 1) {
+                    $result = $this->image_file == $filename || copy($this->image_file, $filename);
+                } else {
+                    $width = intval($props['width'] * $scale);
+                    $height = intval($props['height'] * $scale);
+                    $new_image = imagecreatetruecolor($width, $height);
+
+                    if ($new_image === false) {
+                        return false;
+                    }
+
+                    // Fix transparency of gif/png image
+                    if ($props['gd_type'] != \IMAGETYPE_JPEG) {
+                        imagealphablending($new_image, false);
+                        imagesavealpha($new_image, true);
+                        $transparent = imagecolorallocatealpha($new_image, 255, 255, 255, 127);
+                        imagefilledrectangle($new_image, 0, 0, $width, $height, $transparent);
+                    }
+
+                    imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $props['width'], $props['height']);
+                    $image = $new_image;
+
+                    // fix orientation of image if EXIF data exists and specifies orientation (GD strips the EXIF data)
+                    if ($this->image_file && $type == 'jpg' && function_exists('exif_read_data')) {
+                        $exif = @exif_read_data($this->image_file);
+                        if ($exif && !empty($exif['Orientation'])) {
+                            switch ($exif['Orientation']) {
+                                case 3:
+                                    $image = imagerotate($image, 180, 0);
+                                    break;
+                                case 6:
+                                    $image = imagerotate($image, -90, 0);
+                                    break;
+                                case 8:
+                                    $image = imagerotate($image, 90, 0);
+                                    break;
+                            }
                         }
+                    }
+
+                    if ($props['gd_type'] == \IMAGETYPE_JPEG) {
+                        $result = imagejpeg($image, $filename, 75);
+                    } elseif ($props['gd_type'] == \IMAGETYPE_GIF) {
+                        $result = imagegif($image, $filename);
+                    } elseif ($props['gd_type'] == \IMAGETYPE_PNG) {
+                        $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
                     }
                 }
 
-                if ($props['gd_type'] == IMAGETYPE_JPEG) {
-                    $result = imagejpeg($image, $filename, 75);
+                if ($result) {
+                    @chmod($filename, 0600);
+                    return $type;
                 }
-                elseif($props['gd_type'] == IMAGETYPE_GIF) {
-                    $result = imagegif($image, $filename);
-                }
-                elseif($props['gd_type'] == IMAGETYPE_PNG) {
-                    $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
-                }
-            }
-
-            if ($result) {
-                @chmod($filename, 0600);
-                return $type;
+            } catch (Throwable $e) {
+                rcube::raise_error($e, true, false);
             }
         }
 
@@ -371,28 +369,27 @@ class rcube_image
         }
 
         if ($props['gd_type']) {
-            if ($props['gd_type'] == IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
-                $image = imagecreatefromjpeg($this->image_file);
-            }
-            else if ($props['gd_type'] == IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
-                $image = imagecreatefromgif($this->image_file);
-            }
-            else if ($props['gd_type'] == IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
-                $image = imagecreatefrompng($this->image_file);
-            }
-            else {
-                // @TODO: print error to the log?
-                return false;
-            }
+            try {
+                if ($props['gd_type'] == \IMAGETYPE_JPEG && function_exists('imagecreatefromjpeg')) {
+                    $image = imagecreatefromjpeg($this->image_file);
+                } elseif ($props['gd_type'] == \IMAGETYPE_GIF && function_exists('imagecreatefromgif')) {
+                    $image = imagecreatefromgif($this->image_file);
+                } elseif ($props['gd_type'] == \IMAGETYPE_PNG && function_exists('imagecreatefrompng')) {
+                    $image = imagecreatefrompng($this->image_file);
+                } else {
+                    // @TODO: print error to the log?
+                    return false;
+                }
 
-            if ($type == self::TYPE_JPG) {
-                $result = imagejpeg($image, $filename, 75);
-            }
-            else if ($type == self::TYPE_GIF) {
-                $result = imagegif($image, $filename);
-            }
-            else if ($type == self::TYPE_PNG) {
-                $result = imagepng($image, $filename, 6, PNG_ALL_FILTERS);
+                if ($type == self::TYPE_JPG) {
+                    $result = imagejpeg($image, $filename, 75);
+                } elseif ($type == self::TYPE_GIF) {
+                    $result = imagegif($image, $filename);
+                } elseif ($type == self::TYPE_PNG) {
+                    $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
+                }
+            } catch (Throwable $e) {
+                rcube::raise_error($e, true, false);
             }
 
             if (!empty($result)) {
