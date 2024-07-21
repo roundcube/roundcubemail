@@ -4368,7 +4368,6 @@ class rcube_imap extends rcube_storage
         }
 
         // Force the type of folder name variable (#1485527)
-        /** @var array<string|null> $folders */
         $folders = array_map('strval', $folders);
 
         $count = count($folders);
