@@ -1568,7 +1568,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         // Content-Type values of messages with attachments
         // the same as in app.js:add_message_row()
-        $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
+        $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
 
         // Build search string of "with attachment" filter
         $attachment = trim(str_repeat(' OR', count($ctypes)-1));

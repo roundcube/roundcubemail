@@ -8,6 +8,7 @@
 - Fix decoding mail parts with multiple base64-encoded text blocks (#9290)
 - Fix bug where some messages could get malformed in an import from a MBOX file (#9510)
 - Fix invalid line break characters in multi-line text in Sieve scripts (#9543)
+- Fix bug where "with attachment" filter could fail on some fts engines (#9514)
 
 ## Release 1.6.7
 
