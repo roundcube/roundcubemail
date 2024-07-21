@@ -84,4 +84,21 @@ class ManagesieveScriptTest extends TestCase
 
         $this->assertSame(trim($output), trim($res));
     }
+
+    public function test_escape_string()
+    {
+        $output = \rcube_sieve_script::escape_string([]);
+        $this->assertSame('""', $output);
+        $output = \rcube_sieve_script::escape_string(['"']);
+        $this->assertSame('"\""', $output);
+        $output = \rcube_sieve_script::escape_string('\a');
+        $this->assertSame('"\\\a"', $output);
+        $output = \rcube_sieve_script::escape_string(['"', 'b']);
+        $this->assertSame('["\"","b"]', $output);
+
+        // Multiline text
+        $input = "line1\r\nline2\n.line3\r\nline4";
+        $output = \rcube_sieve_script::escape_string($input);
+        $this->assertSame("text:\r\nline1\r\nline2\r\n..line3\r\nline4\r\n.\r\n", $output);
+    }
 }
