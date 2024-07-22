@@ -11,7 +11,7 @@ class MailTest extends TestCase
     #[\Override]
     public static function setUpBeforeClass(): void
     {
-        Bootstrap::init_imap();
+        Bootstrap::init_imap(true);
         Bootstrap::purge_mailbox('INBOX');
 
         // import single email messages
@@ -62,7 +62,7 @@ class MailTest extends TestCase
                         ->click('a.download.mbox');
 
                     $filename = 'INBOX.zip';
-                    $files = $this->getFilesFromZip($filename);
+                    $files = $this->getFilesFromZip($browser, $filename);
                     $browser->removeDownloadedFile($filename);
 
                     $this->assertSame(['INBOX.mbox'], $files);
@@ -70,14 +70,16 @@ class MailTest extends TestCase
 
             // Test More > Download > Maildir format (two messages selected)
             $browser->clickToolbarMenuItem('more', null, false)
+                ->waitFor('#message-menu')
                 ->with(new Popupmenu('message-menu'), static function ($browser) {
                     $browser->clickMenuItem('download', null, false);
                 })
+                ->waitFor('#zipdownload-menu')
                 ->with(new Popupmenu('zipdownload-menu'), function ($browser) {
                     $browser->click('a.download.maildir');
 
                     $filename = 'INBOX.zip';
-                    $files = $this->getFilesFromZip($filename);
+                    $files = $this->getFilesFromZip($browser, $filename);
                     $browser->removeDownloadedFile($filename);
                     $this->assertCount(2, $files);
                 });
@@ -93,7 +95,7 @@ class MailTest extends TestCase
                 });
 
             $filename = 'Lines.zip';
-            $files = $this->getFilesFromZip($filename);
+            $files = $this->getFilesFromZip($browser, $filename);
             $browser->removeDownloadedFile($filename);
             $expected = ['lines.txt', 'lines_lf.txt'];
             $this->assertSame($expected, $files);
@@ -103,14 +105,33 @@ class MailTest extends TestCase
     /**
      * Helper to extract files list from downloaded zip file
      */
-    private function getFilesFromZip($filename)
+    private function getFilesFromZip($browser, $filename)
     {
-        $filename = TESTS_DIR . "downloads/{$filename}";
+        $filename = $browser->getDownloadedFilePath($filename);
 
         // Give the browser a chance to finish download
-        if (!file_exists($filename)) {
-            sleep(2);
+        $attempts = 0;
+        while (!file_exists($filename)) {
+            if ($attempts > 9) {
+                throw new \Exception("File not found even after waiting period: {$filename}");
+            }
+            sleep(1);
+            $attempts++;
         }
+        // Wait until the file size doesn't change anymore to be sure to have
+        // the full file. Under some circumstances the file apparently was used
+        // before its content was fully written (and sync'ed across the FS
+        // mounts).
+        $attempts = 0;
+        do {
+            if ($attempts > 9) {
+                throw new \Exception("File size continues to change, something is wrong! File: {$filename}");
+            }
+            $filesize1 = stat($filename)['size'];
+            sleep(1);
+            $filesize2 = stat($filename)['size'];
+            $attempts++;
+        } while ($filesize1 !== $filesize2);
 
         $zip = new \ZipArchive();
         $files = [];

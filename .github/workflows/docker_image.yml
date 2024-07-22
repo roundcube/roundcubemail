@@ -1,0 +1,48 @@
+name: roundcubemail-testrunner image
+
+on:
+  push:
+    paths:
+      - '.ci/docker-images/*'
+      - '.github/workflows/docker_image.yml'
+
+jobs:
+  build_and_push:
+    strategy:
+      fail-fast: false
+      # Set up a matrix so we can add more versions to build with in the future.
+      matrix:
+        php: ["8.3"]
+
+    name: build and push with PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    # Set the permissions granted to the GITHUB_TOKEN for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@v2
+        with:
+          require: admin
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./.ci/docker-images/Dockerfile
+          push: true
+          #platforms: linux/amd64,linux/arm64
+          build-args: PHPVERSION=${{ matrix.php }}
+          tags: "ghcr.io/roundcube/roundcubemail-testrunner:php${{ matrix.php }}"
+
