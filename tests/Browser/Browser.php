@@ -240,7 +240,7 @@ class Browser extends \Laravel\Dusk\Browser
         // Give the browser a chance to finish download
         $n = 0;
         while (!file_exists($filename)) {
-            if ($n++ > 5) {
+            if ($n++ > 15) {
                 break;
             }
             sleep(1);
