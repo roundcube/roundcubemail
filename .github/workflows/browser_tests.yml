@@ -19,6 +19,30 @@ jobs:
 
     name: Linux / PHP ${{ matrix.php }}
 
+    services:
+      mailhost:
+        image: docker.io/greenmail/standalone
+        ports:
+          - '3143:3143'
+          - '3025:3025'
+      browserhost:
+        image: docker.io/selenium/standalone-chromium
+        volumes:
+          - '/dev/shm:/dev/shm'
+          - ${{ github.workspace }}:/roundcubemail
+        ports:
+          - '4444:4444'
+        options: '--add-host=host.docker.internal:host-gateway'
+
+    env:
+      WEBDRIVER_CONNECT_URL: 'http://localhost:4444'
+      SERVER_URL: 'http://host.docker.internal:8000'
+      SERVER_BIND: '0.0.0.0:8000'
+      BROWSER_DOWNLOADS_DIR: '/roundcubemail/tests/Browser/downloads'
+      TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
+      RC_CONFIG_IMAP_HOST: 'tls://localhost:3143'
+      RC_CONFIG_SMTP_HOST: 'localhost:3025'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,12 +55,6 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '8'
-
       - name: Setup NPM
         uses: actions/setup-node@v4
         with:
@@ -48,22 +66,14 @@ jobs:
       - name: Install Aspell
         run: sudo apt-get -y install aspell aspell-en aspell-de
 
-      - name: Setup composer
-        run: |
-          composer require "nesbot/carbon:^2.62.1" --no-update
-          composer require "laravel/dusk:^7.9" --no-update
-
-      - name: Install dependencies
-        run: |
-          composer update --prefer-dist --no-interaction --no-progress
-          npm install
-
-      - name: Roundcube configuration
-        run: cp .github/config-test.inc.php config/config-test.inc.php
-
-      - name: Downgrade dependencies (for PHP 8.3 only)
-        if: matrix.php == '8.3'
-        run: composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
-
       - name: Execute tests
-        run: .github/run.sh
+        run: .ci/run_browser_tests.sh
+
+      - name: Upload screenshots as artifacts
+        # Upload screenshot if the test suite failed.
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tests/Browser/screenshots
+          
