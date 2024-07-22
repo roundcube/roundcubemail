@@ -8049,6 +8049,8 @@ function rcube_webmail() {
             this.triggerEvent('clonerow', { row: row, id: id });
         }
 
+        this.addAllEventListenersFromElements(row);
+
         return row;
     };
 
