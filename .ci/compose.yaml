@@ -5,7 +5,7 @@ services:
     image: docker.io/selenium/standalone-chromium
     volumes:
       - '/dev/shm:/dev/shm'
-      - './Browser/downloads:/downloads'
+      - '../tests/Browser/downloads:/downloads'
 
   browser_tests:
     depends_on:
@@ -15,13 +15,13 @@ services:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-      - './Browser/downloads:/downloads'
+      - '../tests/Browser/downloads:/downloads'
     environment:
       WEBDRIVER_CONNECT_URL: 'http://browserhost:4444'
       SERVER_URL: 'http://testrunner:8000'
       SERVER_BIND: '0.0.0.0:8000'
       BROWSER_DOWNLOADS_DIR: '/downloads'
-      TESTRUNNER_DOWNLOADS_DIR: './Browser/downloads'
+      TESTRUNNER_DOWNLOADS_DIR: '../tests/Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
     command: 
