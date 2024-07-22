@@ -10803,13 +10803,14 @@ function rcube_webmail() {
         });
     };
 
-    this.addEventListenerFromElements = function (eventName) {
-        $('[data-on' + eventName + ']').each((_idx, elem) => {
-            this.addEventListenerFromElement(elem, eventName);
+    this.addEventListenerFromElements = function (rootElem, eventName) {
+        rootElem ||= document.body;
+        rootElem.querySelectorAll('[data-on' + eventName + ']').forEach(function (elem) {
+            ref.addEventListenerFromElement(elem, eventName);
         });
     };
 
-    this.addAllEventListenersFromElements = function () {
+    this.addAllEventListenersFromElements = function (rootElem) {
         [
             'click',
             'dblclick',
@@ -10821,7 +10822,7 @@ function rcube_webmail() {
             'load',
             'change',
         ].forEach(function (name) {
-            ref.addEventListenerFromElements(name);
+            ref.addEventListenerFromElements(rootElem, name);
         });
     };
 } // end object rcube_webmail
