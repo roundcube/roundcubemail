@@ -56,6 +56,8 @@ abstract class TestCase extends PHPUnitTestCase
             '--disable-gpu',
             '--headless',
             '--no-sandbox',
+            '--disable-features=InsecureDownloadWarnings',
+            '--unsafely-treat-insecure-origin-as-secure=' . self::getServerUrl(),
         ]);
 
         // For file download handling
@@ -110,7 +112,7 @@ abstract class TestCase extends PHPUnitTestCase
 
         $this->app = \rcmail::get_instance();
 
-        Browser::$baseUrl = getenv('SERVER_URL') ?: 'http://localhost:8000';
+        Browser::$baseUrl = self::getServerUrl();
         Browser::$storeScreenshotsAt = TESTS_DIR . 'screenshots';
         Browser::$storeConsoleLogAt = TESTS_DIR . 'console';
 
@@ -166,5 +168,10 @@ abstract class TestCase extends PHPUnitTestCase
         static::afterClass(static function () {
             static::$phpProcess->stop();
         });
+    }
+
+    protected static function getServerUrl()
+    {
+        return getenv('SERVER_URL') ?: 'http://localhost:8000';
     }
 }
