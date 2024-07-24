@@ -2532,7 +2532,7 @@ function rcube_webmail() {
 
             query[uid_param] = uid;
             cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-                + ' onmouseover="rcube_webmail.long_subject_title(this,' + (message.depth + 1) + ')" tabindex="-1"><span>' + cols.subject + '</span></a>';
+                + ' onmouseover="rcmail.long_subject_title(this,' + (message.depth + 1) + ')" tabindex="-1"><span>' + cols.subject + '</span></a>';
         }
 
         // add each submitted col
@@ -2587,7 +2587,7 @@ function rcube_webmail() {
                     html = '&nbsp;';
                 }
             } else if (c == 'folder') {
-                html = '<span onmouseover="rcube_webmail.long_subject_title(this)">' + cols[c] + '<span>';
+                html = '<span onmouseover="rcmail.long_subject_title(this)">' + cols[c] + '<span>';
             } else {
                 html = cols[c];
             }
@@ -5752,7 +5752,7 @@ function rcube_webmail() {
 
         li.attr('id', name).addClass(att.classname).html(att.html)
             .find('.attachment-name').on('mouseover', function () {
-                rcube_webmail.long_subject_title_ex(this);
+                ref.long_subject_title_ex(this);
             });
 
         // replace indicator's li
@@ -10839,65 +10839,63 @@ function rcube_webmail() {
             ref.addEventListenerFromElements(rootElem, name);
         });
     };
-} // end object rcube_webmail
 
-
-// some static methods
-rcube_webmail.long_subject_title = function (elem, indent, text_elem) {
-    if (!elem.title) {
-        var $elem = $(text_elem || elem);
-        if ($elem.width() + (indent || 0) * 15 > $elem.parent().width()) {
-            elem.title = rcube_webmail.subject_text($elem[0]);
-        }
-    }
-};
-
-rcube_webmail.long_subject_title_ex = function (elem) {
-    if (!elem.title) {
-        var $elem = $(elem),
+    this.long_subject_title_ex = function (elem) {
+        if (!elem.title) {
+            var $elem = $(elem),
             txt = $elem.text().trim(),
             indent = $('span.branch', $elem).width() || 0,
             tmp = $('<span>').text(txt)
-                .css({
-                    position: 'absolute',
-                    float: 'left',
-                    visibility: 'hidden',
-                    'font-size': $elem.css('font-size'),
-                    'font-weight': $elem.css('font-weight'),
-                })
-                .appendTo(document.body),
+            .css({
+                position: 'absolute',
+                float: 'left',
+                visibility: 'hidden',
+                'font-size': $elem.css('font-size'),
+                'font-weight': $elem.css('font-weight'),
+            })
+            .appendTo(document.body),
             w = tmp.width();
 
-        tmp.remove();
-        if (w + indent * 15 > $elem.width()) {
-            elem.title = rcube_webmail.subject_text(elem);
+            tmp.remove();
+            if (w + indent * 15 > $elem.width()) {
+                elem.title = ref.subject_text(elem);
+            }
         }
-    }
-};
+    };
 
-rcube_webmail.subject_text = function (elem) {
-    var t = $(elem).clone();
-    t.find('.skip-on-drag,.skip-content,.voice').remove();
-    return t.text().trim();
-};
+    this.long_subject_title = function (elem, indent, text_elem) {
+        if (!elem.title) {
+            var $elem = $(text_elem || elem);
+            if ($elem.width() + (indent || 0) * 15 > $elem.parent().width()) {
+                elem.title = ref.subject_text($elem[0]);
+            }
+        }
+    };
 
-// set event handlers on all iframe elements (and their contents)
-rcube_webmail.set_iframe_events = function (events) {
-    $('iframe').each(function () {
-        var frame = $(this);
-        $.each(events, function (event_name, event_handler) {
-            frame.on('load', function (e) {
+    this.subject_text = function (elem) {
+        var t = $(elem).clone();
+        t.find('.skip-on-drag,.skip-content,.voice').remove();
+        return t.text().trim();
+    };
+
+    // set event handlers on all iframe elements (and their contents)
+    this.set_iframe_events = function (events) {
+        $('iframe').each(function () {
+            var frame = $(this);
+            $.each(events, function (event_name, event_handler) {
+                frame.on('load', function (e) {
+                    try {
+                        $(this).contents().on(event_name, event_handler);
+                    } catch (e) { /* catch possible permission error in IE */ }
+                });
+
                 try {
-                    $(this).contents().on(event_name, event_handler);
+                    frame.contents().on(event_name, event_handler);
                 } catch (e) { /* catch possible permission error in IE */ }
             });
-
-            try {
-                frame.contents().on(event_name, event_handler);
-            } catch (e) { /* catch possible permission error in IE */ }
         });
-    });
-};
+    };
+} // end object rcube_webmail
 
 rcube_webmail.prototype.get_cookie = getCookie;
 
