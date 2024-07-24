@@ -1470,7 +1470,7 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     if (($link = $this->get_template_logo('link')) !== null) {
-                        $attrib['onclick'] = "location.href='{$link}';";
+                        $attrib['data-onclick'] = json_encode(['redirect', $link, false]);
                         $attrib['style'] = 'cursor:pointer;';
                     }
 
@@ -1788,7 +1788,7 @@ class rcmail_output_html extends rcmail_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['task' => $attrib['command']]);
-                $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
+                $attrib['data-onclick'] = json_encode(['command', 'switch-task', $attrib['command'], '__THIS__', '__EVENT__']);
             } elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             } elseif (in_array($attrib['command'], $a_static_commands)) {
@@ -1807,13 +1807,14 @@ class rcmail_output_html extends rcmail_output
             if (!empty($attrib['classact'])) {
                 $attrib['class'] = $attrib['classact'];
             }
-        } elseif ($command && empty($attrib['onclick'])) {
-            $attrib['onclick'] = sprintf(
-                "return %s.command('%s','%s',this,event)",
-                self::JS_OBJECT_NAME,
+        } elseif ($command && empty($attrib['data-onclick'])) {
+            $attrib['data-onclick'] = json_encode([
+                'command',
                 $command,
-                !empty($attrib['prop']) ? $attrib['prop'] : ''
-            );
+                !empty($attrib['prop']) ? $attrib['prop'] : '',
+                '__THIS__',
+                '__EVENT__'
+            ]);
         }
 
         $out = '';
@@ -1833,10 +1834,10 @@ class rcmail_output_html extends rcmail_output
             if (!empty($attrib['label'])) {
                 $btn_content .= ' ' . $attrib['label'];
             }
-            $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
+            $link_attrib = ['href', 'data-onclick', 'data-onmouseover', 'data-onmouseout', 'data-onmousedown', 'data-onmouseup', 'target'];
         } elseif ($attrib['type'] == 'link') {
             $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
-            $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
+            $link_attrib = array_merge(html::$common_attrib, ['href', 'data-onclick', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
@@ -1850,7 +1851,7 @@ class rcmail_output_html extends rcmail_output
                 $attrib['disabled'] = 'disabled';
             }
 
-            $out = html::tag('input', $attrib, null, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
+            $out = html::tag('input', $attrib, null, ['type', 'value', 'data-onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         } else {
             if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
@@ -1860,7 +1861,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $content = $attrib['content'] ?? $attrib['label'];
-            $out = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
+            $out = html::tag('button', $attrib, $content, ['type', 'value', 'data-onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
 
         // generate html code for button
@@ -2101,7 +2102,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src'] = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'javascript:false;';
+        $attrib['src'] = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
         if ($is_contentframe || !empty($attrib['contentframe'])) {

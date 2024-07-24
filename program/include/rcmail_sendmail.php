@@ -983,7 +983,7 @@ class rcmail_sendmail
             $separator = $top_posting ? '---' : '-- ';
             $add_separator = (bool) $this->rcmail->config->get('sig_separator');
 
-            $field_attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.change_identity(this)';
+            $field_attrib['data-onchange'] = json_encode(['change_identity', '__THIS__']);
             $select_from = new html_select($field_attrib);
 
             // create SELECT element

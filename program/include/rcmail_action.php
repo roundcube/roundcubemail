@@ -510,7 +510,7 @@ abstract class rcmail_action
         // set defaults
         $attrib += ['id' => 'rcmUploadbox', 'buttons' => 'yes'];
 
-        $event = rcmail_output::JS_OBJECT_NAME . ".command('{$action}', this.form)";
+        $event = ['command_with_form', '__THIS__', $action];
         $form_id = $attrib['id'] . 'Frm';
 
         // Default attributes of file input and form
@@ -534,7 +534,7 @@ abstract class rcmail_action
             $input_attr = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
-                'onchange' => "{$event}; this.value=null",
+                'data-onchange' => json_encode(array_merge($event, [true])),
                 'class' => 'smart-upload',
                 'tabindex' => '-1',
             ]);
@@ -550,9 +550,9 @@ abstract class rcmail_action
         if (self::get_bool_attr($attrib, 'buttons')) {
             $button = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
-                $button->show($rcmail->gettext('close'), ['class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()"])
+                $button->show($rcmail->gettext('close'), ['class' => 'button', 'data-onclick' => json_encode(['hide_by_id', $attrib['id']])])
                 . ' ' .
-                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'onclick' => $event])
+                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'data-onclick' => json_encode($event)])
             );
         }
 
@@ -1214,7 +1214,7 @@ abstract class rcmail_action
             $html_name = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? [] : [
                 'href' => $rcmail->url(['_mbox' => $folder['id']]),
-                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'data-onclick' => json_encode(['command', 'list', $js_name, '__THIS__', '__EVENT__']),
                 'rel' => $folder['id'],
                 'title' => $title,
             ];
