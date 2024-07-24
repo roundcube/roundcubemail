@@ -791,6 +791,37 @@ function rcube_webmail() {
         this.start_keepalive();
     };
 
+    /**
+     * Handle function calls passed in via #js-calls. Through this, server code
+     * can trigger Javascript-methods to be called.
+     */
+    this.interpret_js_calls = function (input) {
+        if (!input) {
+            return;
+        }
+        var data = JSON.parse(input);
+        data.forEach((args) => {
+            if (!Array.isArray(args)) {
+                this.log("Unexpected data in '#js-calls'! This is not an array: ", args);
+            }
+            var command = args.shift();
+            if (command.startsWith('parent.')) {
+                command = command.replace(/^parent\./, '');
+                if (typeof parent.rcmail[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                parent.rcmail[command](...args);
+            } else {
+                if (typeof this[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                this[command](...args);
+            }
+        });
+    };
+
     this.log = function (msg) {
         if (this.env.devel_mode && window.console && console.log) {
             console.log(msg);
@@ -9603,8 +9634,8 @@ function rcube_webmail() {
         }
 
         // if we get javascript code from server -> execute it
-        if (response.exec) {
-            eval(response.exec);
+        if (response.js_calls) {
+            this.interpret_js_calls(response.js_calls);
         }
 
         // execute callback functions of plugins

@@ -242,7 +242,7 @@ class rcmail_output_json extends rcmail_output
         }
 
         // send function calls
-        $response['exec'] = $this->get_js_commands() . $add;
+        $response['js_calls'] = $this->get_js_commands() . $add;
 
         if (!empty($this->callbacks)) {
             $response['callbacks'] = $this->callbacks;
@@ -263,21 +263,6 @@ class rcmail_output_json extends rcmail_output
      */
     protected function get_js_commands()
     {
-        $out = '';
-
-        foreach ($this->commands as $args) {
-            $method = array_shift($args);
-            foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg, $this->devel_mode, false);
-            }
-
-            $out .= sprintf(
-                "this.%s(%s);\n",
-                preg_replace('/^parent\./', '', $method),
-                implode(',', $args)
-            );
-        }
-
-        return $out;
+        return json_encode($this->commands);
     }
 }
