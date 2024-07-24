@@ -10727,6 +10727,13 @@ function rcube_webmail() {
         $('#rcmfd_show_images').prop('disabled', !elem.checked).val(0);
     };
 
+    /**
+     * Simple helper functions to be called from event handlers.
+     */
+    this.hide_by_id = function (id) {
+        $('#' + id).hide();
+    };
+
     this.hide_and_show_next = function (elem) {
         $(elem).hide().next().show();
     };
@@ -10748,6 +10755,13 @@ function rcube_webmail() {
 
     this.show_sibling_image_attachments = function (elem) {
         $(elem).parents('p.image-attachment').show();
+    };
+
+    this.command_with_form = function (elem, action, nullifyValue) {
+        this.command(action, elem.form);
+        if (nullifyValue) {
+            elem.value = null;
+        }
     };
 
     this.reloadForm = function (elem) {
