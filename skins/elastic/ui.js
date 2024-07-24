@@ -4476,3 +4476,50 @@ if ($ && $.datepicker) {
         },
     });
 }
+
+// Some helper functions to be called from event handlers.
+rcube_webmail.prototype.ui_props_dialog = function () {
+    UI.props_dialog();
+};
+
+rcube_webmail.prototype.ui_image_tools_toggle_and_set_title = function (elem) {
+    $(elem).attr('title', $(elem).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')));
+};
+
+rcube_webmail.prototype.ui_header_reset = function (name) {
+    UI.header_reset(name)
+};
+
+rcube_webmail.prototype.ui_show_sidebar = function () {
+    UI.show_sidebar();
+};
+
+rcube_webmail.prototype.ui_upload_input_unless_disabled = function (elem) {
+    if (!$(elem).is('.disabled')) {
+        rcmail.upload_input('uploadform');
+    }
+};
+
+rcube_webmail.prototype.ui_recipient_selector = function (name) {
+    UI.recipient_selector(name);
+};
+
+rcube_webmail.prototype.ui_toggle_list_selection = function (obj, list_id) {
+    UI.toggle_list_selection(obj, list_id);
+};
+
+rcube_webmail.prototype.ui_import_dialog = function () {
+    UI.import_dialog();
+};
+
+rcube_webmail.prototype.ui_headers_show = function (toggle) {
+    UI.headers_show(toggle);
+};
+
+rcube_webmail.prototype.ui_headers_dialog = function () {
+    UI.headers_dialog();
+};
+
+rcube_webmail.prototype.ui_about_dialog = function (elem) {
+    UI.about_dialog(elem);
+};

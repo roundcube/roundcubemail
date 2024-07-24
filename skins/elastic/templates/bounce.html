@@ -35,7 +35,7 @@
 					<div class="input-group">
 						<roundcube:object name="composeHeaders" part="cc" id="_cc" form="form" tabindex="1" data-recipient-input="true" />
 						<span class="input-group-append">
-							<a href="#delete" onclick="UI.header_reset('_cc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<a href="#delete" data-onclick='["ui_header_reset", "_cc"]' class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 						</span>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 					<div class="input-group">
 						<roundcube:object name="composeHeaders" part="bcc" id="_bcc" form="form" tabindex="1" data-recipient-input="true" />
 						<span class="input-group-append">
-							<a href="#delete" onclick="UI.header_reset('_bcc')" class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
+							<a href="#delete" data-onclick='["ui_header_reset", "_bcc"]' class="input-group-text icon delete" title="<roundcube:label name='delete' />" tabindex="1"><span class="inner"><roundcube:label name="delete" /></span></a>
 						</span>
 					</div>
 				</div>
