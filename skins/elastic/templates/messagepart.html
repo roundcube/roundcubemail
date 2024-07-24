@@ -8,7 +8,7 @@
 		<span class="header-title constant"><roundcube:var name="env:filename" /></span>
 		<div id="messagetoolbar" class="toolbar menu">
 			<roundcube:button type="link" name="info" label="properties" title="properties"
-				class="info" innerclass="inner" onclick="UI.props_dialog()" />
+				class="info" innerclass="inner" data-onclick='["ui_props_dialog"]' />
 			<roundcube:button command="download" type="link" label="download" title="download"
 				class="download disabled" classAct="download" innerclass="inner" />
 			<roundcube:button command="print" type="link" label="print" title="print"
@@ -70,7 +70,7 @@
 				class="rotate disabled" classAct="rotate"
 				label="rotate" title="rotateimage" innerclass="inner" />
 		</div>
-		<a href="#" class="button icon tools" onclick="$(this).attr('title', $(this).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')))"
+		<a href="#" class="button icon tools" data-onclick='["ui_image_tools_toggle_and_set_title", "__THIS__"]' 
 			data-label-show="<roundcube:label name="showtools" />" data-label-hide="<roundcube:label name="hidetools" />" title="<roundcube:label name="showtools" />">
 			<span class="inner"><roundcube:label name="showtools" /></span>
 		</a>
