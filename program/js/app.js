@@ -779,7 +779,7 @@ function rcube_webmail() {
                 return ref.doc_keypress(e);
             });
 
-        rcube_webmail.set_iframe_events({ mouseup: body_mouseup });
+        ref.set_iframe_events({ mouseup: body_mouseup });
 
         // trigger init event hook
         this.triggerEvent('init', { task: this.task, action: this.env.action });
@@ -10845,6 +10845,7 @@ function rcube_webmail() {
             'error',
             'load',
             'change',
+            'submit',
         ].forEach(function (name) {
             ref.addEventListenerFromElements(rootElem, name);
         });

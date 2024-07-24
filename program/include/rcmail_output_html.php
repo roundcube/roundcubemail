@@ -2141,7 +2141,7 @@ class rcmail_output_html extends rcmail_output
         return html::tag('form',
             $attrib + ['action' => $this->app->comm_path, 'method' => 'get'],
             $hidden . $content,
-            ['id', 'class', 'style', 'name', 'method', 'action', 'enctype', 'onsubmit']
+            ['id', 'class', 'style', 'name', 'method', 'action', 'enctype', 'data-onsubmit']
         );
     }
 
@@ -2416,11 +2416,7 @@ class rcmail_output_html extends rcmail_output
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
                 'name' => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                'onsubmit' => sprintf(
-                    "%s.command('%s'); return false",
-                    self::JS_OBJECT_NAME,
-                    !empty($attrib['command']) ? $attrib['command'] : 'search'
-                ),
+                'data-onsubmit' => json_encode(['command', !empty($attrib['command']) ? $attrib['command'] : 'search']),
                 // 'style'    => "display:inline"
             ], $out);
         }
