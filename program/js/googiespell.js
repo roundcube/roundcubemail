@@ -479,6 +479,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             dummy = $('<a>').text(this.lang_learn_word).addClass('googie_add_to_dict active');
 
             $('<li>').attr('googie_action_btn', '1').css('cursor', 'default')
+                // TODO: Check if these event handlers work!
                 .mouseover(ref.item_onmouseover)
                 .mouseout(ref.item_onmouseout)
                 .click(function (e) {
