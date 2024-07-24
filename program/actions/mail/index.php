@@ -724,13 +724,13 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail = rcmail::get_instance();
         $title = $rcmail->gettext(!empty($attrib['label']) ? $attrib['label'] : 'listoptions');
         $inner = $title;
-        $onclick = json_encode([
+        $onclick = [
             'command',
             'menu-open',
             !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu',
             '__THIS__',
             '__EVENT__',
-        ]);
+        ];
 
         // Backwards compatibility, attribute renamed in v1.5
         if (isset($attrib['optionsmenuicon'])) {
@@ -745,7 +745,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         return html::a([
                 'href' => '#list-options',
-                'data-onclick' => $onclick,
+                'data-onclick' => json_encode($onclick),
                 'class' => $attrib['class'] ?? 'listmenu',
                 'id' => $attrib['id'] ?? 'listmenulink',
                 'title' => $title,
@@ -1529,7 +1529,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.filter_mailbox(this.value)';
+            $attrib['data-onchange'] = json_encode(['filter_mailbox_with_this_value', '__EVENT__']);
         }
 
         // Content-Type values of messages with attachments
