@@ -287,7 +287,7 @@ function rcube_elastic_ui() {
             }
 
             $(this).on('mouseover', function () {
-                rcube_webmail.long_subject_title(this, 0, $('span.inner', this));
+                rcmail.long_subject_title(this, 0, $('span.inner', this));
             });
         });
 
@@ -363,7 +363,7 @@ function rcube_elastic_ui() {
             // TODO: This should be done in another way, so if an entry is
             // added after page load it also works there.
             $('li.mailbox > a').on('mouseover', function () {
-                rcube_webmail.long_subject_title_ex(this);
+                rcmail.long_subject_title_ex(this);
             });
         });
     }
@@ -1188,7 +1188,7 @@ function rcube_elastic_ui() {
         });
 
         $(document).on('click', popups_close);
-        rcube_webmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
+        rcmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
     }
 
     /**
@@ -4455,7 +4455,6 @@ if (window.rcmail) {
     // rcmail does not exists e.g. on the error template inside a frame
     // we fake the engine a little
     var rcmail = parent.rcmail,
-        rcube_webmail = parent.rcube_webmail,
         bw = {};
 }
 
