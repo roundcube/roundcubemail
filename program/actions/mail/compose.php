@@ -1369,7 +1369,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $id = $a_prop['id'] ?? $id;
 
                 $link_content = sprintf(
-                    '<span class="attachment-name" onmouseover="rcube_webmail.long_subject_title_ex(this)">%s</span>'
+                    '<span class="attachment-name" data-onmouseover="' . json_encode(['long_subject_title_ex', '__THIS__']) . '">%s</span>'
                         . ' <span class="attachment-size">(%s)</span>',
                     rcube::Q($a_prop['name']),
                     self::show_bytes($a_prop['size'])
@@ -1490,7 +1490,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $attrib['name'] = 'editorSelect';
         }
 
-        $attrib['onchange'] = "return rcmail.command('toggle-editor', {id: '" . $attrib['editorid'] . "', html: this.value == 'html'}, '', event)";
+        $attrib['data-onchange'] = json_encode(['toggle_html_editor_by_value', '__EVENT__']);
 
         $select = new html_select($attrib);
 

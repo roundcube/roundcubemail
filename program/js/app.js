@@ -10705,6 +10705,10 @@ function rcube_webmail() {
         this.toggle_editor({ html: event.target.checked }, null, event);
     };
 
+    this.toggle_html_editor_by_value = function (event) {
+        this.toggle_editor({ html: event.target.value == 'html' }, null, event);
+    };
+
     this.toggle_change_subscription = function (elem) {
         if (elem.checked) {
             ref.subscribe(elem.value);
@@ -10770,6 +10774,10 @@ function rcube_webmail() {
 
     this.toggle_html_signature_editor = function (event) {
         this.toggle_editor({ id: 'rcmfd_signature', html: event.target.checked }, null, event);
+    };
+
+    this.filter_mailbox_with_this_value = function(event) {
+        this.filter_mailbox(event.target.value);
     };
 
     /**
