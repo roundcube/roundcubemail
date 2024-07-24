@@ -10717,8 +10717,8 @@ function rcube_webmail() {
         }
     };
 
-    this.filter_folder = function (elem) {
-        ref.folder_filter(elem.value);
+    this.filter_folder = function (selector) {
+        ref.folder_filter($(selector).val());
     };
 
     this.reset_value_if_inbox = function (elem) {

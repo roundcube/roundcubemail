@@ -297,7 +297,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['data-onchange'] = json_encode(['filter_folder', '__THIS__']);
+            $attrib['data-onchange'] = json_encode(['filter_folder', '#' . $attrib['id']]);
         }
 
         $roots = [];
