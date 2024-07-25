@@ -10747,7 +10747,6 @@ function rcube_webmail() {
 
     this.onerror_set_placeholder_src = function (event, src) {
         var elem = event.target;
-        elem.onerror = null;
         if (!src) {
             src = this.env.photo_placeholder;
         }
