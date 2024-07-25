@@ -3997,6 +3997,9 @@ function rcube_webmail() {
 
     // Load Mailvelope functionality (and initialize keyring if needed)
     this.mailvelope_load = function (action) {
+        // Make the server code aware that this browser now knows about
+        // PGP/MIME (would otherwise only be recognized after the next login.
+        this.env.browser_capabilities.pgpmime = 1;
         var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
             fn = function (kr) {
                 ref.mailvelope_keyring = kr;
