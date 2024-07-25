@@ -718,6 +718,7 @@ class rcmail_output_html extends rcmail_output
                 $this->header('X-Frame-Options: sameorigin', true);
             }
         }
+        $this->header("Content-Security-Policy: script-src 'self'", true);
     }
 
     /**
