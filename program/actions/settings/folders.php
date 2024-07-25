@@ -124,7 +124,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $checkbox_subscribe = new html_checkbox([
             'name' => '_subscribed[]',
             'title' => $rcmail->gettext('changesubscription'),
-            'data-onclick' => json_encode(['toggle_change_subscription', '__THIS__']),
+            'data-onclick' => ['toggle_change_subscription', '__THIS__'],
         ]);
 
         $js_folders = [];
@@ -297,7 +297,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['data-onchange'] = json_encode(['filter_folder', '#' . $attrib['id']]);
+            $attrib['data-onchange'] = ['filter_folder', '#' . $attrib['id']];
         }
 
         $roots = [];

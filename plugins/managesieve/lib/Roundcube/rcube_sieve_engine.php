@@ -1321,7 +1321,7 @@ class rcube_sieve_engine
                 'name' => '_set',
                 'id' => $attrib['id'],
                 'class' => 'custom-select',
-                'data-onchange' => $this->rc->task != 'mail' ? json_encode(['managesieve_set']) : '',
+                'data-onchange' => $this->rc->task != 'mail' ? ['managesieve_set'] : '',
             ]);
 
             if ($list) {
@@ -1567,7 +1567,7 @@ class rcube_sieve_engine
 
         if ($compact) {
             $select = new html_select(['name' => '_join', 'id' => '_join', 'class' => 'custom-select',
-                'data-onchange' => json_encode(['managesieve_rule_join_radio_with_this_value'])]);
+                'data-onchange' => ['managesieve_rule_join_radio_with_this_value']]);
 
             foreach (['allof', 'anyof', 'any'] as $val) {
                 $select->add($this->plugin->gettext('filter' . $val), $val);
@@ -1592,7 +1592,7 @@ class rcube_sieve_engine
             // any, allof, anyof radio buttons
             $field_id = '_allof';
             $input_join = new html_radiobutton(['name' => '_join', 'id' => $field_id, 'value' => 'allof',
-                'data-onclick' => json_encode(['managesieve_rule_join_radio', 'allof']), 'class' => 'radio']);
+                'data-onclick' => ['managesieve_rule_join_radio', 'allof'], 'class' => 'radio']);
 
             if (isset($scr) && !$any) {
                 $input_join = $input_join->show($scr['join'] ? 'allof' : '');
@@ -1604,7 +1604,7 @@ class rcube_sieve_engine
 
             $field_id = '_anyof';
             $input_join = new html_radiobutton(['name' => '_join', 'id' => $field_id, 'value' => 'anyof',
-                'data-onclick' => json_encode(['managesieve_rule_join_radio', 'anyof']), 'class' => 'radio']);
+                'data-onclick' => ['managesieve_rule_join_radio', 'anyof'], 'class' => 'radio']);
 
             if (isset($scr) && !$any) {
                 $input_join = $input_join->show($scr['join'] ? '' : 'anyof');
@@ -1616,7 +1616,7 @@ class rcube_sieve_engine
 
             $field_id = '_any';
             $input_join = new html_radiobutton(['name' => '_join', 'id' => $field_id, 'value' => 'any',
-                'data-onclick' => json_encode(['managesieve_rule_join_radio', 'any']), 'class' => 'radio']);
+                'data-onclick' => ['managesieve_rule_join_radio', 'any'], 'class' => 'radio']);
 
             $input_join = $input_join->show($any ? 'any' : '');
 
@@ -1687,7 +1687,7 @@ class rcube_sieve_engine
 
         // headers select
         $select_header = new html_select(['name' => "_header[{$id}]", 'id' => 'header' . $id,
-            'data-onchange' => json_encode(['rule_header_select', $id]), 'class' => 'custom-select']);
+            'data-onchange' => ['rule_header_select', $id]), 'class' => 'custom-select'];
 
         foreach ($this->headers as $index => $header) {
             $header = $this->rc->text_exists($index) ? $this->plugin->gettext($index) : $header;
@@ -1872,7 +1872,7 @@ class rcube_sieve_engine
                 'name' => "_rule_spamtest_op[{$id}]",
                 'id' => 'rule_spamtest_op' . $id,
                 'class' => 'input-group-prepend custom-select',
-                'data-onchange' => json_encode(['rule_spamtest_select', $id]),
+                'data-onchange' => ['rule_spamtest_select', $id],
             ]);
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisunknown')), '');
             $select_spamtest_op->add(rcube::Q($this->plugin->gettext('spamtestisgreaterthan')), 'value-gt');
@@ -1909,7 +1909,7 @@ class rcube_sieve_engine
             'name' => "_rule_mod[{$id}]",
             'id' => 'rule_mod_op' . $id,
             'class' => 'custom-select',
-            'data-onchange' => json_encode(['rule_mod_select', $id]),
+            'data-onchange' => ['rule_mod_select', $id],
         ]);
         $select_mod->add(rcube::Q($this->plugin->gettext('none')), '');
         $select_mod->add(rcube::Q($this->plugin->gettext('address')), 'address');
@@ -1955,7 +1955,7 @@ class rcube_sieve_engine
             $select_mime = new html_select([
                 'name' => "_rule_mime_type[{$id}]",
                 'id' => 'rule_mime_type' . $id,
-                'style' => 'min-width:8em', 'data-onchange' => json_encode(['rule_mime_select', $id]),
+                'style' => 'min-width:8em', 'data-onchange' => ['rule_mime_select', $id],
                 'class' => 'custom-select',
             ]);
             $select_mime->add('-', '');
@@ -1994,7 +1994,7 @@ class rcube_sieve_engine
             'name' => "_rule_trans[{$id}]",
             'id' => 'rule_trans_op' . $id,
             'class' => 'custom-select',
-            'data-onchange' => json_encode(['rule_trans_select', $id]),
+            'data-onchange' => ['rule_trans_select', $id],
         ]);
         $select_mod->add(rcube::Q($this->plugin->gettext('text')), 'text');
         $select_mod->add(rcube::Q($this->plugin->gettext('undecoded')), 'raw');
@@ -2113,7 +2113,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "ruleadv{$id}",
                     'title' => $adv_title,
-                    'data-onclick' => json_encode(['rule_adv_switch', $id, '__THIS__']),
+                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__'],
                     'class' => 'show',
                 ],
                     html::span(['class' => 'inner'], $adv_title)
@@ -2140,7 +2140,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "ruleadv{$id}",
                     'title' => $adv_title,
-                    'data-onclick' => json_encode(['rule_adv_switch', $id, '__THIS__']),
+                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__'],
                     'class' => 'advanced show',
                 ],
                 html::span(['class' => 'inner'], $adv_title)
@@ -2150,7 +2150,7 @@ class rcube_sieve_engine
                 'href' => '#',
                 'id' => "ruleadd{$id}",
                 'title' => $add_title,
-                'data-onclick' => json_encode(['managesieve_ruleadd', $id]),
+                'data-onclick' => ['managesieve_ruleadd', $id],
                 'class' => 'button create add',
             ],
             html::span(['class' => 'inner'], $add_title)
@@ -2159,7 +2159,7 @@ class rcube_sieve_engine
                 'href' => '#',
                 'id' => "ruledel{$id}",
                 'title' => $del_title,
-                'data-onclick' => json_encode(['managesieve_ruledel', $id]),
+                'data-onclick' => ['managesieve_ruledel', $id],
                 'class' => 'button delete del ' . $rows_num < 2 ? 'disabled' : '',
             ],
             html::span(['class' => 'inner'], $del_title)
@@ -2248,7 +2248,7 @@ class rcube_sieve_engine
             'name' => "_action_type[{$id}]",
             'id' => 'action_type' . $id,
             'class' => 'custom-select',
-            'data-onchange' => json_encode(['managesieve_action_type_select', $id]),
+            'data-onchange' => ['managesieve_action_type_select', $id],
         ]);
         if (in_array('fileinto', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagemoveto'), 'fileinto');
@@ -2410,7 +2410,7 @@ class rcube_sieve_engine
         $out .= $this->list_input($id, 'action_addresses', $action['addresses'] ?? null,
             30, false, ['class' => $this->error_class($id, 'action', 'addresses', 'action_addresses')]
         )
-            . html::a(['href' => '#', 'data-onclick' => json_encode(['managesieve_vacation_addresses', $id])],
+            . html::a(['href' => '#', 'data-onclick' => ['managesieve_vacation_addresses', $id]],
                 rcube::Q($this->plugin->gettext('filladdresses')));
         $out .= '<br><span class="label">' . rcube::Q($this->plugin->gettext('vacationinterval')) . '</span><br>';
         $out .= '<div class="input-group">' . html::tag('input', [
@@ -2714,7 +2714,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "actionadd{$id}",
                     'title' => $add_label,
-                    'data-onclick' => json_encode(['managesieve_actionadd', $id]),
+                    'data-onclick' => ['managesieve_actionadd', $id],
                     'class' => 'button create add',
                 ],
                 html::span(['class' => 'inner'], $add_label),
@@ -2724,7 +2724,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "actiondel{$id}",
                     'title' => $del_label,
-                    'data-onclick' => json_encode(['managesieve_actiondel', $id]),
+                    'data-onclick' => ['managesieve_actiondel', $id],
                     'class' => 'button delete del ' . ($rows_num < 2 ? 'disabled' : ''),
                 ],
                 html::span(['class' => 'inner'], $del_label),
@@ -3307,7 +3307,7 @@ class rcube_sieve_engine
             'id' => "{$name}{$id}",
             'style' => 'display:' . (!in_array($rule, ['size', 'duplicate', 'spamtest']) ? 'inline' : 'none'),
             'class' => 'operator_selector col-6 custom-select',
-            'data-onchange' => json_encode(["managesieve_{$name}_select", '__THIS__', $id]),
+            'data-onchange' => ["managesieve_{$name}_select", '__THIS__', $id],
         ]);
 
         $select_op->add(rcube::Q($this->plugin->gettext('filtercontains')), 'contains');

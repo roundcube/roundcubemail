@@ -453,7 +453,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href' => '%s',
                     'rel' => '%s',
-                    'data-onclick' => json_encode(['command', 'list', '%s', '__THIS__']),
+                    'data-onclick' => ['command', 'list', '%s', '__THIS__'],
                 ],
                 '%s'
             )
@@ -527,7 +527,7 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href' => '#',
                     'rel' => 'S%s',
-                    'data-onclick' => json_encode(['command', 'listsearch', '%s', '__THIS__']),
+                    'data-onclick' => ['command', 'listsearch', '%s', '__THIS__'],
                 ],
                 '%s'
             )
@@ -571,7 +571,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'data-onclick' => json_encode(['command', 'listgroup', ['source' => '%s', 'id' => '%s'], '__THIS__']),
+                        'data-onclick' => ['command', 'listgroup', ['source' => '%s', 'id' => '%s'], '__THIS__'],
                     ],
                     '%s'
                 )
@@ -673,13 +673,13 @@ class rcmail_action_contacts_index extends rcmail_action
                                     'href' => '#list',
                                     'rel' => $row['ID'],
                                     'title' => $rcmail->gettext('listgroup'),
-                                    'data-onclick' => json_encode([
+                                    'data-onclick' => [
                                         'command',
                                         'pushgroup',
                                         ['source' => $source_id, 'id' => $row['CID']],
                                         '__THIS__',
                                         '__EVENT__',
-                                    ]),
+                                    ],
                                     'class' => 'pushgroup',
                                     'data-action-link' => true,
                                 ],
@@ -1336,7 +1336,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $content = html::div($attrib, html::img([
             'src' => $photo_img,
-            'data-onerror' => json_encode(['onerror_set_placeholder_src', '__EVENT__']),
+            'data-onerror' => ['onerror_set_placeholder_src', '__EVENT__'],
         ]));
 
         if (!empty(self::$CONTACT_COLTYPES['photo']) && ($rcmail->action == 'edit' || $rcmail->action == 'add')) {
@@ -1483,7 +1483,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $attrib['name'] = '_source';
         $attrib['is_escaped'] = true;
-        $attrib['data-onchange'] = json_encode(['reloadForm', '__THIS__']);
+        $attrib['data-onchange'] = ['reloadForm', '__THIS__'];
 
         $select = new html_select($attrib);
 

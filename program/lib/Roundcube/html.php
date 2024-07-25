@@ -350,6 +350,13 @@ class html
                     $attrib_arr[] = $value;
                 }
             } else {
+                if (strpos($key, 'data-') === 0) {
+                    if (!$value) {
+                        continue;
+                    } elseif (is_array($value)) {
+                        $value = json_encode($value);
+                    }
+                }
                 $attrib_arr[] = $key . '="' . self::quote((string) $value) . '"';
             }
         }
