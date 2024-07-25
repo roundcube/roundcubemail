@@ -10703,7 +10703,7 @@ function rcube_webmail() {
     };
 
     this.toggle_html_editor_by_value = function (event) {
-        this.toggle_editor({ html: event.target.value == 'html' }, null, event);
+        this.command('toggle-editor', { html: event.target.value == 'html' }, null, event);
     };
 
     this.toggle_change_subscription = function (elem) {

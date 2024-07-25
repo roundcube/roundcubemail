@@ -335,7 +335,7 @@ class rcmail_action_settings_index extends rcmail_action
                                     'alt' => $meta['name'],
                                     'width' => 64,
                                     'height' => 64,
-                                    'data-onerror' => json_encode(['onerror_set_placeholder_src', '__EVENT__', 'data:image/gif;base64,' . rcmail_output::BLANK_GIF]),
+                                    'data-onerror' => ['onerror_set_placeholder_src', '__EVENT__', 'data:image/gif;base64,' . rcmail_output::BLANK_GIF],
                                 ]);
 
                                 $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
@@ -563,7 +563,7 @@ class rcmail_action_settings_index extends rcmail_action
                             'name' => '_prefer_html',
                             'id' => $field_id,
                             'value' => 1,
-                            'data-onchange' => json_encode(['disable_show_images_if_plaintext_preferred', '__THIS__']),
+                            'data-onchange' => ['disable_show_images_if_plaintext_preferred', '__THIS__'],
                         ]);
 
                         $blocks['main']['options']['prefer_html'] = [
@@ -1295,7 +1295,7 @@ class rcmail_action_settings_index extends rcmail_action
                         ]);
 
                         // #1486114, #1488279, #1489219
-                        $onchange = json_encode(['reset_value_if_inbox', '__THIS__']);
+                        $onchange = ['reset_value_if_inbox', '__THIS__'];
                     } else {
                         $onchange = null;
                         $select = new html_select();
@@ -1477,7 +1477,7 @@ class rcmail_action_settings_index extends rcmail_action
 
                         $field_id = 'rcmfd_mailvelope_main_keyring';
                         $input = new html_checkbox(['name' => '_mailvelope_main_keyring', 'id' => $field_id, 'value' => 1]);
-                        $mailvelope_enable_button = new html_button(['type' => 'button', 'class' => 'btn btn-secondary', 'data-onclick' => json_encode(['mailvelope_enable'])]);
+                        $mailvelope_enable_button = new html_button(['type' => 'button', 'class' => 'btn btn-secondary', 'data-onclick' => ['mailvelope_enable']]);
 
                         $blocks['mailvelope']['options']['mailvelope_status'] = [
                             'content' => html::div(

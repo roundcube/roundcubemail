@@ -1471,7 +1471,7 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     if (($link = $this->get_template_logo('link')) !== null) {
-                        $attrib['data-onclick'] = json_encode(['redirect', $link, false]);
+                        $attrib['data-onclick'] = ['redirect', $link, false];
                         $attrib['style'] = 'cursor:pointer;';
                     }
 
@@ -1789,7 +1789,7 @@ class rcmail_output_html extends rcmail_output
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['task' => $attrib['command']]);
-                $attrib['data-onclick'] = json_encode(['command', 'switch-task', $attrib['command'], '__THIS__', '__EVENT__']);
+                $attrib['data-onclick'] = ['command', 'switch-task', $attrib['command'], '__THIS__', '__EVENT__'];
             } elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             } elseif (in_array($attrib['command'], $a_static_commands)) {
@@ -1809,13 +1809,13 @@ class rcmail_output_html extends rcmail_output
                 $attrib['class'] = $attrib['classact'];
             }
         } elseif ($command && empty($attrib['data-onclick'])) {
-            $attrib['data-onclick'] = json_encode([
+            $attrib['data-onclick'] = [
                 'command',
                 $command,
                 !empty($attrib['prop']) ? $attrib['prop'] : '',
                 '__THIS__',
                 '__EVENT__'
-            ]);
+            ];
         }
 
         $out = '';
@@ -2417,7 +2417,7 @@ class rcmail_output_html extends rcmail_output
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
                 'name' => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                'data-onsubmit' => json_encode(['command', !empty($attrib['command']) ? $attrib['command'] : 'search']),
+                'data-onsubmit' => ['command', !empty($attrib['command']) ? $attrib['command'] : 'search'],
                 // 'style'    => "display:inline"
             ], $out);
         }

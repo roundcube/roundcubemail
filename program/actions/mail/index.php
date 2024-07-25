@@ -745,7 +745,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         return html::a([
                 'href' => '#list-options',
-                'data-onclick' => json_encode($onclick),
+                'data-onclick' => $onclick,
                 'class' => $attrib['class'] ?? 'listmenu',
                 'id' => $attrib['id'] ?? 'listmenulink',
                 'title' => $title,
@@ -1305,12 +1305,12 @@ class rcmail_action_mail_index extends rcmail_action
 
                 if (!empty($addresses)) {
                     $attrib['href'] = 'mailto:' . implode(',', $addresses);
-                    $attrib['data-onclick'] = json_encode([
+                    $attrib['data-onclick'] = [
                         'command',
                         'compose',
                         implode(',', $mailto) . ($url ? "?{$url}" : ''),
                         '__THIS__',
-                    ]);
+                    ];
                 } else {
                     $attrib['href'] = '#NOP';
                     $attrib['data-onclick'] = '';
@@ -1393,12 +1393,12 @@ class rcmail_action_mail_index extends rcmail_action
                     $attrs = [
                         'href' => 'mailto:' . $mailto,
                         'class' => 'rcmContactAddress',
-                        'data-onclick' => json_encode([
+                        'data-onclick' => [
                             'command',
                             'compose',
                             format_email_recipient($mailto, $name),
                             '__THIS__',
-                        ]),
+                        ],
                     ];
 
                     if ($show_email && $name && $mailto) {
@@ -1425,7 +1425,7 @@ class rcmail_action_mail_index extends rcmail_action
                             'href' => '#add',
                             'title' => $label,
                             'class' => 'rcmaddcontact',
-                            'data-onclick' => json_encode(['command', 'add-contact', $string, '__THIS__']),
+                            'data-onclick' => ['command', 'add-contact', $string, '__THIS__'],
                         ],
                         $addicon == 'virtual' ? '' : $icon
                     );
@@ -1462,20 +1462,20 @@ class rcmail_action_mail_index extends rcmail_action
                 $out .= ', ' . html::a([
                         'href' => '#more',
                         'class' => 'morelink',
-                        'data-onclick' => json_encode(['hide_and_show_next', '__THIS__']),
+                        'data-onclick' => ['hide_and_show_next', '__THIS__'],
                     ], $label)
                     . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
             } else {
                 $out .= ', ' . html::a([
                     'href' => '#more',
                     'class' => 'morelink',
-                    'data-onclick' => json_encode([
+                    'data-onclick' => [
                         'simple_dialog',
                         implode(', ', $allvalues),
                         $title,
                         null,
                         ['cancel_button' => 'close'],
-                    ]),
+                    ],
                 ], $label);
             }
         }
@@ -1529,7 +1529,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['data-onchange'] = json_encode(['filter_mailbox_with_this_value', '__EVENT__']);
+            $attrib['data-onchange'] = ['filter_mailbox_with_this_value', '__EVENT__'];
         }
 
         // Content-Type values of messages with attachments
