@@ -403,7 +403,7 @@ class archive extends rcube_plugin
                     'maxlength' => 30,
                     'folder_filter' => 'mail',
                     'folder_rights' => 'w',
-                    'data-onchange' => json_encode(['reset_value_if_inbox', '__THIS__']),
+                    'data-onchange' => ['reset_value_if_inbox', '__THIS__'],
                     'class' => 'custom-select',
                 ]);
             } else {

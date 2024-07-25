@@ -89,7 +89,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
             $_SESSION['contact_undo']['ts'] = time();
             $msg = html::span(null, $rcmail->gettext('contactdeleted'))
                 . ' ' . html::a(
-                    ['data-onclick' => json_encode(['command', 'undo', '', '__THIS__'])],
+                    ['data-onclick' => ['command', 'undo', '', '__THIS__']],
                     $rcmail->gettext('undo')
                 );
 

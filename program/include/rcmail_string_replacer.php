@@ -52,7 +52,7 @@ class rcmail_string_replacer extends rcube_string_replacer
 
         $attribs = [
             'href' => 'mailto:' . $href,
-            'data-onclick' => json_encode(['command', 'compose', rcube::JQ($href), '__THIS__']),
+            'data-onclick' => ['command', 'compose', rcube::JQ($href), '__THIS__'],
         ];
 
         $i = $this->add(html::a($attribs, rcube::Q($href)) . $suffix);
