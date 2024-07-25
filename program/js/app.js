@@ -10798,7 +10798,7 @@ function rcube_webmail() {
         var eventArgs = JSON.parse(value);
         var methodName = eventArgs.shift();
         if (!methodName) {
-            this.log("data-on-event '" + eventName + "' has invalid value (no method name)");
+            this.log("data-on'" + eventName + "' has invalid value (no method name)");
             return;
         }
         if (typeof this[methodName] !== 'function') {
