@@ -2435,7 +2435,7 @@ function rcube_webmail() {
             flags: flags.extra_flags, // flags from plugins
         });
 
-        var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = '', expando = '',
+        var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = [], expando = '',
             list = this.message_list,
             rows = list.rows,
             message = this.env.messages[uid],
@@ -2490,7 +2490,7 @@ function rcube_webmail() {
         if (this.env.threading) {
             if (message.depth) {
                 // This assumes that div width is hardcoded to 15px,
-                tree += '<span id="rcmtab' + msg_id + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
+                tree.push($('<span>').attr({id: 'rcmtab' + msg_id, class: 'branch', style: 'width: ' + (message.depth * 15) + 'px;'}).text('\u00A0\u00A0'));
 
                 if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
                     || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2)
@@ -2508,7 +2508,7 @@ function rcube_webmail() {
                     message.expanded = true;
                 }
 
-                expando = '<div id="rcmexpando' + row.id + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
+                expando = $('<div>').attr({id: 'rcmexpando' + row.id, class: (message.expanded ? 'expanded' : 'collapsed')}).text('\u00A0\u00A0');
                 row_class += ' thread' + (message.expanded ? ' expanded' : '');
             }
 
@@ -2521,7 +2521,7 @@ function rcube_webmail() {
             }
         }
 
-        tree += '<span id="msgicn' + row.id + '" class="' + css_class + status_class + '" title="' + status_label + '"></span>';
+        tree.push($('<span>').attr({id: 'msgicn' + row.id, class: css_class + status_class, title: status_label}));
         row.className = row_class;
 
         // build subject link
@@ -2531,14 +2531,17 @@ function rcube_webmail() {
                 query = { _mbox: flags.mbox };
 
             query[uid_param] = uid;
-            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-                + ' onmouseover="rcmail.long_subject_title(this)" tabindex="-1"><span>' + cols.subject + '</span></a>';
+            cols.subject = $('<a>')
+                .attr({href: this.url(action, query), tabindex: "-1"})
+                    .on('click', function (event) { return rcube_event.keyboard_only(event) })
+                    .on('mouseover', function (event) { rcmail.long_subject_title(event.target) })
+                    .append($('<span>').append(cols.subject));
         }
 
         // add each submitted col
         for (n in listcols) {
             c = listcols[n];
-            col = { className: String(c).toLowerCase(), events: {} };
+            col = { className: String(c).toLowerCase(), events: {}, contentNodes: [] };
 
             if (this.env.coltypes[c] && this.env.coltypes[c].hidden) {
                 col.className += ' hidden';
@@ -2547,19 +2550,19 @@ function rcube_webmail() {
             if (c == 'flag') {
                 css_class = (flags.flagged ? 'flagged' : 'unflagged');
                 label = this.get_label(css_class);
-                html = '<span id="flagicn' + row.id + '" class="' + css_class + '" title="' + label + '"></span>';
+                html = $('<span>').attr({id: 'flagicn' + row.id, class: css_class, title: label});
             } else if (c == 'attachment') {
                 label = this.get_label('withattachment');
                 if (flags.attachmentClass) {
-                    html = '<span class="' + flags.attachmentClass + '" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: flags.attachmentClass, title: label});
                 } else if (flags.ctype == 'multipart/report') {
-                    html = '<span class="report"></span>';
+                    html = $('<span>').attr({class: 'report'});
                 } else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime') {
-                    html = '<span class="encrypted"></span>';
+                    html = $('<span>').attr({class: 'encrypted'});
                 } else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype))) {
-                    html = '<span class="attachment" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: 'attachment', title: label});
                 } else {
-                    html = '&nbsp;';
+                    html = document.createTextNode('\u00A0');
                 }
             } else if (c == 'status') {
                 label = '';
@@ -2574,25 +2577,25 @@ function rcube_webmail() {
                 } else {
                     css_class = 'msgicon';
                 }
-                html = '<span id="statusicn' + row.id + '" class="' + css_class + status_class + '" title="' + label + '"></span>';
+                html = $('<span>').attr({id: 'statusicn' + row.id, class: css_class + status_class, title: label});
             } else if (c == 'threads') {
                 html = expando;
             } else if (c == 'subject') {
-                html = tree + cols[c];
+                html = tree.concat(cols[c]);
             } else if (c == 'priority') {
                 if (flags.prio > 0 && flags.prio < 6) {
                     label = this.get_label('priority') + ' ' + flags.prio;
-                    html = '<span class="prio' + flags.prio + '" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: 'prio' + flags.prio, title: label});
                 } else {
-                    html = '&nbsp;';
+                    html = document.createTextNode('\u00A0');
                 }
             } else if (c == 'folder') {
-                html = '<span onmouseover="rcmail.long_subject_title(this)">' + cols[c] + '<span>';
+                html = $('<span>').on('mouseover', function (event) { rcmail.long_subject_title(event.target) }).append(cols[c]);
             } else {
                 html = cols[c];
             }
 
-            col.innerHTML = html;
+            col.contentNodes = this.makeNodesFromInput(html);
             row.cols.push(col);
         }
 
@@ -2642,8 +2645,8 @@ function rcube_webmail() {
                         if (this.className == 'subject' && domcol.className != 'subject') {
                             domcol.className += ' skip-on-drag';
                         }
-                        if (col.innerHTML) {
-                            domcol.innerHTML = col.innerHTML;
+                        if (col.contentNodes) {
+                            domcol.append(...col.contentNodes);
                         }
                         domcell.appendChild(domcol);
                         break;
@@ -6976,6 +6979,7 @@ function rcube_webmail() {
     this.update_contact_row = function (cid, cols_arr, newcid, source, data) {
         var list = this.contact_list;
 
+        cols_arr = this.makeNodesFromInput(cols_arr);
         cid = this.html_identifier(cid);
 
         // when in searching mode, concat cid with the source name
@@ -7010,7 +7014,7 @@ function rcube_webmail() {
         for (c in cols) {
             col = {};
             col.className = String(c).toLowerCase();
-            col.innerHTML = cols[c];
+            col.contentNodes = this.makeNodesFromInput(cols[c]);
             row.cols.push(col);
         }
 
@@ -7712,7 +7716,7 @@ function rcube_webmail() {
             rid = this.html_identifier(id);
 
         if (add) {
-            list.insert_row({ id: 'rcmrow' + rid, cols: [{ className: 'mail', innerHTML: name }] });
+            list.insert_row({ id: 'rcmrow' + rid, cols: [{ className: 'mail', contentNodes: this.makeNodesFromInput(name) }] });
             list.select(rid);
         } else {
             list.update_row(rid, [name]);
@@ -7724,7 +7728,7 @@ function rcube_webmail() {
         var list = this.responses_list;
 
         if (add) {
-            list.insert_row({ id: 'rcmrow' + id, cols: [{ className: 'name', innerHTML: name }] });
+            list.insert_row({ id: 'rcmrow' + id, cols: [{ className: 'name', contentNodes: this.makeNodesFromInput(name) }] });
             list.select(id);
         } else {
             list.update_row(id, [name]);
@@ -8870,7 +8874,9 @@ function rcube_webmail() {
                 for (n in listcols) {
                     c = listcols[n];
                     cell = document.createElement('th');
-                    cell.innerHTML = repl[c].html || '';
+                    if (repl[c].html) {
+                        cell.append(this.makeNodesFromInput(repl[c].html));
+                    }
                     if (repl[c].id) {
                         cell.id = repl[c].id;
                     }
@@ -8938,7 +8944,7 @@ function rcube_webmail() {
     // replace content of mailboxname display
     this.set_mailboxname = function (content) {
         if (this.gui_objects.mailboxname && content) {
-            this.gui_objects.mailboxname.innerHTML = content;
+            this.gui_objects.mailboxname.append(this.makeNodesFromInput(content));
         }
     };
 
@@ -10336,6 +10342,38 @@ function rcube_webmail() {
     /********************************************************/
     /*                     helper methods                   */
     /********************************************************/
+
+    /**
+     * Returns an array of Nodes from a given input.
+     * This is used to circumvent the use of `.innerHTML`.
+     */
+    this.makeNodesFromInput = function (input) {
+        if (!Array.isArray(input)) {
+            input = [input];
+        }
+        var domparser = new DOMParser();
+        var result = input.map((thing) => {
+            if (thing.nodeName) {
+                // A Node.
+                return thing;
+            } else if (thing.jquery) {
+                // A jQuery object.
+                return thing[0];
+            } else if (typeof thing === 'string') {
+                // A string that might contain HTML markup (as the server
+                // sometimes sends).
+                // TODO: This is a pretty expensive operation, and is an open
+                // door for XSS attacks. We should make the server send
+                // structured data, not HTML.
+                var doc = domparser.parseFromString(thing, 'text/html');
+                return Array.from(doc.body.childNodes);
+            } else {
+                // Something else.
+                throw new Error("Unknown thing in input, cannot continue: " + JSON.stringify(thing));
+            }
+        });
+        return result.flat();
+    };
 
     /**
      * Quote html entities

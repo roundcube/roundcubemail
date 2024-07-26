@@ -427,11 +427,11 @@ rcube_list_widget.prototype = {
                     if (col.className) {
                         domcell.className = col.className;
                     }
-                    if (col.innerHTML) {
-                        domcell.innerHTML = col.innerHTML;
+                    if (col.contentNodes) {
+                        domcell.append(...col.contentNodes);
                     }
                     for (e in col.events) {
-                        domcell['on' + e] = col.events[e];
+                        domcell.addEventListener(e, col.events[e]);
                     }
                 }
                 domrow.appendChild(domcell);
@@ -471,7 +471,7 @@ rcube_list_widget.prototype = {
 
         var i, domrow = row.obj;
         for (i = 0; cols && i < cols.length; i++) {
-            this.get_cell(domrow, i).html(cols[i]);
+            this.get_cell(domrow, i).empty().append(cols[i]);
         }
 
         if (newid) {
