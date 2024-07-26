@@ -10849,15 +10849,23 @@ function rcube_webmail() {
             }
             return arg;
         });
+        var preventDefault = false;
+        if (typeof eventArgs.at(-1) === 'object') {
+            options = eventArgs.pop();
+            var preventDefault = Boolean(options.preventDefault);
+        }
         elem.addEventListener(eventName, (ev) => {
             // Inject a reference to the event object, if required.
-            var localEventArgs = eventArgs.map(function (arg) {
+            var localEventArgs = eventArgs.map((arg) => {
                 if (arg === '__EVENT__') {
                     return ev;
                 }
                 return arg;
             });
-            this[methodName](...localEventArgs);
+            if (preventDefault) {
+                ev.preventDefault();
+            }
+            return this[methodName](...localEventArgs);
         });
     };
 
