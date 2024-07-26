@@ -729,10 +729,9 @@ function rcube_elastic_ui() {
             // In compose/preview window we do not provide "Back" button, instead
             // we modify the "Mail" button in the task menu to act like it (i.e. calls 'list' command)
             if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
-                $('a.mail', layout.menu).attr({
-                    'aria-disabled': false,
-                    onclick: "return rcmail.command('list','',this,event);",
-                });
+                $('a.mail', layout.menu)
+                    .attr({'aria-disabled': false})
+                    .on('click', () => rcmail.command('list','',this,event));
             }
 
             // Append contact menu to all mailto: links
@@ -2312,7 +2311,7 @@ function rcube_elastic_ui() {
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
                         .appendTo(document.body)
-                        .find('li > a').attr('onclick', '').off('click').on('click', function (e) {
+                        .find('li > a').off('click').on('click', function (e) {
                             if (!$(this).is('.disabled')) {
                                 $(item).popover('hide');
                                 win.$('#' + $(this).attr('id')).click();
@@ -3035,7 +3034,7 @@ function rcube_elastic_ui() {
 
         $.each(['open', 'download', 'rename'], function () {
             var action = this;
-            $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function (e) {
+            $('#attachmenu' + action, obj).off('click').on('click', function (e) {
                 return rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
@@ -3106,10 +3105,10 @@ function rcube_elastic_ui() {
         $('.compose', obj).addClass('active').on('click', function (e) {
             // Execute the original onclick handler to support mailto URL arguments (#6751)
             if (onclick) {
-                button.onclick = onclick;
+                $(button).on('click', onclick);
                 // use the second argument to tell our handler to not display the menu again
                 $(button).trigger('click', [true]);
-                button.onclick = null;
+                $(button).off('click');
             } else {
                 rcmail.command('compose', mailto, this, e.originalEvent);
             }
@@ -3126,7 +3125,7 @@ function rcube_elastic_ui() {
     function mailtomenu_append(item) {
         // Remember the original onclick handler and display the menu instead
         var onclick = item.onclick;
-        item.onclick = null;
+        $(item).off('click');
         $(item).on('click', function (e, menu) {
             return menu || mailtomenu($('#mailto-menu'), item, e, onclick);
         });
