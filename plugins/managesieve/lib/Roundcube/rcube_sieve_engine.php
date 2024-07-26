@@ -2113,7 +2113,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "ruleadv{$id}",
                     'title' => $adv_title,
-                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__'],
+                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__', ['preventDefault' => true]],
                     'class' => 'show',
                 ],
                     html::span(['class' => 'inner'], $adv_title)
@@ -2140,7 +2140,7 @@ class rcube_sieve_engine
                     'href' => '#',
                     'id' => "ruleadv{$id}",
                     'title' => $adv_title,
-                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__'],
+                    'data-onclick' => ['rule_adv_switch', $id, '__THIS__', ['preventDefault' => true]],
                     'class' => 'advanced show',
                 ],
                 html::span(['class' => 'inner'], $adv_title)
@@ -2150,7 +2150,7 @@ class rcube_sieve_engine
                 'href' => '#',
                 'id' => "ruleadd{$id}",
                 'title' => $add_title,
-                'data-onclick' => ['managesieve_ruleadd', $id],
+                'data-onclick' => ['managesieve_ruleadd', $id, ['preventDefault' => true]],
                 'class' => 'button create add',
             ],
             html::span(['class' => 'inner'], $add_title)
@@ -2159,7 +2159,7 @@ class rcube_sieve_engine
                 'href' => '#',
                 'id' => "ruledel{$id}",
                 'title' => $del_title,
-                'data-onclick' => ['managesieve_ruledel', $id],
+                'data-onclick' => ['managesieve_ruledel', $id, ['preventDefault' => true]],
                 'class' => 'button delete del ' . $rows_num < 2 ? 'disabled' : '',
             ],
             html::span(['class' => 'inner'], $del_title)

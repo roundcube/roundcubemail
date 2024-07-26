@@ -751,7 +751,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $supported = in_array($mimetype, self::$CLIENT_MIMETYPES);
                         $show_link_attr = [
                             'href' => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
-                            'data-onclick' => ['command', 'load-attachment', $attach_prop->mime_id, '__THIS__'],
+                            'data-onclick' => ['command', 'load-attachment', $attach_prop->mime_id, '__THIS__', ['preventDefault' => true]],
                         ];
                         $download_link_attr = [
                             'href' => $show_link_attr['href'] . '&_download=1',
