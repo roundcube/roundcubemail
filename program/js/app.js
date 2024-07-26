@@ -6320,7 +6320,7 @@ function rcube_webmail() {
             this.ksearch_pane.data('reqid', reqid);
             init = 1;
             // reset content
-            ul.innerHTML = '';
+            $(ul).empty();
             this.env.contacts = [];
 
             // Calculate the results pane position and size
@@ -8866,7 +8866,7 @@ function rcube_webmail() {
         // replace old column headers
         if (thead) {
             if (repl) {
-                thead.innerHTML = '';
+                $(thead).empty();
                 tr = document.createElement('tr');
 
                 for (n in listcols) {
