@@ -34,7 +34,7 @@
 				<roundcube:button name="theme" label="darkmode" type="link" innerClass="inner" class="theme dark" />
 			<roundcube:endif />
 			<roundcube:button name="about" label="about" type="link"
-				class="about" innerClass="inner" onclick="UI.about_dialog(this)" />
+				class="about" innerClass="inner" data-onclick='["ui_about_dialog", "__THIS__"]' />
 			<roundcube:button command="logout" label="logout" type="link"
 				class="logout" innerClass="inner" />
 		</span>

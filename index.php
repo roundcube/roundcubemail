@@ -226,7 +226,7 @@ if (empty($RCMAIL->user->ID)) {
     }
 
     if ($RCMAIL->output->ajax_call || $RCMAIL->output->get_env('framed')) {
-        $RCMAIL->output->command('session_error', $RCMAIL->url(['_err' => 'session']));
+        $RCMAIL->output->add_js_call('session_error', $RCMAIL->url(['_err' => 'session']));
         $RCMAIL->output->send('iframe');
     }
 
