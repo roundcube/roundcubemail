@@ -1144,7 +1144,7 @@ var cmeditor;
 function cmCreateErrorElem(msg) {
     var marker = document.createElement('div');
     marker.style.color = '#822';
-    marker.innerHTML = '●';
+    marker.innerText = '●';
     marker.title = msg;
 
     return marker;
