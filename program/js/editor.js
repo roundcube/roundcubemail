@@ -711,6 +711,8 @@ function rcube_text_editor(config, id) {
             type = meta.filetype,
             form = $('.upload-form').clone();
 
+        rcmail.addAllEventListenersFromElements(form[0]);
+
         // open image selector dialog
         this.editor.windowManager.open({
             title: rcmail.get_label('select' + type),
