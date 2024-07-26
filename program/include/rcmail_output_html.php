@@ -2417,7 +2417,7 @@ class rcmail_output_html extends rcmail_output
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
                 'name' => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                'data-onsubmit' => ['command', !empty($attrib['command']) ? $attrib['command'] : 'search'],
+                'data-onsubmit' => ['command', !empty($attrib['command']) ? $attrib['command'] : 'search', ['preventDefault' => true]],
                 // 'style'    => "display:inline"
             ], $out);
         }
