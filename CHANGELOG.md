@@ -10,6 +10,7 @@
 - Fix invalid line break characters in multi-line text in Sieve scripts (#9543)
 - Fix bug where "with attachment" filter could fail on some fts engines (#9514)
 - Fix bug where an unhandled exception was caused by an invalid image attachment (#9475)
+- Fix bug where a long subject title could not be displayed in some cases (#9416)
 
 ## Release 1.6.7
 

@@ -3280,7 +3280,14 @@ function rcube_webmail()
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
+<<<<<<< HEAD
     var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
+=======
+            query[uid_param] = uid;
+            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
+                + ' onmouseover="rcube_webmail.long_subject_title(this)" tabindex="-1"><span>' + cols.subject + '</span></a>';
+        }
+>>>>>>> fdeb13727... Fix bug where a long subject title could not be displayed in some cases (#9416)
 
     // exit if selection is empty
     if (!post_data._uid)
@@ -10169,13 +10176,20 @@ function rcube_webmail()
 
 
 // some static methods
-rcube_webmail.long_subject_title = function(elem, indent, text_elem)
-{
-  if (!elem.title) {
-    var $elem = $(text_elem || elem);
-    if ($elem.width() + (indent || 0) * 15 > $elem.parent().width())
-      elem.title = rcube_webmail.subject_text($elem[0]);
-  }
+rcube_webmail.long_subject_title = function (elem, indent, text_elem) {
+    if (!elem.title) {
+        var siblings_width = 0, $elem = $(text_elem || elem);
+
+        $elem.siblings().each(function () {
+            // Note: width() returns 0 for elements with icons in :before (Elastic)
+            siblings_width += $(this).width() + (parseFloat(window.getComputedStyle(this, ':before').width) || 0);
+        });
+
+        // Note: 3px to be on the safe side, but also specifically for Elastic
+        if ($elem.width() + siblings_width + (indent || 0) * 15 >= $elem.parent().width() - 3) {
+            elem.title = rcube_webmail.subject_text($elem[0]);
+        }
+    }
 };
 
 rcube_webmail.long_subject_title_ex = function(elem)
