@@ -2494,7 +2494,7 @@ function rcube_webmail() {
 
             query[uid_param] = uid;
             cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-                + ' onmouseover="rcube_webmail.long_subject_title(this,' + (message.depth + 1) + ')" tabindex="-1"><span>' + cols.subject + '</span></a>';
+                + ' onmouseover="rcube_webmail.long_subject_title(this)" tabindex="-1"><span>' + cols.subject + '</span></a>';
         }
 
         // add each submitted col
@@ -10659,8 +10659,15 @@ function rcube_webmail() {
 // some static methods
 rcube_webmail.long_subject_title = function (elem, indent, text_elem) {
     if (!elem.title) {
-        var $elem = $(text_elem || elem);
-        if ($elem.width() + (indent || 0) * 15 > $elem.parent().width()) {
+        var siblings_width = 0, $elem = $(text_elem || elem);
+
+        $elem.siblings().each(function () {
+            // Note: width() returns 0 for elements with icons in :before (Elastic)
+            siblings_width += $(this).width() + (parseFloat(window.getComputedStyle(this, ':before').width) || 0);
+        });
+
+        // Note: 3px to be on the safe side, but also specifically for Elastic
+        if ($elem.width() + siblings_width + (indent || 0) * 15 >= $elem.parent().width() - 3) {
             elem.title = rcube_webmail.subject_text($elem[0]);
         }
     }
