@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Managesieve: Protect special scripts in managesieve_kolab_master mode
 - Fix newmail_notifier notification focus in Chrome (#9467)
 - Fix fatal error when parsing some TNEF attachments (#9462)
 - Fix double scrollbar when composing a mail with many plain text lines (#7760)

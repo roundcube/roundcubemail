@@ -3,6 +3,7 @@
 - Removed managesieve_usetls option (in favor of the scheme prefix in managesieve_host)
 - Plugin API: Removed `port` parameter in `managesieve_connect` hook
 - Plugin API: Removed `usetls` parameter in `managesieve_connect` hook
+- Protect special scripts in managesieve_kolab_master mode
 
 * version 9.4 [2021-06-06]
 -----------------------------------------------------------
