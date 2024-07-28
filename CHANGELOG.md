@@ -44,6 +44,7 @@
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
+- Managesieve: Protect special scripts in managesieve_kolab_master mode
 - Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Password: Use Guzzle HTTP Client in the `pwned` driver

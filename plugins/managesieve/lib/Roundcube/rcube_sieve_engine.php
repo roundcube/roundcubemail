@@ -275,6 +275,10 @@ class rcube_sieve_engine
         }
 
         if ($script_name) {
+            if ($this->is_protected_script($script_name)) {
+                return rcube_sieve::ERROR_NOT_EXISTS;
+            }
+
             $this->sieve->load($script_name);
         }
 
@@ -426,6 +430,11 @@ class rcube_sieve_engine
                     $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GPC, true);
+
+                    if ($this->is_protected_script($script_name)) {
+                        exit;
+                    }
+
                     $script = $this->sieve->get_script($script_name);
 
                     if ($script !== false) {
@@ -495,7 +504,8 @@ class rcube_sieve_engine
 
         $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST);
 
-        $result = $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
+        $result = empty($error) && !$this->is_protected_script($script_name)
+            && $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
 
         if ($result === false) {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -2952,6 +2962,10 @@ class rcube_sieve_engine
      */
     public function remove_script($name)
     {
+        if ($this->is_protected_script($name)) {
+            return false;
+        }
+
         $result = $this->sieve->remove($name);
 
         // Kolab's KEP:14
@@ -3110,6 +3124,20 @@ class rcube_sieve_engine
         }
 
         return $this->sieve->save($name);
+    }
+
+    /**
+     * Check if the script is protected
+     */
+    protected function is_protected_script($name)
+    {
+        if ($this->rc->config->get('managesieve_kolab_master')) {
+            if (in_array(strtoupper($name), ['MASTER', 'MANAGEMENT', 'USER'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
