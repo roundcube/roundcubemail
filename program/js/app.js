@@ -246,6 +246,19 @@ function rcube_webmail() {
         // tell parent window that this frame is loaded
         if (this.is_framed()) {
             parent.rcmail.unlock_frame();
+            if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show')) {
+                document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
+                    // Run this twice initially: first time when the iframe's
+                    // document was parsed, to already provide roughly the
+                    // correct height; second time when all resources have been
+                    // loaded, to finally ensure the correct height with all
+                    // images etc.
+                    iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
+                    iframe.addEventListener('load', () => this.resize_preview_iframe(iframe));
+                    // Also run on window resizes, because the changed text flow could need more space.
+                    window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
+                });
+            }
         }
 
         // enable general commands
@@ -10652,6 +10665,24 @@ function rcube_webmail() {
     this.print_dialog = function () {
         // setTimeout for Safari
         setTimeout('window.print()', 10);
+    };
+
+    this.resize_preview_iframe = function (iframe) {
+        // Cancel runs that we're scheduled ealier but didn't run yet.
+        if (this.resizePreviewIframeTimer) {
+            clearTimeout(this.resizePreviewIframeTimer);
+        }
+        // Using setTimeout to put this at the end of the call stack.
+        this.resizePreviewIframeTimer = setTimeout(() => {
+            // Reset the height to avoid growing it bigger and bigger (due to
+            // our adding of 20 pixels, and 8 extra pixels of unknown origin,
+            // which are always added.
+            iframe.style.height = '';
+            var wantedHeight = iframe.contentDocument.firstChild.scrollHeight;
+            // Add a few pixels to avoid problems with wrapped lines.
+            iframe.style.height = wantedHeight + 20 + 'px';
+            this.resizePreviewIframeTimer = null;
+        }, 50);
     };
 } // end object rcube_webmail
 

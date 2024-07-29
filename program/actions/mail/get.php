@@ -48,7 +48,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n{$message}\n</body>\n</html>";
-            exit;
+            $rcmail->output->sendExit();
         }
 
         $attachment = new rcmail_attachment_handler();
@@ -117,7 +117,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     readfile($cache_file);
                 }
 
-                exit;
+                $rcmail->output->sendExit();
             }
         }
 
@@ -213,7 +213,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $rcmail->output->write();
                     }
 
-                    exit;
+                    $rcmail->output->sendExit();
                 }
             }
 
@@ -232,6 +232,19 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 }
             }
 
+            // Deliver plaintext with HTML-markup
+            if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
+                $body = $attachment->print_body();
+                // Inject styles
+                // TODO: this is ugly, do we really need it? How can we make this more elegant? Re-use rcmail_html_page?
+                $styles_path = $rcmail->output->get_skin_file('/styles/styles.css');
+                $body = html::tag('html', [],
+                    html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
+                    . html::tag('body', ['class' => 'message-part'], $body)
+                );
+                $rcmail->output->sendExit($body);
+            }
+
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
                 $rcmail->output = new rcmail_html_page();
@@ -248,19 +261,10 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 } else {
                     // render HTML body
                     $out = $attachment->html();
-
-                    // insert remote objects warning into HTML body
-                    if (self::$REMOTE_OBJECTS) {
-                        $rcmail->output->register_inline_warning(
-                            $rcmail->gettext('blockedresources'),
-                            $rcmail->gettext('allow'),
-                            $rcmail->url(array_merge($_GET, ['_safe' => 1]))
-                        );
-                    }
                 }
 
                 $rcmail->output->write($out);
-                exit;
+                $rcmail->output->sendExit();
             }
 
             // add filename extension if missing
@@ -290,12 +294,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 $attachment->output($mimetype);
             }
 
-            exit;
+            $rcmail->output->sendExit();
         }
 
         // if we arrive here, the requested part was not found
         http_response_code(404);
-        exit;
+        $rcmail->output->sendExit();
     }
 
     /**
