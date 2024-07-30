@@ -2320,7 +2320,7 @@ function rcube_webmail()
         query = { _mbox: flags.mbox };
       query[uid_param] = uid;
       cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"' +
-        ' onmouseover="rcube_webmail.long_subject_title(this,'+(message.depth+1)+')" tabindex="-1"><span>'+cols.subject+'</span></a>';
+        ' onmouseover="rcube_webmail.long_subject_title(this)" tabindex="-1"><span>'+cols.subject+'</span></a>';
     }
 
     // add each submitted col
@@ -3280,14 +3280,7 @@ function rcube_webmail()
     if (!mbox || (mbox == this.env.mailbox && !this.is_multifolder_listing()))
       return;
 
-<<<<<<< HEAD
     var lock = false, post_data = this.selection_post_data({_target_mbox: mbox, _uid: uids});
-=======
-            query[uid_param] = uid;
-            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-                + ' onmouseover="rcube_webmail.long_subject_title(this)" tabindex="-1"><span>' + cols.subject + '</span></a>';
-        }
->>>>>>> fdeb13727... Fix bug where a long subject title could not be displayed in some cases (#9416)
 
     // exit if selection is empty
     if (!post_data._uid)
