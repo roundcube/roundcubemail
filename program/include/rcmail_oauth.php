@@ -160,7 +160,6 @@ class rcmail_oauth
                 'user_email' => ['email'],
                 'language' => ['locale'],
             ]),
-
             'scope' => $this->rcmail->config->get('oauth_scope', ''),
             'timeout' => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
@@ -209,10 +208,12 @@ class rcmail_oauth
         if (empty($config_uri)) {
             return;
         }
+
         $key_cache = 'discovery.' . md5($config_uri);
 
         try {
             $data = $this->cache ? $this->cache->get($key_cache) : null;
+
             if ($data === null) {
                 // Caveat: if .well-known URL is not answering it will break login display (will not display the button)
                 $response = $this->http_client->get($config_uri);
@@ -392,8 +393,6 @@ class rcmail_oauth
      */
     public function jwt_decode($jwt)
     {
-        $body = [];
-
         [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
         $header = json_decode(static::base64url_decode($headb64), true);
