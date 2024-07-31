@@ -59,6 +59,20 @@ class Managesieve_Script extends PHPUnit\Framework\TestCase
         return $result;
     }
 
+    /**
+     * Sieve script parsing
+     */
+    public function test_parser_bug9562()
+    {
+        // This is an obviously invalid script
+        $input = "vacation :subject \"a\" :from \"b\"\n<a href=\"https://test.org/\">test</a>";
+        $script = new \rcube_sieve_script($input);
+        $result = $script->as_text();
+
+        // TODO: The output still is BS, but it at least does not cause an infinite loop
+        $this->assertSame("require [\"vacation\"];\r\nvacation :subject \"a\" :from \"b\" \"a\";\r\n", $result);
+    }
+
     function data_tokenizer()
     {
         return [

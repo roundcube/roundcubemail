@@ -1359,9 +1359,10 @@ class rcube_sieve_script
 
             // bracket-comment
             case '/':
-                if ($str[$position + 1] == '*') {
-                    if ($end_pos = strpos($str, '*/', $position + 2)) {
-                        $position = $end_pos + 2;
+                $position++;
+                if ($str[$position] == '*') {
+                    if ($end_pos = strpos($str, '*/', $position + 1)) {
+                        $position = $end_pos + 1;
                     }
                     else {
                         // error
