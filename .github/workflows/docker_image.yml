@@ -24,7 +24,7 @@ jobs:
       id-token: write
     steps:
       - name: Check actor permission
-        uses: skjnldsv/check-actor-permission@v2
+        uses: skjnldsv/check-actor-permission@v3
         with:
           require: admin
       - name: Check out the repo
