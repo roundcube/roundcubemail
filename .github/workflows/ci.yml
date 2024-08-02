@@ -78,4 +78,5 @@ jobs:
       - name: Run Static Analysis
         run: |
           rm -r public_html # remove once https://github.com/phpstan/phpstan/issues/10321 is fixed
+          mkdir node_modules # remove once https://github.com/phpstan/phpstan/issues/11436 is fixed
           vendor/bin/phpstan analyse
