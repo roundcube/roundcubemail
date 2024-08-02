@@ -204,8 +204,7 @@ class rcube_mime
                 $tmp[] = $text;
                 if (!empty($matches[$idx + 1])) {
                     $next_match = $matches[$idx + 1];
-                    if (count($next_match) >= 2
-                        && $next_match[0][1] == $start
+                    if ($next_match[0][1] == $start
                         && $next_match[1][0] == $charset
                         && $next_match[2][0] == $encoding
                     ) {

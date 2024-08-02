@@ -70,8 +70,7 @@ class rcube_domainfactory_password
 
             // show error message(s) if possible
             if (strpos($response, '<div class="d-msg-text">') !== false) {
-                preg_match_all('#<div class="d-msg-text">(.*?)</div>#s', $response, $errors);
-                if (isset($errors[1])) {
+                if (preg_match_all('#<div class="d-msg-text">(.*?)</div>#s', $response, $errors)) {
                     $error_message = '';
                     foreach ($errors[1] as $error) {
                         $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
