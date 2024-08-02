@@ -1039,7 +1039,7 @@ class rcube_imap_generic
         }
 
         if (!empty($this->prefs['socket_options'])) {
-            $options = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1]);
+            $options = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1, 'socket' => 1]);
             $context = stream_context_create($options);
             $this->fp = stream_socket_client($host . ':' . $port, $errno, $errstr,
                 $this->prefs['timeout'], \STREAM_CLIENT_CONNECT, $context);
