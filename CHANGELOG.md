@@ -68,6 +68,7 @@
 - Fix bug where an unhandled exception was caused by an invalid image attachment (#9475)
 - Fix bug where a long subject title could not be displayed in some cases (#9416)
 - Fix infinite loop when parsing malformed Sieve script (#9562)
+- Fix bug where imap_conn_option's 'socket' was ignored (#9566)
 
 ## Release 1.6.7
 
