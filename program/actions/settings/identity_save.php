@@ -256,6 +256,8 @@ class rcmail_action_settings_identity_save extends rcmail_action
             'charset'       => RCUBE_CHARSET,
             'html_elements' => ['body', 'link'],
             'html_attribs'  => ['rel', 'type'],
+            'ignore_elements' => ['body'],
+            'add_comments'  => false,
         ];
 
         // initialize HTML washer
@@ -264,11 +266,6 @@ class rcmail_action_settings_identity_save extends rcmail_action
         // Remove non-UTF8 characters (#1487813)
         $html = rcube_charset::clean($html);
 
-        $html = $washer->wash($html);
-
-        // remove unwanted comments and tags (produced by washtml)
-        $html = preg_replace(['/<!--[^>]+-->/', '/<\/?body>/'], '', $html);
-
-        return $html;
+        return $washer->wash($html);
     }
 }

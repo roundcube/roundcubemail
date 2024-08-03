@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix XSS vulnerability in post-processing of sanitized HTML content [CVE-2024-42009]
+
+## Release 1.5.7
+
 - Enigma: Fix finding of a private key when decrypting a message using GnuPG v2.3
 - Fix TinyMCE localization installation (#9266)
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
