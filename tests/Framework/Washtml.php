@@ -289,7 +289,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $expected) !== false, "White-space and new-line characters handling");
+        $this->assertSame($this->cleanupResult($washed), $expected, 'White-space and new-line characters handling');
     }
 
     /**

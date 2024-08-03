@@ -217,26 +217,48 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      */
     function test_mod_css_styles_xss()
     {
-        $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No url() values allowed");
+        $mod = \rcube_utils::mod_css_styles('font-size: 1em;', 'rcmbody');
+        $this->assertSame('/* invalid! */', $mod);
 
         $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No import statements");
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles("left:expression(document.body.offsetWidth-20)", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "No expression properties");
+        $mod = \rcube_utils::mod_css_styles("@\\69mport url('http://localhost/somestuff/css/master.css');", 'rcmbody');
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles("left:exp/*  */ression( alert(&#039;xss3&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks");
+        $mod = \rcube_utils::mod_css_styles("@\\5C 69mport url('http://localhost/somestuff/css/master.css'); a { color: red; }", '');
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles("background:\\0075\\0072\\00006c( javascript:alert(&#039;xss&#039;) )", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (2)");
+        $mod = \rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody.main2cols {}', $mod);
 
-        $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (3)");
+        $mod = \rcube_utils::mod_css_styles('p { left:expression(document.body.offsetWidth-20); }', 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
 
-        $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
-        $this->assertEquals("/* evil! */", $mod, "Don't allow encoding quirks (4)");
+        $mod = \rcube_utils::mod_css_styles('p { left:exp/*  */ression( alert(&#039;xss3&#039;) ); }', 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background:\\0075\\0072\\00006c('//evil.com/test'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: \\75 \\72 \\6C ('/images/img.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: u\\r\\l('/images/img2.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: url('//żą.ść?data:image&leak') }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: url('//data:image&leak'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        // Note: This looks to me like a bug in browsers, for now we don't allow image-set at all
+        $mod = \rcube_utils::mod_css_styles("p { background: image-set('//evil.com/img.png' 1x); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles('p { background: none !important; }', 'rcmbody');
+        $this->assertSame('#rcmbody p { background: none !important; }', $mod);
 
         // position: fixed (#5264)
         $mod = rcube_utils::mod_css_styles(".test { position: fixed; }", 'rcmbody');
@@ -278,9 +300,9 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { color: red; }", $mod);
 
-        $style = "body { background:url(alert(&#039;URL!&#039;) ) }";
+        $style = "body { background:url(alert(&#039;URL!&#039;)); }";
         $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame("#rcmbody { background: /* evil! */; }", $mod);
+        $this->assertSame("#rcmbody {}", $mod);
     }
 
     /**
