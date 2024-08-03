@@ -742,10 +742,6 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
                     }
 
-                    if ($part->ctype_secondary == 'html') {
-                        $body = self::html4inline($body, $body_args);
-                    }
-
                     $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
                 }
             }

@@ -396,7 +396,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         // clean HTML message body which can be submitted by URL
         if (!empty($COMPOSE['param']['body'])) {
             if ($COMPOSE['param']['html'] = strpos($COMPOSE['param']['body'], '<') !== false) {
-                $wash_params              = ['safe' => false, 'inline_html' => true];
+                $wash_params              = ['safe' => false];
                 $COMPOSE['param']['body'] = self::prepare_html_body($COMPOSE['param']['body'], $wash_params);
             }
         }
@@ -985,39 +985,25 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         static $part_no;
 
         // Set attributes of the part container
-        $container_id     = self::$COMPOSE['mode'] . 'body' . (++$part_no);
-        $container_attrib = ['id' => $container_id];
-        $body_args        = [
-            'safe'             => self::$MESSAGE->is_safe,
-            'plain'            => false,
-            'css_prefix'       => 'v' . $part_no,
+        $container_id = self::$COMPOSE['mode'] . 'body' . (++$part_no);
+        $wash_params += [
+            'safe'         => self::$MESSAGE->is_safe,
+            'css_prefix'   => 'v' . $part_no,
+            'add_comments' => false,
         ];
-
-        // remove comments (produced by washtml)
-        $replace = ['/<!--[^>]+-->/' => ''];
 
         if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
             // convert TinyMCE's empty-line sequence (#1490463)
-            $replace['/<p>\xC2\xA0<\/p>/'] = '<p><br /></p>';
-            // remove <body> tags
-            $replace['/<body([^>]*)>/i'] = '';
-            $replace['/<\/body>/i']      = '';
+            $body = preg_replace('/<p>\xC2\xA0<\/p>/', '<p><br /></p>', $body);
+            // remove <body> tags (not their content)
+            $wash_params['ignore_elements'] = ['body'];
         }
         else {
-            $body_args['container_id']     = $container_id;
-            $body_args['container_attrib'] = $container_attrib;
+            $wash_params['container_id'] = $container_id;
         }
 
         // Make the HTML content safe and clean
-        $body = self::wash_html($body, $wash_params + $body_args, self::$CID_MAP);
-        $body = preg_replace(array_keys($replace), array_values($replace), $body);
-        $body = self::html4inline($body, $body_args);
-
-        if (self::$COMPOSE['mode'] != rcmail_sendmail::MODE_DRAFT) {
-            $body = html::div($container_attrib, $body);
-        }
-
-        return $body;
+        return self::wash_html($body, $wash_params, self::$CID_MAP);
     }
 
     // Removes signature from the message body
