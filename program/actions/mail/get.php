@@ -259,6 +259,11 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                             $rcmail->gettext('allow'),
                             $rcmail->url(array_merge($_GET, ['_safe' => 1]))
                         );
+                    } else {
+                        // Use strict security policy to make sure no javascript is executed
+                        // TODO: Make the above "blocked resources button" working with strict policy
+                        // TODO: Move this to rcmail_html_page::write()?
+                        header("Content-Security-Policy: script-src 'none'");
                     }
                 }
 

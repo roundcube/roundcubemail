@@ -242,13 +242,20 @@ abstract class rcube_output
             $ctype = $params['type'];
         }
 
-        if ($disposition == 'inline' && stripos($ctype, 'text') === 0) {
-            $charset = $this->charset;
-            if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
-                $charset = $params['type_charset'];
+        // Send unsafe content as plain text
+        if ($disposition == 'inline') {
+            if (preg_match('~(javascript|jscript|ecmascript|xml|html|text/)~i', $ctype)) {
+                $ctype = 'text/plain';
             }
 
-            $ctype .= "; charset={$charset}";
+            if (stripos($ctype, 'text') === 0) {
+                $charset = $this->charset;
+                if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
+                    $charset = $params['type_charset'];
+                }
+
+                $ctype .= "; charset={$charset}";
+            }
         }
 
         if (is_string($filename) && strlen($filename) > 0 && strlen($filename) <= 1024) {
@@ -277,6 +284,9 @@ abstract class rcube_output
         if (isset($params['length'])) {
             header("Content-Length: " . $params['length']);
         }
+
+        // Use strict security policy to make sure no javascript content is executed
+        header("Content-Security-Policy: default-src 'none'");
 
         // don't kill the connection if download takes more than 30 sec.
         if (!array_key_exists('time_limit', $params)) {
