@@ -163,7 +163,14 @@ class rcube_washtml
     public $extlinks = false;
 
     /** @var array Current settings */
-    private $config = [];
+    private $config = [
+        'add_comments' => true,
+        'allow_remote' => false,
+        'base_url' => '',
+        'charset' => RCUBE_CHARSET,
+        'cid_map' => [],
+        'show_washed' => true,
+    ];
 
     /** @var array Registered callback functions for tags */
     private $handlers = [];
@@ -222,11 +229,7 @@ class rcube_washtml
 
         unset($p['html_elements'], $p['html_attribs'], $p['ignore_elements'], $p['void_elements'], $p['css_prefix']);
 
-        $this->config = $p + ['show_washed' => true, 'allow_remote' => false, 'cid_map' => [], 'base_url' => ''];
-
-        if (!isset($this->config['charset'])) {
-            $this->config['charset'] = RCUBE_CHARSET;
-        }
+        $this->config = array_merge($this->config, $p);
     }
 
     /**
@@ -566,7 +569,7 @@ class rcube_washtml
                 ], true, false);
             }
 
-            return '<!-- ignored -->';
+            return $this->config['add_comments'] ? '<!-- ignored -->' : '';
         }
 
         $node = $node->firstChild;
@@ -581,7 +584,9 @@ class rcube_washtml
                     if ($tagName == 'link') {
                         $uri = $this->wash_uri($node->getAttribute('href'), false, false);
                         if (!$uri) {
-                            $dump .= '<!-- link ignored -->';
+                            if ($this->config['add_comments']) {
+                                $dump .= '<!-- link ignored -->';
+                            }
                             break;
                         }
 
@@ -590,7 +595,9 @@ class rcube_washtml
                         && self::attribute_value($node, 'attributename', 'href')
                     ) {
                         // Insecure svg tags
-                        $dump .= "<!-- {$tagName} blocked -->";
+                        if ($this->config['add_comments']) {
+                            $dump .= "<!-- {$tagName} blocked -->";
+                        }
                         break;
                     }
 
@@ -600,13 +607,13 @@ class rcube_washtml
                             $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                     } elseif (isset($this->_html_elements[$tagName])) {
                         $content = $this->dumpHtml($node, $level);
-                        $dump .= '<' . $node->nodeName;
+                        $tag = '<' . $node->nodeName;
 
                         if ($tagName == 'svg') {
                             $xpath = new DOMXPath($node->ownerDocument);
                             foreach ($xpath->query('namespace::*') as $ns) {
                                 if ($ns->nodeName != 'xmlns:xml') {
-                                    $dump .= sprintf(' %s="%s"',
+                                    $tag .= sprintf(' %s="%s"',
                                         $ns->nodeName,
                                         htmlspecialchars($ns->nodeValue, \ENT_QUOTES, $this->config['charset'])
                                     );
@@ -616,17 +623,23 @@ class rcube_washtml
                             $content = htmlspecialchars($content, \ENT_QUOTES | \ENT_SUBSTITUTE, $this->config['charset']);
                         }
 
-                        $dump .= $this->wash_attribs($node);
+                        $tag .= $this->wash_attribs($node);
 
-                        if ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
-                            $dump .= ' />';
+                        if (isset($this->_ignore_elements[$tagName])) {
+                            $dump .= $content;
+                        } elseif ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
+                            $dump .= $tag . ' />';
                         } else {
-                            $dump .= '>' . $content . '</' . $node->nodeName . '>';
+                            $dump .= $tag . '>' . $content . '</' . $node->nodeName . '>';
                         }
                     } elseif (isset($this->_ignore_elements[$tagName])) {
-                        $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
+                        if ($this->config['add_comments']) {
+                            $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
+                        }
                     } else {
-                        $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
+                        if ($this->config['add_comments']) {
+                            $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
+                        }
                         $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
 
