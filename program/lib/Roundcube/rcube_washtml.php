@@ -254,47 +254,19 @@ class rcube_washtml
     {
         $result = [];
 
-        // Remove unwanted white-space characters so regular expressions below work better
-        $style = preg_replace('/[\n\r\s\t]+/', ' ', $style);
-
         // Decode insecure character sequences
         $style = rcube_utils::xss_entity_decode($style);
 
-        foreach (rcube_utils::parse_css_block($style) as $rule) {
-            $cssid = $rule[0];
-            $value = '';
+        // Remove unwanted white-space characters
+        $style = preg_replace('/[\n\r\t]+/', ' ', $style);
 
-            foreach ($this->explode_style($rule[1]) as $val) {
-                if (preg_match('/^url\(/i', $val)) {
-                    if (preg_match('/^url\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
-                        if ($url = $this->wash_uri($match[1])) {
-                            $value .= ' url(' . htmlspecialchars($url, \ENT_QUOTES, $this->config['charset']) . ')';
-                        }
-                    }
-                } elseif (!preg_match('/^(behavior|expression)/i', $val)) {
-                    // Set position:fixed to position:absolute for security (#5264)
-                    if (!strcasecmp($cssid, 'position') && !strcasecmp($val, 'fixed')) {
-                        $val = 'absolute';
-                    }
-
-                    // whitelist ?
-                    $value .= ' ' . $val;
-
-                    // #1488535: Fix size units, so width:800 would be changed to width:800px
-                    if (preg_match('/^(left|right|top|bottom|width|height)/i', $cssid)
-                        && preg_match('/^[0-9]+$/', $val)
-                    ) {
-                        $value .= 'px';
-                    }
-                }
+        $uri_callback = function ($uri) {
+            if ($uri = $this->wash_uri($uri)) {
+                return htmlspecialchars($uri, \ENT_QUOTES, $this->config['charset']);
             }
+        };
 
-            if (isset($value[0])) {
-                $result[] = $cssid . ': ' . trim($value);
-            }
-        }
-
-        return implode('; ', $result);
+        return rtrim(rcube_utils::sanitize_css_block($style, $uri_callback), ';');
     }
 
     /**
@@ -965,39 +937,5 @@ class rcube_washtml
         $html = preg_replace('|</tr>\s*</tr>|', '</tr>', $html);
 
         return $html;
-    }
-
-    /**
-     * Explode css style value
-     *
-     * @param string $style CSS style
-     *
-     * @return array List of CSS rules
-     */
-    protected function explode_style($style)
-    {
-        $result = [];
-        $strlen = strlen($style);
-        $q = false;
-
-        // explode value
-        for ($p = $i = 0; $i < $strlen; $i++) {
-            if (($style[$i] == '"' || $style[$i] == "'") && ($i == 0 || $style[$i - 1] != '\\')) {
-                if ($q == $style[$i]) {
-                    $q = false;
-                } elseif (!$q) {
-                    $q = $style[$i];
-                }
-            }
-
-            if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i - 1]))) {
-                $result[] = substr($style, $p, $i - $p);
-                $p = $i + 1;
-            }
-        }
-
-        $result[] = (string) substr($style, $p);
-
-        return $result;
     }
 }
