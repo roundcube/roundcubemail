@@ -44,7 +44,6 @@
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
-- Managesieve: Protect special scripts in managesieve_kolab_master mode
 - Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Password: Use Guzzle HTTP Client in the `pwned` driver
@@ -58,6 +57,10 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.8
+
+- Managesieve: Protect special scripts in managesieve_kolab_master mode
 - Fix newmail_notifier notification focus in Chrome (#9467)
 - Fix fatal error when parsing some TNEF attachments (#9462)
 - Fix double scrollbar when composing a mail with many plain text lines (#7760)
