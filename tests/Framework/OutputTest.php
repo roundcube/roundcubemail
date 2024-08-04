@@ -3,12 +3,72 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Tests\OutputHtmlMock;
 
 /**
  * Test class to test rcube_output class
  */
 class OutputTest extends TestCase
 {
+    /**
+     * Test download_headers()
+     */
+    public function test_download_headers()
+    {
+        $output = new OutputHtmlMock();
+
+        // Basic (empty) case
+        $output->reset();
+        $output->download_headers('test');
+
+        $this->assertCount(3, $output->headers);
+        $this->assertContains('Content-Disposition: attachment; filename="test"', $output->headers);
+        $this->assertContains('Content-Type: application/octet-stream', $output->headers);
+        $this->assertContains('Content-Security-Policy: default-src \'none\'', $output->headers);
+
+        // Invalid content type
+        $output->reset();
+        $params = ['type' => 'invalid'];
+        $output->download_headers('test', $params);
+
+        $this->assertCount(3, $output->headers);
+        $this->assertContains('Content-Type: application/octet-stream', $output->headers);
+
+        // Test inline disposition with type_charset
+        $output->reset();
+        $params = ['disposition' => 'inline', 'type' => 'text/plain', 'type_charset' => 'ISO-8859-1'];
+        $output->download_headers('test', $params);
+
+        $this->assertCount(3, $output->headers);
+        $this->assertContains('Content-Disposition: inline; filename="test"', $output->headers);
+        $this->assertContains('Content-Type: text/plain; charset=ISO-8859-1', $output->headers);
+
+        // Insecure content-type elimination for inline mode
+        $types = [
+            'application/ecmascript',
+            'application/javascript',
+            'application/javascript-1.2',
+            'application/x-javascript',
+            'application/x-jscript',
+            'application/xml',
+            'application/xhtml+xml',
+            'text/javascript',
+            'text/xml',
+            'text/unknown'
+        ];
+
+        foreach ($types as $type) {
+            $output->reset();
+            $params = ['type' => $type, 'disposition' => 'inline'];
+            $output->download_headers('test', $params);
+
+            $this->assertContains('Content-Type: text/plain; charset=' . RCUBE_CHARSET, $output->headers, "Case:$type");
+        }
+
+        // TODO: More test cases
+        $this->markTestIncomplete();
+    }
+
     /**
      * Test get_edit_field()
      */
