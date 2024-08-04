@@ -136,47 +136,4 @@ abstract class rcmail_output extends rcube_output
     {
         $this->object_handlers = array_merge($this->object_handlers, $handlers);
     }
-
-    /**
-     * A wrapper for header() function, so it can be replaced for automated tests
-     *
-     * @param string $header  The header string
-     * @param bool   $replace Replace previously set header?
-     */
-    public function header($header, $replace = true)
-    {
-        header($header, $replace);
-    }
-
-    /**
-     * A helper to send output to the browser and exit
-     *
-     * @param string $body    The output body
-     * @param array  $headers Headers
-     *
-     * @return never
-     */
-    public function sendExit($body = '', $headers = [])
-    {
-        foreach ($headers as $header) {
-            header($header);
-        }
-
-        echo $body;
-        exit;
-    }
-
-    /**
-     * A helper to send HTTP error code and message to the browser, and exit.
-     *
-     * @param int    $code    The HTTP error code
-     * @param string $message The HTTP error message
-     *
-     * @return never
-     */
-    public function sendExitError($code, $message = '')
-    {
-        http_response_code($code);
-        exit($message);
-    }
 }
