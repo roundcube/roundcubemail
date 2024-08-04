@@ -25,6 +25,7 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset repositories)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar update --prefer-dist --no-dev --no-interaction)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset platform)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config version $(VERSION))
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
 	(cd roundcubemail-$(VERSION); bin/jsshrink.sh program/js/publickey.js; bin/jsshrink.sh plugins/managesieve/codemirror/lib/codemirror.js)
 	(cd roundcubemail-$(VERSION); rm -f jsdeps.json bin/install-jsdeps.sh *.orig; rm -rf temp/js_cache)
