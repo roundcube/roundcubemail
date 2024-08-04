@@ -55,3 +55,10 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit -c tests/phpunit.xml
+
+      - name: Upload error log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: errors.log
+          path: log/errors.log
