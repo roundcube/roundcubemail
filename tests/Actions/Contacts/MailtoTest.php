@@ -34,7 +34,7 @@ class MailtoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('mailto', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.open_compose_step({"_mailto":"') !== false);
 

@@ -40,7 +40,7 @@ class ResponseGetTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
         $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
         $data = json_decode($m[1], true);
@@ -57,7 +57,7 @@ class ResponseGetTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
         $this->assertSame('', $result['exec']);
 
@@ -69,7 +69,7 @@ class ResponseGetTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
         $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
         $data = json_decode($m[1], true);

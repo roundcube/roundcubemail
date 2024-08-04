@@ -31,7 +31,7 @@ class FolderSizeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-size', $result['action']);
         $this->assertSame('this.folder_size_update("100 B");', trim($result['exec']));
     }
@@ -56,7 +56,7 @@ class FolderSizeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-size', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
     }

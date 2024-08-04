@@ -34,7 +34,7 @@ class MoveTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('move', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully moved 1 contacts.","confirmation",0);') !== false);

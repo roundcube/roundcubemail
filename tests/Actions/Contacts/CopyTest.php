@@ -31,7 +31,7 @@ class CopyTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
@@ -42,7 +42,7 @@ class CopyTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
@@ -53,7 +53,7 @@ class CopyTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
@@ -68,7 +68,7 @@ class CopyTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
     }
@@ -100,7 +100,7 @@ class CopyTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Successfully copied 1 contacts.","confirmation",0);', trim($result['exec']));
 

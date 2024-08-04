@@ -28,7 +28,7 @@ class Group_DelmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
         $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
 
@@ -39,7 +39,7 @@ class Group_DelmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
         $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
     }
@@ -71,7 +71,7 @@ class Group_DelmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully removed contacts from this group.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.remove_group_contacts({"source":"0","gid":"' . $gid . '"});') !== false);

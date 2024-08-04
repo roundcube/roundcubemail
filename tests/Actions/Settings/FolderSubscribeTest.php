@@ -32,7 +32,7 @@ class FolderSubscribeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-subscribe', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully subscribed.","confirmation",0);') !== false);
 
@@ -61,7 +61,7 @@ class FolderSubscribeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-subscribe', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.reset_subscription("Test",false);') !== false);

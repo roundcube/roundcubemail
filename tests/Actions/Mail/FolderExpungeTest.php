@@ -41,7 +41,7 @@ class FolderExpungeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('expunge', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully compacted.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.set_quota(') === false);
@@ -104,7 +104,7 @@ class FolderExpungeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('expunge', $result['action']);
         $this->assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
     }

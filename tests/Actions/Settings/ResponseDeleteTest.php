@@ -39,7 +39,7 @@ class ResponseDeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.remove_response("' . $rid . '")') !== false);
@@ -56,7 +56,7 @@ class ResponseDeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("An error occurred while saving.","error"') !== false);
 

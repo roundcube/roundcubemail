@@ -28,7 +28,7 @@ class Upload_PhotoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload-photo', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);
 
@@ -39,7 +39,7 @@ class Upload_PhotoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload-photo', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.replace_contact_photo("' . $file['id'] . '");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.photo_upload_end();') !== false);

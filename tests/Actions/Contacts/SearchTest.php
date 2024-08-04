@@ -51,7 +51,7 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);

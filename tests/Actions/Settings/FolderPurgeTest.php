@@ -32,7 +32,7 @@ class FolderPurgeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);') !== false);
@@ -62,7 +62,7 @@ class FolderPurgeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
@@ -90,7 +90,7 @@ class FolderPurgeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
     }

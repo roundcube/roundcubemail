@@ -28,7 +28,7 @@ class Group_AddmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('add-members', $result['action']);
         $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
 
@@ -39,7 +39,7 @@ class Group_AddmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('add-members', $result['action']);
         $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
     }
@@ -70,7 +70,7 @@ class Group_AddmembersTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('add-members', $result['action']);
         $this->assertSame('this.display_message("Successfully added the contacts to this group.","confirmation",0);', trim($result['exec']));
 

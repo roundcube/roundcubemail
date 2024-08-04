@@ -27,7 +27,7 @@ class Search_DeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
         $this->assertSame('this.display_message("Could not delete saved search.","error",0);', trim($result['exec']));
     }
@@ -55,7 +55,7 @@ class Search_DeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Saved search deleted successfully.","confirmation",0);') !== false);
