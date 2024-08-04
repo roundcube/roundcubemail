@@ -932,17 +932,17 @@ class rcmail_action_mail_index extends rcmail_action
         // clean HTML with washtml by Frederic Motte
         $wash_opts = [
             'show_washed'   => false,
-            'add_comments'  => $p['add_comments'] ?? true,
+            'add_comments'  => isset($p['add_comments']) ? $p['add_comments'] : true,
             'allow_remote'  => $p['safe'],
             'blocked_src'   => $rcmail->output->asset_url('program/resources/blocked.gif'),
             'charset'       => RCUBE_CHARSET,
             'cid_map'       => $cid_replaces,
             'html_elements' => ['body'],
             'css_prefix'    => $p['css_prefix'],
-            'ignore_elements' => $p['ignore_elements'] ?? [],
+            'ignore_elements' => isset($p['ignore_elements']) ? $p['ignore_elements'] : [],
             // internal configuration
             'container_id'  => $p['container_id'],
-            'body_class'    => $p['body_class'] ?? '',
+            'body_class'    => isset($p['body_class']) ? $p['body_class'] : '',
         ];
 
         if (empty($p['inline_html'])) {
