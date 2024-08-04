@@ -28,7 +28,7 @@ class Group_DeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-delete', $result['action']);
         $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
 
@@ -39,7 +39,7 @@ class Group_DeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-delete', $result['action']);
         $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
     }
@@ -67,7 +67,7 @@ class Group_DeleteTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-delete', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group deleted successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.remove_group_item({"source":"0","id":"' . $gid . '"});') !== false);

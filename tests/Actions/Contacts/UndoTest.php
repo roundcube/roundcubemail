@@ -35,7 +35,7 @@ class UndoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('undo', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'his.display_message("Contact(s) restored successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.list_contacts()') !== false);

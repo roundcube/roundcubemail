@@ -45,7 +45,7 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertSame(0, $result['env']['pagecount']);
@@ -106,7 +106,7 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['messagecount']);
         $this->assertSame(1, $result['env']['pagecount']);

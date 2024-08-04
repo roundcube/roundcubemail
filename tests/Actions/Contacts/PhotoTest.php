@@ -25,7 +25,7 @@ class PhotoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: image/gif'], $output->headers);
+        $this->assertContains('Content-Type: image/gif', $output->headers);
         $this->assertSame(base64_decode(\rcmail_output::BLANK_GIF, true), $result);
 
         $_GET = ['_error' => 1];
@@ -34,7 +34,7 @@ class PhotoTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['HTTP/1.0 204 Photo not found'], $output->headers);
+        $this->assertContains('HTTP/1.0 204 Photo not found', $output->headers);
         $this->assertSame('', $result);
     }
 

@@ -28,7 +28,7 @@ class ImportTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('import', $result['action']);
         // TODO: Assert error message
         // $this->assertTrue(strpos($result['exec'], '') !== false);

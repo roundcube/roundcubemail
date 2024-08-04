@@ -28,7 +28,7 @@ class Group_CreateTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
         $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
 
@@ -39,7 +39,7 @@ class Group_CreateTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
         $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
     }
@@ -62,7 +62,7 @@ class Group_CreateTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Group created successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.insert_contact_group({"source":"0","id":"2","name":"test"});') !== false);

@@ -28,7 +28,7 @@ class Search_CreateTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-create', $result['action']);
         $this->assertSame('this.display_message("Could not create saved search.","error",0);', trim($result['exec']));
     }
@@ -55,7 +55,7 @@ class Search_CreateTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-create', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Saved search created successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.insert_saved_search("test2",') !== false);

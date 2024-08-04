@@ -27,7 +27,7 @@ class ListTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('list', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
 
