@@ -332,11 +332,10 @@ class IndexTest extends ActionTestCase
         $part = $this->get_html_part('src/htmlbody.txt');
         $part->replaces = ['ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg'];
 
-        $params = ['container_id' => 'foo'];
+        $params = ['container_id' => 'foo', 'safe' => false];
 
         // render HTML in normal mode
-        $body = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => false]);
-        $html = \rcmail_action_mail_index::html4inline($body, $params);
+        $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $this->assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, 'Replace reference to inline image');
         $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, 'Replace external background image');
@@ -349,8 +348,8 @@ class IndexTest extends ActionTestCase
         // $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
-        $body = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
-        $html = \rcmail_action_mail_index::html4inline($body, $params);
+        $params['safe'] = true;
+        $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $this->assertMatchesRegularExpression('/<style [^>]+>/', $html, 'Allow styles in safe mode');
         $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, 'Allow external images in HTML (safe mode)');
@@ -367,15 +366,12 @@ class IndexTest extends ActionTestCase
         $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
 
         $part = $this->get_html_part('src/htmlxss.txt');
-        $washed = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
+        $params = ['container_id' => 'foo', 'safe' => true];
+        $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
-        $this->assertDoesNotMatchRegularExpression('/src="skins/', $washed, 'Remove local references');
-        $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $washed, 'Remove on* attributes');
-        $this->assertStringNotContainsString('onload', $washed, 'Handle invalid style');
-
-        $params = ['container_id' => 'foo'];
-        $html = \rcmail_action_mail_index::html4inline($washed, $params);
-
+        $this->assertDoesNotMatchRegularExpression('/src="skins/', $html, 'Remove local references');
+        $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $html, 'Remove on* attributes');
+        $this->assertStringNotContainsString('onload', $html, 'Handle invalid style');
         $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, 'Clean mailto links');
         $this->assertDoesNotMatchRegularExpression('/alert/', $html, 'Remove alerts');
     }
@@ -390,8 +386,7 @@ class IndexTest extends ActionTestCase
 
         $part = $this->get_html_part('src/BID-26800.txt');
         $params = ['container_id' => 'dabody', 'safe' => true];
-        $body = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
-        $washed = \rcmail_action_mail_index::html4inline($body, $params);
+        $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $this->assertDoesNotMatchRegularExpression('/alert|expression|javascript|xss/', $washed, 'Remove evil style blocks');
         $this->assertDoesNotMatchRegularExpression('/font-style:italic/', $washed, 'Allow valid styles');
@@ -414,19 +409,39 @@ class IndexTest extends ActionTestCase
     }
 
     /**
+     * Test that HTML sanitization does not change attribute (evil) values
+     */
+    public function test_html_body_attributes()
+    {
+        $part = $this->get_html_part();
+        $part->body = '<body title="bgcolor=foo" name="bar style=animation-name:progress-bar-stripes onanimationstart=alert(origin) foo=bar">Foo</body>';
+
+        $params = ['safe' => true, 'add_comments' => false];
+        $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
+
+        $this->assertSame(str_replace('body', 'div', $part->body), $washed);
+
+        $params['inline_html'] = false;
+        $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
+
+        $this->assertSame('<html><head></head>' . $part->body . '</html>', $washed);
+    }
+
+    /**
      * Test handling of body style attributes
      */
-    public function test_html4inline_body_style()
+    public function test_wash_html_body_style()
     {
-        $html = '<body background="test" bgcolor="#fff" style="font-size:11px" text="#000"><p>test</p></body>';
-        $params = ['container_id' => 'foo'];
-        $html = \rcmail_action_mail_index::html4inline($html, $params);
+        $html = '<body background="http://test.com/image" bgcolor="#fff" style="font-size: 11px" text="#000"><p>test</p></body>';
+        $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
+        $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertMatchesRegularExpression('/<div style="font-size:11px">/', $html, 'Body attributes');
-        $this->assertArrayHasKey('container_attrib', $params, "'container_attrib' param set");
-        $this->assertMatchesRegularExpression('/background-color: #fff;/', $params['container_attrib']['style'], 'Body style (bgcolor)');
-        $this->assertMatchesRegularExpression('/background-image: url\(test\)/', $params['container_attrib']['style'], 'Body style (background)');
-        $this->assertMatchesRegularExpression('/color: #000/', $params['container_attrib']['style'], 'Body style (text)');
+        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+
+        $params['safe'] = true;
+        $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
+
+        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
     }
 
     /**
@@ -454,6 +469,7 @@ class IndexTest extends ActionTestCase
 
         $meta = '<meta charset="' . RCUBE_CHARSET . '" />';
         $args = [
+            'inline_html' => false,
             'html_elements' => ['html', 'body', 'meta', 'head'],
             'html_attribs' => ['charset'],
         ];
@@ -522,11 +538,10 @@ class IndexTest extends ActionTestCase
         $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
 
         $part = $this->get_html_part('src/mailto.txt');
-        $params = ['container_id' => 'foo'];
+        $params = ['container_id' => 'foo', 'safe' => false];
 
         // render HTML in normal mode
-        $body = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => false]);
-        $html = \rcmail_action_mail_index::html4inline($body, $params);
+        $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $mailto = '<a href="mailto:me@me.com"'
             . ' onclick="return rcmail.command(\'compose\',\'me@me.com?subject=this is the subject&amp;body=this is the body\',this)" rel="noreferrer">e-mail</a>';
