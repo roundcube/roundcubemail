@@ -353,14 +353,14 @@ class Actions_Mail_Index extends ActionTestCase
         // render HTML in normal mode
         $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
  
-        $this->assertMatchesRegularExpression('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
-        $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
-        $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, "No references to external images");
-        $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, "No meta tags allowed");
-        $this->assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, "No form tags allowed");
-        $this->assertMatchesRegularExpression('/Subscription form/', $html, "Include <form> contents");
-        $this->assertMatchesRegularExpression('/<!-- link ignored -->/', $html, "No external links allowed");
-        $this->assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
+        $this->assertRegExp('/src="'.$part->replaces['ex1.jpg'].'"/', $html, "Replace reference to inline image");
+        $this->assertRegExp('#background="program/resources/blocked.gif"#', $html, "Replace external background image");
+        $this->assertNotRegExp('/ex3.jpg/', $html, "No references to external images");
+        $this->assertNotRegExp('/<meta [^>]+>/', $html, "No meta tags allowed");
+        $this->assertNotRegExp('/<form [^>]+>/', $html, "No form tags allowed");
+        $this->assertRegExp('/Subscription form/', $html, "Include <form> contents");
+        $this->assertRegExp('/<!-- link ignored -->/', $html, "No external links allowed");
+        $this->assertRegExp('/<a[^>]+ target="_blank"/', $html, "Set target to _blank");
 //        $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
@@ -385,11 +385,11 @@ class Actions_Mail_Index extends ActionTestCase
         $params = ['container_id' => 'foo', 'safe' => true];
         $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
-        $this->assertDoesNotMatchRegularExpression('/src="skins/', $html, 'Remove local references');
-        $this->assertDoesNotMatchRegularExpression('/\son[a-z]+/', $html, 'Remove on* attributes');
-        $this->assertStringNotContainsString('onload', $html, 'Handle invalid style');
-        $this->assertDoesNotMatchRegularExpression('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
-        $this->assertDoesNotMatchRegularExpression('/alert/', $html, "Remove alerts");
+        $this->assertNotRegExp('/src="skins/', $html, 'Remove local references');
+        $this->assertNotRegExp('/\son[a-z]+/', $html, 'Remove on* attributes');
+        $this->assertFalse(strpos($html, 'onload'), 'Handle invalid style');
+        $this->assertNotRegExp('/onclick="return rcmail.command(\'compose\',\'xss@somehost.net\',this)"/', $html, "Clean mailto links");
+        $this->assertNotRegExp('/alert/', $html, "Remove alerts");
     }
 
     /**
