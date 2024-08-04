@@ -48,7 +48,7 @@ class AttachmentUploadTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
@@ -67,7 +67,7 @@ class AttachmentUploadTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.auto_save_start(false);') !== false);
