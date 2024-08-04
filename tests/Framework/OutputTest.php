@@ -54,7 +54,7 @@ class OutputTest extends TestCase
             'application/xhtml+xml',
             'text/javascript',
             'text/xml',
-            'text/unknown'
+            'text/unknown',
         ];
 
         foreach ($types as $type) {
@@ -62,7 +62,7 @@ class OutputTest extends TestCase
             $params = ['type' => $type, 'disposition' => 'inline'];
             $output->download_headers('test', $params);
 
-            $this->assertContains('Content-Type: text/plain; charset=' . RCUBE_CHARSET, $output->headers, "Case:$type");
+            $this->assertContains('Content-Type: text/plain; charset=' . RCUBE_CHARSET, $output->headers, "Case:{$type}");
         }
 
         // TODO: More test cases
