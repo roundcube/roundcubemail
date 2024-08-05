@@ -93,7 +93,7 @@ class rcmail_action_mail_index extends rcmail_action
         // set main env variables, labels and page title
         if (empty($rcmail->action) || $rcmail->action == 'list') {
             // connect to storage server and trigger error on failure
-            $rcmail->storage_connect();
+            $rcmail->connect_storage_from_session();
 
             $mbox_name = $rcmail->storage->get_folder();
 
