@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix regression where printing/scaling/rotating image attachments was broken (#9571)
+
+## Release 1.5.8
+
 - Fix XSS vulnerability in post-processing of sanitized HTML content [CVE-2024-42009]
 - Fix XSS vulnerability in serving of attachments other than HTML or SVG [CVE-2024-42008]
 - Fix information leak (access to remote content) via insufficient CSS filtering [CVE-2024-42010]

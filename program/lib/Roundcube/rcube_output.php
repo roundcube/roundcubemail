@@ -286,7 +286,8 @@ abstract class rcube_output
         }
 
         // Use strict security policy to make sure no javascript content is executed
-        header("Content-Security-Policy: default-src 'none'");
+        // img-src is needed to be able to print attachment preview page
+        header("Content-Security-Policy: default-src 'none'; img-src 'self'");
 
         // don't kill the connection if download takes more than 30 sec.
         if (!array_key_exists('time_limit', $params)) {
