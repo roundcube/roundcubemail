@@ -24,7 +24,7 @@ class OutputTest extends TestCase
         $this->assertCount(3, $output->headers);
         $this->assertContains('Content-Disposition: attachment; filename="test"', $output->headers);
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
-        $this->assertContains('Content-Security-Policy: default-src \'none\'', $output->headers);
+        $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
 
         // Invalid content type
         $output->reset();
