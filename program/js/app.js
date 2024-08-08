@@ -462,7 +462,7 @@ function rcube_webmail() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     height: '100%',
-                                    margin: 0
+                                    margin: 0,
                                 });
                                 contents.find('html').css({ height: '100%' });
                             }
