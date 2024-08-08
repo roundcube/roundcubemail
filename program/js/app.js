@@ -456,12 +456,9 @@ function rcube_webmail() {
 
                             // do not apply styles to an error page (with no image)
                             if (contents.find('img').length) {
-                                contents.find('head').append(
-                                    '<style type="text/css">'
-                                        + 'img { max-width:100%; max-height:100%; } ' // scale
-                                        + 'body { display:flex; align-items:center; justify-content:center; height:100%; margin:0; }' // align
-                                        + '</style>'
-                                );
+                                contents.find('img').css({ maxWidth: '100%', maxHeight: '100%' });
+                                contents.find('body').css({ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', margin: 0 });
+                                contents.find('html').css({ height: '100%' });
                             }
                         });
                     }
@@ -6009,9 +6006,7 @@ function rcube_webmail() {
 
     this.apply_image_style = function () {
         var style = [],
-            head = $(this.gui_objects.messagepartframe).contents().find('head');
-
-        $('#image-style', head).remove();
+            img = $(this.gui_objects.messagepartframe).contents().find('img');
 
         $.each({ scale: '', rotate: 'deg' }, function (i, v) {
             var val = ref.image_style[i];
@@ -6021,7 +6016,7 @@ function rcube_webmail() {
         });
 
         if (style) {
-            head.append($('<style id="image-style">').text('img { transform: ' + style.join(' ') + '}'));
+            img.css('transform', style.join(' '));
         }
     };
 
