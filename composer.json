@@ -224,6 +224,5 @@
             "phpstan/extension-installer": true,
             "roundcube/plugin-installer": true
         }
-    },
-    "version": "1.7-git"
+    }
 }
