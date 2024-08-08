@@ -3885,7 +3885,7 @@ class rcube_imap_generic
         // Send command
         if (!$this->putLineC($query, true, $options & self::COMMAND_ANONYMIZED)) {
             preg_match('/^[A-Z0-9]+ ((UID )?[A-Z]+)/', $query, $matches);
-            $cmd = $matches[1] ?: 'UNKNOWN';
+            $cmd = $matches[1] ?? 'UNKNOWN';
             $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
 
             return $noresp ? self::ERROR_COMMAND : [self::ERROR_COMMAND, ''];

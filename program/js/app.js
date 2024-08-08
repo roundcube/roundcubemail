@@ -457,7 +457,13 @@ function rcube_webmail() {
                             // do not apply styles to an error page (with no image)
                             if (contents.find('img').length) {
                                 contents.find('img').css({ maxWidth: '100%', maxHeight: '100%' });
-                                contents.find('body').css({ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', margin: 0 });
+                                contents.find('body').css({
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                    margin: 0
+                                });
                                 contents.find('html').css({ height: '100%' });
                             }
                         });
@@ -6015,9 +6021,7 @@ function rcube_webmail() {
             }
         });
 
-        if (style) {
-            img.css('transform', style.join(' '));
-        }
+        img.css('transform', style.join(' '));
     };
 
     // Update import dialog state
