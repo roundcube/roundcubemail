@@ -62,10 +62,7 @@ shasum:
 roundcubemail-git: buildtools
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
-	(cd roundcubemail-git/skins/elastic; \
-		npx lessc --clean-css="--s1 --advanced" styles/styles.less > styles/styles.min.css; \
-		npx lessc --clean-css="--s1 --advanced" styles/print.less > styles/print.min.css; \
-		npx lessc --clean-css="--s1 --advanced" styles/embed.less > styles/embed.min.css)
+	(cd roundcubemail-git/skins/elastic && make css)
 	(cd roundcubemail-git/bin; rm -f transifexpull.sh package2composer.sh)
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
@@ -73,7 +70,9 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' index.php public_html/index.php installer/index.php program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
-buildtools: /tmp/composer.phar
+buildtools: /tmp/composer.phar npm-install
+
+npm-install:
 	npm install --include=dev --omit=optional
 
 /tmp/composer.phar:
@@ -85,3 +84,6 @@ buildtools: /tmp/composer.phar
 clean:
 	rm -rf roundcubemail-git
 	rm -rf roundcubemail-$(VERSION)*
+
+css-elastic: npm-install
+	cd skins/elastic && make css
