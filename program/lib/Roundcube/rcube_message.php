@@ -1006,13 +1006,37 @@ class rcube_message
                         $mail_part->disposition = 'attachment';
                     }
 
-                    // part belongs to a related message and is linked
+                    // part belongs to a related message
                     // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
-                    if (
-                        preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)
-                        && (!empty($mail_part->content_id) || !empty($mail_part->content_location))
-                    ) {
-                        $this->add_part($mail_part, 'inline');
+                    if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
+                        if (empty($mail_part->content_id) && empty($mail_part->content_location)) {
+                            $this->add_part($mail_part, 'attachment');
+                            continue;
+                        }
+                        // Check if the part is actually referenced in a
+                        // text/html-part sibling (i.e. that is part of the
+                        // same `$structure`).
+                        $html_parts = $this->find_html_parts($structure);
+                        if (empty($html_parts)) {
+                            $this->add_part($mail_part, 'attachment');
+                            continue;
+                        }
+                        // Note: There might be more than one HTML part, thus
+                        // we use a callback and concatenate the results.
+                        $html_content = implode('', array_map(function ($part) { return $this->get_part_body($part->mime_id); }, $html_parts));
+                        // Is the Content-Id used?
+                        if (!empty($mail_part->content_id) && strpos($html_content, "cid:{$mail_part->content_id}") !== false) {
+                            $this->add_part($mail_part, 'inline');
+                            continue;
+                        }
+                        // Is the Content-Location used?
+                        // TODO: match Content-Location more strictly. E.g.
+                        // "image.jpg" is a valid value here, too, which can
+                        // easily be matched wrongly currently.
+                        if (!empty($mail_part->content_location) && strpos($html_content, $mail_part->content_location) !== false) {
+                            $this->add_part($mail_part, 'inline');
+                            continue;
+                        }
                     }
 
                     // Any non-inline attachment
@@ -1053,6 +1077,10 @@ class rcube_message
 
                 foreach ($this->inline_parts as $inline_object) {
                     $part_url = $this->get_part_url($inline_object->mime_id, $inline_object->ctype_primary);
+                    // We previously checked that the values of these
+                    // Content-Id/Content-Location headers are actually present
+                    // in the corresponding HTML part body, that doesn't have
+                    // to be repeated here.
                     if (isset($inline_object->content_id)) {
                         $a_replaces['cid:' . $inline_object->content_id] = $part_url;
                     }
@@ -1092,6 +1120,23 @@ class rcube_message
         elseif ($structure->filename || preg_match('/^application\//i', $mimetype)) {
             $this->add_part($structure, 'attachment');
         }
+    }
+
+    private function find_html_parts($structure)
+    {
+        $html_parts = [];
+        if (empty($structure->parts)) {
+            return $html_parts;
+        }
+        foreach ($structure->parts as $part) {
+            if (!empty($part->parts)) {
+                array_push($html_parts, ...$this->find_html_parts($part));
+            }
+            if ($part->mimetype === 'text/html') {
+                $html_parts[] = $part;
+            }
+        }
+        return $html_parts;
     }
 
     /**
