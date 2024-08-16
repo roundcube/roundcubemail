@@ -454,8 +454,8 @@ class Actions_Mail_Index extends ActionTestCase
 
         $washed = \rcmail_action_mail_index::wash_html($html, $opts);
 
-        $this->assertStringContainsString('<div id="v1testid" class="v1testclass">', $washed);
-        $this->assertStringContainsString('<style type="text/css">#v1testid .v1testclass { color: red; } *.v1testclass { font-weight: bold; }</style>', $washed);
+        $this->assertTrue(strpos($washed, '<div id="v1testid" class="v1testclass">') !== false);
+        $this->assertTrue(strpos($washed, '<style type="text/css">#v1testid .v1testclass { color: red; } *.v1testclass { font-weight: bold; }</style>') !== false);
     }
 
     /**
