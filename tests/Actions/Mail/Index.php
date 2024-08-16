@@ -423,6 +423,21 @@ class Actions_Mail_Index extends ActionTestCase
     }
 
     /**
+     * Test handling css style in HTML in wash_html() method
+     */
+    public function test_wash_html()
+    {
+        $html = '<div id="testid" class="testclass">Test</div>'
+            . '<style type="text/css">#testid .testclass { color: red; } *.testclass { font-weight: bold; }</style>';
+        $opts = ['safe' => false, 'css_prefix' => 'v1', 'add_comments' => false];
+
+        $washed = \rcmail_action_mail_index::wash_html($html, $opts);
+
+        $this->assertStringContainsString('<div id="v1testid" class="v1testclass">', $washed);
+        $this->assertStringContainsString('<style type="text/css">#v1testid .v1testclass { color: red; } *.v1testclass { font-weight: bold; }</style>', $washed);
+    }
+
+    /**
      * Test handling of body style attributes
      */
     public function test_wash_html_body_style()

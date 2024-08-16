@@ -709,6 +709,12 @@ class rcube_washtml
      */
     public function get_config($prop)
     {
+        $config_props = ['html_elements', 'html_attribs', 'ignore_elements', 'void_elements', 'css_prefix'];
+
+        if (in_array($prop, $config_props)) {
+            return $this->{"_{$prop}"};
+        }
+
         return $this->config[$prop] ?? null;
     }
 

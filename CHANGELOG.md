@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix regression where printing/scaling/rotating image attachments was broken (#9571)
+- Fix regression where HTML messages were displayed unstyled (#9586)
 
 ## Release 1.6.8
 
