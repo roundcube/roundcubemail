@@ -13,7 +13,8 @@ REQUIREMENTS
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 7.3 or greater including:
    - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype, Intl (required)
-   - PHP PDO with driver for either MySQL, PostgreSQL, SQL Server, Oracle or SQLite (required)
+   - PHP PDO with driver for either MySQL (MariaDB), PostgreSQL, SQL Server, Oracle or 
+   SQLite (required)
    - Iconv, Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
    - GD, Imagick, XMLWriter (optional: thumbnails generation, QR-code)
@@ -27,7 +28,7 @@ REQUIREMENTS
    - suhosin.session.encrypt disabled
    - mbstring.func_overload disabled
    - pcre.backtrack_limit >= 100000
-* A MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
+* A MariaDB, MySQL, PostgreSQL, MS SQL Server (2005 or newer), Oracle database
   or SQLite v3 support in PHP - with permission to create tables
 * Composer installed either locally or globally (https://getcomposer.org)
 
@@ -93,13 +94,13 @@ DATABASE SETUP
 Note: Database for Roundcube must use UTF-8 character set.
 Note: See defaults.inc.php file for examples of DSN configuration.
 
-* MySQL
+* MariaDB / MySQL
 -------
-Setting up the mysql database can be done by creating an empty database,
+Setting up the mariadb / mysql database can be done by creating an empty database,
 importing the table layout and granting the proper permissions to the
 roundcube user. Here is an example of that procedure:
 
-# mysql
+# mariadb / mysql
 > CREATE DATABASE roundcubemail CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 > CREATE USER roundcube@localhost IDENTIFIED BY 'password';
 > GRANT ALL PRIVILEGES ON roundcubemail.* TO roundcube@localhost;
