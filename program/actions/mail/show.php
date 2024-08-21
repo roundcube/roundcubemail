@@ -486,7 +486,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             } elseif (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
                 $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
-            } elseif ($hkey == 'subject' && empty($value)) {
+            } elseif ($hkey == 'subject' && empty($value)) { // @phpstan-ignore-line
                 $header_value = $rcmail->gettext('nosubject');
             } else {
                 $value = is_array($value) ? implode(' ', $value) : $value;
