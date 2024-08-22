@@ -383,7 +383,7 @@ class rcmail_output_html extends rcmail_output
         if (!empty($meta['localization'])) {
             $locdir = $meta['localization'] === true ? 'localization' : $meta['localization'];
             if ($texts = $this->app->read_localization(RCUBE_INSTALL_PATH . $skin_path . '/' . $locdir)) {
-                $this->app->load_language($_SESSION['language'], $texts);
+                $this->app->load_language($_SESSION['language'], [], $texts);
             }
         }
 
