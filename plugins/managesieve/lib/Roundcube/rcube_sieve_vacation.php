@@ -398,7 +398,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             'type' => 'button',
             'href' => '#',
             'class' => 'button',
-            'data-onclick' => ['managesieve_vacation_addresses'],
+            'data-event-handle' => 'managesieve_vacation_addresses',
         ]);
 
         $redirect = !empty($this->vacation['action'])

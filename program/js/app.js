@@ -10737,23 +10737,7 @@ function rcube_webmail() {
     };
 
     this.toggle_html_editor = function (event) {
-        this.toggle_editor({ html: event.target.checked }, null, event);
-    };
-
-    this.toggle_html_editor_by_value = function (event) {
-        this.command('toggle-editor', { html: event.target.value == 'html' }, null, event);
-    };
-
-    this.toggle_change_subscription = function (elem) {
-        if (elem.checked) {
-            ref.subscribe(elem.value);
-        } else {
-            ref.unsubscribe(elem.value);
-        }
-    };
-
-    this.filter_folder = function (selector) {
-        ref.folder_filter($(selector).val());
+        return this.toggle_editor({ html: event.target.checked }, null, event);
     };
 
     this.reset_value_if_inbox = function (elem) {
@@ -10769,49 +10753,14 @@ function rcube_webmail() {
     /**
      * Simple helper functions to be called from event handlers.
      */
-    this.hide_by_id = function (id) {
-        $('#' + id).hide();
-    };
-
-    this.hide_and_show_next = function (elem) {
-        $(elem).hide().next().show();
-    };
-
     // Allow to call rcmail.message_list.clear() without the extra calls in
     // rcmail.clear_message_list().
     this.message_list_clear = function (arg) {
         ref.message_list.clear(arg);
     };
 
-    this.onerror_set_placeholder_src = function (event, src) {
-        var elem = event.target;
-        if (!src) {
-            src = this.env.photo_placeholder;
-        }
-        elem.src = src;
-    };
-
-    this.show_sibling_image_attachments = function (elem) {
-        $(elem).parents('p.image-attachment').show();
-    };
-
-    this.command_with_form = function (elem, action, nullifyValue) {
-        this.command(action, elem.form);
-        if (nullifyValue) {
-            elem.value = null;
-        }
-    };
-
     this.reloadForm = function (elem) {
         this.command('save', 'reload', elem.form);
-    };
-
-    this.toggle_html_signature_editor = function (event) {
-        this.toggle_editor({ id: 'rcmfd_signature', html: event.target.checked }, null, event);
-    };
-
-    this.filter_mailbox_with_this_value = function(event) {
-        this.filter_mailbox(event.target.value);
     };
 
     /**
@@ -10849,10 +10798,9 @@ function rcube_webmail() {
             }
             return arg;
         });
-        var preventDefault = false;
+        var options = {};
         if (typeof eventArgs.at(-1) === 'object') {
             options = eventArgs.pop();
-            var preventDefault = Boolean(options.preventDefault);
         }
         elem.addEventListener(eventName, (ev) => {
             // Inject a reference to the event object, if required.
@@ -10862,10 +10810,13 @@ function rcube_webmail() {
                 }
                 return arg;
             });
-            if (preventDefault) {
+            if (options.preventDefault) {
                 ev.preventDefault();
             }
-            return this[methodName](...localEventArgs);
+            var result = this[methodName](...localEventArgs);
+            if (options.returnResult) {
+                return result;
+            }
         });
     };
 

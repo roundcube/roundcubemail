@@ -124,7 +124,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $checkbox_subscribe = new html_checkbox([
             'name' => '_subscribed[]',
             'title' => $rcmail->gettext('changesubscription'),
-            'data-onclick' => ['toggle_change_subscription', '__THIS__'],
+            'data-event-handle' => 'toggle_change_subscription';
         ]);
 
         $js_folders = [];

@@ -724,13 +724,6 @@ class rcmail_action_mail_index extends rcmail_action
         $rcmail = rcmail::get_instance();
         $title = $rcmail->gettext(!empty($attrib['label']) ? $attrib['label'] : 'listoptions');
         $inner = $title;
-        $onclick = [
-            'command',
-            'menu-open',
-            !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu',
-            '__THIS__',
-            '__EVENT__',
-        ];
 
         // Backwards compatibility, attribute renamed in v1.5
         if (isset($attrib['optionsmenuicon'])) {
@@ -745,7 +738,8 @@ class rcmail_action_mail_index extends rcmail_action
 
         return html::a([
                 'href' => '#list-options',
-                'data-onclick' => $onclick,
+                'data-event-handle' => 'listmenulink',
+                'data-ref' => !empty($attrib['ref']) ? $attrib['ref'] : 'messagelistmenu',
                 'class' => $attrib['class'] ?? 'listmenu',
                 'id' => $attrib['id'] ?? 'listmenulink',
                 'title' => $title,
@@ -1305,15 +1299,10 @@ class rcmail_action_mail_index extends rcmail_action
 
                 if (!empty($addresses)) {
                     $attrib['href'] = 'mailto:' . implode(',', $addresses);
-                    $attrib['data-onclick'] = [
-                        'command',
-                        'compose',
-                        implode(',', $mailto) . ($url ? "?{$url}" : ''),
-                        '__THIS__',
-                    ];
+                    $attrib['data-event-handle'] = 'compose_mailto_handle';
+                    $attrib['data-url'] = implode(',', $mailto) . ($url ? "?{$url}" : '');
                 } else {
                     $attrib['href'] = '#NOP';
-                    $attrib['data-onclick'] = '';
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
@@ -1393,12 +1382,8 @@ class rcmail_action_mail_index extends rcmail_action
                     $attrs = [
                         'href' => 'mailto:' . $mailto,
                         'class' => 'rcmContactAddress',
-                        'data-onclick' => [
-                            'command',
-                            'compose',
-                            format_email_recipient($mailto, $name),
-                            '__THIS__',
-                        ],
+                        'data-event-handle' => 'compose_format_recipient',
+                        'data-recipient' => format_email_recipient($mailto, $name),
                     ];
 
                     if ($show_email && $name && $mailto) {
@@ -1425,7 +1410,8 @@ class rcmail_action_mail_index extends rcmail_action
                             'href' => '#add',
                             'title' => $label,
                             'class' => 'rcmaddcontact',
-                            'data-onclick' => ['command', 'add-contact', $string, '__THIS__'],
+                            'data-event-handle' => 'rcmaddcontactlink',
+                            'data-string' => $string,
                         ],
                         $addicon == 'virtual' ? '' : $icon
                     );
@@ -1462,20 +1448,16 @@ class rcmail_action_mail_index extends rcmail_action
                 $out .= ', ' . html::a([
                         'href' => '#more',
                         'class' => 'morelink',
-                        'data-onclick' => ['hide_and_show_next', '__THIS__'],
+                        'data-event-handle' => 'hide_and_show_next',
                     ], $label)
                     . html::span(['style' => 'display:none'], implode(', ', array_diff($allvalues, $shown_addresses)));
             } else {
                 $out .= ', ' . html::a([
                     'href' => '#more',
                     'class' => 'morelink',
-                    'data-onclick' => [
-                        'simple_dialog',
-                        implode(', ', $allvalues),
-                        $title,
-                        null,
-                        ['cancel_button' => 'close'],
-                    ],
+                    'data-event-handle' => 'morelink_simpledialog',
+                    'data-allvalues' => implode(', ', $allvalues),
+                    'data-title' => $title,
                 ], $label);
             }
         }
@@ -1529,7 +1511,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['data-onchange'] = ['filter_mailbox_with_this_value', '__EVENT__'];
+            $attrib['data-event-handle'] = 'filter_mailbox_with_this_value';
         }
 
         // Content-Type values of messages with attachments

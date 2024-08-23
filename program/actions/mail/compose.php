@@ -1369,7 +1369,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $id = $a_prop['id'] ?? $id;
 
                 $link_content = sprintf(
-                    '<span class="attachment-name" data-onmouseover="[\"long_subject_title_ex\", \"__THIS__\"]">%s</span>'
+                    '<span class="attachment-name" data-event-handle="mail_long_subject_title_ex">%s</span>'
                         . ' <span class="attachment-size">(%s)</span>',
                     rcube::Q($a_prop['name']),
                     self::show_bytes($a_prop['size'])
@@ -1378,13 +1378,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $content_link = html::a([
                         'href' => '#load',
                         'class' => 'filename',
-                        'data-onclick' => [
-                            'command',
-                            'load-attachment',
-                            "rcmfile{$id}",
-                            '__THIS__',
-                            '__EVENT__',
-                        ],
+                        'data-event-handle' => 'mail_load_attachment_with_event',
+                        'data-mime-id' => "rcmfile{$id}",
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                     ],
                     $link_content
@@ -1393,13 +1388,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $delete_link = html::a([
                         'href' => '#delete',
                         'title' => $rcmail->gettext('delete'),
-                        'data-onclick' => [
-                            'command',
-                            'remove-attachment',
-                            "rcmfile{$id}",
-                            '__THIS__',
-                            '__EVENT__',
-                        ],
+                        'data-event-handle' => 'mail_remove_attachment',
+                        'data-mime-id' => "rcmfile{$id}",
                         'class' => 'delete',
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                         'aria-label' => $rcmail->gettext('delete') . ' ' . $a_prop['name'],
@@ -1490,7 +1480,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $attrib['name'] = 'editorSelect';
         }
 
-        $attrib['data-onchange'] = ['toggle_html_editor_by_value', '__EVENT__'];
+        $attrib['data-event-handle'] = 'mail_toggle_html_editor_by_value';
 
         $select = new html_select($attrib);
 
@@ -1514,7 +1504,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href' => '#list',
                     'rel' => '%s',
-                    'data-onclick' => ['command', 'list-addresses', '%s', '__THIS__'],
+                    'data-arg' => '%s',
+                    'data-event-handle' => 'mail_list_addresses',
                 ],
                 '%s'
             )
@@ -1585,13 +1576,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     'class' => rtrim('insertresponse ' . $attrib['itemclass']),
                     'unselectable' => 'on',
                     'tabindex' => '0',
-                    'data-onclick' => [
-                        'command',
-                        'insert-response',
-                        $response['id'],
-                        '__THIS__',
-                        '__EVENT__',
-                    ],
+                    'data-event-handle' => 'mail_insert_reponse',
+                    'data-response-id' => $response['id'],
                 ],
                 rcube::Q($response['name'])
             );

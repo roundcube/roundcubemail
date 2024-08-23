@@ -173,7 +173,9 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
                                 'href' => '#list',
                                 'rel' => $group['ID'],
                                 'title' => $rcmail->gettext('listgroup'),
-                                'data-onclick' => ['command', 'pushgroup', ['source' => $source_id, 'id' => $group['ID']], '__THIS__', '__EVENT__'],
+                                'data-event-handle' => 'contacts_pushgroup',
+                                'data-source' => $source_id,
+                                'data-id' => $group['ID'],
                             ],
                             rcube::Q($group['name']) . '&nbsp;' . html::span('action', '&raquo;')
                         )],

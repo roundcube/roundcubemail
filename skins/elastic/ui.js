@@ -4476,49 +4476,63 @@ if ($ && $.datepicker) {
     });
 }
 
-// Some helper functions to be called from event handlers.
-rcube_webmail.prototype.ui_props_dialog = function () {
-    UI.props_dialog();
-};
+// Some event handlers.
+window.rcmail.addEventListener('init', function () {
 
-rcube_webmail.prototype.ui_image_tools_toggle_and_set_title = function (elem) {
-    $(elem).attr('title', $(elem).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')));
-};
+    $('[data-event-handle="ui_props_dialog"]').on('click', function (event) {
+        UI.props_dialog();
+    });
 
-rcube_webmail.prototype.ui_header_reset = function (name) {
-    UI.header_reset(name)
-};
+    $('[data-event-handle="ui_image_tools_toggle_and_set_title"]').on('click', function (event) {
+        const elem = event.target;
+        $(elem).attr('title', $(elem).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')));
+    });
 
-rcube_webmail.prototype.ui_show_sidebar = function () {
-    UI.show_sidebar();
-};
+    $('[data-event-handle="ui_header_reset"]').on('click', function (event) {
+        UI.header_reset(event.target.dataset.field)
+    });
 
-rcube_webmail.prototype.ui_upload_input_unless_disabled = function (elem) {
-    if (!$(elem).is('.disabled')) {
-        rcmail.upload_input('uploadform');
-    }
-};
+    $('[data-event-handle="ui_show_sidebar"]').on('click', function (event) {
+        UI.show_sidebar();
+    });
 
-rcube_webmail.prototype.ui_recipient_selector = function (name) {
-    UI.recipient_selector(name);
-};
+    $('[data-event-handle="ui_upload_input"]').on('click', function (event) {
+        window.rcmail.upload_input(event.target.dataset.name);
+    });
 
-rcube_webmail.prototype.ui_toggle_list_selection = function (obj, list_id) {
-    UI.toggle_list_selection(obj, list_id);
-};
+    $('[data-event-handle="ui_upload_input_unless_disabled"]').on('click', function (event) {
+        if (!$(event.target).is('.disabled')) {
+            rcmail.upload_input('uploadform');
+        }
+    });
 
-rcube_webmail.prototype.ui_import_dialog = function () {
-    UI.import_dialog();
-};
+    $('[data-event-handle="ui_recipient_selector"]').on('click', function (event) {
+        UI.recipient_selector(event.target.dataset.field);
+    });
 
-rcube_webmail.prototype.ui_headers_show = function (toggle) {
-    UI.headers_show(toggle);
-};
+    $('[data-event-handle="ui_toggle_list_selection"]').on('click', function (event) {
+        const elem = event.target;
+        UI.toggle_list_selection(elem, elem.dataset.arg);
+    });
 
-rcube_webmail.prototype.ui_headers_dialog = function () {
-    UI.headers_dialog();
-};
+    $('[data-event-handle="ui_import_dialog"]').on('click', function (event) {
+        UI.import_dialog();
+    });
 
-rcube_webmail.prototype.ui_about_dialog = function (elem) {
-    UI.about_dialog(elem);
-};
+    $('[data-event-handle="ui_headers_show"]').on('click', function (event) {
+        UI.headers_show(true);
+    });
+
+    $('[data-event-handle="ui_headers_dialog"]').on('click', function (event) {
+        UI.headers_dialog();
+    });
+
+    $('[data-event-handle="ui_about_dialog"]').on('click', function (event) {
+        UI.about_dialog(event.target);
+    });
+
+    $('[data-event-handle="call_drag_menu_action"]').on('click', function (event) {
+        window.rcmail.drag_menu_action(event.target.dataset.arg)
+    });
+
+});

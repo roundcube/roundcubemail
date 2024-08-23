@@ -453,7 +453,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href' => '%s',
                     'rel' => '%s',
-                    'data-onclick' => ['command', 'list', '%s', '__THIS__'],
+                    'data-event-handle' => 'contacts_directory_list',
+                    'data-arg' => '%s',
                 ],
                 '%s'
             )
@@ -527,7 +528,8 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href' => '#',
                     'rel' => 'S%s',
-                    'data-onclick' => ['command', 'listsearch', '%s', '__THIS__'],
+                    'data-event-handle' => 'contacts_listsearch',
+                    'data-arg' => '%s',
                 ],
                 '%s'
             )
@@ -571,7 +573,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'data-onclick' => ['command', 'listgroup', ['source' => '%s', 'id' => '%s'], '__THIS__'],
+                        'data-event-handle' => 'contacts_listgroup',
+                        'data-arg' => '%s',
                     ],
                     '%s'
                 )
@@ -673,13 +676,9 @@ class rcmail_action_contacts_index extends rcmail_action
                                     'href' => '#list',
                                     'rel' => $row['ID'],
                                     'title' => $rcmail->gettext('listgroup'),
-                                    'data-onclick' => [
-                                        'command',
-                                        'pushgroup',
-                                        ['source' => $source_id, 'id' => $row['CID']],
-                                        '__THIS__',
-                                        '__EVENT__',
-                                    ],
+                                'data-source' => $source_id,
+                                'data-id' => $row['CID'],
+                                    'data-event-handle' => 'contacts_pushgroup',
                                     'class' => 'pushgroup',
                                     'data-action-link' => true,
                                 ],

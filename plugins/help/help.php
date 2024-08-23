@@ -108,7 +108,8 @@ class help extends rcube_plugin
         // so button() will translate it correctly
         $attrib['title'] = $attrib['label'];
 
-        $attrib['data-onclick'] = ['show_help_content', $attrib['action'], '__EVENT__'];
+        $attrib['data-action'] = $attrib['action'];
+        $attrib['data-event-handle'] = 'call_show_help_content';
 
         return $rcmail->output->button($attrib);
     }
