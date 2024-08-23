@@ -510,7 +510,6 @@ abstract class rcmail_action
         // set defaults
         $attrib += ['id' => 'rcmUploadbox', 'buttons' => 'yes'];
 
-        $event = ['command_with_form', '__THIS__', $action];
         $form_id = $attrib['id'] . 'Frm';
 
         // Default attributes of file input and form
@@ -534,7 +533,9 @@ abstract class rcmail_action
             $input_attr = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
-                'data-onchange' => array_merge($event, [true]),
+                'data-event-handle' => 'command_with_form',
+                'data-action' => $action,
+                'data-nullify-value' => true,
                 'class' => 'smart-upload',
                 'tabindex' => '-1',
             ]);
@@ -550,9 +551,9 @@ abstract class rcmail_action
         if (self::get_bool_attr($attrib, 'buttons')) {
             $button = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
-                $button->show($rcmail->gettext('close'), ['class' => 'button', 'data-onclick' => ['hide_by_id', $attrib['id']]])
+                $button->show($rcmail->gettext('close'), ['class' => 'button', 'data-event-handle' => 'hide_by_id', 'data-id' => $attrib['id']])
                 . ' ' .
-                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'data-onclick' => $event])
+                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'data-event-handle' => 'command_with_form', 'data-action' => $action])
             );
         }
 
@@ -1214,7 +1215,8 @@ abstract class rcmail_action
             $html_name = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? [] : [
                 'href' => $rcmail->url(['_mbox' => $folder['id']]),
-                'data-onclick' => ['command', 'list', $js_name, '__THIS__', '__EVENT__'],
+                'data-event-handle' => 'folder_tree_list',
+                'data-name' => $js_name,
                 'rel' => $folder['id'],
                 'title' => $title,
             ];

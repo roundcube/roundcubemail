@@ -259,7 +259,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('blockedresources')));
 
         $buttons = html::a(
-            ['href' => '#loadremote', 'data-onclick' => ['command', 'load-remote']],
+            ['href' => '#loadremote', 'data-event-handle' => 'mail_load_remote'],
             rcube::Q($rcmail->gettext('allow'))
         );
 
@@ -269,7 +269,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             $arg = $show_images == 3 ? rcube_addressbook::TYPE_TRUSTED_SENDER : 'true';
             $buttons .= ' ' . html::a([
                     'href' => '#loadremotealways',
-                    'data-onclick' => ['command', 'load-remote', $arg],
+                    'data-arg' => $arg,
+                    'data-event-handle' => 'mail_load_remote_with_arg',
                     'style' => 'white-space:nowrap',
                 ],
                 rcube::Q($rcmail->gettext(['name' => 'alwaysallow', 'vars' => ['sender' => self::$MESSAGE->sender['mailto']]]))
@@ -325,7 +326,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $msg = html::span(null, rcube::Q($rcmail->gettext('isdraft')))
             . '&nbsp;'
             . html::a(
-                ['href' => '#edit', 'data-onclick' => ['command', 'edit']],
+                ['href' => '#edit', 'data-event-handle' => 'mail_edit'],
                 rcube::Q($rcmail->gettext('edit'))
             );
 
@@ -380,7 +381,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             // set error handler on <img>
             $error_handler = true;
-            $attrib['data-onerror'] = ['onerror_set_placeholder_src', '__EVENT__', $placeholder];
+            $attrib['data-event-handle'] = 'onerror_set_placeholder_src';
         }
 
         if (!empty(self::$MESSAGE->sender)) {
@@ -600,7 +601,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
         $html .= html::div([
             'class' => 'more-headers show-headers',
-            'data-onclick' => ['command', 'show-headers', '', '__THIS__'],
+            'data-event-handle' => 'mail_show_headers',
             'title' => $rcmail->gettext('togglefullheaders'),
         ], '');
 
@@ -751,7 +752,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $supported = in_array($mimetype, self::$CLIENT_MIMETYPES);
                         $show_link_attr = [
                             'href' => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
-                            'data-onclick' => ['command', 'load-attachment', $attach_prop->mime_id, '__THIS__', ['preventDefault' => true]],
+                            'data-mime-id' => $attach_prop->mime_id,
+                            'data-event-handle' => 'mail_load_attachment',
                         ];
                         $download_link_attr = [
                             'href' => $show_link_attr['href'] . '&_download=1',
@@ -767,7 +769,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                     'title' => $attach_prop->filename,
                                     'alt' => $attach_prop->filename,
                                     'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
-                                    'data-onload' => $supported ? '' : ['show_sibling_image_attachments', '__THIS__'],
+                                    'data-event-handle' => $supported ? '' : 'mail_show_sibling_image_attachments',
                                 ])
                             ) .
                             html::span('image-filename', rcube::Q($attach_prop->filename)) .

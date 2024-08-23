@@ -32,8 +32,8 @@
 					<div class="header-links">
 						<roundcube:add_label name="details" />
 						<roundcube:add_label name="summary" />
-						<a href="#headers" class="headers-summary" data-onclick='["ui_headers_show", true]'></a>
-						<a href="#all-headers" class="headers-all" data-onclick='["ui_headers_dialog"]'><roundcube:label name="headers" /></a>
+						<a href="#headers" class="headers-summary" data-event-handle="ui_headers_show"></a>
+						<a href="#all-headers" class="headers-all" data-event-handle="ui_headers_dialog"><roundcube:label name="headers" /></a>
 						<roundcube:add_label name="arialabelmessageheaders" />
 						<roundcube:if condition="env:optional_format=='text'" />
 							<roundcube:button command="change-format" prop="text" type="link" class="plain" innerClass="inner"

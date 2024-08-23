@@ -171,7 +171,7 @@ class IndexTest extends ActionTestCase
 
         $link = $action->options_menu_link(['icon' => 'ico.png']);
 
-        $expected = '<a href="#list-options" data-onclick="' . htmlentities(['command', 'menu-open', 'messagelistmenu', '__THIS__', '__EVENT__']) . '"'
+        $expected = '<a href="#list-options" data-event-handle="listmenulink" data-ref="messagelistmenu"'
             . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
 
         $this->assertSame($expected, $link);
