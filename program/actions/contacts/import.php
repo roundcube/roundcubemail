@@ -158,6 +158,8 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 self::$stats = new stdClass();
                 self::$stats->names = [];
                 self::$stats->skipped_names = [];
+                self::$stats->invalid_names = [];
+                self::$stats->error_names = [];
                 self::$stats->count = count($vcards);
                 self::$stats->inserted = 0;
                 self::$stats->skipped = 0;
@@ -187,6 +189,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     // skip invalid (incomplete) entries
                     if (!$CONTACTS->validate($a_record, true)) {
                         self::$stats->invalid++;
+                        self::$stats->invalid_names[] = $vcard->displayname ?: $email;
                         continue;
                     }
 
@@ -251,6 +254,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         self::$stats->names[] = $a_record['name'] ?: $email;
                     } else {
                         self::$stats->errors++;
+                        self::$stats->error_names[] = $a_record['name'] ?: $email;
                     }
                 }
 
@@ -431,7 +435,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
     {
         $rcmail = rcmail::get_instance();
         $vars = get_object_vars(self::$stats);
-        $vars['names'] = $vars['skipped_names'] = '';
+        $vars['names'] = $vars['skipped_names'] = $vars['invalid_names'] = $vars['error_names'] = '';
 
         $content = html::p(null, $rcmail->gettext([
                 'name' => 'importconfirm',
@@ -451,6 +455,24 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'vars' => $vars,
                 ]) . ':')
                 . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
+        }
+
+        if (self::$stats->invalid) {
+            $content .= html::p(null, $rcmail->gettext([
+                    'name' => 'importconfirminvalid',
+                    'nr' => self::$stats->invalid,
+                    'vars' => $vars,
+                ]) . ':')
+                . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->invalid_names)));
+        }
+
+        if (self::$stats->errors) {
+            $content .= html::p(null, $rcmail->gettext([
+                    'name' => 'importconfirmerrors',
+                    'nr' => self::$stats->errors,
+                    'vars' => $vars,
+                ]) . ':')
+                . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->error_names)));
         }
 
         return html::div($attrib, $content);
