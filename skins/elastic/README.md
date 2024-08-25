@@ -38,7 +38,7 @@ using the `lessc` command line tool (that you can install with `npm install`).
 References to image files from the included CSS files can be appended
 with cache-buster marks to avoid browser caching issues after updating.
 
-Run `bin/updatecss.sh --dir skins/elastic` before packaging the skin
+Run `php bin/updatecss.sh --dir skins/elastic` before packaging the skin
 or after installing it on the destination system.
 
 
