@@ -62,8 +62,13 @@ DEVELOPMENT SETUP
   - IMAP Setup
     - IMAP host: mailserver:143
 - Create a test email account
-  - Bash into the roundcubeMailServer
+  - Run 'docker-compose exec roundcubeMailServer bash'
   - Run 'setup email add test@test.com password'
+- Final Steps
+  - Run 'docker-compose exec roundcube-webmail bash'
+  - Run 'php bin/install-jsdeps.sh'
+  - cd skins/elastic
+  - Run 'make'
 
 
 LICENSE
