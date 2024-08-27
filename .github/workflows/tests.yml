@@ -75,7 +75,7 @@ jobs:
           coverage: none
 
       - name: Execute tests
-        run: .ci/run_tests.sh
+        run: bash -ex .ci/run_tests.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
