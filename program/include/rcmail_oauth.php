@@ -232,9 +232,7 @@ class rcmail_oauth
 
             // map discovery to our options
             foreach (self::$config_mapper as $config_key => $options_key) {
-                if (empty($data[$config_key])) {
-                    rcube::raise_error("Key {$config_key} not found in answer of {$config_uri}", true);
-                } else {
+                if (!empty($data[$config_key])) {
                     $this->options[$options_key] = $data[$config_key];
                 }
             }
@@ -520,7 +518,7 @@ class rcmail_oauth
     }
 
     /**
-     * Call ODIC to get identity for an given authorization
+     * Call OIDC to get identity for a given authorization
      *
      * @param string $authorization the Bearer authorization
      *
@@ -793,16 +791,7 @@ class rcmail_oauth
      */
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
-        // TODO move it into to log_info ?
-        $this->log_debug('received tokens from a grant request %s: session: %s with scope %s, '
-            . 'access_token type %s exp in %ss, refresh_token exp in %ss, id_token present: %s, not-before-policy: %s',
-            $grant_type,
-            $data['session_state'], $data['scope'],
-            $data['token_type'], $data['expires_in'],
-            $data['refresh_expires_in'],
-            isset($data['id_token']),
-            $data['not-before-policy'] ?? null
-        );
+        $this->log_debug('received tokens from a grant request %s: %s', $grant_type, json_encode($data));
 
         if (is_array($previous_data)) {
             $this->log_debug(
@@ -856,7 +845,9 @@ class rcmail_oauth
             $data['expires'] = time() + $data['expires_in'] - $refresh_interval - 10;
         }
 
-        $data['refresh_expires'] = time() + $data['refresh_expires_in'];
+        if (isset($data['refresh_expires_in'])) {
+            $data['refresh_expires'] = time() + $data['refresh_expires_in'];
+        }
 
         if (strcasecmp($data['token_type'], 'Bearer') == 0) {
             // always normalize Bearer (uppercase then lower case)
