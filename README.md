@@ -18,8 +18,8 @@ Roundcube Webmail is a browser-based multilingual IMAP client with an
 application-like user interface. It provides full functionality you expect
 from an email client, including MIME support, address book, folder management,
 message searching and spell checking. Roundcube Webmail is written in PHP and
-requires the MySQL, PostgreSQL or SQLite database. With its plugin API it is
-easily extendable and the user interface is fully customizable using skins.
+requires the MariaDB, MySQL, PostgreSQL or SQLite database. With its plugin API it 
+is easily extendable and the user interface is fully customizable using skins.
 
 The code designed to run on a webserver is mainly written in PHP and Javascript.
 It includes a custom framework with an IMAP library derived from [IlohaMail][iloha]
