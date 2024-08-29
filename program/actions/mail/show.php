@@ -718,12 +718,14 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         [
                             'id' => $container_id,
                             'class' => $container_class,
-                        ],
-                        html::iframe([
-                            'sandbox' => 'allow-same-origin',
-                            'class' => "framed-message-part {$container_class}",
-                            'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
-                        ])
+                        ], [
+                            self::message_loading_notice(),
+                            html::iframe([
+                                'sandbox' => 'allow-same-origin',
+                                'class' => "framed-message-part {$container_class}",
+                                'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
+                            ]),
+                        ]
                     );
                 }
             }
