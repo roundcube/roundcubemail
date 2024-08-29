@@ -166,6 +166,7 @@ class rcmail_oauth
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
             'login_redirect' => $this->rcmail->config->get('oauth_login_redirect', false),
             'pkce' => $this->rcmail->config->get('oauth_pkce', 'S256'),
+            'password_claim' => $this->rcmail->config->get('oauth_password_claim'),
             'debug' => $this->rcmail->config->get('oauth_debug', false),
         ];
 
@@ -621,6 +622,18 @@ class rcmail_oauth
                 }
             }
 
+            $data['auth_type'] = $this->auth_type;
+
+            // Backends with no XOAUTH2/OAUTHBEARER support
+            if ($pass_claim = $this->options['password_claim']) {
+                if (empty($identity[$pass_claim])) {
+                    throw new Exception("Password claim ({$pass_claim}) not found");
+                }
+                $authorization = $identity[$pass_claim];
+                unset($identity[$pass_claim]);
+                unset($data['auth_type']);
+            }
+
             // store the full identity (usually contains `sub`, `name`, `preferred_username`, `given_name`, `family_name`, `locale`, `email`)
             $data['identity'] = $identity;
 
@@ -701,6 +714,12 @@ class rcmail_oauth
             $data = json_decode($response->getBody(), true);
 
             [$authorization, $identity] = $this->parse_tokens('refresh_token', $data, $token);
+
+            // Backends with no XOAUTH2/OAUTHBEARER support
+            if (($pass_claim = $this->options['password_claim']) && isset($identity[$pass_claim])) {
+                $authorization = $identity[$pass_claim];
+                unset($identity[$pass_claim]);
+            }
 
             // update access token stored as password
             $_SESSION['password'] = $this->rcmail->encrypt($authorization);
@@ -814,9 +833,11 @@ class rcmail_oauth
         if (!empty($data['id_token'])) {
             $identity = $this->jwt_decode($data['id_token']);
 
-            // sanity check, ensure that the identity have the same nonce
-            if (!isset($identity['nonce']) || $identity['nonce'] !== $_SESSION['oauth_nonce']) {
-                throw new RuntimeException("identity's nonce mismatch");
+            // Ensure that the identity have the same 'nonce', but not on token refresh (per the OIDC spec.)
+            if ($grant_type != 'refresh_token' || isset($identity['nonce'])) {
+                if (!isset($identity['nonce']) || $identity['nonce'] !== $_SESSION['oauth_nonce']) {
+                    throw new RuntimeException("identity's nonce mismatch");
+                }
             }
         }
 
@@ -863,6 +884,11 @@ class rcmail_oauth
         // encrypt refresh token if provided
         if (isset($data['refresh_token'])) {
             $data['refresh_token'] = $this->rcmail->encrypt($data['refresh_token']);
+        }
+
+        // encrypt the ID token, it may contain sensitive info (that we don't need at this point)
+        if (isset($data['id_token'])) {
+            $data['id_token'] = $this->rcmail->encrypt($data['id_token']);
         }
     }
 
@@ -945,12 +971,17 @@ class rcmail_oauth
         }
 
         if ($this->login_phase) {
-            $options['auth_type'] = $this->auth_type;
+            if (isset($this->login_phase['token']['auth_type'])) {
+                $options['auth_type'] = $this->login_phase['token']['auth_type'];
+            }
         } elseif (isset($_SESSION['oauth_token'])) {
             if ($this->check_token_validity($_SESSION['oauth_token']) === self::TOKEN_REFRESHED) {
                 $options['password'] = $this->rcmail->decrypt($_SESSION['password']);
             }
-            $options['auth_type'] = $this->auth_type;
+
+            if (isset($_SESSION['oauth_token']['auth_type'])) {
+                $options['auth_type'] = $_SESSION['oauth_token']['auth_type'];
+            }
         }
 
         return $options;
@@ -979,7 +1010,10 @@ class rcmail_oauth
 
             $options['smtp_user'] = '%u';
             $options['smtp_pass'] = '%p';
-            $options['smtp_auth_type'] = $this->auth_type;
+
+            if (isset($_SESSION['oauth_token']['auth_type'])) {
+                $options['smtp_auth_type'] = $_SESSION['oauth_token']['auth_type'];
+            }
         }
 
         return $options;
@@ -997,7 +1031,10 @@ class rcmail_oauth
         if (isset($_SESSION['oauth_token'])) {
             // check token validity
             $this->check_token_validity($_SESSION['oauth_token']);
-            $options['auth_type'] = $this->auth_type;
+
+            if (isset($_SESSION['oauth_token']['auth_type'])) {
+                $options['auth_type'] = $_SESSION['oauth_token']['auth_type'];
+            }
         }
 
         return $options;
@@ -1199,7 +1236,7 @@ class rcmail_oauth
         ];
 
         if (isset($_SESSION['oauth_token']['id_token'])) {
-            $params['id_token_hint'] = $_SESSION['oauth_token']['id_token'];
+            $params['id_token_hint'] = $this->rcmail->decrypt($_SESSION['oauth_token']['id_token']);
         }
 
         $this->logout_redirect_url = $this->options['logout_uri'] . '?' . http_build_query($params);
