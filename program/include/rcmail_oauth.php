@@ -793,16 +793,6 @@ class rcmail_oauth
     {
         $this->log_debug('received tokens from a grant request %s: %s', $grant_type, json_encode($data));
 
-        if (is_array($previous_data)) {
-            $this->log_debug(
-                'changes: session_state: %s, access_token: %s, refresh_token: %s, id_token: %s',
-                isset($previous_data['session_state']) ? $previous_data['session_state'] !== $data['session_state'] : null,
-                isset($previous_data['access_token']) ? $previous_data['access_token'] !== $data['access_token'] : null,
-                isset($previous_data['refresh_token']) ? $previous_data['refresh_token'] !== $data['refresh_token'] : null,
-                isset($previous_data['id_token']) ? $previous_data['id_token'] !== $data['id_token'] : null,
-            );
-        }
-
         // sanity check, check that payload correctly contains access_token
         if (empty($data['access_token'])) {
             throw new RuntimeException('access_token missing ins answer, error from server');
@@ -836,11 +826,11 @@ class rcmail_oauth
         $refresh_interval = $this->rcmail->config->get('refresh_interval');
 
         if ($data['expires_in'] <= $refresh_interval) {
-            rcube::raise_error(sprintf('Warning token expiration (%s) will expire before the refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
+            rcube::raise_error(sprintf('Token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
         } else {
-            // try to request a refresh before it's too late according refesh interval
+            // try to request a refresh before it's too late according to the refesh interval
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - $refresh_interval - 10;
         }
