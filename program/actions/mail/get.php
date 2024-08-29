@@ -35,22 +35,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         // This resets X-Frame-Options for framed output (#6688)
         $rcmail->output->page_headers();
 
-        // show loading page
-        if (!empty($_GET['_preload'])) {
-            unset($_GET['_preload']);
-            unset($_GET['_safe']);
-
-            $url = $rcmail->url($_GET + ['_mimewarning' => 1, '_embed' => 1]);
-            $message = $rcmail->gettext('loadingdata');
-
-            header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
-            echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
-                . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
-                . "</head>\n<body>\n{$message}\n</body>\n</html>";
-            $rcmail->output->sendExit();
-        }
-
         $attachment = new rcmail_attachment_handler();
         $mimetype = $attachment->mimetype;
         $filename = $attachment->filename;
@@ -358,7 +342,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+            $url['_embed'] = 1;
             unset($url['_frame']);
         }
 

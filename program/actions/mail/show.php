@@ -715,12 +715,14 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
                     $out .= html::div(['class' => 'message-prefix'], $plugin['prefix']);
                     $out .= html::div(
-                        ['id' => $container_id],
-                        html::iframe([
-                            'sandbox' => 'allow-same-origin',
-                            'class' => "framed-message-part {$container_class}",
-                            'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
-                        ])
+                        ['id' => $container_id], [
+                            self::message_loading_notice(),
+                            html::iframe([
+                                'sandbox' => 'allow-same-origin',
+                                'class' => "framed-message-part {$container_class}",
+                                'src' => self::$MESSAGE->get_part_url($part->mime_id, false),
+                            ]),
+                        ]
                     );
                 }
             }

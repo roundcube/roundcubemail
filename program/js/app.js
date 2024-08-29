@@ -462,6 +462,11 @@ function rcube_webmail() {
                         }
                     }
 
+                    $(this.gui_objects.messagepartframe).on('load', function () {
+                        // Hide "Loading data" message from attachment viewer.
+                        $('.iframe-loading-message').hide();
+                    });
+
                     // center and scale the image in preview frame
                     // TODO: Find a better way. Onload is late, also we could use embed.css
                     if (this.env.mimetype.startsWith('image/')) {
