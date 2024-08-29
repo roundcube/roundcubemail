@@ -157,6 +157,7 @@ class rcmail_action_mail_index extends rcmail_action
             'searchfilter' => [$this, 'search_filter'],
             'searchinterval' => [$this, 'search_interval'],
             'searchform' => [$rcmail->output, 'search_form'],
+            'messageloadingnotice' => [$this, 'message_loading_notice'],
         ]);
     }
 
@@ -1667,5 +1668,14 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         return array_values($mimetypes);
+    }
+
+    public static function message_loading_notice()
+    {
+        $rcmail = rcmail::get_instance();
+        return html::div(['class' => 'iframe-loading-message ui alert loading'], [
+            html::tag('i', ['class' => 'icon'], ''),
+            html::span([], $rcmail->gettext('loadingdata')),
+        ]);
     }
 }
