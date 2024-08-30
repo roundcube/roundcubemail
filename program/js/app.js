@@ -368,11 +368,6 @@ function rcube_webmail() {
                         }, this.env.mail_read_time * 1000);
                     }
 
-                    if (this.env.blockedobjects) {
-                        $(this.gui_objects.remoteobjectsmsg).show();
-                        this.enable_command('load-remote', true);
-                    }
-
                     // make preview/message frame visible
                     if (this.env.action == 'preview' && this.is_framed()) {
                         this.enable_command('compose', 'add-contact', false);
@@ -10691,6 +10686,11 @@ function rcube_webmail() {
                 iframe.addEventListener('load', () => {
                     // Hide "Loading data" message.
                     $(iframe).siblings('.loading').hide();
+                    // Show remote objects notice
+                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
+                        $(this.gui_objects.remoteobjectsmsg).show();
+                        this.enable_command('load-remote', true);
+                    }
                     this.resize_preview_iframe(iframe);
                     resolve();
                 });
