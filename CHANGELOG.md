@@ -38,7 +38,7 @@
 - OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
 - OAuth: Fix Bearer authentication for Kinde (#9244)
 - OAuth: Refactor: move display to the rcmail_oauth class and use `loginform_content` hook (#9217)
-- OAuth: Support standard authentication with long-living password received with OIDC token (#9530)
+- OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
 - Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
