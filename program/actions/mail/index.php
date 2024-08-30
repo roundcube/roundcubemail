@@ -33,7 +33,6 @@ class rcmail_action_mail_index extends rcmail_action
     ];
 
     protected static $PRINT_MODE = false;
-    protected static $REMOTE_OBJECTS;
     protected static $SUSPICIOUS_EMAIL = false;
     protected static $wash_html_body_attrs = [];
 
@@ -1004,7 +1003,14 @@ class rcmail_action_mail_index extends rcmail_action
         $html = rcube_charset::clean($html);
 
         $html = $washer->wash($html);
-        self::$REMOTE_OBJECTS = $washer->extlinks;
+        if ($washer->extlinks) {
+            // This is an ugly solution, but the least invasive I could think
+            // of. The problem is that the "washer" traverses the node tree
+            // from the top and produces a string containing HTML code - so
+            // after "washiing" we have only a big string, and before "washing"
+            // we don't yet know if any remote references are present.
+            $html = str_replace('<body ', '<body data-extlinks="true" ', $html);
+        }
 
         // There was no <body>, but a wrapper element is required
         if (!empty($p['inline_html']) && !empty(self::$wash_html_body_attrs)) {
