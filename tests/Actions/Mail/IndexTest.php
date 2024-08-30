@@ -346,7 +346,6 @@ class IndexTest extends ActionTestCase
         $this->assertMatchesRegularExpression('/Subscription form/', $html, 'Include <form> contents');
         $this->assertMatchesRegularExpression('/<!-- link ignored -->/', $html, 'No external links allowed');
         $this->assertMatchesRegularExpression('/<a[^>]+ target="_blank"/', $html, 'Set target to _blank');
-        // $this->assertTrue($GLOBALS['REMOTE_OBJECTS'], "Remote object detected");
 
         // render HTML in safe mode
         $params['safe'] = true;

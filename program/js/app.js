@@ -250,13 +250,22 @@ function rcube_webmail() {
 
         if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show')) {
             document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
-                // Run this twice initially: first time when the iframe's
+                // Resize twice initially: first time when the iframe's
                 // document was parsed, to already provide roughly the
                 // correct height; second time when all resources have been
                 // loaded, to finally ensure the correct height with all
                 // images etc.
                 iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
-                iframe.addEventListener('load', () => this.resize_preview_iframe(iframe));
+                iframe.addEventListener('load', () => {
+                    this.resize_preview_iframe(iframe);
+                    // Hide "Loading data" message.
+                    $(iframe).siblings('.loading').hide();
+                    // Show notice
+                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
+                        $(this.gui_objects.remoteobjectsmsg).show();
+                        this.enable_command('load-remote', true);
+                    }
+                });
                 // Also run on window resizes, because the changed text flow could need more space.
                 window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
             });
@@ -375,11 +384,6 @@ function rcube_webmail() {
                                 _uid: ref.env.uid, _flag: 'read', _mbox: ref.env.mailbox, _quiet: 1,
                             });
                         }, this.env.mail_read_time * 1000);
-                    }
-
-                    if (this.env.blockedobjects) {
-                        $(this.gui_objects.remoteobjectsmsg).show();
-                        this.enable_command('load-remote', true);
                     }
 
                     // make preview/message frame visible
