@@ -250,7 +250,7 @@ function rcube_webmail() {
 
         if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show')) {
             document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
-                // Run this twice initially: first time when the iframe's
+                // Resize twice initially: first time when the iframe's
                 // document was parsed, to already provide roughly the
                 // correct height; second time when all resources have been
                 // loaded, to finally ensure the correct height with all
@@ -259,6 +259,11 @@ function rcube_webmail() {
                 iframe.addEventListener('load', () => {
                     // Hide "Loading data" message.
                     $(iframe).siblings('.loading').hide();
+                    // Show remote objects notice
+                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
+                        $(this.gui_objects.remoteobjectsmsg).show();
+                        this.enable_command('load-remote', true);
+                    }
                     this.resize_preview_iframe(iframe);
                 });
                 // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
@@ -381,11 +386,6 @@ function rcube_webmail() {
                                 _uid: ref.env.uid, _flag: 'read', _mbox: ref.env.mailbox, _quiet: 1,
                             });
                         }, this.env.mail_read_time * 1000);
-                    }
-
-                    if (this.env.blockedobjects) {
-                        $(this.gui_objects.remoteobjectsmsg).show();
-                        this.enable_command('load-remote', true);
                     }
 
                     // make preview/message frame visible
