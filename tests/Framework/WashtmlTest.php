@@ -362,7 +362,7 @@ class WashtmlTest extends TestCase
   <!-- script not allowed -->
   <text x="10" y="25">An example text</text>
   <a xlink:href="http://www.w.pl"><rect width="100%" height="100%" /></a>
-  <!-- foreignObject ignored -->
+  <!-- foreignobject ignored -->
   <set attributeName="onmouseover" x-washed="to" />
   <animate attributeName="onunload" x-washed="to" />
   <animate attributeName="xlink:href" begin="0" x-washed="from" />
@@ -400,7 +400,7 @@ class WashtmlTest extends TestCase
             ],
             [
                 '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
-                '<svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
+                '<svg />',
             ],
             [
                 '<html><svg xmlns="&quot; onload=&quot;alert(document.domain)" />',
@@ -824,23 +824,15 @@ class WashtmlTest extends TestCase
   <tr><td></td></tr>
 </table>';
 
-        $expected = '
-<table id="t1">
-  <tr>
-    <td>
-      <table id="t2">
-        <tr>
-          <td></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr><td></td></tr>
-</table>';
+        $expected = '<table id="t1"><tr><td><table id="t2"><tr><td></td></tr></table></td></tr><tr><td></td></tr></table>';
+
+        if (class_exists('Dom\HTMLDocument')) {
+            $expected = '<table id="t1"><tbody><tr><td><table id="t2"><tbody><tr></tr><tr><td></td></tr></tbody></table></td></tr><tr><td></td></tr></tbody></table>';
+        }
 
         $washer = new \rcube_washtml();
         $washed = $this->cleanupResult($washer->wash($html));
 
-        $this->assertSame(trim($expected), $washed);
+        $this->assertSame($expected, preg_replace('/>[^<>]+</', '><', $washed));
     }
 }

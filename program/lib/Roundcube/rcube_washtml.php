@@ -1,5 +1,6 @@
 <?php
 
+use Dom\HTMLDocument;
 use Masterminds\HTML5;
 
 /*
@@ -299,7 +300,7 @@ class rcube_washtml
 
                 // in SVG to/from attribs may contain anything, including URIs
                 if ($key == 'to' || $key == 'from') {
-                    $key = strtolower($node->getAttribute('attributeName'));
+                    $key = strtolower((string) $node->getAttribute('attributeName'));
                     if ($key && !isset($this->_html_attribs[$key])) {
                         $key = null;
                     }
@@ -328,6 +329,8 @@ class rcube_washtml
                     && (in_array($key, ['id', 'class', 'for']) || ($key == 'name' && $node->nodeName == 'a'))
                 ) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
+                } elseif ($key == 'xmlns' && !strpos($value, '://')) {
+                    continue;
                 } elseif ($key) {
                     $out = $value;
                 }
@@ -579,12 +582,22 @@ class rcube_washtml
                             $this->wash_attribs($node), $this->dumpHtml($node, $level), $this);
                     } elseif (isset($this->_html_elements[$tagName])) {
                         $content = $this->dumpHtml($node, $level);
-                        $tag = '<' . $node->nodeName;
+                        $tag = '<' . $tagName;
 
                         if ($tagName == 'svg') {
-                            $xpath = new DOMXPath($node->ownerDocument);
-                            foreach ($xpath->query('namespace::*') as $ns) {
-                                if ($ns->nodeName != 'xmlns:xml') {
+                            if (method_exists($node, 'getInScopeNamespaces')) {
+                                $ns_nodes = $node->getInScopeNamespaces();
+                            } else {
+                                $xpath = new DOMXPath($node->ownerDocument);
+                                $ns_nodes = $xpath->query('namespace::*');
+                            }
+
+                            foreach ($ns_nodes as $ns) {
+                                if (isset($ns->nodeName) && isset($ns->nodeValue)
+                                    && $ns->nodeName != 'xmlns:xml'
+                                    && preg_match('/^[a-zA-Z:-]+$/', $ns->nodeName)
+                                    && strpos($ns->nodeValue, '://')
+                                ) {
                                     $tag .= sprintf(' %s="%s"',
                                         $ns->nodeName,
                                         htmlspecialchars($ns->nodeValue, \ENT_QUOTES, $this->config['charset'])
@@ -602,15 +615,15 @@ class rcube_washtml
                         } elseif ($content === '' && ($this->is_xml || isset($this->_void_elements[$tagName]))) {
                             $dump .= $tag . ' />';
                         } else {
-                            $dump .= $tag . '>' . $content . '</' . $node->nodeName . '>';
+                            $dump .= $tag . '>' . $content . '</' . $tagName . '>';
                         }
                     } elseif (isset($this->_ignore_elements[$tagName])) {
                         if ($this->config['add_comments']) {
-                            $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
+                            $dump .= '<!-- ' . htmlspecialchars($tagName, \ENT_QUOTES, $this->config['charset']) . ' not allowed -->';
                         }
                     } else {
                         if ($this->config['add_comments']) {
-                            $dump .= '<!-- ' . htmlspecialchars($node->nodeName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
+                            $dump .= '<!-- ' . htmlspecialchars($tagName, \ENT_QUOTES, $this->config['charset']) . ' ignored -->';
                         }
                         $dump .= $this->dumpHtml($node, $level); // ignore tags not its content
                     }
@@ -657,8 +670,19 @@ class rcube_washtml
         $this->is_xml = !preg_match('/<(html|head|body)/i', $html) && stripos($html, '<svg') !== false;
         $method = $this->is_xml ? 'loadXML' : 'loadHTML';
 
+        // Try HTML5 parser available in PHP >= 8.4
+        // TODO: Parse XML also with this new PHP parser (?)
+        if (!$this->is_xml && class_exists('Dom\HTMLDocument')) {
+            try {
+                $options = constant('Dom\HTML_NO_DEFAULT_NS') | \LIBXML_COMPACT | \LIBXML_NOERROR;
+                $node = HTMLDocument::createFromString($html, $options, $this->config['charset']);
+            } catch (Exception $e) {
+                // ignore, fallback to other methods
+            }
+        }
+
         // DOMDocument does not support HTML5, try Masterminds parser if available
-        if (!$this->is_xml && class_exists('Masterminds\HTML5')) {
+        if (empty($node) && !$this->is_xml && class_exists('Masterminds\HTML5')) {
             try {
                 // disabled_html_ns=true is a workaround for the performance issue
                 // https://github.com/Masterminds/html5-php/issues/181

@@ -26,6 +26,7 @@
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
 - Use draft settings (like DSN) on "Edit as new" (#9349)
+- Use new HTML5 parser available on PHP >= 8.4
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
 - OAuth: Add support for OAuth/OpenIDC discovery (#8201)
@@ -58,6 +59,9 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.9
+
 - Fix regression where printing/scaling/rotating image attachments was broken (#9571)
 - Fix regression where HTML messages were displayed unstyled (#9586)
 
