@@ -767,6 +767,7 @@ class rcmail_oauth
             rcube::raise_error('Received a token revocation request, you must activate `oauth_cache` to enable this feature', true);
             return;
         }
+
         $this->cache->set("revoke_{$sub}", time());
     }
 
@@ -781,6 +782,10 @@ class rcmail_oauth
     {
         if ($this->cache === null) {
             // oops cache not enabled
+            return false;
+        }
+
+        if (empty($token['identity']['sub'])) {
             return false;
         }
 
