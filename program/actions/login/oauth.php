@@ -38,8 +38,11 @@ class rcmail_action_login_oauth extends rcmail_action
 
             // oauth success
             if ($auth && isset($auth['username'], $auth['authorization'], $auth['token'])) {
-                // enforce XOAUTH2 auth type
-                $rcmail->config->set('imap_auth_type', 'XOAUTH2');
+                // enforce XOAUTH2 auth type (if not disabled by use of oauth_password_claim)
+                if (!empty($auth['token']['auth_type'])) {
+                    $rcmail->config->set('imap_auth_type', $auth['token']['auth_type']);
+                }
+
                 $rcmail->config->set('login_password_maxlen', strlen($auth['authorization']));
 
                 // use access_token and user info for IMAP login

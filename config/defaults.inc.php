@@ -362,6 +362,13 @@ $config['oauth_identity_fields'] = null;
 // Boolean: automatically redirect to OAuth login when opening Roundcube without a valid session
 $config['oauth_login_redirect'] = false;
 
+// Optional: For backends that don't support XOAUTH2/OAUTHBEARER method we can still use
+// OpenIDC protocol to get a short-living password (claim) for the user to log into IMAP/SMTP.
+// That password have to have (at least) the same expiration time as the token, and will be
+// renewed on token refresh.
+// Note: The claim have to be added to 'oauth_scope' above.
+$config['oauth_password_claim'] = null;
+
 ///// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/

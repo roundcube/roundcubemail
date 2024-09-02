@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
+
+## Release 1.6.9
+
 - Fix regression where printing/scaling/rotating image attachments was broken (#9571)
 - Fix regression where HTML messages were displayed unstyled (#9586)
 
