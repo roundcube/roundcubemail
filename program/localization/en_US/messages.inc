@@ -231,3 +231,5 @@ $messages['listusebutton'] = 'Use the Create button to add a new record.';
 $messages['keypaircreatesuccess'] = 'A new key pair has been successfully created for $identity.';
 $messages['emptyattachment'] = 'This attachment appears to be empty.<br>Please, check with the person who sent this.';
 $messages['oauthloginfailed'] = 'OAuth login failed. Please try again.';
+$messages['oauthinvalidrequest'] = 'Authorization request was invalid or incomplete.';
+$messages['oauthaccessdenied'] = 'Authorization server or the user denied the request.';
