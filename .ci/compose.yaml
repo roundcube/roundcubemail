@@ -3,6 +3,10 @@ services:
     image: docker.io/greenmail/standalone
   browserhost:
     image: docker.io/selenium/standalone-chromium
+    ports:
+      # Allow to watch the remote controlled browser (comment out the
+      # `--headless` argument in TestCase::driver() before).
+      - '127.0.0.1:7900:7900'
     volumes:
       - '/dev/shm:/dev/shm'
       - '../tests/Browser/downloads:/downloads'
