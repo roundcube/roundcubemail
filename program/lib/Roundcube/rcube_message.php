@@ -56,7 +56,7 @@ class rcube_message
      *
      * @var array
      */
-    protected $replacement_references;
+    protected $replacement_references = [];
 
     public $uid;
     public $folder;
@@ -577,21 +577,48 @@ class rcube_message
         return false;
     }
 
+    private function parse_html_for_replacement_references(rcube_message_part $part): array
+    {
+        // Check if the part is actually referenced in a text/html-part sibling
+        // (i.e. that is part of the same `$part`).
+        $html_parts = $this->find_html_parts($part);
+        if (empty($html_parts)) {
+            return [];
+        }
+        // Note: There might be more than one HTML part, thus we use a callback
+        // and concatenate the results.
+        $html_content = implode('', array_map(function ($html_part) { return $this->get_part_body($html_part->mime_id); }, $html_parts));
+
+        $referenced_content_identifiers = [];
+        $replacements = [];
+        // TODO: recursion.
+        // TODO: only get replacements from siblings
+        foreach ($this->mime_parts as $mime_part) {
+            $replacements = array_merge($replacements, array_keys($mime_part->replaces));
+        }
+        foreach ($replacements as $content_identifier) {
+            // Is the Content-Id or Content-Location used?
+            // TODO: match Content-Location more strictly. E.g. "image.jpg" is a
+            // valid value here, too, which can easily be matched wrongly
+            // currently.
+            if (strpos($html_content, $content_identifier) !== false) {
+                $referenced_content_identifiers[] = preg_replace('/^cid:/', '', $content_identifier);
+            }
+        }
+        return $referenced_content_identifiers;
+    }
+
     /**
      * Get a cached list of replacement references, which are collected during
      * parsing from Content-Id and Content-Location headers of mime-parts.
      */
-    protected function get_replacement_references(): array
+    protected function get_replacement_references(rcube_message_part $part): array
     {
-        if ($this->replacement_references === null) {
-            $this->replacement_references = [];
-            foreach ($this->mime_parts as $mime_part) {
-                foreach ($mime_part->replaces as $key => $value) {
-                    $this->replacement_references[] = preg_replace('/^cid:/', '', $key);
-                }
-            }
+        if (!isset($this->replacement_references[$part->mime_id])) {
+            $this->replacement_references[$part->mime_id] = $this->parse_html_for_replacement_references($part);
         }
-        return $this->replacement_references;
+
+        return $this->replacement_references[$part->mime_id];
     }
 
     /**
@@ -607,7 +634,7 @@ class rcube_message
      */
     public function is_referred_attachment(rcube_message_part $part): bool
     {
-        $references = $this->get_replacement_references();
+        $references = $this->get_replacement_references($part);
 
         // This code is intentionally verbose to keep it comprehensible.
         // Filter out attachments that are reference by their Content-ID in
@@ -1011,32 +1038,10 @@ class rcube_message
                     if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
                         if (empty($mail_part->content_id) && empty($mail_part->content_location)) {
                             $this->add_part($mail_part, 'attachment');
-                            continue;
-                        }
-                        // Check if the part is actually referenced in a
-                        // text/html-part sibling (i.e. that is part of the
-                        // same `$structure`).
-                        $html_parts = $this->find_html_parts($structure);
-                        if (empty($html_parts)) {
-                            $this->add_part($mail_part, 'attachment');
-                            continue;
-                        }
-                        // Note: There might be more than one HTML part, thus
-                        // we use a callback and concatenate the results.
-                        $html_content = implode('', array_map(function ($part) { return $this->get_part_body($part->mime_id); }, $html_parts));
-                        // Is the Content-Id used?
-                        if (!empty($mail_part->content_id) && strpos($html_content, "cid:{$mail_part->content_id}") !== false) {
+                        } else {
                             $this->add_part($mail_part, 'inline');
-                            continue;
                         }
-                        // Is the Content-Location used?
-                        // TODO: match Content-Location more strictly. E.g.
-                        // "image.jpg" is a valid value here, too, which can
-                        // easily be matched wrongly currently.
-                        if (!empty($mail_part->content_location) && strpos($html_content, $mail_part->content_location) !== false) {
-                            $this->add_part($mail_part, 'inline');
-                            continue;
-                        }
+                        continue;
                     }
 
                     // Any non-inline attachment
@@ -1122,20 +1127,35 @@ class rcube_message
         }
     }
 
-    private function find_html_parts($structure)
+    private function find_parent_part($child_part, $start_part)
     {
+        $parts = $start_part->mime_parts ?? $start_part->parts;
+        foreach ($parts as $mime_part) {
+            if ($mime_part->mime_id === $child_part->mime_id) {
+                return $start_part;
+            } elseif (!empty($mime_part->parts)) {
+                return $this->find_parent_part($child_part, $mime_part);
+            }
+        }
+    }
+
+    private function find_html_parts($initial_part)
+    {
+        // Find the parent part of the initial part.
+        $parent_part = $this->find_parent_part($initial_part, $this);
+        if (empty($parent_part)) {
+            // Shouldn't happen, but who knows...
+            // TODO: handle this error more explicitly?
+            return [];
+        }
+
         $html_parts = [];
-        if (empty($structure->parts)) {
-            return $html_parts;
-        }
-        foreach ($structure->parts as $part) {
-            if (!empty($part->parts)) {
-                array_push($html_parts, ...$this->find_html_parts($part));
-            }
-            if ($part->mimetype === 'text/html') {
-                $html_parts[] = $part;
+        foreach ($parent_part->parts as $child_part) {
+            if ($child_part->mimetype === 'text/html') {
+                $html_parts[] = $child_part;
             }
         }
+
         return $html_parts;
     }
 
