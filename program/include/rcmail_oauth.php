@@ -815,16 +815,16 @@ class rcmail_oauth
      */
     protected function parse_tokens($grant_type, &$data, $previous_data = null)
     {
-        $this->log_debug('received tokens from a grant request %s: %s', $grant_type, json_encode($data));
+        $this->log_debug('received token(s) from a grant request %s: %s', $grant_type, json_encode($data));
 
         // sanity check, check that payload correctly contains access_token
-        if (empty($data['access_token'])) {
-            throw new RuntimeException('access_token missing ins answer, error from server');
+        if (!isset($data['access_token'])) {
+            throw new RuntimeException('access_token missing in answer, error from server');
         }
 
-        // sanity check, check that payload correctly contains access_token
-        if (empty($data['refresh_token'])) {
-            throw new RuntimeException('refresh_token missing ins answer, error from server');
+        // refresh_token is optional
+        if (!isset($data['refresh_token'])) {
+            $this->log_debug('no refresh token found in the payload');
         }
 
         // (> 0, it means that all token generated before this timestamp date are compromisd and that we need to download a new version of JWKS)
@@ -835,7 +835,7 @@ class rcmail_oauth
         // please note that id_token / identity may have changed, could be interesting to grab it and refresh values, right now it is not used
         // decode JWT id_token if provided
         $identity = null;
-        if (!empty($data['id_token'])) {
+        if (isset($data['id_token'])) {
             $identity = $this->jwt_decode($data['id_token']);
 
             // Ensure that the identity have the same 'nonce', but not on token refresh (per the OIDC spec.)
@@ -851,7 +851,14 @@ class rcmail_oauth
 
         $refresh_interval = $this->rcmail->config->get('refresh_interval');
 
-        if ($data['expires_in'] <= $refresh_interval) {
+        if (empty($data['expires_in'])) {
+            // expires_in is recommended but not required
+            // TODO: This probably should be a config option
+            $data['expires'] = null;
+        } elseif (!isset($data['refresh_token'])) {
+            // refresh_token is optional, there will be no refreshes
+            $data['expires'] = time() + $data['expires_in'] - 5;
+        } elseif ($data['expires_in'] <= $refresh_interval) {
             rcube::raise_error(sprintf('Token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
@@ -908,10 +915,6 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if (!isset($token['refresh_token'])) {
-            return self::TOKEN_NOT_FOUND;
-        }
-
         if ($this->is_token_revoked($token)) {
             $this->log_debug('abort, token for sub %s has been revoked', $token['identity']['sub']);
             // in a such case, we are blocked, can only kill session
@@ -919,13 +922,20 @@ class rcmail_oauth
             return self::TOKEN_REVOKED;
         }
 
-        if ($token['expires'] > time()) {
+        if (!isset($token['expires']) || $token['expires'] > time()) {
             return self::TOKEN_STILL_VALID;
         }
 
+        if (!isset($token['refresh_token'])) {
+            $this->log_debug('abort, no refresh token');
+            // in this case we are blocked, can only kill session
+            $this->rcmail->kill_session();
+            return self::TOKEN_REFRESH_FAILED;
+        }
+
         if (isset($token['refresh_expires']) && $token['refresh_expires'] < time()) {
-            $this->log_debug('abort, reresh token has expired');
-            // in a such case, we are blocked, can only kill session
+            $this->log_debug('abort, refresh token has expired');
+            // in this case we are blocked, can only kill session
             $this->rcmail->kill_session();
             return self::TOKEN_REFRESH_EXPIRED;
         }
@@ -937,8 +947,8 @@ class rcmail_oauth
         }
 
         if ($this->refresh_access_token($token) === false) {
-            // FIXME: can have 2 kind of errors: transcient (can retry) or non recovreable error
-            // currently it's up to refresh_access_token to kill_session is necessary
+            // FIXME: can have 2 kind of errors: transcient (can retry) or non recoverable error
+            // currently it's up to the refresh_token to kill_session if necessary
             $this->log_debug('token refresh failed: %s', $this->last_error);
             return self::TOKEN_REFRESH_FAILED;
         }
