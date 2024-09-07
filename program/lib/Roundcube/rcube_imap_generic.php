@@ -659,7 +659,7 @@ class rcube_imap_generic
                 $gssapicontext->acquireCredentials($ccache);
 
                 $token = '';
-                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], null, null, null, $token);
+                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], '', 0, 0, $token);
                 $token = base64_encode($token);
             } catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
