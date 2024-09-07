@@ -5,8 +5,7 @@
  *
  * Driver for passwords stored in SAMBA Active Directory
  * This driver is based on Simple LDAP Password Driver, but uses
- * ldap_modify method (SAMBA Active Directory support)
- * PHP >= 7.2 required
+ * ldap_mod_replace() instead of ldap_modify() method
  *
  * @version 1.0
  * @author Jonas Holm Bundgaard <jhb@jbweb.dk>
