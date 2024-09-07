@@ -1189,7 +1189,11 @@ class rcmail_action_mail_index extends rcmail_action
                     $style[$idx] = $idx . ': ' . $val;
                 }
 
-                $attrs['style'] = ($attrs['style'] ? trim($attrs['style'], ';') . '; ' : '') . implode('; ', $style);
+                if (isset($attrs['style'])) {
+                    $attrs['style'] = trim($attrs['style'], '; ') . '; ' . implode('; ', $style);
+                } else {
+                    $attrs['style'] = implode('; ', $style);
+                }
             }
 
             $out = html::tag('div', $attrs, $content);
