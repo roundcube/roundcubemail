@@ -3,6 +3,7 @@
 ## Unreleased
 
 - OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
+- Fix PHP deprecation warnings (#9616)
 
 ## Release 1.6.9
 

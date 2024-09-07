@@ -942,7 +942,8 @@ class rcube
      */
     public function decrypt($cipher, $key = 'des_key', $base64 = true)
     {
-        if (strlen($cipher) == 0) {
+        // @phpstan-ignore-next-line
+        if (!is_string($cipher) || !strlen($cipher)) {
             return false;
         }
 
