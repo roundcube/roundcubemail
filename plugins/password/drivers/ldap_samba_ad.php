@@ -4,8 +4,8 @@
  * LDAP - Password Modify Extended Operation Driver
  *
  * Driver for passwords stored in SAMBA Active Directory
- * This driver is based on Simple LDAP Password Driver, but uses
- * ldap_mod_replace() instead of ldap_modify() method
+ * This driver is based on Simple LDAP Password Driver, but
+ * updates only single attribute: unicodePwd
  *
  * @version 1.0
  * @author Jonas Holm Bundgaard <jhb@jbweb.dk>
