@@ -16,6 +16,3 @@ parameters:
             path: 'program/lib/Roundcube/rcube_imap_generic.php'
             message: '~^(Instantiated class (GSSAPIContext|KRB5CCache) not found|Call to method \w+\(\) on an unknown class (GSSAPIContext|KRB5CCache))\.$~'
             count: 7
-
-        # https://github.com/phpstan/phpstan/issues/10499
-        - '~^Function pam_chpass invoked with 3 parameters, 4-5 required\.$~'

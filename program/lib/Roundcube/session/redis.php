@@ -91,9 +91,7 @@ class rcube_session_redis extends rcube_session
         if ($key) {
             try {
                 // @phpstan-ignore-next-line
-                $result = method_exists($this->redis, 'del')
-                    ? $this->redis->del($key)
-                    : $this->redis->delete($key);
+                $result = method_exists($this->redis, 'del') ? $this->redis->del($key) : $this->redis->delete($key);
             } catch (Exception $e) {
                 rcube::raise_error($e, true, true);
             }
