@@ -1074,6 +1074,9 @@ class rcmail_oauth
 
         $this->log_debug('calling authenticate for user %s', $options['user']);
 
+        // Make plugins aware that SSO is in use
+        $options['sso'] = true;
+
         return $options;
     }
 
