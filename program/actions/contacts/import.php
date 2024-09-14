@@ -189,7 +189,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     // skip invalid (incomplete) entries
                     if (!$CONTACTS->validate($a_record, true)) {
                         self::$stats->invalid++;
-                        self::$stats->invalid_names[] = $vcard->displayname ?: $email;
+                        self::$stats->invalid_names[] = rcube_addressbook::compose_display_name($a_record, true);
                         continue;
                     }
 
