@@ -728,6 +728,8 @@ class rcmail_output_html extends rcmail_output
                 $this->header('X-Frame-Options: sameorigin', true);
             }
         }
+
+        $this->add_csp_header();
     }
 
     /**
@@ -2716,5 +2718,21 @@ class rcmail_output_html extends rcmail_output
         }
 
         return $template_logo;
+    }
+
+    /**
+     * Add the Content-Security-Policy to the HTTP response headers (unless it
+     * is disabled).
+     */
+    protected function add_csp_header(): void
+    {
+        $csp = $this->app->config->get('content_security_policy');
+        if (!in_array($csp, ['', false, 'false'])) {
+            $csp_header = "Content-Security-Policy: {$csp}";
+            if (isset($this->env['safemode']) && $this->env['safemode'] === true) {
+                $csp_header .= $this->app->config->get('content_security_policy_add_allow_remote');
+            }
+            $this->header($csp_header);
+        }
     }
 }
