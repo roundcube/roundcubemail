@@ -104,17 +104,17 @@ class VCardTest extends TestCase
      */
     public function test_parse_continuation_line_with_initial_whitespace()
     {
-        $vcard_lines =
-            [ 'BEGIN:VCARD'
-            , 'VERSION:3.0'
-            , 'N:Doe;Jane;;;'
-            , 'FN:Jane Doe'
-            , 'NOTE:an'
-            , '  example'
-            , 'END:VCARD'
-            ];
+        $vcard_string = <<<'EOF'
+            BEGIN:VCARD
+            VERSION:3.0
+            N:Doe;Jane;;;
+            FN:Jane Doe
+            NOTE:an
+              example
+            END:VCARD
+            EOF;
 
-        $vcard = new \rcube_vcard(implode("\r\n", $vcard_lines) . "\r\n");
+        $vcard = new \rcube_vcard(str_replace("\n", "\r\n", $vcard_string) . "\r\n");
 
         $result = $vcard->get_assoc();
 
