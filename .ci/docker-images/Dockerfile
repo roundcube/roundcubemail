@@ -24,7 +24,11 @@ RUN apt-get update \
 		aspell-de \
 		hunspell-en-us \
 		git \
+		locales \
  && apt-get clean
+
+# Some tests require en_US.UTF-8 as locale.
+RUN sed -i 's/^# en_US.UTF-8 /en_US.UTF-8 /' /etc/locale.gen && locale-gen
 
 # TODO: Do we need the multiarch-args? What for?
 #RUN debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
