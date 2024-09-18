@@ -434,13 +434,10 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
     public static function import_confirm($attrib)
     {
         $rcmail = rcmail::get_instance();
-        $vars = get_object_vars(self::$stats);
-        $vars['names'] = $vars['skipped_names'] = $vars['invalid_names'] = $vars['error_names'] = '';
 
         $content = html::p(null, $rcmail->gettext([
                 'name' => 'importconfirm',
-                'nr' => self::$stats->inserted,
-                'vars' => $vars,
+                'vars' => ['inserted' => self::$stats->inserted],
             ]) . (self::$stats->names ? ':' : '.')
         );
 
@@ -451,8 +448,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         if (self::$stats->skipped) {
             $content .= html::p(null, $rcmail->gettext([
                     'name' => 'importconfirmskipped',
-                    'nr' => self::$stats->skipped,
-                    'vars' => $vars,
+                    'vars' => ['skipped' => self::$stats->skipped],
                 ]) . ':')
                 . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
         }
@@ -460,8 +456,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         if (self::$stats->invalid) {
             $content .= html::p(null, $rcmail->gettext([
                     'name' => 'importconfirminvalid',
-                    'nr' => self::$stats->invalid,
-                    'vars' => $vars,
+                    'vars' => ['invalid' => self::$stats->invalid],
                 ]) . ':')
                 . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->invalid_names)));
         }
@@ -469,8 +464,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         if (self::$stats->errors) {
             $content .= html::p(null, $rcmail->gettext([
                     'name' => 'importconfirmerrors',
-                    'nr' => self::$stats->errors,
-                    'vars' => $vars,
+                    'vars' => ['errors' => self::$stats->errors],
                 ]) . ':')
                 . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->error_names)));
         }
