@@ -99,6 +99,28 @@ class VCardTest extends TestCase
         $this->assertCount(1, $result['address:work'], 'ITEM1.-prefixed entry');
     }
 
+    /**
+     * Extra whitespace at start of continuation line (#9593/1).
+     */
+    public function test_parse_continuation_line_with_initial_whitespace()
+    {
+        $vcard_string = <<<'EOF'
+            BEGIN:VCARD
+            VERSION:3.0
+            N:Doe;Jane;;;
+            FN:Jane Doe
+            NOTE:an
+              example
+            END:VCARD
+            EOF;
+
+        $vcard = new \rcube_vcard(str_replace("\n", "\r\n", $vcard_string) . "\r\n");
+
+        $result = $vcard->get_assoc();
+
+        $this->assertSame('an example', $result['notes'][0]);
+    }
+
     public function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));
