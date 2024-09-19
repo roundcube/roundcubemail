@@ -5,6 +5,9 @@ on:
     paths:
       - '.ci/docker-images/*'
       - '.github/workflows/docker_image.yml'
+  schedule:
+    # Rebuild automatically each monday early morning.
+    - cron: "42 5 * * 1"
 
 jobs:
   build_and_push:
