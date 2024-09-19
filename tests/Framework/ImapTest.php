@@ -47,6 +47,11 @@ class ImapTest extends TestCase
      */
     public function test_sort_folder_list()
     {
+        // The sorting requires this locale.
+        if (setlocale(\LC_ALL, 'en_US.UTF-8', 'en_US.utf8', 'en_US', 'en-US') === false) {
+            throw new \Error('This test requires `en_US` to be settable as locale, but those appear to not be present in your environment!');
+        }
+
         $_SESSION['imap_delimiter'] = '.';
         $_SESSION['imap_namespace'] = [
             'personal' => null,
