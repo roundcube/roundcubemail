@@ -5,6 +5,7 @@
 - Plugin API: Removed `usetls` parameter in `managesieve_connect` hook
 - Protect special scripts in managesieve_kolab_master mode
 - Fix infinite loop when parsing a malformed script (#9562)
+- Fix current script state after initial scripts creation in managesieve_kolab_master mode
 
 * version 9.4 [2021-06-06]
 -----------------------------------------------------------
