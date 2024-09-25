@@ -3,6 +3,7 @@
 - Support an array in managesieve_host option (#9447)
 - Protect special scripts in managesieve_kolab_master mode
 - Fix infinite loop when parsing a malformed script (#9562)
+- Fix current script state after initial scripts creation in managesieve_kolab_master mode
 
 * version 9.5 [2023-03-26]
 -----------------------------------------------------------
