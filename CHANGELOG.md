@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix current script state after initial scripts creation in managesieve_kolab_master mode
+
+## Release 1.5.9
+
 - Fix regression where printing/scaling/rotating image attachments was broken (#9571)
 - Fix regression where HTML messages were displayed unstyled (#9586)
 
