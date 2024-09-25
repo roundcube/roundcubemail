@@ -62,6 +62,7 @@
 - Fix potential HTTP protocol version mismatch (#8982)
 - Fix PHP warnings (#9616, #9611)
 - Fix whitespace handling in vCard line continuation (#9637)
+- Fix current script state after initial scripts creation in managesieve_kolab_master mode
 
 ## Release 1.6.9
 
