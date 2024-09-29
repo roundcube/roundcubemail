@@ -1025,7 +1025,7 @@ class enigma_ui
                             $this->enigma->gettext('signokey')));
                     }
                 }
-            } elseif ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
+            } elseif ($sig->getCode() == enigma_error::KEYNOTFOUND) {
                 $attrib['class'] = 'boxwarning enigmawarning signed';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->enigma->gettext('signokey')));
