@@ -6,6 +6,7 @@
 - Fix PHP warnings (#9616, #9611)
 - Fix whitespace handling in vCard line continuation (#9637)
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
+- Fix rcube_imap::get_vendor() result (and PHP warning) on Zimbra server (#9650)
 
 ## Release 1.6.9
 
