@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
+- Fix regression causing inline SVG images to be missing in mail preview (#9644)
 
 ## Release 1.5.9
 
