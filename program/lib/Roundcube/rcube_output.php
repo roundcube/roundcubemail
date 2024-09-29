@@ -239,16 +239,16 @@ abstract class rcube_output
         if (!empty($params['type']) && is_string($params['type']) && strlen($params['type']) < 256
             && preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $params['type'])
         ) {
-            $ctype = $params['type'];
+            $ctype = strtolower($params['type']);
         }
 
         // Send unsafe content as plain text
         if ($disposition == 'inline') {
-            if (preg_match('~(javascript|jscript|ecmascript|xml|html|text/)~i', $ctype)) {
+            if ($ctype != 'image/svg+xml' && preg_match('~(javascript|jscript|ecmascript|xml|html|text/)~', $ctype)) {
                 $ctype = 'text/plain';
             }
 
-            if (stripos($ctype, 'text') === 0) {
+            if (strpos($ctype, 'text') === 0) {
                 $charset = $this->charset;
                 if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
                     $charset = $params['type_charset'];
