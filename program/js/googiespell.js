@@ -431,7 +431,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
         if (rm_pre_space) {
             var pre_length = elm.previousSibling.innerHTML;
-            elm.previousSibling.innerHTML = pre_length.slice(0, pre_length.length - 1);
+            elm.previousSibling.append(rcmail.makeNodesFromInput(pre_length.slice(0, pre_length.length - 1)));
             old_value = ' ' + old_value;
             offset--;
         }
@@ -479,6 +479,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
             dummy = $('<a>').text(this.lang_learn_word).addClass('googie_add_to_dict active');
 
             $('<li>').attr('googie_action_btn', '1').css('cursor', 'default')
+                // TODO: Check if these event handlers work!
                 .mouseover(ref.item_onmouseover)
                 .mouseout(ref.item_onmouseout)
                 .click(function (e) {
@@ -758,7 +759,7 @@ function GoogieSpell(img_dir, server_url, has_dict) {
 
             output.appendChild(part_2);
         } else {
-            output.innerHTML = this.original_text;
+            output.append(rcmail.makeNodesFromInput(this.original_text));
         }
 
         $(output).css('text-align', 'left');

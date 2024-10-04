@@ -59,7 +59,7 @@ class rcmail_action_contacts_group_rename extends rcmail_action_contacts_index
 
         if (!empty($newname)) {
             $rcmail->output->show_message('grouprenamed', 'confirmation');
-            $rcmail->output->command('update_contact_group', [
+            $rcmail->output->add_js_call('update_contact_group', [
                 'source' => $source,
                 'id' => $gid,
                 'name' => $newname,

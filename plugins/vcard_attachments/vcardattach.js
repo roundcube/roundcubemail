@@ -148,3 +148,5 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
         });
     }
 });
+
+rcube_webmail.prototype.vcard_attachments_plugin_vcard_import = plugin_vcard_import;

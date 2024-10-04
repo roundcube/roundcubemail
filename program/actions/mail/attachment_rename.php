@@ -38,7 +38,7 @@ class rcmail_action_mail_attachment_rename extends rcmail_action_mail_attachment
         $filename = trim($filename);
 
         if (strlen($filename) && $rcmail->update_uploaded_file(self::$file_id, ['name' => $filename])) {
-            $rcmail->output->command('rename_attachment_handler', 'rcmfile' . self::$file_id, $filename);
+            $rcmail->output->add_js_call('rename_attachment_handler', 'rcmfile' . self::$file_id, $filename);
         }
 
         $rcmail->output->send();

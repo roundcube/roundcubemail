@@ -513,30 +513,19 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
-            $rcmail->output->add_script(sprintf(
-                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n" .
-                "googie.lang_chck_spell = \"%s\";\n" .
-                "googie.lang_rsm_edt = \"%s\";\n" .
-                "googie.lang_close = \"%s\";\n" .
-                "googie.lang_revert = \"%s\";\n" .
-                "googie.lang_no_error_found = \"%s\";\n" .
-                "googie.lang_learn_word = \"%s\";\n" .
-                "googie.setLanguages(%s);\n" .
-                "googie.setCurrentLanguage('%s');\n" .
-                "googie.setDecoration(false);\n" .
-                "googie.decorateTextarea(rcmail.env.composebody);\n",
-                $rcmail->output->asset_url($rcmail->output->get_skin_path()),
-                $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
-                !empty($dictionary) ? 'true' : 'false',
-                rcube::JQ(rcube::Q($rcmail->gettext('checkspelling'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('resumeediting'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('close'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('revertto'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('nospellerrors'))),
-                rcube::JQ(rcube::Q($rcmail->gettext('addtodict'))),
-                rcube_output::json_serialize($spellcheck_langs),
-                $lang
-            ), 'foot');
+            $rcmail->output->set_env('googiespell_conf', [
+                'asset_url' => $rcmail->output->asset_url($rcmail->output->get_skin_path()),
+                'base_url' => $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
+                'use_dict' => !empty($dictionary) ? 'true' : 'false',
+                'lang_chck_spell' => $rcmail->gettext('checkspelling'),
+                'lang_rsm_edt' => $rcmail->gettext('resumeediting'),
+                'lang_close' => $rcmail->gettext('close'),
+                'lang_revert' => $rcmail->gettext('revertto'),
+                'lang_no_error_found' => $rcmail->gettext('nospellerrors'),
+                'lang_learn_word' => $rcmail->gettext('addtodict'),
+                'languages' => $spellcheck_langs,
+                'currentLanguage' => $lang,
+            ]);
 
             $rcmail->output->add_label('checking');
             $rcmail->output->set_env('spell_langs', $spellcheck_langs);
@@ -1252,8 +1241,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 'name' => 'msgsizeerrorfwd',
                 'vars' => ['num' => $size_errors, 'size' => $limit],
             ]);
-            $script = sprintf("%s.display_message('%s', 'error');", rcmail_output::JS_OBJECT_NAME, rcube::JQ($error));
-            $rcmail->output->add_script($script, 'docready');
+            $rcmail->output->add_js_call('display_message', $error, 'error');
         }
     }
 
@@ -1381,7 +1369,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $id = $a_prop['id'] ?? $id;
 
                 $link_content = sprintf(
-                    '<span class="attachment-name" onmouseover="rcube_webmail.long_subject_title_ex(this)">%s</span>'
+                    '<span class="attachment-name" data-event-handle="mail_long_subject_title_ex">%s</span>'
                         . ' <span class="attachment-size">(%s)</span>',
                     rcube::Q($a_prop['name']),
                     self::show_bytes($a_prop['size'])
@@ -1390,11 +1378,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $content_link = html::a([
                         'href' => '#load',
                         'class' => 'filename',
-                        'onclick' => sprintf(
-                            "return %s.command('load-attachment','rcmfile%s', this, event)",
-                            rcmail_output::JS_OBJECT_NAME,
-                            $id
-                        ),
+                        'data-event-handle' => 'mail_load_attachment_with_event',
+                        'data-mime-id' => "rcmfile{$id}",
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                     ],
                     $link_content
@@ -1403,11 +1388,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $delete_link = html::a([
                         'href' => '#delete',
                         'title' => $rcmail->gettext('delete'),
-                        'onclick' => sprintf(
-                            "return %s.command('remove-attachment','rcmfile%s', this, event)",
-                            rcmail_output::JS_OBJECT_NAME,
-                            $id
-                        ),
+                        'data-event-handle' => 'mail_remove_attachment',
+                        'data-mime-id' => "rcmfile{$id}",
                         'class' => 'delete',
                         'tabindex' => !empty($attrib['tabindex']) ? $attrib['tabindex'] : '0',
                         'aria-label' => $rcmail->gettext('delete') . ' ' . $a_prop['name'],
@@ -1498,7 +1480,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $attrib['name'] = 'editorSelect';
         }
 
-        $attrib['onchange'] = "return rcmail.command('toggle-editor', {id: '" . $attrib['editorid'] . "', html: this.value == 'html'}, '', event)";
+        $attrib['data-event-handle'] = 'mail_toggle_html_editor_by_value';
 
         $select = new html_select($attrib);
 
@@ -1522,7 +1504,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             html::a([
                     'href' => '#list',
                     'rel' => '%s',
-                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list-addresses','%s',this)",
+                    'data-arg' => '%s',
+                    'data-event-handle' => 'mail_list_addresses',
                 ],
                 '%s'
             )
@@ -1593,11 +1576,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     'class' => rtrim('insertresponse ' . $attrib['itemclass']),
                     'unselectable' => 'on',
                     'tabindex' => '0',
-                    'onclick' => sprintf(
-                        "return %s.command('insert-response', '%s', this, event)",
-                        rcmail_output::JS_OBJECT_NAME,
-                        rcube::JQ($response['id'])
-                    ),
+                    'data-event-handle' => 'mail_insert_reponse',
+                    'data-response-id' => $response['id'],
                 ],
                 rcube::Q($response['name'])
             );

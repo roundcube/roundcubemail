@@ -52,14 +52,14 @@ class rcmail_action_mail_getunread extends rcmail_action_mail_index
                 // after possible message status change when opening a message
                 // not in preview frame
                 if ($unseen || $unseen_old === null || $mbox == $current) {
-                    $rcmail->output->command('set_unread_count', $mbox, $unseen, $inbox && $mbox == 'INBOX');
+                    $rcmail->output->add_js_call('set_unread_count', $mbox, $unseen, $inbox && $mbox == 'INBOX');
                 }
 
                 self::set_unseen_count($mbox, $unseen);
 
                 // set trash folder state
                 if ($mbox === $trash) {
-                    $rcmail->output->command('set_trash_count', $rcmail->storage->count($mbox, 'EXISTS'));
+                    $rcmail->output->add_js_call('set_trash_count', $rcmail->storage->count($mbox, 'EXISTS'));
                 }
             }
         }
