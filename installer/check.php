@@ -171,7 +171,8 @@ foreach ($RCI->supported_dbs as $database => $ext) {
     echo '<br />';
 }
 if (empty($found_db_driver)) {
-    $RCI->failures++;
+    echo '<br />';
+    $RCI->fail('Database extensions', 'See above');
 }
 
 ?>
