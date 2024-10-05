@@ -431,7 +431,6 @@
  The library is not distributed with Roundcube (see composer.json-dist).
  Note: Required PHP's memory_limit >= 24M.
 
- Set $config['password_zxcvbn_min_score'] to define minimum acceptable password strength score.
 
  2.2.2. Have I been pwned? (pwned)
  ---------------------------------
@@ -448,6 +447,7 @@
  $config['password_minimum_score'] = 3;
 
  See the driver implementation file for more documentation.
+
 
  3. Driver API
  -------------
