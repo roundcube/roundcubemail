@@ -95,6 +95,22 @@ class managesieve extends rcube_plugin
         $sieve_action = strpos($this->rc->action, 'plugin.managesieve') === 0;
 
         if ($this->rc->task == 'mail' || $sieve_action) {
+            // Injection of Timezone information into the JS Frontend.
+            // All the specifiers may be included in $config['time_format']
+            // However not all are easily parseable in the JS world, especially
+            // when it comes to Timezone abbreviation
+            $tz = new DateTimeZone($this->rc->config->get('timezone'));
+            $dt = new DateTime('now', $tz);
+
+            $this->rc->output->set_env('server_timezone_info', [
+                'e' => $dt->format('e'),
+                'I' => $dt->format('I'),
+                'O' => $dt->format('O'),
+                'P' => $dt->format('P'),
+                'p' => version_compare(\PHP_VERSION, '8.0.0') >= 0 ? $dt->format('p') : $dt->format('P'),
+                'T' => $dt->format('T'),
+                'Z' => $dt->format('Z'),
+            ]);
             $this->include_script('managesieve.js');
         }
 
