@@ -1,5 +1,6 @@
 ARG PHPVERSION=8.3
 FROM php:${PHPVERSION}-cli
+LABEL org.opencontainers.image.source="https://github.com/roundcube/roundcubemail"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
