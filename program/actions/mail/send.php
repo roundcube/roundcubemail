@@ -259,8 +259,10 @@ class rcmail_action_mail_send extends rcmail_action
                     'folder' => $store_target,
                 ]);
 
-                // display success
-                $rcmail->output->show_message(!empty($plugin['message']) ? $plugin['message'] : 'messagesaved', 'confirmation');
+                if ($rcmail->config->get('draft_autosave_silent') != true) {
+                    // display success
+                    $rcmail->output->show_message(!empty($plugin['message']) ? $plugin['message'] : 'messagesaved', 'confirmation');
+                }
 
                 // update "_draft_saveid" and the "cmp_hash" to prevent "Unsaved changes" warning
                 $COMPOSE['param']['draft_uid'] = $plugin['uid'];
