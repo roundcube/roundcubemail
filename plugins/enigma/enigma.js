@@ -567,14 +567,15 @@ rcube_webmail.prototype.enigma_compose_handler = function (props) {
 };
 
 // Import attached keys/certs file
-rcube_webmail.prototype.enigma_import_attachment = function (mime_id) {
+$('[data-event-handle="enigma_import_attachment"]').on('click', function (event) {
+    var mime_id = event.target.dataset.part;
     var lock = this.set_busy(true, 'loading'),
         post = { _uid: this.env.uid, _mbox: this.env.mailbox, _part: mime_id };
 
     this.http_post('plugin.enigmaimport', post, lock);
 
     return false;
-};
+});
 
 // password request popup
 rcube_webmail.prototype.enigma_password_request = function (data) {
@@ -745,3 +746,16 @@ rcube_webmail.prototype.enigma_find_publickey = function (email) {
         }
     );
 };
+
+// Some event handlers.
+$('[data-event-handle="enigma_import_upload"]').on('click', function (event) {
+    return window.rcmail.command('plugin.enigma-import', '', event.target, event);
+});
+
+$('[data-event-handle="enigma_import_search"]').on('click', function (event) {
+    return window.rcmail.command('plugin.enigma-import-search', '', event.target, event);
+});
+
+$('[data-event-handle="enigma_import_search"]').on('click', function (event) {
+    window.rcmail.command('menu-open', 'enigmamenu', event.target, event);
+});

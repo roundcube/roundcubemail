@@ -224,6 +224,9 @@ function rcube_webmail() {
     // initialize webmail client
     this.init = function () {
         var n;
+
+        this.interpret_js_calls(document.getElementById('js-calls').dataset.js);
+
         this.task = this.env.task;
 
         if (!this.env.blankpage) {
@@ -414,18 +417,17 @@ function rcube_webmail() {
                     // add more commands (not enabled)
                     $.merge(this.env.compose_commands, ['add-recipient', 'firstpage', 'previouspage', 'nextpage', 'lastpage']);
 
-                    if (window.googie) {
-                        this.env.editor_config.spellchecker = googie;
-                        this.env.editor_config.spellcheck_observer = function (s) {
-                            ref.spellcheck_state();
-                        };
-
-                        this.env.compose_commands.push('spellcheck');
-                        this.enable_command('spellcheck', true);
-                    }
+                    this.env.editor_config.spellcheck_observer = function (s) {
+                        ref.spellcheck_state();
+                    };
 
                     // initialize HTML editor
                     this.editor_init(null, this.env.composebody);
+
+                    if (this.editor.spellchecker) {
+                        this.env.compose_commands.push('spellcheck');
+                        this.enable_command('spellcheck', true);
+                    }
 
                     // init message compose form
                     this.init_messageform();
@@ -692,6 +694,8 @@ function rcube_webmail() {
                 break;
         }
 
+        this.addAllEventListenersFromElements();
+
         // select first input field in an edit form
         if (this.gui_objects.editform) {
             $('input,select,textarea', this.gui_objects.editform)
@@ -775,7 +779,7 @@ function rcube_webmail() {
                 return ref.doc_keypress(e);
             });
 
-        rcube_webmail.set_iframe_events({ mouseup: body_mouseup });
+        ref.set_iframe_events({ mouseup: body_mouseup });
 
         // trigger init event hook
         this.triggerEvent('init', { task: this.task, action: this.env.action });
@@ -798,6 +802,37 @@ function rcube_webmail() {
         // start keep-alive and refresh intervals
         this.start_refresh();
         this.start_keepalive();
+    };
+
+    /**
+     * Handle function calls passed in via #js-calls. Through this, server code
+     * can trigger Javascript-methods to be called.
+     */
+    this.interpret_js_calls = function (input) {
+        if (!input) {
+            return;
+        }
+        var data = JSON.parse(input);
+        data.forEach((args) => {
+            if (!Array.isArray(args)) {
+                this.log("Unexpected data in '#js-calls'! This is not an array: ", args);
+            }
+            var command = args.shift();
+            if (command.startsWith('parent.')) {
+                command = command.replace(/^parent\./, '');
+                if (typeof parent.rcmail[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                parent.rcmail[command](...args);
+            } else {
+                if (typeof this[command] !== 'function') {
+                    this.log("'" + command + "' is not a callable function!");
+                    return;
+                }
+                this[command](...args);
+            }
+        });
     };
 
     this.log = function (msg) {
@@ -2342,9 +2377,9 @@ function rcube_webmail() {
 
         // attach events
         $.each(fn, function (i, f) {
-            row[i].onclick = function (e) {
+            row[i].addEventListener('click', function (e) {
                 f(e); return rcube_event.cancel(e);
-            };
+            });
             if (bw.touch && row[i].addEventListener) {
                 row[i].addEventListener('touchend', function (e) {
                     if (e.changedTouches.length == 1) {
@@ -2400,7 +2435,7 @@ function rcube_webmail() {
             flags: flags.extra_flags, // flags from plugins
         });
 
-        var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = '', expando = '',
+        var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = [], expando = '',
             list = this.message_list,
             rows = list.rows,
             message = this.env.messages[uid],
@@ -2455,7 +2490,7 @@ function rcube_webmail() {
         if (this.env.threading) {
             if (message.depth) {
                 // This assumes that div width is hardcoded to 15px,
-                tree += '<span id="rcmtab' + msg_id + '" class="branch" style="width:' + (message.depth * 15) + 'px;">&nbsp;&nbsp;</span>';
+                tree.push($('<span>').attr({id: 'rcmtab' + msg_id, class: 'branch', style: 'width: ' + (message.depth * 15) + 'px;'}).text('\u00A0\u00A0'));
 
                 if ((rows[message.parent_uid] && rows[message.parent_uid].expanded === false)
                     || ((this.env.autoexpand_threads == 0 || this.env.autoexpand_threads == 2)
@@ -2473,7 +2508,7 @@ function rcube_webmail() {
                     message.expanded = true;
                 }
 
-                expando = '<div id="rcmexpando' + row.id + '" class="' + (message.expanded ? 'expanded' : 'collapsed') + '">&nbsp;&nbsp;</div>';
+                expando = $('<div>').attr({id: 'rcmexpando' + row.id, class: (message.expanded ? 'expanded' : 'collapsed')}).text('\u00A0\u00A0');
                 row_class += ' thread' + (message.expanded ? ' expanded' : '');
             }
 
@@ -2486,7 +2521,7 @@ function rcube_webmail() {
             }
         }
 
-        tree += '<span id="msgicn' + row.id + '" class="' + css_class + status_class + '" title="' + status_label + '"></span>';
+        tree.push($('<span>').attr({id: 'msgicn' + row.id, class: css_class + status_class, title: status_label}));
         row.className = row_class;
 
         // build subject link
@@ -2496,14 +2531,17 @@ function rcube_webmail() {
                 query = { _mbox: flags.mbox };
 
             query[uid_param] = uid;
-            cols.subject = '<a href="' + this.url(action, query) + '" onclick="return rcube_event.keyboard_only(event)"'
-                + ' onmouseover="rcube_webmail.long_subject_title(this)" tabindex="-1"><span>' + cols.subject + '</span></a>';
+            cols.subject = $('<a>')
+                .attr({href: this.url(action, query), tabindex: "-1"})
+                    .on('click', function (event) { return rcube_event.keyboard_only(event) })
+                    .on('mouseover', function (event) { rcmail.long_subject_title(event.target) })
+                    .append($('<span>').append(cols.subject));
         }
 
         // add each submitted col
         for (n in listcols) {
             c = listcols[n];
-            col = { className: String(c).toLowerCase(), events: {} };
+            col = { className: String(c).toLowerCase(), events: {}, contentNodes: [] };
 
             if (this.env.coltypes[c] && this.env.coltypes[c].hidden) {
                 col.className += ' hidden';
@@ -2512,19 +2550,19 @@ function rcube_webmail() {
             if (c == 'flag') {
                 css_class = (flags.flagged ? 'flagged' : 'unflagged');
                 label = this.get_label(css_class);
-                html = '<span id="flagicn' + row.id + '" class="' + css_class + '" title="' + label + '"></span>';
+                html = $('<span>').attr({id: 'flagicn' + row.id, class: css_class, title: label});
             } else if (c == 'attachment') {
                 label = this.get_label('withattachment');
                 if (flags.attachmentClass) {
-                    html = '<span class="' + flags.attachmentClass + '" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: flags.attachmentClass, title: label});
                 } else if (flags.ctype == 'multipart/report') {
-                    html = '<span class="report"></span>';
+                    html = $('<span>').attr({class: 'report'});
                 } else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime') {
-                    html = '<span class="encrypted"></span>';
+                    html = $('<span>').attr({class: 'encrypted'});
                 } else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype))) {
-                    html = '<span class="attachment" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: 'attachment', title: label});
                 } else {
-                    html = '&nbsp;';
+                    html = document.createTextNode('\u00A0');
                 }
             } else if (c == 'status') {
                 label = '';
@@ -2539,25 +2577,25 @@ function rcube_webmail() {
                 } else {
                     css_class = 'msgicon';
                 }
-                html = '<span id="statusicn' + row.id + '" class="' + css_class + status_class + '" title="' + label + '"></span>';
+                html = $('<span>').attr({id: 'statusicn' + row.id, class: css_class + status_class, title: label});
             } else if (c == 'threads') {
                 html = expando;
             } else if (c == 'subject') {
-                html = tree + cols[c];
+                html = tree.concat(cols[c]);
             } else if (c == 'priority') {
                 if (flags.prio > 0 && flags.prio < 6) {
                     label = this.get_label('priority') + ' ' + flags.prio;
-                    html = '<span class="prio' + flags.prio + '" title="' + label + '"></span>';
+                    html = $('<span>').attr({class: 'prio' + flags.prio, title: label});
                 } else {
-                    html = '&nbsp;';
+                    html = document.createTextNode('\u00A0');
                 }
             } else if (c == 'folder') {
-                html = '<span onmouseover="rcube_webmail.long_subject_title(this)">' + cols[c] + '<span>';
+                html = $('<span>').on('mouseover', function (event) { rcmail.long_subject_title(event.target) }).append(cols[c]);
             } else {
                 html = cols[c];
             }
 
-            col.innerHTML = html;
+            col.contentNodes = this.makeNodesFromInput(html);
             row.cols.push(col);
         }
 
@@ -2607,8 +2645,8 @@ function rcube_webmail() {
                         if (this.className == 'subject' && domcol.className != 'subject') {
                             domcol.className += ' skip-on-drag';
                         }
-                        if (col.innerHTML) {
-                            domcol.innerHTML = col.innerHTML;
+                        if (col.contentNodes) {
+                            domcol.append(...col.contentNodes);
                         }
                         domcell.appendChild(domcol);
                         break;
@@ -4134,7 +4172,7 @@ function rcube_webmail() {
 
             // re-enable commands that operate on the compose body
             ref.enable_command('toggle-editor', 'insert-response', true);
-            ref.enable_command('spellcheck', !!window.googie);
+            ref.enable_command('spellcheck', !!ref.editor.spellchecker);
             ref.enable_command('insert-sig', !!(ref.env.signatures && ref.env.identity && ref.env.signatures[ref.env.identity]));
 
             ref.triggerEvent('compose-encrypted', { active: false });
@@ -5720,7 +5758,7 @@ function rcube_webmail() {
 
         li.attr('id', name).addClass(att.classname).html(att.html)
             .find('.attachment-name').on('mouseover', function () {
-                rcube_webmail.long_subject_title_ex(this);
+                ref.long_subject_title_ex(this);
             });
 
         // replace indicator's li
@@ -6284,7 +6322,7 @@ function rcube_webmail() {
             this.ksearch_pane.data('reqid', reqid);
             init = 1;
             // reset content
-            ul.innerHTML = '';
+            $(ul).empty();
             this.env.contacts = [];
 
             // Calculate the results pane position and size
@@ -6941,6 +6979,7 @@ function rcube_webmail() {
     this.update_contact_row = function (cid, cols_arr, newcid, source, data) {
         var list = this.contact_list;
 
+        cols_arr = this.makeNodesFromInput(cols_arr);
         cid = this.html_identifier(cid);
 
         // when in searching mode, concat cid with the source name
@@ -6975,7 +7014,7 @@ function rcube_webmail() {
         for (c in cols) {
             col = {};
             col.className = String(c).toLowerCase();
-            col.innerHTML = cols[c];
+            col.contentNodes = this.makeNodesFromInput(cols[c]);
             row.cols.push(col);
         }
 
@@ -7677,7 +7716,7 @@ function rcube_webmail() {
             rid = this.html_identifier(id);
 
         if (add) {
-            list.insert_row({ id: 'rcmrow' + rid, cols: [{ className: 'mail', innerHTML: name }] });
+            list.insert_row({ id: 'rcmrow' + rid, cols: [{ className: 'mail', contentNodes: this.makeNodesFromInput(name) }] });
             list.select(rid);
         } else {
             list.update_row(rid, [name]);
@@ -7689,7 +7728,7 @@ function rcube_webmail() {
         var list = this.responses_list;
 
         if (add) {
-            list.insert_row({ id: 'rcmrow' + id, cols: [{ className: 'name', innerHTML: name }] });
+            list.insert_row({ id: 'rcmrow' + id, cols: [{ className: 'name', contentNodes: this.makeNodesFromInput(name) }] });
             list.select(id);
         } else {
             list.update_row(id, [name]);
@@ -8013,6 +8052,8 @@ function rcube_webmail() {
             this.triggerEvent('clonerow', { row: row, id: id });
         }
 
+        this.addAllEventListenersFromElements(row);
+
         return row;
     };
 
@@ -8220,24 +8261,24 @@ function rcube_webmail() {
         elm._id = prop.id;
 
         if (prop.sel) {
-            elm.onmousedown = function (e) {
+            elm.addEventListener('mousedown', function (e) {
                 return ref.button_sel(this._command, this._id);
-            };
-            elm.onmouseup = function (e) {
+            });
+            elm.addEventListener('mouseup', function (e) {
                 return ref.button_out(this._command, this._id);
-            };
+            });
             if (preload) {
                 new Image().src = prop.sel;
             }
         }
 
         if (prop.over) {
-            elm.onmouseover = function (e) {
+            elm.addEventListener('mouseover', function (e) {
                 return ref.button_over(this._command, this._id);
-            };
-            elm.onmouseout = function (e) {
+            });
+            elm.addEventListener('mouseout', function (e) {
                 return ref.button_out(this._command, this._id);
-            };
+            });
             if (preload) {
                 new Image().src = prop.over;
             }
@@ -8827,13 +8868,15 @@ function rcube_webmail() {
         // replace old column headers
         if (thead) {
             if (repl) {
-                thead.innerHTML = '';
+                $(thead).empty();
                 tr = document.createElement('tr');
 
                 for (n in listcols) {
                     c = listcols[n];
                     cell = document.createElement('th');
-                    cell.innerHTML = repl[c].html || '';
+                    if (repl[c].html) {
+                        cell.append(this.makeNodesFromInput(repl[c].html));
+                    }
                     if (repl[c].id) {
                         cell.id = repl[c].id;
                     }
@@ -8901,7 +8944,7 @@ function rcube_webmail() {
     // replace content of mailboxname display
     this.set_mailboxname = function (content) {
         if (this.gui_objects.mailboxname && content) {
-            this.gui_objects.mailboxname.innerHTML = content;
+            this.gui_objects.mailboxname.append(this.makeNodesFromInput(content));
         }
     };
 
@@ -9020,9 +9063,9 @@ function rcube_webmail() {
 
         $(elem).removeClass('show-headers').addClass('hide-headers');
         $(this.gui_objects.all_headers_row).show();
-        elem.onclick = function () {
+        elem.addEventListener('click', function () {
             ref.command('hide-headers', '', elem);
-        };
+        });
 
         // fetch headers only once
         if (!this.gui_objects.all_headers_box.innerHTML) {
@@ -9040,9 +9083,9 @@ function rcube_webmail() {
 
         $(elem).removeClass('hide-headers').addClass('show-headers');
         $(this.gui_objects.all_headers_row).hide();
-        elem.onclick = function () {
+        elem.addEventListener('click', function () {
             ref.command('show-headers', '', elem);
-        };
+        });
     };
 
     // create folder selector popup
@@ -9345,6 +9388,7 @@ function rcube_webmail() {
     // initialize HTML editor
     this.editor_init = function (config, id) {
         this.editor = new rcube_text_editor(config || this.env.editor_config, id);
+        this.editor.init();
     };
 
 
@@ -9622,8 +9666,8 @@ function rcube_webmail() {
         }
 
         // if we get javascript code from server -> execute it
-        if (response.exec) {
-            eval(response.exec);
+        if (response.js_calls) {
+            this.interpret_js_calls(response.js_calls);
         }
 
         // execute callback functions of plugins
@@ -10300,6 +10344,38 @@ function rcube_webmail() {
     /********************************************************/
 
     /**
+     * Returns an array of Nodes from a given input.
+     * This is used to circumvent the use of `.innerHTML`.
+     */
+    this.makeNodesFromInput = function (input) {
+        if (!Array.isArray(input)) {
+            input = [input];
+        }
+        var domparser = new DOMParser();
+        var result = input.map((thing) => {
+            if (thing.nodeName) {
+                // A Node.
+                return thing;
+            } else if (thing.jquery) {
+                // A jQuery object.
+                return thing[0];
+            } else if (typeof thing === 'string') {
+                // A string that might contain HTML markup (as the server
+                // sometimes sends).
+                // TODO: This is a pretty expensive operation, and is an open
+                // door for XSS attacks. We should make the server send
+                // structured data, not HTML.
+                var doc = domparser.parseFromString(thing, 'text/html');
+                return Array.from(doc.body.childNodes);
+            } else {
+                // Something else.
+                throw new Error("Unknown thing in input, cannot continue: " + JSON.stringify(thing));
+            }
+        });
+        return result.flat();
+    };
+
+    /**
      * Quote html entities
      */
     this.quote_html = function (str) {
@@ -10500,12 +10576,12 @@ function rcube_webmail() {
     this.image_support_check = function (type) {
         setTimeout(function () {
             var img = new Image();
-            img.onload = function () {
+            img.addEventListener('load', function () {
                 ref.env.browser_capabilities[type] = 1;
-            };
-            img.onerror = function () {
+            });
+            img.addEventListener('error', function () {
                 ref.env.browser_capabilities[type] = 0;
-            };
+            });
             img.src = ref.assets_path('program/resources/blank.' + type);
         }, 10);
     };
@@ -10652,72 +10728,185 @@ function rcube_webmail() {
         // setTimeout for Safari
         setTimeout('window.print()', 10);
     };
-} // end object rcube_webmail
 
-
-// some static methods
-rcube_webmail.long_subject_title = function (elem, indent, text_elem) {
-    if (!elem.title) {
-        var siblings_width = 0, $elem = $(text_elem || elem);
-
-        $elem.siblings().each(function () {
-            // Note: width() returns 0 for elements with icons in :before (Elastic)
-            siblings_width += $(this).width() + (parseFloat(window.getComputedStyle(this, ':before').width) || 0);
-        });
-
-        // Note: 3px to be on the safe side, but also specifically for Elastic
-        if ($elem.width() + siblings_width + (indent || 0) * 15 >= $elem.parent().width() - 3) {
-            elem.title = rcube_webmail.subject_text($elem[0]);
+    this.preload_images = function (urls) {
+        for (var i = 0; i < urls.length; i++) {
+            var img = new Image();
+            img.src = urls[i];
         }
-    }
-};
+    };
 
-rcube_webmail.long_subject_title_ex = function (elem) {
-    if (!elem.title) {
-        var $elem = $(elem),
+    this.toggle_html_editor = function (event) {
+        return this.toggle_editor({ html: event.target.checked }, null, event);
+    };
+
+    this.reset_value_if_inbox = function (elem) {
+        if ($(elem).val() == 'INBOX') {
+            $(elem).val('');
+        }
+    };
+
+    this.disable_show_images_if_plaintext_preferred = function (elem) {
+        $('#rcmfd_show_images').prop('disabled', !elem.checked).val(0);
+    };
+
+    /**
+     * Simple helper functions to be called from event handlers.
+     */
+    // Allow to call rcmail.message_list.clear() without the extra calls in
+    // rcmail.clear_message_list().
+    this.message_list_clear = function (arg) {
+        ref.message_list.clear(arg);
+    };
+
+    this.reloadForm = function (elem) {
+        this.command('save', 'reload', elem.form);
+    };
+
+    /**
+     * Add eventListeners parsed from element datasets. This allows to avoid
+     * inline javascript event handlers (which require a very lax CSP).
+     * The first element of the array is the function on `rcmail` to call.
+     * All further elements of the array are arguments that are handed to the
+     * called function.
+     * In that list, '__THIS__' is replaced with the element that the event was
+     * attached to, and '__EVENT__' is the event itself.
+     * E.g. with this element:
+     * <a data-click='["aMethodToCall", "arg1"]' data-dblclick='["something", "__THIS__"]'>something</a>
+     * A click will cause a call to `this[aMethodToCall]("arg1")`, and a double
+     * click will cause a call to `this[something](theDoubleClickedElement)`.
+     */
+    this.addEventListenerFromElement = function (elem, eventName) {
+        var value = elem.dataset['on' + eventName];
+        if (!value) {
+            return;
+        }
+        var eventArgs = JSON.parse(value);
+        var methodName = eventArgs.shift();
+        if (!methodName) {
+            this.log("data-on'" + eventName + "' has invalid value (no method name)");
+            return;
+        }
+        if (typeof this[methodName] !== 'function') {
+            this.log("'" + methodName + "' is not a valid method name of this class");
+            return;
+        }
+        // Inject a reference to the event target element, if required.
+        eventArgs = eventArgs.map(function (arg) {
+            if (arg === '__THIS__') {
+                return elem;
+            }
+            return arg;
+        });
+        var options = {};
+        if (typeof eventArgs.at(-1) === 'object') {
+            options = eventArgs.pop();
+        }
+        elem.addEventListener(eventName, (ev) => {
+            // Inject a reference to the event object, if required.
+            var localEventArgs = eventArgs.map((arg) => {
+                if (arg === '__EVENT__') {
+                    return ev;
+                }
+                return arg;
+            });
+            if (options.preventDefault) {
+                ev.preventDefault();
+            }
+            var result = this[methodName](...localEventArgs);
+            if (options.returnResult) {
+                return result;
+            }
+        });
+    };
+
+    this.addEventListenerFromElements = function (rootElem, eventName) {
+        rootElem ||= document.body;
+        rootElem.querySelectorAll('[data-on' + eventName + ']').forEach(function (elem) {
+            ref.addEventListenerFromElement(elem, eventName);
+        });
+    };
+
+    this.addAllEventListenersFromElements = function (rootElem) {
+        [
+            'click',
+            'dblclick',
+            'mouseup',
+            'mousedown',
+            'mouseout',
+            'mouseover',
+            'error',
+            'load',
+            'change',
+            'submit',
+        ].forEach(function (name) {
+            ref.addEventListenerFromElements(rootElem, name);
+        });
+    };
+
+    this.long_subject_title_ex = function (elem) {
+        if (!elem.title) {
+            var $elem = $(elem),
             txt = $elem.text().trim(),
             indent = $('span.branch', $elem).width() || 0,
             tmp = $('<span>').text(txt)
-                .css({
-                    position: 'absolute',
-                    float: 'left',
-                    visibility: 'hidden',
-                    'font-size': $elem.css('font-size'),
-                    'font-weight': $elem.css('font-weight'),
-                })
-                .appendTo(document.body),
+            .css({
+                position: 'absolute',
+                float: 'left',
+                visibility: 'hidden',
+                'font-size': $elem.css('font-size'),
+                'font-weight': $elem.css('font-weight'),
+            })
+            .appendTo(document.body),
             w = tmp.width();
 
-        tmp.remove();
-        if (w + indent * 15 > $elem.width()) {
-            elem.title = rcube_webmail.subject_text(elem);
+            tmp.remove();
+            if (w + indent * 15 > $elem.width()) {
+                elem.title = ref.subject_text(elem);
+            }
         }
-    }
-};
+    };
 
-rcube_webmail.subject_text = function (elem) {
-    var t = $(elem).clone();
-    t.find('.skip-on-drag,.skip-content,.voice').remove();
-    return t.text().trim();
-};
+    this.long_subject_title = function (elem, indent, text_elem) {
+        if (!elem.title) {
+            var siblings_width = 0, $elem = $(text_elem || elem);
 
-// set event handlers on all iframe elements (and their contents)
-rcube_webmail.set_iframe_events = function (events) {
-    $('iframe').each(function () {
-        var frame = $(this);
-        $.each(events, function (event_name, event_handler) {
-            frame.on('load', function (e) {
-                try {
-                    $(this).contents().on(event_name, event_handler);
-                } catch (e) { /* catch possible permission error in IE */ }
+            $elem.siblings().each(function () {
+                // Note: width() returns 0 for elements with icons in :before (Elastic)
+                siblings_width += $(this).width() + (parseFloat(window.getComputedStyle(this, ':before').width) || 0);
             });
 
-            try {
-                frame.contents().on(event_name, event_handler);
-            } catch (e) { /* catch possible permission error in IE */ }
+            // Note: 3px to be on the safe side, but also specifically for Elastic
+            if ($elem.width() + siblings_width + (indent || 0) * 15 >= $elem.parent().width() - 3) {
+                elem.title = rcube_webmail.subject_text($elem[0]);
+            }
+        }
+    };
+
+    this.subject_text = function (elem) {
+        var t = $(elem).clone();
+        t.find('.skip-on-drag,.skip-content,.voice').remove();
+        return t.text().trim();
+    };
+
+    // set event handlers on all iframe elements (and their contents)
+    this.set_iframe_events = function (events) {
+        $('iframe').each(function () {
+            var frame = $(this);
+            $.each(events, function (event_name, event_handler) {
+                frame.on('load', function (e) {
+                    try {
+                        $(this).contents().on(event_name, event_handler);
+                    } catch (e) { /* catch possible permission error in IE */ }
+                });
+
+                try {
+                    frame.contents().on(event_name, event_handler);
+                } catch (e) { /* catch possible permission error in IE */ }
+            });
         });
-    });
-};
+    };
+} // end object rcube_webmail
 
 rcube_webmail.prototype.get_cookie = getCookie;
 
@@ -10725,3 +10914,6 @@ rcube_webmail.prototype.get_cookie = getCookie;
 rcube_webmail.prototype.addEventListener = rcube_event_engine.prototype.addEventListener;
 rcube_webmail.prototype.removeEventListener = rcube_event_engine.prototype.removeEventListener;
 rcube_webmail.prototype.triggerEvent = rcube_event_engine.prototype.triggerEvent;
+
+window.rcmail = new rcube_webmail();
+document.addEventListener('DOMContentLoaded', function () { window.rcmail.init(); });

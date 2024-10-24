@@ -37,8 +37,8 @@ class rcmail_action_settings_response_delete extends rcmail_action
             $deleted = !$plugin['abort'] ? $rcmail->user->delete_response($id) : $plugin['result'];
 
             if (!empty($deleted)) {
-                $rcmail->output->command('display_message', $rcmail->gettext('deletedsuccessfully'), 'confirmation');
-                $rcmail->output->command('remove_response', $id);
+                $rcmail->output->add_js_call('display_message', $rcmail->gettext('deletedsuccessfully'), 'confirmation');
+                $rcmail->output->add_js_call('remove_response', $id);
             } else {
                 $msg = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
                 $rcmail->output->show_message($msg, 'error');

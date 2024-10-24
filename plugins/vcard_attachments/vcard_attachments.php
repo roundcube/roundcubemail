@@ -127,10 +127,10 @@ class vcard_attachments extends rcube_plugin
 
             if (count($contacts) == 1) {
                 $display = array_first($contacts);
-                $attr['onclick'] = "return plugin_vcard_import('" . rcube::JQ(key($contacts)) . "')";
+                $attr['data-onclick'] = ['vcard_attachments_plugin_vcard_import', key($contacts), ['returnResult' => true]];
             } else {
                 $display = $this->gettext(['name' => 'contactsattached', 'vars' => ['num' => count($contacts)]]);
-                $attr['onclick'] = 'return plugin_vcard_import()';
+                $attr['data-onclick'] = ['vcard_attachments_plugin_vcard_import', ['returnResult' => true]];
 
                 $rcmail->output->set_env('vcards', $contacts);
                 $rcmail->output->add_label('vcard_attachments.addvcardmsg', 'import');
@@ -244,7 +244,7 @@ class vcard_attachments extends rcube_plugin
                 }
 
                 if ($existing->count) {
-                    // $rcmail->output->command('display_message', $this->gettext('contactexists'), 'warning');
+                    // $rcmail->output->add_js_call('display_message', $this->gettext('contactexists'), 'warning');
                     $valid = false;
                 }
             }
@@ -262,9 +262,9 @@ class vcard_attachments extends rcube_plugin
         }
 
         if ($errors || empty($vcards)) {
-            $rcmail->output->command('display_message', $this->gettext('vcardsavefailed'), 'error');
+            $rcmail->output->add_js_call('display_message', $this->gettext('vcardsavefailed'), 'error');
         } else {
-            $rcmail->output->command('display_message', $this->gettext('importedsuccessfully'), 'confirmation');
+            $rcmail->output->add_js_call('display_message', $this->gettext('importedsuccessfully'), 'confirmation');
         }
 
         $rcmail->output->send();

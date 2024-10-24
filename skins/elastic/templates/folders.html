@@ -19,7 +19,7 @@
 			<roundcube:object name="folderfilter" id="folderlist-filter" noheader="true" noevent="true" />
 		</div>
 		<div class="formbuttons">
-			<button type="button" class="btn btn-primary icon search" onclick="rcmail.folder_filter($('#folderlist-filter').val())"><roundcube:label name="search" /></button>
+			<button type="button" class="btn btn-primary icon search" data-onclick="filter_folder", data-selector="#folderlist-filter"><roundcube:label name="search" /></button>
 		</div>
 	</div>
 	<div class="scroller" tabindex="-1">
