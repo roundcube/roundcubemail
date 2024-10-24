@@ -1,0 +1,11 @@
+src/maildir/subscriptions
+src/maildir/dovecot-uidvalidity
+src/maildir/dovecot.*.log
+src/maildir/dovecot.*.cache
+src/maildir/dovecot.list.index
+src/maildir/dovecot-uid*
+src/maildir/.Drafts
+src/maildir/.Junk
+src/maildir/.Sent
+src/maildir/.Trash
+.phpunit.result.cache

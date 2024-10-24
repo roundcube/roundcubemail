@@ -22,6 +22,7 @@
     <testsuite name="tests">
       <directory>.</directory>
       <exclude>Browser</exclude>
+      <exclude>MessageRendering</exclude>
     </testsuite>
     <testsuite name="plugins">
       <directory>../plugins/acl/tests</directory>

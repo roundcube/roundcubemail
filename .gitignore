@@ -34,3 +34,6 @@ skins/elastic/styles/_variables.less
 .vscode
 .DS_Store
 .idea
+
+# Ignore files used for local overriding.
+/tests/MessageRendering/.env
