@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_pagenav extends rcmail_action_mail_index
+class rcmail_action_mail_pagenav extends \rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,11 +26,11 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
+        $rcmail = \rcmail::get_instance();
+        $uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_GET);
         $index = $rcmail->storage->index(null, self::sort_column(), self::sort_order());
         $cnt = $index->count_messages();
 

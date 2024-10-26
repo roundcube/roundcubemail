@@ -41,7 +41,7 @@ class rcube_spellchecker
      */
     public function __construct($lang = 'en')
     {
-        $this->rc = rcube::get_instance();
+        $this->rc = \rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
         $this->lang = $lang ?: 'en';
 
@@ -261,7 +261,7 @@ class rcube_spellchecker
 
     private function html2text($text)
     {
-        $h2t = new rcube_html2text($text, false, false, 0);
+        $h2t = new \rcube_html2text($text, false, false, 0);
         return $h2t->get_text();
     }
 

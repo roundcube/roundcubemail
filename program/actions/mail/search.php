@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_search extends rcmail_action_mail_index
+class rcmail_action_mail_search extends \rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,10 +27,10 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         @set_time_limit(170);  // extend default max_execution_time to ~3 minutes
 
@@ -40,13 +40,13 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $_SESSION['page'] = 1;
 
         // get search string
-        $str = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
-        $mbox = trim(rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_GET, true));
-        $filter = trim(rcube_utils::get_input_string('_filter', rcube_utils::INPUT_GET));
-        $headers = trim(rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET));
-        $scope = trim(rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET));
-        $interval = trim(rcube_utils::get_input_string('_interval', rcube_utils::INPUT_GET));
-        $continue = trim(rcube_utils::get_input_string('_continue', rcube_utils::INPUT_GET));
+        $str = trim(\rcube_utils::get_input_string('_q', \rcube_utils::INPUT_GET, true));
+        $mbox = trim(\rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_GET, true));
+        $filter = trim(\rcube_utils::get_input_string('_filter', \rcube_utils::INPUT_GET));
+        $headers = trim(\rcube_utils::get_input_string('_headers', \rcube_utils::INPUT_GET));
+        $scope = trim(\rcube_utils::get_input_string('_scope', \rcube_utils::INPUT_GET));
+        $interval = trim(\rcube_utils::get_input_string('_interval', \rcube_utils::INPUT_GET));
+        $continue = trim(\rcube_utils::get_input_string('_continue', \rcube_utils::INPUT_GET));
 
         // Set message set for already stored (but incomplete) search request
         if (!empty($continue) && isset($_SESSION['search']) && $_SESSION['search_request'] == $continue) {
@@ -192,8 +192,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $search = 'SINCE';
         }
 
-        $date = new DateTime('now');
-        $interval = new DateInterval('P' . $interval);
+        $date = new \DateTime('now');
+        $interval = new \DateInterval('P' . $interval);
 
         $date->sub($interval);
 
@@ -231,7 +231,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         };
 
         // Explode the search input into "tokens"
-        $parts = rcube_utils::explode_quoted_string('\s+', $str);
+        $parts = \rcube_utils::explode_quoted_string('\s+', $str);
         $parts = array_filter($parts);
 
         foreach ($parts as $idx => $part) {
@@ -316,7 +316,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
         $supported = ['subject', 'from', 'to', 'cc', 'bcc'];
         $option = strtolower($option);
-        $escaped = rcube_imap_generic::escape($value);
+        $escaped = \rcube_imap_generic::escape($value);
 
         switch ($option) {
             case 'body':
@@ -365,7 +365,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                     // Build search string of "with attachment" filter
                     $result = str_repeat(' OR', count($ctypes) - 1);
                     foreach ($ctypes as $type) {
-                        $result .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
+                        $result .= ' HEADER Content-Type ' . \rcube_imap_generic::escape($type);
                     }
 
                     return trim($result);
@@ -387,7 +387,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                         return $search_interval;
                     }
                 } elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
-                    $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
+                    $dt = new \DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
                     return strtoupper($option) . ' ' . $dt->format('j-M-Y');
                 }
 
@@ -450,7 +450,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
         if (!isset($search_mods[$mbox]) || $search_mods[$mbox] != $search_mods_value) {
             $search_mods[$mbox] = $search_mods_value;
-            rcmail::get_instance()->user->save_prefs(['search_mods' => $search_mods]);
+            \rcmail::get_instance()->user->save_prefs(['search_mods' => $search_mods]);
         }
     }
 }

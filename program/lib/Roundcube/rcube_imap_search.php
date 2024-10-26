@@ -35,14 +35,14 @@ class rcube_imap_search
     /** @var ?rcube_result_multifolder Search results */
     protected $results;
 
-    /** @var rcube_imap_generic IMAP connection object */
+    /** @var \rcube_imap_generic IMAP connection object */
     protected $conn;
 
     /**
      * Default constructor
      *
-     * @param array              $options IMAP connection options
-     * @param rcube_imap_generic $conn    IMAP connection object
+     * @param array               $options IMAP connection options
+     * @param \rcube_imap_generic $conn    IMAP connection object
      */
     public function __construct($options, $conn)
     {
@@ -59,12 +59,12 @@ class rcube_imap_search
      * @param string       $sort_field Header field to sort by
      * @param bool         $threading  True if threaded listing is active
      *
-     * @return rcube_result_multifolder
+     * @return \rcube_result_multifolder
      */
     public function exec($folders, $str, $charset = null, $sort_field = null, $threading = null)
     {
         $start = floor(microtime(true));
-        $results = new rcube_result_multifolder($folders);
+        $results = new \rcube_result_multifolder($folders);
 
         // start a search job for every folder to search in
         foreach ($folders as $folder) {
@@ -74,7 +74,7 @@ class rcube_imap_search
                 $results->add($result);
             } else {
                 $search = is_array($str) && !empty($str[$folder]) ? $str[$folder] : $str;
-                $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
+                $job = new \rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
                 $job->worker = $this;
                 $this->jobs[] = $job;
             }
@@ -108,7 +108,7 @@ class rcube_imap_search
     /**
      * Setter for previous (potentially incomplete) search results
      *
-     * @param rcube_result_multifolder $res Search result
+     * @param \rcube_result_multifolder $res Search result
      */
     public function set_results($res)
     {
@@ -118,7 +118,7 @@ class rcube_imap_search
     /**
      * Get connection to the IMAP server (used for single-thread mode)
      *
-     * @return rcube_imap_generic IMAP connection object
+     * @return \rcube_imap_generic IMAP connection object
      */
     public function get_imap()
     {
@@ -131,7 +131,7 @@ class rcube_imap_search
  */
 class rcube_imap_search_job // extends Stackable
 {
-    /** @var rcube_imap_search The job worker */
+    /** @var \rcube_imap_search The job worker */
     public $worker;
 
     /** @var string IMAP folder to search in */
@@ -149,7 +149,7 @@ class rcube_imap_search_job // extends Stackable
     /** @var bool True if threaded listing is active */
     private $threading;
 
-    /** @var rcube_result_index|rcube_result_thread Search result */
+    /** @var \rcube_result_index|\rcube_result_thread Search result */
     private $result;
 
     /**
@@ -169,7 +169,7 @@ class rcube_imap_search_job // extends Stackable
         $this->sort_field = $sort_field;
         $this->threading = $threading;
 
-        $this->result = new rcube_result_index($folder);
+        $this->result = new \rcube_result_index($folder);
         $this->result->incomplete = true;
     }
 
@@ -184,7 +184,7 @@ class rcube_imap_search_job // extends Stackable
     /**
      * Copy of rcube_imap::search_index()
      *
-     * @return rcube_result_index|rcube_result_thread Search result
+     * @return \rcube_result_index|\rcube_result_thread Search result
      */
     protected function search_index()
     {
@@ -196,10 +196,10 @@ class rcube_imap_search_job // extends Stackable
             trigger_error("No IMAP connection for {$this->folder}", \E_USER_WARNING);
 
             if ($this->threading) {
-                return new rcube_result_thread($this->folder);
+                return new \rcube_result_thread($this->folder);
             }
 
-            return new rcube_result_index($this->folder);
+            return new \rcube_result_index($this->folder);
         }
 
         if ($this->worker->options['skip_deleted'] && !preg_match('/UNDELETED/', $criteria)) {
@@ -219,7 +219,7 @@ class rcube_imap_search_job // extends Stackable
             // but I've seen that Courier doesn't support UTF-8)
             if ($threads->is_error() && $charset && $charset != 'US-ASCII') {
                 $threads = $imap->thread($this->folder, $this->threading,
-                    rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    \rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
 
             return $threads;
@@ -232,7 +232,7 @@ class rcube_imap_search_job // extends Stackable
             // but I've seen Courier with disabled UTF-8 support)
             if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
                 $messages = $imap->sort($this->folder, $this->sort_field,
-                    rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
+                    \rcube_imap::convert_criteria($criteria, $charset), true, 'US-ASCII');
             }
         }
 
@@ -243,7 +243,7 @@ class rcube_imap_search_job // extends Stackable
             // Error, try with US-ASCII (some servers may support only US-ASCII)
             if ($messages->is_error() && $charset && $charset != 'US-ASCII') {
                 $messages = $imap->search($this->folder,
-                    rcube_imap::convert_criteria($criteria, $charset), true);
+                    \rcube_imap::convert_criteria($criteria, $charset), true);
             }
         }
 
@@ -269,7 +269,7 @@ class rcube_imap_search_job // extends Stackable
     /**
      * Returns the search result.
      *
-     * @return rcube_result_index|rcube_result_thread Search result
+     * @return \rcube_result_index|\rcube_result_thread Search result
      */
     public function get_result()
     {

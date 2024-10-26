@@ -21,23 +21,23 @@
  +-----------------------------------------------------------------------+
  */
 
-class rcmail_action_login_oauth_backchannel extends rcmail_action
+class rcmail_action_login_oauth_backchannel extends \rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // default message
         $answer = ['error' => 'invalid_request', 'error_description' => 'Error, no action'];
 
         // Beware we are in back-channel from OP (IDP)
-        $logout_token = rcube_utils::get_input_string('logout_token', rcube_utils::INPUT_POST);
+        $logout_token = \rcube_utils::get_input_string('logout_token', \rcube_utils::INPUT_POST);
 
         if (!empty($logout_token)) {
             try {
@@ -57,10 +57,10 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 */
 
                 if ($event['typ'] !== 'Logout') {
-                    throw new RuntimeException('handle only Logout events');
+                    throw new \RuntimeException('handle only Logout events');
                 }
                 if (!isset($event['sub'])) {
-                    throw new RuntimeException('event has no "sub"');
+                    throw new \RuntimeException('event has no "sub"');
                 }
 
                 $rcmail->oauth->log_debug('backchannel: logout event received, schedule a revocation for token\'s sub: %s', $event['sub']);
@@ -71,12 +71,12 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 header('Cache-Control: no-store');
                 echo '{}';
                 exit;
-            } catch (Exception $e) {
-                rcube::raise_error($e, true);
+            } catch (\Exception $e) {
+                \rcube::raise_error($e, true);
                 $answer['error_description'] = 'Error decoding JWT';
             }
         } else {
-            rcube::raise_error(sprintf('oidc backchannel called from %s without any parameter', rcube_utils::remote_addr()), true);
+            \rcube::raise_error(sprintf('oidc backchannel called from %s without any parameter', \rcube_utils::remote_addr()), true);
         }
 
         http_response_code(400);

@@ -31,7 +31,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Roundcube. If not, see https://www.gnu.org/licenses/.
  */
-class markasjunk extends rcube_plugin
+class markasjunk extends \rcube_plugin
 {
     public $task = 'mail';
 
@@ -47,13 +47,13 @@ class markasjunk extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->register_action('plugin.markasjunk.junk', [$this, 'mark_message']);
         $this->register_action('plugin.markasjunk.not_junk', [$this, 'mark_message']);
 
-        $this->rcube = rcmail::get_instance();
+        $this->rcube = \rcmail::get_instance();
         $this->load_config();
         $this->_load_host_config();
 
@@ -137,9 +137,9 @@ class markasjunk extends rcube_plugin
         $this->add_texts('localization');
 
         $is_spam = $this->rcube->action == 'plugin.markasjunk.junk';
-        $uids = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
-        $mbox_name = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
-        $messageset = rcmail_action::get_uids($uids, $mbox_name, $multifolder);
+        $uids = \rcube_utils::get_input_value('_uid', \rcube_utils::INPUT_POST);
+        $mbox_name = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST);
+        $messageset = \rcmail_action::get_uids($uids, $mbox_name, $multifolder);
         $dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
 
         // special case when select all is used, uid is '*', and not in multi folder mode and we are using a driver
@@ -314,7 +314,7 @@ class markasjunk extends rcube_plugin
         $class = "markasjunk_{$driver_name}";
 
         if (!is_readable($driver)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 600,
                 'message' => "markasjunk plugin: Unable to open driver file {$driver}",
             ], true, false);
@@ -323,7 +323,7 @@ class markasjunk extends rcube_plugin
         include_once $driver;
 
         if (!class_exists($class, false) || !method_exists($class, 'spam') || !method_exists($class, 'ham')) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 600,
                 'message' => "markasjunk plugin: Broken driver: {$driver}",
             ], true, false);

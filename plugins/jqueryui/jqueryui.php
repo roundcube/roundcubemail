@@ -12,7 +12,7 @@
  * @author Aleksander Machniak <alec@alec.pl>
  * @license GNU GPLv3+
  */
-class jqueryui extends rcube_plugin
+class jqueryui extends \rcube_plugin
 {
     public $noajax = true;
     public $version = '1.13.2';
@@ -28,10 +28,10 @@ class jqueryui extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // the plugin might have been force-loaded so do some sanity check first
         if ($rcmail->output->type != 'html' || self::$ui_theme) {
@@ -110,13 +110,13 @@ class jqueryui extends rcube_plugin
 
         self::$features[] = 'miniColors';
 
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
         $script = 'plugins/jqueryui/js/jquery.minicolors.min.js';
         $css = self::$css_path . '/jquery.minicolors.css';
 
         $colors_theme = $rcube->config->get('jquery_ui_colors_theme', 'default');
         $config = ['theme' => $colors_theme];
-        $config_str = rcube_output::json_serialize($config);
+        $config_str = \rcube_output::json_serialize($config);
 
         $rcube->output->include_css('plugins/jqueryui/' . $css);
         $rcube->output->include_script($script, 'head', false);
@@ -136,7 +136,7 @@ class jqueryui extends rcube_plugin
         self::$features[] = 'tagedit';
 
         $script = 'plugins/jqueryui/js/jquery.tagedit.js';
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
         $css = self::$css_path . '/tagedit.css';
 
         if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
@@ -151,7 +151,7 @@ class jqueryui extends rcube_plugin
      */
     protected static function asset_exists($path, $minified = true)
     {
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
         $path = (strpos($path, 'plugins/') !== false ? '/' : '/plugins/jqueryui/') . $path;
 
         return $rcube->find_asset($path, $minified) !== null;

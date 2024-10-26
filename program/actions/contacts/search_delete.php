@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_search_delete extends rcmail_action
+class rcmail_action_contacts_search_delete extends \rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -29,11 +29,11 @@ class rcmail_action_contacts_search_delete extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $id = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_POST);
+        $rcmail = \rcmail::get_instance();
+        $id = \rcube_utils::get_input_string('_sid', \rcube_utils::INPUT_POST);
         $result = false;
 
         if (!empty($id)) {
@@ -48,7 +48,7 @@ class rcmail_action_contacts_search_delete extends rcmail_action
 
         if ($result) {
             $rcmail->output->show_message('savedsearchdeleted', 'confirmation');
-            $rcmail->output->command('remove_search_item', rcube::Q($id));
+            $rcmail->output->command('remove_search_item', \rcube::Q($id));
             // contact list will be cleared, clear also page counter
             $rcmail->output->command('set_rowcount', $rcmail->gettext('nocontactsfound'));
             $rcmail->output->set_env('pagecount', 0);

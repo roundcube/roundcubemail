@@ -12,17 +12,17 @@
  * @author Thomas Bruederli
  * @license GNU GPLv3+
  */
-class show_additional_headers extends rcube_plugin
+class show_additional_headers extends \rcube_plugin
 {
     public $task = 'mail';
 
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->action == 'show' || $rcmail->action == 'preview') {
             $this->add_hook('storage_init', [$this, 'storage_init']);
@@ -43,7 +43,7 @@ class show_additional_headers extends rcube_plugin
      */
     public function storage_init($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);
 
         if (!empty($add_headers)) {
@@ -68,7 +68,7 @@ class show_additional_headers extends rcube_plugin
      */
     public function message_headers($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $add_headers = $rcmail->config->get('show_additional_headers', []);
 
         foreach ((array) $add_headers as $header) {

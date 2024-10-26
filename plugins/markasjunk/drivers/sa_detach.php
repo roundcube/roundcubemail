@@ -33,13 +33,13 @@ class markasjunk_sa_detach
 
     public function ham(&$uids, $src_mbox, $dst_mbox)
     {
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
         $storage = $rcube->storage;
         $new_uids = [];
 
         foreach ($uids as $uid) {
             $saved = false;
-            $message = new rcube_message($uid);
+            $message = new \rcube_message($uid);
 
             foreach ($message->attachments as $part) {
                 if (

@@ -99,7 +99,7 @@ class rcube_result_index
                     // @TODO: work with compressed result?!
                     if (isset($this->params['ALL'])) {
                         $data_item = implode(self::SEPARATOR_ELEMENT,
-                            rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
+                            \rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
                     }
                 }
 
@@ -334,7 +334,7 @@ class rcube_result_index
             return '';
         }
 
-        return rcube_imap_generic::compressMessageSet($this->get());
+        return \rcube_imap_generic::compressMessageSet($this->get());
     }
 
     /**

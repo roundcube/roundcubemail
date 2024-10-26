@@ -608,7 +608,7 @@ class rcube_imap_generic
                     $user = '';
                 }
 
-                $auth_sasl = new Auth_SASL();
+                $auth_sasl = new \Auth_SASL();
                 $auth_sasl = $auth_sasl->factory('digestmd5');
                 $reply = base64_encode($auth_sasl->getResponse($authc, $pass,
                     base64_decode($challenge), $this->host, 'imap', $user));
@@ -653,15 +653,15 @@ class rcube_imap_generic
             putenv('KRB5CCNAME=' . $this->prefs['gssapi_cn']);
 
             try {
-                $ccache = new KRB5CCache();
+                $ccache = new \KRB5CCache();
                 $ccache->open($this->prefs['gssapi_cn']);
-                $gssapicontext = new GSSAPIContext();
+                $gssapicontext = new \GSSAPIContext();
                 $gssapicontext->acquireCredentials($ccache);
 
                 $token = '';
                 $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], '', 0, 0, $token);
                 $token = base64_encode($token);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
                 return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
@@ -678,11 +678,11 @@ class rcube_imap_generic
 
             try {
                 if (!$gssapicontext->unwrap($itoken, $itoken)) {
-                    throw new Exception('GSSAPI SASL input token unwrap failed');
+                    throw new \Exception('GSSAPI SASL input token unwrap failed');
                 }
 
                 if (strlen($itoken) < 4) {
-                    throw new Exception('GSSAPI SASL input token invalid');
+                    throw new \Exception('GSSAPI SASL input token invalid');
                 }
 
                 // Integrity/encryption layers are not supported. The first bit
@@ -690,16 +690,16 @@ class rcube_imap_generic
                 // 0x00 should not occur, but support broken implementations.
                 $server_layers = ord($itoken[0]);
                 if ($server_layers && ($server_layers & 0x1) != 0x1) {
-                    throw new Exception('Server requires GSSAPI SASL integrity/encryption');
+                    throw new \Exception('Server requires GSSAPI SASL integrity/encryption');
                 }
 
                 // Construct output token. 0x01 in the first octet = SASL layer "none",
                 // zero in the following three octets = no data follows.
                 // See https://github.com/cyrusimap/cyrus-sasl/blob/e41cfb986c1b1935770de554872247453fdbb079/plugins/gssapi.c#L1284
                 if (!$gssapicontext->wrap(pack('CCCC', 0x1, 0, 0, 0), $otoken, true)) {
-                    throw new Exception('GSSAPI SASL output token wrap failed');
+                    throw new \Exception('GSSAPI SASL output token wrap failed');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
                 return $this->setError(self::ERROR_BYE, 'GSSAPI authentication failed');
             }
@@ -1056,7 +1056,7 @@ class rcube_imap_generic
 
         // insert proxy protocol header, if enabled
         if (!empty($this->prefs['socket_options'])) {
-            $proxy_protocol_header = rcube_utils::proxy_protocol_header($this->prefs['socket_options']);
+            $proxy_protocol_header = \rcube_utils::proxy_protocol_header($this->prefs['socket_options']);
             if (strlen($proxy_protocol_header) > 0) {
                 fwrite($this->fp, $proxy_protocol_header);
             }
@@ -1882,7 +1882,7 @@ class rcube_imap_generic
      * @param bool   $return_uid Enables UID SORT usage
      * @param string $encoding   Character set
      *
-     * @return rcube_result_index Response data
+     * @return \rcube_result_index Response data
      */
     public function sort($mailbox, $field = 'ARRIVAL', $criteria = '', $return_uid = false, $encoding = 'US-ASCII')
     {
@@ -1895,16 +1895,16 @@ class rcube_imap_generic
         }
 
         if (!in_array($field, $supported)) {
-            return new rcube_result_index($mailbox);
+            return new \rcube_result_index($mailbox);
         }
 
         if (!$this->select($mailbox)) {
-            return new rcube_result_index($mailbox);
+            return new \rcube_result_index($mailbox);
         }
 
         // return empty result when folder is empty and we're just after SELECT
         if ($old_sel != $mailbox && empty($this->data['EXISTS'])) {
-            return new rcube_result_index($mailbox, '* SORT');
+            return new \rcube_result_index($mailbox, '* SORT');
         }
 
         // RFC 5957: SORT=DISPLAY
@@ -1922,7 +1922,7 @@ class rcube_imap_generic
             $response = null;
         }
 
-        return new rcube_result_index($mailbox, $response);
+        return new \rcube_result_index($mailbox, $response);
     }
 
     /**
@@ -1934,19 +1934,19 @@ class rcube_imap_generic
      * @param bool   $return_uid Enables UIDs in result instead of sequence numbers
      * @param string $encoding   Character set
      *
-     * @return rcube_result_thread Thread data
+     * @return \rcube_result_thread Thread data
      */
     public function thread($mailbox, $algorithm = 'REFERENCES', $criteria = '', $return_uid = false, $encoding = 'US-ASCII')
     {
         $old_sel = $this->selected;
 
         if (!$this->select($mailbox)) {
-            return new rcube_result_thread($mailbox);
+            return new \rcube_result_thread($mailbox);
         }
 
         // return empty result when folder is empty and we're just after SELECT
         if ($old_sel != $mailbox && !$this->data['EXISTS']) {
-            return new rcube_result_thread($mailbox, '* THREAD');
+            return new \rcube_result_thread($mailbox, '* THREAD');
         }
 
         $encoding = $encoding ? trim($encoding) : 'US-ASCII';
@@ -1960,7 +1960,7 @@ class rcube_imap_generic
             $response = null;
         }
 
-        return new rcube_result_thread($mailbox, $response);
+        return new \rcube_result_thread($mailbox, $response);
     }
 
     /**
@@ -1971,19 +1971,19 @@ class rcube_imap_generic
      * @param bool   $return_uid Enable UID in result instead of sequence ID
      * @param array  $items      Return items (MIN, MAX, COUNT, ALL)
      *
-     * @return rcube_result_index Result data
+     * @return \rcube_result_index Result data
      */
     public function search($mailbox, $criteria, $return_uid = false, $items = [])
     {
         $old_sel = $this->selected;
 
         if (!$this->select($mailbox)) {
-            return new rcube_result_index($mailbox);
+            return new \rcube_result_index($mailbox);
         }
 
         // return empty result when folder is empty and we're just after SELECT
         if ($old_sel != $mailbox && !$this->data['EXISTS']) {
-            return new rcube_result_index($mailbox, '* SEARCH');
+            return new \rcube_result_index($mailbox, '* SEARCH');
         }
 
         // If ESEARCH is supported always use ALL
@@ -2013,7 +2013,7 @@ class rcube_imap_generic
             $response = null;
         }
 
-        return new rcube_result_index($mailbox, $response);
+        return new \rcube_result_index($mailbox, $response);
     }
 
     /**
@@ -2026,7 +2026,7 @@ class rcube_imap_generic
      * @param bool         $uidfetch     Enables UID FETCH usage
      * @param bool         $return_uid   Enables returning UIDs instead of IDs
      *
-     * @return rcube_result_index Response data
+     * @return \rcube_result_index Response data
      */
     public function index($mailbox, $message_set, $index_field = '', $skip_deleted = true,
         $uidfetch = false, $return_uid = false)
@@ -2042,7 +2042,7 @@ class rcube_imap_generic
             $msg_index = is_array($msg_index) ? '* SEARCH' : null;
         }
 
-        return new rcube_result_index($mailbox, $msg_index);
+        return new \rcube_result_index($mailbox, $msg_index);
     }
 
     /**
@@ -2169,12 +2169,12 @@ class rcube_imap_generic
                     if (preg_match('/BODY\[HEADER\.FIELDS \("*DATE"*\)\] (.*)/', $line, $matches)) {
                         $value = preg_replace(['/^"*[a-z]+:/i'], '', $matches[1]);
                         $value = trim($value);
-                        $result[$id] = rcube_utils::strtotime($value);
+                        $result[$id] = \rcube_utils::strtotime($value);
                     }
                     // non-existent/empty Date: header, use INTERNALDATE
                     if (empty($result[$id])) {
                         if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
-                            $result[$id] = rcube_utils::strtotime($matches[1]);
+                            $result[$id] = \rcube_utils::strtotime($matches[1]);
                         } else {
                             $result[$id] = 0;
                         }
@@ -2199,7 +2199,7 @@ class rcube_imap_generic
                     $result[$id] = in_array('\\' . $index_field, (array) $flags) ? 1 : 0;
                 } elseif ($mode == 4) {
                     if (preg_match('/INTERNALDATE "([^"]+)"/', $line, $matches)) {
-                        $result[$id] = rcube_utils::strtotime($matches[1]);
+                        $result[$id] = \rcube_utils::strtotime($matches[1]);
                     } else {
                         $result[$id] = 0;
                     }
@@ -2488,7 +2488,7 @@ class rcube_imap_generic
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id = intval($m[1]);
 
-                $result[$id] = new rcube_message_header();
+                $result[$id] = new \rcube_message_header();
                 $result[$id]->id = $id;
                 $result[$id]->subject = '';
                 $result[$id]->messageID = 'mid:' . $id;
@@ -2508,7 +2508,7 @@ class rcube_imap_generic
                     } elseif ($name == 'INTERNALDATE') {
                         $result[$id]->internaldate = $value;
                         $result[$id]->date = $value;
-                        $result[$id]->timestamp = rcube_utils::strtotime($value);
+                        $result[$id]->timestamp = \rcube_utils::strtotime($value);
                     } elseif ($name == 'FLAGS') {
                         if (!empty($value)) {
                             foreach ((array) $value as $flag) {
@@ -2572,7 +2572,7 @@ class rcube_imap_generic
                             case 'date':
                                 $string = substr($string, 0, 128);
                                 $result[$id]->date = $string;
-                                $result[$id]->timestamp = rcube_utils::strtotime($string);
+                                $result[$id]->timestamp = \rcube_utils::strtotime($string);
                                 break;
                             case 'to':
                                 $result[$id]->to = preg_replace('/undisclosed-recipients:[;,]*/', '', $string);
@@ -2684,7 +2684,7 @@ class rcube_imap_generic
      * @param bool   $bodystr     Enable to add BODYSTRUCTURE data to the result
      * @param array  $add_headers List of additional headers
      *
-     * @return bool|rcube_message_header Message data, False on error
+     * @return bool|\rcube_message_header Message data, False on error
      */
     public function fetchHeader($mailbox, $id, $is_uid = false, $bodystr = false, $add_headers = [])
     {
@@ -2723,7 +2723,7 @@ class rcube_imap_generic
                 case 'date':
                 case 'internaldate':
                 case 'timestamp':
-                    $value = rcube_utils::strtotime($headers->{$field});
+                    $value = \rcube_utils::strtotime($headers->{$field});
                     if (!$value && $field != 'timestamp') {
                         $value = $headers->timestamp;
                     }
@@ -2736,7 +2736,7 @@ class rcube_imap_generic
                         $value = str_replace('"', '', $value);
 
                         if ($field == 'subject') {
-                            $value = rcube_utils::remove_subject_prefix($value);
+                            $value = \rcube_utils::remove_subject_prefix($value);
                         }
                     }
             }

@@ -12,17 +12,17 @@
  *
  * @website https://roundcube.net
  */
-class emoticons extends rcube_plugin
+class emoticons extends \rcube_plugin
 {
     public $task = 'mail|settings|utils';
 
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
 
         $this->add_hook('message_part_after', [$this, 'message_part_after']);
         $this->add_hook('html_editor', [$this, 'html_editor']);
@@ -42,7 +42,7 @@ class emoticons extends rcube_plugin
         if ($args['type'] == 'plain') {
             $this->load_config();
 
-            $rcube = rcmail::get_instance();
+            $rcube = \rcmail::get_instance();
             if (!$rcube->config->get('emoticons_display', false)) {
                 return $args;
             }
@@ -58,7 +58,7 @@ class emoticons extends rcube_plugin
      */
     public function html_editor($args)
     {
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
 
         $this->load_config();
 
@@ -75,7 +75,7 @@ class emoticons extends rcube_plugin
      */
     public function preferences_list($args)
     {
-        $rcube = rcmail::get_instance();
+        $rcube = \rcmail::get_instance();
         $dont_override = $rcube->config->get('dont_override', []);
 
         if ($args['section'] == 'mailview' && !in_array('emoticons_display', $dont_override)) {
@@ -83,10 +83,10 @@ class emoticons extends rcube_plugin
             $this->add_texts('localization');
 
             $field_id = 'emoticons_display';
-            $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
+            $checkbox = new \html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_display'] = [
-                'title' => html::label($field_id, $this->gettext('emoticonsdisplay')),
+                'title' => \html::label($field_id, $this->gettext('emoticonsdisplay')),
                 'content' => $checkbox->show(intval($rcube->config->get('emoticons_display', false))),
             ];
         } elseif ($args['section'] == 'compose' && !in_array('emoticons_compose', $dont_override)) {
@@ -94,10 +94,10 @@ class emoticons extends rcube_plugin
             $this->add_texts('localization');
 
             $field_id = 'emoticons_compose';
-            $checkbox = new html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
+            $checkbox = new \html_checkbox(['name' => '_' . $field_id, 'id' => $field_id, 'value' => 1]);
 
             $args['blocks']['main']['options']['emoticons_compose'] = [
-                'title' => html::label($field_id, $this->gettext('emoticonscompose')),
+                'title' => \html::label($field_id, $this->gettext('emoticonscompose')),
                 'content' => $checkbox->show(intval($rcube->config->get('emoticons_compose', true))),
             ];
         }
@@ -111,9 +111,9 @@ class emoticons extends rcube_plugin
     public function preferences_save($args)
     {
         if ($args['section'] == 'mailview') {
-            $args['prefs']['emoticons_display'] = (bool) rcube_utils::get_input_value('_emoticons_display', rcube_utils::INPUT_POST);
+            $args['prefs']['emoticons_display'] = (bool) \rcube_utils::get_input_value('_emoticons_display', \rcube_utils::INPUT_POST);
         } elseif ($args['section'] == 'compose') {
-            $args['prefs']['emoticons_compose'] = (bool) rcube_utils::get_input_value('_emoticons_compose', rcube_utils::INPUT_POST);
+            $args['prefs']['emoticons_compose'] = (bool) \rcube_utils::get_input_value('_emoticons_compose', \rcube_utils::INPUT_POST);
         }
 
         return $args;
@@ -161,6 +161,6 @@ class emoticons extends rcube_plugin
 
     protected static function ico_tag($ico, $title)
     {
-        return html::span(['title' => $title], "&#x{$ico};");
+        return \html::span(['title' => $title], "&#x{$ico};");
     }
 }

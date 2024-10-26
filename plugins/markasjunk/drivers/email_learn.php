@@ -40,7 +40,7 @@ class markasjunk_email_learn
 
     private function _do_emaillearn($uids, $spam)
     {
-        $this->rcube = rcmail::get_instance();
+        $this->rcube = \rcmail::get_instance();
         $identity = $this->rcube->user->get_identity();
         $from = $identity['email'];
         $from_string = format_email_recipient($from, $identity['name']);
@@ -60,7 +60,7 @@ class markasjunk_email_learn
         }
 
         foreach ($uids as $i => $uid) {
-            $MESSAGE = new rcube_message($uid);
+            $MESSAGE = new \rcube_message($uid);
             $message_file = null;
 
             // set message charset as default
@@ -69,7 +69,7 @@ class markasjunk_email_learn
             }
 
             $OUTPUT = $this->rcube->output;
-            $SENDMAIL = new rcmail_sendmail(null, [
+            $SENDMAIL = new \rcmail_sendmail(null, [
                 'sendmail' => true,
                 'from' => $from,
                 'mailto' => $mailto,
@@ -136,7 +136,7 @@ class markasjunk_email_learn
                 ];
 
                 // create the bounce message
-                $MAIL_MIME = new rcmail_resend_mail([
+                $MAIL_MIME = new \rcmail_resend_mail([
                     'bounce_message' => $MESSAGE,
                     'bounce_headers' => $headers,
                 ]);
@@ -150,7 +150,7 @@ class markasjunk_email_learn
             }
 
             if ($debug) {
-                rcube::write_log('markasjunk', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
+                \rcube::write_log('markasjunk', $uid . ($spam ? ' SPAM ' : ' HAM ') . $mailto . ' (' . $subject . ')');
             }
         }
     }

@@ -84,7 +84,7 @@ class identicon_engine
     public function sendOutput()
     {
         if ($this->binary) {
-            $rcmail = rcmail::get_instance();
+            $rcmail = \rcmail::get_instance();
             $rcmail->output->future_expire_header(10 * 60);
 
             header('Content-Type: ' . $this->mimetype);
@@ -132,7 +132,7 @@ class identicon_engine
             $this->generateGD();
         } else {
             // log an error
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 500,
                 'message' => "PHP-GD module not found. It's required by identicon plugin.",
             ], true, false);

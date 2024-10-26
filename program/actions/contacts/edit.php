@@ -17,17 +17,17 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_edit extends rcmail_action_contacts_index
+class rcmail_action_contacts_edit extends \rcmail_action_contacts_index
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->action == 'edit') {
             // Get contact ID and source ID from request
@@ -54,14 +54,14 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
                 $rcmail->output->show_message('contactnotfound', 'error');
             }
         } else {
-            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+            $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
 
             if (strlen($source)) {
                 $CONTACTS = $rcmail->get_address_book($source, true);
             }
 
             if (empty($CONTACTS) || $CONTACTS->readonly) {
-                $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+                $CONTACTS = $rcmail->get_address_book(\rcube_addressbook::TYPE_DEFAULT, true);
                 $source = $rcmail->get_address_book_id($CONTACTS);
             }
 
@@ -99,7 +99,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     public static function contact_edithead($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $business_mode = $rcmail->config->get('contact_form_mode') === 'business';
 
         // check if we have a valid result
@@ -135,7 +135,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     public static function contact_editform($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $addr_tpl = $rcmail->config->get('address_template', '');
 
         // copy (parsed) address template to client
@@ -194,8 +194,8 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
 
     public static function upload_photo_form($attrib)
     {
-        $rcmail = rcmail::get_instance();
-        $hidden = new html_hiddenfield(['name' => '_cid', 'value' => $rcmail->output->get_env('cid')]);
+        $rcmail = \rcmail::get_instance();
+        $hidden = new \html_hiddenfield(['name' => '_cid', 'value' => $rcmail->output->get_env('cid')]);
 
         $attrib['prefix'] = $hidden->show();
         $input_attr = ['name' => '_photo', 'accept' => 'image/*'];
@@ -210,23 +210,23 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
      *
      * @todo: Use rcmail_action::get_form_tags()
      */
-    #[Override]
+    #[\Override]
     public static function get_form_tags($attrib, $action = null, $id = null, $hidden = null)
     {
         static $edit_form;
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $form_start = $form_end = '';
 
         if (empty($edit_form)) {
-            $hiddenfields = new html_hiddenfield();
+            $hiddenfields = new \html_hiddenfield();
 
             if ($rcmail->action == 'edit') {
                 $hiddenfields->add(['name' => '_source', 'value' => self::$SOURCE_ID]);
             }
 
             $hiddenfields->add(['name' => '_gid', 'value' => self::$CONTACTS->group_id]);
-            $hiddenfields->add(['name' => '_search', 'value' => rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC)]);
+            $hiddenfields->add(['name' => '_search', 'value' => \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC)]);
 
             if ($cid = $rcmail->output->get_env('cid')) {
                 $hiddenfields->add(['name' => '_cid', 'value' => $cid]);
@@ -256,7 +256,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
      */
     public static function photo_drop_area($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if (!empty($attrib['id'])) {
             $rcmail->output->add_gui_object('filedrop', $attrib['id']);

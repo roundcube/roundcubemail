@@ -189,7 +189,7 @@ class rcmail_install
         $value = $this->config[$name] ?? null;
 
         if ($name == 'des_key' && !$this->configured && !isset($_REQUEST["_{$name}"])) {
-            $value = rcube_utils::random_bytes(24);
+            $value = \rcube_utils::random_bytes(24);
         }
 
         return $value !== null && $value !== '' ? $value : $default;
@@ -224,7 +224,7 @@ class rcmail_install
 
             // generate new encryption key, never use the default value
             if ($prop == 'des_key' && $value == $this->defaults[$prop]) {
-                $value = rcube_utils::random_bytes(24);
+                $value = \rcube_utils::random_bytes(24);
             }
 
             // convert some form data
@@ -463,7 +463,7 @@ class rcmail_install
      * Compare the local database schema with the reference schema
      * required for this version of Roundcube
      *
-     * @param rcube_db $db Database object
+     * @param \rcube_db $db Database object
      *
      * @return bool True if the schema is up-to-date, false if not or an error occurred
      */
@@ -480,7 +480,7 @@ class rcmail_install
 
         // Just check the version
         if ($schema_version) {
-            $version = rcmail_utils::db_version();
+            $version = \rcmail_utils::db_version();
 
             if (empty($version)) {
                 $errors[] = 'Schema version not found';
@@ -563,7 +563,7 @@ class rcmail_install
         ];
 
         foreach ($files as $path => $expected) {
-            $mimetype = rcube_mime::file_content_type(INSTALL_PATH . $path, basename($path));
+            $mimetype = \rcube_mime::file_content_type(INSTALL_PATH . $path, basename($path));
             if ($mimetype != $expected) {
                 $errors[] = [$path, $mimetype, $expected];
             }
@@ -587,7 +587,7 @@ class rcmail_install
         ];
 
         foreach ($types as $mimetype => $expected) {
-            $ext = rcube_mime::get_mime_extensions($mimetype);
+            $ext = \rcube_mime::get_mime_extensions($mimetype);
             if (!in_array($expected, (array) $ext)) {
                 $errors[] = [$mimetype, $ext, $expected];
             }
@@ -632,7 +632,7 @@ class rcmail_install
                     $host = is_numeric($key) ? $name : $key;
                 }
 
-                $out[] = rcube_utils::parse_host($host, $imap_host);
+                $out[] = \rcube_utils::parse_host($host, $imap_host);
             }
         }
 
@@ -659,9 +659,9 @@ class rcmail_install
         } elseif ($expected === '-VALID-') {
             if ($var == 'date.timezone') {
                 try {
-                    $tz = new DateTimeZone($status);
+                    $tz = new \DateTimeZone($status);
                     $this->pass($var);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
                 }
             } else {
@@ -679,7 +679,7 @@ class rcmail_install
      */
     public function versions_select($attrib = [])
     {
-        $select = new html_select($attrib);
+        $select = new \html_select($attrib);
         $select->add([
             '0.1-stable', '0.1.1',
             '0.2-alpha', '0.2-beta', '0.2-stable',
@@ -758,7 +758,7 @@ class rcmail_install
      */
     public function pass($name, $message = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="success">OK</span>';
+        echo \rcube::Q($name) . ':&nbsp; <span class="success">OK</span>';
         $this->_showhint($message);
     }
 
@@ -776,7 +776,7 @@ class rcmail_install
             $this->failures++;
         }
 
-        echo rcube::Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
+        echo \rcube::Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
         $this->_showhint($message, $url);
     }
 
@@ -789,7 +789,7 @@ class rcmail_install
      */
     public function optfail($name, $message = '', $url = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
+        echo \rcube::Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
         $this->_showhint($message, $url);
     }
 
@@ -802,16 +802,16 @@ class rcmail_install
      */
     public function na($name, $message = '', $url = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
+        echo \rcube::Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
         $this->_showhint($message, $url);
     }
 
     private function _showhint($message, $url = '')
     {
-        $hint = rcube::Q($message);
+        $hint = \rcube::Q($message);
 
         if ($url) {
-            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank">' . rcube::Q($url) . '</a>';
+            $hint .= ($hint ? '; ' : '') . 'See <a href="' . \rcube::Q($url) . '" target="_blank">' . \rcube::Q($url) . '</a>';
         }
 
         if ($hint) {
@@ -881,7 +881,7 @@ class rcmail_install
     /**
      * Initialize the database with the according schema
      *
-     * @param rcube_db $db Database connection
+     * @param \rcube_db $db Database connection
      *
      * @return bool True on success, False on error
      */
@@ -916,7 +916,7 @@ class rcmail_install
      */
     public function update_db($version)
     {
-        return rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $version, ['quiet' => true]);
+        return \rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $version, ['quiet' => true]);
     }
 
     /**
@@ -934,7 +934,7 @@ class rcmail_install
         if (class_exists('ZipArchive', false)) {
             echo "Extracting {$zipfile} into {$destdir}\n";
 
-            $zip = new ZipArchive();
+            $zip = new \ZipArchive();
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {
@@ -950,7 +950,7 @@ class rcmail_install
 
                 $zip->close();
             } else {
-                rcube::raise_error("Failed to unpack {$zipfile}");
+                \rcube::raise_error("Failed to unpack {$zipfile}");
             }
 
             return;
@@ -979,7 +979,7 @@ class rcmail_install
                 exec($command, $out, $retval);
 
                 if ($retval !== 0) {
-                    rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
+                    \rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
                 }
             }
 
@@ -1013,14 +1013,14 @@ class rcmail_install
                 exec($command, $out, $retval);
 
                 if ($retval !== 0) {
-                    rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
+                    \rcube::raise_error("Failed to unpack {$pattern} from {$zipfile}; " . implode('; ', $out));
                 }
             }
 
             return;
         }
 
-        rcube::raise_error("PHP Zip extension, '7z' or 'unzip' programs not found.", false, true);
+        \rcube::raise_error("PHP Zip extension, '7z' or 'unzip' programs not found.", false, true);
     }
 
     /**

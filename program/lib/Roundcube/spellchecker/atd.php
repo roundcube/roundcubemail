@@ -21,7 +21,7 @@
  * Spellchecking backend implementation to work with an After the Deadline service
  * See http://www.afterthedeadline.com/ for more information
  */
-class rcube_spellchecker_atd extends rcube_spellchecker_engine
+class rcube_spellchecker_atd extends \rcube_spellchecker_engine
 {
     public const SERVICE_HOST = 'service.afterthedeadline.com';
     public const SERVICE_PORT = 80;
@@ -39,7 +39,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    #[Override]
+    #[\Override]
     public function languages()
     {
         $langs = array_values($this->langhosts);
@@ -53,13 +53,13 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    #[Override]
+    #[\Override]
     public function check($text)
     {
         $this->content = $text;
 
         // spell check uri is configured
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $url = $rcube->config->get('spellcheck_uri');
         $key = $rcube->config->get('spellcheck_atd_key');
 
@@ -126,8 +126,8 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
         }
 
         try {
-            $result = new SimpleXMLElement($response);
-        } catch (Exception $e) {
+            $result = new \SimpleXMLElement($response);
+        } catch (\Exception $e) {
             $this->error = 'Unexpected response from server: ' . $response;
             return false;
         }
@@ -170,7 +170,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    #[Override]
+    #[\Override]
     public function get_suggestions($word)
     {
         $this->check($word);
@@ -187,7 +187,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    #[Override]
+    #[\Override]
     public function get_words($text = null)
     {
         if ($text) {

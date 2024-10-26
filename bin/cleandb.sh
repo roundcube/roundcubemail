@@ -28,4 +28,4 @@ if (!empty($_SERVER['argv'][1])) {
     $days = 7;
 }
 
-rcmail_utils::db_clean($days);
+\rcmail_utils::db_clean($days);

@@ -17,25 +17,25 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_login_oauth extends rcmail_action
+class rcmail_action_login_oauth extends \rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
-        $auth_code = rcube_utils::get_input_string('code', rcube_utils::INPUT_GET);
-        $auth_error = rcube_utils::get_input_string('error', rcube_utils::INPUT_GET);
-        $auth_state = rcube_utils::get_input_string('state', rcube_utils::INPUT_GET);
+        $auth_code = \rcube_utils::get_input_string('code', \rcube_utils::INPUT_GET);
+        $auth_error = \rcube_utils::get_input_string('error', \rcube_utils::INPUT_GET);
+        $auth_state = \rcube_utils::get_input_string('state', \rcube_utils::INPUT_GET);
 
         // on oauth error
         if (!empty($auth_error)) {
-            $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET);
+            $error_message = \rcube_utils::get_input_string('error_description', \rcube_utils::INPUT_GET);
 
             if (empty($error_message)) {
                 $error_message = 'oauth' . str_replace('_', '', $auth_error);

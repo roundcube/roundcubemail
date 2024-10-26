@@ -19,7 +19,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_search_create extends rcmail_action
+class rcmail_action_contacts_search_create extends \rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -29,12 +29,12 @@ class rcmail_action_contacts_search_create extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
-        $id = rcube_utils::get_input_value('_search', rcube_utils::INPUT_POST);
-        $name = rcube_utils::get_input_value('_name', rcube_utils::INPUT_POST, true);
+        $rcmail = \rcmail::get_instance();
+        $id = \rcube_utils::get_input_value('_search', \rcube_utils::INPUT_POST);
+        $name = \rcube_utils::get_input_value('_name', \rcube_utils::INPUT_POST, true);
 
         if (
             isset($_SESSION['contact_search_params'])
@@ -42,7 +42,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
             && $params['id'] == $id
         ) {
             $data = [
-                'type' => rcube_user::SEARCH_ADDRESSBOOK,
+                'type' => \rcube_user::SEARCH_ADDRESSBOOK,
                 'name' => $name,
                 'data' => [
                     'fields' => $params['data'][0],
@@ -61,7 +61,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
 
         if (!empty($result)) {
             $rcmail->output->show_message('savedsearchcreated', 'confirmation');
-            $rcmail->output->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
+            $rcmail->output->command('insert_saved_search', \rcube::Q($name), \rcube::Q($result));
         } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchcreateerror';
             $rcmail->output->show_message($error, 'error');

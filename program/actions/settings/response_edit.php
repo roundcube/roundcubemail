@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_edit extends rcmail_action_settings_responses
+class rcmail_action_settings_response_edit extends \rcmail_action_settings_responses
 {
     protected static $mode = self::MODE_HTTP;
     protected static $response;
@@ -27,15 +27,15 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $title = $rcmail->gettext($rcmail->action == 'add-response' ? 'addresponse' : 'editresponse');
 
         if (!empty($args['post'])) {
             self::$response = $args['post'];
-        } elseif ($id = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GP)) {
+        } elseif ($id = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GP)) {
             self::$response = $rcmail->get_compose_response($id);
 
             if (!is_array(self::$response)) {
@@ -59,7 +59,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
      */
     public static function response_form($attrib)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // add some labels to client
         $rcmail->output->add_label('converting', 'editorwarning');
@@ -107,16 +107,16 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
             self::$response['data'] = htmlspecialchars(self::$response['data'], \ENT_NOQUOTES, RCUBE_CHARSET);
         }
 
-        $table = new html_table(['cols' => 2]);
+        $table = new \html_table(['cols' => 2]);
 
-        $table->add('title', html::label('ffname', rcube::Q($rcmail->gettext('responsename'))));
-        $table->add(null, rcube_output::get_edit_field('name', self::$response['name'] ?? '', $name_attr, 'text'));
+        $table->add('title', \html::label('ffname', \rcube::Q($rcmail->gettext('responsename'))));
+        $table->add(null, \rcube_output::get_edit_field('name', self::$response['name'] ?? '', $name_attr, 'text'));
 
-        $table->add('title', html::label('fftext', rcube::Q($rcmail->gettext('responsetext'))));
-        $table->add(null, rcube_output::get_edit_field('text', self::$response['data'] ?? '', $text_attr, 'textarea'));
+        $table->add('title', \html::label('fftext', \rcube::Q($rcmail->gettext('responsetext'))));
+        $table->add(null, \rcube_output::get_edit_field('text', self::$response['data'] ?? '', $text_attr, 'textarea'));
 
-        $table->add('title', html::label('ffis_html', rcube::Q($rcmail->gettext('htmltoggle'))));
-        $table->add(null, rcube_output::get_edit_field('is_html', $is_html, $chk_attr, 'checkbox'));
+        $table->add('title', \html::label('ffis_html', \rcube::Q($rcmail->gettext('htmltoggle'))));
+        $table->add(null, \rcube_output::get_edit_field('is_html', $is_html, $chk_attr, 'checkbox'));
 
         // return the complete edit form as table
         return "{$form_start}\n" . $table->show($attrib) . $form_end;

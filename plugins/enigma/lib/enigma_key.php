@@ -110,7 +110,7 @@ class enigma_key
      * @param string $email Email address
      * @param int    $mode  Key mode (see self::CAN_* constants)
      *
-     * @return enigma_subkey|null Subkey object
+     * @return \enigma_subkey|null Subkey object
      */
     public function find_subkey($email, $mode)
     {

@@ -36,7 +36,7 @@ class rcube_ldap_simple_password
 
     public function save($curpass, $passwd)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $lchattr = $rcmail->config->get('password_ldap_lchattr');
         $pwattr = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
@@ -44,7 +44,7 @@ class rcube_ldap_simple_password
         $smblchattr = $rcmail->config->get('password_ldap_samba_lchattr');
         $samba = $rcmail->config->get('password_ldap_samba');
         $pass_mode = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
-        $crypted_pass = password::hash_password($passwd, $pass_mode);
+        $crypted_pass = \password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
@@ -58,7 +58,7 @@ class rcube_ldap_simple_password
         }
 
         // Crypt new Samba password
-        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
+        if ($smbpwattr && !($samba_pass = \password::hash_password($passwd, 'samba'))) {
             return PASSWORD_CRYPT_ERROR;
         }
 
@@ -116,7 +116,7 @@ class rcube_ldap_simple_password
      */
     public function connect($curpass)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         $this->debug = $rcmail->config->get('ldap_debug');
         $ldap_host = $rcmail->config->get('password_ldap_host', 'localhost');
@@ -129,7 +129,7 @@ class rcube_ldap_simple_password
         if (!($ds = ldap_connect($ldap_uri))) {
             $this->_debug('S: NOT OK');
 
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 100,
                 'type' => 'ldap',
                 'message' => 'Password plugin: Could not connect to LDAP server',
@@ -318,7 +318,7 @@ class rcube_ldap_simple_password
     protected function _debug($str)
     {
         if ($this->debug) {
-            rcube::write_log('ldap', $str);
+            \rcube::write_log('ldap', $str);
         }
     }
 

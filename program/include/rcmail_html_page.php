@@ -20,7 +20,7 @@
 /**
  * Class to create an empty HTML page with some default styles
  */
-class rcmail_html_page extends rcmail_output_html
+class rcmail_html_page extends \rcmail_output_html
 {
     protected $inline_warning;
 
@@ -29,7 +29,7 @@ class rcmail_html_page extends rcmail_output_html
      *
      * @param string $contents HTML page content
      */
-    #[Override]
+    #[\Override]
     public function write($contents = '')
     {
         self::reset(true);
@@ -39,7 +39,7 @@ class rcmail_html_page extends rcmail_output_html
         if ($embed_css = $this->get_skin_file($embed_css, $path, null, true)) {
             $this->include_css($embed_css);
         } else {  // set default styles for warning blocks inside the attachment part frame
-            $this->add_header(html::tag('style', ['type' => 'text/css'],
+            $this->add_header(\html::tag('style', ['type' => 'text/css'],
                 '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
                                         . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n" .
                 '.rcmail-inline-buttons { margin-bottom:0 }'
@@ -71,14 +71,14 @@ class rcmail_html_page extends rcmail_output_html
      */
     public function register_inline_warning($text, $button_label = null, $button_url = null)
     {
-        $text = html::span(null, $text);
+        $text = \html::span(null, $text);
 
         if ($button_label) {
             $onclick = "location.href = '{$button_url}'";
-            $button = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
-            $text .= html::p(['class' => 'rcmail-inline-buttons'], $button);
+            $button = \html::tag('button', ['onclick' => $onclick], \rcube::Q($button_label));
+            $text .= \html::p(['class' => 'rcmail-inline-buttons'], $button);
         }
 
-        $this->inline_warning = html::div(['class' => 'rcmail-inline-message rcmail-inline-warning'], $text);
+        $this->inline_warning = \html::div(['class' => 'rcmail-inline-message rcmail-inline-warning'], $text);
     }
 }

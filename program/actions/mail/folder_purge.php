@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
+class rcmail_action_mail_folder_purge extends \rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,13 +27,13 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $storage = $rcmail->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
-        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST, true);
         $trash_mbox = (string) $rcmail->config->get('trash_mbox');
         $junk_mbox = (string) $rcmail->config->get('junk_mbox');
         $delete_junk = $rcmail->config->get('delete_junk');

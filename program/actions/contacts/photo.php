@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_photo extends rcmail_action_contacts_index
+class rcmail_action_contacts_photo extends \rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -27,16 +27,16 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Get contact ID and source ID from request
         $cids = self::get_cids();
         $source = key($cids);
         $cid = $cids ? array_first($cids[$source]) : null;
-        $file_id = rcube_utils::get_input_string('_photo', rcube_utils::INPUT_GPC);
+        $file_id = \rcube_utils::get_input_string('_photo', \rcube_utils::INPUT_GPC);
 
         // read the referenced file
         if ($file_id && ($tempfile = $rcmail->get_uploaded_file($file_id))) {
@@ -51,7 +51,7 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             }
         } else {
             // by email, search for contact first
-            if ($email = rcube_utils::get_input_string('_email', rcube_utils::INPUT_GPC)) {
+            if ($email = \rcube_utils::get_input_string('_email', \rcube_utils::INPUT_GPC)) {
                 foreach ($rcmail->get_address_sources() as $s) {
                     $abook = $rcmail->get_address_book($s['id']);
                     $result = $abook->search(['email'], $email, 1, true, true, 'photo');
@@ -104,13 +104,13 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
         }
 
         if ($data) {
-            $rcmail->output->sendExit($data, ['Content-Type: ' . rcube_mime::image_content_type($data)]);
+            $rcmail->output->sendExit($data, ['Content-Type: ' . \rcube_mime::image_content_type($data)]);
         }
 
         if (!empty($_GET['_error'])) {
             $rcmail->output->sendExit('', ['HTTP/1.0 204 Photo not found']);
         }
 
-        $rcmail->output->sendExit(base64_decode(rcmail_output::BLANK_GIF), ['Content-Type: image/gif']);
+        $rcmail->output->sendExit(base64_decode(\rcmail_output::BLANK_GIF), ['Content-Type: image/gif']);
     }
 }

@@ -119,7 +119,7 @@ class rcube_string_replacer
             $attrib = isset($this->options['link_attribs']) ? (array) $this->options['link_attribs'] : [];
             $attrib['href'] = $url_prefix . $url;
 
-            $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
+            $i = $this->add(\html::a($attrib, \rcube::Q($url)) . $suffix);
             $this->urls[$i] = $attrib['href'];
         }
 
@@ -172,7 +172,7 @@ class rcube_string_replacer
                 }
             }
 
-            $i = $this->add(html::a($attrib, rcube::Q($matches[1][0])));
+            $i = $this->add(\html::a($attrib, \rcube::Q($matches[1][0])));
         }
 
         return $i > 0 ? '[' . $this->get_replacement($i) . ']' : $matches[0][0];
@@ -189,7 +189,7 @@ class rcube_string_replacer
     {
         $href = $matches[1];
         $suffix = $this->parse_url_brackets($href);
-        $i = $this->add(html::a('mailto:' . $href, rcube::Q($href)) . $suffix);
+        $i = $this->add(\html::a('mailto:' . $href, \rcube::Q($href)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
     }

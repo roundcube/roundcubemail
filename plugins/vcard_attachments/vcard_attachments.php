@@ -7,7 +7,7 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli, Aleksander Machniak
  */
-class vcard_attachments extends rcube_plugin
+class vcard_attachments extends \rcube_plugin
 {
     public $task = 'mail|addressbook';
 
@@ -19,10 +19,10 @@ class vcard_attachments extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         if ($rcmail->task == 'addressbook') {
             $this->add_texts('localization', !$rcmail->output->ajax_call);
@@ -103,11 +103,11 @@ class vcard_attachments extends rcube_plugin
      */
     public function message_objects($p)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $contacts = [];
 
         foreach ($this->vcard_parts as $part) {
-            $vcards = rcube_vcard::import($this->message->get_part_body($part));
+            $vcards = \rcube_vcard::import($this->message->get_part_body($part));
 
             foreach ($vcards as $idx => $vcard) {
                 // skip invalid vCards
@@ -127,7 +127,7 @@ class vcard_attachments extends rcube_plugin
 
             if (count($contacts) == 1) {
                 $display = array_first($contacts);
-                $attr['onclick'] = "return plugin_vcard_import('" . rcube::JQ(key($contacts)) . "')";
+                $attr['onclick'] = "return plugin_vcard_import('" . \rcube::JQ(key($contacts)) . "')";
             } else {
                 $display = $this->gettext(['name' => 'contactsattached', 'vars' => ['num' => count($contacts)]]);
                 $attr['onclick'] = 'return plugin_vcard_import()';
@@ -137,9 +137,9 @@ class vcard_attachments extends rcube_plugin
             }
 
             // add box below the message body
-            $p['content'][] = html::p(
+            $p['content'][] = \html::p(
                 ['class' => 'vcardattachment aligned-buttons boxinformation'],
-                html::span(null, rcube::Q($display)) . html::tag('button', $attr, rcube::Q($rcmail->gettext('import')))
+                \html::span(null, \rcube::Q($display)) . \html::tag('button', $attr, \rcube::Q($rcmail->gettext('import')))
             );
 
             $this->include_script('vcardattach.js');
@@ -155,8 +155,8 @@ class vcard_attachments extends rcube_plugin
     public function message_compose($p)
     {
         if (
-            rcube_utils::get_input_string('_attach_vcard', rcube_utils::INPUT_GET) == '1'
-            && ($uri = rcube_utils::get_input_string('_uri', rcube_utils::INPUT_GET))
+            \rcube_utils::get_input_string('_attach_vcard', \rcube_utils::INPUT_GET) == '1'
+            && ($uri = \rcube_utils::get_input_string('_uri', \rcube_utils::INPUT_GET))
         ) {
             $this->attach_vcard(['compose_id' => $p['id'], 'uri' => $uri]);
         }
@@ -187,12 +187,12 @@ class vcard_attachments extends rcube_plugin
     {
         $this->add_texts('localization');
 
-        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_POST);
-        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST);
-        $mime_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_POST);
+        $uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_POST);
+        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST);
+        $mime_id = \rcube_utils::get_input_string('_part', \rcube_utils::INPUT_POST);
 
-        $rcmail = rcmail::get_instance();
-        $message = new rcube_message($uid, $mbox);
+        $rcmail = \rcmail::get_instance();
+        $message = new \rcube_message($uid, $mbox);
         $vcards = [];
         $errors = 0;
 
@@ -200,7 +200,7 @@ class vcard_attachments extends rcube_plugin
             $index = [];
 
             foreach (explode(',', $mime_id) as $id) {
-                [$part_id, $card_id] = rcube_utils::explode(':', $id);
+                [$part_id, $card_id] = \rcube_utils::explode(':', $id);
                 if (!isset($index[$part_id])) {
                     $index[$part_id] = [];
                 }
@@ -210,7 +210,7 @@ class vcard_attachments extends rcube_plugin
             foreach ($index as $part_id => $mime_ids) {
                 $part = $message->get_part_body($part_id);
 
-                if (!empty($part) && ($part_vcards = rcube_vcard::import($part))) {
+                if (!empty($part) && ($part_vcards = \rcube_vcard::import($part))) {
                     foreach ($mime_ids as $id) {
                         $vcard = $part_vcards[$id] ?? null;
                         if ($vcard && !empty($vcard->email) && !empty($vcard->email[0])) {
@@ -233,7 +233,7 @@ class vcard_attachments extends rcube_plugin
                 $valid = false;
             } else {
                 // We're using UTF8 internally
-                $email = rcube_utils::idn_to_utf8($email);
+                $email = \rcube_utils::idn_to_utf8($email);
 
                 // compare e-mail address
                 $existing = $CONTACTS->search('email', $email, 1, false);
@@ -273,7 +273,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Checks if specified message part is a vcard data
      *
-     * @param rcube_message_part $part Part object
+     * @param \rcube_message_part $part Part object
      *
      * @return bool True if part is of type vcard
      */
@@ -303,10 +303,10 @@ class vcard_attachments extends rcube_plugin
             return $this->abook;
         }
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
 
         // Get configured addressbook
-        $CONTACTS = $rcmail->get_address_book(rcube_addressbook::TYPE_DEFAULT, true);
+        $CONTACTS = $rcmail->get_address_book(\rcube_addressbook::TYPE_DEFAULT, true);
 
         // Get first writeable addressbook if the configured doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)
@@ -334,7 +334,7 @@ class vcard_attachments extends rcube_plugin
                     'mimetype' => 'text/vcard',
                 ];
 
-                $args['attachment'] = rcmail_action_mail_compose::save_attachment($vcard, null, $args['compose_id'], $params);
+                $args['attachment'] = \rcmail_action_mail_compose::save_attachment($vcard, null, $args['compose_id'], $params);
             }
         }
 
@@ -346,7 +346,7 @@ class vcard_attachments extends rcube_plugin
      */
     private function get_contact_vcard($source, $cid, &$filename = null)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $source = $rcmail->get_address_book($source);
         $contact = $source->get_record($cid, true);
 
@@ -354,11 +354,11 @@ class vcard_attachments extends rcube_plugin
             $fieldmap = $source ? $source->vcard_map : null;
 
             if (empty($contact['vcard'])) {
-                $vcard = new rcube_vcard('', RCUBE_CHARSET, false, $fieldmap);
+                $vcard = new \rcube_vcard('', RCUBE_CHARSET, false, $fieldmap);
                 $vcard->reset();
 
                 foreach ($contact as $key => $values) {
-                    [$field, $section] = rcube_utils::explode(':', $key);
+                    [$field, $section] = \rcube_utils::explode(':', $key);
                     $section = strtoupper($section ?? '');
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())
@@ -376,14 +376,14 @@ class vcard_attachments extends rcube_plugin
                 $contact['vcard'] = $vcard->export();
             }
 
-            $name = rcube_addressbook::compose_list_name($contact);
+            $name = \rcube_addressbook::compose_list_name($contact);
             $filename = (self::parse_filename($name) ?: 'contact') . '.vcf';
 
             // fix folding and end-of-line chars
             $vcard = preg_replace('/\r|\n\s+/', '', $contact['vcard']);
-            $vcard = preg_replace('/\n/', rcube_vcard::$eol, $vcard);
+            $vcard = preg_replace('/\n/', \rcube_vcard::$eol, $vcard);
 
-            return rcube_vcard::rfc2425_fold($vcard) . rcube_vcard::$eol;
+            return \rcube_vcard::rfc2425_fold($vcard) . \rcube_vcard::$eol;
         }
     }
 

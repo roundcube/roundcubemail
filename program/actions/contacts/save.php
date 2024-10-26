@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_save extends rcmail_action_contacts_index
+class rcmail_action_contacts_save extends \rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,13 +26,13 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $contacts = self::contact_source(null, true);
-        $cid = rcube_utils::get_input_string('_cid', rcube_utils::INPUT_POST);
-        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
+        $cid = \rcube_utils::get_input_string('_cid', \rcube_utils::INPUT_POST);
+        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
         $return_action = empty($cid) ? 'add' : 'edit';
 
         // Source changed, display the form again
@@ -54,7 +54,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // do input checks (delegated to $contacts instance)
         if (!$contacts->validate($a_record)) {
             $err = (array) $contacts->get_error();
-            $rcmail->output->show_message(!empty($err['message']) ? rcube::Q($err['message']) : 'formincomplete', 'warning');
+            $rcmail->output->show_message(!empty($err['message']) ? \rcube::Q($err['message']) : 'formincomplete', 'warning');
             $rcmail->overwrite_action($return_action, ['contact' => $a_record]);
             return;
         }
@@ -122,10 +122,10 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $a_js_cols = [];
                 $record = $contact;
                 $record['email'] = array_first($contacts->get_col_values('email', $record, true));
-                $record['name'] = rcube_addressbook::compose_list_name($record);
+                $record['name'] = \rcube_addressbook::compose_list_name($record);
 
                 foreach (['name'] as $col) {
-                    $a_js_cols[] = rcube::Q((string) $record[$col]);
+                    $a_js_cols[] = \rcube::Q((string) $record[$col]);
                 }
 
                 // performance: unset some big data items we don't need here
@@ -147,7 +147,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
         // insert a new contact
         else {
             // Name of the addressbook already selected on the list
-            $orig_source = rcube_utils::get_input_string('_orig_source', rcube_utils::INPUT_GPC);
+            $orig_source = \rcube_utils::get_input_string('_orig_source', \rcube_utils::INPUT_GPC);
 
             if (!strlen($source)) {
                 $source = $orig_source;
@@ -220,7 +220,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
     {
         $record = [];
 
-        foreach (rcmail_action_contacts_index::$CONTACT_COLTYPES as $col => $colprop) {
+        foreach (\rcmail_action_contacts_index::$CONTACT_COLTYPES as $col => $colprop) {
             if (!empty($colprop['composite'])) {
                 continue;
             }
@@ -231,14 +231,14 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             if (!empty($colprop['childs'])) {
                 $values = [];
                 foreach ($colprop['childs'] as $childcol => $cp) {
-                    $vals = rcube_utils::get_input_value('_' . $childcol, rcube_utils::INPUT_POST, true);
+                    $vals = \rcube_utils::get_input_value('_' . $childcol, \rcube_utils::INPUT_POST, true);
                     foreach ((array) $vals as $i => $val) {
                         $values[$i][$childcol] = $val;
                     }
                 }
 
                 if (isset($_REQUEST['_subtype_' . $col])) {
-                    $subtypes = (array) rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
+                    $subtypes = (array) \rcube_utils::get_input_value('_subtype_' . $col, \rcube_utils::INPUT_POST);
                 } else {
                     $subtypes = [''];
                 }
@@ -252,13 +252,13 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
             }
             // assign values and subtypes
             elseif (isset($_POST[$fname]) && is_array($_POST[$fname])) {
-                $values = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
-                $subtypes = rcube_utils::get_input_value('_subtype_' . $col, rcube_utils::INPUT_POST);
+                $values = \rcube_utils::get_input_value($fname, \rcube_utils::INPUT_POST, true);
+                $subtypes = \rcube_utils::get_input_value('_subtype_' . $col, \rcube_utils::INPUT_POST);
 
                 foreach ($values as $i => $val) {
                     if ($col == 'email') {
                         // extract email from full address specification, e.g. "Name" <addr@domain.tld>
-                        $addr = rcube_mime::decode_address_list($val, 1, false);
+                        $addr = \rcube_mime::decode_address_list($val, 1, false);
                         if (!empty($addr) && ($addr = array_pop($addr)) && $addr['mailto']) {
                             $val = $addr['mailto'];
                         }
@@ -268,11 +268,11 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                     $record[$col . $subtype][] = $val;
                 }
             } elseif (isset($_POST[$fname])) {
-                $record[$col] = rcube_utils::get_input_value($fname, rcube_utils::INPUT_POST, true);
+                $record[$col] = \rcube_utils::get_input_value($fname, \rcube_utils::INPUT_POST, true);
 
                 // normalize the submitted date strings
                 if ($colprop['type'] == 'date') {
-                    if ($record[$col] && ($dt = rcube_utils::anytodatetime($record[$col]))) {
+                    if ($record[$col] && ($dt = \rcube_utils::anytodatetime($record[$col]))) {
                         $record[$col] = $dt->format('Y-m-d');
                     } else {
                         unset($record[$col]);
@@ -283,10 +283,10 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
         // Generate contact's display name (must be before validation)
         if (empty($record['name'])) {
-            $record['name'] = rcube_addressbook::compose_display_name($record, true);
+            $record['name'] = \rcube_addressbook::compose_display_name($record, true);
 
             // Reset it if equals to email address (from compose_display_name())
-            $email = rcube_addressbook::get_col_values('email', $record, true);
+            $email = \rcube_addressbook::get_col_values('email', $record, true);
             if (isset($email[0]) && $record['name'] == $email[0]) {
                 $record['name'] = '';
             }

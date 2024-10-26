@@ -23,7 +23,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(['d' => 'dir']);
+$opts = \rcube_utils::get_opt(['d' => 'dir']);
 
 if (empty($opts['dir'])) {
     echo "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
@@ -37,7 +37,7 @@ if (empty($opts['dir'])) {
 }
 // Check if directory exists
 elseif (!file_exists($opts['dir'])) {
-    rcube::raise_error("Specified directory doesn't exist.", false, true);
+    \rcube::raise_error("Specified directory doesn't exist.", false, true);
 } else {
     $dirs = [$opts['dir']];
 }

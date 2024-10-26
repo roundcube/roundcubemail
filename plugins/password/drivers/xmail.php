@@ -37,10 +37,10 @@ class rcube_xmail_password
 {
     public function save($currpass, $newpass)
     {
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         [$user, $domain] = explode('@', $_SESSION['username']);
 
-        $xmail = new XMail();
+        $xmail = new \XMail();
 
         $xmail->hostname = $rcmail->config->get('xmail_host');
         $xmail->username = $rcmail->config->get('xmail_user');
@@ -48,13 +48,13 @@ class rcube_xmail_password
         $xmail->port = $rcmail->config->get('xmail_port');
 
         if (!$xmail->connect()) {
-            rcube::raise_error('Password plugin: Unable to connect to mail server', true);
+            \rcube::raise_error('Password plugin: Unable to connect to mail server', true);
             return PASSWORD_CONNECT_ERROR;
         }
 
         if (!$xmail->send("userpasswd\t" . $domain . "\t" . $user . "\t" . $newpass . "\n")) {
             $xmail->close();
-            rcube::raise_error('Password plugin: Unable to change password', true);
+            \rcube::raise_error('Password plugin: Unable to change password', true);
             return PASSWORD_ERROR;
         }
 

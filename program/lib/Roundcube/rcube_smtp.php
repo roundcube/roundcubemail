@@ -45,7 +45,7 @@ class rcube_smtp
      */
     public function connect($host = null, $port = null, $user = null, $pass = null)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         // disconnect/destroy $this->conn
         $this->disconnect();
@@ -68,7 +68,7 @@ class rcube_smtp
             $host = "{$host}:{$port}";
         }
 
-        $host = rcube_utils::parse_host($host);
+        $host = \rcube_utils::parse_host($host);
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
@@ -88,7 +88,7 @@ class rcube_smtp
 
         $smtp_host = $CONFIG['smtp_host'] ?: 'localhost';
 
-        [$smtp_host, $scheme, $smtp_port] = rcube_utils::parse_host_uri($smtp_host, 587, 465);
+        [$smtp_host, $scheme, $smtp_port] = \rcube_utils::parse_host_uri($smtp_host, 587, 465);
 
         $use_tls = $scheme === 'tls';
 
@@ -98,19 +98,19 @@ class rcube_smtp
         }
 
         // Handle per-host socket options
-        rcube_utils::parse_socket_options($CONFIG['smtp_conn_options'], $smtp_host);
+        \rcube_utils::parse_socket_options($CONFIG['smtp_conn_options'], $smtp_host);
 
         // Use valid EHLO/HELO host (#6408)
-        $helo_host = $CONFIG['smtp_helo_host'] ?: rcube_utils::server_name();
-        $helo_host = rcube_utils::idn_to_ascii($helo_host);
+        $helo_host = $CONFIG['smtp_helo_host'] ?: \rcube_utils::server_name();
+        $helo_host = \rcube_utils::idn_to_ascii($helo_host);
         if (!preg_match('/^[a-zA-Z0-9.:-]+$/', $helo_host)) {
             $helo_host = 'localhost';
         }
 
         // IDNA Support
-        $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
+        $smtp_host = \rcube_utils::idn_to_ascii($smtp_host);
 
-        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
+        $this->conn = new \Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
             $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
         if ($rcube->config->get('smtp_debug')) {
@@ -186,7 +186,7 @@ class rcube_smtp
         if (($smtp_user && $smtp_pass) || ($smtp_auth_type == 'GSSAPI')) {
             // IDNA Support
             if (strpos($smtp_user, '@')) {
-                $smtp_user = rcube_utils::idn_to_ascii($smtp_user);
+                $smtp_user = \rcube_utils::idn_to_ascii($smtp_user);
             }
 
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, false, $smtp_authz);
@@ -334,7 +334,7 @@ class rcube_smtp
                         $limit = $exts['SIZE'];
                         $msg .= " (Limit: {$limit})";
                         if (class_exists('rcmail_action')) {
-                            $limit = rcmail_action::show_bytes($limit);
+                            $limit = \rcmail_action::show_bytes($limit);
                         }
 
                         $err_vars['limit'] = $limit;
@@ -396,7 +396,7 @@ class rcube_smtp
                 . "... [truncated {$diff} bytes]";
         }
 
-        rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));
+        \rcube::write_log('smtp', preg_replace('/\r\n$/', '', $message));
     }
 
     /**
@@ -494,11 +494,11 @@ class rcube_smtp
 
         $addresses = [];
         $recipients = preg_replace('/[\s\t]*\r?\n/', '', $recipients);
-        $recipients = rcube_utils::explode_quoted_string(',', $recipients);
+        $recipients = \rcube_utils::explode_quoted_string(',', $recipients);
 
         reset($recipients);
         foreach ($recipients as $recipient) {
-            $a = rcube_utils::explode_quoted_string(' ', $recipient);
+            $a = \rcube_utils::explode_quoted_string(' ', $recipient);
             foreach ($a as $word) {
                 $word = trim($word);
                 $len = strlen($word);
@@ -520,7 +520,7 @@ class rcube_smtp
      */
     private function _process_xclient($use_tls, $helo_host)
     {
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
 
         if (!is_object($this->conn)) {
             return false;
@@ -540,7 +540,7 @@ class rcube_smtp
         }
 
         if ($rcube->config->get('smtp_xclient_addr') && in_array_nocase('addr', $opts)) {
-            $ip = rcube_utils::remote_addr();
+            $ip = \rcube_utils::remote_addr();
 
             if (filter_var($ip, \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV4)) {
                 $r = $ip;

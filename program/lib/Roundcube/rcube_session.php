@@ -23,7 +23,7 @@
 /**
  * Abstract class to provide database supported session storage
  */
-abstract class rcube_session implements SessionHandlerInterface
+abstract class rcube_session implements \SessionHandlerInterface
 {
     protected $config;
     protected $key;
@@ -55,9 +55,9 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Factory, returns driver-specific instance of the class
      *
-     * @param rcube_config $config
+     * @param \rcube_config $config
      *
-     * @return rcube_session Session object
+     * @return \rcube_session Session object
      */
     public static function factory($config)
     {
@@ -68,7 +68,7 @@ abstract class rcube_session implements SessionHandlerInterface
         $class = "rcube_session_{$storage}";
 
         if (!class_exists($class)) {
-            rcube::raise_error([
+            \rcube::raise_error([
                 'code' => 604,
                 'type' => 'session',
                 'message' => 'Failed to find session driver. Check session_storage config option',
@@ -81,7 +81,7 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Object constructor
      *
-     * @param rcube_config $config
+     * @param \rcube_config $config
      */
     public function __construct($config)
     {
@@ -118,7 +118,7 @@ abstract class rcube_session implements SessionHandlerInterface
     public function start()
     {
         $this->start = microtime(true);
-        $this->ip = rcube_utils::remote_addr();
+        $this->ip = \rcube_utils::remote_addr();
         $this->logging = $this->config->get('session_debug', false);
 
         $lifetime = $this->config->get('session_lifetime', 1) * 60;
@@ -130,20 +130,20 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Abstract methods should be implemented by driver classes
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function close();
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function destroy($key);
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function read($key);
 
     /**
@@ -175,8 +175,8 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function write($key, $vars)
     {
         if ($this->nowrite) {
@@ -202,8 +202,8 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return int|false Number of deleted sessions on success, False on failure
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         // move gc execution to the script shutdown function
@@ -236,7 +236,7 @@ abstract class rcube_session implements SessionHandlerInterface
     public function create($data)
     {
         $length = strlen(session_id());
-        $key = rcube_utils::random_bytes($length);
+        $key = \rcube_utils::random_bytes($length);
 
         // create new session
         if ($this->save($key, $this->serialize($data))) {
@@ -428,10 +428,10 @@ abstract class rcube_session implements SessionHandlerInterface
         $this->log('Session destroy: ' . session_id());
 
         $this->vars = null;
-        $this->ip = rcube_utils::remote_addr(); // update IP (might have changed)
+        $this->ip = \rcube_utils::remote_addr(); // update IP (might have changed)
         $this->destroy(session_id());
 
-        rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
+        \rcube_utils::setcookie($this->cookiename, '-del-', time() - 60);
     }
 
     /**
@@ -662,7 +662,7 @@ abstract class rcube_session implements SessionHandlerInterface
             if (!empty($_SESSION['auth_secret'])) {
                 $secret = $_SESSION['auth_secret'];
             } else {
-                $secret = rcube_utils::random_bytes(strlen($this->key));
+                $secret = \rcube_utils::random_bytes(strlen($this->key));
             }
         }
 
@@ -700,11 +700,11 @@ abstract class rcube_session implements SessionHandlerInterface
     {
         $this->cookie = $_COOKIE[$this->cookiename] ?? null;
 
-        $result = $this->ip_check ? rcube_utils::remote_addr() == $this->ip : true;
+        $result = $this->ip_check ? \rcube_utils::remote_addr() == $this->ip : true;
         $prev = null;
 
         if (!$result) {
-            $this->log('IP check failed for ' . $this->key . '; expected ' . $this->ip . '; got ' . rcube_utils::remote_addr());
+            $this->log('IP check failed for ' . $this->key . '; expected ' . $this->ip . '; got ' . \rcube_utils::remote_addr());
         }
 
         if ($result && $this->mkcookie($this->now) != $this->cookie) {
@@ -736,7 +736,7 @@ abstract class rcube_session implements SessionHandlerInterface
     public function set_auth_cookie()
     {
         $this->cookie = $this->mkcookie($this->now);
-        rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
+        \rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 
@@ -764,7 +764,7 @@ abstract class rcube_session implements SessionHandlerInterface
     public function log($line)
     {
         if ($this->logging) {
-            rcube::write_log('session', $line);
+            \rcube::write_log('session', $line);
         }
     }
 }
