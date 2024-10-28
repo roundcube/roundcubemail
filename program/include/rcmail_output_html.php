@@ -2726,13 +2726,26 @@ class rcmail_output_html extends rcmail_output
      */
     protected function add_csp_header(): void
     {
-        $csp = $this->app->config->get('content_security_policy');
+        $csp = $this->get_csp_value('content_security_policy');
         if (!in_array($csp, ['', false, 'false'])) {
             $csp_header = "Content-Security-Policy: {$csp}";
             if (isset($this->env['safemode']) && $this->env['safemode'] === true) {
-                $csp_header .= $this->app->config->get('content_security_policy_add_allow_remote');
+                $csp_allow_remote = $this->get_csp_value('content_security_policy_add_allow_remote');
+                $csp_header .= "; {$csp_allow_remote}";
             }
             $this->header($csp_header);
         }
+    }
+
+    /**
+     * Get a CSP-related value from the config, stripped by surrounding
+     * whitespace and semicolons (and NUL byte, because it's included in the
+     * default second argument to trim(), too).
+     *
+     * @param $name string The key of the wanted config value
+     */
+    protected function get_csp_value($name): string
+    {
+        return trim($this->app->config->get($name), "; \n\r\t\v\x00");
     }
 }
