@@ -16,6 +16,8 @@ class OauthTest extends ActionTestCase
      */
     public function test_run_login_redirect()
     {
+        \rcmail::get_instance()->oauth = \rcmail_oauth::get_instance();
+
         $action = new \rcmail_action_login_oauth();
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
 
