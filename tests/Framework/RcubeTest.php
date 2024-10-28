@@ -78,7 +78,7 @@ class RcubeTest extends TestCase
             return;
         }
 
-        $this->assertSame('', \rcube::exec('which unknown-command-123'));
+        $this->assertSame('', \rcube::exec('which unknown-command-123 2> /dev/null'));
         $this->assertSame("2038\n", \rcube::exec('date --date={date} +%Y', ['date' => '@2147483647']));
         // TODO: More cases
     }
