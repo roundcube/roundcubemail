@@ -148,7 +148,9 @@ class rcmail extends rcube
         }
 
         // load oauth manager
-        $this->oauth = rcmail_oauth::get_instance();
+        if (\PHP_SAPI != 'cli') {
+            $this->oauth = rcmail_oauth::get_instance();
+        }
 
         // run init method on all the plugins
         $this->plugins->init($this, $this->task);
