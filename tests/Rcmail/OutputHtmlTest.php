@@ -429,4 +429,72 @@ class OutputHtmlTest extends TestCase
         $this->assertTrue(strpos($result, '<select name="_charset">') === 0);
         $this->assertTrue(strpos($result, '<option value="UTF-8" selected="selected">UTF-8 (Unicode)</option>') !== false);
     }
+
+    /**
+     * Test adding the Content-Security-Policy with "safemode" off.
+     */
+    public function test_add_csp_header_default_without_safemode()
+    {
+        $headers = $this->run_add_csp_header_and_get_headers(false);
+
+        $this->assertCount(1, $headers);
+        $this->assertSame("Content-Security-Policy: default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'", $headers[0]);
+    }
+
+    /**
+     * Test adding the Content-Security-Policy with "safemode" on.
+     */
+    public function test_add_csp_header_default_with_safemode()
+    {
+        $headers = $this->run_add_csp_header_and_get_headers(true);
+
+        $this->assertCount(1, $headers);
+        $this->assertSame("Content-Security-Policy: default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src *; media-src *; font-src: *; frame-src: *", $headers[0]);
+    }
+
+    /**
+     * Test adding a custom configured Content-Security-Policy.
+     */
+    public function test_add_csp_header_custom()
+    {
+        $rcmail = \rcube::get_instance();
+        // Some a little strange strings.
+        $rcmail->config->set('content_security_policy', 'default-src * ; ');
+        $rcmail->config->set('content_security_policy_add_allow_remote', "; script-src 'unsafe-inline'");
+
+        $headers = $this->run_add_csp_header_and_get_headers(true);
+
+        $this->assertCount(1, $headers);
+        $this->assertSame("Content-Security-Policy: default-src *; script-src 'unsafe-inline'", $headers[0]);
+    }
+
+    protected function run_add_csp_header_and_get_headers(bool $safemode): array
+    {
+        // Use a subclass to get hands on the headers to be sent. There's not
+        // other way to do this, unfortunately, since the PHP CLI SAPI silently
+        // swallows all calls to `header()` (as done in
+        // `rcube_output::header()`).
+        // The class `OutputHtmlMock` is mocking a lot more than we need, so we
+        // rather roll our own.
+        $output = new class extends \rcmail_output_html {
+            public $http_headers = [];
+
+            #[\Override]
+            public function header($header, $replace = true)
+            {
+                $this->http_headers[] = $header;
+            }
+
+            #[\Override]
+            public function add_csp_header(): void
+            {
+                parent::add_csp_header();
+            }
+        };
+
+        $output->set_env('safemode', $safemode);
+        $output->add_csp_header();
+
+        return $output->http_headers;
+    }
 }
