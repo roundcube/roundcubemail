@@ -2731,7 +2731,9 @@ class rcmail_output_html extends rcmail_output
             $csp_header = "Content-Security-Policy: {$csp}";
             if (isset($this->env['safemode']) && $this->env['safemode'] === true) {
                 $csp_allow_remote = $this->get_csp_value('content_security_policy_add_allow_remote');
-                $csp_header .= "; {$csp_allow_remote}";
+                if (!in_array($csp_allow_remote, ['', false, 'false', null])) {
+                    $csp_header .= "; {$csp_allow_remote}";
+                }
             }
             $this->header($csp_header);
         }
