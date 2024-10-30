@@ -110,7 +110,7 @@ class ConfigTest extends TestCase
     // Test if values in defaults.inc.php and values in rcube_config::DEFAULTS match
     public function test_defaults_values(): void
     {
-        // Initialize the variable to make the static analysis happy.
+        // Initialize the variable to avoid warnings.
         $config = null;
         // Load the values from defaults.inc.php manually (we don't want to
         // test the whole loading mechanics of `rcube_config` here).
@@ -118,7 +118,7 @@ class ConfigTest extends TestCase
         require realpath(RCUBE_INSTALL_PATH . 'config/defaults.inc.php');
         ob_end_clean();
 
-        $this->assertIsArray($config);
+        $this->assertIsArray($config); // @phpstan-ignore-line
 
         foreach (\rcube_config::DEFAULTS as $name => $hardcoded_value) {
             $this->assertSame($hardcoded_value, $config[$name], "The value for '{$name}' in defaults.inc.php does not match the hardcoded default in rcube_config!");
