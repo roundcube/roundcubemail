@@ -2728,14 +2728,14 @@ class rcmail_output_html extends rcmail_output
     {
         $csp = $this->get_csp_value('content_security_policy');
         if ($csp !== false) {
-            $csp_header = "Content-Security-Policy: {$csp}";
+            $csp_parts = [$csp];
             if (isset($this->env['safemode']) && $this->env['safemode'] === true) {
                 $csp_allow_remote = $this->get_csp_value('content_security_policy_add_allow_remote');
                 if ($csp_allow_remote !== false) {
-                    $csp_header .= "; {$csp_allow_remote}";
+                    $csp_parts[] = $csp_allow_remote;
                 }
             }
-            $this->header($csp_header);
+            $this->header("Content-Security-Policy: " . join('; ', $csp_parts));
         }
     }
 
