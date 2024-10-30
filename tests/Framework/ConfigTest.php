@@ -106,4 +106,20 @@ class ConfigTest extends TestCase
         $this->assertSame([1], invokeMethod($object, 'parse_env', ['[1]', 'array']));
         $this->assertSame(['test' => 1], (array) invokeMethod($object, 'parse_env', ['{"test":1}', 'object']));
     }
+
+    // Test if values in defaults.inc.php and values in rcube_config::DEFAULTS match
+    public function test_defaults_values(): void
+    {
+        // Load the values from defaults.inc.php manually (we don't want to
+        // test the whole loading mechanics of `rcube_config` here).
+        ob_start();
+        require realpath(RCUBE_INSTALL_PATH . 'config/defaults.inc.php');
+        ob_end_clean();
+
+        $this->assertIsArray($config);
+
+        foreach (\rcube_config::DEFAULTS as $name => $hardcoded_value) {
+            $this->assertSame($hardcoded_value, $config[$name], "The value for '{$name}' in defaults.inc.php does not match the hardcoded default in rcube_config!");
+        }
+    }
 }
