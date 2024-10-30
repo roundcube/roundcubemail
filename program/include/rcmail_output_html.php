@@ -2735,7 +2735,7 @@ class rcmail_output_html extends rcmail_output
                     $csp_parts[] = $csp_allow_remote;
                 }
             }
-            $this->header("Content-Security-Policy: " . join('; ', $csp_parts));
+            $this->header('Content-Security-Policy: ' . implode('; ', $csp_parts));
         }
     }
 
@@ -2745,6 +2745,7 @@ class rcmail_output_html extends rcmail_output
      * default second argument to trim(), too).
      *
      * @param $name string The key of the wanted config value
+     *
      * @return string|false
      */
     protected function get_csp_value($name)
