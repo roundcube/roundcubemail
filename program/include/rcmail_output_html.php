@@ -2745,8 +2745,9 @@ class rcmail_output_html extends rcmail_output
      * default second argument to trim(), too).
      *
      * @param $name string The key of the wanted config value
+     * @return string|false
      */
-    protected function get_csp_value($name): string|false
+    protected function get_csp_value($name)
     {
         $value = $this->app->config->get($name);
         if (is_string($value)) {
