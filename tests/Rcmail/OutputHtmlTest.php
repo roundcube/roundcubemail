@@ -5,6 +5,8 @@ namespace Roundcube\Tests\Rcmail;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
+use function Roundcube\Tests\invokeMethod;
+
 /**
  * Test class to test rcmail_output_html class
  */
@@ -484,16 +486,10 @@ class OutputHtmlTest extends TestCase
             {
                 $this->http_headers[] = $header;
             }
-
-            #[\Override]
-            public function add_csp_header(): void
-            {
-                parent::add_csp_header();
-            }
         };
 
         $output->set_env('safemode', $safemode);
-        $output->add_csp_header();
+        invokeMethod($output, 'add_csp_header');
 
         return $output->http_headers;
     }
