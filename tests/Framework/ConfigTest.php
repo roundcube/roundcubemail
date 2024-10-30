@@ -110,6 +110,8 @@ class ConfigTest extends TestCase
     // Test if values in defaults.inc.php and values in rcube_config::DEFAULTS match
     public function test_defaults_values(): void
     {
+        // Initialize the variable to make the static analysis happy.
+        $config = null;
         // Load the values from defaults.inc.php manually (we don't want to
         // test the whole loading mechanics of `rcube_config` here).
         ob_start();
