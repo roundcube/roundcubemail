@@ -2727,11 +2727,11 @@ class rcmail_output_html extends rcmail_output
     protected function add_csp_header(): void
     {
         $csp = $this->get_csp_value('content_security_policy');
-        if (is_string($csp) && strlen($csp) > 0) {
+        if ($csp !== false) {
             $csp_header = "Content-Security-Policy: {$csp}";
             if (isset($this->env['safemode']) && $this->env['safemode'] === true) {
                 $csp_allow_remote = $this->get_csp_value('content_security_policy_add_allow_remote');
-                if (is_string($csp_allow_remote) && strlen($csp_allow_remote) > 0) {
+                if ($csp_allow_remote !== false) {
                     $csp_header .= "; {$csp_allow_remote}";
                 }
             }
@@ -2746,8 +2746,12 @@ class rcmail_output_html extends rcmail_output
      *
      * @param $name string The key of the wanted config value
      */
-    protected function get_csp_value($name): string
+    protected function get_csp_value($name): string|false
     {
-        return trim($this->app->config->get($name), "; \n\r\t\v\x00");
+        $value = $this->app->config->get($name);
+        if (is_string($value)) {
+            return trim($value, "; \n\r\t\v\x00");
+        }
+        return false;
     }
 }
