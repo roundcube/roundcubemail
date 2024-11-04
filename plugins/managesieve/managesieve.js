@@ -1041,6 +1041,8 @@ function sieve_formattime(hour, minutes) {
                 break;
             case 's':
                 time += '00';
+
+                break;
             default:
                 time += c;
         }
