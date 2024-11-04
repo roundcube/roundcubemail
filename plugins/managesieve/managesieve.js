@@ -1022,8 +1022,9 @@ function sieve_formattime(hour, minutes) {
                 break;
             case 'g':
             case 'h':
-                h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
-                time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+                h = hour % 12;
+                h = h === 0 ? 12 : h;
+                time += (c === 'h' && h < 10 ? '0' : '') + h;
 
                 break;
             case 'G':
