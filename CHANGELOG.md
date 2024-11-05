@@ -47,6 +47,7 @@
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
+- Managesieve: Fix the frontend datetime picker not respecting the 12h format and apending a dangling 's' to the seconds (#9688)
 - Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Password: Use Guzzle HTTP Client in the `pwned` driver
