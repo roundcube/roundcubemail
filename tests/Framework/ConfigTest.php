@@ -48,6 +48,16 @@ class ConfigTest extends TestCase
 
         $this->assertSame(4190, $object->get('test_int'));
 
+        // If the configured value is `null`, expect the fallback value (which is `null` by default).
+        $object->set('test', null);
+        $this->assertNull($object->get('test'));
+        $this->assertSame('fallback', $object->get('test', 'fallback'));
+
+        // If the configured value is `false`, expect `false`, regardless of the fallback value.
+        $object->set('test', false);
+        $this->assertFalse($object->get('test'));
+        $this->assertFalse($object->get('test', 'wrong'));
+
         // TODO: test more code paths in get() and set()
     }
 
