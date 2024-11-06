@@ -10,7 +10,7 @@ If you found a security issue or vulnerability of the software, please report it
 
 Your report should include clear steps for reproduction and a classification of the found vulnerability.
 
-You can also send an encrypted email message to *alec[at]alec.pl*. You can find the PGP public key on the major public keyservers like [pgp.key-server.io](https://pgp.key-server.io).
+If you prefer, you can also send an encrypted email message to `security [at] roundcube.net`. The [PGP key](https://roundcube.net/download/security.roundcube.net.pub)'s fingerprint is `ACFCF63232B79518E632EC4B0127B799F939816F`.
 
 ## Publishing and Credits
 
