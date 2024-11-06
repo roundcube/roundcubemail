@@ -19,6 +19,7 @@ class PrintTest extends TestCase
         foreach (glob(TESTS_DIR . 'data/mail/list_00.eml') as $f) {
             Bootstrap::import_message($f, 'INBOX');
         }
+        Bootstrap::import_message(TESTS_DIR . 'data/mail/long_lines.eml', 'INBOX');
     }
 
     /**
@@ -29,8 +30,8 @@ class PrintTest extends TestCase
         $this->browse(function ($browser) {
             $browser->go('mail');
 
-            $browser->waitFor('#messagelist tbody tr:first-child')
-                ->ctrlClick('#messagelist tbody tr:first-child');
+            $browser->waitFor('#messagelist tbody tr:nth-child(2)')
+                ->ctrlClick('#messagelist tbody tr:nth-child(2)');
 
             $browser->clickToolbarMenuItem('more', null, false);
 
@@ -68,6 +69,56 @@ class PrintTest extends TestCase
                         ->assertElementsCount('span.adr', 12)
                         ->assertSee('test12@domain.tld');
                 });
+
+            $browser->driver->close();
+            $browser->driver->switchTo()->window($current_window);
+        });
+    }
+
+    /**
+     * Test visibility of long lines in print view
+     */
+    public function testPrintLongLines()
+    {
+        $this->browse(function ($browser) {
+            $browser->go('mail');
+
+            $browser->screenshot("pre-click.png");
+            $browser->waitFor('#messagelist tbody tr:nth-child(1)')
+                ->ctrlClick('#messagelist tbody tr:nth-child(1)');
+
+            $browser->clickToolbarMenuItem('more', null, false);
+
+            $browser->with(new Popupmenu('message-menu'), function ($browser) use (&$current_window, &$new_window) {
+                if ($browser->isPhone()) {
+                    $browser->assertMissing('a.print');
+                    $this->markTestSkipped();
+                }
+
+                [$current_window, $new_window] = $browser->openWindow(static function ($browser) {
+                    $browser->clickMenuItem('print');
+                });
+            });
+
+            $browser->driver->switchTo()->window($new_window);
+
+            $browser->with(new App(), static function ($browser) {
+                $browser->assertEnv([
+                    'task' => 'mail',
+                    'action' => 'print',
+                ]);
+            });
+
+            $browser->assertSeeIn('.subject', 'Very long lines')
+                ->assertSeeIn('.message-part div.pre', 'QuovoluptatemquiasuscipitquamconsecteturofficiaaquiaQuisedestcumvoluptatedoloremremInametvoluptatumsuntharumfugiatnihilmagnam.
+
+AperiamcupiditatedoloribusreprehenderitnonEtnihilvelititaquefacilisvelitinventoreDoloraperiamperspiciatisautemeiusconsequaturtempora.
+
+EsseevenietharumattotaminciduntesseQuiitaquenullarepellatRepellendusidvoluptatemcorruptiassumendaofficiaaetDolorembeataelaborumasperioresratione.
+
+OptiodoloremtotamfugiatblanditiisexercitationemcorruptinecessitatibusoccaecatiNemodelenitiquiafugitutrepellendusFacilisteneturautidfacereRepellendusatquesitminimaminimaculpateneturidreiciendisVoluptasdignissimosdignissimosquodvoluptatibusexplicaboSedaliasasperioresmaioresoccaecatietnemo.
+
+AliasquisquaminsedVeniamvelitconsecteturquitemporeanimiutautsapienteFugitteneturvoluptasquiaetfacere.');
 
             $browser->driver->close();
             $browser->driver->switchTo()->window($current_window);
