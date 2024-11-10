@@ -452,7 +452,7 @@ class IndexTest extends ActionTestCase
         $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
 
         $params['safe'] = true;
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
