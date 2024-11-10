@@ -14,8 +14,8 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
-$labels['downloadall'] = 'Discargar tote le attachamentos';
-$labels['download'] = 'Discargar...';
+$labels['downloadall'] = 'Discargar tote le annexos';
+$labels['download'] = 'Discargar…';
 $labels['downloadmbox'] = 'Formato Mbox (.zip)';
 $labels['downloadmaildir'] = 'Formato Maildir (.zip)';
 $labels['downloademl'] = 'Fonte (.eml)';

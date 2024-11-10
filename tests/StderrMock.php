@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Tests;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -20,13 +22,14 @@
 /**
  * A class for catching STDERR output
  */
-class StderrMock extends php_user_filter
+class StderrMock extends \php_user_filter
 {
     public static $registered = false;
     public static $redirect;
     public static $output = '';
 
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {
@@ -41,7 +44,7 @@ class StderrMock extends php_user_filter
     public static function start()
     {
         if (!self::$registered) {
-            stream_filter_register('redirect', 'StderrMock') || exit('Failed to register filter');
+            stream_filter_register('redirect', self::class) || exit('Failed to register filter');
             self::$registered = true;
         }
 

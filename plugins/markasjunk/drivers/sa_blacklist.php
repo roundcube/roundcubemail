@@ -70,7 +70,7 @@ class markasjunk_sa_blacklist
 
         if (is_file($config_file) && !$rcube->config->load_from_file($config_file)) {
             rcube::raise_error([
-                'code' => 527, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 527,
                 'message' => "Failed to load config from {$config_file}",
             ], true, false);
 

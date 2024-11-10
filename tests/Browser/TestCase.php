@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Browser;
+namespace Roundcube\Tests\Browser;
 
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\Chrome\SupportsChrome;
 use Laravel\Dusk\Concerns\ProvidesBrowser;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
@@ -33,10 +34,13 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @beforeClass
      */
+    #[BeforeClass]
     public static function prepare(): void
     {
         static::startWebServer();
-        static::startChromeDriver();
+        if (!getenv('WEBDRIVER_CONNECT_URL')) {
+            static::startChromeDriver();
+        }
     }
 
     /**
@@ -44,6 +48,7 @@ abstract class TestCase extends PHPUnitTestCase
      *
      * @return RemoteWebDriver
      */
+    #[\Override]
     protected function driver()
     {
         $options = (new ChromeOptions())->addArguments([
@@ -51,14 +56,16 @@ abstract class TestCase extends PHPUnitTestCase
             '--disable-gpu',
             '--headless',
             '--no-sandbox',
+            '--disable-features=InsecureDownloadWarnings',
+            '--unsafely-treat-insecure-origin-as-secure=' . self::getServerUrl(),
         ]);
 
         // For file download handling
         $prefs = [
             'profile.default_content_settings.popups' => 0,
             'download.prompt_for_download' => false,
-            'download.default_directory' => TESTS_DIR . 'downloads',
-            'downloadPath' => TESTS_DIR . 'downloads',
+            'download.default_directory' => getenv('BROWSER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads',
+            'downloadPath' => getenv('BROWSER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads',
         ];
 
         $options->setExperimentalOption('prefs', $prefs);
@@ -87,7 +94,7 @@ abstract class TestCase extends PHPUnitTestCase
         }
 
         return RemoteWebDriver::create(
-            'http://localhost:9515',
+            getenv('WEBDRIVER_CONNECT_URL') ?: 'http://localhost:9515',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY,
                 $options
@@ -98,13 +105,14 @@ abstract class TestCase extends PHPUnitTestCase
     /**
      * Set up the test run
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->app = \rcmail::get_instance();
 
-        Browser::$baseUrl = 'http://localhost:8000';
+        Browser::$baseUrl = self::getServerUrl();
         Browser::$storeScreenshotsAt = TESTS_DIR . 'screenshots';
         Browser::$storeConsoleLogAt = TESTS_DIR . 'console';
 
@@ -116,7 +124,7 @@ abstract class TestCase extends PHPUnitTestCase
         // Purge screenshots from the last test run
         $pattern = sprintf('failure-%s_%s-*',
             str_replace('\\', '_', static::class),
-            $this->getName(false)
+            method_exists($this, 'getName') ? $this->getName(false) : $this->name()
         );
 
         try {
@@ -131,7 +139,7 @@ abstract class TestCase extends PHPUnitTestCase
         // Purge console logs from the last test run
         $pattern = sprintf('%s_%s-*',
             str_replace('\\', '_', static::class),
-            $this->getName(false)
+            method_exists($this, 'getName') ? $this->getName(false) : $this->name()
         );
 
         try {
@@ -150,7 +158,7 @@ abstract class TestCase extends PHPUnitTestCase
     protected static function startWebServer()
     {
         $path = realpath(__DIR__ . '/../../public_html');
-        $cmd = ['php', '-S', 'localhost:8000'];
+        $cmd = ['php', '-S', getenv('SERVER_BIND') ?: 'localhost:8000'];
         $env = [];
 
         static::$phpProcess = new Process($cmd, null, $env);
@@ -160,5 +168,10 @@ abstract class TestCase extends PHPUnitTestCase
         static::afterClass(static function () {
             static::$phpProcess->stop();
         });
+    }
+
+    protected static function getServerUrl()
+    {
+        return getenv('SERVER_URL') ?: 'http://localhost:8000';
     }
 }

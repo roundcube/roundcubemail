@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_list
  */
-class Actions_Contacts_List extends ActionTestCase
+class ListTest extends ActionTestCase
 {
     /**
      * Test listing contacts
      */
     public function test_list()
     {
-        $action = new rcmail_action_contacts_list();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'list');
+        $action = new \rcmail_action_contacts_list();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'list');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
@@ -22,7 +27,7 @@ class Actions_Contacts_List extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('list', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
 

@@ -70,10 +70,7 @@ class rcube_mailcow_password
             $result = $e->getMessage();
         }
 
-        rcube::raise_error([
-            'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
-            'message' => "Password plugin: Problem with Mailcow API: {$result}",
-        ], true, false);
+        rcube::raise_error("Password plugin: Problem with Mailcow API: {$result}", true);
 
         return PASSWORD_CONNECT_ERROR;
     }

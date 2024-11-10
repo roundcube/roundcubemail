@@ -321,7 +321,7 @@ class rcube
 
         if (!class_exists($driver_class)) {
             self::raise_error([
-                'code' => 700, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 700,
                 'message' => "Storage driver class ({$driver}) not found!",
             ], true, true);
         }
@@ -659,7 +659,6 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
-            // @phpstan-ignore-next-line
             foreach ($this->plugins->loaded_plugins() as $domain) {
                 if (isset($this->texts[$domain . '.' . $name])) {
                     $ref_domain = $domain;
@@ -919,12 +918,7 @@ class rcube
         }
 
         if ($cipher === false) {
-            self::raise_error([
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "Failed to encrypt data with configured cipher method: {$method}!",
-            ], true, false);
-
+            self::raise_error("Failed to encrypt data with configured cipher method: {$method}!", true);
             return false;
         }
 
@@ -948,7 +942,8 @@ class rcube
      */
     public function decrypt($cipher, $key = 'des_key', $base64 = true)
     {
-        if (strlen($cipher) == 0) {
+        // @phpstan-ignore-next-line
+        if (!is_string($cipher) || !strlen($cipher)) {
             return false;
         }
 
@@ -1388,14 +1383,14 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param array|Throwable|string|PEAR_Error $arg       Error object, string or named parameters array:
-     *                                                     - code:    Error code (required)
-     *                                                     - type:    Error type: php, db, imap, etc.
-     *                                                     - message: Error message
-     *                                                     - file:    File where error occurred
-     *                                                     - line:    Line where error occurred
-     * @param bool                              $log       True to log the error
-     * @param bool                              $terminate Terminate script execution
+     * @param int|array|Throwable|string|PEAR_Error $arg       Error object, int, string or named parameters array:
+     *                                                         - code:    Error code (required)
+     *                                                         - type:    Error type: php, db, imap, etc.
+     *                                                         - message: Error message
+     *                                                         - file:    File where error occurred
+     *                                                         - line:    Line where error occurred
+     * @param bool                                  $log       True to log the error
+     * @param bool                                  $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
@@ -1413,12 +1408,23 @@ class rcube
                 'code' => $arg->getCode(),
                 'message' => $arg->getMessage() . ($info ? ': ' . $info : ''),
             ];
+        } elseif (is_int($arg)) {
+            $arg = ['code' => $arg];
         } elseif (is_string($arg)) {
             $arg = ['message' => $arg];
         }
 
         if (empty($arg['code'])) {
             $arg['code'] = 500;
+        }
+
+        $prevStackFrame = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
+        if (
+            !isset($arg['file']) && isset($prevStackFrame['file'])
+            && !isset($arg['line']) && isset($prevStackFrame['line'])
+        ) {
+            $arg['file'] = $prevStackFrame['file'];
+            $arg['line'] = $prevStackFrame['line'];
         }
 
         $cli = \PHP_SAPI == 'cli';
@@ -1790,7 +1796,7 @@ class rcube
 
             if (is_a($mime_result, 'PEAR_Error')) {
                 self::raise_error([
-                    'code' => 650, 'file' => __FILE__, 'line' => __LINE__,
+                    'code' => 650,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
                 ], true, false);
                 return false;
@@ -1813,8 +1819,8 @@ class rcube
 
         if (!$sent) {
             self::raise_error([
-                'code' => 800, 'type' => 'smtp',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 800,
+                'type' => 'smtp',
                 'message' => implode("\n", $response),
             ], true, false);
 

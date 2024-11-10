@@ -73,10 +73,6 @@ class rcube_enriched
         $pattern = '/(.*)\<fontfamily\>\<param\>(.*)\<\/param\>(.*)\<\/fontfamily\>(.*)/ims';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 5) {
-                continue;
-            }
-
             $body = $a[1] . '<span style="font-family: ' . $a[2] . '">' . $a[3] . '</span>' . $a[4];
         }
 
@@ -88,10 +84,6 @@ class rcube_enriched
         $pattern = '/(.*)\<color\>\<param\>(.*)\<\/param\>(.*)\<\/color\>(.*)/ims';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 5) {
-                continue;
-            }
-
             // extract color (either by name, or ####,####,####)
             if (strpos($a[2], ',')) {
                 $rgb = explode(',', $a[2]);
@@ -115,10 +107,6 @@ class rcube_enriched
         $pattern = '/(.*)\<excerpt\>(.*)\<\/excerpt\>(.*)/i';
 
         while (preg_match($pattern, $body, $a)) {
-            if (count($a) != 4) {
-                continue;
-            }
-
             $quoted = '';
             $lines = explode('<br>', $a[2]);
 

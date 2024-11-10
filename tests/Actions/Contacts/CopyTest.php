@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_copy
  */
-class Actions_Contacts_Copy extends ActionTestCase
+class CopyTest extends ActionTestCase
 {
     /**
      * Test copying pre-check errors
      */
     public function test_copy_pre_check_errors()
     {
-        $action = new rcmail_action_contacts_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
+        $action = new \rcmail_action_contacts_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Missing target addressbook
@@ -26,7 +31,7 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
@@ -37,25 +42,25 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
         // target readonly
-        $_POST['_to'] = rcube_addressbook::TYPE_RECIPIENT;
+        $_POST['_to'] = \rcube_addressbook::TYPE_RECIPIENT;
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
 
         // Non-existing contact
         $_POST = [
             '_cid' => 100,
-            '_source' => rcube_addressbook::TYPE_RECIPIENT,
+            '_source' => \rcube_addressbook::TYPE_RECIPIENT,
             '_to' => '0',
         ];
 
@@ -63,7 +68,7 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
     }
@@ -73,21 +78,21 @@ class Actions_Contacts_Copy extends ActionTestCase
      */
     public function test_copy_success()
     {
-        $action = new rcmail_action_contacts_copy();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'copy');
+        $action = new \rcmail_action_contacts_copy();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'copy');
 
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $rcmail = rcmail::get_instance();
-        $source = $rcmail->get_address_book(rcube_addressbook::TYPE_RECIPIENT);
+        $rcmail = \rcmail::get_instance();
+        $source = $rcmail->get_address_book(\rcube_addressbook::TYPE_RECIPIENT);
         $cid = $rcmail->contact_create(['email' => 'test@recipient.com'], $source);
 
         // Missing target addressbook
         $_POST = [
             '_cid' => $cid,
-            '_source' => rcube_addressbook::TYPE_RECIPIENT,
+            '_source' => \rcube_addressbook::TYPE_RECIPIENT,
             '_to' => '0',
         ];
 
@@ -95,7 +100,7 @@ class Actions_Contacts_Copy extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
         $this->assertSame('this.display_message("Successfully copied 1 contacts.","confirmation",0);', trim($result['exec']));
 

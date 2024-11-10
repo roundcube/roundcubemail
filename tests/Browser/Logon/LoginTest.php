@@ -1,17 +1,20 @@
 <?php
 
-namespace Tests\Browser;
+namespace Roundcube\Tests\Browser\Logon;
 
-use Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\TestCase;
 
 class LoginTest extends TestCase
 {
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
 
-        \bootstrap::init_db();
-        \bootstrap::init_imap(true);
+        Bootstrap::init_db();
+        Bootstrap::init_imap(true);
     }
 
     public function testLogin()

@@ -1,20 +1,25 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Mail;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_rename
  */
-class Actions_Mail_AttachmentRename extends ActionTestCase
+class AttachmentRenameTest extends ActionTestCase
 {
     /**
      * Test uploaded attachment rename
      */
     public function test_run()
     {
-        $rcmail = rcmail::get_instance();
-        $action = new rcmail_action_mail_attachment_rename();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
+        $rcmail = \rcmail::get_instance();
+        $action = new \rcmail_action_mail_attachment_rename();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'rename-attachment');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // First we create the upload record
@@ -29,7 +34,7 @@ class Actions_Mail_AttachmentRename extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('rename-attachment', $result['action']);
         $this->assertSame('this.rename_attachment_handler("rcmfile' . $file['id'] . '","mod.gif");', trim($result['exec']));
 

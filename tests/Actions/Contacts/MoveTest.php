@@ -1,35 +1,40 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_move
  */
-class Actions_Contacts_Move extends ActionTestCase
+class MoveTest extends ActionTestCase
 {
     /**
      * Test moving of a single contact
      */
     public function test_move_contact()
     {
-        $action = new rcmail_action_contacts_move();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'move');
+        $action = new \rcmail_action_contacts_move();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'move');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `collected_addresses` WHERE `email` = ?', 'test@collected.eu');
         $contact = $db->fetch_assoc($query);
         $cid = $contact['address_id'];
 
-        $_POST = ['_cid' => $cid, '_to' => '0', '_source' => rcube_addressbook::TYPE_RECIPIENT];
+        $_POST = ['_cid' => $cid, '_to' => '0', '_source' => \rcube_addressbook::TYPE_RECIPIENT];
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('move', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully moved 1 contacts.","confirmation",0);') !== false);

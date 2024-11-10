@@ -1,16 +1,21 @@
 <?php
 
+namespace Roundcube\Tests\Rcmail;
+
+use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
+use Roundcube\Tests\ActionTestCase;
+
 /**
  * Test class to test rcmail_install class
  */
-class Rcmail_RcmailInstall extends ActionTestCase
+class InstallTest extends ActionTestCase
 {
     /**
      * Test getprop() method
      */
     public function test_getprop()
     {
-        $install = rcmail_install::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $this->assertSame('default', $install->getprop('unknown', 'default'));
         $this->assertSame('', $install->getprop('unknown'));
@@ -21,7 +26,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_create_config()
     {
-        $install = rcmail_install::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $config = $install->create_config();
 
@@ -49,8 +54,8 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_db_schema_check()
     {
-        $rcmail = rcmail::get_instance();
-        $install = rcmail_install::get_instance();
+        $rcmail = \rcmail::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $result = $install->db_schema_check($rcmail->get_dbh());
 
@@ -62,8 +67,8 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_check_mime_detection()
     {
-        $rcmail = rcmail::get_instance();
-        $install = rcmail_install::get_instance();
+        $rcmail = \rcmail::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $result = $install->check_mime_detection();
 
@@ -77,10 +82,11 @@ class Rcmail_RcmailInstall extends ActionTestCase
      *
      * @requires OSFAMILY Linux
      */
+    #[RequiresOperatingSystemFamily('Linux')]
     public function test_check_mime_extensions()
     {
-        $rcmail = rcmail::get_instance();
-        $install = rcmail_install::get_instance();
+        $rcmail = \rcmail::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $result = $install->check_mime_extensions();
 
@@ -92,8 +98,8 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_list_skins()
     {
-        $rcmail = rcmail::get_instance();
-        $install = rcmail_install::get_instance();
+        $rcmail = \rcmail::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $result = $install->list_skins();
 
@@ -105,8 +111,8 @@ class Rcmail_RcmailInstall extends ActionTestCase
      */
     public function test_list_plugins()
     {
-        $rcmail = rcmail::get_instance();
-        $install = rcmail_install::get_instance();
+        $rcmail = \rcmail::get_instance();
+        $install = \rcmail_install::get_instance();
 
         $result = $install->list_plugins();
 
@@ -129,7 +135,7 @@ class Rcmail_RcmailInstall extends ActionTestCase
             'smtp_host' => 'ssl://test:465',
         ];
 
-        $install = rcmail_install::get_instance();
+        $install = \rcmail_install::get_instance();
         $install->configured = true;
         $install->config = $config;
 

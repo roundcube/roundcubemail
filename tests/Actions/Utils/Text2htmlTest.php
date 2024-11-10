@@ -1,18 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Utils;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_utils_text2html
  */
-class Actions_Utils_Text2html extends ActionTestCase
+class Text2htmlTest extends ActionTestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcmail_action_utils_text2html();
+        $object = new \rcmail_action_utils_text2html();
 
-        $this->assertInstanceOf('rcmail_action', $object);
+        $this->assertInstanceOf(\rcmail_action::class, $object);
     }
 
     /**
@@ -20,11 +25,11 @@ class Actions_Utils_Text2html extends ActionTestCase
      */
     public function test_run()
     {
-        $object = new rcmail_action_utils_text2html();
+        $object = new \rcmail_action_utils_text2html();
         $input = 'test plain text input';
         $object::$source = $this->createTempFile($input);
 
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'text2html');
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'utils', 'text2html');
 
         $this->assertTrue($object->checks());
 

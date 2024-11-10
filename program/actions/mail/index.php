@@ -35,12 +35,14 @@ class rcmail_action_mail_index extends rcmail_action
     protected static $PRINT_MODE = false;
     protected static $REMOTE_OBJECTS;
     protected static $SUSPICIOUS_EMAIL = false;
+    protected static $wash_html_body_attrs = [];
 
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -658,6 +660,11 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         foreach ($a_show_cols as $col) {
+            // sanity check
+            if (!preg_match('/^[a-zA-Z_-]+$/', $col)) {
+                continue;
+            }
+
             $label = '';
             $sortable = false;
             $rel_col = $col == 'date' && $sort_col == 'arrival' ? 'arrival' : $col;
@@ -932,13 +939,16 @@ class rcmail_action_mail_index extends rcmail_action
         // clean HTML with washtml by Frederic Motte
         $wash_opts = [
             'show_washed' => false,
+            'add_comments' => $p['add_comments'] ?? true,
             'allow_remote' => $p['safe'],
             'blocked_src' => $rcmail->output->asset_url('program/resources/blocked.gif'),
-            'charset' => RCUBE_CHARSET,
             'cid_map' => $cid_replaces,
             'html_elements' => ['body'],
+            'ignore_elements' => $p['ignore_elements'] ?? [],
             'css_prefix' => $p['css_prefix'],
+            // internal configuration
             'container_id' => $p['container_id'],
+            'body_class' => $p['body_class'] ?? '',
         ];
 
         if (empty($p['inline_html'])) {
@@ -959,11 +969,25 @@ class rcmail_action_mail_index extends rcmail_action
         // initialize HTML washer
         $washer = new rcube_washtml($wash_opts);
 
+        self::$wash_html_body_attrs = [];
+
+        if (!empty($p['inline_html'])) {
+            $washer->add_callback('body', 'rcmail_action_mail_index::washtml_callback');
+
+            if ($wash_opts['body_class']) {
+                self::$wash_html_body_attrs['class'] = $wash_opts['body_class'];
+            }
+
+            if ($wash_opts['container_id']) {
+                self::$wash_html_body_attrs['id'] = $wash_opts['container_id'];
+            }
+        }
+
         if (empty($p['skip_washer_form_callback'])) {
             $washer->add_callback('form', 'rcmail_action_mail_index::washtml_callback');
         }
 
-        // allow CSS styles, will be sanitized by rcmail_washtml_callback()
+        // allow CSS styles, will be sanitized by self::washtml_callback()
         if (empty($p['skip_washer_style_callback'])) {
             $washer->add_callback('style', 'rcmail_action_mail_index::washtml_callback');
         }
@@ -980,6 +1004,11 @@ class rcmail_action_mail_index extends rcmail_action
 
         $html = $washer->wash($html);
         self::$REMOTE_OBJECTS = $washer->extlinks;
+
+        // There was no <body>, but a wrapper element is required
+        if (!empty($p['inline_html']) && !empty(self::$wash_html_body_attrs)) {
+            $html = html::tag('div', self::$wash_html_body_attrs, $html);
+        }
 
         return $html;
     }
@@ -1106,9 +1135,67 @@ class rcmail_action_mail_index extends rcmail_action
                     if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
                         $washtml->extlinks = true;
                     } else {
-                        $out = html::tag('style', ['type' => 'text/css'], $decoded);
+                        $out = $decoded;
                     }
                 }
+
+                if (strlen($out)) {
+                    $css_prefix = $washtml->get_config('css_prefix');
+                    $is_safe = $washtml->get_config('allow_remote');
+                    $body_class = $washtml->get_config('body_class') ?: '';
+                    $cont_id = $washtml->get_config('container_id') ?: '';
+                    $cont_id = trim($cont_id . ($body_class ? " div.{$body_class}" : ''));
+
+                    $out = rcube_utils::mod_css_styles($out, $cont_id, $is_safe, $css_prefix);
+
+                    $out = html::tag('style', ['type' => 'text/css'], $out);
+                }
+
+                break;
+            case 'body':
+                $style = [];
+                $attrs = self::$wash_html_body_attrs;
+
+                foreach (html::parse_attrib_string($attrib) as $attr_name => $value) {
+                    switch (strtolower($attr_name)) {
+                        case 'bgcolor':
+                            // Get bgcolor, we'll set it as background-color of the message container
+                            if (preg_match('/^([a-z0-9#]+)$/i', $value, $m)) {
+                                $style['background-color'] = $value;
+                            }
+                            break;
+                        case 'text':
+                            // Get text color, we'll set it as font color of the message container
+                            if (preg_match('/^([a-z0-9#]+)$/i', $value, $m)) {
+                                $style['color'] = $value;
+                            }
+                            break;
+                        case 'background':
+                            // Get background, we'll set it as background-image of the message container
+                            if (preg_match('/^([^\s]+)$/', $value, $m)) {
+                                $style['background-image'] = "url({$value})";
+                            }
+                            break;
+                        default:
+                            $attrs[$attr_name] = $value;
+                    }
+                }
+
+                if (!empty($style)) {
+                    foreach ($style as $idx => $val) {
+                        $style[$idx] = $idx . ': ' . $val;
+                    }
+
+                    if (isset($attrs['style'])) {
+                        $attrs['style'] = trim($attrs['style'], '; ') . '; ' . implode('; ', $style);
+                    } else {
+                        $attrs['style'] = implode('; ', $style);
+                    }
+                }
+
+                $out = html::tag('div', $attrs, $content);
+                self::$wash_html_body_attrs = [];
+                break;
         }
 
         return $out;
@@ -1172,117 +1259,6 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         return null;
-    }
-
-    /**
-     * Modify a HTML message that it can be displayed inside a HTML page
-     */
-    public static function html4inline($body, &$args)
-    {
-        $last_pos = 0;
-        $is_safe = !empty($args['safe']);
-        $prefix = $args['css_prefix'] ?? null;
-        $cont_id = trim(
-            (!empty($args['container_id']) ? $args['container_id'] : '')
-            . (!empty($args['body_class']) ? ' div.' . $args['body_class'] : '')
-        );
-
-        // find STYLE tags
-        while (($pos = stripos($body, '<style', $last_pos)) !== false && ($pos2 = stripos($body, '</style>', $pos + 1))) {
-            $pos = strpos($body, '>', $pos) + 1;
-            $len = $pos2 - $pos;
-
-            // replace all css definitions with #container [def]
-            $styles = substr($body, $pos, $len);
-            $styles = rcube_utils::mod_css_styles($styles, $cont_id, $is_safe, $prefix);
-
-            $body = substr_replace($body, $styles, $pos, $len);
-            $last_pos = $pos2 + strlen($styles) - $len;
-        }
-
-        $replace = [
-            // add comments around html and other tags
-            '/(<!DOCTYPE[^>]*>)/i' => '<!--\1-->',
-            '/(<\?xml[^>]*>)/i' => '<!--\1-->',
-            '/(<\/?html[^>]*>)/i' => '<!--\1-->',
-            '/(<\/?head[^>]*>)/i' => '<!--\1-->',
-            '/(<title[^>]*>.*<\/title>)/Ui' => '<!--\1-->',
-            '/(<\/?meta[^>]*>)/i' => '<!--\1-->',
-            // quote <? of php and xml files that are specified as text/html
-            '/<\?/' => '&lt;?',
-            '/\?>/' => '?&gt;',
-        ];
-
-        $regexp = '/<body([^>]*)/';
-
-        // Handle body attributes that doesn't play nicely with div elements
-        if (preg_match($regexp, $body, $m)) {
-            $style = [];
-            $attrs = $m[0];
-
-            // Get bgcolor, we'll set it as background-color of the message container
-            if (!empty($m[1]) && preg_match('/bgcolor=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
-                $style['background-color'] = $mb[1];
-                $attrs = preg_replace('/\s?bgcolor=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
-            }
-
-            // Get text color, we'll set it as font color of the message container
-            if (!empty($m[1]) && preg_match('/text=["\']*([a-z0-9#]+)["\']*/i', $attrs, $mb)) {
-                $style['color'] = $mb[1];
-                $attrs = preg_replace('/\s?text=["\']*[a-z0-9#]+["\']*/i', '', $attrs);
-            }
-
-            // Get background, we'll set it as background-image of the message container
-            if (!empty($m[1]) && preg_match('/background=["\']*([^"\'>\s]+)["\']*/', $attrs, $mb)) {
-                $style['background-image'] = 'url(' . $mb[1] . ')';
-                $attrs = preg_replace('/\s?background=["\']*([^"\'>\s]+)["\']*/', '', $attrs);
-            }
-
-            if (!empty($style)) {
-                $body = preg_replace($regexp, rtrim($attrs), $body, 1);
-            }
-
-            // handle body styles related to background image
-            if (!empty($style['background-image'])) {
-                // get body style
-                if (preg_match('/#' . preg_quote($cont_id, '/') . '\s+\{([^}]+)}/i', $body, $m)) {
-                    // get background related style
-                    $regexp = '/(background-position|background-repeat)\s*:\s*([^;]+);/i';
-                    if (preg_match_all($regexp, $m[1], $matches, \PREG_SET_ORDER)) {
-                        foreach ($matches as $_m) {
-                            $style[$_m[1]] = $_m[2];
-                        }
-                    }
-                }
-            }
-
-            if (!empty($style)) {
-                foreach ($style as $idx => $val) {
-                    $style[$idx] = $idx . ': ' . $val;
-                }
-
-                $args['container_attrib']['style'] = implode('; ', $style);
-            }
-
-            // replace <body> with <div>
-            if (!empty($args['body_class'])) {
-                $replace['/<body([^>]*)>/i'] = '<div class="' . $args['body_class'] . '"\1>';
-            } else {
-                $replace['/<body/i'] = '<div';
-            }
-
-            $replace['/<\/body>/i'] = '</div>';
-        }
-        // make sure there's 'rcmBody' div, we need it for proper css modification
-        // its name is hardcoded in self::message_body() also
-        elseif (!empty($args['body_class'])) {
-            $body = '<div class="' . $args['body_class'] . '">' . $body . '</div>';
-        }
-
-        // Clean up, and replace <body> with <div>
-        $body = preg_replace(array_keys($replace), array_values($replace), $body);
-
-        return $body;
     }
 
     /**
@@ -1552,7 +1528,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         // Content-Type values of messages with attachments
         // the same as in app.js:add_message_row()
-        $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
+        $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
 
         // Build search string of "with attachment" filter
         $attachment = trim(str_repeat(' OR', count($ctypes) - 1));
@@ -1624,7 +1600,7 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->output->show_message('messageopenerror', 'error');
             $rcmail->output->send('messageerror');
         } else {
-            $rcmail->raise_error(['code' => 410], false, true);
+            $rcmail->raise_error(410, false, true);
         }
     }
 

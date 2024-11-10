@@ -2,21 +2,23 @@
 
 namespace Tests\Browser\Plugins\Archive;
 
-use Tests\Browser\Components\Popupmenu;
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\Popupmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
-        \bootstrap::init_imap();
-        \bootstrap::purge_mailbox('INBOX');
-        \bootstrap::purge_mailbox('Archive');
+        Bootstrap::init_db();
+        Bootstrap::init_imap(true);
+        Bootstrap::purge_mailbox('INBOX');
+        Bootstrap::purge_mailbox('Archive');
 
         // import single email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_00.eml') as $f) {
-            \bootstrap::import_message($f, 'INBOX');
+            Bootstrap::import_message($f, 'INBOX');
         }
     }
 
@@ -56,6 +58,7 @@ class MailTest extends TestCase
 
             // Folders list
             $browser->whenAvailable('#mailboxlist', static function ($browser) {
+                $browser->waitFor('li.mailbox.archive .unreadcount');
                 $browser->assertSeeIn('li.mailbox.archive .unreadcount', '1')
                     ->click('li.mailbox.archive')
                     ->waitUntilNotBusy();

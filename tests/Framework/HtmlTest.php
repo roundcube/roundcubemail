@@ -1,20 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test html class
  */
-class Framework_Html extends TestCase
+class HtmlTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new html();
+        $object = new \html();
 
-        $this->assertInstanceOf('html', $object, 'Class constructor');
+        $this->assertInstanceOf(\html::class, $object, 'Class constructor');
     }
 
     /**
@@ -61,9 +64,10 @@ class Framework_Html extends TestCase
      *
      * @dataProvider provide_attrib_string_cases
      */
+    #[DataProvider('provide_attrib_string_cases')]
     public function test_attrib_string($arg1, $arg2, $expected)
     {
-        $this->assertSame($expected, html::attrib_string($arg1, $arg2));
+        $this->assertSame($expected, \html::attrib_string($arg1, $arg2));
     }
 
     /**
@@ -87,9 +91,10 @@ class Framework_Html extends TestCase
      *
      * @dataProvider provide_quote_cases
      */
+    #[DataProvider('provide_quote_cases')]
     public function test_quote($str, $expected)
     {
-        $this->assertSame($expected, html::quote($str));
+        $this->assertSame($expected, \html::quote($str));
     }
 
     /**
@@ -130,8 +135,9 @@ class Framework_Html extends TestCase
      *
      * @dataProvider provide_parse_attrib_string_cases
      */
+    #[DataProvider('provide_parse_attrib_string_cases')]
     public function test_parse_attrib_string($arg1, $expected)
     {
-        $this->assertSame($expected, html::parse_attrib_string($arg1));
+        $this->assertSame($expected, \html::parse_attrib_string($arg1));
     }
 }

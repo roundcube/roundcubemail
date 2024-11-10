@@ -3326,6 +3326,7 @@ function rcube_elastic_ui() {
         } else {
             element.tooltip('dispose').tooltip({ trigger: is_mobile() ? 'click' : 'hover' });
         }
+        element.removeClass('hidden');
     }
 
     /**
@@ -4051,7 +4052,8 @@ function rcube_elastic_ui() {
                 }
             };
 
-        $(textarea).on('input', resize).trigger('input');
+        $(textarea).on('input', resize);
+        setTimeout(resize, 100);
     }
 
     // Initializes smart list input

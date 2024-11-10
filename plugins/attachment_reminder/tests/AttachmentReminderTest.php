@@ -1,16 +1,18 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class AttachmentReminder_Plugin extends TestCase
+class AttachmentReminderTest extends TestCase
 {
     /**
      * Plugin object construction test
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new attachment_reminder($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \attachment_reminder($rcube->plugins);
 
         $this->assertInstanceOf('attachment_reminder', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -23,8 +25,8 @@ class AttachmentReminder_Plugin extends TestCase
      */
     public function test_prefs_list()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new attachment_reminder($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \attachment_reminder($rcube->plugins);
 
         $args = ['section' => 'compose', 'blocks' => ['main' => ['options' => []]]];
 
@@ -45,8 +47,8 @@ class AttachmentReminder_Plugin extends TestCase
      */
     public function test_prefs_save()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new attachment_reminder($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \attachment_reminder($rcube->plugins);
 
         $_POST = [];
         $args = ['section' => 'compose', 'prefs' => []];

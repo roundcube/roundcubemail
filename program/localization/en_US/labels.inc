@@ -409,6 +409,8 @@ $labels['instantmessenger'] = 'IM';
 $labels['notes'] = 'Notes';
 $labels['male'] = 'male';
 $labels['female'] = 'female';
+$labels['nonbinary'] = 'non-binary';
+$labels['othergender'] = 'other';
 $labels['manager'] = 'Manager';
 $labels['assistant'] = 'Assistant';
 $labels['spouse'] = 'Spouse';
@@ -679,6 +681,7 @@ $labels['encryption'] = 'Encryption';
 $labels['mailvelopeoptions'] = 'Mailvelope options';
 $labels['mailvelopemainkeyring'] = 'Use Mailvelope main keyring';
 $labels['mailvelopenotfound'] = 'Mailvelope extension is not enabled/installed in your browser.';
+$labels['mailvelopeenable'] = 'Enable';
 
 $labels['sortby'] = 'Sort by';
 $labels['sortasc'] = 'Sort ascending';
@@ -691,6 +694,7 @@ $labels['version'] = 'Version';
 $labels['source'] = 'Source';
 $labels['destination'] = 'Destination';
 $labels['license'] = 'License';
+$labels['skinauthor'] = 'by $author';
 $labels['support'] = 'Get support';
 $labels['savedsearches'] = 'Saved searches';
 

@@ -1,22 +1,27 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_response_delete
  */
-class Actions_Settings_ResponseDelete extends ActionTestCase
+class ResponseDeleteTest extends ActionTestCase
 {
     /**
      * Test deleting a response
      */
     public function test_delete_response()
     {
-        $action = new rcmail_action_settings_response_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'delete-response');
+        $action = new \rcmail_action_settings_response_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'delete-response');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         $rcmail->user->save_prefs(['compose_responses_static' => []]);
 
         self::initDB('responses');
@@ -34,7 +39,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation");') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.remove_response("' . $rid . '")') !== false);
@@ -51,7 +56,7 @@ class Actions_Settings_ResponseDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("An error occurred while saving.","error"') !== false);
 

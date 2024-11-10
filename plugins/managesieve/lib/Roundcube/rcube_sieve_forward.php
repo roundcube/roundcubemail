@@ -27,6 +27,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     protected $script_name;
     protected $forward = [];
 
+    #[Override]
     public function actions()
     {
         $error = $this->start('forward');
@@ -53,6 +54,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
      *
      * @return int Connection status: 0 on success, >0 on failure
      */
+    #[Override]
     protected function load_script($script_name = null)
     {
         if ($this->script_name !== null) {
@@ -388,6 +390,7 @@ class rcube_sieve_forward extends rcube_sieve_engine
     /**
      * API: connect to managesieve server
      */
+    #[Override]
     public function connect($username, $password)
     {
         $error = parent::connect($username, $password);

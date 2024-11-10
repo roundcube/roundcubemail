@@ -19,6 +19,7 @@ class virtuser_file extends rcube_plugin
     /**
      * Plugin initialization
      */
+    #[Override]
     public function init()
     {
         $this->app = rcmail::get_instance();
@@ -67,7 +68,9 @@ class virtuser_file extends rcube_plugin
             $arr = preg_split('/\s+/', trim($r[$i]));
 
             if (count($arr) > 0) {
-                $p['user'] = trim($arr[count($arr) - 1]);
+                // Replace '\@' with '@' to handle cases where internal usernames include an '@' character.
+                // Sometimes usernames with '@' are saved with a leading '\' to avoid conflicts.
+                $p['user'] = trim(str_replace('\@', '@', $arr[count($arr) - 1]));
                 break;
             }
         }

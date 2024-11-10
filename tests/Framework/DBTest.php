@@ -1,5 +1,8 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -7,7 +10,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @group database
  */
-class Framework_DB extends TestCase
+#[Group('database')]
+class DBTest extends TestCase
 {
     /**
      * Test script execution and table_prefix replacements
@@ -179,7 +183,7 @@ class Framework_DB extends TestCase
     {
         $dsn = 'mysql://USERNAME:PASSWORD@HOST:3306/DATABASE';
 
-        $result = rcube_db::parse_dsn($dsn);
+        $result = \rcube_db::parse_dsn($dsn);
 
         $this->assertSame('mysql', $result['phptype']);
         $this->assertSame('USERNAME', $result['username']);
@@ -190,7 +194,7 @@ class Framework_DB extends TestCase
 
         $dsn = 'pgsql:///DATABASE';
 
-        $result = rcube_db::parse_dsn($dsn);
+        $result = \rcube_db::parse_dsn($dsn);
 
         $this->assertSame('pgsql', $result['phptype']);
         $this->assertTrue(!array_key_exists('username', $result));
@@ -205,7 +209,7 @@ class Framework_DB extends TestCase
      */
     public function test_list_tables()
     {
-        $db = rcube::get_instance()->get_dbh();
+        $db = \rcube::get_instance()->get_dbh();
 
         $tables = $db->list_tables();
 
@@ -217,7 +221,7 @@ class Framework_DB extends TestCase
      */
     public function test_list_cols()
     {
-        $db = rcube::get_instance()->get_dbh();
+        $db = \rcube::get_instance()->get_dbh();
 
         $columns = $db->list_cols('cache');
 
@@ -229,7 +233,7 @@ class Framework_DB extends TestCase
      */
     public function test_array2list()
     {
-        $db = rcube::get_instance()->get_dbh();
+        $db = \rcube::get_instance()->get_dbh();
 
         $this->assertSame('', $db->array2list([]));
         $this->assertSame('\'test\'', $db->array2list(['test']));
@@ -242,7 +246,7 @@ class Framework_DB extends TestCase
      */
     public function test_concat()
     {
-        $db = rcube::get_instance()->get_dbh();
+        $db = \rcube::get_instance()->get_dbh();
 
         $this->assertSame('(test)', $db->concat('test'));
         $this->assertSame('(test1 || test2)', $db->concat('test1', 'test2'));
@@ -260,38 +264,42 @@ class Framework_DB extends TestCase
             $str .= chr($x);
         }
 
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+        $this->assertSame($str, \rcube_db::decode(\rcube_db::encode($str)));
+        $this->assertSame($str, \rcube_db::decode(\rcube_db::encode($str, true), true));
 
         $str = 'グーグル谷歌中信фδοκιμήóźdźрöß😁😃';
 
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str)));
-        $this->assertSame($str, rcube_db::decode(rcube_db::encode($str, true), true));
+        $this->assertSame($str, \rcube_db::decode(\rcube_db::encode($str)));
+        $this->assertSame($str, \rcube_db::decode(\rcube_db::encode($str, true), true));
     }
 }
 
 /**
  * rcube_db wrapper to test some protected methods
  */
-class rcube_db_test_wrapper extends rcube_db
+class rcube_db_test_wrapper extends \rcube_db
 {
     public $queries = [];
 
+    #[\Override]
     protected function query_execute($query)
     {
         $this->queries[] = $query;
     }
 
+    #[\Override]
     public function db_connect($mode, $force = false)
     {
         $this->dbh = new rcube_db_test_dbh();
     }
 
+    #[\Override]
     public function is_connected()
     {
         return true;
     }
 
+    #[\Override]
     protected function debug($data) {}
 }
 

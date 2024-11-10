@@ -1,21 +1,25 @@
 <?php
 
-class AdditionalMessageHeaders_Plugin extends ActionTestCase
+namespace Roundcube\Plugins\Tests;
+
+use Roundcube\Tests\ActionTestCase;
+
+class AdditionalMessageHeadersTest extends ActionTestCase
 {
     /**
      * Test the plugin
      */
     public function test_plugin()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new additional_message_headers($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \additional_message_headers($rcube->plugins);
 
         $this->assertInstanceOf('additional_message_headers', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
 
         $plugin->init();
 
-        $args = ['message' => new Mail_mime()];
+        $args = ['message' => new \Mail_mime()];
 
         $result = $plugin->message_headers($args);
 

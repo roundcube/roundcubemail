@@ -49,6 +49,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns/Sets message headers
      */
+    #[Override]
     public function headers($headers = [], $overwrite = false, $skip_content = false)
     {
         // headers() wrapper that returns Resent-Cc, Resent-Bcc instead of Cc,Bcc
@@ -68,6 +69,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns all message headers as string
      */
+    #[Override]
     public function txtHeaders($headers = [], $overwrite = false, $skip_content = false)
     {
         // i.e. add Resent-* headers on top of the original message head
@@ -101,6 +103,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Save the message body to a file (if delay_file_io=true)
      */
+    #[Override]
     public function saveMessageBody($file, $params = null)
     {
         $this->init_message();
@@ -160,6 +163,7 @@ class rcmail_bounce_stream_filter extends php_user_filter
 
     protected $in_body = false;
 
+    #[Override]
     public function onCreate(): bool
     {
         self::$headers = '';
@@ -167,6 +171,7 @@ class rcmail_bounce_stream_filter extends php_user_filter
         return true;
     }
 
+    #[Override]
     #[ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {

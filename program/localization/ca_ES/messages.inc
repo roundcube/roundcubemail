@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Si us plau, introduïu una mida de pàgina.';
 $messages['nosenderwarning'] = 'Si us plau, introduïu l\'adreça de correu electrònic del remitent.';
 $messages['recipientsadded'] = 'S\'ha(n) afegit el(s) destinatari(s) correctament.';
 $messages['norecipientwarning'] = 'Si us plau, introduïu com a mínim un destinatari.';
-$messages['disclosedrecipwarning'] = 'Tots els destinataris veuran les adreces de correu electrònic dels altres. Per evitar-ho i protegir la seva privadesa, podeu fer servir el camp Bcc.';
 $messages['disclosedreciptitle'] = 'Hi ha masses destinataris públics';
 $messages['nosubjectwarning']  = 'El camp "Assumpte" és buit. Voleu introduir-ne un ara?';
 $messages['nosubjecttitle']  = 'Sense assumpte';

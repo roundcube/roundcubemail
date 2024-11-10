@@ -1,20 +1,25 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Mail;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_attachment_delete
  */
-class Actions_Mail_AttachmentDelete extends ActionTestCase
+class AttachmentDeleteTest extends ActionTestCase
 {
     /**
      * Test uploaded attachment delete
      */
     public function test_run()
     {
-        $rcmail = rcmail::get_instance();
-        $action = new rcmail_action_mail_attachment_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
+        $rcmail = \rcmail::get_instance();
+        $action = new \rcmail_action_mail_attachment_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'delete-attachment');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // First we create the upload record
@@ -26,7 +31,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
         $this->assertSame([$file], $list);
 
         // This is needed so upload deletion works
-        $rcmail = rcmail::get_instance();
+        $rcmail = \rcmail::get_instance();
         unset($rcmail->plugins->handlers['attachment_delete']);
         $rcmail->plugins->register_hook('attachment_delete', static function ($att) {
             $att['status'] = true;
@@ -43,7 +48,7 @@ class Actions_Mail_AttachmentDelete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-attachment', $result['action']);
         $this->assertSame('this.remove_from_attachment_list("rcmfile' . $file['id'] . '");', trim($result['exec']));
         $this->assertNull($rcmail->get_uploaded_file($file['id']));

@@ -29,6 +29,7 @@ class rcmail_html_page extends rcmail_output_html
      *
      * @param string $contents HTML page content
      */
+    #[Override]
     public function write($contents = '')
     {
         self::reset(true);

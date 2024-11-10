@@ -17,5 +17,5 @@
 $labels['help'] = 'Súgó';
 $labels['about'] = 'Névjegy';
 $labels['license'] = 'Licensz';
-$labels['csrfinfo'] = 'Olvass többet a CSRF-ről és arról hogy védünk meg ettöl';
+$labels['csrfinfo'] = 'Olvass többet a CSRF-ről és arról, hogyan védünk meg ettől';
 $labels['arialabelhelpcontent'] = 'Súgó tartalom';

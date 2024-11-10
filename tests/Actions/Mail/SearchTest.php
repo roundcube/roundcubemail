@@ -1,17 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Mail;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_mail_search
  */
-class Actions_Mail_Search extends ActionTestCase
+class SearchTest extends ActionTestCase
 {
     /**
      * Test searching mail (empty result)
      */
     public function test_search_empty_result()
     {
-        $action = new rcmail_action_mail_search();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
+        $action = new \rcmail_action_mail_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $this->assertTrue($action->checks());
 
@@ -24,7 +30,7 @@ class Actions_Mail_Search extends ActionTestCase
         self::mockStorage()
             ->registerFunction('set_page')
             ->registerFunction('set_search_set')
-            ->registerFunction('search', new rcube_result_index())
+            ->registerFunction('search', new \rcube_result_index())
             ->registerFunction('get_search_set', [])
             ->registerFunction('get_search_set', [])
             ->registerFunction('get_pagesize', 10)
@@ -39,7 +45,7 @@ class Actions_Mail_Search extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertSame(0, $result['env']['pagecount']);
@@ -55,15 +61,15 @@ class Actions_Mail_Search extends ActionTestCase
      */
     public function test_search_non_empty_result()
     {
-        $action = new rcmail_action_mail_search();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'mail', 'search');
+        $action = new \rcmail_action_mail_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'search');
 
         $_GET = [
             '_q' => 'test',
             '_mbox' => 'INBOX',
         ];
 
-        $index = new rcube_result_index('INBOX', 'SEARCH 10');
+        $index = new \rcube_result_index('INBOX', 'SEARCH 10');
 
         // Set expected storage function calls/results
         self::mockStorage()
@@ -76,7 +82,7 @@ class Actions_Mail_Search extends ActionTestCase
             ->registerFunction('get_pagesize', 10)
             ->registerFunction('get_folder', 'INBOX')
             ->registerFunction('list_messages', [
-                10 => rcube_message_header::from_array([
+                10 => \rcube_message_header::from_array([
                     'id' => 42,
                     'uid' => 10,
                     'subject' => 'test message',
@@ -100,7 +106,7 @@ class Actions_Mail_Search extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['messagecount']);
         $this->assertSame(1, $result['env']['pagecount']);
@@ -115,8 +121,8 @@ class Actions_Mail_Search extends ActionTestCase
      */
     public static function provide_search_input_cases(): iterable
     {
-        $week = new DateInterval('P1W');
-        $weekDate = (new DateTime('now', new DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
+        $week = new \DateInterval('P1W');
+        $weekDate = (new \DateTime('now', new \DateTimeZone('UTC')))->sub($week)->format('j-M-Y');
 
         return [
             [
@@ -285,12 +291,13 @@ class Actions_Mail_Search extends ActionTestCase
      *
      * @dataProvider provide_search_input_cases
      */
+    #[DataProvider('provide_search_input_cases')]
     public function test_search_input($input, $output)
     {
         if (is_array($input)) {
             $result = call_user_func_array('rcmail_action_mail_search::search_input', $input);
         } else {
-            $result = rcmail_action_mail_search::search_input($input);
+            $result = \rcmail_action_mail_search::search_input($input);
         }
 
         $this->assertSame($output, $result);
@@ -301,20 +308,20 @@ class Actions_Mail_Search extends ActionTestCase
      */
     public static function provide_search_interval_criteria_cases(): iterable
     {
-        $week = new DateInterval('P1W');
-        $month = new DateInterval('P1M');
-        $year = new DateInterval('P1Y');
+        $week = new \DateInterval('P1W');
+        $month = new \DateInterval('P1M');
+        $year = new \DateInterval('P1Y');
 
-        $utcTz = new DateTimeZone('UTC');
+        $utcTz = new \DateTimeZone('UTC');
 
         return [
             ['', null],
-            ['1W', 'SINCE ' . (new DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
-            ['1M', 'SINCE ' . (new DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
-            ['1Y', 'SINCE ' . (new DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
-            ['-1W', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
-            ['-1M', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
-            ['-1Y', 'BEFORE ' . (new DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
+            ['1W', 'SINCE ' . (new \DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
+            ['1M', 'SINCE ' . (new \DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
+            ['1Y', 'SINCE ' . (new \DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
+            ['-1W', 'BEFORE ' . (new \DateTime('now', $utcTz))->sub($week)->format('j-M-Y')],
+            ['-1M', 'BEFORE ' . (new \DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
+            ['-1Y', 'BEFORE ' . (new \DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
         ];
     }
 
@@ -323,9 +330,10 @@ class Actions_Mail_Search extends ActionTestCase
      *
      * @dataProvider provide_search_interval_criteria_cases
      */
+    #[DataProvider('provide_search_interval_criteria_cases')]
     public function test_search_interval_criteria($input, $output)
     {
-        $result = rcmail_action_mail_search::search_interval_criteria($input);
+        $result = \rcmail_action_mail_search::search_interval_criteria($input);
         $this->assertSame($output, $result);
     }
 }

@@ -120,6 +120,8 @@ class rcmail_action_contacts_index extends rcmail_action
             'options' => [
                 'male' => 'male',
                 'female' => 'female',
+                'non-binary' => 'nonbinary',
+                'other' => 'othergender',
             ],
         ],
         'maidenname' => [
@@ -247,6 +249,7 @@ class rcmail_action_contacts_index extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

@@ -1,11 +1,15 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Roundcube\Tests\StderrMock;
 
 /**
  * Test class to test rcube_utils class
  */
-class Framework_Utils extends TestCase
+class UtilsTest extends TestCase
 {
     /**
      * Test for rcube_utils::date_format()
@@ -14,10 +18,10 @@ class Framework_Utils extends TestCase
     {
         date_default_timezone_set('Europe/Berlin');
 
-        $this->assertSame(date('d-M-Y H:i:s O'), rcube_utils::date_format());
-        $this->assertSame(date('Y-m-d H:i:s O'), rcube_utils::date_format('Y-m-d H:i:s O'));
+        $this->assertSame(date('d-M-Y H:i:s O'), \rcube_utils::date_format());
+        $this->assertSame(date('Y-m-d H:i:s O'), \rcube_utils::date_format('Y-m-d H:i:s O'));
 
-        $result = rcube_utils::date_format('H:i:s,u O');
+        $result = \rcube_utils::date_format('H:i:s,u O');
         $regexp = '/^' . preg_quote(date('H:i:s,')) . '(?<!000000)\d{6}' . preg_quote(date(' O')) . '$/';
 
         $this->assertMatchesRegularExpression($regexp, $result);
@@ -28,9 +32,9 @@ class Framework_Utils extends TestCase
      */
     public function test_explode()
     {
-        $this->assertSame(['test', null], rcube_utils::explode(':', 'test'));
-        $this->assertSame(['test1', 'test2'], rcube_utils::explode(':', 'test1:test2'));
-        $this->assertSame(['', 'test1', 'test2'], rcube_utils::explode(':', ':test1:test2'));
+        $this->assertSame(['test', null], \rcube_utils::explode(':', 'test'));
+        $this->assertSame(['test1', 'test2'], \rcube_utils::explode(':', 'test1:test2'));
+        $this->assertSame(['', 'test1', 'test2'], \rcube_utils::explode(':', ':test1:test2'));
     }
 
     /**
@@ -96,17 +100,19 @@ class Framework_Utils extends TestCase
     /**
      * @dataProvider provide_valid_email_cases
      */
+    #[DataProvider('provide_valid_email_cases')]
     public function test_valid_email($email, $title)
     {
-        $this->assertTrue(rcube_utils::check_email($email, false), $title);
+        $this->assertTrue(\rcube_utils::check_email($email, false), $title);
     }
 
     /**
      * @dataProvider provide_invalid_email_cases
      */
+    #[DataProvider('provide_invalid_email_cases')]
     public function test_invalid_email($email, $title)
     {
-        $this->assertFalse(rcube_utils::check_email($email, false), $title);
+        $this->assertFalse(\rcube_utils::check_email($email, false), $title);
     }
 
     /**
@@ -148,17 +154,19 @@ class Framework_Utils extends TestCase
     /**
      * @dataProvider provide_valid_ip_cases
      */
+    #[DataProvider('provide_valid_ip_cases')]
     public function test_valid_ip($ip)
     {
-        $this->assertTrue(rcube_utils::check_ip($ip));
+        $this->assertTrue(\rcube_utils::check_ip($ip));
     }
 
     /**
      * @dataProvider provide_invalid_ip_cases
      */
+    #[DataProvider('provide_invalid_ip_cases')]
     public function test_invalid_ip($ip)
     {
-        $this->assertFalse(rcube_utils::check_ip($ip));
+        $this->assertFalse(\rcube_utils::check_ip($ip));
     }
 
     /**
@@ -184,9 +192,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_rep_specialchars_output_cases
      */
+    #[DataProvider('provide_rep_specialchars_output_cases')]
     public function test_rep_specialchars_output($type, $mode, $str, $res)
     {
-        $result = rcube_utils::rep_specialchars_output(
+        $result = \rcube_utils::rep_specialchars_output(
             $str, $type ?: 'html', $mode ?: 'strict');
 
         $this->assertSame($result, $res);
@@ -198,7 +207,7 @@ class Framework_Utils extends TestCase
     public function test_mod_css_styles()
     {
         $css = file_get_contents(TESTS_DIR . 'src/valid.css');
-        $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles($css, 'rcmbody');
 
         $this->assertMatchesRegularExpression('/#rcmbody\s+\{/', $mod, 'Replace body style definition');
         $this->assertMatchesRegularExpression('/#rcmbody h1\s\{/', $mod, 'Prefix tag styles (single)');
@@ -206,7 +215,7 @@ class Framework_Utils extends TestCase
         $this->assertMatchesRegularExpression('/#rcmbody \.noscript\s+\{/', $mod, 'Prefix class styles');
 
         $css = file_get_contents(TESTS_DIR . 'src/media.css');
-        $mod = rcube_utils::mod_css_styles($css, 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles($css, 'rcmbody');
 
         $this->assertStringContainsString('#rcmbody table[class=w600]', $mod, 'Replace styles nested in @media block');
         $this->assertStringContainsString('#rcmbody { width: 600px', $mod, 'Replace body selector nested in @media block');
@@ -218,70 +227,92 @@ class Framework_Utils extends TestCase
      */
     public function test_mod_css_styles_xss()
     {
-        $mod = rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, 'No url() values allowed');
+        $mod = \rcube_utils::mod_css_styles('font-size: 1em;', 'rcmbody');
+        $this->assertSame('/* invalid! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, 'No import statements');
+        $mod = \rcube_utils::mod_css_styles("@import url('http://localhost/somestuff/css/master.css');", 'rcmbody');
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles('left:expression(document.body.offsetWidth-20)', 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, 'No expression properties');
+        $mod = \rcube_utils::mod_css_styles("@\\69mport url('http://localhost/somestuff/css/master.css');", 'rcmbody');
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles('left:exp/*  */ression( alert(&#039;xss3&#039;) )', 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks");
+        $mod = \rcube_utils::mod_css_styles("@\\5C 69mport url('http://localhost/somestuff/css/master.css'); a { color: red; }", '');
+        $this->assertSame('/* evil! */', $mod);
 
-        $mod = rcube_utils::mod_css_styles('background:\0075\0072\00006c( javascript:alert(&#039;xss&#039;) )', 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (2)");
+        $mod = \rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody.main2cols {}', $mod);
 
-        $mod = rcube_utils::mod_css_styles("background: \\75 \\72 \\6C ('/images/img.png')", 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (3)");
+        $mod = \rcube_utils::mod_css_styles('p { left:expression(document.body.offsetWidth-20); }', 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
 
-        $mod = rcube_utils::mod_css_styles("background: u\\r\\l('/images/img.png')", 'rcmbody');
-        $this->assertSame('/* evil! */', $mod, "Don't allow encoding quirks (4)");
+        $mod = \rcube_utils::mod_css_styles('p { left:exp/*  */ression( alert(&#039;xss3&#039;) ); }', 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background:\\0075\\0072\\00006c('//evil.com/test'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: \\75 \\72 \\6C ('/images/img.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: u\\r\\l('/images/img2.png'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: url('//żą.ść?data:image&leak') }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles("p { background: url('//data:image&leak'); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        // Note: This looks to me like a bug in browsers, for now we don't allow image-set at all
+        $mod = \rcube_utils::mod_css_styles("p { background: image-set('//evil.com/img.png' 1x); }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+
+        $mod = \rcube_utils::mod_css_styles('p { background: none !important; }', 'rcmbody');
+        $this->assertSame('#rcmbody p { background: none !important; }', $mod);
 
         // position: fixed (#5264)
-        $mod = rcube_utils::mod_css_styles('.test { position: fixed; }', 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('.test { position: fixed; }', 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (0)');
-        $mod = rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles(".test { position:\nfixed; }", 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (1)');
-        $mod = rcube_utils::mod_css_styles('.test { position:/**/fixed; }', 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('.test { position:/**/fixed; }', 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (2)');
 
         // position: fixed (#6898)
-        $mod = rcube_utils::mod_css_styles('.test { position : fixed; top: 0; }', 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('.test { position : fixed; top: 0; }', 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (3)');
-        $mod = rcube_utils::mod_css_styles('.test { position/**/: fixed; top: 0; }', 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('.test { position/**/: fixed; top: 0; }', 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (4)');
-        $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (5)');
 
         // allow data URIs with images (#5580)
-        $mod = rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody');
         $this->assertStringContainsString('#rcmbody { background-image: url(data:image/png;base64,123);', $mod, 'Data URIs in url() allowed [1]');
-        $mod = rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody', true);
         $this->assertStringContainsString('#rcmbody { background-image: url(data:image/png;base64,123);', $mod, 'Data URIs in url() allowed [2]');
 
         // Allow strict url()
-        $mod = rcube_utils::mod_css_styles('body { background-image: url(http://example.com); }', 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles('body { background-image: url(http://example.com); }', 'rcmbody', true);
         $this->assertStringContainsString('#rcmbody { background-image: url(http://example.com);', $mod, 'Strict URIs in url() allowed with $allow_remote=true');
 
         // XSS issue, HTML in 'content' property
         $style = "body { content: '</style><img src onerror=\"alert(\\'hello\\');\">'; color: red; }";
-        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { content: ''; color: red; }", $mod);
 
         $style = "body { content: '< page: ;/style>< page: ;img src onerror=\"alert(\\'hello\\');\">'; color: red; }";
-        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { content: '< page: ;/style>< page: ;img src onerror=\"alert('hello');\">'; color: red; }", $mod);
 
         // Removing page: property
         $style = 'body { page: test; color: red }';
-        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame('#rcmbody { color: red; }', $mod);
 
-        $style = 'body { background:url(alert(&#039;URL!&#039;) ) }';
-        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame('#rcmbody { background: /* evil! */; }', $mod);
+        $style = 'body { background:url(alert(&#039;URL!&#039;)); }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('#rcmbody {}', $mod);
     }
 
     /**
@@ -304,7 +335,7 @@ class Framework_Utils extends TestCase
             :root * { color: red; }
             :root > * { top: 0; }
         ';
-        $mod = rcube_utils::mod_css_styles($css, 'rc', true, 'test');
+        $mod = \rcube_utils::mod_css_styles($css, 'rc', true, 'test');
 
         $this->assertStringContainsString('#rc .testone', $mod);
         $this->assertStringContainsString('#rc .testthree.testfour', $mod);
@@ -322,17 +353,17 @@ class Framework_Utils extends TestCase
 
     public function test_xss_entity_decode()
     {
-        $mod = rcube_utils::xss_entity_decode('&lt;img/src=x onerror=alert(1)// </b>');
+        $mod = \rcube_utils::xss_entity_decode('&lt;img/src=x onerror=alert(1)// </b>');
         $this->assertStringNotContainsString('<img', $mod, 'Strip (encoded) tags from style node');
 
-        $mod = rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
+        $mod = \rcube_utils::xss_entity_decode('#foo:after{content:"\003Cimg/src=x onerror=alert(2)>";}');
         $this->assertStringNotContainsString('<img', $mod, 'Strip (encoded) tags from content property');
 
-        $mod = rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
+        $mod = \rcube_utils::xss_entity_decode("background: u\\r\\00006c('/images/img.png')");
         $this->assertStringContainsString('url(', $mod, 'Escape sequences resolving');
 
         // #5747
-        $mod = rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
+        $mod = \rcube_utils::xss_entity_decode('<!-- #foo { content:css; } -->');
         $this->assertStringContainsString('#foo', $mod, 'Strip HTML comments from content, but not the content');
     }
 
@@ -410,9 +441,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_explode_style_cases
      */
+    #[DataProvider('provide_explode_style_cases')]
     public function test_explode_style($input, $output)
     {
-        $this->assertSame($output, rcube_utils::parse_css_block($input));
+        $this->assertSame($output, \rcube_utils::parse_css_block($input));
     }
 
     /**
@@ -430,7 +462,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($data as $text => $res) {
-            $result = rcube_utils::explode_quoted_string(',', $text);
+            $result = \rcube_utils::explode_quoted_string(',', $text);
             $this->assertSame($res, $result);
         }
     }
@@ -443,7 +475,7 @@ class Framework_Utils extends TestCase
         $data = ['', 'a,b,c', 'a', ',', ',a'];
 
         foreach ($data as $text) {
-            $result = rcube_utils::explode_quoted_string(',', $text);
+            $result = \rcube_utils::explode_quoted_string(',', $text);
             $this->assertSame(explode(',', $text), $result);
         }
     }
@@ -461,7 +493,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($data as $text => $res) {
-            $result = rcube_utils::explode_quoted_string('[\n\r]+', $text);
+            $result = \rcube_utils::explode_quoted_string('[\n\r]+', $text);
             $this->assertSame($res, $result);
         }
     }
@@ -476,7 +508,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($input as $idx => $value) {
-            $this->assertFalse(rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
+            $this->assertFalse(\rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
         }
 
         $input = [
@@ -484,7 +516,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($input as $idx => $value) {
-            $this->assertTrue(rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
+            $this->assertTrue(\rcube_utils::get_boolean($value), "Invalid result for {$idx} test item");
         }
     }
 
@@ -494,13 +526,13 @@ class Framework_Utils extends TestCase
     public function test_get_input_string()
     {
         $_GET = [];
-        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+        $this->assertSame('', \rcube_utils::get_input_string('test', \rcube_utils::INPUT_GET));
 
         $_GET = ['test' => 'val'];
-        $this->assertSame('val', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+        $this->assertSame('val', \rcube_utils::get_input_string('test', \rcube_utils::INPUT_GET));
 
         $_GET = ['test' => ['val1', 'val2']];
-        $this->assertSame('', rcube_utils::get_input_string('test', rcube_utils::INPUT_GET));
+        $this->assertSame('', \rcube_utils::get_input_string('test', \rcube_utils::INPUT_GET));
     }
 
     /**
@@ -515,7 +547,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $v) {
-            $result = rcube_utils::file2class($v[0], $v[1]);
+            $result = \rcube_utils::file2class($v[0], $v[1]);
             $this->assertSame($v[2], $result);
         }
     }
@@ -545,7 +577,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $datetime => $ts) {
-            $result = rcube_utils::strtotime($datetime);
+            $result = \rcube_utils::strtotime($datetime);
             $this->assertSame($ts, $result, "Error parsing date: {$datetime}");
         }
     }
@@ -572,7 +604,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $datetime => $ts) {
-            $result = rcube_utils::anytodatetime($datetime);
+            $result = \rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d') : false, "Error parsing date: {$datetime}");
         }
 
@@ -582,7 +614,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $datetime => $ts) {
-            $result = rcube_utils::anytodatetime($datetime);
+            $result = \rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s') : false, "Error parsing date: {$datetime}");
         }
 
@@ -591,7 +623,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $datetime => $ts) {
-            $result = rcube_utils::anytodatetime($datetime);
+            $result = \rcube_utils::anytodatetime($datetime);
             $this->assertSame($ts, $result ? $result->format('Y-m-d H:i:s O') : false, "Error parsing date: {$datetime}");
         }
     }
@@ -601,7 +633,7 @@ class Framework_Utils extends TestCase
      */
     public function test_anytodatetime_timezone()
     {
-        $tz = new DateTimeZone('Europe/Helsinki');
+        $tz = new \DateTimeZone('Europe/Helsinki');
         $test = [
             'Jan 1st 2014 +0800' => '2013-12-31 18:00', // result in target timezone
             'Jan 1st 14 45:42' => '2014-01-01 00:00', // force fallback to rcube_utils::strtotime()
@@ -611,7 +643,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $datetime => $ts) {
-            $result = rcube_utils::anytodatetime($datetime, $tz);
+            $result = \rcube_utils::anytodatetime($datetime, $tz);
             if ($result) {
                 // move to target timezone for comparison
                 $result->setTimezone($tz);
@@ -633,7 +665,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $data) {
-            $result = rcube_utils::format_datestr($data[0], $data[1]);
+            $result = \rcube_utils::format_datestr($data[0], $data[1]);
             $this->assertSame($data[2], $result, 'Error formatting date: ' . $data[0]);
         }
     }
@@ -652,7 +684,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $input => $output) {
-            $result = rcube_utils::tokenize_string($input);
+            $result = \rcube_utils::tokenize_string($input);
             $this->assertSame($output, $result);
         }
     }
@@ -677,7 +709,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $input => $output) {
-            $result = rcube_utils::normalize_string($input);
+            $result = \rcube_utils::normalize_string($input);
             $this->assertSame($output, $result, "Error normalizing '{$input}'");
         }
     }
@@ -701,7 +733,7 @@ class Framework_Utils extends TestCase
         ];
 
         foreach ($test as $idx => $params) {
-            $result = rcube_utils::words_match($params[0], $params[1]);
+            $result = \rcube_utils::words_match($params[0], $params[1]);
             $this->assertSame($params[2], $result, "words_match() at index {$idx}");
         }
     }
@@ -726,7 +758,7 @@ class Framework_Utils extends TestCase
         }
 
         foreach ($test as $input => $output) {
-            $result = rcube_utils::is_absolute_path($input);
+            $result = \rcube_utils::is_absolute_path($input);
             $this->assertSame($output, $result);
         }
     }
@@ -736,11 +768,11 @@ class Framework_Utils extends TestCase
      */
     public function test_random_bytes()
     {
-        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', rcube_utils::random_bytes(15));
-        $this->assertSame(15, strlen(rcube_utils::random_bytes(15, true)));
-        $this->assertSame(1, strlen(rcube_utils::random_bytes(1)));
-        $this->assertSame(0, strlen(rcube_utils::random_bytes(0)));
-        $this->assertSame(0, strlen(rcube_utils::random_bytes(-1)));
+        $this->assertMatchesRegularExpression('/^[a-zA-Z0-9]{15}$/', \rcube_utils::random_bytes(15));
+        $this->assertSame(15, strlen(\rcube_utils::random_bytes(15, true)));
+        $this->assertSame(1, strlen(\rcube_utils::random_bytes(1)));
+        $this->assertSame(0, strlen(\rcube_utils::random_bytes(0)));
+        $this->assertSame(0, strlen(\rcube_utils::random_bytes(-1)));
     }
 
     /**
@@ -783,9 +815,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_idn_convert_cases
      */
+    #[DataProvider('provide_idn_convert_cases')]
     public function test_idn_to_ascii($decoded, $encoded)
     {
-        $this->assertSame(rcube_utils::idn_to_ascii($decoded), $encoded);
+        $this->assertSame(\rcube_utils::idn_to_ascii($decoded), $encoded);
     }
 
     /**
@@ -796,9 +829,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_idn_convert_cases
      */
+    #[DataProvider('provide_idn_convert_cases')]
     public function test_idn_to_utf8($decoded, $encoded)
     {
-        $this->assertSame(rcube_utils::idn_to_utf8($encoded), $decoded);
+        $this->assertSame(\rcube_utils::idn_to_utf8($encoded), $decoded);
     }
 
     /**
@@ -806,8 +840,8 @@ class Framework_Utils extends TestCase
      */
     public function test_idn_to_ascii_special()
     {
-        $this->assertSame(rcube_utils::idn_to_ascii('H.S'), 'H.S');
-        $this->assertSame(rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
+        $this->assertSame(\rcube_utils::idn_to_ascii('H.S'), 'H.S');
+        $this->assertSame(\rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
     }
 
     /**
@@ -828,9 +862,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_parse_host_cases
      */
+    #[DataProvider('provide_parse_host_cases')]
     public function test_parse_host($name, $host, $result)
     {
-        $this->assertSame(rcube_utils::parse_host($name, $host), $result);
+        $this->assertSame(\rcube_utils::parse_host($name, $host), $result);
     }
 
     /**
@@ -858,6 +893,7 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_parse_host_uri_cases
      */
+    #[DataProvider('provide_parse_host_uri_cases')]
     public function test_parse_host_uri($args, $result)
     {
         $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
@@ -885,9 +921,10 @@ class Framework_Utils extends TestCase
      *
      * @dataProvider provide_remove_subject_prefix_cases
      */
+    #[DataProvider('provide_remove_subject_prefix_cases')]
     public function test_remove_subject_prefix($mode, $subject, $result)
     {
-        $this->assertSame(rcube_utils::remove_subject_prefix($subject, $mode), $result);
+        $this->assertSame(\rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
     /**
@@ -895,13 +932,13 @@ class Framework_Utils extends TestCase
      */
     public function test_server_name()
     {
-        $this->assertSame('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', \rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com:843';
-        $this->assertSame('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', \rcube_utils::server_name('test'));
 
         $_SERVER['test'] = 'test.com';
-        $this->assertSame('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', \rcube_utils::server_name('test'));
     }
 
     /**
@@ -911,31 +948,31 @@ class Framework_Utils extends TestCase
     {
         $_SERVER['test'] = 'test.com';
 
-        $rcube = rcube::get_instance();
+        $rcube = \rcube::get_instance();
         $rcube->config->set('trusted_host_patterns', ['my.domain.tld']);
 
         StderrMock::start();
-        $this->assertSame('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', \rcube_utils::server_name('test'));
         StderrMock::stop();
         $this->assertSame("ERROR: Specified host is not trusted. Using 'localhost'.", trim(StderrMock::$output));
 
         $rcube->config->set('trusted_host_patterns', ['test.com']);
 
         StderrMock::start();
-        $this->assertSame('test.com', rcube_utils::server_name('test'));
+        $this->assertSame('test.com', \rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $_SERVER['test'] = 'subdomain.test.com';
 
         StderrMock::start();
-        $this->assertSame('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', \rcube_utils::server_name('test'));
         StderrMock::stop();
 
         $rcube->config->set('trusted_host_patterns', ['^test.com$']);
         $_SERVER['test'] = '^test.com$';
 
         StderrMock::start();
-        $this->assertSame('localhost', rcube_utils::server_name('test'));
+        $this->assertSame('localhost', \rcube_utils::server_name('test'));
         StderrMock::stop();
     }
 }

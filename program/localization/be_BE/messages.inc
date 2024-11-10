@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Увядзіце памер старонкі.'
 $messages['nosenderwarning'] = 'Увядзіце адрас электроннай пошты адпраўніка.';
 $messages['recipientsadded'] = 'Атрымальнік(і) паспяхова дададзены(ыя).';
 $messages['norecipientwarning'] = 'Увядзіце прынамсі аднаго атрымальніка.';
-$messages['disclosedrecipwarning'] = 'Усе атрымальнікі будуць бачыць адрасы электроннай пошты адзін аднаго. Каб прадухіліць гэта і абараніць іх прыватнасць, вы можаце выкарыстоўваць поле "Схаваная копія".';
 $messages['disclosedreciptitle'] = 'Занадта шмат публічных атрымальнікаў';
 $messages['nosubjectwarning']  = 'Тэма ліста пустая. Хочаце ўвесці?';
 $messages['nosubjecttitle']  = 'Няма тэмы';

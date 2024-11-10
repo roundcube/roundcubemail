@@ -24,6 +24,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -73,12 +74,7 @@ class rcmail_action_mail_viewsource extends rcmail_action
                 $rcmail->storage->print_raw_body($uid, empty($_GET['_save']));
             }
         } else {
-            rcube::raise_error([
-                'code' => 500,
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => "Message UID {$uid} not found",
-            ], true, true);
+            rcube::raise_error("Message UID {$uid} not found", true, true);
         }
 
         exit;

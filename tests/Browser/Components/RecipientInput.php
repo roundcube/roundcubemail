@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Browser;
+use Roundcube\Tests\Browser\Browser;
 
 class RecipientInput extends Component
 {
@@ -23,6 +23,7 @@ class RecipientInput extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return $this->selector;
@@ -33,6 +34,7 @@ class RecipientInput extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         $browser->waitFor($this->selector() . ' @input');
@@ -43,6 +45,7 @@ class RecipientInput extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

@@ -32,6 +32,7 @@ class rcmail_action_contacts_qrcode extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         // Get contact ID and source ID from request

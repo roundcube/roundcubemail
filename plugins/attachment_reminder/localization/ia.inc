@@ -13,7 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages['missingattachment'] = "Attachamento mancante?";
-$messages['forgotattachment'] = "Ha vos oblidate de attachar un file?";
-$messages['reminderoption'] = "Rememorar de attachamentos oblidate";
-$messages['keywords'] = "attachamento,file,attachar,attachate,attachante,annexo,annexe,annexate,CV,curriculo de vita";
+$messages['missingattachment'] = "Annexo mancante?";
+$messages['forgotattachment'] = "Ha tu oblidate de annexar un file?";
+$messages['reminderoption'] = "Rememorar me de annexos oblidate";
+$messages['keywords'] = "annexo,annexe,annexate,file,attachamento,attachar,attachate,attachante,CV,curriculo de vita";

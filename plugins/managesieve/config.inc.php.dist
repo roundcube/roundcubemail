@@ -10,8 +10,10 @@ $config = [];
 // For example %n = mail.domain.tld, %d = domain.tld
 // If port is omitted it will be determined automatically using getservbyname()
 // function, with 4190 as a fallback.
-// Note: Add tls:// prefix to enable explicit STARTTLS
-// or add ssl:// prefix to enable implicit SSL.
+// Note: Add tls:// prefix to enable explicit STARTTLS or ssl:// for implicit SSL.
+// To specify different sieve servers for different hosts, provide an array
+// of a hostname (no prefix or port) and sieve server e.g.:
+// ['example.com' => 'sieve.example.net']
 $config['managesieve_host'] = 'localhost';
 
 // authentication method. Can be CRAM-MD5, DIGEST-MD5, PLAIN, LOGIN, EXTERNAL
@@ -43,7 +45,7 @@ $config['managesieve_conn_options'] = null;
 $config['managesieve_default'] = '/etc/dovecot/sieve/global';
 
 // The name of the script which will be used when there's no user script
-$config['managesieve_script_name'] = 'managesieve';
+$config['managesieve_script_name'] = 'roundcube';
 
 // Sieve RFC says that we should use UTF-8 encoding for mailbox names,
 // but some implementations work with UTF7-IMAP encoding only.

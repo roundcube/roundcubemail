@@ -29,6 +29,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -198,14 +199,25 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
 
                     if (!$replace) {
                         $existing = null;
+                        $search_fields = [];
+                        $search_values = [];
+
                         // compare e-mail address
                         if ($email) {
-                            $existing = $CONTACTS->search('email', $email, 1, false);
+                            $search_fields[] = 'email';
+                            $search_values[] = $email;
                         }
-                        // compare display name if email not found
-                        if ((!$existing || !$existing->count) && $vcard->displayname) {
-                            $existing = $CONTACTS->search('name', $vcard->displayname, 1, false);
+
+                        if ($vcard->displayname) {
+                            $search_fields[] = 'name';
+                            $search_values[] = $vcard->displayname;
                         }
+
+                        // compare email and/or display name if available
+                        if (!empty($search_fields)) {
+                            $existing = $CONTACTS->search($search_fields, $search_values, 1, false);
+                        }
+
                         if ($existing && $existing->count) {
                             self::$stats->skipped++;
                             self::$stats->skipped_names[] = $vcard->displayname ?: $email;

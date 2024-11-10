@@ -1,11 +1,13 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_shared functions
  */
-class Framework_Bootstrap extends TestCase
+class BootstrapTest extends TestCase
 {
     /**
      * bootstrap.php: asciiwords()

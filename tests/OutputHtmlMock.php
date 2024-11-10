@@ -1,5 +1,7 @@
 <?php
 
+namespace Roundcube\Tests;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -20,7 +22,7 @@
 /**
  * A class for easier testing of code that uses rcmail_output classes
  */
-class OutputHtmlMock extends rcmail_output_html
+class OutputHtmlMock extends \rcmail_output_html
 {
     public const E_EXIT = 101;
     public const E_REDIRECT = 102;
@@ -38,6 +40,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param int   $delay  Delay in seconds
      * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
+    #[\Override]
     public function redirect($p = [], $delay = 1, $secure = false)
     {
         if (!empty($this->env['extwin'])) {
@@ -57,6 +60,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param string $templ Template name
      * @param bool   $exit  True if script should terminate (default)
      */
+    #[\Override]
     public function send($templ = null, $exit = true)
     {
         $this->template = $templ;
@@ -74,6 +78,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param string $body    The output body
      * @param array  $headers Headers
      */
+    #[\Override]
     public function sendExit($body = '', $headers = [])
     {
         foreach ($headers as $header) {
@@ -91,6 +96,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param int    $code    The HTTP error code
      * @param string $message The HTTP error message
      */
+    #[\Override]
     public function sendExitError($code, $message = '')
     {
         $this->errorCode = $code;
@@ -104,6 +110,7 @@ class OutputHtmlMock extends rcmail_output_html
      *
      * @param string $template HTML template content
      */
+    #[\Override]
     public function write($template = '')
     {
         ob_start();
@@ -121,6 +128,7 @@ class OutputHtmlMock extends rcmail_output_html
      *
      * @see http://php.net/manual/en/function.exit.php
      */
+    #[\Override]
     public function parse($name = 'main', $exit = true, $write = true)
     {
         // ob_start();
@@ -136,6 +144,7 @@ class OutputHtmlMock extends rcmail_output_html
     /**
      * Delete all stored env variables and commands
      */
+    #[\Override]
     public function reset($all = false)
     {
         parent::reset($all);
@@ -154,6 +163,7 @@ class OutputHtmlMock extends rcmail_output_html
      * @param string $header  The header string
      * @param bool   $replace Replace previously set header?
      */
+    #[\Override]
     public function header($header, $replace = true)
     {
         $this->headers[] = $header;

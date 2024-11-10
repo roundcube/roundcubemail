@@ -43,8 +43,8 @@ class rcube_session_redis extends rcube_session
 
         if (!$this->redis) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'redis',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 604,
+                'type' => 'redis',
                 'message' => 'Failed to connect to redis. Please check configuration',
             ], true, true);
         }
@@ -61,6 +61,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -71,6 +72,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function close()
     {
         return true;
@@ -83,14 +85,13 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function destroy($key)
     {
         if ($key) {
             try {
                 // @phpstan-ignore-next-line
-                $result = method_exists($this->redis, 'del')
-                    ? $this->redis->del($key)
-                    : $this->redis->delete($key);
+                $result = method_exists($this->redis, 'del') ? $this->redis->del($key) : $this->redis->delete($key);
             } catch (Exception $e) {
                 rcube::raise_error($e, true, true);
             }
@@ -110,6 +111,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return string Serialized data string
      */
+    #[Override]
     public function read($key)
     {
         $value = null;
@@ -144,6 +146,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
@@ -176,6 +179,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {

@@ -27,6 +27,7 @@ class rcmail_action_utils_spell extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         // read input
@@ -54,13 +55,7 @@ class rcmail_action_utils_spell extends rcmail_action
         }
 
         if ($error = $spellchecker->error()) {
-            rcube::raise_error([
-                'code' => 500,
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => 'Spellcheck error: ' . $error,
-            ], true, false);
-
+            rcube::raise_error('Spellcheck error: ' . $error, true);
             http_response_code(500);
             exit;
         }

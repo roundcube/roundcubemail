@@ -139,16 +139,16 @@ abstract class rcube_output
             return;
         }
 
-        header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        $this->header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        $this->header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 
         // We need to set the following headers to make downloads work using IE in HTTPS mode.
         if ($this->browser->ie && rcube_utils::https_check()) {
-            header('Pragma: private');
-            header('Cache-Control: private, must-revalidate');
+            $this->header('Pragma: private');
+            $this->header('Cache-Control: private, must-revalidate');
         } else {
-            header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: no-cache');
+            $this->header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+            $this->header('Pragma: no-cache');
         }
     }
 
@@ -163,9 +163,9 @@ abstract class rcube_output
             return;
         }
 
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $offset) . ' GMT');
-        header("Cache-Control: max-age={$offset}");
-        header('Pragma: ');
+        $this->header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $offset) . ' GMT');
+        $this->header("Cache-Control: max-age={$offset}");
+        $this->header('Pragma: ');
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class rcube_output
         $plugin = $this->app->plugins->exec_hook('common_headers', ['headers' => $headers, 'privacy' => $privacy]);
 
         foreach ($plugin['headers'] as $header => $value) {
-            header("{$header}: {$value}");
+            $this->header("{$header}: {$value}");
         }
     }
 
@@ -234,16 +234,23 @@ abstract class rcube_output
         if (!empty($params['type']) && is_string($params['type']) && strlen($params['type']) < 256
             && preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $params['type'])
         ) {
-            $ctype = $params['type'];
+            $ctype = strtolower($params['type']);
         }
 
-        if ($disposition == 'inline' && stripos($ctype, 'text') === 0) {
-            $charset = $this->charset;
-            if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
-                $charset = $params['type_charset'];
+        // Send unsafe content as plain text
+        if ($disposition == 'inline') {
+            if ($ctype != 'image/svg+xml' && preg_match('~(javascript|jscript|ecmascript|xml|html|text/)~', $ctype)) {
+                $ctype = 'text/plain';
             }
 
-            $ctype .= "; charset={$charset}";
+            if (strpos($ctype, 'text') === 0) {
+                $charset = $this->charset;
+                if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
+                    $charset = $params['type_charset'];
+                }
+
+                $ctype .= "; charset={$charset}";
+            }
         }
 
         // @phpstan-ignore-next-line
@@ -262,16 +269,20 @@ abstract class rcube_output
             }
         }
 
-        header("Content-Disposition: {$disposition}");
-        header("Content-Type: {$ctype}");
+        $this->header("Content-Disposition: {$disposition}");
+        $this->header("Content-Type: {$ctype}");
 
         if ($params['disposition'] == 'attachment' && $this->browser->ie) {
-            header('Content-Type: application/force-download');
+            $this->header('Content-Type: application/force-download');
         }
 
         if (isset($params['length'])) {
-            header('Content-Length: ' . $params['length']);
+            $this->header('Content-Length: ' . $params['length']);
         }
+
+        // Use strict security policy to make sure no javascript content is executed
+        // img-src is needed to be able to print attachment preview page
+        $this->header("Content-Security-Policy: default-src 'none'; img-src 'self'");
 
         // don't kill the connection if download takes more than 30 sec.
         if (!array_key_exists('time_limit', $params)) {
@@ -380,5 +391,48 @@ abstract class rcube_output
         }
 
         return json_encode($input, $options);
+    }
+
+    /**
+     * A wrapper for header() function, so it can be replaced for automated tests
+     *
+     * @param string $header  The header string
+     * @param bool   $replace Replace previously set header?
+     */
+    public function header($header, $replace = true)
+    {
+        header($header, $replace);
+    }
+
+    /**
+     * A helper to send output to the browser and exit
+     *
+     * @param string $body    The output body
+     * @param array  $headers Headers
+     *
+     * @return never
+     */
+    public function sendExit($body = '', $headers = [])
+    {
+        foreach ($headers as $header) {
+            $this->header($header);
+        }
+
+        echo $body;
+        exit;
+    }
+
+    /**
+     * A helper to send HTTP error code and message to the browser, and exit.
+     *
+     * @param int    $code    The HTTP error code
+     * @param string $message The HTTP error message
+     *
+     * @return never
+     */
+    public function sendExitError($code, $message = '')
+    {
+        http_response_code($code);
+        exit($message);
     }
 }

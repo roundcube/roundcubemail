@@ -56,7 +56,7 @@ class rcmail extends rcube
     public $oauth;
 
     /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json|null Output handler */
-    public $output; // @phpstan-ignore-line
+    public $output;
 
     private $address_books = [];
     private $action_args = [];
@@ -75,6 +75,7 @@ class rcmail extends rcube
      *
      * @return rcmail The one and only instance
      */
+    #[Override]
     public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
@@ -147,7 +148,9 @@ class rcmail extends rcube
         }
 
         // load oauth manager
-        $this->oauth = rcmail_oauth::get_instance();
+        if (\PHP_SAPI != 'cli') {
+            $this->oauth = rcmail_oauth::get_instance();
+        }
 
         // run init method on all the plugins
         $this->plugins->init($this, $this->task);
@@ -191,6 +194,7 @@ class rcmail extends rcube
      *
      * @param rcube_user $user Current user instance
      */
+    #[Override]
     public function set_user($user)
     {
         parent::set_user($user);
@@ -289,7 +293,7 @@ class rcmail extends rcube
         $this->output->send($this->task);
 
         // if we arrive here, something went wrong
-        $error = ['code' => 404, 'line' => __LINE__, 'file' => __FILE__, 'message' => 'Invalid request'];
+        $error = ['code' => 404, 'message' => 'Invalid request'];
         self::raise_error($error, true, true);
     }
 
@@ -369,8 +373,6 @@ class rcmail extends rcube
 
             self::raise_error([
                 'code' => 700,
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => "Addressbook source ({$id}) not found!",
             ], true, true);
         }
@@ -633,6 +635,7 @@ class rcmail extends rcube
     /**
      * Create session object and start the session.
      */
+    #[Override]
     public function session_init()
     {
         parent::session_init();
@@ -795,16 +798,12 @@ class rcmail extends rcube
             if (!$user) {
                 self::raise_error([
                     'code' => 620,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
                     'message' => 'Failed to create a user record. Maybe aborted by a plugin?',
                 ], true, false);
             }
         } else {
             self::raise_error([
                 'code' => 621,
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => "Access denied for new user {$username}. 'auto_create_user' is disabled",
             ], true, false);
         }
@@ -1066,6 +1065,7 @@ class rcmail extends rcube
      *
      * @return string Valid application URL
      */
+    #[Override]
     public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
@@ -1166,6 +1166,7 @@ class rcmail extends rcube
     /**
      * Function to be executed in script shutdown
      */
+    #[Override]
     public function shutdown()
     {
         parent::shutdown();

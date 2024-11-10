@@ -29,6 +29,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -203,7 +204,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             // Skip inline images
-            if (strpos($mimetype, 'image/') === 0 && !self::is_attachment(self::$MESSAGE, $attach_prop)) {
+            if (strpos($mimetype, 'image/') === 0 && self::$MESSAGE->is_referred_attachment($attach_prop)) {
                 continue;
             }
 
@@ -485,7 +486,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             } elseif (in_array($hkey, ['from', 'to', 'cc', 'bcc'])) {
                 $header_value = self::address_string($value, $attr_max, true, $attr_addicon, $charset, $header_title);
                 $ishtml = true;
-            } elseif ($hkey == 'subject' && empty($value)) {
+            } elseif ($hkey == 'subject' && empty($value)) { // @phpstan-ignore-line
                 $header_value = $rcmail->gettext('nosubject');
             } else {
                 $value = is_array($value) ? implode(' ', $value) : $value;
@@ -620,7 +621,10 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
      */
     public static function message_body($attrib)
     {
-        if (empty(self::$MESSAGE) || (empty(self::$MESSAGE->parts) && empty(self::$MESSAGE->body))) {
+        // Exit early if there's no content to be shown anyway.
+        // `mime_parts` also includes a message's body, even if it originally
+        // was the only part of the message.
+        if (empty(self::$MESSAGE) || empty(self::$MESSAGE->mime_parts)) {
             return '';
         }
 
@@ -713,10 +717,6 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
                     }
 
-                    if ($part->ctype_secondary == 'html') {
-                        $body = self::html4inline($body, $body_args);
-                    }
-
                     $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
                 }
             }
@@ -744,7 +744,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 // Content-Type: image/*...
                 if ($mimetype = self::part_image_type($attach_prop)) {
                     // Skip inline images
-                    if (!self::is_attachment(self::$MESSAGE, $attach_prop)) {
+                    if (self::$MESSAGE->is_referred_attachment($attach_prop)) {
                         continue;
                     }
 
@@ -887,31 +887,5 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $rcmail->output->set_env('mdn_request', true);
             }
         }
-    }
-
-    /**
-     * Check whether the message part is a normal attachment
-     *
-     * @param rcube_message      $message Message object
-     * @param rcube_message_part $part    Message part
-     *
-     * @return bool
-     */
-    protected static function is_attachment($message, $part)
-    {
-        // Inline attachment with Content-Id specified
-        if (!empty($part->content_id) && $part->disposition == 'inline') {
-            return false;
-        }
-
-        // Any image attached to multipart/related message (#7184)
-        $parent_id = preg_replace('/\.[0-9]+$/', '', $part->mime_id);
-        $parent = $message->mime_parts[$parent_id] ?? null;
-
-        if ($parent && $parent->mimetype == 'multipart/related') {
-            return false;
-        }
-
-        return true;
     }
 }

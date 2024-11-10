@@ -1,26 +1,31 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_qrcode
  */
-class Actions_Contacts_Qrcode extends ActionTestCase
+class QrcodeTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run()
     {
-        $action = new rcmail_action_contacts_qrcode();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
+        $action = new \rcmail_action_contacts_qrcode();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'qrcode');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 
         $result = $output->getOutput();
 
-        $this->assertSame(['HTTP/1.0 404 Contact not found'], $output->headers);
+        $this->assertCOntains('HTTP/1.0 404 Contact not found', $output->headers);
         $this->assertSame('', $result);
 
         $type = $action->check_support();
@@ -29,7 +34,7 @@ class Actions_Contacts_Qrcode extends ActionTestCase
             $this->markTestSkipped();
         }
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 AND `name` = \'Jon Snow\'');
         $contact = $db->fetch_assoc($query);
 
@@ -40,10 +45,10 @@ class Actions_Contacts_Qrcode extends ActionTestCase
         $result = $output->getOutput();
 
         if ($type == 'image/png') {
-            $this->assertSame('Content-Type: image/png', $output->headers[0]);
+            $this->assertContains('Content-Type: image/png', $output->headers);
             $this->assertMatchesRegularExpression('/^\x89\x50\x4E\x47/', $result);
         } else {
-            $this->assertSame('Content-Type: image/svg+xml', $output->headers[0]);
+            $this->assertContains('Content-Type: image/svg+xml', $output->headers);
             $this->assertMatchesRegularExpression('/^<\?xml/', $result);
             $this->assertMatchesRegularExpression('/<svg /', $result);
             $this->assertMatchesRegularExpression('/<rect /', $result);

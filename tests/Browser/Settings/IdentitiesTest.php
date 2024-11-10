@@ -1,16 +1,20 @@
 <?php
 
-namespace Tests\Browser\Settings;
+namespace Roundcube\Tests\Browser\Settings;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\TestCase;
 
 class IdentitiesTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     public function testIdentities()
@@ -46,6 +50,8 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityCreate()
     {
         $this->browse(static function ($browser) {
@@ -146,6 +152,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityCreate')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityDelete()
     {
         $this->browse(static function ($browser) {
@@ -185,6 +194,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityDelete')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentityUpdate()
     {
         $this->browse(static function ($browser) {
@@ -233,6 +245,9 @@ class IdentitiesTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Depends('testIdentityUpdate')]
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testIdentitiesInComposer()
     {
         // Add one more identity

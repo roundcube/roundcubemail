@@ -659,7 +659,7 @@ class rcube_imap_generic
                 $gssapicontext->acquireCredentials($ccache);
 
                 $token = '';
-                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], null, null, null, $token);
+                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], '', 0, 0, $token);
                 $token = base64_encode($token);
             } catch (Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
@@ -931,13 +931,18 @@ class rcube_imap_generic
         $result = null;
 
         // check for supported auth methods
-        if (!$auth_method || $auth_method == 'CHECK') {
+        if (!$auth_method || $auth_method === 'CHECK' || $auth_method === 'OAUTH') {
             if ($auth_caps = $this->getCapability('AUTH')) {
                 $auth_methods = $auth_caps;
             }
 
             // Use best (for security) supported authentication method
             $all_methods = ['DIGEST-MD5', 'CRAM-MD5', 'CRAM_MD5', 'PLAIN', 'LOGIN'];
+
+            // special case of OAUTH, use the supported method
+            if ($auth_method === 'OAUTH') {
+                $all_methods = ['OAUTHBEARER', 'XOAUTH2'];
+            }
 
             if (!empty($this->prefs['gssapi_cn'])) {
                 array_unshift($all_methods, 'GSSAPI');
@@ -1034,7 +1039,7 @@ class rcube_imap_generic
         }
 
         if (!empty($this->prefs['socket_options'])) {
-            $options = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1]);
+            $options = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1, 'socket' => 1]);
             $context = stream_context_create($options);
             $this->fp = stream_socket_client($host . ':' . $port, $errno, $errstr,
                 $this->prefs['timeout'], \STREAM_CLIENT_CONNECT, $context);
@@ -2954,7 +2959,7 @@ class rcube_imap_generic
                         $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
 
                         if ($file) {
-                            if (fwrite($file, $chunk) === false) {
+                            if (($result = fwrite($file, $chunk)) === false) {
                                 break;
                             }
                         } elseif ($print) {
@@ -2969,7 +2974,7 @@ class rcube_imap_generic
 
         if ($result !== false) {
             if ($file) {
-                return fwrite($file, $result);
+                return is_string($result) ? fwrite($file, $result) !== false : true;
             }
 
             if ($print) {
@@ -3010,7 +3015,14 @@ class rcube_imap_generic
                 $prev = '';
             }
 
-            return base64_decode($chunk);
+            // There might be multiple base64 blocks in a single message part,
+            // we have to pass them separately to base64_decode() (#9290)
+            $result = '';
+            foreach (preg_split('|=+|', $chunk, -1, \PREG_SPLIT_NO_EMPTY) as $_chunk) {
+                $result .= base64_decode($_chunk);
+            }
+
+            return $result;
         }
 
         // QUOTED-PRINTABLE
@@ -3873,7 +3885,7 @@ class rcube_imap_generic
         // Send command
         if (!$this->putLineC($query, true, $options & self::COMMAND_ANONYMIZED)) {
             preg_match('/^[A-Z0-9]+ ((UID )?[A-Z]+)/', $query, $matches);
-            $cmd = $matches[1] ?: 'UNKNOWN';
+            $cmd = $matches[1] ?? 'UNKNOWN';
             $this->setError(self::ERROR_COMMAND, "Failed to send {$cmd} command");
 
             return $noresp ? self::ERROR_COMMAND : [self::ERROR_COMMAND, ''];

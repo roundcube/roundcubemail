@@ -1,20 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
+
+use function Roundcube\Tests\invokeMethod;
 
 /**
  * Test class to test rcube_config class
  */
-class Framework_Config extends TestCase
+class ConfigTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
-        $this->assertInstanceOf('rcube_config', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_config::class, $object, 'Class constructor');
     }
 
     /**
@@ -22,8 +26,8 @@ class Framework_Config extends TestCase
      */
     public function test_resolve_timezone_alias()
     {
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/GMT'));
-        $this->assertSame('UTC', rcube_config::resolve_timezone_alias('Etc/Zulu'));
+        $this->assertSame('UTC', \rcube_config::resolve_timezone_alias('Etc/GMT'));
+        $this->assertSame('UTC', \rcube_config::resolve_timezone_alias('Etc/Zulu'));
     }
 
     /**
@@ -31,7 +35,7 @@ class Framework_Config extends TestCase
      */
     public function test_get_and_set()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertNull($object->get('test'));
         $this->assertSame('def', $object->get('test', 'def'));
@@ -44,6 +48,16 @@ class Framework_Config extends TestCase
 
         $this->assertSame(4190, $object->get('test_int'));
 
+        // If the configured value is `null`, expect the fallback value (which is `null` by default).
+        $object->set('test', null);
+        $this->assertNull($object->get('test'));
+        $this->assertSame('fallback', $object->get('test', 'fallback'));
+
+        // If the configured value is `false`, expect `false`, regardless of the fallback value.
+        $object->set('test', false);
+        $this->assertFalse($object->get('test'));
+        $this->assertFalse($object->get('test', 'wrong'));
+
         // TODO: test more code paths in get() and set()
     }
 
@@ -52,7 +66,7 @@ class Framework_Config extends TestCase
      */
     public function test_guess_type()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertSame('bool', invokeMethod($object, 'guess_type', ['true']));
         $this->assertSame('bool', invokeMethod($object, 'guess_type', ['false']));
@@ -80,7 +94,7 @@ class Framework_Config extends TestCase
      */
     public function test_parse_env()
     {
-        $object = new rcube_config();
+        $object = new \rcube_config();
 
         $this->assertTrue(invokeMethod($object, 'parse_env', ['true']));
         $this->assertSame(1, invokeMethod($object, 'parse_env', ['1']));

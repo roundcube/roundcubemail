@@ -27,6 +27,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -359,7 +360,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                 if ($value == 'attachment') {
                     // Content-Type values of messages with attachments
                     // the same as in app.js:add_message_row()
-                    $ctypes = ['application/', 'multipart/m', 'multipart/signed', 'multipart/report'];
+                    $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
 
                     // Build search string of "with attachment" filter
                     $result = str_repeat(' OR', count($ctypes) - 1);

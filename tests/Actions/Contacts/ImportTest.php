@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_contacts_import
  */
-class Actions_Contacts_Import extends ActionTestCase
+class ImportTest extends ActionTestCase
 {
     /**
      * Test run() method
      */
     public function test_run_init()
     {
-        $action = new rcmail_action_contacts_import();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'import');
+        $action = new \rcmail_action_contacts_import();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'import');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');

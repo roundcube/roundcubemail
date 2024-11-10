@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Plugin API: Added message_delete hook (#9499)
+- Plugin API: Added message_move hook (#9499)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Renamed composer.json.dist to composer.json (#9279)
@@ -14,14 +16,19 @@
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
+- Hide information about quota, when there is no quota (#8994)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
 - Add identities management script - bin/identity.sh (#8887)
+- Add skin info to about dialog (#9441)
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
 - Use draft settings (like DSN) on "Edit as new" (#9349)
+- Use new HTML5 parser available on PHP >= 8.4
+- Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
+- Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
 - OAuth: Add support for OAuth/OpenIDC discovery (#8201)
 - OAuth: Add support for invalidating the OAuth-session on logout (#8057)
@@ -33,23 +40,67 @@
 - OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
 - OAuth: Fix Bearer authentication for Kinde (#9244)
 - OAuth: Refactor: move display to the rcmail_oauth class and use `loginform_content` hook (#9217)
+- OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
+- OAuth: Add a flag to the 'authenticate' hook arguments indicating SSO is in use
 - Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
-- Password: Add ldap_samba_ad driver (#8525)
+- Managesieve: Support an array in managesieve_host option (#9447)
+- Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
-- Password: Use Guzzle HTTP Client in 'pwned' driver
-- Password: Check that a user email is part of password in zxcvbn checker (#9404)
+- Password: Use Guzzle HTTP Client in the `pwned` driver
+- Password: Use Guzzle HTTP Client in the `directadmin` driver
+- Password: Use Guzzle HTTP Client in the `plesk` driver
+- Password: Use Guzzle HTTP Client in the `modoboa` driver
+- Password: Use Guzzle HTTP Client in the `domainfactory` driver
+- Password: Use Guzzle HTTP Client in the `cpanel` driver
+- Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
+- Fix folders hierarchy when special folders are subfolders of INBOX, with no personal namespace prefix (#9452)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Fix PHP warnings (#9616, #9611)
+- Fix whitespace handling in vCard line continuation (#9637)
+- Fix current script state after initial scripts creation in managesieve_kolab_master mode
+- Fix rcube_imap::get_vendor() result (and PHP warning) on Zimbra server (#9650)
+- Fix regression causing inline SVG images to be missing in mail preview (#9644)
+- Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
+
+## Release 1.6.9
+
+- Fix regression where printing/scaling/rotating image attachments was broken (#9571)
+- Fix regression where HTML messages were displayed unstyled (#9586)
+
+## Release 1.6.8
+
+- Managesieve: Protect special scripts in managesieve_kolab_master mode
+- Fix newmail_notifier notification focus in Chrome (#9467)
+- Fix fatal error when parsing some TNEF attachments (#9462)
+- Fix double scrollbar when composing a mail with many plain text lines (#7760)
+- Fix decoding mail parts with multiple base64-encoded text blocks (#9290)
+- Fix bug where some messages could get malformed in an import from a MBOX file (#9510)
+- Fix invalid line break characters in multi-line text in Sieve scripts (#9543)
+- Fix bug where "with attachment" filter could fail on some fts engines (#9514)
+- Fix bug where an unhandled exception was caused by an invalid image attachment (#9475)
+- Fix bug where a long subject title could not be displayed in some cases (#9416)
+- Fix infinite loop when parsing malformed Sieve script (#9562)
+- Fix bug where imap_conn_option's 'socket' was ignored (#9566)
+- Fix XSS vulnerability in post-processing of sanitized HTML content [CVE-2024-42009]
+- Fix XSS vulnerability in serving of attachments other than HTML or SVG [CVE-2024-42008]
+- Fix information leak (access to remote content) via insufficient CSS filtering [CVE-2024-42010]
+
+## Release 1.6.7
+
 - Makefile: Use phpDocumentor v3.4 for the Framework docs (#9313)
 - Fix bug where HTML entities in URLs were not decoded on HTML to plain text conversion (#9312)
 - Fix bug in collapsing/expanding folders with some special characters in names (#9324)
-- Fix PHP8 warnings (#9363)
+- Fix PHP8 warnings (#9363, #9365, #9429)
 - Fix missing field labels in CSV import, for some locales (#9393)
+- Fix command injection via crafted im_convert_path/im_identify_path on Windows
+- Fix cross-site scripting (XSS) vulnerability in handling list columns from user preferences
+- Fix cross-site scripting (XSS) vulnerability in handling SVG animate attributes
 
 ## Release 1.6.6
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
-use Tests\Browser\Browser;
+use Roundcube\Tests\Browser\Browser;
 
 class HtmlEditor extends Component
 {
@@ -25,6 +25,7 @@ class HtmlEditor extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '#' . $this->id;
@@ -35,6 +36,7 @@ class HtmlEditor extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         $browser->waitFor($this->selector() . '.html-editor');
@@ -45,6 +47,7 @@ class HtmlEditor extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [

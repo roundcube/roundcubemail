@@ -1,16 +1,19 @@
 <?php
 
-namespace Tests\Browser\Contacts;
+namespace Roundcube\Tests\Browser\Contacts;
 
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\Components\Popupmenu;
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\Components\Popupmenu;
+use Roundcube\Tests\Browser\TestCase;
 
 class GroupsTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**
@@ -92,6 +95,7 @@ class GroupsTest extends TestCase
      *
      * @depends testGroupCreate
      */
+    #[Depends('testGroupCreate')]
     public function testGroupRename()
     {
         $this->browse(static function ($browser) {
@@ -144,6 +148,7 @@ class GroupsTest extends TestCase
      *
      * @depends testGroupRename
      */
+    #[Depends('testGroupRename')]
     public function testGroupDelete()
     {
         $this->browse(static function ($browser) {

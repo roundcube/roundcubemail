@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
 /**
  * Test class to test rcmail_action_contacts_save
  */
-class Actions_Contacts_Save extends ActionTestCase
+class SaveTest extends ActionTestCase
 {
     /**
      * Test pre-checks
      */
     public function test_run_prechecks()
     {
-        $action = new rcmail_action_contacts_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
+        $action = new \rcmail_action_contacts_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'save');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // reload
@@ -23,16 +28,16 @@ class Actions_Contacts_Save extends ActionTestCase
 
         $this->assertNull($output->getOutput());
         $this->assertNull($output->getProperty('message'));
-        $this->assertSame('add', rcmail::get_instance()->action);
+        $this->assertSame('add', \rcmail::get_instance()->action);
 
         // readonly addressbook
-        $_GET = ['_source' => rcube_addressbook::TYPE_RECIPIENT];
+        $_GET = ['_source' => \rcube_addressbook::TYPE_RECIPIENT];
 
         $action->run();
 
         $this->assertNull($output->getOutput());
         $this->assertSame('contactreadonly', $output->getProperty('message'));
-        $this->assertSame('add', rcmail::get_instance()->action);
+        $this->assertSame('add', \rcmail::get_instance()->action);
 
         // empty $_POST
         $_POST = ['_source' => '0'];
@@ -41,7 +46,7 @@ class Actions_Contacts_Save extends ActionTestCase
 
         $this->assertNull($output->getOutput());
         $this->assertSame('nonamewarning', $output->getProperty('message'));
-        $this->assertSame('add', rcmail::get_instance()->action);
+        $this->assertSame('add', \rcmail::get_instance()->action);
     }
 
     /**
@@ -49,8 +54,8 @@ class Actions_Contacts_Save extends ActionTestCase
      */
     public function test_run_new_contact()
     {
-        $action = new rcmail_action_contacts_save();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'save');
+        $action = new \rcmail_action_contacts_save();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'save');
 
         self::initDB('contacts');
 
@@ -70,7 +75,7 @@ class Actions_Contacts_Save extends ActionTestCase
         $this->assertSame('successfullysaved', $output->getProperty('message'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `email` = ?', 'test@user.com');
         $contact = $db->fetch_assoc($query);
 

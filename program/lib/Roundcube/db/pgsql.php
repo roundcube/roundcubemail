@@ -52,6 +52,7 @@ class rcube_db_pgsql extends rcube_db
      * @param array $dsn DSN for DB connections
      * @param PDO   $dbh Connection handler
      */
+    #[Override]
     protected function conn_configure($dsn, $dbh)
     {
         $dbh->query("SET NAMES 'utf8'");
@@ -70,6 +71,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return mixed ID or false on failure
      */
+    #[Override]
     public function insert_id($table = null)
     {
         if (!$this->db_connected || $this->db_mode == 'r') {
@@ -113,6 +115,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @deprecated
      */
+    #[Override]
     public function unixtimestamp($field)
     {
         return "EXTRACT (EPOCH FROM {$field})";
@@ -125,6 +128,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string SQL function to use in query
      */
+    #[Override]
     public function now($interval = 0)
     {
         $result = 'now()';
@@ -146,6 +150,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string SQL statement to use in query
      */
+    #[Override]
     public function ilike($column, $value)
     {
         return $this->quote_identifier($column) . ' ILIKE ' . $this->quote($value);
@@ -159,6 +164,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return mixed Variable value or default
      */
+    #[Override]
     public function get_variable($varname, $default = null)
     {
         // There's a known case when max_allowed_packet is queried
@@ -196,6 +202,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @todo Multi-insert support
      */
+    #[Override]
     public function insert_or_update($table, $keys, $columns, $values)
     {
         // Check if version >= 9.5, otherwise use fallback
@@ -223,6 +230,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return array List of all tables of the current database
      */
+    #[Override]
     public function list_tables()
     {
         // get tables if not cached
@@ -250,6 +258,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return array List of table cols
      */
+    #[Override]
     public function list_cols($table)
     {
         $args = [$table];
@@ -278,6 +287,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string DSN string
      */
+    #[Override]
     protected function dsn_string($dsn)
     {
         $params = [];
@@ -313,6 +323,7 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Parse SQL file and fix table names according to table prefix
      */
+    #[Override]
     protected function fix_table_names($sql)
     {
         if (!$this->options['table_prefix']) {

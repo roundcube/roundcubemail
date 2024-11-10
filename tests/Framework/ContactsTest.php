@@ -1,20 +1,22 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_contacts class
  */
-class Framework_Contacts extends TestCase
+class ContactsTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_contacts(rcube::get_instance()->get_dbh(), null);
+        $object = new \rcube_contacts(\rcube::get_instance()->get_dbh(), null);
 
-        $this->assertInstanceOf('rcube_contacts', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_contacts::class, $object, 'Class constructor');
     }
 
     /**
@@ -22,7 +24,7 @@ class Framework_Contacts extends TestCase
      */
     public function test_validate()
     {
-        $contacts = new rcube_contacts(rcube::get_instance()->get_dbh(), null);
+        $contacts = new \rcube_contacts(\rcube::get_instance()->get_dbh(), null);
 
         $data = [];
         $this->assertFalse($contacts->validate($data));

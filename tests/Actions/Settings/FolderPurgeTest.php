@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Settings;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_settings_folder_purge
  */
-class Actions_Settings_FolderPurge extends ActionTestCase
+class FolderPurgeTest extends ActionTestCase
 {
     /**
      * Test purging a folder
      */
     public function test_purge()
     {
-        $action = new rcmail_action_settings_folder_purge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
+        $action = new \rcmail_action_settings_folder_purge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
@@ -27,7 +32,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);') !== false);
@@ -40,10 +45,10 @@ class Actions_Settings_FolderPurge extends ActionTestCase
      */
     public function test_purge_trash()
     {
-        $action = new rcmail_action_settings_folder_purge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
+        $action = new \rcmail_action_settings_folder_purge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // Set expected storage function calls/results
@@ -57,7 +62,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
@@ -70,14 +75,14 @@ class Actions_Settings_FolderPurge extends ActionTestCase
      */
     public function test_purge_errors()
     {
-        $action = new rcmail_action_settings_folder_purge();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
+        $action = new \rcmail_action_settings_folder_purge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'folder-purge');
 
         // Set expected storage function calls/results
         self::mockStorage()
             ->registerFunction('move_message', false)
             ->registerFunction('get_error_code', -1)
-            ->registerFunction('get_response_code', rcube_storage::READONLY);
+            ->registerFunction('get_response_code', \rcube_storage::READONLY);
 
         $_POST = ['_mbox' => 'Test'];
 
@@ -85,7 +90,7 @@ class Actions_Settings_FolderPurge extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
     }

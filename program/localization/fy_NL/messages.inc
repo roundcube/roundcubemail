@@ -87,7 +87,6 @@ $messages['nonamewarning']  = 'Fier in namme yn.';
 $messages['nopagesizewarning'] = 'Fier in side grutte yn.';
 $messages['nosenderwarning'] = 'Fier stjoerder e-post adres yn.';
 $messages['norecipientwarning'] = 'Fier op syn minst ien ûntfanger yn.';
-$messages['disclosedrecipwarning'] = 'Alle ûntfangers sjoche de oare e-post adressen. Om dat te foarkommen en harren privacy te beskermjen kinne jo gebrûk meitsje fan it Bcc fjild.';
 $messages['disclosedreciptitle'] = 'Tefolle iepenbiere ûntfangers';
 $messages['nosubjectwarning']  = 'It "Underwerp" fjild is leech. Wolle jo no ien ynfiere?';
 $messages['nosubjecttitle']  = 'Gjin ûnderwerp';

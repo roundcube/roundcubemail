@@ -31,6 +31,7 @@ class rcmail_output_html extends rcmail_output
     protected $js_labels = [];
     protected $js_commands = [];
     protected $skin_paths = [];
+    protected $skin_extends = [];
     protected $skin_name = '';
     protected $scripts_path = '';
     protected $script_files = [];
@@ -174,6 +175,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool   $addtojs True if this property should be added
      *                        to client environment
      */
+    #[Override]
     public function set_env($name, $value, $addtojs = true)
     {
         $this->env[$name] = $value;
@@ -266,6 +268,7 @@ class rcmail_output_html extends rcmail_output
     /**
      * Getter for the current skin path property
      */
+    #[Override]
     public function get_skin_path()
     {
         return $this->skin_paths[0];
@@ -292,7 +295,7 @@ class rcmail_output_html extends rcmail_output
         // register skin path(s)
         $this->skin_paths = [];
         $this->skins = [];
-        $this->load_skin($skin_path);
+        $this->load_skin($skin);
 
         $this->skin_name = $skin;
         $this->set_env('skin', $skin);
@@ -310,12 +313,7 @@ class rcmail_output_html extends rcmail_output
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         // @phpstan-ignore-next-line
         if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
-            rcube::raise_error([
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => 'Invalid skin name',
-            ], true, false);
-
+            rcube::raise_error('Invalid skin name', true);
             return false;
         }
 
@@ -333,13 +331,13 @@ class rcmail_output_html extends rcmail_output
     /**
      * Helper method to recursively read skin meta files and register search paths
      */
-    private function load_skin($skin_path)
+    private function load_skin($skin_name)
     {
+        $skin_path = 'skins/' . $skin_name;
         $this->skin_paths[] = $skin_path;
 
         // read meta file and check for dependencies
-        $meta = @file_get_contents(RCUBE_INSTALL_PATH . $skin_path . '/meta.json');
-        $meta = @json_decode($meta, true);
+        $meta = $this->get_skin_info($skin_name);
 
         $meta['path'] = $skin_path;
         $path_elements = explode('/', $skin_path);
@@ -357,7 +355,8 @@ class rcmail_output_html extends rcmail_output
         if (!empty($meta['extends'])) {
             $path = RCUBE_INSTALL_PATH . 'skins/';
             if (is_dir($path . $meta['extends']) && is_readable($path . $meta['extends'])) {
-                $_SESSION['skin_config'] = $this->load_skin('skins/' . $meta['extends']);
+                $_SESSION['skin_config'] = $this->load_skin($meta['extends']);
+                $this->skin_extends[] = $meta['extends'];
             }
         }
 
@@ -384,6 +383,10 @@ class rcmail_output_html extends rcmail_output
         }
         if (!empty($meta['links'])) {
             $this->link_tags = array_merge($this->link_tags, (array) $meta['links']);
+        }
+
+        if (!empty($this->skin_extends)) {
+            $this->set_env('skin_extends', $this->skin_extends);
         }
 
         $this->set_env('dark_mode_support', (bool) $this->config->get('dark_mode_support'));
@@ -486,6 +489,7 @@ class rcmail_output_html extends rcmail_output
      * @param string $cmd     Method to call
      * @param mixed  ...$args Method arguments
      */
+    #[Override]
     public function command($cmd, ...$args)
     {
         if (strpos($cmd, 'plugin.') !== false) {
@@ -502,6 +506,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param mixed ...$args Labels (an array of strings, or many string arguments)
      */
+    #[Override]
     public function add_label(...$args)
     {
         if (count($args) == 1 && is_array($args[0])) {
@@ -524,6 +529,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @uses self::command()
      */
+    #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
     {
         if ($override || !$this->message) {
@@ -547,6 +553,7 @@ class rcmail_output_html extends rcmail_output
      *
      * @param bool $all Reset all env variables (including internal)
      */
+    #[Override]
     public function reset($all = false)
     {
         $framed = $this->framed;
@@ -603,6 +610,7 @@ class rcmail_output_html extends rcmail_output
      * @param int   $delay  Delay in seconds
      * @param bool  $secure Redirect to secure location (see rcmail::url())
      */
+    #[Override]
     public function redirect($p = [], $delay = 1, $secure = false)
     {
         if (!empty($this->env['extwin']) && !(is_string($p) && preg_match('#^https?://#', $p))) {
@@ -625,6 +633,7 @@ class rcmail_output_html extends rcmail_output
      * @param string $templ Template name
      * @param bool   $exit  True if script should terminate (default)
      */
+    #[Override]
     public function send($templ = null, $exit = true)
     {
         if ($templ != 'iframe') {
@@ -632,8 +641,6 @@ class rcmail_output_html extends rcmail_output
             if ($exit != 'recur' && $this->app->plugins->is_processing('render_page')) {
                 rcube::raise_error([
                     'code' => 505,
-                    'file' => __FILE__,
-                    'line' => __LINE__,
                     'message' => 'Recursion alert: ignoring output->send()',
                 ], true, false);
 
@@ -766,7 +773,7 @@ class rcmail_output_html extends rcmail_output
 
                 if (is_readable($path)) {
                     rcube::raise_error([
-                        'code' => 502, 'file' => __FILE__, 'line' => __LINE__,
+                        'code' => 502,
                         'message' => "Using deprecated template '{$dname}' in {$skin_path}/templates. Please rename to '{$realname}'",
                     ], true, false);
                 }
@@ -787,8 +794,6 @@ class rcmail_output_html extends rcmail_output
         if (!$path || ($templ = @file_get_contents($path)) === false) {
             rcube::raise_error([
                 'code' => 404,
-                'line' => __LINE__,
-                'file' => __FILE__,
                 'message' => 'Error loading template for ' . $realname,
             ], true, $write);
 
@@ -923,6 +928,7 @@ class rcmail_output_html extends rcmail_output
      * @param int    $code    Error code
      * @param string $message Error message
      */
+    #[Override]
     public function raise_error($code, $message)
     {
         $args = [

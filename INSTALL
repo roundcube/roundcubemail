@@ -12,7 +12,7 @@ REQUIREMENTS
 * An IMAP, HTTP and SMTP server
 * .htaccess support allowing overrides for DirectoryIndex
 * PHP Version 7.3 or greater including:
-   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Intl (required)
+   - PCRE, DOM, JSON, Session, Sockets, OpenSSL, Mbstring, Filter, Ctype, Intl (required)
    - PHP PDO with driver for either MySQL, PostgreSQL or SQLite (required)
    - Iconv, Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
@@ -45,6 +45,7 @@ INSTALLATION
       section (remove the explanation texts after the version!).
     - run `php composer.phar update --no-dev`
   2.2. Install Javascript dependencies by executing `bin/install-jsdeps.sh` script.
+  2.3. Install some developer tools by executing `npm install`.
 3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - /temp
@@ -187,6 +188,13 @@ direct access to these private resources.
 It is also recommended to change the document root to <install path>/public_html
 after installation if Roundcube runs at root of a dedicated virtual host. This
 will automatically keep sensitive files out of reach for http requests.
+
+CONTENT-SECURITY-POLICY
+-----------------------
+
+If you use a Content-Security-Policy, please note that Roundcube *requires* the
+`script-src` parameter to include `'unsafe-inline' 'unsafe-eval'`. No external
+sources are required (by default).
 
 
 UPGRADING

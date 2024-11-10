@@ -1025,7 +1025,7 @@ class enigma_ui
                             $this->enigma->gettext('signokey')));
                     }
                 }
-            } elseif ($sig && $sig->getCode() == enigma_error::KEYNOTFOUND) {
+            } elseif ($sig->getCode() == enigma_error::KEYNOTFOUND) {
                 $attrib['class'] = 'boxwarning enigmawarning signed';
                 $msg = rcube::Q(str_replace('$keyid', enigma_key::format_id($sig->getData('id')),
                     $this->enigma->gettext('signokey')));
@@ -1311,6 +1311,11 @@ class enigma_ui
     /**
      * Check if the part or its parent exists in the array
      * of decryptions/signatures. Returns found ID.
+     *
+     * @param string $part_id
+     * @param array  $data
+     *
+     * @return string|null
      */
     private function find_part_id($part_id, $data)
     {
@@ -1318,10 +1323,13 @@ class enigma_ui
         $i = 0;
         $count = count($ids);
 
+        // @phpstan-ignore-next-line
         while ($i < $count && strlen($part = implode('.', array_slice($ids, 0, ++$i)))) {
             if (array_key_exists($part, $data)) {
                 return $part;
             }
         }
+
+        return null;
     }
 }

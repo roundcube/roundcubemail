@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Roundcube\Tests\Browser\Components;
 
 use Laravel\Dusk\Component;
 use PHPUnit\Framework\Assert;
-use Tests\Browser\Browser;
+use Roundcube\Tests\Browser\Browser;
 
 class App extends Component
 {
@@ -13,6 +13,7 @@ class App extends Component
      *
      * @return string
      */
+    #[\Override]
     public function selector()
     {
         return '';
@@ -23,6 +24,7 @@ class App extends Component
      *
      * @param Browser $browser
      */
+    #[\Override]
     public function assert($browser): void
     {
         // Assume the app (window.rcmail) is always available
@@ -36,6 +38,7 @@ class App extends Component
      *
      * @return array
      */
+    #[\Override]
     public function elements()
     {
         return [];

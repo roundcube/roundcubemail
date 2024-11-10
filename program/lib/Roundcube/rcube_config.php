@@ -299,20 +299,24 @@ class rcube_config
         $success = false;
 
         foreach ($this->resolve_paths($file) as $fpath) {
-            if ($fpath && is_file($fpath) && is_readable($fpath)) {
-                // use output buffering, we don't need any output here
-                ob_start();
-                require $fpath;
-                ob_end_clean();
+            if ($fpath && is_file($fpath)) {
+                if (is_readable($fpath) === false) {
+                    trigger_error($fpath . ' is not readable', \E_USER_WARNING);
+                } else {
+                    // use output buffering, we don't need any output here
+                    ob_start();
+                    require $fpath;
+                    ob_end_clean();
 
-                if (isset($config) && is_array($config)) {
-                    $this->merge($config);
-                    $success = true;
-                }
-                // deprecated name of config variable
-                if (isset($rcmail_config) && is_array($rcmail_config)) {
-                    $this->merge($rcmail_config);
-                    $success = true;
+                    if (isset($config) && is_array($config)) {
+                        $this->merge($config);
+                        $success = true;
+                    }
+                    // deprecated name of config variable
+                    if (isset($rcmail_config) && is_array($rcmail_config)) {
+                        $this->merge($rcmail_config);
+                        $success = true;
+                    }
                 }
             }
         }
@@ -544,7 +548,7 @@ class rcube_config
         // Bomb out if the requested key does not exist
         if (!array_key_exists($key, $this->prop) || empty($this->prop[$key])) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => "Request for unconfigured crypto key \"{$key}\"",
             ], true, true);
         }
@@ -579,7 +583,7 @@ class rcube_config
             }
 
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Invalid mail_header_delimiter setting',
             ], true, false);
         }

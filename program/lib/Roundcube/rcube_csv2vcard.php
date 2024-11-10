@@ -521,7 +521,7 @@ class rcube_csv2vcard
             return [];
         }
 
-        $fields = str_getcsv($line);
+        $fields = str_getcsv($line, ',', '"', '\\');
 
         return $fields;
     }

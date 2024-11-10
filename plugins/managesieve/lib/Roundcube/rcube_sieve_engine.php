@@ -164,6 +164,28 @@ class rcube_sieve_engine
     public function connect($username, $password)
     {
         $host = $this->rc->config->get('managesieve_host', 'localhost');
+
+        // $config['managesieve_host'] parameter now can be configured in two ways:
+        // - as an array, which allows to switch between different servers. E.g.,
+        //   a user can log in as user@some.host, or as otheruser@other.host and
+        //   have different sieve servers for different hosts.
+        // - as a string (default).
+        if (is_array($host)) {
+            // By now, the $_SESSION['storage_host'] variable should contain the host name
+            // of a mail server, user logged in. This entry should match the mapping in the
+            // $config['managesieve_host'] parameter in the configuration, e.g.:
+            // ['example.com' => 'sieve.example.net'].
+            if (array_key_exists($_SESSION['storage_host'], $host)) {
+                $host = $host[$this->rc->config->mail_domain($_SESSION['storage_host'])];
+            } else {
+                rcube::raise_error([
+                    'code' => 500,
+                    'message' => "Can't locate the sieve server. Please check the 'managesieve_host' config option.",
+                ], true, false);
+                return rcube_sieve::ERROR_CONNECTION;
+            }
+        }
+
         $host = rcube_utils::parse_host($host);
 
         $plugin = $this->rc->plugins->exec_hook('managesieve_connect', [
@@ -221,8 +243,6 @@ class rcube_sieve_engine
         if ($error) {
             rcube::raise_error([
                 'code' => 403,
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => "Unable to connect to managesieve on {$host}:{$port}",
             ], true, false);
         }
@@ -246,15 +266,19 @@ class rcube_sieve_engine
             // get (first) active script
             if (!empty($this->active)) {
                 $script_name = $this->active[0];
-            } elseif ($list) {
+            } elseif (!empty($list)) {
                 $script_name = $list[0];
             } else {
                 // if script does not exist create one with default content
-                $this->create_default_script();
+                $script_name = $this->create_default_script();
             }
         }
 
         if ($script_name) {
+            if ($this->is_protected_script($script_name)) {
+                return rcube_sieve::ERROR_NOT_EXISTS;
+            }
+
             $this->sieve->load($script_name);
         }
 
@@ -406,6 +430,11 @@ class rcube_sieve_engine
                     $this->rc->request_security_check(rcube_utils::INPUT_GET);
 
                     $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_GPC, true);
+
+                    if ($this->is_protected_script($script_name)) {
+                        exit;
+                    }
+
                     $script = $this->sieve->get_script($script_name);
 
                     if ($script !== false) {
@@ -475,7 +504,8 @@ class rcube_sieve_engine
 
         $script_name = rcube_utils::get_input_string('_set', rcube_utils::INPUT_POST);
 
-        $result = $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
+        $result = empty($error) && !$this->is_protected_script($script_name)
+            && $this->sieve->save_script($script_name, $_POST['rawsetcontent']);
 
         if ($result === false) {
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -510,7 +540,7 @@ class rcube_sieve_engine
         // check request size limit
         if ($max_post && count($_POST, \COUNT_RECURSIVE) >= $max_post) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Request size limit exceeded (one of max_input_vars/suhosin.request.max_vars/suhosin.post.max_vars)',
             ], true, false);
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -518,7 +548,7 @@ class rcube_sieve_engine
         // check request depth limits
         elseif ($max_depth && count($_POST['_header']) > $max_depth) {
             rcube::raise_error([
-                'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
+                'code' => 500,
                 'message' => 'Request size limit exceeded (one of suhosin.request.max_array_depth/suhosin.post.max_array_depth)',
             ], true, false);
             $this->rc->output->show_message('managesieve.filtersaveerror', 'error');
@@ -2932,6 +2962,10 @@ class rcube_sieve_engine
      */
     public function remove_script($name)
     {
+        if ($this->is_protected_script($name)) {
+            return false;
+        }
+
         $result = $this->sieve->remove($name);
 
         // Kolab's KEP:14
@@ -3090,6 +3124,20 @@ class rcube_sieve_engine
         }
 
         return $this->sieve->save($name);
+    }
+
+    /**
+     * Check if the script is protected
+     */
+    protected function is_protected_script($name)
+    {
+        if ($this->rc->config->get('managesieve_kolab_master')) {
+            if (in_array(strtoupper($name), ['MASTER', 'MANAGEMENT', 'USER'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

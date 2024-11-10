@@ -1,19 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_search_delete
  */
-class Actions_Contacts_Search_Delete extends ActionTestCase
+class Search_DeleteTest extends ActionTestCase
 {
     /**
      * Test error handling
      */
     public function test_search_delete_errors()
     {
-        $action = new rcmail_action_contacts_search_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
+        $action = new \rcmail_action_contacts_search_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $_POST = ['_sid' => 'unknown'];
@@ -22,7 +27,7 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
         $this->assertSame('this.display_message("Could not delete saved search.","error",0);', trim($result['exec']));
     }
@@ -32,14 +37,14 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
      */
     public function test_search_create_success()
     {
-        $action = new rcmail_action_contacts_search_delete();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
+        $action = new \rcmail_action_contacts_search_delete();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search-delete');
 
         $this->assertTrue($action->checks());
 
         self::initDB('searches');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
         $result = $db->fetch_assoc($query);
         $sid = $result['search_id'];
@@ -50,7 +55,7 @@ class Actions_Contacts_Search_Delete extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertTrue(strpos($result['exec'], 'this.display_message("Saved search deleted successfully.","confirmation",0);') !== false);

@@ -1,15 +1,17 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Enigma_EnigmaSubkey extends TestCase
+class EnigmaSubkeyTest extends TestCase
 {
     /**
      * Test constructor
      */
     public function test_constructor()
     {
-        $error = new enigma_subkey();
+        $error = new \enigma_subkey();
 
         $this->assertInstanceOf('enigma_subkey', $error);
     }

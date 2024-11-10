@@ -1,19 +1,26 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Utils;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+
+use function Roundcube\Tests\setHttpClientMock;
+
 /**
  * Test class to test rcmail_action_utils_modcss
  */
-class Actions_Utils_Modcss extends ActionTestCase
+class ModcssTest extends ActionTestCase
 {
     /**
      * Test for run()
      */
     public function test_run()
     {
-        $action = new rcmail_action_utils_modcss();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'utils', 'modcss');
+        $action = new \rcmail_action_utils_modcss();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'utils', 'modcss');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         // No input parameters

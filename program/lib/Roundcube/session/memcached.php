@@ -45,8 +45,8 @@ class rcube_session_memcached extends rcube_session
 
         if (!$this->memcache) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'memcache',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 604,
+                'type' => 'memcache',
                 'message' => 'Failed to connect to memcached. Please check configuration',
             ], true, true);
         }
@@ -63,6 +63,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -73,6 +74,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function close()
     {
         return true;
@@ -85,6 +87,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     public function destroy($key)
     {
         if ($key) {
@@ -106,6 +109,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return string Serialized data string
      */
+    #[Override]
     public function read($key)
     {
         if ($arr = $this->memcache->get($key)) {
@@ -130,6 +134,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -155,6 +160,7 @@ class rcube_session_memcached extends rcube_session
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);

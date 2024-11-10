@@ -1,6 +1,11 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+
+use function Roundcube\Tests\invokeMethod;
 
 /**
  * Test class to test rcube_db_pgsql class
@@ -8,16 +13,18 @@ use PHPUnit\Framework\TestCase;
  * @group database
  * @group postgres
  */
-class Framework_DBPgsql extends TestCase
+#[Group('database')]
+#[Group('postgres')]
+class DBPgsqlTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_db_pgsql('test');
+        $object = new \rcube_db_pgsql('test');
 
-        $this->assertInstanceOf('rcube_db_pgsql', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_db_pgsql::class, $object, 'Class constructor');
     }
 
     /**
@@ -25,7 +32,7 @@ class Framework_DBPgsql extends TestCase
      */
     public function test_exec_script_schema_prefix()
     {
-        $db = rcube_db::factory('pgsql:test');
+        $db = \rcube_db::factory('pgsql:test');
         $db->set_option('table_prefix', 'prefix.');
 
         $script = [
@@ -64,7 +71,7 @@ class Framework_DBPgsql extends TestCase
             'ALTER SEQUENCE prefix.user_ids RENAME TO prefix.users_seq',
         ];
 
-        $method = new ReflectionMethod('rcube_db_pgsql', 'fix_table_names');
+        $method = new \ReflectionMethod('rcube_db_pgsql', 'fix_table_names');
         $method->setAccessible(true);
 
         foreach ($script as $idx => $query) {
@@ -78,7 +85,7 @@ class Framework_DBPgsql extends TestCase
      */
     public function test_dsn_string()
     {
-        $db = new rcube_db_pgsql('test');
+        $db = new \rcube_db_pgsql('test');
 
         $dsn = $db->parse_dsn('pgsql://USERNAME:PASSWORD@HOST:5432/DATABASE');
         $result = invokeMethod($db, 'dsn_string', [$dsn]);

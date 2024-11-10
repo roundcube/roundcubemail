@@ -132,8 +132,7 @@ $config['redis_debug'] = false;
 // The IMAP host (and optionally port number) chosen to perform the log-in.
 // Leave blank to show a textbox at login, give a list of hosts
 // to display a pulldown menu or set one host as string.
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
+// Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 993 (for ssl://) or 143 otherwise.
 // Supported replacement variables:
 // %n - hostname ($_SERVER['SERVER_NAME'])
@@ -241,7 +240,7 @@ $config['imap_disabled_caps'] = [];
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc', 'redis' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -265,8 +264,7 @@ $config['messages_cache_threshold'] = 50;
 // ----------------------------------
 
 // SMTP server host (and optional port number) for sending mails.
-// Enter hostname with prefix ssl:// to use Implicit TLS, or use
-// prefix tls:// to use STARTTLS.
+// Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 465 (for ssl://) or 587 otherwise.
 // Supported replacement variables:
 // %h - user's IMAP hostname
@@ -412,6 +410,13 @@ $config['oauth_user_create_map'] = [
     'user_email' => ['email'],
     'language' => ['locale'],
 ];
+
+// Optional: For backends that don't support XOAUTH2/OAUTHBEARER method we can still use
+// OpenIDC protocol to get a short-living password (claim) for the user to log into IMAP/SMTP.
+// That password have to have (at least) the same expiration time as the token, and will be
+// renewed on token refresh.
+// Note: The claim have to be added to 'oauth_scope' above.
+$config['oauth_password_claim'] = null;
 
 // /// Example config for Gmail
 

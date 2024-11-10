@@ -1,16 +1,22 @@
 <?php
 
+namespace Roundcube\Plugins\Tests;
+
 use PHPUnit\Framework\TestCase;
 
-class Markasjunk_Plugin extends TestCase
+use function Roundcube\Tests\getProperty;
+use function Roundcube\Tests\invokeMethod;
+use function Roundcube\Tests\setProperty;
+
+class MarkasjunkTest extends TestCase
 {
     /**
      * Plugin object construction test
      */
     public function test_constructor()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new markasjunk($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \markasjunk($rcube->plugins);
 
         $this->assertInstanceOf('markasjunk', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
@@ -21,8 +27,8 @@ class Markasjunk_Plugin extends TestCase
      */
     public function test_init_driver()
     {
-        $rcube = rcube::get_instance();
-        $plugin = new markasjunk($rcube->plugins);
+        $rcube = \rcube::get_instance();
+        $plugin = new \markasjunk($rcube->plugins);
 
         $drivers = ['amavis_blacklist', 'cmd_learn', 'dir_learn', 'edit_headers', 'email_learn',
             'jsevent', 'sa_blacklist', 'sa_detach',

@@ -1,18 +1,21 @@
 <?php
 
-namespace Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
 use Facebook\WebDriver\WebDriverKeys;
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\HtmlEditor;
-use Tests\Browser\Components\RecipientInput;
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\HtmlEditor;
+use Roundcube\Tests\Browser\Components\RecipientInput;
+use Roundcube\Tests\Browser\TestCase;
 
 class ComposeTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     public function testCompose()
@@ -81,6 +84,7 @@ class ComposeTest extends TestCase
     /**
      * @depends testCompose
      */
+    #[Depends('testCompose')]
     public function testPlainEditor()
     {
         // Test for #7230: Shift+PageUp text selection
@@ -112,6 +116,7 @@ class ComposeTest extends TestCase
     /**
      * @depends testCompose
      */
+    #[Depends('testCompose')]
     public function testRecipientInput()
     {
         // Test for #7231: Recipient input bug when using click

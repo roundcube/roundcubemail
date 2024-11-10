@@ -190,65 +190,63 @@ abstract class rcmail_action
         $quota = $rcmail->storage->get_quota($folder);
         $quota = $rcmail->plugins->exec_hook('quota', $quota ?: []);
 
+        if (empty($quota['total']) || $quota['total'] <= 0) {
+            return [];
+        }
+
         $quota_result = $quota;
         $quota_result['type'] = $_SESSION['quota_display'] ?? '';
         $quota_result['folder'] = $folder !== null && $folder !== '' ? $folder : 'INBOX';
 
-        if (!empty($quota['total']) && $quota['total'] > 0) {
-            if (!isset($quota['percent'])) {
-                $quota_result['percent'] = min(100, round(($quota['used'] / max(1, $quota['total'])) * 100));
-            }
+        if (!isset($quota['percent'])) {
+            $quota_result['percent'] = min(100, round(($quota['used'] / max(1, $quota['total'])) * 100));
+        }
 
-            $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
-                self::show_bytes($quota['used'] * 1024),
-                self::show_bytes($quota['total'] * 1024),
-                $quota_result['percent']
-            );
+        $title = $rcmail->gettext('quota') . ': ' . sprintf('%s / %s (%.0f%%)',
+            self::show_bytes($quota['used'] * 1024),
+            self::show_bytes($quota['total'] * 1024),
+            $quota_result['percent']
+        );
 
-            $quota_result['title'] = $title;
+        $quota_result['title'] = $title;
 
-            if (!empty($attrib['width'])) {
-                $quota_result['width'] = $attrib['width'];
-            }
-            if (!empty($attrib['height'])) {
-                $quota_result['height'] = $attrib['height'];
-            }
+        if (!empty($attrib['width'])) {
+            $quota_result['width'] = $attrib['width'];
+        }
+        if (!empty($attrib['height'])) {
+            $quota_result['height'] = $attrib['height'];
+        }
 
-            // build a table of quota types/roots info
-            if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
-                $table = new html_table(['cols' => 3, 'class' => 'quota-info']);
+        // build a table of quota types/roots info
+        if (($root_cnt = count($quota_result['all'])) > 1 || count($quota_result['all'][key($quota_result['all'])]) > 1) {
+            $table = new html_table(['cols' => 3, 'class' => 'quota-info']);
 
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotatype')));
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotatotal')));
-                $table->add_header(null, rcube::Q($rcmail->gettext('quotaused')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotatype')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotatotal')));
+            $table->add_header(null, rcube::Q($rcmail->gettext('quotaused')));
 
-                foreach ($quota_result['all'] as $root => $data) {
-                    if ($root_cnt > 1 && $root) {
-                        $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
-                    }
-
-                    if ($storage = ($data['storage'] ?? null)) {
-                        $percent = min(100, round(($storage['used'] / max(1, $storage['total'])) * 100));
-
-                        $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
-                        $table->add(null, self::show_bytes($storage['total'] * 1024));
-                        $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
-                    }
-                    if ($message = ($data['message'] ?? null)) {
-                        $percent = min(100, round(($message['used'] / max(1, $message['total'])) * 100));
-
-                        $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
-                        $table->add(null, intval($message['total']));
-                        $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
-                    }
+            foreach ($quota_result['all'] as $root => $data) {
+                if ($root_cnt > 1 && $root) {
+                    $table->add(['colspan' => 3, 'class' => 'root'], rcube::Q($root));
                 }
 
-                $quota_result['table'] = $table->show();
+                if ($storage = ($data['storage'] ?? null)) {
+                    $percent = min(100, round(($storage['used'] / max(1, $storage['total'])) * 100));
+
+                    $table->add('name', rcube::Q($rcmail->gettext('quotastorage')));
+                    $table->add(null, self::show_bytes($storage['total'] * 1024));
+                    $table->add(null, sprintf('%s (%.0f%%)', self::show_bytes($storage['used'] * 1024), $percent));
+                }
+                if ($message = ($data['message'] ?? null)) {
+                    $percent = min(100, round(($message['used'] / max(1, $message['total'])) * 100));
+
+                    $table->add('name', rcube::Q($rcmail->gettext('quotamessage')));
+                    $table->add(null, intval($message['total']));
+                    $table->add(null, sprintf('%d (%.0f%%)', $message['used'], $percent));
+                }
             }
-        } else {
-            $unlimited = $rcmail->config->get('quota_zero_as_unlimited');
-            $quota_result['title'] = $rcmail->gettext($unlimited ? 'unlimited' : 'unknown');
-            $quota_result['percent'] = 0;
+
+            $quota_result['table'] = $table->show();
         }
 
         // cleanup
@@ -1065,7 +1063,7 @@ abstract class rcmail_action
     /**
      * Create a hierarchical array of the mailbox list
      */
-    protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '')
+    protected static function build_folder_tree(&$arrFolders, $folder, $delm = '/', $path = '', $is_special = null)
     {
         $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
@@ -1082,11 +1080,37 @@ abstract class rcmail_action
             }
         }
 
+        // Special folders always on top level
+        if ($is_special === null) {
+            $is_special = $storage->is_special_folder($path . $prefix . $folder);
+        }
+
+        $currentFolder = $folder;
+        $subFolders = '';
+        $virtual = false;
+        $name = null;
         $pos = strpos($folder, $delm);
 
-        if ($pos !== false) {
-            $subFolders = substr($folder, $pos + 1);
-            $currentFolder = substr($folder, 0, $pos);
+        if ($is_special) {
+            $name = $pos !== false ? substr($folder, $pos + 1) : $folder;
+        } elseif ($pos !== false) {
+            $tokens = explode($delm, $folder);
+            $subFolders = array_pop($tokens);
+            $currentFolder = implode($delm, $tokens);
+
+            // Find the closest parent.
+            // Because we force special folders to be on top level, we might
+            // end up with "INBOX/Trash" being on the top-level folders list,
+            // Then if we have "INBOX/Trash/Subfolder" we have to put it under "INBOX/Trash",
+            // not "INBOX".
+            while (count($tokens) > 1) {
+                if (isset($arrFolders[$currentFolder])) {
+                    break;
+                }
+
+                $subFolders = array_pop($tokens) . $delm . $subFolders;
+                $currentFolder = implode($delm, $tokens);
+            }
 
             // sometimes folder has a delimiter as the last character
             if (!strlen($subFolders)) {
@@ -1096,10 +1120,6 @@ abstract class rcmail_action
             } else {
                 $virtual = $arrFolders[$currentFolder]['virtual'];
             }
-        } else {
-            $subFolders = false;
-            $currentFolder = $folder;
-            $virtual = false;
         }
 
         $path .= $prefix . $currentFolder;
@@ -1107,7 +1127,7 @@ abstract class rcmail_action
         if (!isset($arrFolders[$currentFolder])) {
             $arrFolders[$currentFolder] = [
                 'id' => $path,
-                'name' => rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
+                'name' => $name ?? rcube_charset::convert($currentFolder, 'UTF7-IMAP'),
                 'virtual' => $virtual,
                 'folders' => [],
             ];
@@ -1116,7 +1136,7 @@ abstract class rcmail_action
         }
 
         if (strlen($subFolders)) {
-            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm);
+            self::build_folder_tree($arrFolders[$currentFolder]['folders'], $subFolders, $delm, $path . $delm, $is_special);
         }
     }
 
@@ -1204,7 +1224,8 @@ abstract class rcmail_action
             $jslist[$folder['id']] = [
                 'id' => $folder['id'],
                 'name' => $foldername,
-                'virtual' => $folder['virtual'],
+                'virtual' => $folder['virtual'] ?? false,
+                'level' => $nestLevel,
             ];
 
             if (!empty($folder_class)) {

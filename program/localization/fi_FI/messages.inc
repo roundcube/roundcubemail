@@ -102,7 +102,6 @@ $messages['nopagesizewarning'] = 'Anna sivukoko';
 $messages['nosenderwarning'] = 'Anna lähettäjän sähköpostiosoite.';
 $messages['recipientsadded'] = 'Vastaanottaja(t) lisätty onnistuneesti.';
 $messages['norecipientwarning'] = 'Anna ainakin yksi vastaanottaja';
-$messages['disclosedrecipwarning'] = 'Kaikki vastaanottajat tulevat näkemään muut vastaanottajat. Estääksesi tämän ja suojellaksesi heidän turvallisuutta käytä BCC-kenttää.';
 $messages['disclosedreciptitle'] = 'Liian monta julkista vastaanottajaa';
 $messages['nosubjectwarning']  = '"Aihe"-kenttä on tyhjä. Haluatko kirjoittaa viestillesi aiheen?';
 $messages['nosubjecttitle']  = 'Ei aihetta';

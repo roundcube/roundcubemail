@@ -16,6 +16,11 @@ module.exports = {
         '/vendor',
         '/public_html',
         '/plugins/jqueryui/js',
+        '/plugins/managesieve/codemirror',
+        '/program/js/tinymce',
+        '/program/js/publickey.js',
+        'node_modules',
+        '*.min.js',
     ],
     rules: {
         'brace-style': ['error', '1tbs'],
@@ -177,6 +182,7 @@ module.exports = {
         'unicorn/prefer-string-replace-all': 'off', // (43 matches)
         'unicorn/prefer-string-slice': 'off', // (39 matches)
         'unicorn/prefer-string-starts-ends-with': 'off', // (2 matches)
+        'unicorn/prefer-string-raw': 'off', // (2 matches)
         'unicorn/prefer-ternary': 'off', // (16 matches)
         'unicorn/require-array-join-separator': 'off', // (5 matches)
         'unicorn/switch-case-braces': 'off', // (161 matches)

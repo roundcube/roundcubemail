@@ -1,16 +1,19 @@
 <?php
 
-namespace Tests\Browser\Settings;
+namespace Roundcube\Tests\Browser\Settings;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\TestCase;
 
 class FoldersTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap(true);
-        \bootstrap::reset_mailboxes();
+        Bootstrap::init_imap(true);
+        Bootstrap::reset_mailboxes();
     }
 
     /**
@@ -71,6 +74,8 @@ class FoldersTest extends TestCase
      * @group failsontravis-phone
      * @group failsonga-phone
      */
+    #[Group('failsontravis-phone')]
+    #[Group('failsonga-phone')]
     public function testFolderCreate()
     {
         $this->browse(static function ($browser) {

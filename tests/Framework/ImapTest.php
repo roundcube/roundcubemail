@@ -1,20 +1,24 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
 use PHPUnit\Framework\TestCase;
+
+use function Roundcube\Tests\invokeMethod;
 
 /**
  * Test class to test rcube_imap class
  */
-class Framework_Imap extends TestCase
+class ImapTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $object = new rcube_imap();
+        $object = new \rcube_imap();
 
-        $this->assertInstanceOf('rcube_imap', $object, 'Class constructor');
+        $this->assertInstanceOf(\rcube_imap::class, $object, 'Class constructor');
     }
 
     /**
@@ -24,17 +28,17 @@ class Framework_Imap extends TestCase
     {
         $this->assertSame(
             'FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"',
-            rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
+            \rcube_imap::convert_criteria('FLAGGED SINCE 1-Feb-1994 NOT FROM "Smith"', RCUBE_CHARSET)
         );
 
         $this->assertSame(
             'ALL TEXT el',
-            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
+            \rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET)
         );
 
         $this->assertSame(
             "ALL TEXT {4}\r\nżel",
-            rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
+            \rcube_imap::convert_criteria("ALL TEXT {4}\r\nżel", RCUBE_CHARSET, RCUBE_CHARSET)
         );
     }
 
@@ -43,6 +47,11 @@ class Framework_Imap extends TestCase
      */
     public function test_sort_folder_list()
     {
+        // The sorting requires this locale.
+        if (setlocale(\LC_ALL, 'en_US.UTF-8', 'en_US.utf8', 'en_US', 'en-US') === false) {
+            throw new \Error('This test requires `en_US` to be settable as locale, but those appear to not be present in your environment!');
+        }
+
         $_SESSION['imap_delimiter'] = '.';
         $_SESSION['imap_namespace'] = [
             'personal' => null,
@@ -51,10 +60,10 @@ class Framework_Imap extends TestCase
         ];
 
         foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {
-            rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
+            \rcube::get_instance()->config->set("{$mbox}_mbox", ucfirst($mbox));
         }
 
-        $object = new rcube_imap();
+        $object = new \rcube_imap();
 
         $result = $object->sort_folder_list([]);
         $this->assertSame([], $result);
@@ -97,6 +106,51 @@ class Framework_Imap extends TestCase
         $result = $object->sort_folder_list($folders);
 
         $this->assertSame($expected, $result);
+
+        // More tricky scenario where a special folder is a subfolder of INBOX
+        \rcube::get_instance()->config->set('junk_mbox', 'INBOX.Junk');
+
+        $object = new \rcube_imap();
+
+        $folders = [
+            'Trash',
+            'Sent',
+            'ABC',
+            'Drafts',
+            'INBOX',
+            'INBOX.Trash',
+            'INBOX.Junk',
+            'INBOX.Sent',
+            'INBOX.Drafts',
+            'INBOX.Junk.Sub',
+            'INBOX.sub',
+            'Shared.Test1',
+            'Other Users.Test2',
+            'Junk',
+            'DEF',
+        ];
+
+        $expected = [
+            'INBOX',
+            'INBOX.Drafts',
+            'INBOX.Sent',
+            'INBOX.sub',
+            'INBOX.Trash',
+            'Drafts',
+            'Sent',
+            'INBOX.Junk',
+            'INBOX.Junk.Sub',
+            'Trash',
+            'ABC',
+            'DEF',
+            'Junk',
+            'Other Users.Test2',
+            'Shared.Test1',
+        ];
+
+        $result = $object->sort_folder_list($folders);
+
+        $this->assertSame($expected, $result);
     }
 
     /**
@@ -117,9 +171,9 @@ class Framework_Imap extends TestCase
                 . ' ( "MIXED" ("BOUNDARY" "=_0cc01990d46dea96cd7d692970fcbf82") NIL NIL) 1 NIL ("ATTACHMENT" ("FILENAME" "Test mail.eml")))'
             . ' "REPORT" ("BOUNDARY" "=_RrjQxjLYBqTMnoYWobuYlwN") NIL NIL)';
 
-        $structure = rcube_imap_generic::tokenizeResponse($str, 1);
+        $structure = \rcube_imap_generic::tokenizeResponse($str, 1);
 
-        $imap = new rcube_imap();
+        $imap = new \rcube_imap();
 
         $result = invokeMethod($imap, 'structure_part', [$structure]);
 

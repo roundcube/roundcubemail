@@ -89,7 +89,7 @@ class rcube_ldap_simple_password
 
         $this->_debug("C: Modify {$this->user}: " . print_r($entry, true));
 
-        if (!ldap_modify($this->conn, $this->user, $entry)) {
+        if (!ldap_mod_replace($this->conn, $this->user, $entry)) {
             $this->_debug('S: ' . ldap_error($this->conn));
 
             $errno = ldap_errno($this->conn);
@@ -130,9 +130,9 @@ class rcube_ldap_simple_password
             $this->_debug('S: NOT OK');
 
             rcube::raise_error([
-                'code' => 100, 'type' => 'ldap',
-                'file' => __FILE__, 'line' => __LINE__,
-                'message' => 'Could not connect to LDAP server',
+                'code' => 100,
+                'type' => 'ldap',
+                'message' => 'Password plugin: Could not connect to LDAP server',
             ], true);
 
             return PASSWORD_CONNECT_ERROR;

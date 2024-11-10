@@ -26,6 +26,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -244,7 +245,6 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 foreach ($subtypes as $i => $subtype) {
                     $suffix = $subtype ? ":{$subtype}" : '';
-                    // @phpstan-ignore-next-line
                     if (!empty($values[$i])) {
                         $record[$col . $suffix][] = $values[$i];
                     }

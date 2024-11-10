@@ -96,7 +96,6 @@ $messages['nopagesizewarning'] = 'Unesite veličinu stranice.';
 $messages['nosenderwarning'] = 'Molimo unesite e-mail adresu pošiljatelja.';
 $messages['recipientsadded'] = 'Primatelj(i) dodan(i) uspješno.';
 $messages['norecipientwarning'] = 'Unesite barem jednog primatelja.';
-$messages['disclosedrecipwarning'] = 'Svi će primatelji vidjeti druge adrese e-pošte. Da biste to spriječili i zaštitili njihovu privatnost možete rabiti polje Bcc.';
 $messages['disclosedreciptitle'] = 'Previše javnih primatelja';
 $messages['nosubjectwarning']  = 'Polje \'Naslov\' je prazno. Želite li unijeti naslov?';
 $messages['nosubjecttitle']  = 'Nema naslova';

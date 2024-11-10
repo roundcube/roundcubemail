@@ -24,6 +24,7 @@ class rcmail_action_login_oauth extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -34,7 +35,15 @@ class rcmail_action_login_oauth extends rcmail_action
 
         // on oauth error
         if (!empty($auth_error)) {
-            $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET) ?: $auth_error;
+            $error_message = rcube_utils::get_input_string('error_description', rcube_utils::INPUT_GET);
+
+            if (empty($error_message)) {
+                $error_message = 'oauth' . str_replace('_', '', $auth_error);
+                if (!$rcmail->text_exists($error_message)) {
+                    $error_message = 'errauthorizationfailed';
+                }
+            }
+
             $rcmail->output->show_message($error_message, 'warning');
             return;
         }

@@ -99,7 +99,6 @@ $messages['nopagesizewarning'] = 'Geef een paginagrootte op.';
 $messages['nosenderwarning'] = 'Voer een e-mailadres van de afzender in.';
 $messages['recipientsadded'] = 'Ontvanger(s) succesvol toegevoegd.';
 $messages['norecipientwarning'] = 'Geef tenminste één ontvanger op.';
-$messages['disclosedrecipwarning'] = 'Ontvangers zien alle e-mail adressen. Gebruik het Bcc veld om de privacy van anderen te beschermen.';
 $messages['disclosedreciptitle'] = 'Te veel publiek ontvangers';
 $messages['nosubjectwarning']  = 'U heeft geen onderwerp ingevoerd. Wilt u nu een onderwerp opgeven?';
 $messages['nosubjecttitle']  = 'Geen onderwerp';

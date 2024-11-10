@@ -132,12 +132,10 @@ class identicon_engine
             $this->generateGD();
         } else {
             // log an error
-            $error = [
+            rcube::raise_error([
                 'code' => 500,
                 'message' => "PHP-GD module not found. It's required by identicon plugin.",
-            ];
-
-            rcube::raise_error($error, true, false);
+            ], true, false);
         }
     }
 

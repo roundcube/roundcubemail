@@ -69,8 +69,8 @@ abstract class rcube_session implements SessionHandlerInterface
 
         if (!class_exists($class)) {
             rcube::raise_error([
-                'code' => 604, 'type' => 'session',
-                'line' => __LINE__, 'file' => __FILE__,
+                'code' => 604,
+                'type' => 'session',
                 'message' => 'Failed to find session driver. Check session_storage config option',
             ], true, true);
         }
@@ -130,15 +130,19 @@ abstract class rcube_session implements SessionHandlerInterface
     /**
      * Abstract methods should be implemented by driver classes
      */
+    #[Override]
     #[ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
 
+    #[Override]
     #[ReturnTypeWillChange]
     abstract public function close();
 
+    #[Override]
     #[ReturnTypeWillChange]
     abstract public function destroy($key);
 
+    #[Override]
     #[ReturnTypeWillChange]
     abstract public function read($key);
 
@@ -171,6 +175,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function write($key, $vars)
     {
@@ -197,6 +202,7 @@ abstract class rcube_session implements SessionHandlerInterface
      *
      * @return int|false Number of deleted sessions on success, False on failure
      */
+    #[Override]
     #[ReturnTypeWillChange]
     public function gc($maxlifetime)
     {

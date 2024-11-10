@@ -1,24 +1,29 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
+
 /**
  * Test class to test rcmail_action_contacts_undo
  */
-class Actions_Contacts_Undo extends ActionTestCase
+class UndoTest extends ActionTestCase
 {
     /**
      * Test contact undelete
      */
     public function test_undo()
     {
-        $action = new rcmail_action_contacts_undo();
-        $output = $this->initOutput(rcmail_action::MODE_AJAX, 'contacts', 'undo');
+        $action = new \rcmail_action_contacts_undo();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'undo');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
 
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
         $result = $db->fetch_assoc($query);
         $cid = $result['contact_id'];
@@ -30,7 +35,7 @@ class Actions_Contacts_Undo extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame(['Content-Type: application/json; charset=UTF-8'], $output->headers);
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('undo', $result['action']);
         $this->assertTrue(strpos($result['exec'], 'his.display_message("Contact(s) restored successfully.","confirmation",0);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.list_contacts()') !== false);

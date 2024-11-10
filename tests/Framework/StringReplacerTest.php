@@ -1,20 +1,23 @@
 <?php
 
+namespace Roundcube\Tests\Framework;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test class to test rcube_string_replacer class
  */
-class Framework_StringReplacer extends TestCase
+class StringReplacerTest extends TestCase
 {
     /**
      * Class constructor
      */
     public function test_class()
     {
-        $sr = new rcube_string_replacer();
+        $sr = new \rcube_string_replacer();
 
-        $this->assertInstanceOf('rcube_string_replacer', $sr, 'Class constructor');
+        $this->assertInstanceOf(\rcube_string_replacer::class, $sr, 'Class constructor');
     }
 
     /**
@@ -54,9 +57,10 @@ class Framework_StringReplacer extends TestCase
     /**
      * @dataProvider provide_replace_cases
      */
+    #[DataProvider('provide_replace_cases')]
     public function test_replace($input, $output)
     {
-        $replacer = new rcube_string_replacer();
+        $replacer = new \rcube_string_replacer();
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 
@@ -72,7 +76,7 @@ class Framework_StringReplacer extends TestCase
             . "[1] http://en.wikipedia.org/wiki/Email\n"
             . "[ref0] www.link-ref.com\n";
 
-        $replacer = new rcube_string_replacer();
+        $replacer = new \rcube_string_replacer();
         $result = $replacer->replace($input);
         $result = $replacer->resolve($result);
 

@@ -1,19 +1,27 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Login;
+
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\StderrMock;
+
 /**
  * Test class to test rcmail_action_login_oauth
  */
-class Actions_Login_Oauth extends ActionTestCase
+class OauthTest extends ActionTestCase
 {
     /**
      * Test run
      */
     public function test_run_login_redirect()
     {
-        $action = new rcmail_action_login_oauth();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'login', '');
+        \rcmail::get_instance()->oauth = \rcmail_oauth::get_instance();
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $action = new \rcmail_action_login_oauth();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
+
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

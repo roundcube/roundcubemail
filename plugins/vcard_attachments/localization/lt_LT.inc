@@ -20,3 +20,5 @@ $labels['attachvcard'] = 'Pridėti vCard';
 $labels['vcardattached'] = 'vCard failas pridėtas.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'Persiųsti vCard';
+$labels['contactsattached'] = 'Prie šio laiško yra pridėtų adresatų ($num).';
+$labels['importedsuccessfully'] = 'Adresatai sėkmingai importuoti į adresų knygą.';

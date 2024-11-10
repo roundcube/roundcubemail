@@ -29,6 +29,7 @@ class filesystem_attachments extends rcube_plugin
     public $task = '?(?!login).*';
     public $initialized = false;
 
+    #[Override]
     public function init()
     {
         // Find filesystem_attachments-based plugins, we can use only one
@@ -36,7 +37,6 @@ class filesystem_attachments extends rcube_plugin
             $plugin = $this->api->get_plugin($plugin_name);
             if (($plugin instanceof self) && $plugin->initialized) {
                 rcube::raise_error([
-                    'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Can use only one plugin for attachments/file uploads! Using '{$plugin_name}', ignoring others.",
                 ], true, false);
                 return;
@@ -203,8 +203,6 @@ class filesystem_attachments extends rcube_plugin
             // We allow that, but we'll let to know the user about the misconfiguration.
             if ($file_path == sys_get_temp_dir()) {
                 rcube::raise_error([
-                    'file' => __FILE__,
-                    'line' => __LINE__,
                     'message' => "Detected 'temp_dir' change. "
                         . "Access to '{$temp_dir}' restricted by filesystem permissions or open_basedir",
                 ], true, false);
@@ -213,8 +211,6 @@ class filesystem_attachments extends rcube_plugin
             }
 
             rcube::raise_error([
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => sprintf("%s can't read %s (not in temp_dir)",
                     $rcmail->get_user_name(), substr($path, 0, 512)),
             ], true, false);

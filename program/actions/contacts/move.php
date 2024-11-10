@@ -28,6 +28,7 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $cids = self::get_cids();
@@ -62,7 +63,6 @@ class rcmail_action_contacts_move extends rcmail_action_contacts_index
                 break;
             }
 
-            // @phpstan-ignore-next-line
             if (!$CONTACTS || !$CONTACTS->ready || ($CONTACTS->readonly && empty($CONTACTS->deletable))) {
                 continue;
             }

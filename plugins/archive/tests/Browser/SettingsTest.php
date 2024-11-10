@@ -2,13 +2,15 @@
 
 namespace Tests\Browser\Plugins\Archive;
 
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\TestCase;
 
 class SettingsTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**

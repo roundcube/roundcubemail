@@ -25,6 +25,7 @@ class rcmail_action_mail_send extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
+    #[Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -38,12 +39,7 @@ class rcmail_action_mail_send extends rcmail_action
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
-            rcube::raise_error([
-                'code' => 500,
-                'file' => __FILE__,
-                'line' => __LINE__,
-                'message' => 'Invalid compose ID',
-            ], true, false);
+            rcube::raise_error('Invalid compose ID', true);
 
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send('iframe');
@@ -131,8 +127,6 @@ class rcmail_action_mail_send extends rcmail_action
                 );
 
                 rcube_utils::preg_error([
-                    'line' => __LINE__,
-                    'file' => __FILE__,
                     'message' => 'Could not format HTML!',
                 ], true);
             }
@@ -150,10 +144,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $spell_result = $spellchecker->check($message_body, $isHtml);
 
                 if ($error = $spellchecker->error()) {
-                    rcube::raise_error([
-                        'code' => 500, 'file' => __FILE__, 'line' => __LINE__,
-                        'message' => 'Spellcheck error: ' . $error,
-                    ], true, false);
+                    rcube::raise_error('Spellcheck error: ' . $error, true);
                 } else {
                     $COMPOSE['spell_checked'] = true;
 
@@ -249,8 +240,6 @@ class rcmail_action_mail_send extends rcmail_action
                 rcube::raise_error([
                     'code' => 800,
                     'type' => 'imap',
-                    'file' => __FILE__,
-                    'line' => __LINE__,
                     'message' => "Could not delete message from {$drafts_mbox}",
                 ], true, false);
             }
@@ -362,8 +351,6 @@ class rcmail_action_mail_send extends rcmail_action
                     $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
                     rcube_utils::preg_error([
-                        'line' => __LINE__,
-                        'file' => __FILE__,
                         'message' => 'Could not replace an image reference!',
                     ], true);
 

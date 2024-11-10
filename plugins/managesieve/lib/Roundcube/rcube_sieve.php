@@ -185,11 +185,7 @@ class rcube_sieve
                     $res = preg_match('/line (\d+):(.*)/i', $singleError, $matches);
 
                     if ($res === 1) {
-                        if (count($matches) > 2) {
-                            $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
-                        } else {
-                            $this->errorLines[] = ['line' => $matches[1], 'msg' => null];
-                        }
+                        $this->errorLines[] = ['line' => $matches[1], 'msg' => $matches[2]];
                     }
                 }
             }

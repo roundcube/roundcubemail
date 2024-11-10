@@ -21,4 +21,4 @@ $labels['vcardattached'] = 'vCard csatolva.';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = 'vCard továbbítása';
 $labels['contactsattached'] = 'Az üzenethez $num kapcsolat tartozik.';
-$labels['importedsuccessfully'] = 'A kapcsolat(ok) sikeresen importálodtak a címjegyzékbe.';
+$labels['importedsuccessfully'] = 'A kapcsolat(ok) sikeresen importálódtak a címjegyzékbe.';

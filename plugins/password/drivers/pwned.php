@@ -155,11 +155,7 @@ class rcube_pwned_password
 
             return $response->getBody();
         } catch (Exception $e) {
-            rcube::raise_error([
-                'message' => "Error fetching {$url} : {$e->getMessage()}",
-                'file' => __FILE__,
-                'line' => __LINE__,
-            ], true, false);
+            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
         }
 
         return null;

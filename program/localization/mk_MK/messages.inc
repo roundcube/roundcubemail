@@ -87,7 +87,6 @@ $messages['nonamewarning']  = 'Внесете име';
 $messages['nopagesizewarning'] = 'Внесете големина на страницата';
 $messages['nosenderwarning'] = 'Ве молиме внесете е-пошта на праќач';
 $messages['norecipientwarning'] = 'Внесете барем еден примач';
-$messages['disclosedrecipwarning'] = 'Сите приматели ке ги разгледуваат емаил адресите. За да го спречите ова и да ја заштитите нивната приватност, можете да го користите полето Bcc.';
 $messages['disclosedreciptitle'] = 'Бремногу јавни приматели';
 $messages['nosubjectwarning']  = 'Немате внесено „Наслов“. Дали сакате да внесете?';
 $messages['nosubjecttitle']  = 'Нема предмет';

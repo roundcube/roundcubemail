@@ -1,19 +1,26 @@
 <?php
 
+namespace Roundcube\Tests\Actions\Contacts;
+
+use PHPUnit\Framework\Attributes\Depends;
+use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\StderrMock;
+
 /**
  * Test class to test rcmail_action_contacts_export
  */
-class Actions_Contacts_Export extends ActionTestCase
+class ExportTest extends ActionTestCase
 {
     /**
      * Test exporting all contacts
      */
     public function test_export_all()
     {
-        $action = new rcmail_action_contacts_export();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
+        $action = new \rcmail_action_contacts_export();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'export');
 
-        $this->assertInstanceOf('rcmail_action', $action);
+        $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
 
         self::initDB('contacts');
@@ -35,11 +42,8 @@ class Actions_Contacts_Export extends ActionTestCase
         $vcf = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame([
-                'Content-Type: text/vcard; charset=UTF-8',
-                'Content-Disposition: attachment; filename="contacts.vcf"',
-            ], $output->headers
-        );
+        $this->assertContains('Content-Type: text/vcard; charset=UTF-8', $output->headers);
+        $this->assertContains('Content-Disposition: attachment; filename="contacts.vcf"', $output->headers);
         $this->assertSame(6, substr_count($vcf, 'BEGIN:VCARD'));
         $this->assertSame(6, substr_count($vcf, 'END:VCARD'));
         $this->assertSame(1, substr_count($vcf, 'FN:Jane Stalone'));
@@ -50,15 +54,16 @@ class Actions_Contacts_Export extends ActionTestCase
      *
      * @depends test_export_all
      */
+    #[Depends('test_export_all')]
     public function test_export_selected()
     {
-        $action = new rcmail_action_contacts_export();
-        $output = $this->initOutput(rcmail_action::MODE_HTTP, 'contacts', 'export');
+        $action = new \rcmail_action_contacts_export();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'export');
 
         $this->assertTrue($action->checks());
 
         $cids = [];
-        $db = rcmail::get_instance()->get_dbh();
+        $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query("SELECT `contact_id` FROM `contacts` WHERE `email` IN ('j.rian@gmail.com', 'g.bush@gov.com')");
         while ($result = $db->fetch_assoc($query)) {
             $cids[] = $result['contact_id'];
@@ -76,11 +81,8 @@ class Actions_Contacts_Export extends ActionTestCase
         $vcf = ob_get_contents();
         ob_end_clean();
 
-        $this->assertSame([
-                'Content-Type: text/vcard; charset=UTF-8',
-                'Content-Disposition: attachment; filename="contacts.vcf"',
-            ], $output->headers
-        );
+        $this->assertContains('Content-Type: text/vcard; charset=UTF-8', $output->headers);
+        $this->assertContains('Content-Disposition: attachment; filename="contacts.vcf"', $output->headers);
         $this->assertSame(2, substr_count($vcf, 'BEGIN:VCARD'));
         $this->assertSame(2, substr_count($vcf, 'END:VCARD'));
         $this->assertSame(0, substr_count($vcf, 'FN:Jane Stalone'));
@@ -93,6 +95,7 @@ class Actions_Contacts_Export extends ActionTestCase
      *
      * @depends test_export_all
      */
+    #[Depends('test_export_all')]
     public function test_export_search()
     {
         $this->markTestIncomplete();

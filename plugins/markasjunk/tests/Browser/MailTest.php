@@ -2,19 +2,22 @@
 
 namespace Tests\Browser\Plugins\Markasjunk;
 
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\TestCase;
 
 class MailTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
-        \bootstrap::init_imap();
-        \bootstrap::purge_mailbox('INBOX');
-        \bootstrap::purge_mailbox('Junk');
+        Bootstrap::init_db();
+        Bootstrap::init_imap(true);
+        Bootstrap::purge_mailbox('INBOX');
+        Bootstrap::purge_mailbox('Junk');
 
         // import single email message
-        \bootstrap::import_message(TESTS_DIR . 'data/mail/list_00.eml', 'INBOX');
+        Bootstrap::import_message(TESTS_DIR . 'data/mail/list_00.eml', 'INBOX');
     }
 
     /**
@@ -91,6 +94,7 @@ class MailTest extends TestCase
      *
      * @depends testMailUI
      */
+    #[Depends('testMailUI')]
     public function testMailView()
     {
         $this->browse(static function ($browser) {

@@ -1,21 +1,23 @@
 <?php
 
-namespace Tests\Browser\Mail;
+namespace Roundcube\Tests\Browser\Mail;
 
-use Tests\Browser\TestCase;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\TestCase;
 
 class GetunreadTest extends TestCase
 {
     protected static $msgcount = 0;
 
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_imap(true);
-        \bootstrap::purge_mailbox('INBOX');
+        Bootstrap::init_imap(true);
+        Bootstrap::purge_mailbox('INBOX');
 
         // import email messages
         foreach (glob(TESTS_DIR . 'data/mail/list_??.eml') as $f) {
-            \bootstrap::import_message($f, 'INBOX');
+            Bootstrap::import_message($f, 'INBOX');
             self::$msgcount++;
         }
     }

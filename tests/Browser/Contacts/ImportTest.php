@@ -1,16 +1,19 @@
 <?php
 
-namespace Tests\Browser\Contacts;
+namespace Roundcube\Tests\Browser\Contacts;
 
-use Tests\Browser\Components\App;
-use Tests\Browser\Components\Dialog;
-use Tests\Browser\TestCase;
+use PHPUnit\Framework\Attributes\Depends;
+use Roundcube\Tests\Browser\Bootstrap;
+use Roundcube\Tests\Browser\Components\App;
+use Roundcube\Tests\Browser\Components\Dialog;
+use Roundcube\Tests\Browser\TestCase;
 
 class ImportTest extends TestCase
 {
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
-        \bootstrap::init_db();
+        Bootstrap::init_db();
     }
 
     /**
@@ -59,6 +62,7 @@ class ImportTest extends TestCase
      *
      * @depends testImportUI
      */
+    #[Depends('testImportUI')]
     public function testImportProcess()
     {
         $this->browse(static function ($browser) {
@@ -101,6 +105,7 @@ class ImportTest extends TestCase
      *
      * @depends testImportProcess
      */
+    #[Depends('testImportProcess')]
     public function testImportResult()
     {
         $this->browse(static function ($browser) {

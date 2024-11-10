@@ -26,14 +26,13 @@ class zipdownload extends rcube_plugin
     /**
      * Plugin initialization
      */
+    #[Override]
     public function init()
     {
         // check requirements first
         if (!class_exists('ZipArchive', false)) {
             rcmail::raise_error([
                 'code' => 520,
-                'file' => __FILE__,
-                'line' => __LINE__,
                 'message' => 'php-zip extension is required for the zipdownload plugin',
             ], true, false);
             return;
@@ -388,6 +387,7 @@ class zipdownload extends rcube_plugin
 
 class zipdownload_mbox_filter extends php_user_filter
 {
+    #[Override]
     #[ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
