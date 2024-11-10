@@ -66,7 +66,6 @@ if (!$path) {
 
 serveStaticFile($path);
 
-
 /**
  * Validate that the file exists and can be served
  *
@@ -135,7 +134,7 @@ function serveStaticFile($path): void
     }
 
     $size = filesize($path);
-    $fp = fopen($path, 'rb');
+    $fp = fopen($path, 'r');
     $range = [0, $size - 1];
 
     if (isset($_SERVER['HTTP_RANGE'])) {
@@ -159,8 +158,7 @@ function serveStaticFile($path): void
         if ($range[0] >= 0 && ($range[1] <= $size - 1) && $range[0] <= $range[1]) {
             header('HTTP/1.1 206 Partial Content', true, 206);
             header('Content-Range: bytes ' . sprintf('%u-%u/%u', $range[0], $range[1], $size));
-        }
-        else {
+        } else {
             header('HTTP/1.1 416 Requested Range Not Satisfiable', true, 416);
             header('Content-Range: bytes */' . $size);
             return;
@@ -180,7 +178,7 @@ function serveStaticFile($path): void
     ];
 
     foreach ($headers as $k => $v) {
-        header("$k: $v", true);
+        header("{$k}: {$v}", true);
     }
 
     if ($range[0] > 0) {
