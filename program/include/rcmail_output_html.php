@@ -952,9 +952,8 @@ class rcmail_output_html extends rcmail_output
         }
 
         if (!$this->assets_path || in_array($path[0], ['?', '/', '.']) || strpos($path, '://')) {
-
             if (!str_starts_with($path, 'static.php/') && strpos($path, '://') === false) {
-                $path = 'static.php/' . $path;
+                $path = 'static.php/' . ltrim($path, '/');
             }
 
             return $path;

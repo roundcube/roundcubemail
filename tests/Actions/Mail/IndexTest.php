@@ -165,7 +165,8 @@ class Actions_Mail_Index extends ActionTestCase
         $link = $action->options_menu_link(['icon' => 'ico.png']);
 
         $expected = '<a href="#list-options" onclick="return rcmail.command(\'menu-open\', \'messagelistmenu\', this, event)"'
-            . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
+            . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0">'
+            . '<img src="static.php/ico.png" alt="List options..."></a>';
 
         $this->assertSame($expected, $link);
     }
@@ -332,7 +333,7 @@ class Actions_Mail_Index extends ActionTestCase
         $html = rcmail_action_mail_index::html4inline($body, $params);
 
         $this->assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, 'Replace reference to inline image');
-        $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, 'Replace external background image');
+        $this->assertMatchesRegularExpression('#background="static.php/program/resources/blocked.gif"#', $html, 'Replace external background image');
         $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, 'No references to external images');
         $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, 'No meta tags allowed');
         $this->assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, 'No form tags allowed');
