@@ -91,13 +91,14 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html xml:lang="en" lang="en">
 <head>
 <title>Roundcube Webmail Installer</title>
 <meta name="Robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="static.php/installer/styles.css" />
+<link rel="shortcut icon" href="static.php/skins/elastic/images/favicon.ico" />
 <script type="text/javascript" src="static.php/installer/client.js"></script>
 </head>
 
