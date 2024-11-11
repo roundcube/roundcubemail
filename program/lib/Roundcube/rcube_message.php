@@ -634,17 +634,17 @@ class rcube_message
      */
     public function is_referred_attachment(rcube_message_part $part): bool
     {
+        // This code is intentionally verbose to keep it comprehensible.
         $references = $this->get_replacement_references($part);
 
-        // This code is intentionally verbose to keep it comprehensible.
-        // Filter out attachments that are reference by their Content-ID in
+        // Filter out attachments that are referenced by their Content-ID in
         // another mime-part.
         if (!empty($part->content_id) && in_array($part->content_id, $references)) {
             return true;
         }
 
-        // Filter out attachments that are reference by their
-        // Content-Location in another mime-part.
+        // Filter out attachments that are referenced by their Content-Location
+        // in another mime-part.
         if (!empty($part->content_location) && in_array($part->content_location, $references)) {
             return true;
         }
