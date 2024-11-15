@@ -244,7 +244,6 @@ $labels['charset'] = 'Zeichensatz';
 $labels['editortype'] = 'Bearbeitungstyp';
 $labels['returnreceipt'] = 'Empfangsbestätigung (MDN)';
 $labels['dsn'] = 'Übermittlungsbestätigung (DSN)';
-$labels['keepformatting'] = 'Formatierung beibehalten';
 $labels['mailreplyintro'] = 'Am $date, schrieb $sender:';
 $labels['originalmessage'] = 'Originalnachricht';
 $labels['selectimage'] = 'Bild auswählen';
