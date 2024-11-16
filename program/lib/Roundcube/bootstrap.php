@@ -436,10 +436,3 @@ function rcube_autoload(string $classname): bool
 
     return false;
 }
-
-if (!function_exists('str_starts_with')) {
-    function str_starts_with(string $haystack, string $needle)
-    {
-        return strlen($needle) === 0 || strpos($haystack, $needle) === 0;
-    }
-}
