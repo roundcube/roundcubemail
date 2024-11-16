@@ -875,7 +875,7 @@ $config['request_path'] = null;
 //    <FilesMatch ".(eot|ttf|woff)">
 //    Header set Access-Control-Allow-Origin "*"
 //    </FilesMatch>
-$config['assets_path'] = '';
+$config['assets_path'] = null;
 
 // Options passed when creating Guzzle HTTP client, used to fetch remote content
 // For example:

@@ -92,8 +92,8 @@ function validateStaticFile($path): ?string
         return null;
     }
 
-    // Ignore composer.json files
-    if (strpos($path, 'composer.json') !== false) {
+    // Ignore some sensitive files
+    if (preg_match('/(README.*|CHANGELOG.*|SECURITY.*|meta\.json|composer\..*)/', $path)) {
         return null;
     }
 
