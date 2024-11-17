@@ -362,7 +362,7 @@ class rcube_message_header
      *
      * @param array $arr Hash array with header values
      *
-     * @return rcube_message_header instance filled with headers values
+     * @return \rcube_message_header instance filled with headers values
      */
     public static function from_array($arr)
     {

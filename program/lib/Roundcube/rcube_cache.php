@@ -61,7 +61,7 @@ class rcube_cache
      *                            Non-indexed cache does not remove data, but flags it for expiration,
      *                            also stores it in memory until close() method is called.
      *
-     * @return rcube_cache Cache object
+     * @return \rcube_cache Cache object
      */
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {

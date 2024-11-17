@@ -100,7 +100,7 @@ class rcmail_oauth
     /**
      * Singleton factory
      *
-     * @return rcmail_oauth The one and only instance
+     * @return \rcmail_oauth The one and only instance
      */
     public static function get_instance($options = [])
     {

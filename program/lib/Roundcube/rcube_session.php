@@ -61,7 +61,7 @@ abstract class rcube_session implements \SessionHandlerInterface
      *
      * @param rcube_config $config
      *
-     * @return rcube_session Session object
+     * @return \rcube_session Session object
      */
     public static function factory($config)
     {

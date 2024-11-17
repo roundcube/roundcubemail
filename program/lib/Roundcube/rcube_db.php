@@ -72,7 +72,7 @@ class rcube_db
      * @param string $db_dsnr Optional DSN for read only operations
      * @param bool   $pconn   Enables persistent connections
      *
-     * @return rcube_db Object instance
+     * @return \rcube_db Object instance
      */
     public static function factory($db_dsnw, $db_dsnr = '', $pconn = false)
     {

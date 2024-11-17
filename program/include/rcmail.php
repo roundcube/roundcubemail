@@ -92,7 +92,7 @@ class rcmail extends rcube
      * @param int     $mode Ignored rcube::get_instance() argument
      * @param ?string $env  Environment name to run (e.g. live, dev, test)
      *
-     * @return rcmail The one and only instance
+     * @return \rcmail The one and only instance
      */
     #[\Override]
     public static function get_instance($mode = 0, $env = '')

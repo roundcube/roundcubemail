@@ -150,7 +150,7 @@ class rcmail_resend_mail extends \Mail_mime
 
             fclose($fp);
 
-            $this->orig_head = rcmail_bounce_stream_filter::$headers;
+            $this->orig_head = \rcmail_bounce_stream_filter::$headers;
             $this->orig_body = $path;
         }
     }

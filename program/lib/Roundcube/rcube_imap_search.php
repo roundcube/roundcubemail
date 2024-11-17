@@ -80,7 +80,7 @@ class rcube_imap_search
                 $results->add($result);
             } else {
                 $search = is_array($str) && !empty($str[$folder]) ? $str[$folder] : $str;
-                $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
+                $job = new \rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
                 $job->worker = $this;
                 $this->jobs[] = $job;
             }
@@ -137,7 +137,7 @@ class rcube_imap_search
  */
 class rcube_imap_search_job // extends Stackable
 {
-    /** @var rcube_imap_search The job worker */
+    /** @var \rcube_imap_search The job worker */
     public $worker;
 
     /** @var string IMAP folder to search in */

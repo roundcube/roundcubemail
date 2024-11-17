@@ -61,7 +61,7 @@ class rcube_plugin_api
     /**
      * This implements the 'singleton' design pattern
      *
-     * @return rcube_plugin_api The one and only instance if this class
+     * @return \rcube_plugin_api The one and only instance if this class
      */
     public static function get_instance()
     {

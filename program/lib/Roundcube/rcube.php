@@ -79,7 +79,7 @@ class rcube
     /** @var ?rcube_output Output handler */
     public $output;
 
-    /** @var rcube_plugin_api|rcube_dummy_plugin_api Instance of rcube_plugin_api */
+    /** @var rcube_plugin_api|\rcube_dummy_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
     /** @var ?rcube_user User database handler */
@@ -112,7 +112,7 @@ class rcube
      * @param int    $mode Options to initialize with this instance. See rcube::INIT_WITH_* constants
      * @param string $env  Environment name to run (e.g. live, dev, test)
      *
-     * @return rcube The one and only instance
+     * @return \rcube The one and only instance
      */
     public static function get_instance($mode = 0, $env = '')
     {
@@ -133,7 +133,7 @@ class rcube
     {
         // load configuration
         $this->config = new rcube_config($env);
-        $this->plugins = new rcube_dummy_plugin_api();
+        $this->plugins = new \rcube_dummy_plugin_api();
 
         register_shutdown_function([$this, 'shutdown']);
     }
