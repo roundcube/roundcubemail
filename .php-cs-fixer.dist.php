@@ -81,6 +81,7 @@ return (new Config())
 
         // TODO remove after https://github.com/roundcube/roundcubemail/pull/9481
         'fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => true],
+        'no_unneeded_import_alias' => false,
 
         // disable too destructive formating for now
         'blank_line_before_statement' => false,
