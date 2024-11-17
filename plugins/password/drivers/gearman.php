@@ -41,7 +41,7 @@ class rcube_gearman_password
                 'newPassword' => $newpass,
             ];
 
-            $gmc = new GearmanClient();
+            $gmc = new \GearmanClient();
             $gmc->addServer($rcmail->config->get('password_gearman_host', 'localhost'));
 
             $result = $gmc->doNormal('setPassword', json_encode($payload));

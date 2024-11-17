@@ -16,7 +16,7 @@ use rcube_mime;
  +-------------------------------------------------------------------------+
 */
 
-class enigma_mime_message extends Mail_mime
+class enigma_mime_message extends \Mail_mime
 {
     public const PGP_SIGNED = 1;
     public const PGP_ENCRYPTED = 2;
@@ -31,8 +31,8 @@ class enigma_mime_message extends Mail_mime
     /**
      * Object constructor
      *
-     * @param Mail_mime $message Original message
-     * @param int       $type    Output message type
+     * @param \Mail_mime $message Original message
+     * @param int        $type    Output message type
      */
     public function __construct($message, $type)
     {
@@ -188,7 +188,7 @@ class enigma_mime_message extends Mail_mime
                 $params['content_type'] .= '; micalg=pgp-' . $this->micalg;
             }
 
-            $message = new Mail_mimePart('', $params);
+            $message = new \Mail_mimePart('', $params);
 
             if (!empty($this->body)) {
                 $headers = $this->message->headers();
@@ -222,7 +222,7 @@ class enigma_mime_message extends Mail_mime
                 'eol' => $this->build_params['eol'],
             ];
 
-            $message = new Mail_mimePart('', $params);
+            $message = new \Mail_mimePart('', $params);
 
             $message->addSubpart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
@@ -236,7 +236,7 @@ class enigma_mime_message extends Mail_mime
                 'filename' => 'encrypted.asc',
             ]);
         } else {
-            throw new Exception('Unexpected message type');
+            throw new \Exception('Unexpected message type');
         }
 
         // Use saved boundary
@@ -315,7 +315,7 @@ class enigma_mime_message extends Mail_mime
                 . " protocol=\"application/pgp-encrypted\";{$eol}"
                 . " boundary=\"{$boundary}\"";
         } else {
-            throw new Exception('Unexpected message type');
+            throw new \Exception('Unexpected message type');
         }
 
         return $headers;

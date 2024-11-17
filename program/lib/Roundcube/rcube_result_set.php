@@ -23,7 +23,7 @@
  * Representing an address directory result set.
  * Implements Iterator and can thus be used in foreach() loops.
  */
-class rcube_result_set implements Iterator, ArrayAccess
+class rcube_result_set implements \Iterator, \ArrayAccess
 {
     /**
      * @var int The number of total records. Note that when only a subset of records is requested,

@@ -24,7 +24,7 @@ use rcube_utils;
 /**
  * Mail_mime wrapper to handle mail resend/bounce
  */
-class rcmail_resend_mail extends Mail_mime
+class rcmail_resend_mail extends \Mail_mime
 {
     protected $orig_head;
     protected $orig_body;
@@ -160,7 +160,7 @@ class rcmail_resend_mail extends Mail_mime
  * Stream filter to remove message headers from the streamed
  * message source (and store them in a variable)
  */
-class rcmail_bounce_stream_filter extends php_user_filter
+class rcmail_bounce_stream_filter extends \php_user_filter
 {
     public static $headers;
 

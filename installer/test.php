@@ -342,7 +342,7 @@ if (isset($_POST['sendmail'])) {
             $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
         }
 
-        $mail_object = new Mail_mime();
+        $mail_object = new \Mail_mime();
         $send_headers = $mail_object->headers($headers);
         $head = $mail_object->txtHeaders($send_headers);
 

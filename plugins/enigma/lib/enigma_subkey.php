@@ -89,7 +89,7 @@ class enigma_subkey
      */
     public function is_expired()
     {
-        $now = new DateTime('now');
+        $now = new \DateTime('now');
 
         return !empty($this->expires) && $this->expires < $now;
     }

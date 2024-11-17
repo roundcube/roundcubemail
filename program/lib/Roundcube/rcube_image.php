@@ -174,18 +174,18 @@ class rcube_image
                     // use PHP's Imagick class
                     else {
                         try {
-                            $image = new Imagick($this->image_file);
+                            $image = new \Imagick($this->image_file);
 
                             try {
                                 // it throws exception on formats not supporting these features
                                 $image->setImageBackgroundColor('white');
                                 $image->setImageAlphaChannel(11);
-                                $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-                            } catch (Exception $e) {
+                                $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+                            } catch (\Exception $e) {
                                 // ignore errors
                             }
 
-                            $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                            $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
                             $image->setImageCompressionQuality(75);
                             $image->setImageFormat($type);
                             $image->stripImage();
@@ -194,7 +194,7 @@ class rcube_image
                             if ($image->writeImage($filename)) {
                                 $result = '';
                             }
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             rcube::raise_error($e, true, false);
                         }
                     }
@@ -291,7 +291,7 @@ class rcube_image
                     @chmod($filename, 0600);
                     return $type;
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 rcube::raise_error($e, true, false);
             }
         }
@@ -342,9 +342,9 @@ class rcube_image
         // use PHP's Imagick class
         if (class_exists('Imagick', false)) {
             try {
-                $image = new Imagick($this->image_file);
+                $image = new \Imagick($this->image_file);
 
-                $image->setImageColorspace(Imagick::COLORSPACE_SRGB);
+                $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
                 $image->setImageCompressionQuality(75);
                 $image->setImageFormat(self::$extensions[$type]);
                 $image->stripImage();
@@ -353,7 +353,7 @@ class rcube_image
                     @chmod($filename, 0600);
                     return true;
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 rcube::raise_error($e, true, false);
             }
         }
@@ -388,7 +388,7 @@ class rcube_image
                 } elseif ($type == self::TYPE_PNG) {
                     $result = imagepng($image, $filename, 6, \PNG_ALL_FILTERS);
                 }
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 rcube::raise_error($e, true, false);
             }
 
@@ -421,7 +421,7 @@ class rcube_image
         }
 
         if (class_exists('Imagick', false)) {
-            return in_array($mimetype, Imagick::queryFormats());
+            return in_array($mimetype, \Imagick::queryFormats());
         }
 
         return (function_exists('imagecreatefromjpeg') && ($mimetype == 'JPG' || $mimetype == 'JPEG'))
@@ -450,14 +450,14 @@ class rcube_image
         // use PHP's Imagick class
         if (class_exists('Imagick', false)) {
             try {
-                $image = new Imagick($this->image_file);
+                $image = new \Imagick($this->image_file);
 
                 return [
                     strtolower($image->getImageFormat()),
                     $image->getImageWidth(),
                     $image->getImageHeight(),
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
             }
         }

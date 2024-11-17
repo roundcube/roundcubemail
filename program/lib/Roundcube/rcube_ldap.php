@@ -1593,7 +1593,7 @@ class rcube_ldap extends rcube_addressbook
 
                     try {
                         $res = eval("return ({$code});");
-                    } catch (ParseError $e) {
+                    } catch (\ParseError $e) {
                         // ignore
                     }
 

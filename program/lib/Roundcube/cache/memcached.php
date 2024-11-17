@@ -30,7 +30,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Instance of memcached handler
      *
-     * @var Memcached|false|null
+     * @var \Memcached|false|null
      */
     protected static $memcache;
 
@@ -53,7 +53,7 @@ class rcube_cache_memcached extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return Memcached|false
+     * @return \Memcached|false
      */
     public static function engine()
     {
@@ -79,13 +79,13 @@ class rcube_cache_memcached extends rcube_cache
         $hosts = $rcube->config->get('memcache_hosts');
         $persistent_id = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
 
-        self::$memcache = new Memcached($persistent_id);
+        self::$memcache = new \Memcached($persistent_id);
 
         self::$memcache->setOptions([
-            Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
-            Memcached::OPT_RETRY_TIMEOUT => $timeout,
-            Memcached::OPT_DISTRIBUTION => Memcached::DISTRIBUTION_CONSISTENT,
-            Memcached::OPT_COMPRESSION => true,
+            \Memcached::OPT_CONNECT_TIMEOUT => $timeout * 1000,
+            \Memcached::OPT_RETRY_TIMEOUT => $timeout,
+            \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
+            \Memcached::OPT_COMPRESSION => true,
         ]);
 
         if (!$pconnect || !count(self::$memcache->getServerList())) {
@@ -107,7 +107,7 @@ class rcube_cache_memcached extends rcube_cache
         // test connection
         $result = self::$memcache->increment('__CONNECTIONTEST__');
 
-        if ($result === false && ($res_code = self::$memcache->getResultCode()) !== Memcached::RES_NOTFOUND) {
+        if ($result === false && ($res_code = self::$memcache->getResultCode()) !== \Memcached::RES_NOTFOUND) {
             self::$memcache = false;
 
             rcube::raise_error([

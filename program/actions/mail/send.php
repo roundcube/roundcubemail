@@ -197,12 +197,12 @@ class rcmail_action_mail_send extends rcmail_action
 
         // compose PGP/Mime message
         if (!empty($pgp_mime)) {
-            $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
+            $MAIL_MIME->addAttachment(new \Mail_mimePart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
                 'description' => 'PGP/MIME version identification',
             ]));
 
-            $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, [
+            $MAIL_MIME->addAttachment(new \Mail_mimePart($pgp_mime, [
                 'content_type' => 'application/octet-stream',
                 'filename' => 'encrypted.asc',
                 'disposition' => 'inline',

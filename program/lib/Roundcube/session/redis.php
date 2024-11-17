@@ -27,7 +27,7 @@ use rcube_session;
  */
 class rcube_session_redis extends rcube_session
 {
-    /** @var Redis The redis engine */
+    /** @var \Redis The redis engine */
     private $redis;
 
     /** @var bool Debug state */
@@ -96,7 +96,7 @@ class rcube_session_redis extends rcube_session
             try {
                 // @phpstan-ignore-next-line
                 $result = method_exists($this->redis, 'del') ? $this->redis->del($key) : $this->redis->delete($key);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 rcube::raise_error($e, true, true);
             }
 
@@ -122,7 +122,7 @@ class rcube_session_redis extends rcube_session
 
         try {
             $value = $this->redis->get($key);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error($e, true, true);
         }
 
@@ -161,7 +161,7 @@ class rcube_session_redis extends rcube_session
 
             try {
                 $result = $this->redis->setex($key, $this->lifetime + 60, $data);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 rcube::raise_error($e, true, true);
             }
 
@@ -196,7 +196,7 @@ class rcube_session_redis extends rcube_session
         try {
             $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
             $result = $this->redis->setex($key, $this->lifetime + 60, $data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error($e, true, true);
         }
 

@@ -53,7 +53,7 @@ class rcube_db_pgsql extends rcube_db
      * Driver-specific configuration of database connection
      *
      * @param array $dsn DSN for DB connections
-     * @param PDO   $dbh Connection handler
+     * @param \PDO  $dbh Connection handler
      */
     #[Override]
     protected function conn_configure($dsn, $dbh)
@@ -201,7 +201,7 @@ class rcube_db_pgsql extends rcube_db
      * @param array  $values  List of values to update (number of elements
      *                        should be the same as in $columns)
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return \PDOStatement|bool Query handle or False on error
      *
      * @todo Multi-insert support
      */
@@ -248,7 +248,7 @@ class rcube_db_pgsql extends rcube_db
                 . " WHERE TABLE_TYPE = 'BASE TABLE'" . $add
                 . ' ORDER BY TABLE_NAME');
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+            $this->tables = $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -277,7 +277,7 @@ class rcube_db_pgsql extends rcube_db
             . ' WHERE TABLE_NAME = ?' . $add, $args);
 
         if ($q) {
-            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+            return $q->fetchAll(\PDO::FETCH_COLUMN, 0);
         }
 
         return [];

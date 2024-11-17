@@ -26,7 +26,7 @@ use rcube_utils;
 /**
  * Model class to access an LDAP directories
  */
-class rcube_ldap_generic extends Net_LDAP3
+class rcube_ldap_generic extends \Net_LDAP3
 {
     /** private properties */
     protected $cache;

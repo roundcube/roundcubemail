@@ -169,7 +169,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
-                self::$stats = new stdClass();
+                self::$stats = new \stdClass();
                 self::$stats->names = [];
                 self::$stats->skipped_names = [];
                 self::$stats->count = count($vcards);

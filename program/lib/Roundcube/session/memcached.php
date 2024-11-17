@@ -29,7 +29,7 @@ use rcube_session;
  */
 class rcube_session_memcached extends rcube_session
 {
-    /** @var Memcached|false|null The memcache driver */
+    /** @var \Memcached|false|null The memcache driver */
     private $memcache;
 
     /** @var bool Debug state */

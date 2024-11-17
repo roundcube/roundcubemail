@@ -293,7 +293,7 @@ class rcube_charset
         }
 
         $out = false;
-        $error_handler = static function () { throw new Exception(); };
+        $error_handler = static function () { throw new \Exception(); };
 
         // Ignore invalid characters
         $mbstring_sc = mb_substitute_character();
@@ -307,7 +307,7 @@ class rcube_charset
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $out = false;
         }
 
@@ -342,7 +342,7 @@ class rcube_charset
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $out = false;
             }
 

@@ -27,7 +27,7 @@ use rcube_utils;
 /**
  * Abstract class to provide database supported session storage
  */
-abstract class rcube_session implements SessionHandlerInterface
+abstract class rcube_session implements \SessionHandlerInterface
 {
     protected $config;
     protected $key;

@@ -35,11 +35,11 @@ class rcube_hmail_password
         try {
             $remote = $rcmail->config->get('hmailserver_remote_dcom', false);
             if ($remote) {
-                $obApp = new COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
+                $obApp = new \COM('hMailServer.Application', $rcmail->config->get('hmailserver_server'));
             } else {
-                $obApp = new COM('hMailServer.Application');
+                $obApp = new \COM('hMailServer.Application');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())), true);
             rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 
@@ -66,7 +66,7 @@ class rcube_hmail_password
             $obAccount->Save();
 
             return PASSWORD_SUCCESS;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error('Password plugin: hMail error: ' . trim(strip_tags($e->getMessage())));
             rcube::raise_error('Password plugin: This problem is often caused by DCOM permissions not being set.', true);
 

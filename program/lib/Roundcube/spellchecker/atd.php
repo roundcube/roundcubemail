@@ -129,8 +129,8 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
         }
 
         try {
-            $result = new SimpleXMLElement($response);
-        } catch (Exception $e) {
+            $result = new \SimpleXMLElement($response);
+        } catch (\Exception $e) {
             $this->error = 'Unexpected response from server: ' . $response;
             return false;
         }

@@ -101,40 +101,40 @@ class rcube_db_mysql extends rcube_db
         $result = parent::dsn_options($dsn);
 
         if (!empty($dsn['key'])) {
-            $result[PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
+            $result[\PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
         }
 
         if (!empty($dsn['cipher'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
+            $result[\PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
         }
 
         if (!empty($dsn['cert'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
+            $result[\PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
         }
 
         if (!empty($dsn['capath'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
+            $result[\PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
         }
 
         if (!empty($dsn['ca'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
+            $result[\PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
         }
 
         if (isset($dsn['verify_server_cert'])) {
-            $result[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
+            $result[\PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
         }
 
         // Always return matching (not affected only) rows count
-        $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+        $result[\PDO::MYSQL_ATTR_FOUND_ROWS] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
-        $result[PDO::ATTR_AUTOCOMMIT] = true;
+        $result[\PDO::ATTR_AUTOCOMMIT] = true;
 
         // Disable emulating of prepared statements
         if (isset($dsn['emulate_prepares'])) {
-            $result[PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
+            $result[\PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
         } else {
-            $result[PDO::ATTR_EMULATE_PREPARES] = false;
+            $result[\PDO::ATTR_EMULATE_PREPARES] = false;
         }
 
         return $result;
@@ -154,7 +154,7 @@ class rcube_db_mysql extends rcube_db
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
                 . ' ORDER BY TABLE_NAME', $this->db_dsnw_array['database']);
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+            $this->tables = $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -175,7 +175,7 @@ class rcube_db_mysql extends rcube_db
             $this->db_dsnw_array['database'], $table);
 
         if ($q) {
-            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+            return $q->fetchAll(\PDO::FETCH_COLUMN, 0);
         }
 
         return [];
@@ -230,7 +230,7 @@ class rcube_db_mysql extends rcube_db
      * @param array  $values  List of values to update (number of elements
      *                        should be the same as in $columns)
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return \PDOStatement|bool Query handle or False on error
      *
      * @todo Multi-insert support
      */

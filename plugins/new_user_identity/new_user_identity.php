@@ -147,7 +147,7 @@ class new_user_identity extends rcube_plugin
         $domain = $this->rc->config->mail_domain($host);
         $props = $ldap_config[$addressbook];
 
-        $this->ldap = new new_user_identity_ldap_backend($props, $debug, $domain, $match);
+        $this->ldap = new \new_user_identity_ldap_backend($props, $debug, $domain, $match);
 
         return $this->ldap->ready;
     }

@@ -128,7 +128,7 @@ class rcube_db_sqlite extends rcube_db
             $q = $this->query('SELECT name FROM sqlite_master'
                 . ' WHERE type = \'table\' ORDER BY name');
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+            $this->tables = $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -146,7 +146,7 @@ class rcube_db_sqlite extends rcube_db
     {
         $q = $this->query('PRAGMA table_info(?)', $table);
 
-        return $q ? $q->fetchAll(PDO::FETCH_COLUMN, 1) : [];
+        return $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 1) : [];
     }
 
     /**
@@ -171,7 +171,7 @@ class rcube_db_sqlite extends rcube_db
         $result = parent::dsn_options($dsn);
 
         // Change the default timeout (60) to a smaller value
-        $result[PDO::ATTR_TIMEOUT] = isset($dsn['timeout']) ? intval($dsn['timeout']) : 10;
+        $result[\PDO::ATTR_TIMEOUT] = isset($dsn['timeout']) ? intval($dsn['timeout']) : 10;
 
         return $result;
     }

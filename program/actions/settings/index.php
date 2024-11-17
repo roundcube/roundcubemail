@@ -192,7 +192,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('autodetect'), 'auto');
 
                         $zones = [];
-                        foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
+                        foreach (\DateTimeZone::listIdentifiers() as $i => $tzs) {
                             if ($data = self::timezone_standard_time_data($tzs)) {
                                 $zones[$data['key']] = [$tzs, $data['offset']];
                             }
@@ -1724,13 +1724,13 @@ class rcmail_action_settings_index extends rcmail_action
     public static function timezone_standard_time_data($tzname)
     {
         try {
-            $tz = new DateTimeZone($tzname);
-            $date = new DateTime('now', $tz);
+            $tz = new \DateTimeZone($tzname);
+            $date = new \DateTime('now', $tz);
             $count = 12;
 
             // Move back for a month (up to 12 times) until non-DST date is found
             while ($count > 0 && $date->format('I')) {
-                $date->sub(new DateInterval('P1M'));
+                $date->sub(new \DateInterval('P1M'));
                 $count--;
             }
 
@@ -1741,7 +1741,7 @@ class rcmail_action_settings_index extends rcmail_action
                 'key' => $sortkey,
                 'offset' => $date->format('P'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // ignore
         }
     }

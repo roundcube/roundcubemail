@@ -104,7 +104,7 @@ class rcmail_action_mail_import extends rcmail_action
             return [];
         }
 
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
         $files = [];
 
         if ($zip->open($path)) {
@@ -211,8 +211,8 @@ class rcmail_action_mail_import extends rcmail_action
                 && (preg_match($mboxdate_rx, $dt_str, $m) || preg_match($imapdate_rx, $dt_str, $m))
             ) {
                 try {
-                    $date = new DateTime($m[0], new DateTimeZone('UTC'));
-                } catch (Exception $e) {
+                    $date = new \DateTime($m[0], new \DateTimeZone('UTC'));
+                } catch (\Exception $e) {
                     // ignore
                 }
             }

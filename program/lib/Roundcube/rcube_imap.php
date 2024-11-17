@@ -4584,8 +4584,8 @@ class rcube_imap extends rcube_storage
         if (!is_object($date) || !is_a($date, 'DateTime')) {
             try {
                 $timestamp = rcube_utils::strtotime($date);
-                $date = new DateTime('@' . $timestamp);
-            } catch (Exception $e) {
+                $date = new \DateTime('@' . $timestamp);
+            } catch (\Exception $e) {
                 return null;
             }
         }

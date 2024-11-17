@@ -117,8 +117,8 @@ class enigma_driver_gnupg extends enigma_driver
 
         // Create Crypt_GPG object
         try {
-            $this->gpg = new Crypt_GPG($options);
-        } catch (Exception $e) {
+            $this->gpg = new \Crypt_GPG($options);
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
 
@@ -156,7 +156,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $this->gpg->encrypt($text, true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -195,7 +195,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $result['data'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -215,13 +215,13 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->addSignKey($key->reference, $key->password);
 
-            $res = $this->gpg->sign($text, $mode, Crypt_GPG::ARMOR_ASCII, true);
+            $res = $this->gpg->sign($text, $mode, \Crypt_GPG::ARMOR_ASCII, true);
             $sigInfo = $this->gpg->getLastSignatureInfo();
 
             $this->last_sig_algorithm = $sigInfo->getHashAlgorithmName();
 
             return $res;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -240,7 +240,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $verified = $this->gpg->verify($text, $signature);
             return $this->parse_signature($verified[0]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -272,7 +272,7 @@ class enigma_driver_gnupg extends enigma_driver
             $this->db_save();
 
             return $result;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -303,7 +303,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $key;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -327,7 +327,7 @@ class enigma_driver_gnupg extends enigma_driver
             }
 
             return $result;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -364,7 +364,7 @@ class enigma_driver_gnupg extends enigma_driver
     {
         try {
             $debug = $this->rc->config->get('enigma_debug');
-            $keygen = new Crypt_GPG_KeyGenerator([
+            $keygen = new \Crypt_GPG_KeyGenerator([
                 'homedir' => $this->homedir,
                 // 'binary'  => '/usr/bin/gpg2',
                 'debug' => $debug ? [$this, 'debug'] : false,
@@ -376,7 +376,7 @@ class enigma_driver_gnupg extends enigma_driver
                 ->generateKey($data['user'], $data['email']);
 
             return $this->parse_key($key);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -455,7 +455,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->deletePrivateKey($keyid);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -468,7 +468,7 @@ class enigma_driver_gnupg extends enigma_driver
         try {
             $this->gpg->deletePublicKey($keyid);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->get_error_from_exception($e);
         }
     }
@@ -484,16 +484,16 @@ class enigma_driver_gnupg extends enigma_driver
     {
         $data = [];
 
-        if ($e instanceof Crypt_GPG_KeyNotFoundException) {
+        if ($e instanceof \Crypt_GPG_KeyNotFoundException) {
             $error = enigma_error::KEYNOTFOUND;
             $data['id'] = $e->getKeyId();
-        } elseif ($e instanceof Crypt_GPG_BadPassphraseException) {
+        } elseif ($e instanceof \Crypt_GPG_BadPassphraseException) {
             $error = enigma_error::BADPASS;
             $data['bad'] = $e->getBadPassphrases();
             $data['missing'] = $e->getMissingPassphrases();
-        } elseif ($e instanceof Crypt_GPG_NoDataException) {
+        } elseif ($e instanceof \Crypt_GPG_NoDataException) {
             $error = enigma_error::NODATA;
-        } elseif ($e instanceof Crypt_GPG_DeletePrivateKeyException) {
+        } elseif ($e instanceof \Crypt_GPG_DeletePrivateKeyException) {
             $error = enigma_error::DELKEY;
         } else {
             $error = enigma_error::INTERNAL;
@@ -507,7 +507,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Converts Crypt_GPG_Signature object into Enigma's signature object
      *
-     * @param Crypt_GPG_Signature $sig Signature object
+     * @param \Crypt_GPG_Signature $sig Signature object
      *
      * @return enigma_signature Signature object
      */
@@ -534,7 +534,7 @@ class enigma_driver_gnupg extends enigma_driver
     /**
      * Converts Crypt_GPG_Key object into Enigma's key object
      *
-     * @param Crypt_GPG_Key $key Key object
+     * @param \Crypt_GPG_Key $key Key object
      *
      * @return enigma_key Key object
      */
@@ -559,7 +559,7 @@ class enigma_driver_gnupg extends enigma_driver
         $ekey->reference = $key;
 
         foreach ($key->getSubKeys() as $idx => $subkey) {
-            /** @var Crypt_GPG_SubKey $subkey */
+            /** @var \Crypt_GPG_SubKey $subkey */
             $skey = new enigma_subkey();
             $skey->id = $subkey->getId();
             $skey->revoked = $subkey->isRevoked();
@@ -578,11 +578,11 @@ class enigma_driver_gnupg extends enigma_driver
                 $skey->expires = $subkey->getExpirationDate();
 
                 if ($skey->created) {
-                    $skey->created = new DateTime("@{$skey->created}");
+                    $skey->created = new \DateTime("@{$skey->created}");
                 }
 
                 if ($skey->expires) {
-                    $skey->expires = new DateTime("@{$skey->expires}");
+                    $skey->expires = new \DateTime("@{$skey->expires}");
                 }
             }
 

@@ -187,9 +187,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         // set user's timezone
         try {
-            $timezone = new DateTimeZone($this->rc->config->get('timezone', 'GMT'));
-        } catch (Exception $e) {
-            $timezone = new DateTimeZone('GMT');
+            $timezone = new \DateTimeZone($this->rc->config->get('timezone', 'GMT'));
+        } catch (\Exception $e) {
+            $timezone = new \DateTimeZone('GMT');
         }
 
         $status = rcube_utils::get_input_string('vacation_status', rcube_utils::INPUT_POST);
@@ -250,7 +250,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
             // Then we convert it back to RFC2822 format
             if (empty($from_error) && !empty($from)) {
-                $vacation_action['from'] = Mail_mimePart::encodeHeader(
+                $vacation_action['from'] = \Mail_mimePart::encodeHeader(
                     'From', implode(', ', $from), RCUBE_CHARSET, 'base64', '');
             }
         }
@@ -594,7 +594,7 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         $dt_i = $dt_from;
-        $interval = new DateInterval('P1D');
+        $interval = new \DateInterval('P1D');
         $matchexp = '';
 
         while (!$dt_i->diff($dt_to)->invert) {
@@ -688,9 +688,9 @@ class rcube_sieve_vacation extends rcube_sieve_engine
 
         // set user's timezone
         try {
-            $timezone = new DateTimeZone($this->rc->config->get('timezone', 'GMT'));
-        } catch (Exception $e) {
-            $timezone = new DateTimeZone('GMT');
+            $timezone = new \DateTimeZone($this->rc->config->get('timezone', 'GMT'));
+        } catch (\Exception $e) {
+            $timezone = new \DateTimeZone('GMT');
         }
 
         $interval = null;
@@ -714,13 +714,13 @@ class rcube_sieve_vacation extends rcube_sieve_engine
             }
 
             foreach ($date_value as $idx => $value) {
-                ${$idx} = new DateTime(!empty($value['datetime']) ? $value['datetime'] : $value['date'], $timezone);
+                ${$idx} = new \DateTime(!empty($value['datetime']) ? $value['datetime'] : $value['date'], $timezone);
             }
         } elseif ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
             if ($date_tests = self::parse_regexp_tests($this->vacation['tests'])) {
-                $start = new DateTime($date_tests['from'] . ' 00:00:00', $timezone);
-                $end = new DateTime($date_tests['to'] . ' 23:59:59', $timezone);
+                $start = new \DateTime($date_tests['from'] . ' 00:00:00', $timezone);
+                $end = new \DateTime($date_tests['to'] . ' 23:59:59', $timezone);
             }
         }
 

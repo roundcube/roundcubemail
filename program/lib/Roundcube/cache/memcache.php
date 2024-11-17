@@ -30,7 +30,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Instance of memcache handler
      *
-     * @var Memcache|false|null
+     * @var \Memcache|false|null
      */
     protected static $memcache;
 
@@ -47,7 +47,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache|false
+     * @return \Memcache|false
      */
     public static function engine()
     {
@@ -91,7 +91,7 @@ class rcube_cache_memcache extends rcube_cache
             }
         };
 
-        self::$memcache = new Memcache();
+        self::$memcache = new \Memcache();
 
         foreach ((array) $rcube->config->get('memcache_hosts') as $host) {
             if (substr($host, 0, 7) != 'unix://') {

@@ -20,7 +20,7 @@
 /**
  * PHP stream filter to detect html/javascript code in attachments
  */
-class rcube_content_filter extends php_user_filter
+class rcube_content_filter extends \php_user_filter
 {
     private $buffer = '';
     private $cutoff = 2048;

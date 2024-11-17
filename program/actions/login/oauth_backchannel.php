@@ -62,10 +62,10 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 */
 
                 if ($event['typ'] !== 'Logout') {
-                    throw new RuntimeException('handle only Logout events');
+                    throw new \RuntimeException('handle only Logout events');
                 }
                 if (!isset($event['sub'])) {
-                    throw new RuntimeException('event has no "sub"');
+                    throw new \RuntimeException('event has no "sub"');
                 }
 
                 $rcmail->oauth->log_debug('backchannel: logout event received, schedule a revocation for token\'s sub: %s', $event['sub']);
@@ -76,7 +76,7 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 header('Cache-Control: no-store');
                 echo '{}';
                 exit;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 rcube::raise_error($e, true);
                 $answer['error_description'] = 'Error decoding JWT';
             }

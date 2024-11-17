@@ -147,8 +147,8 @@ class zipdownload extends rcube_plugin
         $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
 
         // open zip file
-        $zip = new ZipArchive();
-        $zip->open($tmpfname, ZipArchive::OVERWRITE);
+        $zip = new \ZipArchive();
+        $zip->open($tmpfname, \ZipArchive::OVERWRITE);
 
         foreach ($message->attachments as $part) {
             $disp_name = $this->_create_displayname($part);
@@ -246,7 +246,7 @@ class zipdownload extends rcube_plugin
         $tmpfname = rcube_utils::temp_filename('zipdownload');
         $tempfiles = [$tmpfname];
         $folders = count($messageset) > 1;
-        $timezone = new DateTimeZone('UTC');
+        $timezone = new \DateTimeZone('UTC');
         $messages = [];
         $size = 0;
 
@@ -317,8 +317,8 @@ class zipdownload extends rcube_plugin
         }
 
         // open zip file
-        $zip = new ZipArchive();
-        $zip->open($tmpfname, ZipArchive::OVERWRITE);
+        $zip = new \ZipArchive();
+        $zip->open($tmpfname, \ZipArchive::OVERWRITE);
 
         foreach ($messages as $key => $value) {
             [$uid, $mbox] = explode(':', $key, 2);
@@ -396,7 +396,7 @@ class zipdownload extends rcube_plugin
     }
 }
 
-class zipdownload_mbox_filter extends php_user_filter
+class zipdownload_mbox_filter extends \php_user_filter
 {
     #[Override]
     #[ReturnTypeWillChange]

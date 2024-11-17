@@ -553,7 +553,7 @@ abstract class rcube_storage
      *
      * @return bool Operation status
      *
-     * @see set_flag
+     * @see \set_flag
      */
     public function unset_flag($uids, $flag, $folder = null)
     {

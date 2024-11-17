@@ -91,7 +91,7 @@ class rcube_spellchecker_googie extends rcube_spellchecker_engine
                     'body' => $gtext,
                 ]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Do nothing, the error set below should be logged by the caller
         }
 
