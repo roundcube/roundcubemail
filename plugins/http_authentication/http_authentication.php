@@ -24,7 +24,7 @@ class http_authentication extends rcube_plugin
 {
     private $redirect_query;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

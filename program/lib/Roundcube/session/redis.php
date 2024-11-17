@@ -65,7 +65,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -76,7 +76,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
@@ -89,7 +89,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         if ($key) {
@@ -115,7 +115,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return string Serialized data string
      */
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         $value = null;
@@ -150,7 +150,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);
@@ -183,7 +183,7 @@ class rcube_session_redis extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {

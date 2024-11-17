@@ -66,7 +66,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -77,7 +77,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
@@ -90,7 +90,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         if ($key) {
@@ -107,7 +107,7 @@ class rcube_session_db extends rcube_session
      *
      * @return string Session vars (serialized string)
      */
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         if ($this->lifetime) {
@@ -151,7 +151,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -178,7 +178,7 @@ class rcube_session_db extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         $now = $this->db->now();

@@ -41,7 +41,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @param rcube_user $user User object
      */
-    #[Override]
+    #[\Override]
     public function __construct($user)
     {
         $this->rc = rcmail::get_instance();
@@ -54,7 +54,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_error|null NULL on success, enigma_error on failure
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $homedir = $this->rc->config->get('enigma_pgp_homedir');
@@ -136,7 +136,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return string|enigma_error Encrypted message or enigma_error on failure
      */
-    #[Override]
+    #[\Override]
     public function encrypt($text, $keys, $sign_key = null)
     {
         try {
@@ -170,7 +170,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Decrypted message or enigma_error on failure
      */
-    #[Override]
+    #[\Override]
     public function decrypt($text, $keys = [], &$signature = null)
     {
         try {
@@ -209,7 +209,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed True on success or enigma_error on failure
      */
-    #[Override]
+    #[\Override]
     public function sign($text, $key, $mode = null)
     {
         try {
@@ -234,7 +234,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_signature|enigma_error Signature information or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function verify($text, $signature)
     {
         try {
@@ -254,7 +254,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Import status array or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function import($content, $isfile = false, $passwords = [])
     {
         try {
@@ -286,7 +286,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return string|enigma_error Key content or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function export($keyid, $with_private = false, $passwords = [])
     {
         try {
@@ -315,7 +315,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_key[]|enigma_error Array of keys or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function list_keys($pattern = '')
     {
         try {
@@ -339,7 +339,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return enigma_key|enigma_error Key object or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function get_key($keyid)
     {
         $list = $this->list_keys($keyid);
@@ -359,7 +359,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed Key (enigma_key) object or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function gen_key($data)
     {
         try {
@@ -388,7 +388,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return mixed True on success or enigma_error
      */
-    #[Override]
+    #[\Override]
     public function delete_key($keyid)
     {
         // delete public key
@@ -423,7 +423,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    #[Override]
+    #[\Override]
     public function signature_algorithm()
     {
         return $this->last_sig_algorithm;
@@ -434,7 +434,7 @@ class enigma_driver_gnupg extends enigma_driver
      *
      * @return array Capabilities list
      */
-    #[Override]
+    #[\Override]
     public function capabilities()
     {
         $caps = [enigma_driver::SUPPORT_RSA];

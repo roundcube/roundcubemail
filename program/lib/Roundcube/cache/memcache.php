@@ -120,7 +120,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         // No need for GC, entries are expunged automatically
@@ -129,7 +129,7 @@ class rcube_cache_memcache extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         // No need for GC, entries are expunged automatically
@@ -142,7 +142,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function get_item($key)
     {
         if (!self::$memcache) {
@@ -166,7 +166,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function add_item($key, $data)
     {
         if (!self::$memcache) {
@@ -193,7 +193,7 @@ class rcube_cache_memcache extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function delete_item($key)
     {
         if (!self::$memcache) {

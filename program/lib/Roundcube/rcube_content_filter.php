@@ -25,15 +25,15 @@ class rcube_content_filter extends \php_user_filter
     private $buffer = '';
     private $cutoff = 2048;
 
-    #[Override]
+    #[\Override]
     public function onCreate(): bool
     {
         $this->cutoff = rand(2048, 3027);
         return true;
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {

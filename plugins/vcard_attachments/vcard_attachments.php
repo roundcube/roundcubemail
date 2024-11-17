@@ -30,7 +30,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

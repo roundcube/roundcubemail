@@ -67,7 +67,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -78,7 +78,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
@@ -91,7 +91,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         if ($key) {
@@ -113,7 +113,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return string Serialized data string
      */
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         if ($value = $this->memcache->get($key)) {
@@ -139,7 +139,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -165,7 +165,7 @@ class rcube_session_memcache extends rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         $ts = microtime(true);

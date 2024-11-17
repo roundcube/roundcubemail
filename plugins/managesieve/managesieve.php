@@ -47,7 +47,7 @@ class managesieve extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcube::get_instance();

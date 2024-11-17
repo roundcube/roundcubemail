@@ -134,20 +134,20 @@ abstract class rcube_session implements \SessionHandlerInterface
     /**
      * Abstract methods should be implemented by driver classes
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function open($save_path, $session_name);
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function close();
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function destroy($key);
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     abstract public function read($key);
 
     /**
@@ -179,8 +179,8 @@ abstract class rcube_session implements \SessionHandlerInterface
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function write($key, $vars)
     {
         if ($this->nowrite) {
@@ -206,8 +206,8 @@ abstract class rcube_session implements \SessionHandlerInterface
      *
      * @return int|false Number of deleted sessions on success, False on failure
      */
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         // move gc execution to the script shutdown function

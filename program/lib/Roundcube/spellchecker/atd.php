@@ -42,7 +42,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    #[Override]
+    #[\Override]
     public function languages()
     {
         $langs = array_values($this->langhosts);
@@ -56,7 +56,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    #[Override]
+    #[\Override]
     public function check($text)
     {
         $this->content = $text;
@@ -173,7 +173,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    #[Override]
+    #[\Override]
     public function get_suggestions($word)
     {
         $this->check($word);
@@ -190,7 +190,7 @@ class rcube_spellchecker_atd extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    #[Override]
+    #[\Override]
     public function get_words($text = null)
     {
         if ($text) {

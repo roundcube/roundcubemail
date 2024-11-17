@@ -40,7 +40,7 @@ class rcmail_string_replacer extends rcube_string_replacer
      *
      * @see rcube_string_replacer::mailto_callback()
      */
-    #[Override]
+    #[\Override]
     protected function mailto_callback($matches)
     {
         $href = $matches[1];

@@ -30,7 +30,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -216,7 +216,7 @@ class rcmail_action_contacts_edit extends rcmail_action_contacts_index
      *
      * @todo: Use rcmail_action::get_form_tags()
      */
-    #[Override]
+    #[\Override]
     public static function get_form_tags($attrib, $action = null, $id = null, $hidden = null)
     {
         static $edit_form;

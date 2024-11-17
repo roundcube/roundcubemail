@@ -45,7 +45,7 @@ class rcube_db_param
     /**
      * Returns the value as string for inlining into SQL query
      */
-    #[Override]
+    #[\Override]
     public function __toString()
     {
         if ($this->type === rcube_db::TYPE_SQL) {

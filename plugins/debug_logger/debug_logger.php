@@ -67,7 +67,7 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';

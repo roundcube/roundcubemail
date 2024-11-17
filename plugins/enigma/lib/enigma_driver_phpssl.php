@@ -25,7 +25,7 @@ class enigma_driver_phpssl extends enigma_driver
     private $homedir; // @phpstan-ignore-line
     private $user;
 
-    #[Override]
+    #[\Override]
     public function __construct($user)
     {
         $rcmail = rcmail::get_instance();
@@ -39,7 +39,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return enigma_error|null NULL on success, enigma_error on failure
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $homedir = $this->rc->config->get('enigma_smime_homedir', INSTALL_PATH . '/plugins/enigma/home');
@@ -80,25 +80,25 @@ class enigma_driver_phpssl extends enigma_driver
         return null;
     }
 
-    #[Override]
+    #[\Override]
     public function encrypt($text, $keys, $sign_key = null)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function decrypt($text, $keys = [], &$signature = null)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function sign($text, $key, $mode = null)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function verify($struct, $message)
     {
         /*
@@ -142,37 +142,37 @@ class enigma_driver_phpssl extends enigma_driver
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function import($content, $isfile = false, $passwords = [])
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function export($key, $with_private = false, $passwords = [])
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function list_keys($pattern = '')
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function get_key($keyid)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function gen_key($data)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
     }
 
-    #[Override]
+    #[\Override]
     public function delete_key($keyid)
     {
         return new enigma_error(enigma_error::INTERNAL, 'Not implemented');
@@ -184,7 +184,7 @@ class enigma_driver_phpssl extends enigma_driver
      *
      * @return string Hash algorithm name e.g. sha1
      */
-    #[Override]
+    #[\Override]
     public function signature_algorithm()
     {
         return ''; // TODO

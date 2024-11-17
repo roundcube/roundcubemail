@@ -25,7 +25,7 @@ class emoticons extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcube = rcmail::get_instance();
