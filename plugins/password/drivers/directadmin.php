@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Psr7\Query;
+use password;
 use rcmail;
 use rcube;
 

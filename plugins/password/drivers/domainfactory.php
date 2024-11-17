@@ -1,5 +1,6 @@
 <?php
 
+use password;
 use rcube;
 use rcube_charset;
 

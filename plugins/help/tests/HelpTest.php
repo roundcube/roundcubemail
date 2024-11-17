@@ -2,6 +2,7 @@
 
 namespace Roundcube\Plugins\Tests;
 
+use help;
 use PHPUnit\Framework\TestCase;
 
 class HelpTest extends TestCase

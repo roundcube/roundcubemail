@@ -1,5 +1,6 @@
 <?php
 
+use identicon_engine;
 use rcmail;
 use rcube_addressbook;
 use rcube_plugin;

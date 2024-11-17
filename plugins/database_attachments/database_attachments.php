@@ -1,5 +1,6 @@
 <?php
 
+use filesystem_attachments;
 use rcube;
 
 /*

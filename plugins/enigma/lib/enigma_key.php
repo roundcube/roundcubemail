@@ -1,5 +1,7 @@
 <?php
 
+use enigma_subkey;
+
 /*
  +-------------------------------------------------------------------------+
  | Key class for the Enigma Plugin                                         |

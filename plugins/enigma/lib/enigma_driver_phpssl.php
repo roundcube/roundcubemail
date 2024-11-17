@@ -1,5 +1,8 @@
 <?php
 
+use enigma_driver;
+use enigma_error;
+use enigma_signature;
 use rcmail;
 
 /*

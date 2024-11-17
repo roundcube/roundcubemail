@@ -1,5 +1,9 @@
 <?php
 
+use enigma_error;
+use enigma_key;
+use enigma_mime_message;
+use enigma_signature;
 use rcmail;
 use rcube;
 use rcube_message;

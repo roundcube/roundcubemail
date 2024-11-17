@@ -1,5 +1,11 @@
 <?php
 
+use enigma;
+use enigma_driver;
+use enigma_engine;
+use enigma_error;
+use enigma_key;
+use enigma_signature;
 use html;
 use html_button;
 use html_checkbox;

@@ -1,5 +1,9 @@
 <?php
 
+use enigma_engine;
+use enigma_error;
+use enigma_key;
+use enigma_ui;
 use html;
 use html_checkbox;
 use html_select;

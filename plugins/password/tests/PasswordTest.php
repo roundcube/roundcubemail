@@ -2,6 +2,7 @@
 
 namespace Roundcube\Plugins\Tests;
 
+use password;
 use PHPUnit\Framework\TestCase;
 use rcube;
 

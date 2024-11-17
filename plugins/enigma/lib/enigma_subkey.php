@@ -1,5 +1,6 @@
 <?php
 
+use enigma_key;
 use rcube;
 
 /*

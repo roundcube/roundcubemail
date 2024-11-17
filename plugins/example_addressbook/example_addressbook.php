@@ -1,5 +1,6 @@
 <?php
 
+use example_addressbook_backend;
 use rcmail;
 use rcube_plugin;
 

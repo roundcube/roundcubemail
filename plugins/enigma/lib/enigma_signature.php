@@ -1,5 +1,6 @@
 <?php
 
+use enigma_engine;
 use rcube_message;
 use rcube_mime;
 

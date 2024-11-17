@@ -1,5 +1,6 @@
 <?php
 
+use password;
 use rcmail;
 use rcube;
 

@@ -1,5 +1,11 @@
 <?php
 
+use enigma_driver;
+use enigma_error;
+use enigma_key;
+use enigma_signature;
+use enigma_subkey;
+use enigma_userid;
 use rcmail;
 use rcube;
 use rcube_user;
