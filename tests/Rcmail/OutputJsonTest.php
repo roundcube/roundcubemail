@@ -2,7 +2,6 @@
 
 namespace Roundcube\Tests\Rcmail;
 
-use rcmail_output_json as rcmail_output_json;
 use Roundcube\Tests\ActionTestCase;
 
 /**

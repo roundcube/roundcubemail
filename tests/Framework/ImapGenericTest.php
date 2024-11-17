@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_imap_generic as rcube_imap_generic;
 
 /**
  * Test class to test rcube_imap_generic class

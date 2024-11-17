@@ -2,9 +2,6 @@
 
 namespace Roundcube\Tests\Actions\Utils;
 
-use rcmail as rcmail;
-use rcmail_action as rcmail_action;
-use rcmail_action_utils_save_pref as rcmail_action_utils_save_pref;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 

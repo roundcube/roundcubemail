@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Rcmail;
 
 use PHPUnit\Framework\TestCase;
-use rcmail_string_replacer as rcmail_string_replacer;
 
 use function Roundcube\Tests\invokeMethod;
 

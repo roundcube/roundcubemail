@@ -2,8 +2,6 @@
 
 namespace Roundcube\Tests\Rcmail;
 
-use rcmail as rcmail;
-use rcmail_utils as rcmail_utils;
 use Roundcube\Tests\ActionTestCase;
 
 /**

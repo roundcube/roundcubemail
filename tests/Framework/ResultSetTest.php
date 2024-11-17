@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_result_set as rcube_result_set;
 
 /**
  * Test class to test rcube_result_set class

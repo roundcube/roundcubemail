@@ -5,7 +5,6 @@ namespace Roundcube\Tests\Framework;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use rcube_charset as rcube_charset;
 
 /**
  * Test class to test rcube_charset class

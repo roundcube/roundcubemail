@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Rcmail;
 
 use PHPUnit\Framework\TestCase;
-use rcmail_resend_mail as rcmail_resend_mail;
 
 /**
  * Test class to test rcmail_resend_mail class

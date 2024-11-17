@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube as rcube;
 
 /**
  * Test class to test rcube_spellcheck_pspell class

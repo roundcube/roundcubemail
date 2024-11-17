@@ -3,8 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube as rcube;
-use rcube_contacts as rcube_contacts;
 
 /**
  * Test class to test rcube_contacts class

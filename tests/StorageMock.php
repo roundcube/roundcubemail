@@ -2,9 +2,6 @@
 
 namespace Roundcube\Tests;
 
-use rcube as rcube;
-use rcube_storage as rcube_storage;
-
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

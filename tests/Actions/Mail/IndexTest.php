@@ -3,8 +3,6 @@
 namespace Roundcube\Tests\Actions\Mail;
 
 use PHPUnit\Framework\Attributes\Group;
-use rcmail_action as rcmail_action;
-use rcmail_action_mail_index as rcmail_action_mail_index;
 use Roundcube\Tests\ActionTestCase;
 
 use function Roundcube\Tests\setProperty;

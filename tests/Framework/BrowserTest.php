@@ -4,7 +4,6 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube_browser as rcube_browser;
 
 /**
  * Test class to test rcube_browser class

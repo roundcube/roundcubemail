@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_ldap as rcube_ldap;
 use Roundcube\Tests\StderrMock;
 
 /**

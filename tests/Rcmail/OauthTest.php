@@ -5,7 +5,6 @@ namespace Roundcube\Tests\Rcmail;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use rcmail_oauth as rcmail_oauth;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\ExitException;
 use Roundcube\Tests\OutputHtmlMock;

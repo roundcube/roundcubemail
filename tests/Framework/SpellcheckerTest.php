@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_spellchecker as rcube_spellchecker;
 
 /**
  * Test class to test rcube_spellchecker class

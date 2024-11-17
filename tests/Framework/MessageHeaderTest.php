@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_message_header as rcube_message_header;
 
 /**
  * Test class to test rcube_message_header class

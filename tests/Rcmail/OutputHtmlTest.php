@@ -4,7 +4,6 @@ namespace Roundcube\Tests\Rcmail;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcmail_output_html as rcmail_output_html;
 
 /**
  * Test class to test rcmail_output_html class

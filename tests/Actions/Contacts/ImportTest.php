@@ -2,8 +2,6 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
-use rcmail_action as rcmail_action;
-use rcmail_action_contacts_import as rcmail_action_contacts_import;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 

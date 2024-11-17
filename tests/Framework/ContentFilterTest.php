@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_content_filter as rcube_content_filter;
 
 /**
  * Test class to test rcube_content_filter class

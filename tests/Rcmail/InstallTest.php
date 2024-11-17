@@ -3,8 +3,6 @@
 namespace Roundcube\Tests\Rcmail;
 
 use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
-use rcmail as rcmail;
-use rcmail_install as rcmail_install;
 use Roundcube\Tests\ActionTestCase;
 
 /**

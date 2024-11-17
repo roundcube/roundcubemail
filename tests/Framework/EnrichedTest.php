@@ -4,7 +4,6 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube_enriched as rcube_enriched;
 
 /**
  * Test class to test rcube_enriched class

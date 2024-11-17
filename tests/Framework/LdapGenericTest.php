@@ -3,7 +3,6 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_ldap_generic as rcube_ldap_generic;
 
 /**
  * Test class to test rcube_ldap_generic class
