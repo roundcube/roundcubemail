@@ -331,7 +331,7 @@ class rcube_result_thread
             return '';
         }
 
-        return \rcube_imap_generic::compressMessageSet($this->get());
+        return rcube_imap_generic::compressMessageSet($this->get());
     }
 
     /**
@@ -426,7 +426,7 @@ class rcube_result_thread
     /**
      * THREAD=REFS sorting implementation (based on provided index)
      *
-     * @param \rcube_result_index $index Sorted message identifiers
+     * @param rcube_result_index $index Sorted message identifiers
      */
     public function sort($index)
     {

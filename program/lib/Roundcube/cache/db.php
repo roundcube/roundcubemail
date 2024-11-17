@@ -22,12 +22,12 @@
 /**
  * Interface implementation class for accessing SQL Database cache
  */
-class rcube_cache_db extends \rcube_cache
+class rcube_cache_db extends rcube_cache
 {
     /**
      * Instance of database handler
      *
-     * @var \rcube_db
+     * @var rcube_db
      */
     protected $db;
 
@@ -42,7 +42,7 @@ class rcube_cache_db extends \rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         $this->type = 'db';
         $this->db = $rcube->get_dbh();
@@ -54,7 +54,7 @@ class rcube_cache_db extends \rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[\Override]
+    #[Override]
     public function expunge()
     {
         if ($this->ttl) {
@@ -70,10 +70,10 @@ class rcube_cache_db extends \rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[\Override]
+    #[Override]
     public static function gc()
     {
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $db = $rcube->get_dbh();
 
         $db->query('DELETE FROM ' . $db->table_name('cache', true) . ' WHERE `expires` < ' . $db->now());
@@ -87,7 +87,7 @@ class rcube_cache_db extends \rcube_cache
      *
      * @return mixed Cached value
      */
-    #[\Override]
+    #[Override]
     protected function read_record($key)
     {
         $sql_result = $this->db->query(
@@ -122,7 +122,7 @@ class rcube_cache_db extends \rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     protected function store_record($key, $data, $ts = null)
     {
         $value = $this->serialize($data);
@@ -147,7 +147,7 @@ class rcube_cache_db extends \rcube_cache
             return !$this->db->is_error($result);
         }
 
-        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', \rcube_db::TYPE_SQL);
+        $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
         $pkey = ['cache_key' => $db_key];
 
         if ($this->userid) {
@@ -170,7 +170,7 @@ class rcube_cache_db extends \rcube_cache
      * @param bool   $prefix_mode Enable it to clear all keys starting
      *                            with prefix specified in $key
      */
-    #[\Override]
+    #[Override]
     protected function remove_record($key = null, $prefix_mode = false)
     {
         // Remove all keys (in specified cache)
@@ -202,7 +202,7 @@ class rcube_cache_db extends \rcube_cache
     /**
      * Serializes data for storing
      */
-    #[\Override]
+    #[Override]
     protected function serialize($data)
     {
         return $this->db->encode($data, $this->packed);
@@ -211,7 +211,7 @@ class rcube_cache_db extends \rcube_cache
     /**
      * Unserializes serialized data
      */
-    #[\Override]
+    #[Override]
     protected function unserialize($data)
     {
         return $this->db->decode($data, $this->packed);
@@ -220,7 +220,7 @@ class rcube_cache_db extends \rcube_cache
     /**
      * Determine the maximum size for cache data to be written
      */
-    #[\Override]
+    #[Override]
     protected function max_packet_size()
     {
         if ($this->max_packet < 0) {

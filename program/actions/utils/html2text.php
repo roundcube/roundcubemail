@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_html2text extends \rcmail_action
+class rcmail_action_utils_html2text extends rcmail_action
 {
     public static $source = 'php://input';
 
@@ -26,15 +26,15 @@ class rcmail_action_utils_html2text extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
         $html = file_get_contents(self::$source);
 
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $params = [
-            'links' => (bool) \rcube_utils::get_input_value('_do_links', \rcube_utils::INPUT_GET),
-            'width' => (int) \rcube_utils::get_input_value('_width', \rcube_utils::INPUT_GET),
+            'links' => (bool) rcube_utils::get_input_value('_do_links', rcube_utils::INPUT_GET),
+            'width' => (int) rcube_utils::get_input_value('_width', rcube_utils::INPUT_GET),
         ];
 
         $text = $rcmail->html2text($html, $params);

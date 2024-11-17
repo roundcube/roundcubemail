@@ -32,7 +32,7 @@ class rcube_domainfactory_password
 {
     public function save($curpass, $passwd, $username)
     {
-        $client = \password::get_http_client();
+        $client = password::get_http_client();
         $options = ['http_errors' => true];
         $url = 'https://ssl.df.eu/chmail.php';
 
@@ -73,14 +73,14 @@ class rcube_domainfactory_password
                 if (preg_match_all('#<div class="d-msg-text">(.*?)</div>#s', $response, $errors)) {
                     $error_message = '';
                     foreach ($errors[1] as $error) {
-                        $error_message .= trim(\rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
+                        $error_message .= trim(rcube_charset::convert($error, 'ISO-8859-15')) . ' ';
                     }
 
                     return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                 }
             }
-        } catch (\Exception $e) {
-            \rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
+        } catch (Exception $e) {
+            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
 

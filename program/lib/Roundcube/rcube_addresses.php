@@ -20,7 +20,7 @@
 /**
  * Collected addresses database
  */
-class rcube_addresses extends \rcube_contacts
+class rcube_addresses extends rcube_contacts
 {
     protected $db_name = 'collected_addresses';
     protected $type = 0;
@@ -39,9 +39,9 @@ class rcube_addresses extends \rcube_contacts
     /**
      * Object constructor
      *
-     * @param \rcube_db $dbconn Instance of the rcube_db class
-     * @param int       $user   User-ID
-     * @param int       $type   Type of the address (1 - recipient, 2 - trusted sender)
+     * @param rcube_db $dbconn Instance of the rcube_db class
+     * @param int      $user   User-ID
+     * @param int      $type   Type of the address (1 - recipient, 2 - trusted sender)
      */
     public function __construct($dbconn, $user, $type)
     {
@@ -55,15 +55,15 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return string
      */
-    #[\Override]
+    #[Override]
     public function get_name()
     {
         if ($this->type == self::TYPE_RECIPIENT) {
-            return \rcube::get_instance()->gettext('collectedrecipients');
+            return rcube::get_instance()->gettext('collectedrecipients');
         }
 
         if ($this->type == self::TYPE_TRUSTED_SENDER) {
-            return \rcube::get_instance()->gettext('trustedsenders');
+            return rcube::get_instance()->gettext('trustedsenders');
         }
 
         return '';
@@ -76,14 +76,14 @@ class rcube_addresses extends \rcube_contacts
      * @param int    $subset  Only return this number of records, use negative values for tail
      * @param bool   $nocount True to skip the count query (select only)
      *
-     * @return \rcube_result_set Indexed list of contact records, each a hash array
+     * @return rcube_result_set Indexed list of contact records, each a hash array
      */
-    #[\Override]
+    #[Override]
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
         if ($nocount || $this->list_page <= 1) {
             // create dummy result, we don't need a count now
-            $this->result = new \rcube_result_set();
+            $this->result = new rcube_result_set();
         } else {
             // count all records
             $this->result = $this->count();
@@ -136,9 +136,9 @@ class rcube_addresses extends \rcube_contacts
      * @param bool         $nocount  True to skip the count query (select only)
      * @param array|string $required List of fields that cannot be empty
      *
-     * @return \rcube_result_set Contact records and 'count' value
+     * @return rcube_result_set Contact records and 'count' value
      */
-    #[\Override]
+    #[Override]
     public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         if (!is_array($required) && !empty($required)) {
@@ -162,7 +162,7 @@ class rcube_addresses extends \rcube_contacts
                 }
 
                 // table column
-                if ($col == 'email' && ($mode & \rcube_addressbook::SEARCH_STRICT)) {
+                if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                     $where[] = $this->db->ilike($col, $val);
                 } elseif (in_array($col, $this->table_cols)) {
                     $where[] = $this->fulltext_sql_where($val, $mode, $col);
@@ -177,11 +177,11 @@ class rcube_addresses extends \rcube_contacts
             }
 
             // require each word in to be present in one of the fields
-            $words = ($mode & \rcube_addressbook::SEARCH_STRICT) ? [$value] : \rcube_utils::tokenize_string($value, 1);
+            $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? [$value] : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
                 $groups = [];
                 foreach ((array) $fields as $idx => $col) {
-                    if ($col == 'email' && ($mode & \rcube_addressbook::SEARCH_STRICT)) {
+                    if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                         $groups[] = $this->db->ilike($col, $word);
                     } elseif (in_array($col, $this->table_cols)) {
                         $groups[] = $this->fulltext_sql_where($word, $mode, $col);
@@ -207,7 +207,7 @@ class rcube_addresses extends \rcube_contacts
                 $this->result = $this->count();
             }
         } else {
-            $this->result = new \rcube_result_set();
+            $this->result = new rcube_result_set();
         }
 
         return $this->result;
@@ -218,7 +218,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return int Contacts count
      */
-    #[\Override]
+    #[Override]
     protected function _count()
     {
         // count contacts for this user
@@ -244,9 +244,9 @@ class rcube_addresses extends \rcube_contacts
      * @param mixed $id    Record identifier(s)
      * @param bool  $assoc Enables returning associative array
      *
-     * @return \rcube_result_set|array|null Result object with all record fields
+     * @return rcube_result_set|array|null Result object with all record fields
      */
-    #[\Override]
+    #[Override]
     public function get_record($id, $assoc = false)
     {
         // return cached result
@@ -265,7 +265,7 @@ class rcube_addresses extends \rcube_contacts
 
         if ($record = $this->db->fetch_assoc()) {
             $record['ID'] = $record['address_id'];
-            $this->result = new \rcube_result_set(1);
+            $this->result = new rcube_result_set(1);
             $this->result->add($record);
         }
 
@@ -281,7 +281,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return bool true if input is valid, False if not
      */
-    #[\Override]
+    #[Override]
     public function validate(&$save_data, $autofix = false)
     {
         $email = array_filter($this->get_col_values('email', $save_data, true));
@@ -295,8 +295,8 @@ class rcube_addresses extends \rcube_contacts
         $email = $email[0];
 
         // check validity of the email address
-        if (!\rcube_utils::check_email(\rcube_utils::idn_to_ascii($email))) {
-            $rcube = \rcube::get_instance();
+        if (!rcube_utils::check_email(rcube_utils::idn_to_ascii($email))) {
+            $rcube = rcube::get_instance();
             $error = $rcube->gettext(['name' => 'emailformaterror', 'vars' => ['email' => $email]]);
             $this->set_error(self::ERROR_VALIDATE, $error);
             return false;
@@ -313,7 +313,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return mixed The created record ID on success, False on error
      */
-    #[\Override]
+    #[Override]
     public function insert($save_data, $check = false)
     {
         if ($check) {
@@ -346,7 +346,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return bool True on success, False on error
      */
-    #[\Override]
+    #[Override]
     public function update($id, $save_cols)
     {
         return false;
@@ -360,7 +360,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return int|false Number of removed records
      */
-    #[\Override]
+    #[Override]
     public function delete($ids, $force = true)
     {
         if (!is_array($ids)) {
@@ -388,7 +388,7 @@ class rcube_addresses extends \rcube_contacts
      *
      * @return int Number of removed records
      */
-    #[\Override]
+    #[Override]
     public function delete_all($with_groups = false)
     {
         $this->db->query('DELETE FROM ' . $this->db->table_name($this->db_name, true)

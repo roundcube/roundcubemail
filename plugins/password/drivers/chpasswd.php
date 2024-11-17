@@ -32,7 +32,7 @@ class rcube_chpasswd_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $cmd = \rcmail::get_instance()->config->get('password_chpasswd_cmd');
+        $cmd = rcmail::get_instance()->config->get('password_chpasswd_cmd');
 
         $handle = popen($cmd, 'w');
         fwrite($handle, "{$username}:{$newpass}\n");
@@ -41,7 +41,7 @@ class rcube_chpasswd_password
             return PASSWORD_SUCCESS;
         }
 
-        \rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
+        rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
 
         return PASSWORD_ERROR;
     }

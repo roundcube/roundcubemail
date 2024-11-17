@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_copy extends \rcmail_action_mail_index
+class rcmail_action_mail_copy extends rcmail_action_mail_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,18 +27,18 @@ class rcmail_action_mail_copy extends \rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // copy messages
         if (empty($_POST['_uid']) || !isset($_POST['_target_mbox']) || !strlen($_POST['_target_mbox'])) {
             $rcmail->output->show_message('internalerror', 'error');
         }
 
-        $post_uids = self::get_uids(null, null, $multifolder, \rcube_utils::INPUT_POST);
-        $target = \rcube_utils::get_input_string('_target_mbox', \rcube_utils::INPUT_POST, true);
+        $post_uids = self::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
+        $target = rcube_utils::get_input_string('_target_mbox', rcube_utils::INPUT_POST, true);
         $sources = [];
         $copied = false;
 

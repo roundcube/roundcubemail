@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_purge extends \rcmail_action
+class rcmail_action_settings_folder_purge extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,12 +27,12 @@ class rcmail_action_settings_folder_purge extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
         $delimiter = $storage->get_hierarchy_delimiter();
         $trash_mbox = $rcmail->config->get('trash_mbox');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';

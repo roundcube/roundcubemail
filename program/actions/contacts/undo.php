@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_undo extends \rcmail_action_contacts_index
+class rcmail_action_contacts_undo extends rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,10 +26,10 @@ class rcmail_action_contacts_undo extends \rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $delcnt = 0;
 
         if (!empty($_SESSION['contact_undo']) && !empty($_SESSION['contact_undo']['data'])) {

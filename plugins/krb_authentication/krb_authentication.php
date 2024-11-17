@@ -11,14 +11,14 @@
  * @license GNU GPLv3+
  * @author Jeroen van Meeuwen
  */
-class krb_authentication extends \rcube_plugin
+class krb_authentication extends rcube_plugin
 {
     private $redirect_query;
 
     /**
      * Plugin initialization
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);
@@ -56,11 +56,11 @@ class krb_authentication extends \rcube_plugin
             // Load plugin's config file
             $this->load_config();
 
-            $rcmail = \rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $host = $rcmail->config->get('krb_authentication_host');
 
             if (is_string($host) && trim($host) !== '' && empty($args['host'])) {
-                $args['host'] = \rcube_utils::idn_to_ascii(\rcube_utils::parse_host($host));
+                $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
             }
 
             if (!empty($_SERVER['REMOTE_USER'])) {
@@ -145,7 +145,7 @@ class krb_authentication extends \rcube_plugin
         // Load plugin's config file
         $this->load_config();
 
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $context = $rcmail->config->get('krb_authentication_context');
 
         if (is_array($context) && isset($context[$protocol])) {
@@ -153,7 +153,7 @@ class krb_authentication extends \rcube_plugin
         }
 
         if (empty($context)) {
-            \rcube::raise_error("Empty GSSAPI context ({$protocol}).", true);
+            rcube::raise_error("Empty GSSAPI context ({$protocol}).", true);
         }
 
         return $context;

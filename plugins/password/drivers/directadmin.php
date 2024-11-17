@@ -31,7 +31,7 @@ class rcube_directadmin_password
 {
     public function save($curpass, $passwd)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         $da_user = $_SESSION['username'];
         $da_curpass = $curpass;
@@ -54,7 +54,7 @@ class rcube_directadmin_password
             $da_host = 'https://' . $da_host;
         }
 
-        $client = \password::get_http_client();
+        $client = password::get_http_client();
 
         $url = "{$da_host}:{$da_port}/CMD_CHANGE_EMAIL_PASSWORD";
         $options = [
@@ -75,8 +75,8 @@ class rcube_directadmin_password
             $body = preg_replace_callback('/&#([0-9]{2})/', static function ($val) { return chr($val[1]); }, $body);
 
             $response = Query::parse($body);
-        } catch (\Exception $e) {
-            \rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
+        } catch (Exception $e) {
+            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_ERROR;
         }
 

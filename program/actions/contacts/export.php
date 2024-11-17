@@ -19,19 +19,19 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_export extends \rcmail_action_contacts_index
+class rcmail_action_contacts_export extends rcmail_action_contacts_index
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        $rcmail->request_security_check(\rcube_utils::INPUT_GET);
+        $rcmail->request_security_check(rcube_utils::INPUT_GET);
 
         $sort_col = $rcmail->config->get('addressbook_sort_col', 'name');
 
@@ -55,7 +55,7 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
                     self::prepare_for_export($record, $source);
 
                     $record['sourceid'] = $s;
-                    $key = \rcube_addressbook::compose_contact_key($record, $sort_col);
+                    $key = rcube_addressbook::compose_contact_key($record, $sort_col);
                     $records[$key] = $record;
                 }
             }
@@ -65,7 +65,7 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
 
             // create resultset object
             $count = count($records);
-            $result = new \rcube_result_set($count);
+            $result = new rcube_result_set($count);
             $result->records = array_values($records);
         }
         // selected contacts
@@ -87,7 +87,7 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
                     self::prepare_for_export($record, $source);
 
                     $record['sourceid'] = $s;
-                    $key = \rcube_addressbook::compose_contact_key($record, $sort_col);
+                    $key = rcube_addressbook::compose_contact_key($record, $sort_col);
                     $records[$key] = $record;
                 }
             }
@@ -96,7 +96,7 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
 
             // create resultset object
             $count = count($records);
-            $result = new \rcube_result_set($count);
+            $result = new rcube_result_set($count);
             $result->records = array_values($records);
         }
         // selected directory/group
@@ -128,9 +128,9 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
 
             // fix folding and end-of-line chars
             $row['vcard'] = preg_replace('/\r|\n\s+/', '', $row['vcard']);
-            $row['vcard'] = preg_replace('/\n/', \rcube_vcard::$eol, $row['vcard']);
+            $row['vcard'] = preg_replace('/\n/', rcube_vcard::$eol, $row['vcard']);
 
-            echo \rcube_vcard::rfc2425_fold($row['vcard']) . \rcube_vcard::$eol;
+            echo rcube_vcard::rfc2425_fold($row['vcard']) . rcube_vcard::$eol;
         }
 
         $rcmail->output->sendExit();
@@ -145,11 +145,11 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
         $fieldmap = $source ? $source->vcard_map : null;
 
         if (empty($record['vcard'])) {
-            $vcard = new \rcube_vcard(null, RCUBE_CHARSET, false, $fieldmap);
+            $vcard = new rcube_vcard(null, RCUBE_CHARSET, false, $fieldmap);
             $vcard->reset();
 
             foreach ($record as $key => $values) {
-                [$field, $section] = \rcube_utils::explode(':', $key);
+                [$field, $section] = rcube_utils::explode(':', $key);
                 // avoid unwanted casting of DateTime objects to an array
                 // (same as in rcube_contacts::convert_save_data())
                 if (is_object($values) && is_a($values, 'DateTime')) {
@@ -172,14 +172,14 @@ class rcmail_action_contacts_export extends \rcmail_action_contacts_index
         }
         // patch categories to already existing vcard block
         else {
-            $vcard = new \rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
+            $vcard = new rcube_vcard($record['vcard'], RCUBE_CHARSET, false, $fieldmap);
 
             // unset CATEGORIES entry, it might be not up-to-date (#1490277)
             $vcard->set('groups', null);
             $record['vcard'] = $vcard->export();
 
             if (!empty($groups)) {
-                $vgroups = 'CATEGORIES:' . \rcube_vcard::vcard_quote($groups, ',') . \rcube_vcard::$eol;
+                $vgroups = 'CATEGORIES:' . rcube_vcard::vcard_quote($groups, ',') . rcube_vcard::$eol;
                 $record['vcard'] = str_replace('END:VCARD', $vgroups . 'END:VCARD', $record['vcard']);
             }
         }

@@ -13,17 +13,17 @@
  * @license GNU GPLv3+
  * @author Aleksander Machniak <alec@alec.pl>
  */
-class hide_blockquote extends \rcube_plugin
+class hide_blockquote extends rcube_plugin
 {
     public $task = 'mail|settings';
 
     /**
      * Plugin initialization
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if ($rcmail->task == 'mail'
             && ($rcmail->action == 'preview' || $rcmail->action == 'show')
@@ -62,10 +62,10 @@ class hide_blockquote extends \rcube_plugin
 
         $this->add_texts('localization');
 
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $limit = (int) $rcmail->config->get('hide_blockquote_limit');
         $field_id = 'hide_blockquote_limit';
-        $input = new \html_inputfield([
+        $input = new html_inputfield([
             'name' => '_' . $field_id,
             'id' => $field_id,
             'size' => 5,
@@ -73,7 +73,7 @@ class hide_blockquote extends \rcube_plugin
         ]);
 
         $args['blocks']['main']['options']['hide_blockquote_limit'] = [
-            'title' => \html::label($field_id, $this->gettext('quotelimit')),
+            'title' => html::label($field_id, $this->gettext('quotelimit')),
             'content' => $input->show($limit ?: ''),
         ];
 
@@ -90,7 +90,7 @@ class hide_blockquote extends \rcube_plugin
     public function prefs_save($args)
     {
         if ($args['section'] == 'mailview') {
-            $args['prefs']['hide_blockquote_limit'] = (int) \rcube_utils::get_input_value('_hide_blockquote_limit', \rcube_utils::INPUT_POST);
+            $args['prefs']['hide_blockquote_limit'] = (int) rcube_utils::get_input_value('_hide_blockquote_limit', rcube_utils::INPUT_POST);
         }
 
         return $args;

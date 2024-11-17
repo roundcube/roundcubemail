@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_import extends \rcmail_action_contacts_index
+class rcmail_action_contacts_import extends rcmail_action_contacts_index
 {
     public const UPLOAD_ERR_CSV_FIELDS = 101;
 
@@ -29,17 +29,17 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $importstep = 'import_form';
         $has_map = isset($_POST['_map']) && is_array($_POST['_map']);
 
         if ($has_map || (isset($_FILES['_file']) && is_array($_FILES['_file']))) {
-            $replace = (bool) \rcube_utils::get_input_string('_replace', \rcube_utils::INPUT_GPC);
-            $target = \rcube_utils::get_input_string('_target', \rcube_utils::INPUT_GPC);
-            $with_groups = (int) \rcube_utils::get_input_string('_groups', \rcube_utils::INPUT_GPC);
+            $replace = (bool) rcube_utils::get_input_string('_replace', rcube_utils::INPUT_GPC);
+            $target = rcube_utils::get_input_string('_target', rcube_utils::INPUT_GPC);
+            $with_groups = (int) rcube_utils::get_input_string('_groups', rcube_utils::INPUT_GPC);
 
             // reload params for CSV field mapping screen
             if ($has_map && !empty($_SESSION['contactcsvimport']['params'])) {
@@ -84,7 +84,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                     $file_content = file_get_contents($filepath);
 
                     // let rcube_vcard do the hard work :-)
-                    $vcard_o = new \rcube_vcard();
+                    $vcard_o = new rcube_vcard();
                     $vcard_o->extend_fieldmap($CONTACTS->vcard_map);
                     $v_list = $vcard_o->import($file_content);
 
@@ -94,11 +94,11 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                     }
 
                     // no vCards found, try CSV
-                    $csv = new \rcube_csv2vcard($_SESSION['language']);
+                    $csv = new rcube_csv2vcard($_SESSION['language']);
 
                     if ($has_map) {
                         $skip_head = isset($_POST['_skip_header']);
-                        $map = \rcube_utils::get_input_value('_map', \rcube_utils::INPUT_GPC);
+                        $map = rcube_utils::get_input_value('_map', rcube_utils::INPUT_GPC);
                         $map = array_filter($map);
 
                         $csv->set_map($map);
@@ -107,7 +107,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                         unlink($filepath);
                     } else {
                         // save uploaded file for the real import in the next step
-                        $temp_csv = \rcube_utils::temp_filename('csvimpt');
+                        $temp_csv = rcube_utils::temp_filename('csvimpt');
                         if (move_uploaded_file($filepath, $temp_csv) && file_exists($temp_csv)) {
                             $fields = $csv->get_fields();
                             $last_map = $map;
@@ -155,7 +155,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
-                self::$stats = new \stdClass();
+                self::$stats = new stdClass();
                 self::$stats->names = [];
                 self::$stats->skipped_names = [];
                 self::$stats->count = count($vcards);
@@ -177,7 +177,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
 
                     // Generate contact's display name (must be before validation), the same we do in save.inc
                     if (empty($a_record['name'])) {
-                        $a_record['name'] = \rcube_addressbook::compose_display_name($a_record, true);
+                        $a_record['name'] = rcube_addressbook::compose_display_name($a_record, true);
                         // Reset it if equals to email address (from compose_display_name())
                         if ($a_record['name'] == ($a_record['email'][0] ?? null)) {
                             $a_record['name'] = '';
@@ -194,7 +194,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                     $email = null;
                     if (isset($vcard->email[0])) {
                         $email = $vcard->email[0];
-                        $email = \rcube_utils::idn_to_utf8($email);
+                        $email = rcube_utils::idn_to_utf8($email);
                     }
 
                     if (!$replace) {
@@ -288,8 +288,8 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
      */
     public static function import_form($attrib)
     {
-        $rcmail = \rcmail::get_instance();
-        $target = \rcube_utils::get_input_string('_target', \rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $target = rcube_utils::get_input_string('_target', rcube_utils::INPUT_GPC);
 
         $attrib += ['id' => 'rcmImportForm'];
 
@@ -298,8 +298,8 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
 
         $form = '';
         $hint = $rcmail->gettext(['id' => 'importfile', 'name' => 'maxuploadsize', 'vars' => ['size' => $max_filesize]]);
-        $table = new \html_table(['cols' => 2]);
-        $upload = new \html_inputfield([
+        $table = new html_table(['cols' => 2]);
+        $upload = new html_inputfield([
             'type' => 'file',
             'name' => '_file[]',
             'id' => 'rcmimportfile',
@@ -308,12 +308,12 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
             'class' => 'form-control-file',
         ]);
 
-        $table->add('title', \html::label('rcmimportfile', $rcmail->gettext('importfromfile')));
-        $table->add(null, $upload->show() . \html::div('hint', $hint));
+        $table->add('title', html::label('rcmimportfile', $rcmail->gettext('importfromfile')));
+        $table->add(null, $upload->show() . html::div('hint', $hint));
 
         // addressbook selector
         if (count($writable_books) > 1) {
-            $select = new \html_select([
+            $select = new html_select([
                 'name' => '_target',
                 'id' => 'rcmimporttarget',
                 'is_escaped' => true,
@@ -324,18 +324,18 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
                 $select->add($book['name'], $book['id']);
             }
 
-            $table->add('title', \html::label('rcmimporttarget', $rcmail->gettext('importtarget')));
+            $table->add('title', html::label('rcmimporttarget', $rcmail->gettext('importtarget')));
             $table->add(null, $select->show($target));
         } else {
-            $abook = new \html_hiddenfield(['name' => '_target', 'value' => key($writable_books)]);
+            $abook = new html_hiddenfield(['name' => '_target', 'value' => key($writable_books)]);
             $form .= $abook->show();
         }
 
-        $form .= \html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => '']);
+        $form .= html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => '']);
 
         // selector for group import options
         if (count($writable_books) >= 1) {
-            $select = new \html_select([
+            $select = new html_select([
                 'name' => '_groups',
                 'id' => 'rcmimportgroups',
                 'is_escaped' => true,
@@ -345,14 +345,14 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
             $select->add($rcmail->gettext('importgroupsall'), '1');
             $select->add($rcmail->gettext('importgroupsexisting'), '2');
 
-            $table->add('title', \html::label('rcmimportgroups', $rcmail->gettext('importgroups')));
-            $table->add(null, $select->show(\rcube_utils::get_input_value('_groups', \rcube_utils::INPUT_GPC)));
+            $table->add('title', html::label('rcmimportgroups', $rcmail->gettext('importgroups')));
+            $table->add(null, $select->show(rcube_utils::get_input_value('_groups', rcube_utils::INPUT_GPC)));
         }
 
         // checkbox to replace the entire address book
-        $check_replace = new \html_checkbox(['name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace']);
-        $table->add('title', \html::label('rcmimportreplace', $rcmail->gettext('importreplace')));
-        $table->add(null, $check_replace->show(\rcube_utils::get_input_string('_replace', \rcube_utils::INPUT_GPC)));
+        $check_replace = new html_checkbox(['name' => '_replace', 'value' => 1, 'id' => 'rcmimportreplace']);
+        $table->add('title', html::label('rcmimportreplace', $rcmail->gettext('importreplace')));
+        $table->add(null, $check_replace->show(rcube_utils::get_input_string('_replace', rcube_utils::INPUT_GPC)));
 
         $form .= $table->show(['id' => null] + $attrib);
 
@@ -369,7 +369,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
             'enctype' => 'multipart/form-data',
         ] + $attrib;
 
-        return \html::p(null, \rcube::Q($rcmail->gettext('importdesc'), 'show'))
+        return html::p(null, rcube::Q($rcmail->gettext('importdesc'), 'show'))
             . $rcmail->output->form_tag($attrib, $form);
     }
 
@@ -378,7 +378,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
      */
     public static function import_map($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $params = $_SESSION['contactcsvimport']['params'];
 
         // hide groups field from list when group import disabled
@@ -386,13 +386,13 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
             unset($params['fields']['groups']);
         }
 
-        $fieldlist = new \html_select(['name' => '_map[]']);
+        $fieldlist = new html_select(['name' => '_map[]']);
         $fieldlist->add($rcmail->gettext('fieldnotmapped'), '');
         foreach ($params['fields'] as $id => $name) {
             $fieldlist->add($name, $id);
         }
 
-        $field_table = new \html_table(['cols' => 2] + $attrib);
+        $field_table = new html_table(['cols' => 2] + $attrib);
 
         if ($classes = $attrib['table-header-class']) {
             $field_table->set_header_attribs($classes);
@@ -403,16 +403,16 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
 
         $map = $_SESSION['contactcsvimport']['map'];
         foreach ($map['source'] as $i => $name) {
-            $field_table->add('title', \html::label('rcmimportmap' . $i, \rcube::Q($name)));
+            $field_table->add('title', html::label('rcmimportmap' . $i, rcube::Q($name)));
             $field_table->add(null, $fieldlist->show(array_key_exists($i, $map['destination']) ? $map['destination'][$i] : '', ['id' => 'rcmimportmap' . $i]));
         }
 
         $form = '';
-        $form .= \html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => '']);
+        $form .= html::tag('input', ['type' => 'hidden', 'name' => '_unlock', 'value' => '']);
 
         // show option to import data from first line of the file
-        $check_header = new \html_checkbox(['name' => '_skip_header', 'value' => 1, 'id' => 'rcmskipheader']);
-        $form .= \html::p(null, \html::label('rcmskipheader', $check_header->show(1) . $rcmail->gettext('skipheader')));
+        $check_header = new html_checkbox(['name' => '_skip_header', 'value' => 1, 'id' => 'rcmskipheader']);
+        $form .= html::p(null, html::label('rcmskipheader', $check_header->show(1) . $rcmail->gettext('skipheader')));
 
         $form .= $field_table->show();
 
@@ -420,7 +420,7 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
 
         $rcmail->output->add_gui_object('importformmap', $attrib['id']);
 
-        return \html::p(null, \rcube::Q($rcmail->gettext('importmapdesc'), 'show'))
+        return html::p(null, rcube::Q($rcmail->gettext('importmapdesc'), 'show'))
             . $rcmail->output->form_tag($attrib, $form);
     }
 
@@ -429,11 +429,11 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
      */
     public static function import_confirm($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $vars = get_object_vars(self::$stats);
         $vars['names'] = $vars['skipped_names'] = '';
 
-        $content = \html::p(null, $rcmail->gettext([
+        $content = html::p(null, $rcmail->gettext([
                 'name' => 'importconfirm',
                 'nr' => self::$stats->inserted,
                 'vars' => $vars,
@@ -441,19 +441,19 @@ class rcmail_action_contacts_import extends \rcmail_action_contacts_index
         );
 
         if (self::$stats->names) {
-            $content .= \html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->names)));
+            $content .= html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->names)));
         }
 
         if (self::$stats->skipped) {
-            $content .= \html::p(null, $rcmail->gettext([
+            $content .= html::p(null, $rcmail->gettext([
                     'name' => 'importconfirmskipped',
                     'nr' => self::$stats->skipped,
                     'vars' => $vars,
                 ]) . ':')
-                . \html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
+                . html::p('em', implode(', ', array_map(['rcube', 'Q'], self::$stats->skipped_names)));
         }
 
-        return \html::div($attrib, $content);
+        return html::div($attrib, $content);
     }
 
     /**

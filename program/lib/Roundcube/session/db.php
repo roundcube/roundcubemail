@@ -23,9 +23,9 @@
 /**
  * Class to provide database session storage
  */
-class rcube_session_db extends \rcube_session
+class rcube_session_db extends rcube_session
 {
-    /** @var \rcube_db Database handler */
+    /** @var rcube_db Database handler */
     private $db;
 
     /** @var string Session table name (quoted) */
@@ -34,14 +34,14 @@ class rcube_session_db extends \rcube_session
     /**
      * Object constructor
      *
-     * @param \rcube_config $config Configuration
+     * @param rcube_config $config Configuration
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
         // get db instance
-        $this->db = \rcube::get_instance()->get_dbh();
+        $this->db = rcube::get_instance()->get_dbh();
 
         // session table name
         $this->table_name = $this->db->table_name('session', true);
@@ -61,7 +61,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     public function open($save_path, $session_name)
     {
         return true;
@@ -72,7 +72,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     public function close()
     {
         return true;
@@ -85,7 +85,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     public function destroy($key)
     {
         if ($key) {
@@ -102,7 +102,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return string Session vars (serialized string)
      */
-    #[\Override]
+    #[Override]
     public function read($key)
     {
         if ($this->lifetime) {
@@ -146,7 +146,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     protected function save($key, $vars)
     {
         if ($this->ignore_write) {
@@ -173,7 +173,7 @@ class rcube_session_db extends \rcube_session
      *
      * @return bool True on success, False on failure
      */
-    #[\Override]
+    #[Override]
     protected function update($key, $newvars, $oldvars)
     {
         $now = $this->db->now();

@@ -38,12 +38,12 @@ class rcube_poppassd_password
 
     public function save($curpass, $passwd, $username)
     {
-        $rcmail = \rcmail::get_instance();
-        $poppassd = new \Net_Socket();
+        $rcmail = rcmail::get_instance();
+        $poppassd = new Net_Socket();
 
         $port = $rcmail->config->get('password_pop_port', 106);
         $host = $rcmail->config->get('password_pop_host', 'localhost');
-        $host = \rcube_utils::parse_host($host);
+        $host = rcube_utils::parse_host($host);
 
         $result = $poppassd->connect($host, $port, null);
 

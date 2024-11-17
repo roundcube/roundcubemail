@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_spell extends \rcmail_action
+class rcmail_action_utils_spell extends rcmail_action
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,11 +27,11 @@ class rcmail_action_utils_spell extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
         // read input
-        $lang = \rcube_utils::get_input_string('lang', \rcube_utils::INPUT_GET);
+        $lang = rcube_utils::get_input_string('lang', rcube_utils::INPUT_GET);
         $data = file_get_contents('php://input');
 
         $learn_word = strpos($data, '<learnword>');
@@ -42,7 +42,7 @@ class rcmail_action_utils_spell extends \rcmail_action
         $data = substr($data, $left + 6, $right - ($left + 6));
         $data = html_entity_decode($data, \ENT_QUOTES, RCUBE_CHARSET);
 
-        $spellchecker = new \rcube_spellchecker($lang);
+        $spellchecker = new rcube_spellchecker($lang);
 
         if ($learn_word) {
             $spellchecker->add_word($data);
@@ -55,7 +55,7 @@ class rcmail_action_utils_spell extends \rcmail_action
         }
 
         if ($error = $spellchecker->error()) {
-            \rcube::raise_error('Spellcheck error: ' . $error, true);
+            rcube::raise_error('Spellcheck error: ' . $error, true);
             http_response_code(500);
             exit;
         }

@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_headers extends \rcmail_action_mail_index
+class rcmail_action_mail_headers extends rcmail_action_mail_index
 {
     protected static $source;
 
@@ -26,19 +26,19 @@ class rcmail_action_mail_headers extends \rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
-        $uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_GP);
-        $inline = $rcmail->output instanceof \rcmail_output_html;
+        $rcmail = rcmail::get_instance();
+        $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GP);
+        $inline = $rcmail->output instanceof rcmail_output_html;
 
         if (!$uid) {
             exit;
         }
 
         if ($pos = strpos($uid, '.')) {
-            $message = new \rcube_message($uid);
+            $message = new rcube_message($uid);
             $source = $message->get_part_body(substr($uid, $pos + 1));
 
             if (is_string($source)) {
@@ -49,7 +49,7 @@ class rcmail_action_mail_headers extends \rcmail_action_mail_index
         }
 
         if ($source !== false) {
-            $source = trim(\rcube_charset::clean($source));
+            $source = trim(rcube_charset::clean($source));
             $source = htmlspecialchars($source, \ENT_COMPAT | \ENT_HTML401, RCUBE_CHARSET);
             $source = preg_replace(
                 [

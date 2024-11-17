@@ -33,14 +33,14 @@ class rcube_ldap_password
 {
     public function save($curpass, $passwd)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         require_once 'Net/LDAP2.php';
         require_once __DIR__ . '/ldap_simple.php';
 
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
-            $userDN = \rcube_ldap_simple_password::substitute_vars($userDN);
+            $userDN = rcube_ldap_simple_password::substitute_vars($userDN);
         } else {
             $userDN = $this->search_userdn($rcmail);
         }
@@ -74,7 +74,7 @@ class rcube_ldap_password
         ];
 
         // Connecting using the configuration array
-        $ldap = \Net_LDAP2::connect($ldapConfig);
+        $ldap = Net_LDAP2::connect($ldapConfig);
 
         // Checking for connection error
         if (is_a($ldap, 'PEAR_Error')) {
@@ -96,7 +96,7 @@ class rcube_ldap_password
 
         foreach ($encodages as $enc) {
             if ($enc) {
-                $crypted_pass[] = \password::hash_password($passwd, $enc);
+                $crypted_pass[] = password::hash_password($passwd, $enc);
             }
         }
 
@@ -113,23 +113,23 @@ class rcube_ldap_password
 
         // Crypt new samba password
         if ($smbpwattr) {
-            $samba_pass = \password::hash_password($passwd, 'samba');
+            $samba_pass = password::hash_password($passwd, 'samba');
         }
 
         // Writing new crypted password to LDAP
         $userEntry = $ldap->getEntry($userDN);
-        if (\Net_LDAP2::isError($userEntry)) {
+        if (Net_LDAP2::isError($userEntry)) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (\Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
+        if (Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
             return PASSWORD_CONNECT_ERROR;
         }
 
         // Updating PasswordLastChange Attribute if desired
         if ($lchattr) {
             $current_day = (int) (time() / 86400);
-            if (\Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
+            if (Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
                 return PASSWORD_CONNECT_ERROR;
             }
         }
@@ -143,7 +143,7 @@ class rcube_ldap_password
             $userEntry->replace([$smblchattr => time()], $force);
         }
 
-        if (\Net_LDAP2::isError($userEntry->update())) {
+        if (Net_LDAP2::isError($userEntry->update())) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -175,14 +175,14 @@ class rcube_ldap_password
             $ldapConfig['bindpw'] = $bindpw;
         }
 
-        $ldap = \Net_LDAP2::connect($ldapConfig);
+        $ldap = Net_LDAP2::connect($ldapConfig);
 
         if (is_a($ldap, 'PEAR_Error')) {
             return '';
         }
 
-        $base = \rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
-        $filter = \rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
+        $base = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
+        $filter = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = [
             'scope' => 'sub',
             'attributes' => [],

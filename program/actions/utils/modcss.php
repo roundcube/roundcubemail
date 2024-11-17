@@ -18,19 +18,19 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_utils_modcss extends \rcmail_action
+class rcmail_action_utils_modcss extends rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        $url = \rcube_utils::get_input_string('_u', \rcube_utils::INPUT_GET);
+        $url = rcube_utils::get_input_string('_u', rcube_utils::INPUT_GET);
         $url = preg_replace('![^a-z0-9.-]!i', '', $url);
 
         if ($url === null || empty($_SESSION['modcssurls'][$url])) {
@@ -48,19 +48,19 @@ class rcmail_action_utils_modcss extends \rcmail_action
         $ctype = null;
 
         try {
-            $client = \rcube::get_instance()->get_http_client();
+            $client = rcube::get_instance()->get_http_client();
             $response = $client->get($realurl);
 
             $source = $response->getBody();
 
             $ctype = $response->getHeader('Content-Type');
             $ctype = !empty($ctype) ? $ctype[0] : '';
-        } catch (\Exception $e) {
-            \rcube::raise_error($e, true, false);
+        } catch (Exception $e) {
+            rcube::raise_error($e, true, false);
         }
 
-        $cid = \rcube_utils::get_input_string('_c', \rcube_utils::INPUT_GET);
-        $prefix = \rcube_utils::get_input_string('_p', \rcube_utils::INPUT_GET);
+        $cid = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
+        $prefix = rcube_utils::get_input_string('_p', rcube_utils::INPUT_GET);
 
         $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
         $css_prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
@@ -68,7 +68,7 @@ class rcmail_action_utils_modcss extends \rcmail_action
 
         if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
             $rcmail->output->sendExit(
-                \rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
+                rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
                 ['Content-Type: text/css']
             );
         }

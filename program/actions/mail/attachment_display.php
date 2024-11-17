@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_attachment_display extends \rcmail_action_mail_attachment_upload
+class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachment_upload
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,12 +26,12 @@ class rcmail_action_mail_attachment_display extends \rcmail_action_mail_attachme
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
         self::init();
 
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $file = $rcmail->get_uploaded_file(self::$file_id);
 
         self::display_uploaded_file($file);

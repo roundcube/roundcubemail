@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
+class rcmail_action_settings_identity_save extends rcmail_action_settings_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,10 +26,10 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         $IDENTITIES_LEVEL = intval($rcmail->config->get('identities_level', 0));
 
@@ -48,7 +48,7 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
         foreach ($a_save_cols as $col) {
             $fname = '_' . $col;
             if (isset($_POST[$fname])) {
-                $save_data[$col] = \rcube_utils::get_input_string($fname, \rcube_utils::INPUT_POST, true);
+                $save_data[$col] = rcube_utils::get_input_string($fname, rcube_utils::INPUT_POST, true);
             }
         }
 
@@ -80,19 +80,19 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
         }
 
         // Validate e-mail addresses
-        $email_checks = !empty($save_data['email']) ? [\rcube_utils::idn_to_ascii($save_data['email'])] : [];
+        $email_checks = !empty($save_data['email']) ? [rcube_utils::idn_to_ascii($save_data['email'])] : [];
         foreach (['reply-to', 'bcc'] as $item) {
             if (!empty($save_data[$item])) {
-                foreach (\rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
-                    $email_checks[] = \rcube_utils::idn_to_ascii($rcpt['mailto']);
+                foreach (rcube_mime::decode_address_list($save_data[$item], null, false) as $rcpt) {
+                    $email_checks[] = rcube_utils::idn_to_ascii($rcpt['mailto']);
                 }
             }
         }
 
         foreach ($email_checks as $email) {
-            if ($email && !\rcube_utils::check_email($email)) {
+            if ($email && !rcube_utils::check_email($email)) {
                 // show error message
-                $rcmail->output->show_message('emailformaterror', 'error', ['email' => \rcube_utils::idn_to_utf8($email)], false);
+                $rcmail->output->show_message('emailformaterror', 'error', ['email' => rcube_utils::idn_to_utf8($email)], false);
                 $rcmail->overwrite_action('edit-identity');
                 return;
             }
@@ -112,7 +112,7 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
 
         // update an existing identity
         if (!empty($_POST['_iid'])) {
-            $iid = \rcube_utils::get_input_string('_iid', \rcube_utils::INPUT_POST);
+            $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834
@@ -126,7 +126,7 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {
-                $save_data['email'] = \rcube_utils::idn_to_ascii($save_data['email']);
+                $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
             }
 
             if (!$plugin['abort']) {
@@ -143,8 +143,8 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
                 }
 
                 // update the changed col in list
-                $name = $save_data['name'] . ' <' . \rcube_utils::idn_to_utf8($save_data['email']) . '>';
-                $rcmail->output->command('parent.update_identity_row', $iid, \rcube::Q(trim($name)));
+                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
+                $rcmail->output->command('parent.update_identity_row', $iid, rcube::Q(trim($name)));
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
@@ -163,7 +163,7 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
             $save_data = $plugin['record'];
 
             if ($save_data['email']) {
-                $save_data['email'] = \rcube_utils::idn_to_ascii($save_data['email']);
+                $save_data['email'] = rcube_utils::idn_to_ascii($save_data['email']);
             }
 
             if (!$plugin['abort']) {
@@ -184,8 +184,8 @@ class rcmail_action_settings_identity_save extends \rcmail_action_settings_index
                 }
 
                 // add a new row to the list
-                $name = $save_data['name'] . ' <' . \rcube_utils::idn_to_utf8($save_data['email']) . '>';
-                $rcmail->output->command('parent.update_identity_row', $insert_id, \rcube::Q(trim($name)), true);
+                $name = $save_data['name'] . ' <' . rcube_utils::idn_to_utf8($save_data['email']) . '>';
+                $rcmail->output->command('parent.update_identity_row', $insert_id, rcube::Q(trim($name)), true);
             } else {
                 // show error message
                 $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';

@@ -11,7 +11,7 @@
  * @license GNU GPLv3+
  * @author Aleksander Machniak
  */
-class virtuser_file extends \rcube_plugin
+class virtuser_file extends rcube_plugin
 {
     private $file;
     private $app;
@@ -19,10 +19,10 @@ class virtuser_file extends \rcube_plugin
     /**
      * Plugin initialization
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
-        $this->app = \rcmail::get_instance();
+        $this->app = rcmail::get_instance();
         $this->file = $this->app->config->get('virtuser_file');
 
         if ($this->file) {
@@ -43,7 +43,7 @@ class virtuser_file extends \rcube_plugin
             $arr = preg_split('/\s+/', $r[$i]);
 
             if (count($arr) > 0 && strpos($arr[0], '@')) {
-                $result[] = \rcube_utils::idn_to_ascii(trim(str_replace('\@', '@', $arr[0])));
+                $result[] = rcube_utils::idn_to_ascii(trim(str_replace('\@', '@', $arr[0])));
 
                 if (!empty($p['first'])) {
                     $p['email'] = $result[0];

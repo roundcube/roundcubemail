@@ -21,7 +21,7 @@
  * Helper class for turning URLs and email addresses in plaintext content
  * into clickable links.
  */
-class rcmail_string_replacer extends \rcube_string_replacer
+class rcmail_string_replacer extends rcube_string_replacer
 {
     /**
      * Callback function used to build mailto: links around e-mail strings
@@ -34,7 +34,7 @@ class rcmail_string_replacer extends \rcube_string_replacer
      *
      * @see rcube_string_replacer::mailto_callback()
      */
-    #[\Override]
+    #[Override]
     protected function mailto_callback($matches)
     {
         $href = $matches[1];
@@ -46,19 +46,19 @@ class rcmail_string_replacer extends \rcube_string_replacer
         }
 
         // skip invalid emails
-        if (!\rcube_utils::check_email($email, false)) {
+        if (!rcube_utils::check_email($email, false)) {
             return $matches[1];
         }
 
         $attribs = [
             'href' => 'mailto:' . $href,
             'onclick' => sprintf("return %s.command('compose','%s',this)",
-                \rcmail_output::JS_OBJECT_NAME,
-                \rcube::JQ($href)
+                rcmail_output::JS_OBJECT_NAME,
+                rcube::JQ($href)
             ),
         ];
 
-        $i = $this->add(\html::a($attribs, \rcube::Q($href)) . $suffix);
+        $i = $this->add(html::a($attribs, rcube::Q($href)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
     }

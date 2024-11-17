@@ -7,14 +7,14 @@
  * @license GNU GPLv3+
  * @author Thomas Bruederli
  */
-class autologon extends \rcube_plugin
+class autologon extends rcube_plugin
 {
     public $task = 'login';
 
     /**
      * Plugin initialization
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

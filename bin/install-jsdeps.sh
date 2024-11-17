@@ -24,14 +24,14 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 if (!function_exists('exec')) {
-    \rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
+    rcube::raise_error('PHP exec() function is required. Check disable_functions in php.ini.', false, true);
 }
 
 $cfgfile = INSTALL_PATH . 'jsdeps.json';
 $SOURCES = json_decode(file_get_contents($cfgfile), true);
 
 if (empty($SOURCES['dependencies'])) {
-    \rcube::raise_error("Failed to read dependencies list from {$cfgfile}", false, true);
+    rcube::raise_error("Failed to read dependencies list from {$cfgfile}", false, true);
 }
 
 $CURL = trim(shell_exec('which curl'));
@@ -111,7 +111,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
 
     if (!is_readable($cache_file) || !$useCache) {
         if (empty($CURL) && empty($WGET)) {
-            \rcube::raise_error("Required 'wget' or 'curl' program not found.", false, true);
+            rcube::raise_error("Required 'wget' or 'curl' program not found.", false, true);
         }
 
         $url = str_replace('$v', $package['version'], $package['url']);
@@ -129,7 +129,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
             $url = str_replace('$v', $package['version'], $package['api_url']);
             $header = 'Accept:application/vnd.github.v3.raw';
 
-            \rcube::raise_error("Fetching failed. Using Github API on {$url}");
+            rcube::raise_error("Fetching failed. Using Github API on {$url}");
 
             if ($CURL) {
                 exec(sprintf('%s -L -H %s -s %s -o %s', $CURL, escapeshellarg($header), escapeshellarg($url), $cache_file), $out, $retval);
@@ -139,7 +139,7 @@ function fetch_from_source($package, $useCache = true, &$filetype = null)
         }
 
         if ($retval !== 0) {
-            \rcube::raise_error("Failed to download source file from {$url}", false, true);
+            rcube::raise_error("Failed to download source file from {$url}", false, true);
         }
     }
 
@@ -201,7 +201,7 @@ function compose_destfile($package, $srcfile)
     if (file_put_contents(INSTALL_PATH . $package['dest'], $header . file_get_contents($srcfile))) {
         echo 'Wrote file ' . INSTALL_PATH . $package['dest'] . "\n";
     } else {
-        \rcube::raise_error('Failed to write destination file ' . INSTALL_PATH . $package['dest'], false, true);
+        rcube::raise_error('Failed to write destination file ' . INSTALL_PATH . $package['dest'], false, true);
     }
 }
 
@@ -218,7 +218,7 @@ function extract_zipfile($package, $srcfile)
     }
 
     if (!is_writable($destdir)) {
-        \rcube::raise_error("Cannot write to destination directory: {$destdir}", false, true);
+        rcube::raise_error("Cannot write to destination directory: {$destdir}", false, true);
     }
 
     if (!empty($package['map'])) {
@@ -229,7 +229,7 @@ function extract_zipfile($package, $srcfile)
     }
 
     // pick files from the zip archive
-    \rcmail_install::unzip($srcfile, $extract ?? $destdir, $package['pick'] ?? [], !empty($package['flat']));
+    rcmail_install::unzip($srcfile, $extract ?? $destdir, $package['pick'] ?? [], !empty($package['flat']));
 
     // map source to dest files/directories
     if (!empty($package['map'])) {
@@ -258,7 +258,7 @@ function extract_zipfile($package, $srcfile)
 
             exec(sprintf('mv -f %s %s', $src_file, $dest_file), $out, $retval);
             if ($retval !== 0) {
-                \rcube::raise_error("Failed to move {$src} into {$dest_file}; " . implode('; ', $out));
+                rcube::raise_error("Failed to move {$src} into {$dest_file}; " . implode('; ', $out));
             }
             // Remove sourceMappingURL
             elseif (isset($package['sourcemap']) && $package['sourcemap'] === false) {
@@ -311,7 +311,7 @@ function delete_destfile($package)
 
 // ////////////// Execution
 
-$args = \rcube_utils::get_opt([
+$args = rcube_utils::get_opt([
     'f' => 'force:bool',
     'd' => 'delete:bool',
     'g' => 'get:bool',
@@ -351,7 +351,7 @@ foreach ($SOURCES['dependencies'] as $package) {
     }
 
     if (!empty($package['sha1']) && ($sum = sha1_file($srcfile)) !== $package['sha1']) {
-        \rcube::raise_error("Incorrect sha1 sum of {$srcfile}. Expected: {$package['sha1']}, got: {$sum}", false, true);
+        rcube::raise_error("Incorrect sha1 sum of {$srcfile}. Expected: {$package['sha1']}, got: {$sum}", false, true);
     }
 
     if ($args['extract']) {

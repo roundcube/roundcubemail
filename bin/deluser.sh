@@ -41,10 +41,10 @@ function _die($msg, $usage = false)
     exit(1);
 }
 
-$rcmail = \rcube::get_instance();
+$rcmail = rcube::get_instance();
 
 // get arguments
-$args = \rcube_utils::get_opt(['h' => 'host', 'a' => 'age', 'd' => 'dry-run:bool']);
+$args = rcube_utils::get_opt(['h' => 'host', 'a' => 'age', 'd' => 'dry-run:bool']);
 
 if (!empty($args['age']) && ($age = intval($args['age']))) {
     $db = $rcmail->get_dbh();
@@ -66,7 +66,7 @@ if (!empty($args['age']) && ($age = intval($args['age']))) {
     exit(0);
 }
 
-$hostname = \rcmail_utils::get_host($args);
+$hostname = rcmail_utils::get_host($args);
 $username = isset($args[0]) ? trim($args[0]) : null;
 
 if (empty($username)) {
@@ -83,7 +83,7 @@ if (!$db->is_connected() || $db->is_error()) {
 }
 
 // find user in local database
-$user = \rcube_user::query($username, $hostname);
+$user = rcube_user::query($username, $hostname);
 
 if (!$user) {
     exit("User not found.\n");

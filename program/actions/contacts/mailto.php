@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_mailto extends \rcmail_action_contacts_index
+class rcmail_action_contacts_mailto extends rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,10 +27,10 @@ class rcmail_action_contacts_mailto extends \rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $cids = self::get_cids();
         $mailto = [];
         $sources = [];
@@ -46,8 +46,8 @@ class rcmail_action_contacts_mailto extends \rcmail_action_contacts_index
         }
 
         if (!empty($_REQUEST['_gid']) && isset($_REQUEST['_source'])) {
-            $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GP);
-            $group_id = \rcube_utils::get_input_string('_gid', \rcube_utils::INPUT_GP);
+            $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GP);
+            $group_id = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GP);
 
             $contacts = $rcmail->get_address_book($source);
             $group_data = $contacts->get_group($group_id);
@@ -67,7 +67,7 @@ class rcmail_action_contacts_mailto extends \rcmail_action_contacts_index
 
         foreach ($sources as $source) {
             foreach ($source as $rec) {
-                $emails = \rcube_addressbook::get_col_values('email', $rec, true);
+                $emails = rcube_addressbook::get_col_values('email', $rec, true);
 
                 if (!empty($emails)) {
                     $mailto[] = format_email_recipient($emails[0], $rec['name']);

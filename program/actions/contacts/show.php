@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_show extends \rcmail_action_contacts_index
+class rcmail_action_contacts_show extends rcmail_action_contacts_index
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,10 +26,10 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // Get contact ID and source ID from request
         $cids = self::get_cids();
@@ -52,7 +52,7 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
             $rcmail->output->set_env('cid', self::$contact['ID']);
 
             // remember current search request ID (if in search mode)
-            if ($search = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GET)) {
+            if ($search = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GET)) {
                 $rcmail->output->set_env('search_request', $search);
             }
         }
@@ -71,7 +71,7 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
 
     public static function contact_head($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // check if we have a valid result
         if (!self::$contact) {
@@ -105,7 +105,7 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
 
     public static function contact_details($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // check if we have a valid result
         if (!self::$contact) {
@@ -140,7 +140,7 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
             ],
         ];
 
-        if (isset(\rcmail_action_contacts_index::$CONTACT_COLTYPES['notes'])) {
+        if (isset(rcmail_action_contacts_index::$CONTACT_COLTYPES['notes'])) {
             $form['notes'] = [
                 'name' => $rcmail->gettext('notes'),
                 'content' => [
@@ -161,19 +161,19 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
 
     public static function render_email_value($email)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        return \html::a([
+        return html::a([
                 'href' => 'mailto:' . $email,
                 'onclick' => sprintf(
                     "return %s.command('compose','%s',this)",
-                    \rcmail_output::JS_OBJECT_NAME,
-                    \rcube::JQ($email)
+                    rcmail_output::JS_OBJECT_NAME,
+                    rcube::JQ($email)
                 ),
                 'title' => $rcmail->gettext('composeto'),
                 'class' => 'email',
             ],
-            \rcube::Q($email)
+            rcube::Q($email)
         );
     }
 
@@ -184,19 +184,19 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
             'class' => 'phone',
         ];
 
-        return \html::a($attrs, \rcube::Q($phone));
+        return html::a($attrs, rcube::Q($phone));
     }
 
     public static function render_url_value($url)
     {
         $prefix = preg_match('!^(http|ftp)s?://!', $url) ? '' : 'http://';
 
-        return \html::a([
+        return html::a([
                 'href' => $prefix . $url,
                 'target' => '_blank',
                 'class' => 'url',
             ],
-            \rcube::Q($url)
+            rcube::Q($url)
         );
     }
 
@@ -208,19 +208,19 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
             return '';
         }
 
-        $rcmail = \rcmail::get_instance();
-        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $members = self::$CONTACTS->get_record_groups($contact_id);
-        $table = new \html_table(['tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist']);
-        $checkbox = new \html_checkbox(['name' => '_gid[]', 'class' => 'groupmember', 'disabled' => self::$CONTACTS->readonly]);
+        $table = new html_table(['tagname' => 'ul', 'cols' => 1, 'class' => 'proplist simplelist']);
+        $checkbox = new html_checkbox(['name' => '_gid[]', 'class' => 'groupmember', 'disabled' => self::$CONTACTS->readonly]);
 
         foreach ($groups as $group) {
             $gid = $group['ID'];
             $input = $checkbox->show(!empty($members[$gid]) ? $gid : null, ['value' => $gid]);
-            $table->add(null, \html::label(null, $input . \rcube::Q($group['name'])));
+            $table->add(null, html::label(null, $input . rcube::Q($group['name'])));
         }
 
-        $hiddenfields = new \html_hiddenfield(['name' => '_source', 'value' => $source]);
+        $hiddenfields = new html_hiddenfield(['name' => '_source', 'value' => $source]);
         $hiddenfields->add(['name' => '_cid', 'value' => $contact_id]);
 
         $form_attrs = [
@@ -238,6 +238,6 @@ class rcmail_action_contacts_show extends \rcmail_action_contacts_index
         $rcmail->output->add_gui_object('editform', 'form');
         $rcmail->output->add_label('addingmember', 'removingmember');
 
-        return $form_start . \html::tag('fieldset', 'contactfieldgroup contactgroups', $table->show()) . $form_end;
+        return $form_start . html::tag('fieldset', 'contactfieldgroup contactgroups', $table->show()) . $form_end;
     }
 }

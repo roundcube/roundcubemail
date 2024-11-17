@@ -14,7 +14,7 @@
  +-------------------------------------------------------------------------+
 */
 
-class enigma_mime_message extends \Mail_mime
+class enigma_mime_message extends Mail_mime
 {
     public const PGP_SIGNED = 1;
     public const PGP_ENCRYPTED = 2;
@@ -29,8 +29,8 @@ class enigma_mime_message extends \Mail_mime
     /**
      * Object constructor
      *
-     * @param \Mail_mime $message Original message
-     * @param int        $type    Output message type
+     * @param Mail_mime $message Original message
+     * @param int       $type    Output message type
      */
     public function __construct($message, $type)
     {
@@ -56,7 +56,7 @@ class enigma_mime_message extends \Mail_mime
      *
      * @return bool True if it is multipart, otherwise False
      */
-    #[\Override]
+    #[Override]
     public function isMultipart()
     {
         return $this->message instanceof self
@@ -74,7 +74,7 @@ class enigma_mime_message extends \Mail_mime
         $headers = $this->message->headers();
 
         if (isset($headers['From'])) {
-            $from = \rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
+            $from = rcube_mime::decode_address_list($headers['From'], 1, false, null, true);
             $from = $from[1] ?? null;
 
             return $from;
@@ -92,9 +92,9 @@ class enigma_mime_message extends \Mail_mime
     {
         // get sender address
         $headers = $this->message->headers();
-        $to = \rcube_mime::decode_address_list($headers['To'] ?? '', null, false, null, true);
-        $cc = \rcube_mime::decode_address_list($headers['Cc'] ?? '', null, false, null, true);
-        $bcc = \rcube_mime::decode_address_list($headers['Bcc'] ?? '', null, false, null, true);
+        $to = rcube_mime::decode_address_list($headers['To'] ?? '', null, false, null, true);
+        $cc = rcube_mime::decode_address_list($headers['Cc'] ?? '', null, false, null, true);
+        $bcc = rcube_mime::decode_address_list($headers['Bcc'] ?? '', null, false, null, true);
 
         $recipients = array_unique(array_filter(array_merge($to, $cc, $bcc)));
         $recipients = array_diff($recipients, ['undisclosed-recipients:']);
@@ -164,7 +164,7 @@ class enigma_mime_message extends \Mail_mime
      *
      * @return mixed The MIME message content string, null or PEAR error object
      */
-    #[\Override]
+    #[Override]
     public function get($params = null, $filename = null, $skip_head = false)
     {
         if (!empty($params)) {
@@ -186,7 +186,7 @@ class enigma_mime_message extends \Mail_mime
                 $params['content_type'] .= '; micalg=pgp-' . $this->micalg;
             }
 
-            $message = new \Mail_mimePart('', $params);
+            $message = new Mail_mimePart('', $params);
 
             if (!empty($this->body)) {
                 $headers = $this->message->headers();
@@ -199,7 +199,7 @@ class enigma_mime_message extends \Mail_mime
 
                     // For plain text body we have to decode it back, to prevent from
                     // a double encoding issue (#8413)
-                    $this->body = \rcube_mime::decode($this->body, $this->build_params['text_encoding']);
+                    $this->body = rcube_mime::decode($this->body, $this->build_params['text_encoding']);
                 }
 
                 $message->addSubpart($this->body, $params);
@@ -220,7 +220,7 @@ class enigma_mime_message extends \Mail_mime
                 'eol' => $this->build_params['eol'],
             ];
 
-            $message = new \Mail_mimePart('', $params);
+            $message = new Mail_mimePart('', $params);
 
             $message->addSubpart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
@@ -234,7 +234,7 @@ class enigma_mime_message extends \Mail_mime
                 'filename' => 'encrypted.asc',
             ]);
         } else {
-            throw new \Exception('Unexpected message type');
+            throw new Exception('Unexpected message type');
         }
 
         // Use saved boundary
@@ -279,7 +279,7 @@ class enigma_mime_message extends \Mail_mime
      *
      * @return array Headers array
      */
-    #[\Override]
+    #[Override]
     protected function contentHeaders()
     {
         $this->checkParams();
@@ -313,7 +313,7 @@ class enigma_mime_message extends \Mail_mime
                 . " protocol=\"application/pgp-encrypted\";{$eol}"
                 . " boundary=\"{$boundary}\"";
         } else {
-            throw new \Exception('Unexpected message type');
+            throw new Exception('Unexpected message type');
         }
 
         return $headers;

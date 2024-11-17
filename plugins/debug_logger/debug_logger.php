@@ -59,31 +59,31 @@
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  *   [17-Feb-2009 16:51:37 -0500]       sql: select * from example
  */
-class debug_logger extends \rcube_plugin
+class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    #[\Override]
+    #[Override]
     public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';
 
-        $this->runlog = new \runlog();
+        $this->runlog = new runlog();
 
-        if (!\rcmail::get_instance()->config->get('log_dir')) {
-            \rcmail::get_instance()->config->set('log_dir', INSTALL_PATH . 'logs');
+        if (!rcmail::get_instance()->config->get('log_dir')) {
+            rcmail::get_instance()->config->set('log_dir', INSTALL_PATH . 'logs');
         }
 
-        $log_config = \rcmail::get_instance()->config->get('debug_logger', []);
-        $log_dir = \rcmail::get_instance()->config->get('log_dir');
+        $log_config = rcmail::get_instance()->config->get('debug_logger', []);
+        $log_dir = rcmail::get_instance()->config->get('log_dir');
 
         foreach ($log_config as $type => $file) {
             $this->runlog->set_file($log_dir . '/' . $file, $type);
         }
 
         $start_string = '';
-        $action = \rcmail::get_instance()->action;
-        $task = \rcmail::get_instance()->task;
+        $action = rcmail::get_instance()->action;
+        $task = rcmail::get_instance()->task;
 
         if ($action) {
             $start_string .= "Action: {$action}. ";

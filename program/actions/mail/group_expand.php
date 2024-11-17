@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_group_expand extends \rcmail_action
+class rcmail_action_mail_group_expand extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,12 +27,12 @@ class rcmail_action_mail_group_expand extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
-        $gid = \rcube_utils::get_input_string('_gid', \rcube_utils::INPUT_GET);
-        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $gid = rcube_utils::get_input_string('_gid', rcube_utils::INPUT_GET);
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $abook = $rcmail->get_address_book($source);
 
         if ($gid && $abook) {
@@ -45,7 +45,7 @@ class rcmail_action_mail_group_expand extends \rcmail_action
             foreach ($result as $record) {
                 $email = array_first((array) $abook->get_col_values('email', $record, true));
                 if (!empty($email)) {
-                    $members[] = format_email_recipient($email, \rcube_addressbook::compose_list_name($record));
+                    $members[] = format_email_recipient($email, rcube_addressbook::compose_list_name($record));
                 }
             }
 

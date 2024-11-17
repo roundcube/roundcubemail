@@ -28,13 +28,13 @@ class rcmail_utils
     /**
      * Initialize database object and connect
      *
-     * @return \rcube_db Database instance
+     * @return rcube_db Database instance
      */
     public static function db()
     {
         if (self::$db === null) {
-            $rc = \rcube::get_instance();
-            $db = \rcube_db::factory($rc->config->get('db_dsnw'));
+            $rc = rcube::get_instance();
+            $db = rcube_db::factory($rc->config->get('db_dsnw'));
 
             $db->set_debug((bool) $rc->config->get('sql_debug'));
 
@@ -42,7 +42,7 @@ class rcmail_utils
             $db->db_connect('w');
 
             if (!$db->is_connected()) {
-                \rcube::raise_error('Failed to connect to database', false, true);
+                rcube::raise_error('Failed to connect to database', false, true);
             }
 
             self::$db = $db;
@@ -63,7 +63,7 @@ class rcmail_utils
         $file = $dir . '/' . $db->db_provider . '.initial.sql';
 
         if (!file_exists($file)) {
-            \rcube::raise_error("DDL file {$file} not found", false, true);
+            rcube::raise_error("DDL file {$file} not found", false, true);
         }
 
         echo 'Creating database schema... ';
@@ -78,7 +78,7 @@ class rcmail_utils
 
         if ($error) {
             echo "[FAILED]\n";
-            \rcube::raise_error($error, false, true);
+            rcube::raise_error($error, false, true);
         } else {
             echo "[OK]\n";
         }
@@ -99,7 +99,7 @@ class rcmail_utils
         // Check if directory exists
         if (!file_exists($dir)) {
             if (!empty($opts['errors'])) {
-                \rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
+                rcube::raise_error("Specified database schema directory doesn't exist.", false, true);
             }
 
             return false;
@@ -167,7 +167,7 @@ class rcmail_utils
         $dir .= '/' . $db->db_provider;
         if (!file_exists($dir)) {
             if (!empty($opts['errors'])) {
-                \rcube::raise_error('DDL Upgrade files for ' . $db->db_provider . ' driver not found.', false, true);
+                rcube::raise_error('DDL Upgrade files for ' . $db->db_provider . ' driver not found.', false, true);
             }
 
             return false;
@@ -198,7 +198,7 @@ class rcmail_utils
                     echo "[FAILED]\n";
                 }
                 if (!empty($opts['errors'])) {
-                    \rcube::raise_error("Error in DDL upgrade {$v}: {$error}", false, true);
+                    rcube::raise_error("Error in DDL upgrade {$v}: {$error}", false, true);
                 }
 
                 return false;
@@ -301,7 +301,7 @@ class rcmail_utils
      */
     public static function get_host($args)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if (empty($args['host'])) {
             $hosts = $rcmail->config->get('imap_host');
@@ -310,7 +310,7 @@ class rcmail_utils
             } elseif (is_array($hosts) && count($hosts) == 1) {
                 $args['host'] = reset($hosts);
             } else {
-                \rcube::raise_error('Specify a host name', false, true);
+                rcube::raise_error('Specify a host name', false, true);
             }
         }
 
@@ -335,7 +335,7 @@ class rcmail_utils
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
             echo 'Indexing contacts for user ' . $sql_arr['user_id'] . "...\n";
 
-            $contacts = new \rcube_contacts($db, $sql_arr['user_id']);
+            $contacts = new rcube_contacts($db, $sql_arr['user_id']);
             $contacts->set_pagesize(9999);
 
             foreach ($contacts->list_records() as $row) {
@@ -368,7 +368,7 @@ class rcmail_utils
         $type = strtolower($type);
 
         if ($type == 'bool' || $type == 'boolean') {
-            $value = \rcube_utils::get_boolean($value);
+            $value = rcube_utils::get_boolean($value);
         } elseif ($type == 'int' || $type == 'integer') {
             $value = (int) $value;
         }
@@ -379,7 +379,7 @@ class rcmail_utils
         while ($sql_result && ($sql_arr = $db->fetch_assoc($sql_result))) {
             echo 'Updating prefs for user ' . $sql_arr['user_id'] . '...';
 
-            $user = new \rcube_user($sql_arr['user_id'], $sql_arr);
+            $user = new rcube_user($sql_arr['user_id'], $sql_arr);
             $prefs = $old_prefs = $user->get_prefs();
 
             $prefs[$name] = $value;

@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_get extends \rcmail_action_mail_index
+class rcmail_action_mail_get extends rcmail_action_mail_index
 {
     protected static $attachment;
 
@@ -27,10 +27,10 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // This resets X-Frame-Options for framed output (#6688)
         $rcmail->output->page_headers();
@@ -45,13 +45,13 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
 
             header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
             echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url=' . \rcube::Q($url) . '">' . "\n"
+                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
                 . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
                 . "</head>\n<body>\n{$message}\n</body>\n</html>";
             exit;
         }
 
-        $attachment = new \rcmail_attachment_handler();
+        $attachment = new rcmail_attachment_handler();
         $mimetype = $attachment->mimetype;
         $filename = $attachment->filename;
 
@@ -67,8 +67,8 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                 'messagepartcontrols' => [$this, 'message_part_controls'],
             ]);
 
-            $part_id = \rcube_utils::get_input_string('_part', \rcube_utils::INPUT_GET);
-            $uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_GET);
+            $part_id = rcube_utils::get_input_string('_part', rcube_utils::INPUT_GET);
+            $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET);
 
             // message/rfc822 preview (Note: handle also multipart/ parts, they can
             // come from Enigma, which replaces message/rfc822 with real mimetype)
@@ -93,11 +93,11 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
             $thumbnail_size = $rcmail->config->get('image_thumbnail_size', 240);
             $file_ident = $attachment->ident;
             $thumb_name = 'thumb' . md5($file_ident . ':' . $rcmail->user->ID . ':' . $thumbnail_size);
-            $cache_file = \rcube_utils::temp_filename($thumb_name, false, false);
+            $cache_file = rcube_utils::temp_filename($thumb_name, false, false);
 
             // render thumbnail image if not done yet
-            if (!is_file($cache_file) && $attachment->body_to_file($orig_name = \rcube_utils::temp_filename('attmnt'))) {
-                $image = new \rcube_image($orig_name);
+            if (!is_file($cache_file) && $attachment->body_to_file($orig_name = rcube_utils::temp_filename('attmnt'))) {
+                $image = new rcube_image($orig_name);
 
                 if ($imgtype = $image->resize($thumbnail_size, $cache_file, true)) {
                     $mimetype = 'image/' . $imgtype;
@@ -125,10 +125,10 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
         if (empty($_GET['_thumb']) && $attachment->is_valid()) {
             // require CSRF protected url for downloads
             if (!empty($_GET['_download'])) {
-                $rcmail->request_security_check(\rcube_utils::INPUT_GET);
+                $rcmail->request_security_check(rcube_utils::INPUT_GET);
             }
 
-            $extensions = \rcube_mime::get_mime_extensions($mimetype);
+            $extensions = rcube_mime::get_mime_extensions($mimetype);
 
             // compare file mimetype with the stated content-type headers and file extension to avoid malicious operations
             if (!empty($_REQUEST['_embed']) && empty($_REQUEST['_nocheck'])) {
@@ -144,7 +144,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                     $tmp_body = $attachment->body(2048);
 
                     // detect message part mimetype
-                    $real_mimetype = \rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
+                    $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
                     [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
 
                     // accept text/plain with any extension
@@ -161,7 +161,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                         $valid_extension = true;
                     } else {
                         // get valid file extensions
-                        $extensions = \rcube_mime::get_mime_extensions($real_mimetype);
+                        $extensions = rcube_mime::get_mime_extensions($real_mimetype);
                         $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
                     }
 
@@ -175,7 +175,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                     }
 
                     // "fix" real mimetype the same way the original is before comparison
-                    $real_mimetype = \rcube_mime::fix_mimetype($real_mimetype);
+                    $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
 
                     $valid = $valid_extension && self::mimetype_compare($real_mimetype, $mimetype);
                 } else {
@@ -197,12 +197,12 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                     }
                     // html warning with a button to load the file anyway
                     else {
-                        $rcmail->output = new \rcmail_html_page();
+                        $rcmail->output = new rcmail_html_page();
                         $rcmail->output->register_inline_warning(
                             $rcmail->gettext([
                                 'name' => 'attachmentvalidationerror',
                                 'vars' => [
-                                    'expected' => $mimetype . (!empty($file_extension) ? \rcube::Q(" (.{$file_extension})") : ''),
+                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
                                     'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
                                 ],
                             ]),
@@ -224,7 +224,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
                     !empty($_REQUEST['_embed'])
                     && !$img_support
                     && $attachment->image_type() == 'image/' . $type
-                    && \rcube_image::is_convertable('image/' . $type)
+                    && rcube_image::is_convertable('image/' . $type)
                 ) {
                     $convert2jpeg = true;
                     $mimetype = 'image/jpeg';
@@ -234,12 +234,12 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
 
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
-                $rcmail->output = new \rcmail_html_page();
+                $rcmail->output = new rcmail_html_page();
                 $out = '';
 
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
-                if (!\rcube_utils::mem_check($attachment->size * 10)) {
+                if (!rcube_utils::mem_check($attachment->size * 10)) {
                     $rcmail->output->register_inline_warning(
                         $rcmail->gettext('messagetoobig'),
                         $rcmail->gettext('download'),
@@ -269,7 +269,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
             }
 
             // add filename extension if missing
-            if (!pathinfo($filename, \PATHINFO_EXTENSION) && ($extensions = \rcube_mime::get_mime_extensions($mimetype))) {
+            if (!pathinfo($filename, \PATHINFO_EXTENSION) && ($extensions = rcube_mime::get_mime_extensions($mimetype))) {
                 $filename .= '.' . $extensions[0];
             }
 
@@ -281,12 +281,12 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
 
             // handle tiff to jpeg conversion
             if (!empty($convert2jpeg)) {
-                $file_path = \rcube_utils::temp_filename('attmnt');
+                $file_path = rcube_utils::temp_filename('attmnt');
 
                 // convert image to jpeg and send it to the browser
                 if ($attachment->body_to_file($file_path)) {
-                    $image = new \rcube_image($file_path);
-                    if ($image->convert(\rcube_image::TYPE_JPG, $file_path)) {
+                    $image = new rcube_image($file_path);
+                    if ($image->convert(rcube_image::TYPE_JPG, $file_path)) {
                         header('Content-Length: ' . filesize($file_path));
                         readfile($file_path);
                     }
@@ -325,17 +325,17 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
             return '';
         }
 
-        $rcmail = \rcmail::get_instance();
-        $table = new \html_table(['cols' => 2]);
+        $rcmail = rcmail::get_instance();
+        $table = new html_table(['cols' => 2]);
 
-        $table->add('title', \rcube::Q($rcmail->gettext('namex')) . ':');
-        $table->add('header', \rcube::Q(self::$attachment->filename));
+        $table->add('title', rcube::Q($rcmail->gettext('namex')) . ':');
+        $table->add('header', rcube::Q(self::$attachment->filename));
 
-        $table->add('title', \rcube::Q($rcmail->gettext('type')) . ':');
-        $table->add('header', \rcube::Q(self::$attachment->mimetype));
+        $table->add('title', rcube::Q($rcmail->gettext('type')) . ':');
+        $table->add('header', rcube::Q(self::$attachment->mimetype));
 
-        $table->add('title', \rcube::Q($rcmail->gettext('size')) . ':');
-        $table->add('header', \rcube::Q(self::$attachment->size()));
+        $table->add('title', rcube::Q($rcmail->gettext('size')) . ':');
+        $table->add('header', rcube::Q(self::$attachment->size()));
 
         return $table->show($attrib);
     }
@@ -345,7 +345,7 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
      */
     public static function message_part_frame($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if ($rcmail->output->get_env('is_message')) {
             $url = [
@@ -367,6 +367,6 @@ class rcmail_action_mail_get extends \rcmail_action_mail_index
 
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
 
-        return \html::iframe($attrib);
+        return html::iframe($attrib);
     }
 }

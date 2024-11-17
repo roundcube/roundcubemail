@@ -144,7 +144,7 @@ class rcube_text2html
 
         if ($this->config['flowed']) {
             $delsp = $this->config['delsp'];
-            $text = \rcube_mime::unfold_flowed($text, null, $delsp);
+            $text = rcube_mime::unfold_flowed($text, null, $delsp);
         }
 
         // search for patterns like links and e-mail addresses and replace with tokens
@@ -223,7 +223,7 @@ class rcube_text2html
         // colorize signature (up to <sig_max_lines> lines)
         $len = strlen($text);
         $sig_sep = '--' . $this->config['space'] . "\n";
-        $sig_max_lines = \rcube::get_instance()->config->get('sig_max_lines', 15);
+        $sig_max_lines = rcube::get_instance()->config->get('sig_max_lines', 15);
 
         while (($sp = strrpos($text, $sig_sep, !empty($sp) ? -$len + $sp - 1 : 0)) !== false) {
             if ($sp == 0 || $text[$sp - 1] == "\n") {

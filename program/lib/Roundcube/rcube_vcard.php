@@ -397,7 +397,7 @@ class rcube_vcard
                 break;
             case 'birthday':
             case 'anniversary':
-                if (($val = \rcube_utils::anytodatetime($value)) && !empty(self::$fieldmap[$field])) {
+                if (($val = rcube_utils::anytodatetime($value)) && !empty(self::$fieldmap[$field])) {
                     $fn = self::$fieldmap[$field];
                     $this->raw[$fn][] = [0 => $val->format('Y-m-d'), 'value' => ['date']];
                 }
@@ -505,7 +505,7 @@ class rcube_vcard
                 if ($charset) {
                     foreach ($subnode as $j => $value) {
                         if (is_numeric($j) && is_string($value)) {
-                            $card[$key][$i][$j] = \rcube_charset::convert($value, $charset);
+                            $card[$key][$i][$j] = rcube_charset::convert($value, $charset);
                         }
                     }
                     unset($card[$key][$i]['charset']);
@@ -541,7 +541,7 @@ class rcube_vcard
         $out = [];
 
         if (($charset = self::detect_encoding($data)) && $charset != RCUBE_CHARSET) {
-            $data = \rcube_charset::convert($data, $charset);
+            $data = rcube_charset::convert($data, $charset);
             $data = preg_replace(['/^[\xFE\xFF]{2}/', '/^\xEF\xBB\xBF/', '/^\x00+/'], '', $data); // also remove BOM
             $charset = RCUBE_CHARSET;
         }
@@ -717,7 +717,7 @@ class rcube_vcard
 
                 foreach ($regs2[1] as $attrid => $attr) {
                     $attr = preg_replace('/[\s\t\n\r\0\x0B]/', '', $attr);
-                    [$key, $value] = \rcube_utils::explode('=', $attr);
+                    [$key, $value] = rcube_utils::explode('=', $attr);
 
                     if ($value) {
                         if ($key == 'ENCODING') {
@@ -1042,6 +1042,6 @@ class rcube_vcard
             }
         }
 
-        return \rcube_charset::check($string) ?: RCUBE_CHARSET;
+        return rcube_charset::check($string) ?: RCUBE_CHARSET;
     }
 }

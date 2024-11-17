@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identities extends \rcmail_action
+class rcmail_action_settings_identities extends rcmail_action
 {
     protected static $mode = self::MODE_HTTP;
 
@@ -26,10 +26,10 @@ class rcmail_action_settings_identities extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         $rcmail->output->set_pagetitle($rcmail->gettext('identities'));
         $rcmail->output->include_script('list.js');
@@ -44,7 +44,7 @@ class rcmail_action_settings_identities extends \rcmail_action
 
     public static function identities_list($attrib)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // add id to message list table if not specified
         if (empty($attrib['id'])) {
@@ -54,7 +54,7 @@ class rcmail_action_settings_identities extends \rcmail_action
         // get identities list and define 'mail' column
         $list = $rcmail->user->list_emails();
         foreach ($list as $idx => $row) {
-            $list[$idx]['mail'] = trim($row['name'] . ' <' . \rcube_utils::idn_to_utf8($row['email']) . '>');
+            $list[$idx]['mail'] = trim($row['name'] . ' <' . rcube_utils::idn_to_utf8($row['email']) . '>');
         }
 
         // get all identities from DB and define list of cols to be displayed

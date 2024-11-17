@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_contacts_group_create extends \rcmail_action_contacts_index
+class rcmail_action_contacts_group_create extends rcmail_action_contacts_index
 {
     // only process ajax requests
     protected static $mode = self::MODE_AJAX;
@@ -27,11 +27,11 @@ class rcmail_action_contacts_group_create extends \rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
-        $source = \rcube_utils::get_input_string('_source', \rcube_utils::INPUT_GPC);
+        $rcmail = rcmail::get_instance();
+        $source = rcube_utils::get_input_string('_source', rcube_utils::INPUT_GPC);
         $contacts = self::contact_source($source);
 
         if ($contacts->readonly || !$contacts->groups) {
@@ -39,7 +39,7 @@ class rcmail_action_contacts_group_create extends \rcmail_action_contacts_index
             $rcmail->output->send();
         }
 
-        if ($name = trim(\rcube_utils::get_input_string('_name', \rcube_utils::INPUT_POST, true))) {
+        if ($name = trim(rcube_utils::get_input_string('_name', rcube_utils::INPUT_POST, true))) {
             $plugin = $rcmail->plugins->exec_hook('group_create', [
                 'name' => $name,
                 'source' => $source,

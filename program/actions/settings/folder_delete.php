@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_delete extends \rcmail_action
+class rcmail_action_settings_folder_delete extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,12 +27,12 @@ class rcmail_action_settings_folder_delete extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $mbox = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST, true);
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         if (strlen($mbox)) {
             $plugin = $rcmail->plugins->exec_hook('folder_delete', ['name' => $mbox]);

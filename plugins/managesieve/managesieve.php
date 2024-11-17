@@ -28,7 +28,7 @@
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-class managesieve extends \rcube_plugin
+class managesieve extends rcube_plugin
 {
     public $task = 'mail|settings';
 
@@ -40,10 +40,10 @@ class managesieve extends \rcube_plugin
     /**
      * Plugin initialization
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
-        $this->rc = \rcube::get_instance();
+        $this->rc = rcube::get_instance();
 
         $this->load_config();
 
@@ -219,12 +219,12 @@ class managesieve extends \rcube_plugin
      */
     public function managesieve_actions()
     {
-        $uids = \rcmail_action::get_uids(null, null, $multifolder, \rcube_utils::INPUT_POST);
+        $uids = rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST);
 
         // handle fetching email headers for the new filter form
         if (!empty($uids)) {
             $mailbox = key($uids);
-            $message = new \rcube_message($uids[$mailbox][0], $mailbox);
+            $message = new rcube_message($uids[$mailbox][0], $mailbox);
             $headers = $this->parse_headers($message->headers);
 
             $this->rc->output->set_env('sieve_headers', $headers);
@@ -310,13 +310,13 @@ class managesieve extends \rcube_plugin
         }
 
         if ($headers->subject) {
-            $result[] = ['Subject', \rcube_mime::decode_header($headers->subject), !$got_list];
+            $result[] = ['Subject', rcube_mime::decode_header($headers->subject), !$got_list];
         }
 
         foreach (['From', 'To'] as $h) {
             $hl = strtolower($h);
             if (!empty($headers->{$hl})) {
-                $list = \rcube_mime::decode_address_list($headers->{$hl});
+                $list = rcube_mime::decode_address_list($headers->{$hl});
                 foreach ($list as $item) {
                     if (!empty($item['mailto'])) {
                         $result[] = [$h, $item['mailto'], !$got_list];

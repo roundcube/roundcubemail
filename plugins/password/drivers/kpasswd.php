@@ -20,7 +20,7 @@ class rcube_kpasswd_password
 {
     public function save($currpass, $newpass, $username)
     {
-        $bin = \rcmail::get_instance()->config->get('password_kpasswd_cmd', '/usr/bin/kpasswd');
+        $bin = rcmail::get_instance()->config->get('password_kpasswd_cmd', '/usr/bin/kpasswd');
         $cmd = $bin . ' ' . escapeshellarg($username) . ' 2>&1';
 
         $handle = popen($cmd, 'w');
@@ -32,7 +32,7 @@ class rcube_kpasswd_password
             return PASSWORD_SUCCESS;
         }
 
-        \rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
+        rcube::raise_error("Password plugin: Unable to execute {$cmd}", true);
 
         return PASSWORD_ERROR;
     }

@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_identity_delete extends \rcmail_action
+class rcmail_action_settings_identity_delete extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,11 +26,11 @@ class rcmail_action_settings_identity_delete extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
-        $iid = \rcube_utils::get_input_string('_iid', \rcube_utils::INPUT_POST);
+        $rcmail = rcmail::get_instance();
+        $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
         $deleted = false;
 
         if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid)) {

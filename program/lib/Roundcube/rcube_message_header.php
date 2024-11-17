@@ -325,12 +325,12 @@ class rcube_message_header
         if ($decode && $value !== null) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    $val = \rcube_mime::decode_header($val, $this->charset);
-                    $value[$key] = \rcube_charset::clean($val);
+                    $val = rcube_mime::decode_header($val, $this->charset);
+                    $value[$key] = rcube_charset::clean($val);
                 }
             } else {
-                $value = \rcube_mime::decode_header($value, $this->charset);
-                $value = \rcube_charset::clean($value);
+                $value = rcube_mime::decode_header($value, $this->charset);
+                $value = rcube_charset::clean($value);
             }
         }
 
@@ -359,7 +359,7 @@ class rcube_message_header
      *
      * @param array $arr Hash array with header values
      *
-     * @return \rcube_message_header instance filled with headers values
+     * @return rcube_message_header instance filled with headers values
      */
     public static function from_array($arr)
     {

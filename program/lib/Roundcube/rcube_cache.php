@@ -58,7 +58,7 @@ class rcube_cache
      *                            Non-indexed cache does not remove data, but flags it for expiration,
      *                            also stores it in memory until close() method is called.
      *
-     * @return \rcube_cache Cache object
+     * @return rcube_cache Cache object
      */
     public static function factory($type, $userid, $prefix = '', $ttl = 0, $packed = true, $indexed = false)
     {
@@ -66,7 +66,7 @@ class rcube_cache
         $class = "rcube_cache_{$driver}";
 
         if (!class_exists($class)) {
-            \rcube::raise_error([
+            rcube::raise_error([
                 'code' => 600,
                 'type' => 'db',
                 'message' => "Configuration error. Unsupported cache driver: {$driver}",
@@ -171,7 +171,7 @@ class rcube_cache
     public static function gc()
     {
         // Only DB cache requires an action to remove expired entries
-        \rcube_cache_db::gc();
+        rcube_cache_db::gc();
     }
 
     /**
@@ -241,14 +241,14 @@ class rcube_cache
 
         if ($data !== false) {
             $timestamp = 0;
-            $utc = new \DateTimeZone('UTC');
+            $utc = new DateTimeZone('UTC');
 
             // Extract timestamp from the data entry
             if (preg_match('/^(' . self::DATE_FORMAT_REGEX . '):/', $data, $matches)) {
                 try {
-                    $timestamp = new \DateTime($matches[1], $utc);
+                    $timestamp = new DateTime($matches[1], $utc);
                     $data = substr($data, strlen($matches[1]) + 1);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // invalid date = no timestamp
                 }
             }
@@ -306,7 +306,7 @@ class rcube_cache
             // In this mode we do not save the entry to the database immediately
             // It's because we have cases where the same entry is updated
             // multiple times in one request (e.g. 'messagecount' entry rcube_imap).
-            $this->updates[$key] = new \DateTime('now', new \DateTimeZone('UTC'));
+            $this->updates[$key] = new DateTime('now', new DateTimeZone('UTC'));
             $this->cache[$key] = $data;
             $result = true;
         }
@@ -331,13 +331,13 @@ class rcube_cache
 
         // "Remove" all keys
         if ($key === null) {
-            $ts = new \DateTime('now', new \DateTimeZone('UTC'));
+            $ts = new DateTime('now', new DateTimeZone('UTC'));
             $this->add_item($this->ekey('*'), $ts->format(self::DATE_FORMAT));
             $this->cache = [];
         }
         // "Remove" keys by name prefix
         elseif ($prefix_mode) {
-            $ts = new \DateTime('now', new \DateTimeZone('UTC'));
+            $ts = new DateTime('now', new DateTimeZone('UTC'));
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
             $this->add_item($this->ekey($prefix), $ts->format(self::DATE_FORMAT));
@@ -409,7 +409,7 @@ class rcube_cache
             $need_update = $force === true;
 
             if (!$need_update && !empty($this->updates)) {
-                $now = new \DateTime('now', new \DateTimeZone('UTC'));
+                $now = new DateTime('now', new DateTimeZone('UTC'));
                 $need_update = floatval(min($this->updates)->format('U.u')) < floatval($now->format('U.u')) - $this->refresh_time;
             }
 
@@ -470,7 +470,7 @@ class rcube_cache
 
         if (!$this->indexed) {
             if (!$ts) {
-                $ts = new \DateTime('now', new \DateTimeZone('UTC'));
+                $ts = new DateTime('now', new DateTimeZone('UTC'));
             }
 
             $value = $ts->format(self::DATE_FORMAT) . ':' . $value;
@@ -535,7 +535,7 @@ class rcube_cache
         if (!array_key_exists($key, $this->exp_records)) {
             $data = $this->get_item($this->ekey($key));
 
-            $this->exp_records[$key] = $data ? new \DateTime($data, new \DateTimeZone('UTC')) : null;
+            $this->exp_records[$key] = $data ? new DateTime($data, new DateTimeZone('UTC')) : null;
         }
 
         return $this->exp_records[$key];
@@ -615,7 +615,7 @@ class rcube_cache
     protected function max_packet_size()
     {
         if ($this->max_packet < 0) {
-            $config = \rcube::get_instance()->config;
+            $config = rcube::get_instance()->config;
             $max_packet = $config->get($this->type . '_max_allowed_packet');
             $this->max_packet = parse_bytes($max_packet) ?: 2097152; // default/max is 2 MB
         }
@@ -634,6 +634,6 @@ class rcube_cache
             $line .= ' ' . ($this->packed ? $data : serialize($data));
         }
 
-        \rcube::debug($this->type, $line, $result);
+        rcube::debug($this->type, $line, $result);
     }
 }

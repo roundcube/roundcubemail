@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_sendmdn extends \rcmail_action
+class rcmail_action_mail_sendmdn extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,12 +26,12 @@ class rcmail_action_mail_sendmdn extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
-        if ($uid = \rcube_utils::get_input_string('_uid', \rcube_utils::INPUT_POST)) {
+        if ($uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_POST)) {
             $sent = self::send_mdn($uid, $smtp_error);
         }
 
@@ -50,7 +50,7 @@ class rcmail_action_mail_sendmdn extends \rcmail_action
         // Redirect to 'addcontact' action to save the sender address
         if (!empty($_POST['_save'])) {
             if ($_POST['_save'] == 5) {
-                $_POST['_source'] = \rcube_addressbook::TYPE_TRUSTED_SENDER;
+                $_POST['_source'] = rcube_addressbook::TYPE_TRUSTED_SENDER;
             }
 
             $rcmail->action = 'addcontact';
@@ -70,22 +70,22 @@ class rcmail_action_mail_sendmdn extends \rcmail_action
      */
     public static function send_mdn($message, &$smtp_error)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         if (!is_object($message) || !is_a($message, 'rcube_message')) {
-            $message = new \rcube_message($message);
+            $message = new rcube_message($message);
         }
 
         if ($message->headers->mdn_to && empty($message->headers->flags['MDNSENT'])
             && ($rcmail->storage->check_permflag('MDNSENT') || $rcmail->storage->check_permflag('*'))
         ) {
             $charset = $message->headers->charset;
-            $identity = \rcmail_sendmail::identity_select($message);
+            $identity = rcmail_sendmail::identity_select($message);
             $sender = format_email_recipient($identity['email'], $identity['name']);
-            $recipient = array_first(\rcube_mime::decode_address_list($message->headers->mdn_to, 1, true, $charset));
+            $recipient = array_first(rcube_mime::decode_address_list($message->headers->mdn_to, 1, true, $charset));
             $mailto = $recipient['mailto'];
 
-            $compose = new \Mail_mime("\r\n");
+            $compose = new Mail_mime("\r\n");
 
             $compose->setParam('text_encoding', 'quoted-printable');
             $compose->setParam('html_encoding', 'quoted-printable');
@@ -119,7 +119,7 @@ class rcmail_action_mail_sendmdn extends \rcmail_action
                 $report .= "Reporting-UA: {$agent}\r\n";
             }
 
-            $to = \rcube_mime::decode_mime_string($message->headers->to, $charset);
+            $to = rcube_mime::decode_mime_string($message->headers->to, $charset);
             $date = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
             $body = $rcmail->gettext('yourmessage') . "\r\n\r\n" .
                 "\t" . $rcmail->gettext('to') . ": {$to}\r\n" .
@@ -129,7 +129,7 @@ class rcmail_action_mail_sendmdn extends \rcmail_action
 
             $compose->headers(array_filter($headers));
             $compose->setContentType('multipart/report', ['report-type' => 'disposition-notification']);
-            $compose->setTXTBody(\rcube_mime::wordwrap($body, 75, "\r\n"));
+            $compose->setTXTBody(rcube_mime::wordwrap($body, 75, "\r\n"));
             $compose->addAttachment($report, 'message/disposition-notification', 'MDNPart2.txt', false, '7bit', 'inline');
 
             // SMTP options

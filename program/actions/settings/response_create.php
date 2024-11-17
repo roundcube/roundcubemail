@@ -17,4 +17,4 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_response_create extends \rcmail_action_settings_response_edit {}
+class rcmail_action_settings_response_create extends rcmail_action_settings_response_edit {}

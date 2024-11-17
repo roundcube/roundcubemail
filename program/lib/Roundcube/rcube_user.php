@@ -36,10 +36,10 @@ class rcube_user
     /** @var ?array User preferences */
     public $prefs;
 
-    /** @var \rcube_db Holds database connection */
+    /** @var rcube_db Holds database connection */
     private $db;
 
-    /** @var \rcube Framework object */
+    /** @var rcube Framework object */
     private $rc;
 
     /** @var array Internal identities cache */
@@ -59,7 +59,7 @@ class rcube_user
      */
     public function __construct($id = null, $sql_arr = null)
     {
-        $this->rc = \rcube::get_instance();
+        $this->rc = rcube::get_instance();
         $this->db = $this->rc->get_dbh();
 
         if ($id && !$sql_arr) {
@@ -93,7 +93,7 @@ class rcube_user
                 return $this->data['username'];
             }
 
-            [$local, $domain] = \rcube_utils::explode('@', $this->data['username']);
+            [$local, $domain] = rcube_utils::explode('@', $this->data['username']);
 
             // at least we should always have the local part
             if ($part == 'local') {
@@ -259,7 +259,7 @@ class rcube_user
 
         // generate a random hash and store it in user prefs
         if (empty($prefs['client_hash'])) {
-            $prefs['client_hash'] = \rcube_utils::random_bytes(16);
+            $prefs['client_hash'] = rcube_utils::random_bytes(16);
             $this->save_prefs(['client_hash' => $prefs['client_hash']]);
         }
 
@@ -338,7 +338,7 @@ class rcube_user
         while ($sql_arr = $this->db->fetch_assoc($sql_result)) {
             if ($formatted) {
                 $ascii_email = format_email($sql_arr['email']);
-                $utf8_email = format_email(\rcube_utils::idn_to_utf8($ascii_email));
+                $utf8_email = format_email(rcube_utils::idn_to_utf8($ascii_email));
 
                 $sql_arr['email_ascii'] = $ascii_email;
                 $sql_arr['email'] = $utf8_email;
@@ -522,14 +522,14 @@ class rcube_user
             $counter = 0;
 
             if (empty($this->data['failed_login'])) {
-                $failed_login = new \DateTime('now');
+                $failed_login = new DateTime('now');
                 $counter = 1;
             } else {
-                $failed_login = new \DateTime($this->data['failed_login']);
-                $threshold = new \DateTime('- 60 seconds');
+                $failed_login = new DateTime($this->data['failed_login']);
+                $threshold = new DateTime('- 60 seconds');
 
                 if ($failed_login < $threshold) {
-                    $failed_login = new \DateTime('now');
+                    $failed_login = new DateTime('now');
                     $counter = 1;
                 }
             }
@@ -554,8 +554,8 @@ class rcube_user
         }
 
         if ($rate = (int) $this->rc->config->get('login_rate_limit', 3)) {
-            $last_failed = new \DateTime($this->data['failed_login']);
-            $threshold = new \DateTime('- 60 seconds');
+            $last_failed = new DateTime($this->data['failed_login']);
+            $threshold = new DateTime('- 60 seconds');
 
             if ($last_failed > $threshold && $this->data['failed_login_counter'] >= $rate) {
                 return true;
@@ -584,8 +584,8 @@ class rcube_user
      */
     public static function query($user, $host)
     {
-        $dbh = \rcube::get_instance()->get_dbh();
-        $config = \rcube::get_instance()->config;
+        $dbh = rcube::get_instance()->get_dbh();
+        $config = rcube::get_instance()->config;
 
         // query for matching user name
         $sql_result = $dbh->query('SELECT * FROM ' . $dbh->table_name('users', true)
@@ -619,13 +619,13 @@ class rcube_user
      * @param string $user IMAP user name
      * @param string $host IMAP host
      *
-     * @return \rcube_user|null New user instance on success, Null on error/abort
+     * @return rcube_user|null New user instance on success, Null on error/abort
      */
     public static function create($user, $host)
     {
         $user_name = '';
         $user_email = '';
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $dbh = $rcube->get_dbh();
 
         // try to resolve user in virtuser table and file
@@ -720,7 +720,7 @@ class rcube_user
                 $standard = 0;
             }
         } else {
-            \rcube::raise_error([
+            rcube::raise_error([
                 'code' => 500,
                 'message' => 'Failed to create new user',
             ], true, false);
@@ -738,7 +738,7 @@ class rcube_user
      */
     public static function email2user($email)
     {
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('email2user', ['email' => $email, 'user' => null]);
 
         return $plugin['user'];
@@ -755,7 +755,7 @@ class rcube_user
      */
     public static function user2email($user, $first = true, $extended = false)
     {
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $plugin = $rcube->plugins->exec_hook('user2email', [
             'email' => null,
             'user' => $user,

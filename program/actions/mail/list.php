@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_list extends \rcmail_action_mail_index
+class rcmail_action_mail_list extends rcmail_action_mail_index
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,16 +26,16 @@ class rcmail_action_mail_list extends \rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $save_arr = [];
         $dont_override = (array) $rcmail->config->get('dont_override');
 
-        $sort = \rcube_utils::get_input_string('_sort', \rcube_utils::INPUT_GET);
-        $cols = \rcube_utils::get_input_string('_cols', \rcube_utils::INPUT_GET);
-        $layout = \rcube_utils::get_input_string('_layout', \rcube_utils::INPUT_GET);
+        $sort = rcube_utils::get_input_string('_sort', rcube_utils::INPUT_GET);
+        $cols = rcube_utils::get_input_string('_cols', rcube_utils::INPUT_GET);
+        $layout = rcube_utils::get_input_string('_layout', rcube_utils::INPUT_GET);
 
         // is there a sort type for this request?
         if ($sort && preg_match('/^[a-zA-Z_-]+$/', $sort)) {

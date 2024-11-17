@@ -143,7 +143,7 @@ class rcube_utils
             return false;
         }
 
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
 
         if (!$dns_check || !function_exists('checkdnsrr') || !$rcube->config->get('email_dns_check')) {
             return true;
@@ -339,17 +339,17 @@ class rcube_utils
             $value = strip_tags($value);
         }
 
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $output_charset = is_object($rcube->output) ? $rcube->output->get_charset() : null;
 
         // remove invalid characters (#1488124)
         if ($output_charset == 'UTF-8') {
-            $value = \rcube_charset::clean($value);
+            $value = rcube_charset::clean($value);
         }
 
         // convert to internal charset
         if ($charset && $output_charset) {
-            $value = \rcube_charset::convert($value, $output_charset, $charset);
+            $value = rcube_charset::convert($value, $output_charset, $charset);
         }
 
         return $value;
@@ -444,7 +444,7 @@ class rcube_utils
         };
 
         $last_pos = 0;
-        $replacements = new \rcube_string_replacer();
+        $replacements = new rcube_string_replacer();
 
         // cut out all contents between { and }
         while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
@@ -759,7 +759,7 @@ class rcube_utils
             return true;
         }
 
-        if ($use_https && \rcube::get_instance()->config->get('use_https')) {
+        if ($use_https && rcube::get_instance()->config->get('use_https')) {
             return true;
         }
 
@@ -771,7 +771,7 @@ class rcube_utils
      */
     public static function check_proxy_whitelist_ip()
     {
-        return in_array($_SERVER['REMOTE_ADDR'], (array) \rcube::get_instance()->config->get('proxy_whitelist', []));
+        return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
     /**
@@ -870,7 +870,7 @@ class rcube_utils
         }
 
         $name = $_SERVER[$type] ?? '';
-        $rcube = \rcube::get_instance();
+        $rcube = rcube::get_instance();
         $patterns = (array) $rcube->config->get('trusted_host_patterns');
 
         if (!empty($name)) {
@@ -937,7 +937,7 @@ class rcube_utils
     {
         // Check if any of the headers are set first to improve performance
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
-            $proxy_whitelist = (array) \rcube::get_instance()->config->get('proxy_whitelist', []);
+            $proxy_whitelist = (array) rcube::get_instance()->config->get('proxy_whitelist', []);
             if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
@@ -1025,8 +1025,8 @@ class rcube_utils
     /**
      * Improved equivalent to strtotime()
      *
-     * @param string        $date     Date string
-     * @param \DateTimeZone $timezone Timezone to use for DateTime object
+     * @param string       $date     Date string
+     * @param DateTimeZone $timezone Timezone to use for DateTime object
      *
      * @return int Unix timestamp
      */
@@ -1061,14 +1061,14 @@ class rcube_utils
     /**
      * Date parsing function that turns the given value into a DateTime object
      *
-     * @param \DateTime|string $date     A date
-     * @param \DateTimeZone    $timezone Timezone to use for DateTime object
+     * @param DateTime|string $date     A date
+     * @param DateTimeZone    $timezone Timezone to use for DateTime object
      *
-     * @return \DateTime|false DateTime object or False on failure
+     * @return DateTime|false DateTime object or False on failure
      */
     public static function anytodatetime($date, $timezone = null)
     {
-        if ($date instanceof \DateTime) {
+        if ($date instanceof DateTime) {
             return $date;
         }
 
@@ -1079,8 +1079,8 @@ class rcube_utils
         if (!empty($date)) {
             try {
                 $_date = preg_match('/^[0-9]+$/', $date) ? "@{$date}" : $date;
-                $dt = $timezone ? new \DateTime($_date, $timezone) : new \DateTime($_date);
-            } catch (\Exception $e) {
+                $dt = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
+            } catch (Exception $e) {
                 // ignore
             }
         }
@@ -1088,11 +1088,11 @@ class rcube_utils
         // try our advanced strtotime() method
         if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
-                $dt = new \DateTime('@' . $timestamp);
+                $dt = new DateTime('@' . $timestamp);
                 if ($timezone) {
                     $dt->setTimezone($timezone);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // ignore
             }
         }
@@ -1303,14 +1303,14 @@ class rcube_utils
         $arr = self::tokenize_string($str, $minlen);
 
         // detect character set
-        if (\rcube_charset::convert(\rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
+        if (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-1'), 'ISO-8859-1', 'UTF-8') == $str) {
             // ISO-8859-1 (or ASCII)
             preg_match_all('/./u', 'äâàåáãæçéêëèïîìíñöôòøõóüûùúýÿ', $keys);
             preg_match_all('/./', 'aaaaaaaceeeeiiiinoooooouuuuyy', $values);
 
             $mapping = array_combine($keys[0], $values[0]);
             $mapping = array_merge($mapping, ['ß' => 'ss', 'ae' => 'a', 'oe' => 'o', 'ue' => 'u']);
-        } elseif (\rcube_charset::convert(\rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
+        } elseif (rcube_charset::convert(rcube_charset::convert($str, 'UTF-8', 'ISO-8859-2'), 'ISO-8859-2', 'UTF-8') == $str) {
             // ISO-8859-2
             preg_match_all('/./u', 'ąáâäćçčéęëěíîłľĺńňóôöŕřśšşťţůúűüźžżý', $keys);
             preg_match_all('/./', 'aaaaccceeeeiilllnnooorrsssttuuuuzzzy', $values);
@@ -1585,10 +1585,10 @@ class rcube_utils
 
             try {
                 $date = date_create_from_format('U.u', $dt);
-                $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+                $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
                 return $date->format($format);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // ignore, fallback to date()
             }
         }
@@ -1681,7 +1681,7 @@ class rcube_utils
                 $error['message'] = $errstr;
             }
 
-            \rcube::raise_error($error, true, $terminate);
+            rcube::raise_error($error, true, $terminate);
 
             return true;
         }
@@ -1700,7 +1700,7 @@ class rcube_utils
      */
     public static function temp_filename($file_name, $unique = true, $create = true)
     {
-        $temp_dir = \rcube::get_instance()->config->get('temp_dir');
+        $temp_dir = rcube::get_instance()->config->get('temp_dir');
 
         // Fall back to system temp dir if configured dir is not writable
         if (!is_writable($temp_dir)) {
@@ -1735,7 +1735,7 @@ class rcube_utils
      */
     public static function remove_subject_prefix($subject, $mode = 'both')
     {
-        $config = \rcmail::get_instance()->config;
+        $config = rcmail::get_instance()->config;
         $prefixes = [];
 
         // Clean subject prefix for reply, forward or both

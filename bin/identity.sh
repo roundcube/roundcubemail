@@ -22,7 +22,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
 require INSTALL_PATH . 'program/include/clisetup.php';
 
-$options = \rcube_utils::get_opt([
+$options = rcube_utils::get_opt([
     'u' => 'username',
     'e' => 'email',
     'n' => 'name',
@@ -80,7 +80,7 @@ function get_identity_attr($options)
     $identity = $user->get_identity($identity_id);
 
     if (empty($identity)) {
-        \rcube::raise_error('Invalid identity ID.', false, true);
+        rcube::raise_error('Invalid identity ID.', false, true);
     }
 
     if (isset($identity[$attribute])) {
@@ -88,7 +88,7 @@ function get_identity_attr($options)
 
         echo "{$attrValue}\n";
     } else {
-        \rcube::raise_error('Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, '
+        rcube::raise_error('Invalid attribute name. Available attributes: identity_id, user_id, changed, del, standard, name, '
             . 'organization, email, reply-to, bcc, signature, html_signature.', false, true);
     }
 }
@@ -114,7 +114,7 @@ function delete_identity($options)
     $identities_level = get_identities_level();
 
     if ($identities_level > 1) {
-        \rcube::raise_error("Identities level doesn't allow this action.", false, true);
+        rcube::raise_error("Identities level doesn't allow this action.", false, true);
     }
 
     if (count($options) === 1) {
@@ -133,7 +133,7 @@ function delete_identity($options)
     $identity = $user->delete_identity($identity_id);
 
     if (!$identity) {
-        \rcube::raise_error('Invalid identity ID.');
+        rcube::raise_error('Invalid identity ID.');
         exit;
     }
 
@@ -145,7 +145,7 @@ function add_identity($options)
     $identities_level = get_identities_level();
 
     if ($identities_level > 1) {
-        \rcube::raise_error("Identities level doesn't allow this action.", false, true);
+        rcube::raise_error("Identities level doesn't allow this action.", false, true);
     }
 
     if (count($options) === 1) {
@@ -207,7 +207,7 @@ function update_identity($options)
     $identities_level = get_identities_level();
 
     if ($identities_level > 1) {
-        \rcube::raise_error("Identities level doesn't allow this action.", false, true);
+        rcube::raise_error("Identities level doesn't allow this action.", false, true);
     }
 
     if (count($options) === 1) {
@@ -260,7 +260,7 @@ function update_identity($options)
 
     if ($email !== null) {
         if ($identities_level > 0) {
-            \rcube::raise_error("Identities level doesn't allow setting email.", false, true);
+            rcube::raise_error("Identities level doesn't allow setting email.", false, true);
         }
 
         $updated_identity['email'] = $email;
@@ -279,7 +279,7 @@ function update_identity($options)
     }
 
     if (count($updated_identity) === 0) {
-        \rcube::raise_error('No attributes changed. Set some new values.', false, true);
+        rcube::raise_error('No attributes changed. Set some new values.', false, true);
     }
 
     $user = get_user($options);
@@ -287,7 +287,7 @@ function update_identity($options)
     $identity = $user->update_identity($identity_id, $updated_identity);
 
     if (!$identity) {
-        \rcube::raise_error('Identity not updated. Either the identity id is incorrect or provided values are invalid.', false, true);
+        rcube::raise_error('Identity not updated. Either the identity id is incorrect or provided values are invalid.', false, true);
     }
 
     if ($setAsDefault) {
@@ -314,7 +314,7 @@ function get_option_value($options, $key, $fallback, $isBoolean, $isMandatory, $
     }
 
     if ($isMandatory) {
-        \rcube::raise_error($message, false, true);
+        rcube::raise_error($message, false, true);
     }
 
     return $fallback;
@@ -323,14 +323,14 @@ function get_option_value($options, $key, $fallback, $isBoolean, $isMandatory, $
 function validate_email($email, $fieldName)
 {
     if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
-        \rcube::raise_error("invalid {$fieldName} format", false, true);
+        rcube::raise_error("invalid {$fieldName} format", false, true);
     }
 }
 
 function validate_boolean($value, $fieldName)
 {
     if (!is_bool($value) && $value !== '0' && $value !== '1') {
-        \rcube::raise_error("{$fieldName} can either be set to 1 (true), 0 (false) or without a value (true)", false, true);
+        rcube::raise_error("{$fieldName} can either be set to 1 (true), 0 (false) or without a value (true)", false, true);
     }
 }
 
@@ -363,18 +363,18 @@ function echo_shared_options()
 
 function get_user($options)
 {
-    $rcmail = \rcube::get_instance();
+    $rcmail = rcube::get_instance();
 
     $db = $rcmail->get_dbh();
 
     $username = get_option_value($options, 'username', '', false, true, 'Enter the username e.g. -u user@example.com');
-    $host = \rcmail_utils::get_host($options);
+    $host = rcmail_utils::get_host($options);
 
     // find user in local database
-    $user = \rcube_user::query($username, $host);
+    $user = rcube_user::query($username, $host);
 
     if (empty($user)) {
-        \rcube::raise_error("User does not exist: {$username}", false, true);
+        rcube::raise_error("User does not exist: {$username}", false, true);
     }
 
     return $user;
@@ -382,7 +382,7 @@ function get_user($options)
 
 function get_identities_level()
 {
-    $rcmail = \rcube::get_instance();
+    $rcmail = rcube::get_instance();
     $identities_level = intval($rcmail->config->get('identities_level', 0));
 
     return $identities_level;

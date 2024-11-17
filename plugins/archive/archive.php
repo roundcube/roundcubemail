@@ -11,7 +11,7 @@
  * @license GNU GPLv3+
  * @author Andre Rodier, Thomas Bruederli, Aleksander Machniak
  */
-class archive extends \rcube_plugin
+class archive extends rcube_plugin
 {
     public $task = 'settings|mail|login';
 
@@ -22,13 +22,13 @@ class archive extends \rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[\Override]
+    #[Override]
     public function init()
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // register special folder type
-        \rcube_storage::$folder_types[] = 'archive';
+        rcube_storage::$folder_types[] = 'archive';
 
         $this->archive_folder = $rcmail->config->get('archive_mbox');
 
@@ -79,7 +79,7 @@ class archive extends \rcube_plugin
     public function render_mailboxlist($p)
     {
         // set localized name for the configured archive folder
-        if ($this->archive_folder && !\rcmail::get_instance()->config->get('show_real_foldernames')) {
+        if ($this->archive_folder && !rcmail::get_instance()->config->get('show_real_foldernames')) {
             if (isset($p['list'][$this->archive_folder])) {
                 $p['list'][$this->archive_folder]['name'] = $this->gettext('archivefolder');
             } else {
@@ -116,7 +116,7 @@ class archive extends \rcube_plugin
      */
     public function move_messages()
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // only process ajax requests
         if (!$rcmail->output->ajax_call) {
@@ -131,7 +131,7 @@ class archive extends \rcube_plugin
         $read_on_move = (bool) $rcmail->config->get('read_on_archive');
         $archive_type = $rcmail->config->get('archive_type', '');
         $archive_prefix = $this->archive_folder . $delimiter;
-        $search_request = \rcube_utils::get_input_string('_search', \rcube_utils::INPUT_GPC);
+        $search_request = rcube_utils::get_input_string('_search', rcube_utils::INPUT_GPC);
         $from_show_action = !empty($_POST['_from']) && $_POST['_from'] == 'show';
 
         // count messages before changing anything
@@ -140,8 +140,8 @@ class archive extends \rcube_plugin
             $old_count = $storage->count(null, $threading ? 'THREADS' : 'ALL');
         }
 
-        $sort_col = \rcmail_action_mail_index::sort_column();
-        $sort_ord = \rcmail_action_mail_index::sort_order();
+        $sort_col = rcmail_action_mail_index::sort_column();
+        $sort_ord = rcmail_action_mail_index::sort_order();
         $count = 0;
         $all = false;
 
@@ -154,7 +154,7 @@ class archive extends \rcube_plugin
             'destinations' => [],
         ];
 
-        foreach (\rcmail_action::get_uids(null, null, $multifolder, \rcube_utils::INPUT_POST) as $mbox => $uids) {
+        foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             $all = $uids === '*';
             if (!$this->archive_folder || $mbox === $this->archive_folder || strpos($mbox, $archive_prefix) === 0) {
                 $count = count($uids);
@@ -248,7 +248,7 @@ class archive extends \rcube_plugin
         }
 
         if ($from_show_action) {
-            if ($next = \rcube_utils::get_input_string('_next_uid', \rcube_utils::INPUT_GPC)) {
+            if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
                 $rcmail->output->command('show_message', $next);
             } else {
                 $rcmail->output->command('command', 'list');
@@ -279,7 +279,7 @@ class archive extends \rcube_plugin
         // update unread messages counts for all involved folders
         // @phpstan-ignore-next-line
         foreach ($this->result['sources'] as $folder) {
-            \rcmail_action_mail_index::send_unread_count($folder, true);
+            rcmail_action_mail_index::send_unread_count($folder, true);
         }
 
         // update message count display
@@ -287,11 +287,11 @@ class archive extends \rcube_plugin
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_quota', \rcmail_action::quota_content(null, $quota_root));
-        $rcmail->output->command('set_rowcount', \rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
+        $rcmail->output->command('set_quota', rcmail_action::quota_content(null, $quota_root));
+        $rcmail->output->command('set_rowcount', rcmail_action_mail_index::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
-            $count = \rcube_utils::get_input_string('_count', \rcube_utils::INPUT_POST);
+            $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
         }
 
         // add new rows from next page (if any)
@@ -301,7 +301,7 @@ class archive extends \rcube_plugin
 
             $a_headers = $storage->list_messages($mbox, null, $sort_col, $sort_ord, $count);
 
-            \rcmail_action_mail_index::js_message_list($a_headers, false);
+            rcmail_action_mail_index::js_message_list($a_headers, false);
         }
 
         // @phpstan-ignore-next-line
@@ -313,7 +313,7 @@ class archive extends \rcube_plugin
             if (!$read_on_move) {
                 // @phpstan-ignore-next-line
                 foreach ($this->result['destinations'] as $folder) {
-                    \rcmail_action_mail_index::send_unread_count($folder, true);
+                    rcmail_action_mail_index::send_unread_count($folder, true);
                 }
             }
         }
@@ -327,7 +327,7 @@ class archive extends \rcube_plugin
      */
     private function move_messages_worker($uids, $from_mbox, $to_mbox, $read_on_move)
     {
-        $storage = \rcmail::get_instance()->get_storage();
+        $storage = rcmail::get_instance()->get_storage();
 
         if ($read_on_move) {
             // don't flush cache (4th argument)
@@ -354,7 +354,7 @@ class archive extends \rcube_plugin
      */
     private function subfolder_worker($folder)
     {
-        $storage = \rcmail::get_instance()->get_storage();
+        $storage = rcmail::get_instance()->get_storage();
         $delimiter = $storage->get_hierarchy_delimiter();
 
         if ($this->folders === null) {
@@ -388,7 +388,7 @@ class archive extends \rcube_plugin
     {
         $this->add_texts('localization');
 
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $dont_override = $rcmail->config->get('dont_override', []);
 
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
@@ -397,7 +397,7 @@ class archive extends \rcube_plugin
 
             // load folders list when needed
             if ($args['current']) {
-                $select = \rcmail_action::folder_selector([
+                $select = rcmail_action::folder_selector([
                     'noselection' => '---',
                     'realnames' => true,
                     'maxlength' => 30,
@@ -407,19 +407,19 @@ class archive extends \rcube_plugin
                     'class' => 'custom-select',
                 ]);
             } else {
-                $select = new \html_select();
+                $select = new html_select();
             }
 
             $args['blocks']['main']['options']['archive_mbox'] = [
-                'title' => \html::label('_archive_mbox', \rcube::Q($this->gettext('archivefolder'))),
+                'title' => html::label('_archive_mbox', rcube::Q($this->gettext('archivefolder'))),
                 'content' => $select->show($mbox, ['id' => '_archive_mbox', 'name' => '_archive_mbox']),
             ];
 
             // If the server supports only either messages or folders in a folder
             // we do not allow archive splitting, for simplicity (#5057)
-            if ($rcmail->get_storage()->get_capability(\rcube_storage::DUAL_USE_FOLDERS)) {
+            if ($rcmail->get_storage()->get_capability(rcube_storage::DUAL_USE_FOLDERS)) {
                 // add option for structuring the archive folder
-                $archive_type = new \html_select(['name' => '_archive_type', 'id' => 'ff_archive_type', 'class' => 'custom-select']);
+                $archive_type = new html_select(['name' => '_archive_type', 'id' => 'ff_archive_type', 'class' => 'custom-select']);
                 $archive_type->add($this->gettext('none'), '');
                 $archive_type->add($this->gettext('archivetypeyear'), 'year');
                 $archive_type->add($this->gettext('archivetypemonth'), 'month');
@@ -430,19 +430,19 @@ class archive extends \rcube_plugin
                 $archive_type->add($this->gettext('archivetypefoldermonth'), 'foldermonth');
 
                 $args['blocks']['archive'] = [
-                    'name' => \rcube::Q($this->gettext('settingstitle')),
+                    'name' => rcube::Q($this->gettext('settingstitle')),
                     'options' => [
                         'archive_type' => [
-                            'title' => \html::label('ff_archive_type', \rcube::Q($this->gettext('archivetype'))),
+                            'title' => html::label('ff_archive_type', rcube::Q($this->gettext('archivetype'))),
                             'content' => $archive_type->show($type),
                         ],
                     ],
                 ];
             }
         } elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
-            $chbox = new \html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
+            $chbox = new html_checkbox(['name' => '_read_on_archive', 'id' => 'ff_read_on_archive', 'value' => 1]);
             $args['blocks']['main']['options']['read_on_archive'] = [
-                'title' => \html::label('ff_read_on_archive', \rcube::Q($this->gettext('readonarchive'))),
+                'title' => html::label('ff_read_on_archive', rcube::Q($this->gettext('readonarchive'))),
                 'content' => $chbox->show($rcmail->config->get('read_on_archive') ? 1 : 0),
             ];
         }
@@ -459,13 +459,13 @@ class archive extends \rcube_plugin
      */
     public function prefs_save($args)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $dont_override = $rcmail->config->get('dont_override', []);
 
         if ($args['section'] == 'folders' && !in_array('archive_mbox', $dont_override)) {
-            $args['prefs']['archive_type'] = \rcube_utils::get_input_string('_archive_type', \rcube_utils::INPUT_POST);
+            $args['prefs']['archive_type'] = rcube_utils::get_input_string('_archive_type', rcube_utils::INPUT_POST);
         } elseif ($args['section'] == 'server' && !in_array('read_on_archive', $dont_override)) {
-            $args['prefs']['read_on_archive'] = (bool) \rcube_utils::get_input_value('_read_on_archive', \rcube_utils::INPUT_POST);
+            $args['prefs']['read_on_archive'] = (bool) rcube_utils::get_input_value('_read_on_archive', rcube_utils::INPUT_POST);
         }
 
         return $args;
@@ -487,7 +487,7 @@ class archive extends \rcube_plugin
         }
 
         if ($delim === null) {
-            $rcmail = \rcmail::get_instance();
+            $rcmail = rcmail::get_instance();
             $storage = $rcmail->get_storage();
             $delim = $storage->get_hierarchy_delimiter();
             $vendor = $storage->get_vendor();

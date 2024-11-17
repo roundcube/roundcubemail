@@ -17,7 +17,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_upload extends \rcmail_action
+class rcmail_action_settings_upload extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -26,12 +26,12 @@ class rcmail_action_settings_upload extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
-        $uploadid = \rcube_utils::get_input_string('_uploadid', \rcube_utils::INPUT_GET);
-        $from = \rcube_utils::get_input_string('_from', \rcube_utils::INPUT_GET);
+        $rcmail = rcmail::get_instance();
+        $uploadid = rcube_utils::get_input_string('_uploadid', rcube_utils::INPUT_GET);
+        $from = rcube_utils::get_input_string('_from', rcube_utils::INPUT_GET);
         $type = preg_replace('/(add|edit)-/', '', $from);
 
         // Plugins in Settings may use this file for some uploads (#5694)
@@ -61,7 +61,7 @@ class rcmail_action_settings_upload extends \rcmail_action
                     }
                     // check image file type
                     else {
-                        $image = new \rcube_image($filepath);
+                        $image = new rcube_image($filepath);
                         $imageprop = $image->props();
 
                         if (!in_array(strtolower($imageprop['type']), $IMAGE_TYPES)) {
@@ -85,13 +85,13 @@ class rcmail_action_settings_upload extends \rcmail_action
 
                 if (!$err && $inserted) {
                     $id = $attachment['id'];
-                    $content = \rcube::Q($attachment['name']);
+                    $content = rcube::Q($attachment['name']);
 
                     $rcmail->output->command('add2attachment_list', "rcmfile{$id}", [
                             'html' => $content,
                             'name' => $attachment['name'],
                             'mimetype' => $attachment['mimetype'],
-                            'classname' => \rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
+                            'classname' => rcube_utils::file2class($attachment['mimetype'], $attachment['name']),
                             'complete' => true,
                         ],
                         $uploadid

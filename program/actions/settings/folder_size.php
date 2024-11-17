@@ -18,7 +18,7 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_settings_folder_size extends \rcmail_action
+class rcmail_action_settings_folder_size extends rcmail_action
 {
     protected static $mode = self::MODE_AJAX;
 
@@ -27,12 +27,12 @@ class rcmail_action_settings_folder_size extends \rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $storage = $rcmail->get_storage();
-        $name = \rcube_utils::get_input_string('_mbox', \rcube_utils::INPUT_POST, true);
+        $name = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
         $size = $storage->folder_size($name);
 

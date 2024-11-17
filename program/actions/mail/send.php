@@ -18,28 +18,28 @@
  +-----------------------------------------------------------------------+
 */
 
-class rcmail_action_mail_send extends \rcmail_action
+class rcmail_action_mail_send extends rcmail_action
 {
     /**
      * Request handler.
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[\Override]
+    #[Override]
     public function run($args = [])
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
 
         // remove all scripts and act as called in frame
         $rcmail->output->reset();
         $rcmail->output->framed = true;
 
-        $COMPOSE_ID = \rcube_utils::get_input_string('_id', \rcube_utils::INPUT_GPC);
+        $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
         $COMPOSE = &$_SESSION['compose_data_' . $COMPOSE_ID];
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
-            \rcube::raise_error('Invalid compose ID', true);
+            rcube::raise_error('Invalid compose ID', true);
 
             $rcmail->output->show_message('internalerror', 'error');
             $rcmail->output->send('iframe');
@@ -47,7 +47,7 @@ class rcmail_action_mail_send extends \rcmail_action
 
         $saveonly = !empty($_GET['_saveonly']);
         $savedraft = !empty($_POST['_draft']) && !$saveonly;
-        $SENDMAIL = new \rcmail_sendmail($COMPOSE, [
+        $SENDMAIL = new rcmail_sendmail($COMPOSE, [
             'sendmail' => true,
             'saveonly' => $saveonly,
             'savedraft' => $savedraft,
@@ -65,12 +65,12 @@ class rcmail_action_mail_send extends \rcmail_action
 
         $message_id = $headers['Message-ID'];
         $message_charset = $SENDMAIL->options['charset'];
-        $message_body = \rcube_utils::get_input_string('_message', \rcube_utils::INPUT_POST, true, $message_charset);
-        $isHtml = (bool) \rcube_utils::get_input_string('_is_html', \rcube_utils::INPUT_POST);
+        $message_body = rcube_utils::get_input_string('_message', rcube_utils::INPUT_POST, true, $message_charset);
+        $isHtml = (bool) rcube_utils::get_input_string('_is_html', rcube_utils::INPUT_POST);
 
         // Reset message body and attachments in Mailvelope mode
         if (isset($_POST['_pgpmime'])) {
-            $pgp_mime = \rcube_utils::get_input_string('_pgpmime', \rcube_utils::INPUT_POST);
+            $pgp_mime = rcube_utils::get_input_string('_pgpmime', rcube_utils::INPUT_POST);
             $isHtml = false;
             $message_body = '';
 
@@ -126,7 +126,7 @@ class rcmail_action_mail_send extends \rcmail_action
                     $message_body
                 );
 
-                \rcube_utils::preg_error([
+                rcube_utils::preg_error([
                     'message' => 'Could not format HTML!',
                 ], true);
             }
@@ -138,13 +138,13 @@ class rcmail_action_mail_send extends \rcmail_action
                 && empty($COMPOSE['spell_checked'])
                 && !empty($message_body)
             ) {
-                $language = \rcube_utils::get_input_string('_lang', \rcube_utils::INPUT_GPC);
+                $language = rcube_utils::get_input_string('_lang', rcube_utils::INPUT_GPC);
                 $message_body = str_replace("\r\n", "\n", $message_body);
-                $spellchecker = new \rcube_spellchecker($language);
+                $spellchecker = new rcube_spellchecker($language);
                 $spell_result = $spellchecker->check($message_body, $isHtml);
 
                 if ($error = $spellchecker->error()) {
-                    \rcube::raise_error('Spellcheck error: ' . $error, true);
+                    rcube::raise_error('Spellcheck error: ' . $error, true);
                 } else {
                     $COMPOSE['spell_checked'] = true;
 
@@ -190,12 +190,12 @@ class rcmail_action_mail_send extends \rcmail_action
 
         // compose PGP/Mime message
         if (!empty($pgp_mime)) {
-            $MAIL_MIME->addAttachment(new \Mail_mimePart('Version: 1', [
+            $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
                 'description' => 'PGP/MIME version identification',
             ]));
 
-            $MAIL_MIME->addAttachment(new \Mail_mimePart($pgp_mime, [
+            $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, [
                 'content_type' => 'application/octet-stream',
                 'filename' => 'encrypted.asc',
                 'disposition' => 'inline',
@@ -230,14 +230,14 @@ class rcmail_action_mail_send extends \rcmail_action
 
         // delete previous saved draft
         $drafts_mbox = $rcmail->config->get('drafts_mbox');
-        $old_id = \rcube_utils::get_input_string('_draft_saveid', \rcube_utils::INPUT_POST);
+        $old_id = rcube_utils::get_input_string('_draft_saveid', rcube_utils::INPUT_POST);
 
         if ($old_id && (!empty($sent) || $saved)) {
             $deleted = $rcmail->storage->delete_message($old_id, $drafts_mbox);
 
             // raise error if deletion of old draft failed
             if (!$deleted) {
-                \rcube::raise_error([
+                rcube::raise_error([
                     'code' => 800,
                     'type' => 'imap',
                     'message' => "Could not delete message from {$drafts_mbox}",
@@ -316,7 +316,7 @@ class rcmail_action_mail_send extends \rcmail_action
 
     public static function add_attachments($SENDMAIL, $message, $attachments, $isHtml)
     {
-        $rcmail = \rcmail::get_instance();
+        $rcmail = rcmail::get_instance();
         $folding = (int) $rcmail->config->get('mime_param_folding');
 
         foreach ($attachments as $id => $attachment) {
@@ -350,7 +350,7 @@ class rcmail_action_mail_send extends \rcmail_action
                 if ($dispurl && !empty($message_body)) {
                     $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
-                    \rcube_utils::preg_error([
+                    rcube_utils::preg_error([
                         'message' => 'Could not replace an image reference!',
                     ], true);
 
