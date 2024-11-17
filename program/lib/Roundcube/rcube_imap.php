@@ -2298,8 +2298,8 @@ class rcube_imap extends rcube_storage
     protected function is_attachment_part($part)
     {
         if (!empty($part[2]) && is_array($part[2]) && empty($part[3])) {
-            $params = array_map('strtolower', (array) $part[2]);
-            $find   = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
+            $params = array_map('strtolower', array_filter($part[2], 'is_string'));
+            $find = ['name', 'filename', 'name*', 'filename*', 'name*0', 'filename*0', 'name*0*', 'filename*0*'];
 
             // In case of malformed header check disposition. E.g. some servers for
             // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
@@ -2419,7 +2419,7 @@ class rcube_imap extends rcube_storage
     protected function structure_charset($structure)
     {
         while (is_array($structure)) {
-            if (is_array($structure[2]) && $structure[2][0] == 'charset') {
+            if (isset($structure[2]) && is_array($structure[2]) && $structure[2][0] == 'charset') {
                 return $structure[2][1];
             }
             $structure = $structure[0];

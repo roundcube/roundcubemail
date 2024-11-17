@@ -9,6 +9,7 @@
 - Fix rcube_imap::get_vendor() result (and PHP warning) on Zimbra server (#9650)
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
 - Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
+- Fix PHP fatal error when parsing some malformed BODYSTRUCTURE responses (#9689)
 
 ## Release 1.6.9
 
