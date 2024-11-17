@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_result_thread;
+use rcube_result_thread as rcube_result_thread;
 
 /**
  * Test class to test rcube_result_thread class

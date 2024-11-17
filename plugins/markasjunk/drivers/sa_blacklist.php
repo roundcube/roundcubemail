@@ -1,9 +1,9 @@
 <?php
 
-use rcube;
-use rcube_db;
-use rcube_message;
-use rcube_utils;
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_message as rcube_message;
+use rcube_utils as rcube_utils;
 
 /**
  * SpamAssassin Blacklist driver

@@ -1,11 +1,11 @@
 <?php
 
-use rcmail;
-use rcmail_action_mail_index;
-use rcmail_output_html;
-use rcube_charset;
-use rcube_message;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcmail_output_html as rcmail_output_html;
+use rcube_charset as rcube_charset;
+use rcube_message as rcube_message;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

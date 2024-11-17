@@ -1,8 +1,8 @@
 <?php
 
-use example_addressbook_backend;
-use rcmail;
-use rcube_plugin;
+use example_addressbook_backend as example_addressbook_backend;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
 
 require_once __DIR__ . '/example_addressbook_backend.php';
 

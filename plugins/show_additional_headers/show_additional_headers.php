@@ -1,7 +1,7 @@
 <?php
 
-use rcmail;
-use rcube_plugin;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
 
 /**
  * Show additional message headers

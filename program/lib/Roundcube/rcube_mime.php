@@ -1,10 +1,10 @@
 <?php
 
-use rcube;
-use rcube_charset;
-use rcube_message_part;
-use rcube_mime_decode;
-use rcube_utils;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_message_part as rcube_message_part;
+use rcube_mime_decode as rcube_mime_decode;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

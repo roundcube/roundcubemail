@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_plugin;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
 
 /**
  * Additional Message Headers

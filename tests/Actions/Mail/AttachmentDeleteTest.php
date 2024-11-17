@@ -2,9 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Mail;
 
-use rcmail;
-use rcmail_action;
-use rcmail_action_mail_attachment_delete;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_attachment_delete as rcmail_action_mail_attachment_delete;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

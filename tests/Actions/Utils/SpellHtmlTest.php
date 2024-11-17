@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Utils;
 
-use rcmail_action;
-use rcmail_action_utils_spell_html;
+use rcmail_action as rcmail_action;
+use rcmail_action_utils_spell_html as rcmail_action_utils_spell_html;
 use Roundcube\Tests\ActionTestCase;
 
 /**

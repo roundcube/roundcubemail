@@ -1,9 +1,9 @@
 <?php
 
 use GuzzleHttp\Psr7\Query;
-use password;
-use rcmail;
-use rcube;
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
 
 /**
  * DirectAdmin Password Driver

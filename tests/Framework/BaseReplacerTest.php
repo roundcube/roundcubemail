@@ -4,7 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube_base_replacer;
+use rcube_base_replacer as rcube_base_replacer;
 
 /**
  * Test class to test rcube_base_replacer class

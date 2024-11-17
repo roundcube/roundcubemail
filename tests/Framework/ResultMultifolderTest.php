@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_result_multifolder;
+use rcube_result_multifolder as rcube_result_multifolder;
 
 /**
  * Test class to test rcube_result_multifolder class

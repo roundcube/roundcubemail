@@ -1,8 +1,8 @@
 <?php
 
-use password;
-use rcmail;
-use rcube_ldap_simple_password;
+use password as password;
+use rcmail as rcmail;
+use rcube_ldap_simple_password as rcube_ldap_simple_password;
 
 /**
  * LDAP Password Driver

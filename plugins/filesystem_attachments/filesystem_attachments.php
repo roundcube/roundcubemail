@@ -1,8 +1,8 @@
 <?php
 
-use rcube;
-use rcube_plugin;
-use rcube_utils;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /**
  * Filesystem Attachments

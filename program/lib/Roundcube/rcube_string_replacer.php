@@ -1,7 +1,7 @@
 <?php
 
-use html;
-use rcube;
+use html as html;
+use rcube as rcube;
 
 /*
  +-----------------------------------------------------------------------+

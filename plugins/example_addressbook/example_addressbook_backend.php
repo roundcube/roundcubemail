@@ -1,7 +1,7 @@
 <?php
 
-use rcube_addressbook;
-use rcube_result_set;
+use rcube_addressbook as rcube_addressbook;
+use rcube_result_set as rcube_result_set;
 
 /**
  * Example backend class for a custom address book

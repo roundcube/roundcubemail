@@ -1,10 +1,10 @@
 <?php
 
-use rcube_imap;
-use rcube_imap_generic;
-use rcube_result_index;
-use rcube_result_multifolder;
-use rcube_result_thread;
+use rcube_imap as rcube_imap;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
 
 /*
  +-----------------------------------------------------------------------+

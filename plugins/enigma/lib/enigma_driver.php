@@ -1,7 +1,7 @@
 <?php
 
-use enigma_key;
-use enigma_signature;
+use enigma_key as enigma_key;
+use enigma_signature as enigma_signature;
 
 /*
  +-------------------------------------------------------------------------+

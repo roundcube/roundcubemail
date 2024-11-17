@@ -1,14 +1,14 @@
 <?php
 
-use rcmail;
-use rcmail_action;
-use rcmail_action_mail_index;
-use rcube;
-use rcube_imap_generic;
-use rcube_message;
-use rcube_mime;
-use rcube_utils;
-use rcube_washtml;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcube as rcube;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message as rcube_message;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
+use rcube_washtml as rcube_washtml;
 
 /*
  +-----------------------------------------------------------------------+

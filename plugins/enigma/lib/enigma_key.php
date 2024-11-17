@@ -1,6 +1,6 @@
 <?php
 
-use enigma_subkey;
+use enigma_subkey as enigma_subkey;
 
 /*
  +-------------------------------------------------------------------------+

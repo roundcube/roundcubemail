@@ -1,6 +1,6 @@
 <?php
 
-use rcmail_action_settings_identity_edit;
+use rcmail_action_settings_identity_edit as rcmail_action_settings_identity_edit;
 
 /*
  +-----------------------------------------------------------------------+

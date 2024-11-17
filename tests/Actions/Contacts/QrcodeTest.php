@@ -2,9 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
-use rcmail;
-use rcmail_action;
-use rcmail_action_contacts_qrcode;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_contacts_qrcode as rcmail_action_contacts_qrcode;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

@@ -1,9 +1,9 @@
 <?php
 
-use rcube;
-use rcube_config;
-use rcube_db;
-use rcube_session;
+use rcube as rcube;
+use rcube_config as rcube_config;
+use rcube_db as rcube_db;
+use rcube_session as rcube_session;
 
 /*
  +-----------------------------------------------------------------------+

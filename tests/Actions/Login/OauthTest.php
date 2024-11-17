@@ -2,9 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Login;
 
-use rcmail;
-use rcmail_action;
-use rcmail_action_login_oauth;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_login_oauth as rcmail_action_login_oauth;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 use Roundcube\Tests\StderrMock;

@@ -1,6 +1,6 @@
 <?php
 
-use rcube_spellchecker_engine;
+use rcube_spellchecker_engine as rcube_spellchecker_engine;
 
 /*
  +-----------------------------------------------------------------------+

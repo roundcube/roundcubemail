@@ -3,8 +3,8 @@
 namespace Roundcube\Tests\Rcmail;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use rcmail;
-use rcmail_sendmail;
+use rcmail as rcmail;
+use rcmail_sendmail as rcmail_sendmail;
 use Roundcube\Tests\ActionTestCase;
 
 /**

@@ -1,7 +1,7 @@
 <?php
 
-use filesystem_attachments;
-use rcube;
+use filesystem_attachments as filesystem_attachments;
+use rcube as rcube;
 
 /*
  * Redundant attachments

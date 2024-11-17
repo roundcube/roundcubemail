@@ -2,7 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
-use html_checkbox;
+use html_checkbox as html_checkbox;
 use PHPUnit\Framework\TestCase;
 
 /**

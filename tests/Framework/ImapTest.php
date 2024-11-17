@@ -3,8 +3,8 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube;
-use rcube_imap;
+use rcube as rcube;
+use rcube_imap as rcube_imap;
 
 use function Roundcube\Tests\invokeMethod;
 

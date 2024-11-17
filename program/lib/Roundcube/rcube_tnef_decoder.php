@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_charset;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
 use RtfHtmlPhp\Document;
 use RtfHtmlPhp\Html\HtmlFormatter;
 

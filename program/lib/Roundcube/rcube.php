@@ -1,20 +1,20 @@
 <?php
 
 use GuzzleHttp\Client as HttpClient;
-use rcmail_install;
-use rcube_cache;
-use rcube_cache_memcache;
-use rcube_cache_memcached;
-use rcube_cache_redis;
-use rcube_config;
-use rcube_db;
-use rcube_mime;
-use rcube_plugin_api;
-use rcube_session;
-use rcube_smtp;
-use rcube_storage;
-use rcube_user;
-use rcube_utils;
+use rcmail_install as rcmail_install;
+use rcube_cache as rcube_cache;
+use rcube_cache_memcache as rcube_cache_memcache;
+use rcube_cache_memcached as rcube_cache_memcached;
+use rcube_cache_redis as rcube_cache_redis;
+use rcube_config as rcube_config;
+use rcube_db as rcube_db;
+use rcube_mime as rcube_mime;
+use rcube_plugin_api as rcube_plugin_api;
+use rcube_session as rcube_session;
+use rcube_smtp as rcube_smtp;
+use rcube_storage as rcube_storage;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

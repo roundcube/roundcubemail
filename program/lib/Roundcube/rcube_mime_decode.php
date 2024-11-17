@@ -1,7 +1,7 @@
 <?php
 
-use rcube_message_part;
-use rcube_mime;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
 
 /*
  +-----------------------------------------------------------------------+

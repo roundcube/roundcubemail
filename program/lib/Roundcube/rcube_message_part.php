@@ -1,8 +1,8 @@
 <?php
 
-use rcube_charset;
-use rcube_message_header;
-use rcube_mime;
+use rcube_charset as rcube_charset;
+use rcube_message_header as rcube_message_header;
+use rcube_mime as rcube_mime;
 
 /*
  +-----------------------------------------------------------------------+

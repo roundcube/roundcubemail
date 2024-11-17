@@ -1,9 +1,9 @@
 <?php
 
-use rcube;
-use rcube_addressbook;
-use rcube_charset;
-use rcube_utils;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

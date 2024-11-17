@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_smtp;
+use rcube_smtp as rcube_smtp;
 
 use function Roundcube\Tests\invokeMethod;
 

@@ -1,8 +1,8 @@
 <?php
 
-use rcube;
-use rcube_result_set;
-use rcube_utils;
+use rcube as rcube;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

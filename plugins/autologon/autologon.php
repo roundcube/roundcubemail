@@ -1,6 +1,6 @@
 <?php
 
-use rcube_plugin;
+use rcube_plugin as rcube_plugin;
 
 /**
  * Sample plugin to try out some hooks.

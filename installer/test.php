@@ -1,15 +1,15 @@
 <?php
 
-use html;
-use html_inputfield;
-use html_passwordfield;
-use html_select;
-use rcmail_install;
-use rcube;
-use rcube_db;
-use rcube_imap;
-use rcube_smtp;
-use rcube_utils;
+use html as html;
+use html_inputfield as html_inputfield;
+use html_passwordfield as html_passwordfield;
+use html_select as html_select;
+use rcmail_install as rcmail_install;
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_imap as rcube_imap;
+use rcube_smtp as rcube_smtp;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

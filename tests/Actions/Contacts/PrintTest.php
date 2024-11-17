@@ -2,9 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
-use rcmail;
-use rcmail_action;
-use rcmail_action_contacts_print;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_contacts_print as rcmail_action_contacts_print;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 

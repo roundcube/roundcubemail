@@ -1,15 +1,15 @@
 <?php
 
-use enigma_error;
-use enigma_key;
-use enigma_mime_message;
-use enigma_signature;
-use rcmail;
-use rcube;
-use rcube_message;
-use rcube_message_part;
-use rcube_mime;
-use rcube_utils;
+use enigma_error as enigma_error;
+use enigma_key as enigma_key;
+use enigma_mime_message as enigma_mime_message;
+use enigma_signature as enigma_signature;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
 
 /*
  +-------------------------------------------------------------------------+

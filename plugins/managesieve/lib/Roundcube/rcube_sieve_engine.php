@@ -1,20 +1,20 @@
 <?php
 
-use html;
-use html_hiddenfield;
-use html_inputfield;
-use html_radiobutton;
-use html_select;
-use html_table;
-use html_textarea;
-use rcmail_action;
-use rcmail_output;
-use rcube;
-use rcube_charset;
-use rcube_mime;
-use rcube_sieve;
-use rcube_sieve_vacation;
-use rcube_utils;
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_radiobutton as html_radiobutton;
+use html_select as html_select;
+use html_table as html_table;
+use html_textarea as html_textarea;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_mime as rcube_mime;
+use rcube_sieve as rcube_sieve;
+use rcube_sieve_vacation as rcube_sieve_vacation;
+use rcube_utils as rcube_utils;
 
 /**
  * Managesieve (Sieve Filters) Engine

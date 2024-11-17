@@ -1,15 +1,15 @@
 <?php
 
-use html;
-use html_inputfield;
-use html_select;
-use html_table;
-use html_textarea;
-use rcmail_output;
-use rcube;
-use rcube_mime;
-use rcube_sieve_engine;
-use rcube_utils;
+use html as html;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use html_textarea as html_textarea;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_mime as rcube_mime;
+use rcube_sieve_engine as rcube_sieve_engine;
+use rcube_utils as rcube_utils;
 
 /**
  * Managesieve Vacation Engine

@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
-use rcmail_action;
-use rcmail_action_settings_folder_unsubscribe;
+use rcmail_action as rcmail_action;
+use rcmail_action_settings_folder_unsubscribe as rcmail_action_settings_folder_unsubscribe;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

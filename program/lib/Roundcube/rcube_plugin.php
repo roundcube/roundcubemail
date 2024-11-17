@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_plugin_api;
+use rcube as rcube;
+use rcube_plugin_api as rcube_plugin_api;
 
 /*
  +-----------------------------------------------------------------------+

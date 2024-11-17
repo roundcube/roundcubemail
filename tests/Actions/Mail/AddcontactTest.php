@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Mail;
 
-use rcmail_action;
-use rcmail_action_mail_addcontact;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_addcontact as rcmail_action_mail_addcontact;
 use Roundcube\Tests\ActionTestCase;
 
 /**

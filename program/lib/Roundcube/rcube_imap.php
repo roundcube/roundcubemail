@@ -1,20 +1,20 @@
 <?php
 
-use rcube;
-use rcube_cache;
-use rcube_charset;
-use rcube_imap_cache;
-use rcube_imap_generic;
-use rcube_imap_search;
-use rcube_message_header;
-use rcube_message_header_sorter;
-use rcube_message_part;
-use rcube_mime;
-use rcube_result_index;
-use rcube_result_multifolder;
-use rcube_result_thread;
-use rcube_storage;
-use rcube_utils;
+use rcube as rcube;
+use rcube_cache as rcube_cache;
+use rcube_charset as rcube_charset;
+use rcube_imap_cache as rcube_imap_cache;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_imap_search as rcube_imap_search;
+use rcube_message_header as rcube_message_header;
+use rcube_message_header_sorter as rcube_message_header_sorter;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

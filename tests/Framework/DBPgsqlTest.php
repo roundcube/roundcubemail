@@ -4,8 +4,8 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use rcube_db;
-use rcube_db_pgsql;
+use rcube_db as rcube_db;
+use rcube_db_pgsql as rcube_db_pgsql;
 
 use function Roundcube\Tests\invokeMethod;
 

@@ -1,12 +1,12 @@
 <?php
 
-use html;
-use rcmail;
-use rcmail_action_mail_list_contacts;
-use rcube;
-use rcube_addressbook;
-use rcube_result_set;
-use rcube_utils;
+use html as html;
+use rcmail as rcmail;
+use rcmail_action_mail_list_contacts as rcmail_action_mail_list_contacts;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

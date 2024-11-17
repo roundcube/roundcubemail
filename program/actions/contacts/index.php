@@ -1,17 +1,17 @@
 <?php
 
-use html;
-use html_hiddenfield;
-use html_select;
-use rcmail;
-use rcmail_action;
-use rcmail_action_contacts_qrcode;
-use rcmail_output;
-use rcube;
-use rcube_addressbook;
-use rcube_output;
-use rcube_user;
-use rcube_utils;
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_contacts_qrcode as rcmail_action_contacts_qrcode;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_output as rcube_output;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

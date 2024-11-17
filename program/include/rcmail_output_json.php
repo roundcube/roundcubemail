@@ -1,8 +1,8 @@
 <?php
 
-use rcmail;
-use rcmail_output;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_output as rcmail_output;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

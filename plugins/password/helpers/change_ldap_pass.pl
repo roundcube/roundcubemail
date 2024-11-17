@@ -8,8 +8,8 @@ version 1.0 2016-02-22
 
 use Net::LDAP;
 use Net::LDAP::Extension::SetPassword;
-use URI;
-use utf8;
+use URI as URI;
+use utf8 as utf8;
 binmode(STDOUT, ':utf8');
 
 my %PAR = ();

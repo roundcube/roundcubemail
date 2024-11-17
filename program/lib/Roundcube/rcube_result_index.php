@@ -1,6 +1,6 @@
 <?php
 
-use rcube_imap_generic;
+use rcube_imap_generic as rcube_imap_generic;
 
 /*
  +-----------------------------------------------------------------------+

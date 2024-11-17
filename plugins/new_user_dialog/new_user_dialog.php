@@ -1,11 +1,11 @@
 <?php
 
-use html;
-use html_table;
-use rcmail;
-use rcube;
-use rcube_plugin;
-use rcube_utils;
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /**
  * Present identities settings dialog to new users

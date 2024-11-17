@@ -1,10 +1,10 @@
 <?php
 
-use html;
-use html_table;
-use rcmail;
-use rcube;
-use rcube_plugin;
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
 
 /**
  * Sample plugin that adds a new tab to the settings section

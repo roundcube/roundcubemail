@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_imap_cache;
+use rcube_imap_cache as rcube_imap_cache;
 
 /**
  * Test class to test rcube_imap_cache class

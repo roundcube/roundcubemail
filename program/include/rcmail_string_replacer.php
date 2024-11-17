@@ -1,10 +1,10 @@
 <?php
 
-use html;
-use rcmail_output;
-use rcube;
-use rcube_string_replacer;
-use rcube_utils;
+use html as html;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_string_replacer as rcube_string_replacer;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

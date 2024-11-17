@@ -1,8 +1,8 @@
 <?php
 
-use html;
-use rcube;
-use rcube_output;
+use html as html;
+use rcube as rcube;
+use rcube_output as rcube_output;
 
 /*
  +-----------------------------------------------------------------------+

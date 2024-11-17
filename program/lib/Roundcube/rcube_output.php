@@ -1,14 +1,14 @@
 <?php
 
-use html_checkbox;
-use html_inputfield;
-use html_passwordfield;
-use html_select;
-use html_textarea;
-use rcube;
-use rcube_browser;
-use rcube_charset;
-use rcube_utils;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_passwordfield as html_passwordfield;
+use html_select as html_select;
+use html_textarea as html_textarea;
+use rcube as rcube;
+use rcube_browser as rcube_browser;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

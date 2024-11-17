@@ -1,9 +1,9 @@
 <?php
 
-use rcube_message_header;
-use rcube_result_index;
-use rcube_result_thread;
-use rcube_utils;
+use rcube_message_header as rcube_message_header;
+use rcube_result_index as rcube_result_index;
+use rcube_result_thread as rcube_result_thread;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

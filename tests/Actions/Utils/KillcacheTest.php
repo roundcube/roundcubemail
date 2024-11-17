@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Utils;
 
-use rcmail_action;
-use rcmail_action_utils_killcache;
+use rcmail_action as rcmail_action;
+use rcmail_action_utils_killcache as rcmail_action_utils_killcache;
 use Roundcube\Tests\ActionTestCase;
 
 /**

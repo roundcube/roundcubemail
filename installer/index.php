@@ -1,7 +1,7 @@
 <?php
 
-use rcmail_install;
-use rcube;
+use rcmail_install as rcmail_install;
+use rcube as rcube;
 
 /*
  +-------------------------------------------------------------------------+

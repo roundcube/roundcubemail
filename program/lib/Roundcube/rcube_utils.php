@@ -1,9 +1,9 @@
 <?php
 
-use rcmail;
-use rcube;
-use rcube_charset;
-use rcube_string_replacer;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_string_replacer as rcube_string_replacer;
 
 /*
  +-----------------------------------------------------------------------+

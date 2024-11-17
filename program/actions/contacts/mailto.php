@@ -1,9 +1,9 @@
 <?php
 
-use rcmail;
-use rcmail_action_contacts_index;
-use rcube_addressbook;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube_addressbook as rcube_addressbook;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

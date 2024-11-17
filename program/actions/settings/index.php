@@ -1,18 +1,18 @@
 <?php
 
-use html;
-use html_button;
-use html_checkbox;
-use html_inputfield;
-use html_radiobutton;
-use html_select;
-use rcmail;
-use rcmail_action;
-use rcmail_output;
-use rcube;
-use rcube_addressbook;
-use rcube_charset;
-use rcube_washtml;
+use html as html;
+use html_button as html_button;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_radiobutton as html_radiobutton;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_washtml as rcube_washtml;
 
 /*
  +-----------------------------------------------------------------------+

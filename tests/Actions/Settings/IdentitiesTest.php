@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
-use rcmail_action;
-use rcmail_action_settings_identities;
+use rcmail_action as rcmail_action;
+use rcmail_action_settings_identities as rcmail_action_settings_identities;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 

@@ -1,20 +1,20 @@
 <?php
 
-use html;
-use html_hiddenfield;
-use html_inputfield;
-use html_select;
-use html_table;
-use rcmail;
-use rcmail_output;
-use rcube;
-use rcube_charset;
-use rcube_imap_generic;
-use rcube_message_part;
-use rcube_output;
-use rcube_result_multifolder;
-use rcube_storage;
-use rcube_utils;
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message_part as rcube_message_part;
+use rcube_output as rcube_output;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

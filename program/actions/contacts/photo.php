@@ -1,10 +1,10 @@
 <?php
 
-use rcmail;
-use rcmail_action_contacts_index;
-use rcmail_output;
-use rcube_mime;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcmail_output as rcmail_output;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

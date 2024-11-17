@@ -1,10 +1,10 @@
 <?php
 
-use rcmail;
-use rcmail_action_settings_folder_edit;
-use rcube_charset;
-use rcube_storage;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action_settings_folder_edit as rcmail_action_settings_folder_edit;
+use rcube_charset as rcube_charset;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

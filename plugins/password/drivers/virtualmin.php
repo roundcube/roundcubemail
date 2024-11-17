@@ -1,6 +1,6 @@
 <?php
 
-use rcube;
+use rcube as rcube;
 
 /**
  * Virtualmin Password Driver

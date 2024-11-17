@@ -1,9 +1,9 @@
 <?php
 
-use rcmail;
-use rcube_db;
-use rcube_plugin;
-use rcube_utils;
+use rcmail as rcmail;
+use rcube_db as rcube_db;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /**
  * DB based User-to-Email and Email-to-User lookup

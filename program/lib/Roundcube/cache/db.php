@@ -1,8 +1,8 @@
 <?php
 
-use rcube;
-use rcube_cache;
-use rcube_db;
+use rcube as rcube;
+use rcube_cache as rcube_cache;
+use rcube_db as rcube_db;
 
 /*
  +-----------------------------------------------------------------------+

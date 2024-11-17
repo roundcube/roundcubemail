@@ -3,9 +3,9 @@
 namespace Roundcube\Tests\Actions\Contacts;
 
 use PHPUnit\Framework\Attributes\Depends;
-use rcmail;
-use rcmail_action;
-use rcmail_action_contacts_export;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_contacts_export as rcmail_action_contacts_export;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 use Roundcube\Tests\StderrMock;

@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_spellchecker_engine;
+use rcube as rcube;
+use rcube_spellchecker_engine as rcube_spellchecker_engine;
 
 /*
  +-----------------------------------------------------------------------+

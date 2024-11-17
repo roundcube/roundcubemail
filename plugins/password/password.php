@@ -1,14 +1,14 @@
 <?php
 
 use GuzzleHttp\Client;
-use html;
-use html_passwordfield;
-use html_table;
-use rcmail;
-use rcube;
-use rcube_charset;
-use rcube_plugin;
-use rcube_utils;
+use html as html;
+use html_passwordfield as html_passwordfield;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /*
  * Password Plugin for Roundcube

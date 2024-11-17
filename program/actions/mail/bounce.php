@@ -1,13 +1,13 @@
 <?php
 
-use html;
-use rcmail;
-use rcmail_action;
-use rcmail_resend_mail;
-use rcmail_sendmail;
-use rcube;
-use rcube_message;
-use rcube_utils;
+use html as html;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_resend_mail as rcmail_resend_mail;
+use rcmail_sendmail as rcmail_sendmail;
+use rcube as rcube;
+use rcube_message as rcube_message;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

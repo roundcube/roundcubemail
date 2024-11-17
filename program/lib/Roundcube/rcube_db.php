@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_db_param;
+use rcube as rcube;
+use rcube_db_param as rcube_db_param;
 
 /*
  +-----------------------------------------------------------------------+

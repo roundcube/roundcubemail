@@ -1,14 +1,14 @@
 <?php
 
-use enigma_driver;
-use enigma_error;
-use enigma_key;
-use enigma_signature;
-use enigma_subkey;
-use enigma_userid;
-use rcmail;
-use rcube;
-use rcube_user;
+use enigma_driver as enigma_driver;
+use enigma_error as enigma_error;
+use enigma_key as enigma_key;
+use enigma_signature as enigma_signature;
+use enigma_subkey as enigma_subkey;
+use enigma_userid as enigma_userid;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_user as rcube_user;
 
 /*
  +-------------------------------------------------------------------------+

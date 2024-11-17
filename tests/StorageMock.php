@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests;
 
-use rcube;
-use rcube_storage;
+use rcube as rcube;
+use rcube_storage as rcube_storage;
 
 /*
  +-----------------------------------------------------------------------+

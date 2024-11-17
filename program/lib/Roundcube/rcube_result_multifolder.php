@@ -1,7 +1,7 @@
 <?php
 
-use rcube_result_index;
-use rcube_result_thread;
+use rcube_result_index as rcube_result_index;
+use rcube_result_thread as rcube_result_thread;
 
 /*
  +-----------------------------------------------------------------------+

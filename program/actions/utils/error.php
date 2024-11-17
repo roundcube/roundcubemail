@@ -1,9 +1,9 @@
 <?php
 
-use html;
-use rcmail;
-use rcmail_action;
-use rcube;
+use html as html;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube as rcube;
 
 /*
  +-----------------------------------------------------------------------+

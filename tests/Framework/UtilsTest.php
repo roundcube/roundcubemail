@@ -4,8 +4,8 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube;
-use rcube_utils;
+use rcube as rcube;
+use rcube_utils as rcube_utils;
 use Roundcube\Tests\StderrMock;
 
 /**

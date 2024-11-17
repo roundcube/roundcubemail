@@ -1,11 +1,11 @@
 <?php
 
-use html;
-use html_select;
-use html_table;
-use rcube;
-use rcube_sieve_engine;
-use rcube_utils;
+use html as html;
+use html_select as html_select;
+use html_table as html_table;
+use rcube as rcube;
+use rcube_sieve_engine as rcube_sieve_engine;
+use rcube_utils as rcube_utils;
 
 /**
  * Managesieve Forward Engine

@@ -1,11 +1,11 @@
 <?php
 
-use rcmail;
-use rcmail_action;
-use rcmail_sendmail;
-use rcube;
-use rcube_spellchecker;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_sendmail as rcmail_sendmail;
+use rcube as rcube;
+use rcube_spellchecker as rcube_spellchecker;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

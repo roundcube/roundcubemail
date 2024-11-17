@@ -1,11 +1,11 @@
 <?php
 
-use rcmail;
-use rcmail_action_contacts_index;
-use rcube;
-use rcube_addressbook;
-use rcube_mime;
-use rcube_utils;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

@@ -1,23 +1,23 @@
 <?php
 
-use html;
-use html_select;
-use rcmail_action;
-use rcmail_oauth;
-use rcmail_output_cli;
-use rcmail_output_html;
-use rcmail_output_json;
-use rcube;
-use rcube_addressbook;
-use rcube_addresses;
-use rcube_contacts;
-use rcube_html2text;
-use rcube_ldap;
-use rcube_message_part;
-use rcube_output;
-use rcube_uploads;
-use rcube_user;
-use rcube_utils;
+use html as html;
+use html_select as html_select;
+use rcmail_action as rcmail_action;
+use rcmail_oauth as rcmail_oauth;
+use rcmail_output_cli as rcmail_output_cli;
+use rcmail_output_html as rcmail_output_html;
+use rcmail_output_json as rcmail_output_json;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_addresses as rcube_addresses;
+use rcube_contacts as rcube_contacts;
+use rcube_html2text as rcube_html2text;
+use rcube_ldap as rcube_ldap;
+use rcube_message_part as rcube_message_part;
+use rcube_output as rcube_output;
+use rcube_uploads as rcube_uploads;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

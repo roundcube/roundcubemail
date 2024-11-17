@@ -1,11 +1,11 @@
 <?php
 
-use html_select;
-use rcmail_utils;
-use rcube;
-use rcube_db;
-use rcube_mime;
-use rcube_utils;
+use html_select as html_select;
+use rcmail_utils as rcmail_utils;
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

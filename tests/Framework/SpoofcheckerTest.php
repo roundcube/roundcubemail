@@ -4,7 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube_spoofchecker;
+use rcube_spoofchecker as rcube_spoofchecker;
 
 /**
  * Test class to test rcube_spoofchecker class

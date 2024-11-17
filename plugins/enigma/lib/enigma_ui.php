@@ -1,25 +1,25 @@
 <?php
 
-use enigma;
-use enigma_driver;
-use enigma_engine;
-use enigma_error;
-use enigma_key;
-use enigma_signature;
-use html;
-use html_button;
-use html_checkbox;
-use html_inputfield;
-use html_select;
-use html_table;
-use rcmail;
-use rcmail_action;
-use rcmail_output;
-use rcube;
-use rcube_message;
-use rcube_mime;
-use rcube_output;
-use rcube_utils;
+use enigma as enigma;
+use enigma_driver as enigma_driver;
+use enigma_engine as enigma_engine;
+use enigma_error as enigma_error;
+use enigma_key as enigma_key;
+use enigma_signature as enigma_signature;
+use html as html;
+use html_button as html_button;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_message as rcube_message;
+use rcube_mime as rcube_mime;
+use rcube_output as rcube_output;
+use rcube_utils as rcube_utils;
 
 /*
  +-------------------------------------------------------------------------+

@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use rcube_imap;
-use rcube_mime;
-use rcube_utils;
+use rcube_imap as rcube_imap;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

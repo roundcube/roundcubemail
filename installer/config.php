@@ -1,11 +1,11 @@
 <?php
 
-use html;
-use html_checkbox;
-use html_inputfield;
-use html_select;
-use html_textarea;
-use rcube_db;
+use html as html;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_textarea as html_textarea;
+use rcube_db as rcube_db;
 
 /*
  +-----------------------------------------------------------------------+

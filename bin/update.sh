@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-use rcmail_install;
-use rcmail_utils;
-use rcube;
-use rcube_utils;
+use rcmail_install as rcmail_install;
+use rcmail_utils as rcmail_utils;
+use rcube as rcube;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

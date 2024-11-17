@@ -2,7 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
-use rcmail;
+use rcmail as rcmail;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\ExitException;
 use Roundcube\Tests\OutputJsonMock;

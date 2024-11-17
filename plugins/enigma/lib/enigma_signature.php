@@ -1,8 +1,8 @@
 <?php
 
-use enigma_engine;
-use rcube_message;
-use rcube_mime;
+use enigma_engine as enigma_engine;
+use rcube_message as rcube_message;
+use rcube_mime as rcube_mime;
 
 /*
  +-------------------------------------------------------------------------+

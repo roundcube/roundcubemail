@@ -1,7 +1,7 @@
 <?php
 
-use rcube;
-use rcube_cache_db;
+use rcube as rcube;
+use rcube_cache_db as rcube_cache_db;
 
 /*
  +-----------------------------------------------------------------------+

@@ -1,9 +1,9 @@
 <?php
 
-use enigma_driver;
-use enigma_error;
-use enigma_signature;
-use rcmail;
+use enigma_driver as enigma_driver;
+use enigma_error as enigma_error;
+use enigma_signature as enigma_signature;
+use rcmail as rcmail;
 
 /*
  +-------------------------------------------------------------------------+

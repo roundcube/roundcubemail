@@ -1,12 +1,12 @@
 <?php
 
-use html;
-use html_table;
-use rcmail;
-use rcmail_action;
-use rcube;
-use rcube_output;
-use rcube_utils;
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_output as rcube_output;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

@@ -1,7 +1,7 @@
 <?php
 
-use rcube_imap_generic;
-use rcube_result_index;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_result_index as rcube_result_index;
 
 /*
  +-----------------------------------------------------------------------+

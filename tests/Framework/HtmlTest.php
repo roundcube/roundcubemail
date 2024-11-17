@@ -2,7 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
-use html;
+use html as html;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

@@ -1,17 +1,17 @@
 <?php
 
-use html;
-use html_hiddenfield;
-use html_inputfield;
-use html_passwordfield;
-use html_select;
-use html_table;
-use rcmail;
-use rcmail_action_utils_error;
-use rcmail_output;
-use rcube;
-use rcube_charset;
-use rcube_utils;
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_passwordfield as html_passwordfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_utils_error as rcmail_action_utils_error;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

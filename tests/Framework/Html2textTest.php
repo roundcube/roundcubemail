@@ -4,7 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use rcube_html2text;
+use rcube_html2text as rcube_html2text;
 
 /**
  * Test class to test rcube_html2text class

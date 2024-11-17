@@ -5,9 +5,9 @@ use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
-use rcmail;
-use rcmail_action_contacts_index;
-use rcube_vcard;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube_vcard as rcube_vcard;
 
 /*
  +-----------------------------------------------------------------------+

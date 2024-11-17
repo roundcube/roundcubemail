@@ -1,10 +1,10 @@
 <?php
 
-use html;
-use html_checkbox;
-use rcmail;
-use rcube_plugin;
-use rcube_utils;
+use html as html;
+use html_checkbox as html_checkbox;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /**
  * Emoticons.

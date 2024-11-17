@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
-use rcmail_action;
-use rcmail_action_settings_upload_display;
+use rcmail_action as rcmail_action;
+use rcmail_action_settings_upload_display as rcmail_action_settings_upload_display;
 use Roundcube\Tests\ActionTestCase;
 
 /**

@@ -1,11 +1,11 @@
 <?php
 
-use rcube;
-use rcube_addressbook;
-use rcube_cache;
-use rcube_ldap_generic;
-use rcube_result_set;
-use rcube_utils;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_cache as rcube_cache;
+use rcube_ldap_generic as rcube_ldap_generic;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

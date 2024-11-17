@@ -1,7 +1,7 @@
 <?php
 
-use rcmail;
-use rcmail_action_mail_index;
+use rcmail as rcmail;
+use rcmail_action_mail_index as rcmail_action_mail_index;
 
 /*
  +-----------------------------------------------------------------------+

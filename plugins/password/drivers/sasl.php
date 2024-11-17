@@ -1,7 +1,7 @@
 <?php
 
-use rcmail;
-use rcube;
+use rcmail as rcmail;
+use rcube as rcube;
 
 /**
  * SASL Password Driver

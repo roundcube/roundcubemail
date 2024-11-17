@@ -3,8 +3,8 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube;
-use rcube_image;
+use rcube as rcube;
+use rcube_image as rcube_image;
 
 /**
  * Test class to test rcube_image class

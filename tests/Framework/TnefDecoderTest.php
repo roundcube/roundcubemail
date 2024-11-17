@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_tnef_decoder;
+use rcube_tnef_decoder as rcube_tnef_decoder;
 
 /**
  * Test class to test rcube_tnef_decoder class

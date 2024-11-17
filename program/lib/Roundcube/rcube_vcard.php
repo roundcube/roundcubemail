@@ -1,7 +1,7 @@
 <?php
 
-use rcube_charset;
-use rcube_utils;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

@@ -1,6 +1,6 @@
 <?php
 
-use rcmail_output;
+use rcmail_output as rcmail_output;
 
 /*
  +-----------------------------------------------------------------------+

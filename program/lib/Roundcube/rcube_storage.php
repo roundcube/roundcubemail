@@ -1,13 +1,13 @@
 <?php
 
-use rcube;
-use rcube_charset;
-use rcube_imap_generic;
-use rcube_message_header;
-use rcube_message_part;
-use rcube_result_index;
-use rcube_result_multifolder;
-use rcube_result_thread;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message_header as rcube_message_header;
+use rcube_message_part as rcube_message_part;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
 
 /*
  +-----------------------------------------------------------------------+

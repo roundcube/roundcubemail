@@ -1,15 +1,15 @@
 <?php
 
-use html;
-use rcmail;
-use rcmail_action;
-use rcube;
-use rcube_charset;
-use rcube_message;
-use rcube_message_part;
-use rcube_mime;
-use rcube_plugin;
-use rcube_utils;
+use html as html;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /**
  * ZipDownload

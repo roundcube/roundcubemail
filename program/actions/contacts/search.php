@@ -1,14 +1,14 @@
 <?php
 
-use html;
-use html_hiddenfield;
-use rcmail;
-use rcmail_action_contacts_index;
-use rcube;
-use rcube_addressbook;
-use rcube_output;
-use rcube_result_set;
-use rcube_utils;
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_output as rcube_output;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

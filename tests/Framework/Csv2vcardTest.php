@@ -3,7 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
-use rcube_csv2vcard;
+use rcube_csv2vcard as rcube_csv2vcard;
 
 /**
  * Test class to test rcube_csv2vcard class

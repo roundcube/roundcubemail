@@ -1,10 +1,10 @@
 <?php
 
-use html;
-use html_table;
-use rcmail;
-use rcmail_action_settings_index;
-use rcube_utils;
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_settings_index as rcmail_action_settings_index;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

@@ -1,7 +1,7 @@
 <?php
 
-use enigma_key;
-use rcube;
+use enigma_key as enigma_key;
+use rcube as rcube;
 
 /*
  +-------------------------------------------------------------------------+

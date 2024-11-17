@@ -1,10 +1,10 @@
 <?php
 
-use rcube_addressbook;
-use rcube_db;
-use rcube_result_set;
-use rcube_utils;
-use rcube_vcard;
+use rcube_addressbook as rcube_addressbook;
+use rcube_db as rcube_db;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
+use rcube_vcard as rcube_vcard;
 
 /*
  +-----------------------------------------------------------------------+

@@ -2,8 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Mail;
 
-use rcmail_action;
-use rcmail_action_mail_viewsource;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_viewsource as rcmail_action_mail_viewsource;
 use Roundcube\Tests\ActionTestCase;
 
 /**

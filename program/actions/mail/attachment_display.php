@@ -1,7 +1,7 @@
 <?php
 
-use rcmail;
-use rcmail_action_mail_attachment_upload;
+use rcmail as rcmail;
+use rcmail_action_mail_attachment_upload as rcmail_action_mail_attachment_upload;
 
 /*
  +-----------------------------------------------------------------------+

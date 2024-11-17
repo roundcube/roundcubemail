@@ -1,14 +1,14 @@
 <?php
 
-use html;
-use html_checkbox;
-use html_hiddenfield;
-use html_table;
-use rcmail;
-use rcmail_action_contacts_index;
-use rcmail_output;
-use rcube;
-use rcube_utils;
+use html as html;
+use html_checkbox as html_checkbox;
+use html_hiddenfield as html_hiddenfield;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

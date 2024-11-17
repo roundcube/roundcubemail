@@ -1,18 +1,18 @@
 <?php
 
-use html;
-use html_checkbox;
-use html_hiddenfield;
-use html_inputfield;
-use html_select;
-use html_table;
-use rcmail;
-use rcmail_action_contacts_index;
-use rcube;
-use rcube_addressbook;
-use rcube_csv2vcard;
-use rcube_utils;
-use rcube_vcard;
+use html as html;
+use html_checkbox as html_checkbox;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_csv2vcard as rcube_csv2vcard;
+use rcube_utils as rcube_utils;
+use rcube_vcard as rcube_vcard;
 
 /*
  +-----------------------------------------------------------------------+

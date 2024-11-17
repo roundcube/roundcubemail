@@ -1,9 +1,9 @@
 <?php
 
-use password;
-use rcmail;
-use rcube_db;
-use rcube_utils;
+use password as password;
+use rcmail as rcmail;
+use rcube_db as rcube_db;
+use rcube_utils as rcube_utils;
 
 /**
  * SQL Password Driver

@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use rcmail_utils;
+use rcmail_utils as rcmail_utils;
 
 /*
  +-----------------------------------------------------------------------+

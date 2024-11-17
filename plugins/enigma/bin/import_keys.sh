@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use rcube;
-use rcube_user;
-use rcube_utils;
+use rcube as rcube;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+
