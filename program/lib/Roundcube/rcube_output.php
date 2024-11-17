@@ -1,5 +1,10 @@
 <?php
 
+use html_checkbox;
+use html_inputfield;
+use html_passwordfield;
+use html_select;
+use html_textarea;
 use rcube;
 use rcube_browser;
 use rcube_charset;

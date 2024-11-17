@@ -1,5 +1,11 @@
 <?php
 
+use html;
+use html_hiddenfield;
+use html_inputfield;
+use html_passwordfield;
+use html_select;
+use html_table;
 use rcmail;
 use rcmail_action_utils_error;
 use rcmail_output;

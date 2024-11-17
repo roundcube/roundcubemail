@@ -1,5 +1,9 @@
 <?php
 
+use html_checkbox;
+use html_hiddenfield;
+use html_inputfield;
+use html_select;
 use rcmail;
 use rcmail_action;
 use rcmail_output;

@@ -1,5 +1,8 @@
 <?php
 
+use html;
+use html_checkbox;
+use html_select;
 use rcmail;
 use rcube_plugin;
 use rcube_utils;

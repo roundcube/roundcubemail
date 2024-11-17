@@ -1,5 +1,11 @@
 <?php
 
+use html;
+use html_button;
+use html_checkbox;
+use html_inputfield;
+use html_select;
+use html_table;
 use rcmail;
 use rcmail_action;
 use rcmail_output;

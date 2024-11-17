@@ -1,5 +1,6 @@
 <?php
 
+use html_hiddenfield;
 use rcmail;
 use rcmail_action_contacts_index;
 use rcube_addressbook;

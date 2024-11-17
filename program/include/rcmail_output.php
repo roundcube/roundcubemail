@@ -1,5 +1,6 @@
 <?php
 
+use html;
 use rcube;
 use rcube_output;
 

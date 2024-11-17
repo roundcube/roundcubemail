@@ -22,6 +22,7 @@
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
+use html;
 use rcmail;
 use rcmail_action_login_oauth;
 use rcmail_action_login_oauth_backchannel;

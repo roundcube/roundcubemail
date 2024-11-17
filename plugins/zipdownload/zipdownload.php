@@ -1,5 +1,6 @@
 <?php
 
+use html;
 use rcmail;
 use rcmail_action;
 use rcube;

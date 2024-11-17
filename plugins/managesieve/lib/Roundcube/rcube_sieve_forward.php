@@ -1,5 +1,8 @@
 <?php
 
+use html;
+use html_select;
+use html_table;
 use rcube;
 use rcube_sieve_engine;
 use rcube_utils;

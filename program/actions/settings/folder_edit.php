@@ -1,5 +1,10 @@
 <?php
 
+use html;
+use html_hiddenfield;
+use html_inputfield;
+use html_select;
+use html_table;
 use rcmail;
 use rcmail_action_settings_folders;
 use rcmail_output;

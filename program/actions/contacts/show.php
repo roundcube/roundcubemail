@@ -1,5 +1,9 @@
 <?php
 
+use html;
+use html_checkbox;
+use html_hiddenfield;
+use html_table;
 use rcmail;
 use rcmail_action_contacts_index;
 use rcmail_output;

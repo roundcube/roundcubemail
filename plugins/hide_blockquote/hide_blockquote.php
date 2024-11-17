@@ -1,5 +1,7 @@
 <?php
 
+use html;
+use html_inputfield;
 use rcmail;
 use rcube_plugin;
 use rcube_utils;

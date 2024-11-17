@@ -1,5 +1,7 @@
 <?php
 
+use html;
+use html_select;
 use rcmail_action;
 use rcmail_oauth;
 use rcmail_output_cli;

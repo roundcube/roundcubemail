@@ -1,5 +1,8 @@
 <?php
 
+use html;
+use html_checkbox;
+use html_select;
 use rcmail;
 use rcmail_action;
 use rcmail_action_mail_index;

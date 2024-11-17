@@ -1,6 +1,9 @@
 <?php
 
 use GuzzleHttp\Client;
+use html;
+use html_passwordfield;
+use html_table;
 use rcmail;
 use rcube;
 use rcube_charset;

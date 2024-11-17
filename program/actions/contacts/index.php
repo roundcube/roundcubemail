@@ -1,5 +1,8 @@
 <?php
 
+use html;
+use html_hiddenfield;
+use html_select;
 use rcmail;
 use rcmail_action;
 use rcmail_action_contacts_qrcode;

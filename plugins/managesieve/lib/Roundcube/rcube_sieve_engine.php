@@ -1,5 +1,12 @@
 <?php
 
+use html;
+use html_hiddenfield;
+use html_inputfield;
+use html_radiobutton;
+use html_select;
+use html_table;
+use html_textarea;
 use rcmail_action;
 use rcmail_output;
 use rcube;

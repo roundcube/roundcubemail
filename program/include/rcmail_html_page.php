@@ -1,5 +1,6 @@
 <?php
 
+use html;
 use rcmail_output_html;
 use rcube;
 

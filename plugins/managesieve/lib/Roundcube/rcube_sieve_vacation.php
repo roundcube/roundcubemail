@@ -1,5 +1,10 @@
 <?php
 
+use html;
+use html_inputfield;
+use html_select;
+use html_table;
+use html_textarea;
 use rcmail_output;
 use rcube;
 use rcube_mime;

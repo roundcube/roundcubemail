@@ -1,5 +1,6 @@
 <?php
 
+use html;
 use rcmail_output;
 use rcube;
 use rcube_string_replacer;

@@ -1,5 +1,6 @@
 <?php
 
+use html_select;
 use rcmail_utils;
 use rcube;
 use rcube_db;

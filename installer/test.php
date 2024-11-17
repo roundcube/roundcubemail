@@ -1,5 +1,9 @@
 <?php
 
+use html;
+use html_inputfield;
+use html_passwordfield;
+use html_select;
 use rcmail_install;
 use rcube;
 use rcube_db;
