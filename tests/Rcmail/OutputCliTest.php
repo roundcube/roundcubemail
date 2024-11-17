@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
+use rcmail_output_cli;
 use Roundcube\Tests\ActionTestCase;
 
 /**

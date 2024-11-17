@@ -1,5 +1,10 @@
 <?php
 
+use rcube;
+use rcube_db;
+use rcube_message;
+use rcube_utils;
+
 /*
  * AmavisD Blacklist driver
  *

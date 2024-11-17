@@ -1,5 +1,8 @@
 <?php
 
+use rcube_message;
+use rcube_mime;
+
 /*
  +-------------------------------------------------------------------------+
  | Signature class for the Enigma Plugin                                   |

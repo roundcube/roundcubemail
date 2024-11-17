@@ -1,5 +1,7 @@
 <?php
 
+use rcube_mime;
+
 /*
  +-------------------------------------------------------------------------+
  | Mail_mime wrapper for the Enigma Plugin                                 |

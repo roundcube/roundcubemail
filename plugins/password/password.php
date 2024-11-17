@@ -1,6 +1,11 @@
 <?php
 
 use GuzzleHttp\Client;
+use rcmail;
+use rcube;
+use rcube_charset;
+use rcube_plugin;
+use rcube_utils;
 
 /*
  * Password Plugin for Roundcube

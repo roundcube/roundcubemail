@@ -1,5 +1,8 @@
 <?php
 
+use rcube;
+use rcube_ldap_simple_password;
+
 /*
  * LDAP - Password Modify Extended Operation Driver
  *

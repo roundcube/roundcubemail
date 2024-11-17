@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube;
+
 /**
  * Roundcube password driver for generic HTTP APIs.
  *

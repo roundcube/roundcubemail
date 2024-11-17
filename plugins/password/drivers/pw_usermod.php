@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube;
+
 /**
  * pw_usermod Driver
  *

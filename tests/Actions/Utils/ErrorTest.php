@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Utils;
 
+use rcmail_action;
+use rcmail_action_utils_error;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 use Roundcube\Tests\OutputJsonMock;

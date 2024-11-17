@@ -1,5 +1,10 @@
 <?php
 
+use rcube;
+use rcube_browser;
+use rcube_charset;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube webmail client                     |

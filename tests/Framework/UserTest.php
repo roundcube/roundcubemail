@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use rcube_user;
 use Roundcube\Tests\ActionTestCase;
 
 /**

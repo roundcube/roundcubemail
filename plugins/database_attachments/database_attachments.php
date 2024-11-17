@@ -1,5 +1,7 @@
 <?php
 
+use rcube;
+
 /*
  * Database Attachments
  *

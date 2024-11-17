@@ -1,5 +1,10 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_imap;
+use rcube_plugin;
+
 /**
  * Subscription Options
  *

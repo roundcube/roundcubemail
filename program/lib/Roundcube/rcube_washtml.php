@@ -2,6 +2,9 @@
 
 use Dom\HTMLDocument;
 use Masterminds\HTML5;
+use rcube;
+use rcube_base_replacer;
+use rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+

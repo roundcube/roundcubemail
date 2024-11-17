@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Utils;
 
+use rcmail_action;
+use rcmail_action_utils_text2html;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 

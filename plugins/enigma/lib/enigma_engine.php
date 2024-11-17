@@ -1,5 +1,12 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_message;
+use rcube_message_part;
+use rcube_mime;
+use rcube_utils;
+
 /*
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |

@@ -1,5 +1,8 @@
 <?php
 
+use rcube_result_index;
+use rcube_result_thread;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -1,5 +1,14 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcmail_output;
+use rcube;
+use rcube_message;
+use rcube_mime;
+use rcube_output;
+use rcube_utils;
+
 /*
  +-------------------------------------------------------------------------+
  | User Interface for the Enigma Plugin                                    |

@@ -1,5 +1,10 @@
 <?php
 
+use rcmail;
+use rcube_db;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * DB based User-to-Email and Email-to-User lookup
  *

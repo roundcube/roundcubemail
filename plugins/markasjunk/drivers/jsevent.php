@@ -1,5 +1,7 @@
 <?php
 
+use rcmail;
+
 /**
  * MarkAsJunk JS events example
  * This is an example of how to interact with the markasjunk JS event

@@ -3,6 +3,7 @@
 namespace Roundcube\Plugins\Tests;
 
 use PHPUnit\Framework\TestCase;
+use rcube;
 
 class PasswordTest extends TestCase
 {

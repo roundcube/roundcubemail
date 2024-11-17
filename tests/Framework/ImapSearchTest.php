@@ -3,6 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use rcube_imap_search;
 
 /**
  * Test class to test rcube_imap_search class

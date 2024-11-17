@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcmail_action_mail_attachment_upload;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -4,6 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use rcube_db_mysql;
 
 /**
  * Test class to test rcube_db_mysql class

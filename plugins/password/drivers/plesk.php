@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube;
+
 /*
  * Roundcube Password Driver for Plesk-RPC.
  *

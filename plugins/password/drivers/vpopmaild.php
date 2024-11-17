@@ -1,5 +1,7 @@
 <?php
 
+use rcmail;
+
 /**
  * vpopmail Password Driver
  *

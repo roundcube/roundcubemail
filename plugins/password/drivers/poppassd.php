@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube_utils;
+
 /**
  * Poppassd Password Driver
  *

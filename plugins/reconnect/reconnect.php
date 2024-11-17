@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube_imap_generic;
+use rcube_plugin;
+
 /**
  * Roundcube Reconnect Plugin
  *

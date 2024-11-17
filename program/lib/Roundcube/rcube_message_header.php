@@ -1,5 +1,8 @@
 <?php
 
+use rcube_charset;
+use rcube_mime;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

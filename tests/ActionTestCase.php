@@ -3,6 +3,8 @@
 namespace Roundcube\Tests;
 
 use PHPUnit\Framework\TestCase;
+use rcmail;
+use rcmail_action;
 
 /**
  * Test class to test rcmail_action_mail_index

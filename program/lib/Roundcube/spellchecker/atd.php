@@ -1,5 +1,8 @@
 <?php
 
+use rcube;
+use rcube_spellchecker_engine;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

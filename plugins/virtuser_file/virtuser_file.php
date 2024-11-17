@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * File based User-to-Email and Email-to-User lookup
  *

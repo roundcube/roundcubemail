@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube_plugin;
+
 /**
  * Plugin to auto log out users with a POST request sent from an external site.
  *

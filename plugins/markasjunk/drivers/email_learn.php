@@ -1,5 +1,11 @@
 <?php
 
+use rcmail;
+use rcmail_resend_mail;
+use rcmail_sendmail;
+use rcube;
+use rcube_message;
+
 /**
  * Email learn driver
  *

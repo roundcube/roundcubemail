@@ -1,5 +1,8 @@
 <?php
 
+use rcube;
+use rcube_charset;
+
 /**
  * domainFACTORY Password Driver
  *

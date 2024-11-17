@@ -1,5 +1,7 @@
 <?php
 
+use rcmail_action_settings_response_edit;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -1,5 +1,10 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * New Mail Notifier plugin
  *

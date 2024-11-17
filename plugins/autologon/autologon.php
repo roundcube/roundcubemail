@@ -1,5 +1,7 @@
 <?php
 
+use rcube_plugin;
+
 /**
  * Sample plugin to try out some hooks.
  * This performs an automatic login if accessed from localhost

@@ -1,5 +1,15 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcube;
+use rcube_charset;
+use rcube_message;
+use rcube_message_part;
+use rcube_mime;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * ZipDownload
  *

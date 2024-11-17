@@ -3,6 +3,8 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use rcube;
+use rcube_cache_db;
 
 /**
  * Test class to test rcube_cache_db class

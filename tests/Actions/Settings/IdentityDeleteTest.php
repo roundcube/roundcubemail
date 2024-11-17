@@ -2,6 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_settings_identity_delete;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

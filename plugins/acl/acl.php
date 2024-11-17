@@ -1,5 +1,12 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_addressbook;
+use rcube_ldap;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *

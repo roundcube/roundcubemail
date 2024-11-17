@@ -1,5 +1,12 @@
 <?php
 
+use rcmail_action;
+use rcube;
+use rcube_message;
+use rcube_mime;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * Managesieve (Sieve Filters)
  *

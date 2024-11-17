@@ -1,5 +1,9 @@
 <?php
 
+use rcube;
+use rcube_sieve_engine;
+use rcube_utils;
+
 /**
  * Managesieve Forward Engine
  *

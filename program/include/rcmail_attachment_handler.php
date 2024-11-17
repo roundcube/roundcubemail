@@ -1,5 +1,15 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_mail_index;
+use rcube;
+use rcube_imap_generic;
+use rcube_message;
+use rcube_mime;
+use rcube_utils;
+use rcube_washtml;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

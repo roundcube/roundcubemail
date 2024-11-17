@@ -1,5 +1,7 @@
 <?php
 
+use rcmail;
+
 /**
  * Edit headers
  *

@@ -1,5 +1,9 @@
 <?php
 
+use rcube;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * Filesystem Attachments
  *

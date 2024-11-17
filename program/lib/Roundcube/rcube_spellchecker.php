@@ -1,5 +1,8 @@
 <?php
 
+use rcube;
+use rcube_html2text;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

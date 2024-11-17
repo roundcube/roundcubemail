@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_user;
+
 /*
  +-------------------------------------------------------------------------+
  | GnuPG (PGP) driver for the Enigma Plugin                                |

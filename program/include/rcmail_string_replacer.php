@@ -1,5 +1,10 @@
 <?php
 
+use rcmail_output;
+use rcube;
+use rcube_string_replacer;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

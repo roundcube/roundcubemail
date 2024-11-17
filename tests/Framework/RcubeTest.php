@@ -4,6 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\RequiresFunction;
 use PHPUnit\Framework\TestCase;
+use rcube;
 
 /**
  * Test class to test rcube class

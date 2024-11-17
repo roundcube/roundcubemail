@@ -1,5 +1,11 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcube;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * MarkAsJunk
  *

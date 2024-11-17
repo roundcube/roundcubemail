@@ -1,5 +1,11 @@
 <?php
 
+use rcmail;
+use rcube_charset;
+use rcube_db;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *

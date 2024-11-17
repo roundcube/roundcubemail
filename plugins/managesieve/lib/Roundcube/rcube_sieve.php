@@ -1,5 +1,8 @@
 <?php
 
+use rcube;
+use rcube_sieve_script;
+
 /*
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *

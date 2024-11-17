@@ -4,6 +4,7 @@ namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use rcube_string_replacer;
 
 /**
  * Test class to test rcube_string_replacer class

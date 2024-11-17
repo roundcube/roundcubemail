@@ -1,5 +1,12 @@
 <?php
 
+use rcmail_install;
+use rcube;
+use rcube_db;
+use rcube_imap;
+use rcube_smtp;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

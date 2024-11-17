@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube_plugin;
+
 /**
  * Identity selection based on additional message headers.
  *

@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube_output;
+use rcube_plugin;
+
 /**
  * jQuery UI
  *

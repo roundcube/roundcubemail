@@ -1,5 +1,10 @@
 <?php
 
+use rcmail;
+use rcube_ldap;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * New user identity
  *

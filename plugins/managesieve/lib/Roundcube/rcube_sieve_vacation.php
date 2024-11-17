@@ -1,5 +1,11 @@
 <?php
 
+use rcmail_output;
+use rcube;
+use rcube_mime;
+use rcube_sieve_engine;
+use rcube_utils;
+
 /**
  * Managesieve Vacation Engine
  *

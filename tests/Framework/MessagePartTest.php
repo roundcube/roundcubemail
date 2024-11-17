@@ -3,6 +3,8 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use rcube_message_part;
+use rcube_mime_decode;
 
 /**
  * Test class to test rcube_message_part class

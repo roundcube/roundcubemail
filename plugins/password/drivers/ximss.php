@@ -1,5 +1,7 @@
 <?php
 
+use rcmail;
+
 /**
  * Communigate driver for the Password Plugin for Roundcube
  *

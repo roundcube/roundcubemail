@@ -3,6 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use rcube_plugin_api;
 
 /**
  * Test class to test rcube_plugin_api class

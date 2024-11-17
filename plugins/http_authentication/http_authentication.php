@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * HTTP Basic Authentication
  *

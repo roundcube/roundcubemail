@@ -1,5 +1,10 @@
 <?php
 
+use rcmail;
+use rcube_addressbook;
+use rcube_plugin;
+use rcube_utils;
+
 /**
  * Identicon
  *

@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
+use rcmail_action;
+use rcmail_action_contacts_index;
 use Roundcube\Tests\ActionTestCase;
 
 /**

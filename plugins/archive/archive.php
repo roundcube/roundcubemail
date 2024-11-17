@@ -1,5 +1,13 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_mail_index;
+use rcube;
+use rcube_plugin;
+use rcube_storage;
+use rcube_utils;
+
 /**
  * Archive
  *

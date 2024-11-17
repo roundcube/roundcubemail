@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube;
+
 /**
  * Mail-in-a-Box Driver
  *

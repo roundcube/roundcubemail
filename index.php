@@ -1,5 +1,9 @@
 <?php
 
+use rcmail;
+use rcube;
+use rcube_utils;
+
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                           |

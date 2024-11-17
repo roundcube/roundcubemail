@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use rcmail_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

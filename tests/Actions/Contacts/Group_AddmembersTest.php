@@ -2,6 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Contacts;
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_contacts_group_addmembers;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

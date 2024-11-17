@@ -1,5 +1,8 @@
 <?php
 
+use rcube_imap_generic;
+use rcube_result_index;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

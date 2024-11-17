@@ -1,5 +1,21 @@
 <?php
 
+use rcube;
+use rcube_cache;
+use rcube_charset;
+use rcube_imap_cache;
+use rcube_imap_generic;
+use rcube_imap_search;
+use rcube_message_header;
+use rcube_message_header_sorter;
+use rcube_message_part;
+use rcube_mime;
+use rcube_result_index;
+use rcube_result_multifolder;
+use rcube_result_thread;
+use rcube_storage;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

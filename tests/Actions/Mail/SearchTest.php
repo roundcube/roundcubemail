@@ -3,6 +3,8 @@
 namespace Roundcube\Tests\Actions\Mail;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use rcmail_action;
+use rcmail_action_mail_search;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

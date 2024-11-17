@@ -2,6 +2,9 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_settings_response_save;
 use Roundcube\Tests\ActionTestCase;
 
 /**

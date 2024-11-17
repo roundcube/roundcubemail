@@ -1,5 +1,13 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcmail_output;
+use rcube;
+use rcube_addressbook;
+use rcube_charset;
+use rcube_washtml;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

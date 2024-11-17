@@ -22,6 +22,11 @@
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
+use rcmail;
+use rcmail_action_login_oauth;
+use rcmail_action_login_oauth_backchannel;
+use rcube;
+use rcube_utils;
 
 /**
  * Roundcube OAuth2 utilities

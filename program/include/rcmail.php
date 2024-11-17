@@ -1,5 +1,22 @@
 <?php
 
+use rcmail_action;
+use rcmail_oauth;
+use rcmail_output_cli;
+use rcmail_output_html;
+use rcmail_output_json;
+use rcube;
+use rcube_addressbook;
+use rcube_addresses;
+use rcube_contacts;
+use rcube_html2text;
+use rcube_ldap;
+use rcube_message_part;
+use rcube_output;
+use rcube_uploads;
+use rcube_user;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

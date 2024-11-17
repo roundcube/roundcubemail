@@ -1,5 +1,15 @@
 <?php
 
+use rcmail;
+use rcmail_action;
+use rcmail_action_contacts_qrcode;
+use rcmail_output;
+use rcube;
+use rcube_addressbook;
+use rcube_output;
+use rcube_user;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

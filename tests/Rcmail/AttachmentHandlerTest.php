@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Rcmail;
 
+use rcmail_attachment_handler;
 use Roundcube\Tests\ActionTestCase;
 
 /**

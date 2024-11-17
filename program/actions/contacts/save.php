@@ -1,5 +1,12 @@
 <?php
 
+use rcmail;
+use rcmail_action_contacts_index;
+use rcube;
+use rcube_addressbook;
+use rcube_mime;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -1,5 +1,11 @@
 <?php
 
+use rcmail;
+use rcmail_action_settings_responses;
+use rcube;
+use rcube_output;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

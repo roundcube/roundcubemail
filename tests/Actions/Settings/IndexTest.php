@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
+use rcmail_action;
+use rcmail_action_settings_index;
 use Roundcube\Tests\ActionTestCase;
 
 use function Roundcube\Tests\getHTMLNodes;

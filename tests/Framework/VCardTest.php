@@ -3,6 +3,7 @@
 namespace Roundcube\Tests\Framework;
 
 use PHPUnit\Framework\TestCase;
+use rcube_vcard;
 
 /**
  * Unit tests for class rcube_vcard

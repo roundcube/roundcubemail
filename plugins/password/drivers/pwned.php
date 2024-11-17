@@ -1,5 +1,8 @@
 <?php
 
+use rcmail;
+use rcube;
+
 /**
  * Have I Been Pwned Password Strength Driver
  *

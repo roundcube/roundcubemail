@@ -2,6 +2,8 @@
 
 namespace Roundcube\Tests\Actions\Settings;
 
+use rcmail_action;
+use rcmail_action_settings_folder_rename;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputJsonMock;
 

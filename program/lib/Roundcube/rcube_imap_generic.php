@@ -1,5 +1,10 @@
 <?php
 
+use rcube_message_header;
+use rcube_result_index;
+use rcube_result_thread;
+use rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
