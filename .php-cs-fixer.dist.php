@@ -79,6 +79,7 @@ return (new Config())
         // also prevent bounding of unwanted variables for GC
         'use_arrow_functions' => false,
 
+        // TODO remove after https://github.com/roundcube/roundcubemail/pull/9481
         'fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => true],
 
         // disable too destructive formating for now
