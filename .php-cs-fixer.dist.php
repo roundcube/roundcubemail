@@ -79,8 +79,6 @@ return (new Config())
         // also prevent bounding of unwanted variables for GC
         'use_arrow_functions' => false,
 
-        'fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => true],
-
         // disable too destructive formating for now
         'blank_line_before_statement' => false,
         'declare_strict_types' => false,
