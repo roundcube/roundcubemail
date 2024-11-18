@@ -99,7 +99,7 @@ function validateStaticFile($path): ?string
 
     $found = false;
     foreach (ALLOWED_PATHS as $prefix) {
-        if (strpos($path, $prefix) === 0) {
+        if (strpos($path, $prefix) === 0 && !preg_match('~skins/.+/templates/~', $path)) {
             $found = true;
             break;
         }
