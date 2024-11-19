@@ -375,7 +375,7 @@ class rcube_result_thread
             $regexp  = '(' . $element . '|' . $item . ')';
 
             if (isset($this->meta['pos'][$index])) {
-                if (preg_match('/([0-9]+)/', $this->raw_data, $m, null, $this->meta['pos'][$index])) {
+                if (preg_match('/([0-9]+)/', $this->raw_data, $m, 0, $this->meta['pos'][$index])) {
                     $result = $m[1];
                 }
             }
