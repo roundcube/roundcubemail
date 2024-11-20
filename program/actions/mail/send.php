@@ -47,9 +47,10 @@ class rcmail_action_mail_send extends rcmail_action
 
         $saveonly = !empty($_GET['_saveonly']);
         $savedraft = !empty($_POST['_draft']) && !$saveonly;
-        $keepformatting = !empty($_POST['_keepformatting']);
         if (in_array('keep_formatting', $rcmail->config->get('dont_override', []))) {
-            $keepformatting = false;
+            $keepformatting = !empty($rcmail->config->get('keep_formatting', false));
+        } else {
+            $keepformatting = !empty($_POST['_keepformatting']);
         }
         $SENDMAIL = new rcmail_sendmail($COMPOSE, [
             'sendmail' => true,
