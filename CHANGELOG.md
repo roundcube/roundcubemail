@@ -26,6 +26,7 @@
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
 - Use draft settings (like DSN) on "Edit as new" (#9349)
+- Add more detailed feedback on vCard import errors (#9591)
 - Use new HTML5 parser available on PHP >= 8.4
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
