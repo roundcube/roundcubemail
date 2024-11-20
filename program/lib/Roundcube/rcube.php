@@ -659,9 +659,9 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
-            foreach ($this->plugins->loaded_plugins() as $domain) {
-                if (isset($this->texts[$domain . '.' . $name])) {
-                    $ref_domain = $domain;
+            foreach ($this->plugins->loaded_plugins() as $domain2) {
+                if (isset($this->texts[$domain2 . '.' . $name])) {
+                    $ref_domain = $domain2;
                     return true;
                 }
             }

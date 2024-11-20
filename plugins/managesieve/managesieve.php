@@ -60,8 +60,8 @@ class managesieve extends rcube_plugin
         $this->register_action('plugin.managesieve-save', [$this, 'managesieve_save']);
         $this->register_action('plugin.managesieve-saveraw', [$this, 'managesieve_saveraw']);
 
-        $task = $this->rc->task ?? null;
-        $action = $this->rc->action ?? null;
+        $task = $this->rc->task ?? null; // @phpstan-ignore-line
+        $action = $this->rc->action ?? null; // @phpstan-ignore-line
 
         if ($task == 'settings') {
             $this->add_hook('settings_actions', [$this, 'settings_actions']);

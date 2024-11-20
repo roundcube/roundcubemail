@@ -56,7 +56,7 @@ class rcmail extends rcube
     public $oauth;
 
     /** @var rcmail_output_cli|rcmail_output_html|rcmail_output_json|null Output handler */
-    public $output;
+    public $output; // @phpstan-ignore-line
 
     private $address_books = [];
     private $action_args = [];
