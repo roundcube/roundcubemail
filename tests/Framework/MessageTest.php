@@ -94,7 +94,7 @@ class rcube_message_test extends \rcube_message
 {
     private $part_bodies = [];
 
-    public function __construct($uid, $folder = null, $is_safe = false)
+    public function __construct($uid, $folder = null, $is_safe = false) // @phpstan-ignore constructor.missingParentCall
     {
         $this->uid = $uid;
         $this->folder = $folder;
