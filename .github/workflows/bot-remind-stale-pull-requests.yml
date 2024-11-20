@@ -1,0 +1,19 @@
+name: "Send comment to stale PRs"
+on:
+  schedule:
+    # Run everyday at midnight
+    - cron: "0 0 * * *"
+
+jobs:
+  review-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: sojusan/github-action-reminder@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reminder_message: "🛎️ This PR has had no activity in two weeks."
+          # Remind after two weeks of inactivity
+          inactivity_deadline_hours: 336
+          default_users_to_notify: |
+            @pabzm
+            @alecpl
