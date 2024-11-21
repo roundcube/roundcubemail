@@ -2062,7 +2062,8 @@ class rcube_imap_generic
     {
         // Validate input
         if (is_array($message_set)) {
-            if (($message_set = $this->compressMessageSet($message_set)) === 'INVALID') {
+            $message_set = $this->compressMessageSet($message_set);
+            if ($message_set === '' || $message_set === 'INVALID') {
                 return false;
             }
         } elseif (empty($message_set)) {
@@ -4042,7 +4043,7 @@ class rcube_imap_generic
      * @param array|string $messages Message identifiers
      * @param bool         $force    Forces compression of any size
      *
-     * @return string Compressed sequence-set or 'INVALID' on invalid or empty input
+     * @return string Compressed sequence-set or 'INVALID' on invalid input
      */
     public static function compressMessageSet($messages, $force = false)
     {
@@ -4064,7 +4065,7 @@ class rcube_imap_generic
         }
 
         if (empty($messages)) {
-            return 'INVALID';
+            return '';
         }
 
         sort($messages);
