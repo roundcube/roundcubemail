@@ -10,6 +10,7 @@
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
 - Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
 - Fix PHP fatal error when parsing some malformed BODYSTRUCTURE responses (#9689)
+- Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
 
 ## Release 1.6.9
 
