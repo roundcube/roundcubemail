@@ -15,6 +15,7 @@
 - Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
 - Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
+- Add 'php' log_driver value (#6138)
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Hide information about quota, when there is no quota (#8994)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
