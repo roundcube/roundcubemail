@@ -169,7 +169,10 @@ class rcube_db_pgsql extends rcube_db
             return rcube::get_instance()->config->get('db_' . $varname, $default);
         }
 
-        $this->variables[$varname] = rcube::get_instance()->config->get('db_' . $varname);
+        $cfgval = rcube::get_instance()->config->get('db_' . $varname);
+        if (isset($cfgval)) {
+            return $cfgval;
+        }
 
         if (!isset($this->variables)) {
             $this->variables = [];
