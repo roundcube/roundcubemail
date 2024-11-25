@@ -6,6 +6,7 @@ on:
 
 jobs:
   review-reminder:
+    if: github.repository == 'roundcube/roundcubemail'
     runs-on: ubuntu-latest
     steps:
       - uses: sojusan/github-action-reminder@v1

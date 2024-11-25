@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   reminder:
+    if: github.repository == 'roundcube/roundcubemail'
     runs-on: ubuntu-latest
 
     steps:
