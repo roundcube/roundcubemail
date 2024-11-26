@@ -6,11 +6,13 @@ on:
 
 jobs:
   review-reminder:
+    permissions:
+      pull-requests: write
+    if: github.repository == 'roundcube/roundcubemail'
     runs-on: ubuntu-latest
     steps:
       - uses: sojusan/github-action-reminder@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           reminder_message: "🛎️ This PR has had no activity in two weeks."
           # Remind after two weeks of inactivity
           inactivity_deadline_hours: 336
