@@ -47,6 +47,29 @@ inherits the browser support from there. This currently includes:
 - Safari: (Current - 1) and Current
 - Opera: Current
 
+DEVELOPMENT SETUP
+-----------------
+- Clone the repository from Github
+- Run 'docker-compose up' to start the development environment
+- Run http://localhost:8080/installer
+  - Follow the instructions to install Roundcube
+  - DB Setup
+    - Database type: postgreSQL
+    - Database server: roundcube-db
+    - Database name: roundcubemail
+    - Database user: roundcube
+    - Database password: password
+  - IMAP Setup
+    - IMAP host: mailserver:143
+- Create a test email account
+  - Run 'docker-compose exec roundcubeMailServer bash'
+  - Run 'setup email add test@test.com password'
+- Final Steps
+  - Run 'docker-compose exec roundcube-webmail bash'
+  - Run 'php bin/install-jsdeps.sh'
+  - cd skins/elastic
+  - Run 'make'
+
 
 LICENSE
 -------
