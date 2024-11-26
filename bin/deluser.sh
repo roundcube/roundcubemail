@@ -1,6 +1,11 @@
 #!/usr/bin/env php
 <?php
 
+use rcmail_utils as rcmail_utils;
+use rcube as rcube;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

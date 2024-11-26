@@ -1,5 +1,16 @@
 <?php
 
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcmail_attachment_handler as rcmail_attachment_handler;
+use rcmail_html_page as rcmail_html_page;
+use rcube as rcube;
+use rcube_image as rcube_image;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -27,7 +38,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

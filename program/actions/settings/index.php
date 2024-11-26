@@ -1,5 +1,19 @@
 <?php
 
+use html as html;
+use html_button as html_button;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_radiobutton as html_radiobutton;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_washtml as rcube_washtml;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -50,7 +64,7 @@ class rcmail_action_settings_index extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -178,7 +192,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('autodetect'), 'auto');
 
                         $zones = [];
-                        foreach (DateTimeZone::listIdentifiers() as $i => $tzs) {
+                        foreach (\DateTimeZone::listIdentifiers() as $i => $tzs) {
                             if ($data = self::timezone_standard_time_data($tzs)) {
                                 $zones[$data['key']] = [$tzs, $data['offset']];
                             }
@@ -1710,13 +1724,13 @@ class rcmail_action_settings_index extends rcmail_action
     public static function timezone_standard_time_data($tzname)
     {
         try {
-            $tz = new DateTimeZone($tzname);
-            $date = new DateTime('now', $tz);
+            $tz = new \DateTimeZone($tzname);
+            $date = new \DateTime('now', $tz);
             $count = 12;
 
             // Move back for a month (up to 12 times) until non-DST date is found
             while ($count > 0 && $date->format('I')) {
-                $date->sub(new DateInterval('P1M'));
+                $date->sub(new \DateInterval('P1M'));
                 $count--;
             }
 
@@ -1727,7 +1741,7 @@ class rcmail_action_settings_index extends rcmail_action
                 'key' => $sortkey,
                 'offset' => $date->format('P'),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // ignore
         }
     }

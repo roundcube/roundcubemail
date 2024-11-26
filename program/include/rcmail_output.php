@@ -1,5 +1,9 @@
 <?php
 
+use html as html;
+use rcube as rcube;
+use rcube_output as rcube_output;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -92,7 +96,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Delete all stored env variables and commands
      */
-    #[Override]
+    #[\Override]
     public function reset()
     {
         parent::reset();

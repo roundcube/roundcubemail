@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /**
  * Dovecot passwdfile Password Driver
  *

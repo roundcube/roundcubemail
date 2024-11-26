@@ -1,5 +1,15 @@
 <?php
 
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message_header as rcube_message_header;
+use rcube_message_part as rcube_message_part;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
+use set_flag as set_flag; // TODO remove once fully_qualified_strict_types PHP CS Fixer is configured without leading_backslash_in_global_namespace option
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

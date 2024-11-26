@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,7 +27,7 @@ class rcmail_action_utils_killcache extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

@@ -1,5 +1,18 @@
 <?php
 
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_settings_folders as rcmail_action_settings_folders;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,7 +39,7 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

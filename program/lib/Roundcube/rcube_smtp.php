@@ -1,5 +1,9 @@
 <?php
 
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -110,7 +114,7 @@ class rcube_smtp
         // IDNA Support
         $smtp_host = rcube_utils::idn_to_ascii($smtp_host);
 
-        $this->conn = new Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
+        $this->conn = new \Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
             $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
         if ($rcube->config->get('smtp_debug')) {

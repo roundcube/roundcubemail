@@ -1,5 +1,11 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Emoticons.
  *
@@ -19,7 +25,7 @@ class emoticons extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcube = rcmail::get_instance();

@@ -1,5 +1,7 @@
 <?php
 
+use rcube as rcube;
+use rcube_charset as rcube_charset;
 use RtfHtmlPhp\Document;
 use RtfHtmlPhp\Html\HtmlFormatter;
 
@@ -175,7 +177,7 @@ class rcube_tnef_decoder
                     $document = new Document($message['stream']);
                     $formatter = new HtmlFormatter(RCUBE_CHARSET);
                     $message = $formatter->format($document);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // ignore the body
                     $message = null;
                     rcube::raise_error('Failed to extract RTF/HTML content from TNEF attachment', true);

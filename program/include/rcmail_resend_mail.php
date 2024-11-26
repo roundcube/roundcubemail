@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -21,7 +24,7 @@
 /**
  * Mail_mime wrapper to handle mail resend/bounce
  */
-class rcmail_resend_mail extends Mail_mime
+class rcmail_resend_mail extends \Mail_mime
 {
     protected $orig_head;
     protected $orig_body;
@@ -49,7 +52,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns/Sets message headers
      */
-    #[Override]
+    #[\Override]
     public function headers($headers = [], $overwrite = false, $skip_content = false)
     {
         // headers() wrapper that returns Resent-Cc, Resent-Bcc instead of Cc,Bcc
@@ -69,7 +72,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Returns all message headers as string
      */
-    #[Override]
+    #[\Override]
     public function txtHeaders($headers = [], $overwrite = false, $skip_content = false)
     {
         // i.e. add Resent-* headers on top of the original message head
@@ -103,7 +106,7 @@ class rcmail_resend_mail extends Mail_mime
     /**
      * Save the message body to a file (if delay_file_io=true)
      */
-    #[Override]
+    #[\Override]
     public function saveMessageBody($file, $params = null)
     {
         $this->init_message();
@@ -147,7 +150,7 @@ class rcmail_resend_mail extends Mail_mime
 
             fclose($fp);
 
-            $this->orig_head = rcmail_bounce_stream_filter::$headers;
+            $this->orig_head = \rcmail_bounce_stream_filter::$headers;
             $this->orig_body = $path;
         }
     }
@@ -157,13 +160,13 @@ class rcmail_resend_mail extends Mail_mime
  * Stream filter to remove message headers from the streamed
  * message source (and store them in a variable)
  */
-class rcmail_bounce_stream_filter extends php_user_filter
+class rcmail_bounce_stream_filter extends \php_user_filter
 {
     public static $headers;
 
     protected $in_body = false;
 
-    #[Override]
+    #[\Override]
     public function onCreate(): bool
     {
         self::$headers = '';
@@ -171,8 +174,8 @@ class rcmail_bounce_stream_filter extends php_user_filter
         return true;
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {

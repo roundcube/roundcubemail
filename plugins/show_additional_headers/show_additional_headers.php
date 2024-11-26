@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Show additional message headers
  *
@@ -19,7 +22,7 @@ class show_additional_headers extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

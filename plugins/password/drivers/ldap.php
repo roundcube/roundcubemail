@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube_ldap_simple_password as rcube_ldap_simple_password;
+
 /**
  * LDAP Password Driver
  *
@@ -74,7 +78,7 @@ class rcube_ldap_password
         ];
 
         // Connecting using the configuration array
-        $ldap = Net_LDAP2::connect($ldapConfig);
+        $ldap = \Net_LDAP2::connect($ldapConfig);
 
         // Checking for connection error
         if (is_a($ldap, 'PEAR_Error')) {
@@ -118,18 +122,18 @@ class rcube_ldap_password
 
         // Writing new crypted password to LDAP
         $userEntry = $ldap->getEntry($userDN);
-        if (Net_LDAP2::isError($userEntry)) {
+        if (\Net_LDAP2::isError($userEntry)) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
+        if (\Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
             return PASSWORD_CONNECT_ERROR;
         }
 
         // Updating PasswordLastChange Attribute if desired
         if ($lchattr) {
             $current_day = (int) (time() / 86400);
-            if (Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
+            if (\Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
                 return PASSWORD_CONNECT_ERROR;
             }
         }
@@ -143,7 +147,7 @@ class rcube_ldap_password
             $userEntry->replace([$smblchattr => time()], $force);
         }
 
-        if (Net_LDAP2::isError($userEntry->update())) {
+        if (\Net_LDAP2::isError($userEntry->update())) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -175,7 +179,7 @@ class rcube_ldap_password
             $ldapConfig['bindpw'] = $bindpw;
         }
 
-        $ldap = Net_LDAP2::connect($ldapConfig);
+        $ldap = \Net_LDAP2::connect($ldapConfig);
 
         if (is_a($ldap, 'PEAR_Error')) {
             return '';

@@ -1,5 +1,10 @@
 <?php
 
+use html as html;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Roundcube Help Plugin
  *
@@ -18,7 +23,7 @@ class help extends rcube_plugin
     // we've got no ajax handlers
     public $noajax = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->load_config();

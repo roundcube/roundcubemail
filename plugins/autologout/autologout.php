@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Plugin to auto log out users with a POST request sent from an external site.
  *
@@ -31,7 +34,7 @@ class autologout extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

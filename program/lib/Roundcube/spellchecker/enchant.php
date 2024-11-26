@@ -1,5 +1,7 @@
 <?php
 
+use rcube_spellchecker_engine as rcube_spellchecker_engine;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -42,7 +44,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::languages()
      */
-    #[Override]
+    #[\Override]
     public function languages()
     {
         $this->init();
@@ -88,7 +90,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::check()
      */
-    #[Override]
+    #[\Override]
     public function check($text)
     {
         $this->init();
@@ -133,7 +135,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_words()
      */
-    #[Override]
+    #[\Override]
     public function get_suggestions($word)
     {
         $this->init();
@@ -156,7 +158,7 @@ class rcube_spellchecker_enchant extends rcube_spellchecker_engine
      *
      * @see rcube_spellchecker_engine::get_suggestions()
      */
-    #[Override]
+    #[\Override]
     public function get_words($text = null)
     {
         $result = [];

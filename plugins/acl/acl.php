@@ -1,5 +1,17 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_radiobutton as html_radiobutton;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_ldap as rcube_ldap;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Folders Access Control Lists Management (RFC4314, RFC2086)
  *
@@ -34,7 +46,7 @@ class acl extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();

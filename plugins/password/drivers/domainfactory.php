@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+
 /**
  * domainFACTORY Password Driver
  *
@@ -79,7 +83,7 @@ class rcube_domainfactory_password
                     return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }

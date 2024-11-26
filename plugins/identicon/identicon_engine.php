@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube as rcube;
+
 /**
  * @license GNU GPLv3+
  * @author Aleksander Machniak <alec@alec.pl>

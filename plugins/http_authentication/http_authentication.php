@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * HTTP Basic Authentication
  *
@@ -20,7 +24,7 @@ class http_authentication extends rcube_plugin
 {
     private $redirect_query;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

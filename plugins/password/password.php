@@ -1,6 +1,14 @@
 <?php
 
 use GuzzleHttp\Client;
+use html as html;
+use html_passwordfield as html_passwordfield;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
 
 /*
  * Password Plugin for Roundcube
@@ -53,7 +61,7 @@ class password extends rcube_plugin
     private $drivers = [];
     private $rc;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();

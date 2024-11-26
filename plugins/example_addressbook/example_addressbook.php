@@ -1,5 +1,9 @@
 <?php
 
+use example_addressbook_backend as example_addressbook_backend;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+
 require_once __DIR__ . '/example_addressbook_backend.php';
 
 /**
@@ -14,7 +18,7 @@ class example_addressbook extends rcube_plugin
     private $abook_id = 'static';
     private $abook_name = 'Static List';
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('addressbooks_list', [$this, 'address_sources']);

@@ -1,5 +1,11 @@
 <?php
 
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_message_part as rcube_message_part;
+use rcube_mime_decode as rcube_mime_decode;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
