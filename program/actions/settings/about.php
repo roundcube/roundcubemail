@@ -42,12 +42,13 @@ class rcmail_action_settings_about extends rcmail_action
                 return 'Copyright &copy; The Roundcube Dev Team';
             },
             'license' => static function () {
-                return 'This program is free software; you can redistribute it and/or modify it under the terms '
-                    . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
-                    . 'as published by the Free Software Foundation, either version 3 of the License, '
-                    . 'or (at your option) any later version.<br/>'
-                    . 'Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> '
-                    . 'for skins &amp; plugins apply.';
+                return 'This webmail is powered by <a href="https://roundcube.net" target="_blank">Roundcube</a>, a fully-featured browser-based e-mail client. '
+                     . 'You can find documentation in <a href="https://docs.roundcube.net" target="_blank">the user guide</a>.'
+                     . '<br/><br/>'
+                     . 'Roundcube is free software. You can <a href="https://roundcube.net/contribute/" target="_blank">contribute to improve it</a> '
+                     . 'and redistribute it and/or modify it under the terms of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
+                     . 'as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. '
+                     . 'Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> for skins and plugins apply.';
             },
         ]);
 
