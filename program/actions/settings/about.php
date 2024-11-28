@@ -43,7 +43,7 @@ class rcmail_action_settings_about extends rcmail_action
             },
             'license' => static function () {
                 return 'This webmail is powered by <a href="https://roundcube.net" target="_blank">Roundcube</a>, a fully-featured browser-based e-mail client. '
-                     . 'You can find documentation in <a href="https://docs.roundcube.net" target="_blank">the user guide</a>.'
+                     . 'You can find help and further documentation in <a href="https://docs.roundcube.net" target="_blank">the user guide</a>.'
                      . '<br/><br/>'
                      . 'Roundcube is free software. You can <a href="https://roundcube.net/contribute/" target="_blank">contribute to improve it</a> '
                      . 'and redistribute it and/or modify it under the terms of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
