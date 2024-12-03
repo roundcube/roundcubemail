@@ -66,8 +66,7 @@ class rcmail_action_login_oauth extends rcmail_action
                     unset($redir['abort'], $redir['_err']);
 
                     // send redirect
-                    header('Location: ' . $rcmail->url($redir, true, false));
-                    exit;
+                    $rcmail->output->redirect($redir, 0, true);
                 }
                 else {
                     $rcmail->output->show_message('loginfailed', 'warning');

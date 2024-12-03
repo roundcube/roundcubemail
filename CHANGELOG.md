@@ -11,6 +11,7 @@
 - Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
 - Fix PHP fatal error when parsing some malformed BODYSTRUCTURE responses (#9689)
 - Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
+- Fix Oauth issues with use_secure_urls=true (#9722)
 
 ## Release 1.6.9
 
