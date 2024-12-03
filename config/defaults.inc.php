@@ -346,7 +346,7 @@ $config['oauth_client_id'] = null;
 $config['oauth_client_secret'] = null;
 
 // Optional: the OIDC discovery URI (the 'https://.../.well-known/openid-configuration')
-// if specified, the discovery will supersede `oauth_issuer`, `auth_auth_uri`, `oauth_token_uri`, `oauth_identity_uri`, `oauth_logout_uri`, `oauth_jwks_uri`
+// if specified, the discovery will supersede `oauth_issuer`, `oauth_auth_uri`, `oauth_token_uri`, `oauth_identity_uri`, `oauth_logout_uri`, `oauth_jwks_uri`
 // it is recommanded to activate a cache via `oauth_cache` and `oauth_cache_ttl`
 $config['oauth_config_uri'] = null;
 
