@@ -462,8 +462,8 @@ class rcmail_oauth
         // Get rid of the use_secure_urls token from the path
         // It can happen after you log out that the token is still in the current request path
         if ($len = $this->rcmail->config->get('use_secure_urls')) {
-             $length = $len > 1 ? $len : 16;
-             $url = preg_replace("~^/[0-9a-zA-Z]{{$length}}/~", '/', $url);
+            $length = $len > 1 ? $len : 16;
+            $url = preg_replace("~^/[0-9a-zA-Z]{{$length}}/~", '/', $url);
         }
 
         $url = rcube_utils::resolve_url($url);
