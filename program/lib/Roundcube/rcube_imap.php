@@ -2230,9 +2230,9 @@ class rcube_imap extends rcube_storage
             }
         }
 
-        // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
+        // fetch message headers if message/rfc822 or image or named part (could contain Content-Location header)
         if (
-            $struct->ctype_primary == 'message'
+            $struct->ctype_primary == 'message' || $struct->ctype_primary == 'image'
             || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
         ) {
             if (empty($mime_headers)) {
