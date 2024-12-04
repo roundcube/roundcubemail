@@ -1,0 +1,46 @@
+From: "Thomas B." <thomas@roundcube.net>
+To: Tom Tester <tb@tester.local>
+Subject: Attachment filename encoding
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary=1234;
+Date: Fri, 23 May 2014 19:44:50 +0200
+Message-ID: <de75@tester.local>
+
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; name=A011.txt
+
+Zm9vDQpiYXINCmduYQ==
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-16LE; name=A012.txt
+
+Zm9vCmJhcgpnbmE=
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; name=A013.txt
+Content-Disposition: attachment; filename=A014.txt
+
+Zm9vDQpiYXINCmduYQ==
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: image/png; charset=UTF-16LE;
+ name="=?UTF-8?Q?=C5=BC=C3=B3=C5=82=C4=87=2Epng?="
+
+Zm9vCmJhcgpnbmE=
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: image/png; charset=UTF-16LE; name=A016.txt
+Content-Disposition: attachment;
+ filename*=UTF-8''%C5%BC%C3%B3%C5%82%C4%87.png
+
+Zm9vCmJhcgpnbmE=
+--1234
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=iso-8859-1;
+ name="=?UTF-8?Q?very_very_very_very_long_very_very_very_very_long_=C4=87?=
+ =?UTF-8?Q?=C4=87=C4=87=C4=87=C4=87=C4=87_very_very_very_long_name=2Etxt?=
+ =?UTF-8?Q??="
+
+Zm9vCmJhcgpnbmE=
+--1234--
