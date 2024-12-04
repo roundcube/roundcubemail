@@ -46,7 +46,8 @@ class ExportTest extends TestCase
     public function testExportSelected()
     {
         $this->browse(function ($browser) {
-            $browser->ctrlClick('#contacts-table tbody tr:first-child');
+            $browser->waitFor('#contacts-table tbody tr:first-child')
+                ->ctrlClick('#contacts-table tbody tr:first-child');
 
             $browser->clickToolbarMenuItem('export', 'export.select');
 
