@@ -95,7 +95,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
 
                 // in search mode, just reload the list (#1490015)
                 if (!empty($_REQUEST['_search'])) {
-                    $rcmail->output->command('parent.command', 'list');
+                    $rcmail->output->add_js_call('parent.command', 'list');
                     $rcmail->output->send('iframe');
                 }
 
@@ -114,7 +114,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 // Plugins can decide to remove the contact on edit, e.g. automatic_addressbook
                 // Best we can do is to refresh the list (#5522)
                 if (empty($contact)) {
-                    $rcmail->output->command('parent.command', 'list');
+                    $rcmail->output->add_js_call('parent.command', 'list');
                     $rcmail->output->send('iframe');
                 }
 
@@ -133,7 +133,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 $record['_type'] = 'person';
 
                 // update the changed col in list
-                $rcmail->output->command('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
+                $rcmail->output->add_js_call('parent.update_contact_row', $cid, $a_js_cols, $newcid, $source, $record);
 
                 $rcmail->overwrite_action('show', ['contact' => $contact]);
             } else {
@@ -193,7 +193,7 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                         if (($maxnum = $rcmail->config->get('max_group_members', 0)) && ($contacts->count()->count + 1 > $maxnum)) {
                             // @FIXME: should we remove the contact?
                             $msgtext = $rcmail->gettext(['name' => 'maxgroupmembersreached', 'vars' => ['max' => $maxnum]]);
-                            $rcmail->output->command('parent.display_message', $msgtext, 'warning');
+                            $rcmail->output->add_js_call('parent.display_message', $msgtext, 'warning');
                         } else {
                             $contacts->add_to_group($plugin['group_id'], $plugin['ids']);
                         }
@@ -203,8 +203,8 @@ class rcmail_action_contacts_save extends rcmail_action_contacts_index
                 // show confirmation
                 $rcmail->output->show_message('successfullysaved', 'confirmation', null, false);
 
-                $rcmail->output->command('parent.set_rowcount', $rcmail->gettext('loading'));
-                $rcmail->output->command('parent.list_contacts');
+                $rcmail->output->add_js_call('parent.set_rowcount', $rcmail->gettext('loading'));
+                $rcmail->output->add_js_call('parent.list_contacts');
 
                 $rcmail->output->send('iframe');
             } else {

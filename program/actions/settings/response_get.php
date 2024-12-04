@@ -51,7 +51,7 @@ class rcmail_action_settings_response_get extends rcmail_action
                 $response['is_html'] = false;
             }
 
-            $rcmail->output->command('insert_response', $response);
+            $rcmail->output->add_js_call('insert_response', $response);
         }
 
         $rcmail->output->send();

@@ -153,12 +153,12 @@ class markasjunk extends rcube_plugin
         $result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
         if ($result) {
             if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
-                $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
+                $this->rcube->output->add_js_call('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
             } else {
-                $this->rcube->output->command('command', 'list', $mbox_name);
+                $this->rcube->output->add_js_call('command', 'list', $mbox_name);
             }
 
-            $this->rcube->output->command('display_message', $this->gettext($is_spam ? 'reportedasjunk' : 'reportedasnotjunk'), 'confirmation');
+            $this->rcube->output->add_js_call('display_message', $this->gettext($is_spam ? 'reportedasjunk' : 'reportedasnotjunk'), 'confirmation');
         }
 
         $this->rcube->output->send();

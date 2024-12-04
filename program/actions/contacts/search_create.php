@@ -61,7 +61,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
 
         if (!empty($result)) {
             $rcmail->output->show_message('savedsearchcreated', 'confirmation');
-            $rcmail->output->command('insert_saved_search', rcube::Q($name), rcube::Q($result));
+            $rcmail->output->add_js_call('insert_saved_search', rcube::Q($name), rcube::Q($result));
         } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'savedsearchcreateerror';
             $rcmail->output->show_message($error, 'error');

@@ -453,7 +453,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 [
                     'href' => '%s',
                     'rel' => '%s',
-                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('list','%s',this)",
+                    'data-event-handle' => 'contacts_directory_list',
+                    'data-arg' => '%s',
                 ],
                 '%s'
             )
@@ -527,7 +528,8 @@ class rcmail_action_contacts_index extends rcmail_action
             html::a([
                     'href' => '#',
                     'rel' => 'S%s',
-                    'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listsearch', '%s', this)",
+                    'data-event-handle' => 'contacts_listsearch',
+                    'data-arg' => '%s',
                 ],
                 '%s'
             )
@@ -571,7 +573,8 @@ class rcmail_action_contacts_index extends rcmail_action
                 html::a([
                         'href' => '#',
                         'rel' => '%s:%s',
-                        'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".command('listgroup',{'source':'%s','id':'%s'},this)",
+                        'data-event-handle' => 'contacts_listgroup',
+                        'data-arg' => '%s',
                     ],
                     '%s'
                 )
@@ -673,12 +676,9 @@ class rcmail_action_contacts_index extends rcmail_action
                                     'href' => '#list',
                                     'rel' => $row['ID'],
                                     'title' => $rcmail->gettext('listgroup'),
-                                    'onclick' => sprintf(
-                                        "return %s.command('pushgroup',{'source':'%s','id':'%s'},this,event)",
-                                        rcmail_output::JS_OBJECT_NAME,
-                                        $source_id,
-                                        $row['CID']
-                                    ),
+                                'data-source' => $source_id,
+                                'data-id' => $row['CID'],
+                                    'data-event-handle' => 'contacts_pushgroup',
                                     'class' => 'pushgroup',
                                     'data-action-link' => true,
                                 ],
@@ -703,7 +703,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $classes[] = 'readonly';
             }
 
-            $rcmail->output->command($prefix . 'add_contact_row', $row['ID'], $a_row_cols, implode(' ', $classes),
+            $rcmail->output->add_js_call($prefix . 'add_contact_row', $row['ID'], $a_row_cols, implode(' ', $classes),
                 array_intersect_key($row, ['ID' => 1, 'readonly' => 1, '_type' => 1, 'email' => 1, 'name' => 1])
             );
         }
@@ -1335,7 +1335,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $content = html::div($attrib, html::img([
             'src' => $photo_img,
-            'onerror' => 'this.onerror = null; this.src = rcmail.env.photo_placeholder;',
+            'data-onerror' => ['onerror_set_placeholder_src', '__EVENT__'],
         ]));
 
         if (!empty(self::$CONTACT_COLTYPES['photo']) && ($rcmail->action == 'edit' || $rcmail->action == 'add')) {
@@ -1482,7 +1482,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $attrib['name'] = '_source';
         $attrib['is_escaped'] = true;
-        $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . ".command('save', 'reload', this.form)";
+        $attrib['data-onchange'] = ['reloadForm', '__THIS__'];
 
         $select = new html_select($attrib);
 

@@ -124,7 +124,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $checkbox_subscribe = new html_checkbox([
             'name' => '_subscribed[]',
             'title' => $rcmail->gettext('changesubscription'),
-            'onclick' => rcmail_output::JS_OBJECT_NAME . ".command(this.checked?'subscribe':'unsubscribe',this.value)",
+            'data-event-handle' => 'toggle_change_subscription';
         ]);
 
         $js_folders = [];
@@ -297,7 +297,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         }
 
         if (!self::get_bool_attr($attrib, 'noevent')) {
-            $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.folder_filter(this.value)';
+            $attrib['data-onchange'] = ['filter_folder', '#' . $attrib['id']];
         }
 
         $roots = [];
@@ -366,10 +366,10 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $protected = !empty($options['protected']) || !empty($options['noselect']);
 
         if ($oldname === null) {
-            $rcmail->output->command('add_folder_row', $name, $name_utf8, $display_name,
+            $rcmail->output->add_js_call('add_folder_row', $name, $name_utf8, $display_name,
                 $protected, $subscribe, $class_name);
         } else {
-            $rcmail->output->command('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
+            $rcmail->output->add_js_call('replace_folder_row', $oldname, $name, $name_utf8, $display_name,
                 $protected, $class_name);
         }
     }

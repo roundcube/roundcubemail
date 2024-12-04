@@ -115,11 +115,11 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         $rcmail->output->set_env('threading', $threading);
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_rowcount', self::get_messagecount_text($count), $mbox_name);
+        $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text($count), $mbox_name);
 
         // remove old message rows if commanded by the client
         if (!empty($_REQUEST['_clear'])) {
-            $rcmail->output->command('clear_message_list');
+            $rcmail->output->add_js_call('clear_message_list');
         }
 
         // add message rows
@@ -149,11 +149,11 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
 
         // set trash folder state
         if ($mbox_name === $rcmail->config->get('trash_mbox')) {
-            $rcmail->output->command('set_trash_count', $exists);
+            $rcmail->output->add_js_call('set_trash_count', $exists);
         }
 
         if ($page == 1) {
-            $rcmail->output->command('set_quota', self::quota_content(null, !empty($multifolder) ? 'INBOX' : $mbox_name));
+            $rcmail->output->add_js_call('set_quota', self::quota_content(null, !empty($multifolder) ? 'INBOX' : $mbox_name));
         }
 
         // send response
