@@ -1,8 +1,10 @@
 <?php
 
+define('COL_WIDTH', intval(trim(exec('tput cols 2>/dev/null'))) ?: 80);
+
 function say($msg)
 {
-    echo wordwrap("{$msg}\n");
+    echo wordwrap("{$msg}\n", constant('COL_WIDTH'));
 }
 
 function error($msg, $exitcode = 1)
