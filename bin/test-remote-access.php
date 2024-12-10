@@ -76,7 +76,7 @@ if ($base_url === false) {
 $data = get_http_data($base_url);
 // Check if this URL actually serves a Roundcubemail. Note: This check must work
 // for very old versions of Roundcubemail, too!
-if (!str_contains($data['body'], 'program/js/app.')) {
+if (!strpos($data['body'], 'program/js/app.') !== false) {
     error('⚠️ Error: The given URL is not serving Roundcubemail!');
 }
 
