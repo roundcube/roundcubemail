@@ -13,7 +13,8 @@
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Added an option for a default mail search scope (#9077, #7556)
 - Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
-- Support for HAproxy protocol header in IMAP connections (#8625)
+- IMAP: Support for HAproxy protocol header in IMAP connections (#8625)
+- IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
 - Change 'smtp_log' option default value to False
 - Add 'php' log_driver value (#6138)
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
