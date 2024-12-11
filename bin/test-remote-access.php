@@ -65,17 +65,17 @@ function test_dir($dir_name, $base_url)
     }
 }
 
-# Get base URL from argv or STDIN.
+// Get base URL from argv or STDIN.
 if (isset($argv[1])) {
     if (in_array($argv[1], ['', '-h', '--help'])) {
         error('Usage: ' . basename(__FILE__) . ' your_roundcubemail_base_url');
-    } 
+    }
     $input = $argv[1];
 } else {
-    print("Please enter the base URL of your Roundcubemail installation (empty cancels): ");
-    $input = trim(fgets(STDIN));
+    echo 'Please enter the base URL of your Roundcubemail installation (empty cancels): ';
+    $input = trim(fgets(\STDIN));
     if ($input === '') {
-        error("Empty input, cancelling.");
+        error('Empty input, cancelling.');
     }
 }
 
