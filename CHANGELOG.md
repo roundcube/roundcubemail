@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
 - OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
 - Fix PHP warnings (#9616, #9611)
 - Fix whitespace handling in vCard line continuation (#9637)
