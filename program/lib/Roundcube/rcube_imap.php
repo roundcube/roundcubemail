@@ -2498,6 +2498,8 @@ class rcube_imap extends rcube_storage
             $this->set_search_dirty($folder);
         }
 
+        unset($this->icache['message']);
+
         return $result;
     }
 
@@ -2620,8 +2622,9 @@ class rcube_imap extends rcube_storage
             $this->set_search_dirty($from_mbox);
             $this->set_search_dirty($to_mbox);
 
-            // unset threads internal cache
+            // unset internal cache
             unset($this->icache['threads']);
+            unset($this->icache['message']);
 
             // remove message ids from search set
             if ($this->search_set && $from_mbox == $this->folder) {
@@ -2717,8 +2720,9 @@ class rcube_imap extends rcube_storage
             $this->expunge_message($uids, $folder, false);
             $this->clear_messagecount($folder);
 
-            // unset threads internal cache
+            // unset internal cache
             unset($this->icache['threads']);
+            unset($this->icache['message']);
 
             $this->set_search_dirty($folder);
 
@@ -2809,6 +2813,8 @@ class rcube_imap extends rcube_storage
         if (!$this->check_connection()) {
             return false;
         }
+
+        unset($this->icache['message']);
 
         return $this->conn->storeMessageAnnotation($folder, $uids, $annotation);
     }
