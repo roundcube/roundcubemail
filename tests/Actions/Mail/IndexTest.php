@@ -172,7 +172,8 @@ class IndexTest extends ActionTestCase
         $link = $action->options_menu_link(['icon' => 'ico.png']);
 
         $expected = '<a href="#list-options" onclick="return rcmail.command(\'menu-open\', \'messagelistmenu\', this, event)"'
-            . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0"><img src="ico.png" alt="List options..."></a>';
+            . ' class="listmenu" id="listmenulink" title="List options..." tabindex="0">'
+            . '<img src="static.php/ico.png" alt="List options..."></a>';
 
         $this->assertSame($expected, $link);
     }
@@ -338,7 +339,7 @@ class IndexTest extends ActionTestCase
         $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $this->assertMatchesRegularExpression('/src="' . $part->replaces['ex1.jpg'] . '"/', $html, 'Replace reference to inline image');
-        $this->assertMatchesRegularExpression('#background="program/resources/blocked.gif"#', $html, 'Replace external background image');
+        $this->assertMatchesRegularExpression('#background="static.php/program/resources/blocked.gif"#', $html, 'Replace external background image');
         $this->assertDoesNotMatchRegularExpression('/ex3.jpg/', $html, 'No references to external images');
         $this->assertDoesNotMatchRegularExpression('/<meta [^>]+>/', $html, 'No meta tags allowed');
         $this->assertDoesNotMatchRegularExpression('/<form [^>]+>/', $html, 'No form tags allowed');
@@ -451,7 +452,7 @@ class IndexTest extends ActionTestCase
         $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
 
         $params['safe'] = true;
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
