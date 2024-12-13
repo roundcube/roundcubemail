@@ -30,6 +30,7 @@
 - Use draft settings (like DSN) on "Edit as new" (#9349)
 - Add more detailed feedback on vCard import errors (#9591)
 - Use new HTML5 parser available on PHP >= 8.4
+- Allow hiding the "Keep formatting" option (via `dont_override`) when composing an email (#9704)
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
