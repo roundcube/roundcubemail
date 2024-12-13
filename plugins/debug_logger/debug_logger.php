@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use runlog as runlog;
+
 /**
  * Debug Logger
  *
@@ -63,7 +67,7 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';

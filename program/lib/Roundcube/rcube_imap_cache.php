@@ -1,5 +1,14 @@
 <?php
 
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_imap as rcube_imap;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message_header as rcube_message_header;
+use rcube_message_part as rcube_message_part;
+use rcube_result_index as rcube_result_index;
+use rcube_result_thread as rcube_result_thread;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

@@ -1,5 +1,11 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_charset as rcube_charset;
+use rcube_db as rcube_db;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Copy a new users identities and contacts from a nearby Squirrelmail installation
  *
@@ -15,7 +21,7 @@ class squirrelmail_usercopy extends rcube_plugin
     private $identities_level = 0;
     private $abook = [];
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('user_create', [$this, 'create_user']);

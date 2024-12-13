@@ -1,5 +1,10 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_ldap as rcube_ldap;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * New user identity
  *
@@ -20,7 +25,7 @@ class new_user_identity extends rcube_plugin
     /**
      * Plugin initialization. API hooks binding.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();
@@ -142,7 +147,7 @@ class new_user_identity extends rcube_plugin
         $domain = $this->rc->config->mail_domain($host);
         $props = $ldap_config[$addressbook];
 
-        $this->ldap = new new_user_identity_ldap_backend($props, $debug, $domain, $match);
+        $this->ldap = new \new_user_identity_ldap_backend($props, $debug, $domain, $match);
 
         return $this->ldap->ready;
     }

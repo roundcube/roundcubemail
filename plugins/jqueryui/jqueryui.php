@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_output as rcube_output;
+use rcube_plugin as rcube_plugin;
+
 /**
  * jQuery UI
  *
@@ -28,7 +32,7 @@ class jqueryui extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_message as rcube_message;
+
 /**
  * SpamAssassin detach ham driver
  *

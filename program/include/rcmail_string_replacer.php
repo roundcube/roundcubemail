@@ -1,5 +1,11 @@
 <?php
 
+use html as html;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_string_replacer as rcube_string_replacer;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -34,7 +40,7 @@ class rcmail_string_replacer extends rcube_string_replacer
      *
      * @see rcube_string_replacer::mailto_callback()
      */
-    #[Override]
+    #[\Override]
     protected function mailto_callback($matches)
     {
         $href = $matches[1];

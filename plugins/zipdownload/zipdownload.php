@@ -1,5 +1,16 @@
 <?php
 
+use html as html;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * ZipDownload
  *
@@ -26,7 +37,7 @@ class zipdownload extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         // check requirements first
@@ -136,8 +147,8 @@ class zipdownload extends rcube_plugin
         $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
 
         // open zip file
-        $zip = new ZipArchive();
-        $zip->open($tmpfname, ZipArchive::OVERWRITE);
+        $zip = new \ZipArchive();
+        $zip->open($tmpfname, \ZipArchive::OVERWRITE);
 
         foreach ($message->attachments as $part) {
             $disp_name = $this->_create_displayname($part);
@@ -235,7 +246,7 @@ class zipdownload extends rcube_plugin
         $tmpfname = rcube_utils::temp_filename('zipdownload');
         $tempfiles = [$tmpfname];
         $folders = count($messageset) > 1;
-        $timezone = new DateTimeZone('UTC');
+        $timezone = new \DateTimeZone('UTC');
         $messages = [];
         $size = 0;
 
@@ -306,8 +317,8 @@ class zipdownload extends rcube_plugin
         }
 
         // open zip file
-        $zip = new ZipArchive();
-        $zip->open($tmpfname, ZipArchive::OVERWRITE);
+        $zip = new \ZipArchive();
+        $zip->open($tmpfname, \ZipArchive::OVERWRITE);
 
         foreach ($messages as $key => $value) {
             [$uid, $mbox] = explode(':', $key, 2);
@@ -385,10 +396,10 @@ class zipdownload extends rcube_plugin
     }
 }
 
-class zipdownload_mbox_filter extends php_user_filter
+class zipdownload_mbox_filter extends \php_user_filter
 {
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
         while ($bucket = stream_bucket_make_writeable($in)) {

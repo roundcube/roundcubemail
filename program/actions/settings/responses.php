@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action_settings_index as rcmail_action_settings_index;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,7 +29,7 @@ class rcmail_action_settings_responses extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

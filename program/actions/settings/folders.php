@@ -1,5 +1,15 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action_settings_index as rcmail_action_settings_index;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -27,7 +37,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

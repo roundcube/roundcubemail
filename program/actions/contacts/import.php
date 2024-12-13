@@ -1,5 +1,19 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action_contacts_index as rcmail_action_contacts_index;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_csv2vcard as rcube_csv2vcard;
+use rcube_utils as rcube_utils;
+use rcube_vcard as rcube_vcard;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -29,7 +43,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -155,7 +169,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
-                self::$stats = new stdClass();
+                self::$stats = new \stdClass();
                 self::$stats->names = [];
                 self::$stats->skipped_names = [];
                 self::$stats->invalid_names = [];

@@ -1,5 +1,14 @@
 <?php
 
+use html as html;
+use rcmail as rcmail;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_result_set as rcube_result_set;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,7 +35,7 @@ class rcmail_action_mail_list_contacts extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

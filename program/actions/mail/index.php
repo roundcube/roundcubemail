@@ -1,5 +1,25 @@
 <?php
 
+use html as html;
+use html_select as html_select;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_enriched as rcube_enriched;
+use rcube_image as rcube_image;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_spoofchecker as rcube_spoofchecker;
+use rcube_text2html as rcube_text2html;
+use rcube_utils as rcube_utils;
+use rcube_washtml as rcube_washtml;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -42,7 +62,7 @@ class rcmail_action_mail_index extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

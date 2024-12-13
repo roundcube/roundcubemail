@@ -1,5 +1,16 @@
 <?php
 
+use html as html;
+use html_inputfield as html_inputfield;
+use html_passwordfield as html_passwordfield;
+use html_select as html_select;
+use rcmail_install as rcmail_install;
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_imap as rcube_imap;
+use rcube_smtp as rcube_smtp;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -331,7 +342,7 @@ if (isset($_POST['sendmail'])) {
             $CONFIG['smtp_pass'] = $_POST['_smtp_pass'];
         }
 
-        $mail_object = new Mail_mime();
+        $mail_object = new \Mail_mime();
         $send_headers = $mail_object->headers($headers);
         $head = $mail_object->txtHeaders($send_headers);
 

@@ -1,5 +1,7 @@
 <?php
 
+use rcube as rcube;
+
 /**
  * PAM Password Driver
  *

@@ -1,5 +1,8 @@
 <?php
 
+use enigma_key as enigma_key;
+use rcube as rcube;
+
 /*
  +-------------------------------------------------------------------------+
  | SubKey class for the Enigma Plugin                                      |
@@ -86,7 +89,7 @@ class enigma_subkey
      */
     public function is_expired()
     {
-        $now = new DateTime('now');
+        $now = new \DateTime('now');
 
         return !empty($this->expires) && $this->expires < $now;
     }

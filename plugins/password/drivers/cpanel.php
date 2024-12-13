@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /**
  * cPanel Password Driver
  *
@@ -56,7 +60,7 @@ class rcube_cpanel_password
         try {
             $response = $client->post($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Failed to post to {$url}: {$e->getMessage()}", true);
 
             return PASSWORD_ERROR;

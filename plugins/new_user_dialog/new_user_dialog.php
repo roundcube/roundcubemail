@@ -1,5 +1,12 @@
 <?php
 
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Present identities settings dialog to new users
  *
@@ -16,7 +23,7 @@ class new_user_dialog extends rcube_plugin
     public $task = '';
     public $noframe = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('identity_create', [$this, 'create_identity']);

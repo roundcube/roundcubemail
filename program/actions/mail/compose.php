@@ -1,5 +1,25 @@
 <?php
 
+use html as html;
+use html_hiddenfield as html_hiddenfield;
+use html_select as html_select;
+use html_table as html_table;
+use html_textarea as html_textarea;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcmail_output as rcmail_output;
+use rcmail_sendmail as rcmail_sendmail;
+use rcube as rcube;
+use rcube_enriched as rcube_enriched;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_output as rcube_output;
+use rcube_spellchecker as rcube_spellchecker;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -22,7 +42,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     protected static $COMPOSE_ID;
     protected static $COMPOSE;
 
-    /** @var rcube_message|stdClass|null Mail message */
+    /** @var rcube_message|\stdClass|null Mail message */
     protected static $MESSAGE;
     protected static $MESSAGE_BODY;
     protected static $CID_MAP = [];
@@ -34,7 +54,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -290,7 +310,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 self::$COMPOSE['references'] = self::$MESSAGE->headers->references;
             }
         } else {
-            self::$MESSAGE = new stdClass();
+            self::$MESSAGE = new \stdClass();
 
             // apply mailto: URL parameters
             if (!empty(self::$COMPOSE['param']['in-reply-to'])) {

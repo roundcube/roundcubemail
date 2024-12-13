@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /*
  * Mailcow Password Driver
  *
@@ -66,7 +70,7 @@ class rcube_mailcow_password
             }
 
             return PASSWORD_ERROR;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $e->getMessage();
         }
 

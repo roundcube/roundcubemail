@@ -1,5 +1,12 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use html_textarea as html_textarea;
+use rcube_db as rcube_db;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

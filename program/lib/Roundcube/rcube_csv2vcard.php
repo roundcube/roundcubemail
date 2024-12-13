@@ -1,5 +1,9 @@
 <?php
 
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
+use rcube_vcard as rcube_vcard;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

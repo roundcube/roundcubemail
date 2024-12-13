@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -24,7 +28,7 @@ class rcmail_action_login_oauth extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

@@ -1,5 +1,11 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Attachment Reminder
  *
@@ -33,7 +39,7 @@ class attachment_reminder extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();
