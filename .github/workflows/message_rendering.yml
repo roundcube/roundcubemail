@@ -1,0 +1,37 @@
+name: Message Rendering
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  message_rendering:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      fail-fast: false
+
+    name: Linux / PHP 8.3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Run via docker compose because we can't run greenmail in a server here
+      # (it requires the testing emails to be present when starting but
+      # services are started before the repo is cloned). And instead of
+      # re-building what our compose-file contains we can just use it.
+      - name: Run tests via docker compose
+        run: docker compose -f .ci/compose.yaml run test_message_rendering
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: logs/errors.log
+

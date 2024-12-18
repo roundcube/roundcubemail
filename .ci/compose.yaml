@@ -1,6 +1,10 @@
 services:
   mailhost:
     image: docker.io/greenmail/standalone
+    environment:
+      GREENMAIL_OPTS: '-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled -Dgreenmail.preload.dir=/emails'
+    volumes:
+      - "../tests/MessageRendering/data/greenmail:/emails"
   browserhost:
     image: docker.io/selenium/standalone-chromium
     ports:
@@ -39,6 +43,17 @@ services:
       - '..:/app'
     command:
       - .ci/run_tests.sh
+
+  test_message_rendering:
+    depends_on:
+      - mailhost
+    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    environment:
+      RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
+    volumes:
+      - '..:/app'
+    command:
+      - .ci/run_test_message_rendering.sh
 
   codespell:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3

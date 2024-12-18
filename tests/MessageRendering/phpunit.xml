@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<phpunit
+  bootstrap="bootstrap.php"
+  colors="true"
+>
+  <extensions>
+    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+  </extensions>
+  <testsuites>
+    <testsuite name="tests">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
