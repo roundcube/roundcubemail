@@ -85,7 +85,7 @@ class OutputHtmlMock extends \rcmail_output_html
             $this->header($header);
         }
 
-        $this->output = $body;
+        $this->output .= $body;
 
         throw new ExitException('Output sent', self::E_EXIT);
     }
