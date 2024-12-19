@@ -58,7 +58,7 @@ if (strtolower($input) == 'y') {
     echo 'Copying files to target location...';
 
     $adds = [];
-    $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'public_html'];
+    $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program'];
 
     if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("{$target_dir}/composer.json") || rcmail_install::vendor_dir_untouched($target_dir))) {
         $dirs[] = 'vendor';
@@ -77,7 +77,11 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    foreach (['index.php', 'config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL'] as $file) {
+    $files = ['config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json',
+        'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL',
+        'public_html/index.php', 'public_html/installer.php', 'public_html/static.php'];
+
+    foreach ($files as $file) {
         $source_file = $file === 'composer.json-dist' ? 'composer.json' : $file;
         $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$source_file} {$target_dir}/{$file}";
 
@@ -87,7 +91,7 @@ if (strtolower($input) == 'y') {
     }
 
     // Copy .htaccess or .user.ini if needed
-    foreach (['.htaccess', '.user.ini'] as $file) {
+    foreach (['public_html/.htaccess', 'public_html/.user.ini'] as $file) {
         if (file_exists(INSTALL_PATH . $file)) {
             if (!file_exists("{$target_dir}/{$file}") || file_get_contents(INSTALL_PATH . $file) != file_get_contents("{$target_dir}/{$file}")) {
                 if (copy(INSTALL_PATH . $file, "{$target_dir}/{$file}.new")) {
