@@ -1058,9 +1058,8 @@ class rcube_message
 
                     $this->add_part($mail_part, 'attachment');
                 }
-                // Last resort, non-inline and non-text part of multipart/mixed message (#7117)
+                // Last resort, non-text and non-multipart part of multipart/mixed message (#7117)
                 elseif ($mimetype == 'multipart/mixed'
-                    && $mail_part->disposition != 'inline'
                     && $primary_type && $primary_type != 'text' && $primary_type != 'multipart'
                 ) {
                     $this->add_part($mail_part, 'attachment');
