@@ -1036,11 +1036,7 @@ class rcube_message
                     // part belongs to a related message
                     // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
                     if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
-                        if (empty($mail_part->content_id) && empty($mail_part->content_location)) {
-                            $this->add_part($mail_part, 'attachment');
-                        } else {
-                            $this->add_part($mail_part, 'inline');
-                        }
+                        $this->add_part($mail_part, 'attachment');
                         continue;
                     }
 
@@ -1076,39 +1072,21 @@ class rcube_message
 
             // if this is a related part try to resolve references
             // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
-            if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype) && count($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
                 $a_replaces = [];
-                $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
-                foreach ($this->inline_parts as $inline_object) {
-                    $part_url = $this->get_part_url($inline_object->mime_id, $inline_object->ctype_primary);
-                    // We previously checked that the values of these
-                    // Content-Id/Content-Location headers are actually present
-                    // in the corresponding HTML part body, that doesn't have
-                    // to be repeated here.
-                    if (isset($inline_object->content_id)) {
-                        $a_replaces['cid:' . $inline_object->content_id] = $part_url;
+                foreach ($this->attachments as $attachment) {
+                    $part_url = $this->get_part_url($attachment->mime_id, $attachment->ctype_primary);
+                    // We did not yet check if the values of these
+                    // Content-Id/Content-Location headers are actually present in
+                    // the corresponding HTML part body, because it's too expensive
+                    // right now.
+                    // Storing the replacement references just in case.
+                    if (isset($attachment->content_id)) {
+                        $a_replaces['cid:' . $attachment->content_id] = $part_url;
                     }
                     if (!empty($inline_object->content_location)) {
-                        $a_replaces[$inline_object->content_location] = $part_url;
-                    }
-
-                    if (!empty($inline_object->filename)) {
-                        // MS Outlook sends sometimes non-related attachments as related
-                        // In this case multipart/related message has only one text part
-                        // We'll add all such attachments to the attachments list
-                        if ($this->got_html_part === false) {
-                            $this->add_part($inline_object, 'attachment');
-                        }
-                        // MS Outlook sometimes also adds non-image attachments as related
-                        // We'll add all such attachments to the attachments list
-                        // Warning: some browsers support pdf in <img/>
-                        elseif (!preg_match($img_regexp, $inline_object->mimetype)) {
-                            $this->add_part($inline_object, 'attachment');
-                        }
-                        // @TODO: we should fetch HTML body and find attachment's content-id
-                        // to handle also image attachments without reference in the body
-                        // @TODO: should we list all image attachments in text mode?
+                        $a_replaces[$attachment->content_location] = $part_url;
                     }
                 }
 
