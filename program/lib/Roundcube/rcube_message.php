@@ -965,13 +965,11 @@ class rcube_message
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 elseif ($part_mimetype == 'application/ms-tnef' && $this->tnef_decode) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);
-                    $tnef_body = '';
 
                     foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
 
                         if (strpos($tpart->mime_id, '.html')) {
-                            $tnef_body = $tpart->body;
                             if ($this->opt['prefer_html']) {
                                 $tpart->type = 'content';
 
@@ -988,8 +986,7 @@ class rcube_message
                             }
                             $this->add_part($tpart);
                         } else {
-                            $inline = !empty($tpart->content_id) && strpos($tnef_body, "cid:{$tpart->content_id}") !== false;
-                            $this->add_part($tpart, $inline ? 'inline' : 'attachment');
+                            $this->add_part($tpart, 'attachment');
                         }
                     }
 
