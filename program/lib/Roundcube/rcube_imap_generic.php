@@ -2939,7 +2939,7 @@ class rcube_imap_generic
                 }
 
                 if ($result !== false) {
-                    $result = $this->decodeContent($result, $mode, true, '', $formatted);
+                    $result = $this->decodeContent($result, $mode, true, $prev, $formatted);
                 }
             }
             // response with string literal
