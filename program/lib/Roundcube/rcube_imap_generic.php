@@ -2939,7 +2939,7 @@ class rcube_imap_generic
                 }
 
                 if ($result !== false) {
-                    $result = $this->decodeContent($result, $mode, true);
+                    $result = $this->decodeContent($result, $mode, true, '', $formatted);
                 }
             }
             // response with string literal
@@ -2973,7 +2973,7 @@ class rcube_imap_generic
                         }
                         $bytes -= $len;
 
-                        $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
+                        $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev, $formatted);
 
                         if ($file) {
                             if (($result = fwrite($file, $chunk)) === false) {
@@ -3008,14 +3008,15 @@ class rcube_imap_generic
     /**
      * Decodes a chunk of a message part content from a FETCH response.
      *
-     * @param string $chunk   Content
-     * @param int    $mode    Encoding mode
-     * @param bool   $is_last Whether it is a last chunk of data
-     * @param string $prev    Extra content from the previous chunk
+     * @param string $chunk     Content
+     * @param int    $mode      Encoding mode
+     * @param bool   $is_last   Whether it is a last chunk of data
+     * @param string $prev      Extra content from the previous chunk
+     * @param bool   $formatted Format the content for output
      *
      * @return string Encoded string
      */
-    protected static function decodeContent($chunk, $mode, $is_last = false, &$prev = '')
+    protected static function decodeContent($chunk, $mode, $is_last = false, &$prev = '', $formatted = false)
     {
         // BASE64
         if ($mode == 1) {
@@ -3039,22 +3040,18 @@ class rcube_imap_generic
                 $result .= base64_decode($_chunk);
             }
 
-            return $result;
+            $chunk = $result;
         }
-
         // QUOTED-PRINTABLE
-        if ($mode == 2) {
+        elseif ($mode == 2) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
 
-            $chunk = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
-
-            return quoted_printable_decode($chunk);
+            $chunk = quoted_printable_decode($chunk);
         }
-
         // X-UUENCODE
-        if ($mode == 3) {
+        elseif ($mode == 3) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
@@ -3069,12 +3066,11 @@ class rcube_imap_generic
                 return '';
             }
 
-            return convert_uudecode($chunk);
+            $chunk = convert_uudecode($chunk);
         }
-
         // Plain text formatted
         // TODO: Formatting should be handled outside of this class
-        if ($mode == 4) {
+        elseif ($mode == 4) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
@@ -3082,8 +3078,10 @@ class rcube_imap_generic
             if ($is_last) {
                 $chunk = rtrim($chunk, "\t\r\n\0\x0B");
             }
+        }
 
-            return preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
+        if ($formatted) {
+            $chunk = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
         }
 
         return $chunk;
