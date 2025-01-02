@@ -9,7 +9,7 @@ class SingleImageNoTextTest extends MessageRenderingTestCase
 {
     /**
      * Test that of a multipart/mixed message which contains only one
-     * image, that image is shown.
+     * image, that image is shown. (GitHub issue #9443)
      */
     public function testShowMultipartMixedSingleImageToo()
     {
@@ -25,6 +25,7 @@ class SingleImageNoTextTest extends MessageRenderingTestCase
     /**
      * Test that an image, that has a Content-ID, which is not accompanied by
      * an HTML part (and thus is not referred to), is shown as attachment.
+     * (GitHub issue #9565)
      */
     public function testShowUnreferredToImagesWithContentId()
     {
@@ -39,7 +40,7 @@ class SingleImageNoTextTest extends MessageRenderingTestCase
 
     /**
      * Test that an image, that has a Content-ID, but is not referred to in the
-     * accompanying HTML-part, is shown as attachment.
+     * accompanying HTML-part, is shown as attachment. (GitHub issue #9685)
      */
     public function testShowUnreferredToImagesWithContentIdInMultipartAlternative()
     {
