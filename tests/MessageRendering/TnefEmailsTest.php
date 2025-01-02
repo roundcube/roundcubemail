@@ -5,7 +5,7 @@ namespace Tests\MessageRendering;
 /**
  * Test class to test "interesting" messages.
  */
-class SingleImageNoTextTest extends MessageRenderingTestCase
+class TnefEmailsTest extends MessageRenderingTestCase
 {
     // TODO: Properly test that "inline" and "attached" attachments to TNEF-encapsulated multipart/alternative emails are shown properly.
 
