@@ -14,6 +14,7 @@ $finder = Finder::create()
     ->name('*.sh');
 
 return (new Config())
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
