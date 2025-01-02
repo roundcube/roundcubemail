@@ -1081,7 +1081,7 @@ class rcube_message
                     if (isset($attachment->content_id)) {
                         $a_replaces['cid:' . $attachment->content_id] = $part_url;
                     }
-                    if (!empty($inline_object->content_location)) {
+                    if (!empty($attachment->content_location)) {
                         $a_replaces[$attachment->content_location] = $part_url;
                     }
                 }
