@@ -7,8 +7,6 @@ namespace Tests\MessageRendering;
  */
 class TnefEmailsTest extends MessageRenderingTestCase
 {
-    // TODO: Properly test that "inline" and "attached" attachments to TNEF-encapsulated multipart/alternative emails are shown properly.
-
     public function testTnefEmail1()
     {
         $domxpath = $this->runAndGetHtmlOutputDomxpath('631a672e15f742a98035f1cb7efe1f8db6310138@example.net');
