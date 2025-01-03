@@ -671,9 +671,7 @@ class rcube_plugin_api
             if ($fn[0] != '/' && !preg_match('|^https?://|i', $fn)) {
                 $rcube = rcube::get_instance();
                 $devel_mode = $rcube->config->get('devel_mode');
-                $assets_dir = $rcube->config->get('assets_dir');
-                $path = unslashify($assets_dir ?: RCUBE_INSTALL_PATH);
-                $dir = $path . (strpos($fn, 'plugins/') === false ? '/plugins' : '');
+                $dir = unslashify(RCUBE_INSTALL_PATH) . (strpos($fn, 'plugins/') === false ? '/plugins' : '');
 
                 // Prefer .less files in devel_mode (assume less.js is loaded)
                 if ($devel_mode) {
