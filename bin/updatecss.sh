@@ -23,7 +23,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 // get arguments
-$opts = rcube_utils::get_opt(['d' => 'dir']);
+$opts = rcube_utils::get_opt(['d' => 'dir', 'q' => 'quiet:bool']);
 
 if (empty($opts['dir'])) {
     echo "Skin directory not specified (--dir). Using skins/ and plugins/*/skins/.\n";
@@ -41,6 +41,8 @@ elseif (!file_exists($opts['dir'])) {
 } else {
     $dirs = [$opts['dir']];
 }
+
+$quiet = !empty($opts['quiet']);
 
 foreach ($dirs as $dir) {
     $img_dir = $dir . '/images';
@@ -62,7 +64,9 @@ foreach ($dirs as $dir) {
 
     foreach ($files as $file) {
         $file = $dir . '/' . $file;
-        echo "File: {$file}\n";
+        if (!$quiet) {
+            echo "File: {$file}\n";
+        }
         $content = file_get_contents($file);
         $content = preg_replace($find, $replace, $content, -1, $count);
         if ($count) {
@@ -73,6 +77,8 @@ foreach ($dirs as $dir) {
 
 function get_images($dir)
 {
+    global $quiet;
+
     $images = [];
     $dh = opendir($dir);
 
@@ -80,7 +86,9 @@ function get_images($dir)
         if (preg_match('/^(.+)\.(gif|ico|png|jpg|jpeg)$/', $file, $m)) {
             $filepath = "{$dir}/{$file}";
             $images[$file] = substr(md5_file($filepath), 0, 4) . '.' . filesize($filepath);
-            echo "Image: {$filepath} ({$images[$file]})\n";
+            if (!$quiet) {
+                echo "Image: {$filepath} ({$images[$file]})\n";
+            }
         } elseif ($file != '.' && $file != '..' && is_dir($dir . '/' . $file)) {
             foreach (get_images($dir . '/' . $file) as $img => $sum) {
                 $images[$file . '/' . $img] = $sum;
