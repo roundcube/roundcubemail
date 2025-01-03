@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  roundcube:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - roundcube-db
+
+  roundcube-db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: roundcubemail
+      POSTGRES_USER: roundcube
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_roundcubeData:/var/lib/postgresql/data
+
+  mailserver:
+    image: docker.io/mailserver/docker-mailserver:latest
+    container_name: roundcubeMailServer
+    hostname: mail.test.com
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      - SYS_PTRACE
+
+volumes:
+  db_roundcubeData:
