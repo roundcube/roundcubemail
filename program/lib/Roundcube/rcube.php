@@ -1345,6 +1345,12 @@ class rcube
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
         }
 
+        // write to php's configured error_log (or that which is configured in .htaccess)
+        if ($log_driver == 'php') {
+            $line = "{$name}: {$line}";
+            return error_log($line);
+        }
+
         // log_driver == 'file' is assumed here
 
         $line = sprintf("[%s]: %s\n", $date, $line);

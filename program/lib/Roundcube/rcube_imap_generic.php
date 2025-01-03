@@ -2493,10 +2493,10 @@ class rcube_imap_generic
                 $result[$id]->id = $id;
                 $result[$id]->subject = '';
                 $result[$id]->messageID = 'mid:' . $id;
+                $result[$id]->folder = $mailbox;
 
                 $headers = null;
                 $line = substr($line, strlen($m[0]) + 2);
-
                 // Tokenize response and assign to object properties
                 while (($tokens = $this->tokenizeResponse($line, 2)) && count($tokens) == 2) {
                     [$name, $value] = $tokens;
@@ -2517,6 +2517,20 @@ class rcube_imap_generic
                                 $flag = strtoupper($flag);
 
                                 $result[$id]->flags[$flag] = true;
+                            }
+                        }
+                    } elseif ($name == 'ANNOTATION') {
+                        $result[$id]->annotations = [];
+                        if (!empty($value) && is_array($value)) {
+                            $n = 0;
+                            while (!empty($value[$n]) && is_string($value[$n])) {
+                                $name = $value[$n++];
+                                $list = $value[$n++];
+                                $result[$id]->annotations[$name] = [];
+                                $c = 0;
+                                while (!empty($list[$c]) && is_string($list[$c])) {
+                                    $result[$id]->annotations[$name][$list[$c++]] = $list[$c++];
+                                }
                             }
                         }
                     } elseif ($name == 'MODSEQ') {
@@ -2652,13 +2666,14 @@ class rcube_imap_generic
      * @param mixed  $message_set Message(s) sequence identifier(s) or UID(s)
      * @param bool   $is_uid      True if $message_set contains UIDs
      * @param bool   $bodystr     Enable to add BODYSTRUCTURE data to the result
-     * @param array  $add_headers List of additional headers
+     * @param array  $add_headers List of additional headers to fetch
+     * @param array  $query_items List of additional items to fetch
      *
      * @return bool|array List of rcube_message_header elements, False on error
      */
-    public function fetchHeaders($mailbox, $message_set, $is_uid = false, $bodystr = false, $add_headers = [])
+    public function fetchHeaders($mailbox, $message_set, $is_uid = false, $bodystr = false, $add_headers = [], $query_items = [])
     {
-        $query_items = ['UID', 'RFC822.SIZE', 'FLAGS', 'INTERNALDATE'];
+        $query_items = array_unique(array_merge($query_items, ['UID', 'RFC822.SIZE', 'FLAGS', 'INTERNALDATE']));
         $headers = ['DATE', 'FROM', 'TO', 'SUBJECT', 'CONTENT-TYPE', 'CC', 'REPLY-TO',
             'LIST-POST', 'DISPOSITION-NOTIFICATION-TO', 'X-PRIORITY'];
 
@@ -2684,12 +2699,13 @@ class rcube_imap_generic
      * @param bool   $is_uid      True if $id is an UID
      * @param bool   $bodystr     Enable to add BODYSTRUCTURE data to the result
      * @param array  $add_headers List of additional headers
+     * @param array  $query_items List of additional items to fetch
      *
      * @return bool|rcube_message_header Message data, False on error
      */
-    public function fetchHeader($mailbox, $id, $is_uid = false, $bodystr = false, $add_headers = [])
+    public function fetchHeader($mailbox, $id, $is_uid = false, $bodystr = false, $add_headers = [], $query_items = [])
     {
-        $a = $this->fetchHeaders($mailbox, $id, $is_uid, $bodystr, $add_headers);
+        $a = $this->fetchHeaders($mailbox, $id, $is_uid, $bodystr, $add_headers, $query_items);
 
         if (is_array($a)) {
             return array_first($a);
@@ -2923,7 +2939,7 @@ class rcube_imap_generic
                 }
 
                 if ($result !== false) {
-                    $result = $this->decodeContent($result, $mode, true);
+                    $result = $this->decodeContent($result, $mode, true, $prev, $formatted);
                 }
             }
             // response with string literal
@@ -2957,7 +2973,7 @@ class rcube_imap_generic
                         }
                         $bytes -= $len;
 
-                        $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev);
+                        $chunk = $this->decodeContent($chunk, $mode, $bytes <= 0, $prev, $formatted);
 
                         if ($file) {
                             if (($result = fwrite($file, $chunk)) === false) {
@@ -2992,14 +3008,15 @@ class rcube_imap_generic
     /**
      * Decodes a chunk of a message part content from a FETCH response.
      *
-     * @param string $chunk   Content
-     * @param int    $mode    Encoding mode
-     * @param bool   $is_last Whether it is a last chunk of data
-     * @param string $prev    Extra content from the previous chunk
+     * @param string $chunk     Content
+     * @param int    $mode      Encoding mode
+     * @param bool   $is_last   Whether it is a last chunk of data
+     * @param string $prev      Extra content from the previous chunk
+     * @param bool   $formatted Format the content for output
      *
      * @return string Encoded string
      */
-    protected static function decodeContent($chunk, $mode, $is_last = false, &$prev = '')
+    protected static function decodeContent($chunk, $mode, $is_last = false, &$prev = '', $formatted = false)
     {
         // BASE64
         if ($mode == 1) {
@@ -3023,22 +3040,18 @@ class rcube_imap_generic
                 $result .= base64_decode($_chunk);
             }
 
-            return $result;
+            $chunk = $result;
         }
-
         // QUOTED-PRINTABLE
-        if ($mode == 2) {
+        elseif ($mode == 2) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
 
-            $chunk = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
-
-            return quoted_printable_decode($chunk);
+            $chunk = quoted_printable_decode($chunk);
         }
-
         // X-UUENCODE
-        if ($mode == 3) {
+        elseif ($mode == 3) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
@@ -3053,12 +3066,11 @@ class rcube_imap_generic
                 return '';
             }
 
-            return convert_uudecode($chunk);
+            $chunk = convert_uudecode($chunk);
         }
-
         // Plain text formatted
         // TODO: Formatting should be handled outside of this class
-        if ($mode == 4) {
+        elseif ($mode == 4) {
             if (!self::decodeContentChunk($chunk, $prev, $is_last)) {
                 return '';
             }
@@ -3066,8 +3078,10 @@ class rcube_imap_generic
             if ($is_last) {
                 $chunk = rtrim($chunk, "\t\r\n\0\x0B");
             }
+        }
 
-            return preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
+        if ($formatted) {
+            $chunk = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $chunk);
         }
 
         return $chunk;
@@ -3748,6 +3762,60 @@ class rcube_imap_generic
         }
 
         return null;
+    }
+
+    /**
+     * Send the STORE X ANNOTATION command (RFC5257)
+     *
+     * @param string $mailbox Mailbox name
+     * @param array  $entries
+     *
+     * @return bool True on success, False on failure
+     *
+     * @since 1.6.10
+     */
+    public function storeMessageAnnotation($mailbox, $uids, $entries)
+    {
+        if (!$this->hasCapability('ANNOTATE-EXPERIMENT-1')) {
+            return false;
+        }
+
+        if (empty($entries) || empty($uids)) {
+            $this->setError(self::ERROR_COMMAND, 'Wrong argument for STORE ANNOTATION command');
+            return false;
+        }
+
+        if (!$this->select($mailbox)) {
+            return false;
+        }
+
+        /* Example input compatible with rcube_message_header::$annotations:
+           $entries = [
+               '/comment' => [
+                   'value.priv' => 'test1',
+                   'value.shared' => null,
+               ],
+           ];
+        */
+
+        $request = [];
+        foreach ($entries as $name => $annotation) {
+            if (!empty($annotation)) {
+                foreach ($annotation as $key => $value) {
+                    $annotation[$key] = $this->escape($key) . ' ' . $this->escape($value, true);
+                }
+                $request[] = $this->escape($name);
+                $request[] = $annotation;
+            }
+        }
+
+        $result = $this->execute(
+            'UID STORE',
+            [$this->compressMessageSet($uids), 'ANNOTATION', $request],
+            self::COMMAND_NORESPONSE
+        );
+
+        return $result == self::ERROR_OK;
     }
 
     /**
