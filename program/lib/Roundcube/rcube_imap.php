@@ -1289,7 +1289,7 @@ class rcube_imap extends rcube_storage
         } else {
             // fetch requested headers from server
             $headers = $this->conn->fetchHeaders(
-                $folder, $msgs, true, false, $this->get_fetch_headers());
+                $folder, $msgs, true, false, $this->get_fetch_headers(), $this->get_fetch_items());
         }
 
         if (empty($headers)) {
@@ -1877,7 +1877,7 @@ class rcube_imap extends rcube_storage
             $headers = false;
         } else {
             $headers = $this->conn->fetchHeader(
-                $folder, $uid, true, true, $this->get_fetch_headers());
+                $folder, $uid, true, true, $this->get_fetch_headers(), $this->get_fetch_items());
 
             if (is_object($headers)) {
                 $headers->folder = $folder;
@@ -2498,6 +2498,8 @@ class rcube_imap extends rcube_storage
             $this->set_search_dirty($folder);
         }
 
+        unset($this->icache['message']);
+
         return $result;
     }
 
@@ -2620,8 +2622,9 @@ class rcube_imap extends rcube_storage
             $this->set_search_dirty($from_mbox);
             $this->set_search_dirty($to_mbox);
 
-            // unset threads internal cache
+            // unset internal cache
             unset($this->icache['threads']);
+            unset($this->icache['message']);
 
             // remove message ids from search set
             if ($this->search_set && $from_mbox == $this->folder) {
@@ -2717,8 +2720,9 @@ class rcube_imap extends rcube_storage
             $this->expunge_message($uids, $folder, false);
             $this->clear_messagecount($folder);
 
-            // unset threads internal cache
+            // unset internal cache
             unset($this->icache['threads']);
+            unset($this->icache['message']);
 
             $this->set_search_dirty($folder);
 
@@ -2786,6 +2790,33 @@ class rcube_imap extends rcube_storage
         }
 
         return $result;
+    }
+
+    /**
+     * Annotate a message.
+     *
+     * @param array  $annotation Message annotation key-value array
+     * @param mixed  $uids       Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder     Folder name
+     *
+     * @return bool True on success, False on failure
+     */
+    #[Override]
+    public function annotate_message($annotation, $uids, $folder = null)
+    {
+        [$uids] = $this->parse_uids($uids);
+
+        if (!is_string($folder) || !strlen($folder)) {
+            $folder = $this->folder;
+        }
+
+        if (!$this->check_connection()) {
+            return false;
+        }
+
+        unset($this->icache['message']);
+
+        return $this->conn->storeMessageAnnotation($folder, $uids, $annotation);
     }
 
     /* --------------------------------
@@ -3831,6 +3862,16 @@ class rcube_imap extends rcube_storage
         }
 
         return $headers;
+    }
+
+    /**
+     * Get additional FETCH items for rcube_imap_generic::fetchHeader(s)
+     *
+     * @return array List of items
+     */
+    protected function get_fetch_items()
+    {
+        return $this->options['fetch_items'] ?? [];
     }
 
     /* -----------------------------------------

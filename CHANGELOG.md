@@ -13,8 +13,10 @@
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Added an option for a default mail search scope (#9077, #7556)
 - Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
-- Support for HAproxy protocol header in IMAP connections (#8625)
+- IMAP: Support for HAproxy protocol header in IMAP connections (#8625)
+- IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
 - Change 'smtp_log' option default value to False
+- Add 'php' log_driver value (#6138)
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Hide information about quota, when there is no quota (#8994)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
@@ -26,6 +28,7 @@
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
 - Use draft settings (like DSN) on "Edit as new" (#9349)
+- Add more detailed feedback on vCard import errors (#9591)
 - Use new HTML5 parser available on PHP >= 8.4
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
@@ -49,6 +52,7 @@
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
 - Managesieve: Fix the frontend datetime picker not respecting the 12h format and apending a dangling 's' to the seconds (#9688)
+- Managesieve: Add parsing for all PHP time formatters from `time_format` config to frontend the time picker (#9655)
 - Password: Add `ldap_samba_ad` driver (#8525)
 - Password: Allow LDAP access using LDAP URI and SASL binding (#8402)
 - Password: Use Guzzle HTTP Client in the `pwned` driver
@@ -69,6 +73,9 @@
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
 - Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
 - Fix PHP fatal error when parsing some malformed BODYSTRUCTURE responses (#9689)
+- Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
+- Fix Oauth issues with use_secure_urls=true (#9722)
+- Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
 - Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
 
 ## Release 1.6.9

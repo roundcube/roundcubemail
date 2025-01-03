@@ -610,6 +610,17 @@ abstract class rcube_storage
     abstract public function expunge_message($uids, $folder = null, $clear_cache = true);
 
     /**
+     * Annotate a message.
+     *
+     * @param array  $annotation Message annotation key-value array
+     * @param mixed  $uids       Message UIDs as array or comma-separated string, or '*'
+     * @param string $folder     Folder name
+     *
+     * @return bool True on success, False on failure
+     */
+    abstract public function annotate_message($annotation, $uids, $folder = null);
+
+    /**
      * Parse message UIDs input
      *
      * @param mixed $uids Message UIDs as array or comma-separated string, or '*'
