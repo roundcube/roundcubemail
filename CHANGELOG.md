@@ -69,6 +69,7 @@
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
 - Fix plugin "virtuser_file" to handle backward slashes in username (#9668)
 - Fix PHP fatal error when parsing some malformed BODYSTRUCTURE responses (#9689)
+- Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
 
 ## Release 1.6.9
 
