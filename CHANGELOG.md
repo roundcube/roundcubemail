@@ -76,6 +76,7 @@
 - Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
 - Fix Oauth issues with use_secure_urls=true (#9722)
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
+- Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
 
 ## Release 1.6.9
 
