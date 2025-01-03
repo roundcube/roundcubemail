@@ -181,7 +181,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
         $contacts = $plugin['contacts'];
 
-        $rcmail->output->command('ksearch_query_results', $contacts, $search, $reqid);
+        $rcmail->output->add_js_call('ksearch_query_results', $contacts, $search, $reqid);
         $rcmail->output->send();
     }
 

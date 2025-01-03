@@ -139,7 +139,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         // advice the client to re-send the (cross-folder) search request
         elseif (!empty($result) && !empty($result->incomplete)) {
             $count = 0;  // keep UI locked
-            $rcmail->output->command('continue_search', $search_request);
+            $rcmail->output->add_js_call('continue_search', $search_request);
         } else {
             $count = 0;
 
@@ -147,7 +147,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $rcmail->output->set_env('multifolder_listing', isset($result) ? !empty($result->multi) : false);
 
             if (isset($result) && !empty($result->multi) && $scope == 'all') {
-                $rcmail->output->command('select_folder', '');
+                $rcmail->output->add_js_call('select_folder', '');
             }
         }
 
@@ -157,7 +157,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $rcmail->output->set_env('messagecount', $count);
         $rcmail->output->set_env('pagecount', ceil($count / $rcmail->storage->get_pagesize()));
         $rcmail->output->set_env('exists', !strlen($mbox) ? 0 : $rcmail->storage->count($mbox, 'EXISTS'));
-        $rcmail->output->command('set_rowcount', self::get_messagecount_text($count, 1), $mbox);
+        $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text($count, 1), $mbox);
 
         self::list_pagetitle();
 
@@ -167,7 +167,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         }
 
         if (isset($result) && empty($result->incomplete)) {
-            $rcmail->output->command('set_quota', self::quota_content(null, !empty($result->multi) ? 'INBOX' : $mbox));
+            $rcmail->output->add_js_call('set_quota', self::quota_content(null, !empty($result->multi) ? 'INBOX' : $mbox));
         }
 
         $rcmail->output->send();

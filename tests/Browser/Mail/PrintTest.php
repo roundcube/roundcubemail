@@ -65,6 +65,7 @@ class PrintTest extends TestCase
                         ->assertSeeIn('a.morelink', '2 more...')
                         ->assertElementsCount('span.adr', 10)
                         ->click('a.morelink')
+                        ->waitUntilMissing('a.morelink')
                         ->assertElementsCount('span.adr', 12)
                         ->assertSee('test12@domain.tld');
                 });

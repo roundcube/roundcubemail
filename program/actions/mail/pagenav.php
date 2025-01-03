@@ -41,19 +41,19 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
             $last = $pos < $cnt - 1 ? $index->get_element('LAST') : 0;
         } else {
             // error, this will at least disable page navigation
-            $rcmail->output->command('set_rowcount', '');
+            $rcmail->output->add_js_call('set_rowcount', '');
             $rcmail->output->send();
         }
 
         // Set UIDs and activate navigation buttons
         if (!empty($prev)) {
             $rcmail->output->set_env('prev_uid', $prev);
-            $rcmail->output->command('enable_command', 'previousmessage', 'firstmessage', true);
+            $rcmail->output->add_js_call('enable_command', 'previousmessage', 'firstmessage', true);
         }
 
         if (!empty($next)) {
             $rcmail->output->set_env('next_uid', $next);
-            $rcmail->output->command('enable_command', 'nextmessage', 'lastmessage', true);
+            $rcmail->output->add_js_call('enable_command', 'nextmessage', 'lastmessage', true);
         }
 
         if (!empty($first)) {
@@ -68,7 +68,7 @@ class rcmail_action_mail_pagenav extends rcmail_action_mail_index
         $rcmail->output->set_env('messagecount', 1);
 
         // Set rowcount text
-        $rcmail->output->command('set_rowcount', $rcmail->gettext([
+        $rcmail->output->add_js_call('set_rowcount', $rcmail->gettext([
             'name' => 'messagenrof',
             'vars' => ['nr' => ($pos ?? 0) + 1, 'count' => $cnt],
         ]));

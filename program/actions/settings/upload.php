@@ -87,7 +87,7 @@ class rcmail_action_settings_upload extends rcmail_action
                     $id = $attachment['id'];
                     $content = rcube::Q($attachment['name']);
 
-                    $rcmail->output->command('add2attachment_list', "rcmfile{$id}", [
+                    $rcmail->output->add_js_call('add2attachment_list', "rcmfile{$id}", [
                             'html' => $content,
                             'name' => $attachment['name'],
                             'mimetype' => $attachment['mimetype'],
@@ -108,7 +108,7 @@ class rcmail_action_settings_upload extends rcmail_action
                 }
             }
         } elseif (self::upload_failure()) {
-            $rcmail->output->command('remove_from_attachment_list', $uploadid);
+            $rcmail->output->add_js_call('remove_from_attachment_list', $uploadid);
         }
 
         $rcmail->output->send('iframe');

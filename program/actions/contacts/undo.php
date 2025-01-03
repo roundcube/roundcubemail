@@ -47,7 +47,7 @@ class rcmail_action_contacts_undo extends rcmail_action_contacts_index
                     $error = !empty($plugin['message']) ? $plugin['message'] : 'contactrestoreerror';
 
                     $rcmail->output->show_message($error, 'error');
-                    $rcmail->output->command('list_contacts');
+                    $rcmail->output->add_js_call('list_contacts');
                     $rcmail->output->send();
                 } else {
                     $delcnt += $restored;
@@ -59,7 +59,7 @@ class rcmail_action_contacts_undo extends rcmail_action_contacts_index
 
         if ($delcnt) {
             $rcmail->output->show_message('contactrestored', 'confirmation');
-            $rcmail->output->command('list_contacts');
+            $rcmail->output->add_js_call('list_contacts');
         }
 
         // send response
