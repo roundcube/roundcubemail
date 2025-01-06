@@ -5,7 +5,7 @@ namespace Tests\MessageRendering;
 /**
  * Test class to test "interesting" messages.
  */
-class SingleImageNoTextTest extends MessageRenderingTestCase
+class SingleAttachedImageNoTextTest extends MessageRenderingTestCase
 {
     /**
      * Test that of a multipart/mixed message which contains only one
