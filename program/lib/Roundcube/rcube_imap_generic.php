@@ -426,6 +426,7 @@ class rcube_imap_generic
         if ($this->fp) {
             fclose($this->fp);
             $this->fp = null;
+            $this->cmd_num = 0;
         }
     }
 
