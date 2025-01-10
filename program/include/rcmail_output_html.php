@@ -702,6 +702,23 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
+     * Write output on a blank slate: no env, no scripts, no injected
+     * stylesheets.
+     *
+     * @param string $content HTML content
+     */
+    public function write_blank_slate($content): void
+    {
+        $this->scripts = [];
+        $this->script_files = [];
+        $this->header = '';
+        $this->footer = '';
+        $this->page_headers();
+        // call super method
+        $this->_write($content);
+    }
+
+    /**
      * Send common page headers
      * For now it only (re)sets X-Frame-Options when needed
      */
