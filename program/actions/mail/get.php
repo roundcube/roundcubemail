@@ -181,8 +181,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     }
                     // html warning with a button to load the file anyway
                     else {
-                        $rcmail->output = new rcmail_html_page();
-                        $rcmail->output->register_inline_warning(
+                        $inline_warning = $this->make_inline_warning(
                             $rcmail->gettext([
                                 'name' => 'attachmentvalidationerror',
                                 'vars' => [
@@ -193,8 +192,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                             $rcmail->gettext('showanyway'),
                             $rcmail->url(array_merge($_GET, ['_nocheck' => 1]))
                         );
-
-                        $rcmail->output->write();
+                        $this->send_html('', $inline_warning);
                     }
 
                     $rcmail->output->sendExit();
@@ -233,24 +231,19 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
-                $rcmail->output = new rcmail_html_page();
-                $out = '';
-
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
                 if (!rcube_utils::mem_check($attachment->size * 10)) {
-                    $rcmail->output->register_inline_warning(
+                    $inline_warning = $this->make_inline_warning(
                         $rcmail->gettext('messagetoobig'),
                         $rcmail->gettext('download'),
                         $rcmail->url(array_merge($_GET, ['_download' => 1]))
                     );
+                    $this->send_html('', $inline_warning);
                 } else {
                     // render HTML body
-                    $out = $attachment->html();
+                    $this->send_html($attachment->html());
                 }
-
-                $rcmail->output->write($out);
-                $rcmail->output->sendExit();
             }
 
             // add filename extension if missing
@@ -354,5 +347,52 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
 
         return html::iframe($attrib);
+    }
+
+    protected function send_html($contents, $inline_warning = null)
+    {
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->reset(true);
+
+        // load embed.css from skin folder (if exists)
+        $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
+        if ($embed_css = $rcmail->output->get_skin_file($embed_css, $path, null, true)) {
+            $rcmail->output->include_css($embed_css);
+        } else {  // set default styles for warning blocks inside the attachment part frame
+            $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
+                '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
+                                        . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n" .
+                '.rcmail-inline-buttons { margin-bottom:0 }'
+            ));
+        }
+
+        if (empty($contents)) {
+            $contents = '<html><body></body></html>';
+        }
+
+        if ($inline_warning) {
+            $body_start = 0;
+            if ($body_pos = strpos($contents, '<body')) {
+                $body_start = strpos($contents, '>', $body_pos) + 1;
+            }
+
+            $contents = substr_replace($contents, $inline_warning, $body_start, 0);
+        }
+
+        $rcmail->output->write($contents);
+        $rcmail->output->sendExit();
+    }
+
+    protected function make_inline_warning($text, $button_label = null, $button_url = null)
+    {
+        $text = html::span(null, $text);
+
+        if ($button_label) {
+            $onclick = "location.href = '{$button_url}'";
+            $button = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
+            $text .= html::p(['class' => 'rcmail-inline-buttons'], $button);
+        }
+
+        return html::div(['class' => 'rcmail-inline-message rcmail-inline-warning'], $text);
     }
 }
