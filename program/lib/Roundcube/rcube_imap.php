@@ -2232,40 +2232,43 @@ class rcube_imap extends rcube_storage
 
         // fetch message headers if message/rfc822 or named part (could contain Content-Location header)
         if (
-            $struct->ctype_primary == 'message'
-            || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
+            empty($mime_headers)
+            && (
+                $struct->ctype_primary == 'message'
+                || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
+            )
         ) {
-            if (empty($mime_headers)) {
-                $mime_headers = $this->conn->fetchPartHeader($this->folder, $this->msg_uid, true, $struct->mime_id);
-            }
+            $mime_headers = $this->conn->fetchPartHeader($this->folder, $this->msg_uid, true, $struct->mime_id);
+        }
 
+        if (!empty($mime_headers)) {
             if (is_string($mime_headers)) {
                 $struct->headers = rcube_mime::parse_headers($mime_headers) + $struct->headers;
             } elseif (is_object($mime_headers)) {
                 $struct->headers = get_object_vars($mime_headers) + $struct->headers;
             }
+        }
 
-            // get real content-type of message/rfc822
-            if ($struct->mimetype == 'message/rfc822') {
-                // single-part
-                if (!is_array($part[8][0]) && !is_array($part[8][1])) {
-                    $struct->real_mimetype = strtolower($part[8][0] . '/' . $part[8][1]);
-                }
-                // multi-part
-                else {
-                    for ($n = 0; $n < count($part[8]); $n++) {
-                        if (!is_array($part[8][$n])) {
-                            break;
-                        }
-                    }
-                    $struct->real_mimetype = 'multipart/' . strtolower($part[8][$n]);
-                }
+        // get real content-type of message/rfc822
+        if ($struct->mimetype == 'message/rfc822') {
+            // single-part
+            if (!is_array($part[8][0]) && !is_array($part[8][1])) {
+                $struct->real_mimetype = strtolower($part[8][0] . '/' . $part[8][1]);
             }
-
-            if ($struct->ctype_primary == 'message' && empty($struct->parts)) {
-                if (is_array($part[8]) && $di != 8) {
-                    $struct->parts[] = $this->structure_part($part[8], ++$count, $struct->mime_id);
+            // multi-part
+            else {
+                for ($n = 0; $n < count($part[8]); $n++) {
+                    if (!is_array($part[8][$n])) {
+                        break;
+                    }
                 }
+                $struct->real_mimetype = 'multipart/' . strtolower($part[8][$n]);
+            }
+        }
+
+        if ($struct->ctype_primary == 'message' && empty($struct->parts)) {
+            if (is_array($part[8]) && $di != 8) {
+                $struct->parts[] = $this->structure_part($part[8], ++$count, $struct->mime_id);
             }
         }
 
