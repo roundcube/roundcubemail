@@ -663,10 +663,10 @@ class rcube_message
 
             // parse headers from message/rfc822 part
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
-                $part_body = $headers = $this->get_part_body($structure->mime_id, false, 32768);
+                $part_body = $this->get_part_body($structure->mime_id, false, 32768);
 
-                if (($pos = strpos($headers, "\r\n\r\n")) !== false) {
-                    $headers = substr($headers, $pos);
+                if (strpos($part_body, "\r\n\r\n") !== false) {
+                    [$headers] = explode("\r\n\r\n", $part_body, 2);
                 }
 
                 $structure->headers = rcube_mime::parse_headers($headers);
