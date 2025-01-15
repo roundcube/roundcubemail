@@ -76,9 +76,6 @@ class rcube_message
     public $mime_parts = [];
 
     /** @var array<rcube_message_part> */
-    public $inline_parts = [];
-
-    /** @var array<rcube_message_part> */
     public $attachments = [];
 
     public const BODY_MAX_SIZE = 1048576; // 1MB
