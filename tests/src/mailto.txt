@@ -1,8 +1,0 @@
-<html>
-<head></head>
-<body>
-
-<a href="mailto:me@me.com?subject=this is the subject&body=this is the body">e-mail</a>
-
-</body>
-</html>

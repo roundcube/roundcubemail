@@ -1,8 +1,0 @@
-BEGIN:VCARD
-VERSION:3.0
-FN:test1@domain.tld
-N:;;;;
-EMAIL;TYPE=pref:test1@domain.tld
-EMAIL:test2@domain.tld
-EMAIL:test3@domain.tld
-END:VCARD
