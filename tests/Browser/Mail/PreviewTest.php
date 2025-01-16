@@ -120,7 +120,6 @@ class PreviewTest extends TestCase
 
             $txt = $browser->readDownloadedFile('lines.txt');
 
-            $this->assertTrue(strlen($txt) == 13);
             $this->assertSame("foo\r\nbar\r\ngna", $txt);
             $browser->removeDownloadedFile('lines.txt');
 
