@@ -199,7 +199,11 @@ class rcmail_attachment_handler
                 $result = fwrite($fp, $result) !== false;
             }
         } elseif ($this->message) {
-            $result = $this->message->get_part_body($this->part->mime_id, $this->part->ctype_primary === 'text', 0, $fp);
+            // Formatting also changes newlines, converts from charsets, etc.
+            // Thus we only do this for parts that are to be shown in the
+            // browser, not for other parts, or if the part is downloaded.
+            $formatting_wanted = $this->part->ctype_primary === 'text' && !$this->download;
+            $result = $this->message->get_part_body($this->part->mime_id, $formatting_wanted, 0, $fp);
 
             // check connection status
             if (!$fp && $this->size && empty($result)) {
