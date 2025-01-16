@@ -3768,8 +3768,9 @@ class rcube_imap_generic
     /**
      * Send the STORE X ANNOTATION command (RFC5257)
      *
-     * @param string $mailbox Mailbox name
-     * @param array  $entries
+     * @param string       $mailbox Mailbox name
+     * @param string|array $uids    Message UIDs
+     * @param array        $entries Annotations
      *
      * @return bool True on success, False on failure
      *
