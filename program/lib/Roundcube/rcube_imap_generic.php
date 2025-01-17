@@ -1178,6 +1178,16 @@ class rcube_imap_generic
     }
 
     /**
+     * Get crrent user.
+     *
+     * @return string|null Current username set for the connection
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * Executes SELECT command (if mailbox is already not in selected state)
      *
      * @param string $mailbox      Mailbox name
