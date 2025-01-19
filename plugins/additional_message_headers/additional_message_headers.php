@@ -55,9 +55,9 @@ class additional_message_headers extends rcube_plugin
                 if (is_callable($val)) {
                     $additional_headers[$key] = $val();
                 } else {
-                    $additional_headers = preg_replace($search, $replace, $val);
+                    $additional_headers[$key] = preg_replace($search, $replace, $val);
                     // replace %%<variable> with %<variable>
-                    $additional_headers = preg_replace('/%(%[uld])/', '\1', $val);                    
+                    $additional_headers[$key] = preg_replace('/%(%[uld])/', '\1', $val);                    
                 }
             }
 
