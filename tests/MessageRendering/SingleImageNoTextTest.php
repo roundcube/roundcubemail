@@ -25,5 +25,9 @@ class SingleImageNoTextTest extends MessageRenderingTestCase
         $attchNames = $domxpath->query('//span[@class="attachment-name"]');
         $this->assertCount(1, $attchNames, 'Attachments');
         $this->assertStringStartsWith('Resized_20240427_200026(1).jpeg', $attchNames[0]->textContent);
+
+        $shownImages = $domxpath->query('//span[@class="image-filename"]');
+        $this->assertCount(1, $attchNames, 'Shown images');
+        $this->assertSame('Resized_20240427_200026(1).jpeg', $shownImages[0]->textContent);
     }
 }
