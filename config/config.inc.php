@@ -129,6 +129,6 @@ $config['oauth_client_secret'] = '!<oauth_client_secret>';
 $config['oauth_auth_uri'] = 'https://api.login.netdb.at/oauth/authorize/';
 $config['oauth_token_uri'] = 'https://api.login.netdb.at/oauth/token/';
 $config['oauth_identity_uri'] = 'https://api.login.netdb.at/oauth/me/';
-$config['oauth_scope'] = "email";
+$config['oauth_scope'] = 'user:4 offline_access';
 $config['oauth_auth_parameters'] = [];
 $config['oauth_identity_fields'] = ['email'];
