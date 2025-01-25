@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Roundcube Reconnect Plugin
  *
@@ -15,7 +19,7 @@ class reconnect extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('storage_connect', [$this, 'storage_connect']);

@@ -1,5 +1,10 @@
 <?php
 
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Kerberos Authentication
  *
@@ -18,7 +23,7 @@ class krb_authentication extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

@@ -1,5 +1,8 @@
 <?php
 
+use rcmail_install as rcmail_install;
+use rcube as rcube;
+
 /*
  +-------------------------------------------------------------------------+
  | Roundcube Webmail setup tool                                            |

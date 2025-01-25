@@ -1,5 +1,11 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * MarkAsJunk
  *
@@ -47,7 +53,7 @@ class markasjunk extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->register_action('plugin.markasjunk.junk', [$this, 'mark_message']);

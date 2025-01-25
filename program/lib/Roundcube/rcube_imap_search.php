@@ -1,5 +1,11 @@
 <?php
 
+use rcube_imap as rcube_imap;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -74,7 +80,7 @@ class rcube_imap_search
                 $results->add($result);
             } else {
                 $search = is_array($str) && !empty($str[$folder]) ? $str[$folder] : $str;
-                $job = new rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
+                $job = new \rcube_imap_search_job($folder, $search, $charset, $sort_field, $threading);
                 $job->worker = $this;
                 $this->jobs[] = $job;
             }
@@ -131,7 +137,7 @@ class rcube_imap_search
  */
 class rcube_imap_search_job // extends Stackable
 {
-    /** @var rcube_imap_search The job worker */
+    /** @var \rcube_imap_search The job worker */
     public $worker;
 
     /** @var string IMAP folder to search in */

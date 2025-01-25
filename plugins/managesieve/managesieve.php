@@ -1,5 +1,12 @@
 <?php
 
+use rcmail_action as rcmail_action;
+use rcube as rcube;
+use rcube_message as rcube_message;
+use rcube_mime as rcube_mime;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Managesieve (Sieve Filters)
  *
@@ -40,7 +47,7 @@ class managesieve extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcube::get_instance();

@@ -1,5 +1,8 @@
 <?php
 
+use enigma_key as enigma_key;
+use enigma_signature as enigma_signature;
+
 /*
  +-------------------------------------------------------------------------+
  | Abstract driver for the Enigma Plugin                                   |

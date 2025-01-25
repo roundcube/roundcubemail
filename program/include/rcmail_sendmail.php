@@ -1,5 +1,21 @@
 <?php
 
+use html_checkbox as html_checkbox;
+use html_hiddenfield as html_hiddenfield;
+use html_inputfield as html_inputfield;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_output as rcmail_output;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_message as rcube_message;
+use rcube_mime as rcube_mime;
+use rcube_text2html as rcube_text2html;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -275,8 +291,8 @@ class rcmail_sendmail
     /**
      * Set charset and transfer encoding on the message
      *
-     * @param Mail_mime $message Message object
-     * @param bool      $flowed  Enable format=flowed
+     * @param \Mail_mime $message Message object
+     * @param bool       $flowed  Enable format=flowed
      */
     public function set_message_encoding($message, $flowed = false)
     {
@@ -314,7 +330,7 @@ class rcmail_sendmail
      * @param bool   $isHtml      The body is HTML or not
      * @param array  $attachments Optional message attachments array
      *
-     * @return Mail_mime Message object
+     * @return \Mail_mime Message object
      */
     public function create_message($headers, $body, $isHtml = false, $attachments = [])
     {
@@ -327,7 +343,7 @@ class rcmail_sendmail
         }
 
         // create PEAR::Mail_mime instance
-        $MAIL_MIME = new Mail_mime("\r\n");
+        $MAIL_MIME = new \Mail_mime("\r\n");
 
         // Check if we have enough memory to handle the message in it
         // It's faster than using files, so we'll do this if we only can
@@ -421,8 +437,8 @@ class rcmail_sendmail
     /**
      * Message delivery, and setting Replied/Forwarded flag on success
      *
-     * @param Mail_mime $message    Message object
-     * @param bool      $disconnect Close SMTP connection after delivery
+     * @param \Mail_mime $message    Message object
+     * @param bool       $disconnect Close SMTP connection after delivery
      *
      * @return bool True on success, False on failure
      */
@@ -494,7 +510,7 @@ class rcmail_sendmail
      * Save the message into Drafts folder (in savedraft mode)
      * or in Sent mailbox if specified/configured
      *
-     * @param Mail_mime $message Message object
+     * @param \Mail_mime $message Message object
      *
      * @return mixed Operation status
      */
@@ -672,8 +688,8 @@ class rcmail_sendmail
     /**
      * Extract image attachments from HTML message (data URIs)
      *
-     * @param Mail_mime $message Message object
-     * @param string    $from    Sender email address
+     * @param \Mail_mime $message Message object
+     * @param string     $from    Sender email address
      */
     public static function extract_inline_images($message, $from)
     {
@@ -788,7 +804,7 @@ class rcmail_sendmail
                 // encode "name" field
                 if (!empty($use_base64)) {
                     $name = rcube_charset::convert($name, RCUBE_CHARSET, $charset);
-                    $name = Mail_mimePart::encodeMB($name, $charset, 'base64');
+                    $name = \Mail_mimePart::encodeMB($name, $charset, 'base64');
                 } else {
                     $name = stripcslashes($name);
                 }
@@ -1686,7 +1702,7 @@ class rcmail_sendmail
     /**
      * Collect message recipients' addresses
      *
-     * @param Mail_mime $message The email message
+     * @param \Mail_mime $message The email message
      */
     public static function collect_recipients($message)
     {

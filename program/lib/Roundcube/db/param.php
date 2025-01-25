@@ -1,5 +1,7 @@
 <?php
 
+use rcube_db as rcube_db;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -43,7 +45,7 @@ class rcube_db_param
     /**
      * Returns the value as string for inlining into SQL query
      */
-    #[Override]
+    #[\Override]
     public function __toString()
     {
         if ($this->type === rcube_db::TYPE_SQL) {

@@ -1,5 +1,8 @@
 <?php
 
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

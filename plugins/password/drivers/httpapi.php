@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /**
  * Roundcube password driver for generic HTTP APIs.
  *
@@ -90,7 +94,7 @@ class rcube_httpapi_password
 
             $response_code = $response->getStatusCode();
             $result = $response->getBody();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error('Password plugin: ' . $e->getMessage(), true);
 
             return PASSWORD_CONNECT_ERROR;

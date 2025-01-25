@@ -1,5 +1,9 @@
 <?php
 
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -522,14 +526,14 @@ class rcube_user
             $counter = 0;
 
             if (empty($this->data['failed_login'])) {
-                $failed_login = new DateTime('now');
+                $failed_login = new \DateTime('now');
                 $counter = 1;
             } else {
-                $failed_login = new DateTime($this->data['failed_login']);
-                $threshold = new DateTime('- 60 seconds');
+                $failed_login = new \DateTime($this->data['failed_login']);
+                $threshold = new \DateTime('- 60 seconds');
 
                 if ($failed_login < $threshold) {
-                    $failed_login = new DateTime('now');
+                    $failed_login = new \DateTime('now');
                     $counter = 1;
                 }
             }
@@ -554,8 +558,8 @@ class rcube_user
         }
 
         if ($rate = (int) $this->rc->config->get('login_rate_limit', 3)) {
-            $last_failed = new DateTime($this->data['failed_login']);
-            $threshold = new DateTime('- 60 seconds');
+            $last_failed = new \DateTime($this->data['failed_login']);
+            $threshold = new \DateTime('- 60 seconds');
 
             if ($last_failed > $threshold && $this->data['failed_login_counter'] >= $rate) {
                 return true;
@@ -619,7 +623,7 @@ class rcube_user
      * @param string $user IMAP user name
      * @param string $host IMAP host
      *
-     * @return rcube_user|null New user instance on success, Null on error/abort
+     * @return \rcube_user|null New user instance on success, Null on error/abort
      */
     public static function create($user, $host)
     {

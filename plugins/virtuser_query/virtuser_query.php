@@ -1,5 +1,10 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_db as rcube_db;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * DB based User-to-Email and Email-to-User lookup
  *
@@ -31,7 +36,7 @@ class virtuser_query extends rcube_plugin
     private $app;
     private $db;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->app = rcmail::get_instance();

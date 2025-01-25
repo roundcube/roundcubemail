@@ -1,5 +1,8 @@
 <?php
 
+use rcube as rcube;
+use rcube_ldap_simple_password as rcube_ldap_simple_password;
+
 /*
  * LDAP - Password Modify Extended Operation Driver
  *
@@ -31,7 +34,7 @@ require_once __DIR__ . '/ldap_simple.php';
 
 class rcube_ldap_exop_password extends rcube_ldap_simple_password
 {
-    #[Override]
+    #[\Override]
     public function save($curpass, $passwd)
     {
         if (!function_exists('ldap_exop_passwd')) {

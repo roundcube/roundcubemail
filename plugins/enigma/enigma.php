@@ -1,5 +1,16 @@
 <?php
 
+use enigma_engine as enigma_engine;
+use enigma_error as enigma_error;
+use enigma_key as enigma_key;
+use enigma_ui as enigma_ui;
+use html as html;
+use html_checkbox as html_checkbox;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /*
  +-------------------------------------------------------------------------+
  | Enigma Plugin for Roundcube                                             |
@@ -30,7 +41,7 @@ class enigma extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();

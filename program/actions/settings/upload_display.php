@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,7 +29,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         if (!empty($_GET['_file']) && preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {

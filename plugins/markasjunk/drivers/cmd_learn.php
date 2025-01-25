@@ -1,5 +1,9 @@
 <?php
 
+use rcube as rcube;
+use rcube_imap as rcube_imap;
+use rcube_message as rcube_message;
+
 /**
  * Command line learn driver
  *

@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_utils as rcube_utils;
+
 /**
  * Poppassd Password Driver
  *
@@ -39,7 +42,7 @@ class rcube_poppassd_password
     public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
-        $poppassd = new Net_Socket();
+        $poppassd = new \Net_Socket();
 
         $port = $rcmail->config->get('password_pop_port', 106);
         $host = $rcmail->config->get('password_pop_host', 'localhost');

@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use rcmail_install as rcmail_install;
+use rcube as rcube;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |

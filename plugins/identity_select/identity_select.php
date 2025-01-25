@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Identity selection based on additional message headers.
  *
@@ -23,7 +26,7 @@ class identity_select extends rcube_plugin
 {
     public $task = 'mail';
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('identity_select', [$this, 'select']);

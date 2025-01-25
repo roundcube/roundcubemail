@@ -1,5 +1,10 @@
 <?php
 
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_charset as rcube_charset;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -527,9 +532,9 @@ class rcube_config
     {
         if ($tz = $this->get('timezone')) {
             try {
-                $tz = new DateTimeZone($tz);
-                return $tz->getOffset(new DateTime('now')) / 3600;
-            } catch (Exception $e) {
+                $tz = new \DateTimeZone($tz);
+                return $tz->getOffset(new \DateTime('now')) / 3600;
+            } catch (\Exception $e) {
             }
         }
 
@@ -679,9 +684,9 @@ class rcube_config
             $props['timezone'] = $this->resolve_timezone_alias($props['timezone']);
 
             try {
-                $tz = new DateTimeZone($props['timezone']);
+                $tz = new \DateTimeZone($props['timezone']);
                 return $this->client_tz = $tz->getName();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // gracefully ignore
             }
         }

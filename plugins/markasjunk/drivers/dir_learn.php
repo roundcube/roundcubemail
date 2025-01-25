@@ -1,5 +1,7 @@
 <?php
 
+use rcube as rcube;
+
 /**
  * Copy spam/ham messages to a directory for learning later
  *

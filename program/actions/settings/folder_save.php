@@ -1,5 +1,11 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action_settings_folder_edit as rcmail_action_settings_folder_edit;
+use rcube_charset as rcube_charset;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -26,7 +32,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET

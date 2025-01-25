@@ -1,5 +1,8 @@
 <?php
 
+use rcube as rcube;
+use rcube_cache as rcube_cache;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -45,7 +48,7 @@ class rcube_cache_apc extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         // No need for GC, entries are expunged automatically
@@ -54,7 +57,7 @@ class rcube_cache_apc extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         // No need for GC, entries are expunged automatically
@@ -67,7 +70,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function get_item($key)
     {
         if (!$this->enabled) {
@@ -91,7 +94,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function add_item($key, $data)
     {
         if (!$this->enabled) {
@@ -118,7 +121,7 @@ class rcube_cache_apc extends rcube_cache
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function delete_item($key)
     {
         if (!$this->enabled) {

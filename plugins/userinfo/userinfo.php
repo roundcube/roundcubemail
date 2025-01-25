@@ -1,5 +1,11 @@
 <?php
 
+use html as html;
+use html_table as html_table;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Sample plugin that adds a new tab to the settings section
  * to display some information about the current user
@@ -10,7 +16,7 @@ class userinfo extends rcube_plugin
     public $noajax = true;
     public $noframe = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_texts('localization/', ['userinfo']);

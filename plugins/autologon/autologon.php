@@ -1,5 +1,7 @@
 <?php
 
+use rcube_plugin as rcube_plugin;
+
 /**
  * Sample plugin to try out some hooks.
  * This performs an automatic login if accessed from localhost
@@ -14,7 +16,7 @@ class autologon extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('startup', [$this, 'startup']);

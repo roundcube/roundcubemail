@@ -1,5 +1,9 @@
 <?php
 
+use html as html;
+use rcmail_output_html as rcmail_output_html;
+use rcube as rcube;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -29,7 +33,7 @@ class rcmail_html_page extends rcmail_output_html
      *
      * @param string $contents HTML page content
      */
-    #[Override]
+    #[\Override]
     public function write($contents = '')
     {
         self::reset(true);

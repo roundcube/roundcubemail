@@ -1,5 +1,12 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_sendmail as rcmail_sendmail;
+use rcube as rcube;
+use rcube_spellchecker as rcube_spellchecker;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -25,7 +32,7 @@ class rcmail_action_mail_send extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -190,12 +197,12 @@ class rcmail_action_mail_send extends rcmail_action
 
         // compose PGP/Mime message
         if (!empty($pgp_mime)) {
-            $MAIL_MIME->addAttachment(new Mail_mimePart('Version: 1', [
+            $MAIL_MIME->addAttachment(new \Mail_mimePart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
                 'description' => 'PGP/MIME version identification',
             ]));
 
-            $MAIL_MIME->addAttachment(new Mail_mimePart($pgp_mime, [
+            $MAIL_MIME->addAttachment(new \Mail_mimePart($pgp_mime, [
                 'content_type' => 'application/octet-stream',
                 'filename' => 'encrypted.asc',
                 'disposition' => 'inline',

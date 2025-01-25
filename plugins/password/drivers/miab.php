@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /**
  * Mail-in-a-Box Driver
  *
@@ -60,7 +64,7 @@ class rcube_miab_password
             if ($response->getStatusCode() == 200 && trim($result) === 'OK') {
                 return PASSWORD_SUCCESS;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $e->getMessage();
         }
 

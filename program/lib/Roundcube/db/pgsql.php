@@ -1,5 +1,8 @@
 <?php
 
+use rcube as rcube;
+use rcube_db as rcube_db;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -50,9 +53,9 @@ class rcube_db_pgsql extends rcube_db
      * Driver-specific configuration of database connection
      *
      * @param array $dsn DSN for DB connections
-     * @param PDO   $dbh Connection handler
+     * @param \PDO  $dbh Connection handler
      */
-    #[Override]
+    #[\Override]
     protected function conn_configure($dsn, $dbh)
     {
         $dbh->query("SET NAMES 'utf8'");
@@ -71,7 +74,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return mixed ID or false on failure
      */
-    #[Override]
+    #[\Override]
     public function insert_id($table = null)
     {
         if (!$this->db_connected || $this->db_mode == 'r') {
@@ -115,7 +118,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @deprecated
      */
-    #[Override]
+    #[\Override]
     public function unixtimestamp($field)
     {
         return "EXTRACT (EPOCH FROM {$field})";
@@ -128,7 +131,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string SQL function to use in query
      */
-    #[Override]
+    #[\Override]
     public function now($interval = 0)
     {
         $result = 'now()';
@@ -150,7 +153,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string SQL statement to use in query
      */
-    #[Override]
+    #[\Override]
     public function ilike($column, $value)
     {
         return $this->quote_identifier($column) . ' ILIKE ' . $this->quote($value);
@@ -164,7 +167,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return mixed Variable value or default
      */
-    #[Override]
+    #[\Override]
     public function get_variable($varname, $default = null)
     {
         // There's a known case when max_allowed_packet is queried
@@ -201,11 +204,11 @@ class rcube_db_pgsql extends rcube_db
      * @param array  $values  List of values to update (number of elements
      *                        should be the same as in $columns)
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return \PDOStatement|bool Query handle or False on error
      *
      * @todo Multi-insert support
      */
-    #[Override]
+    #[\Override]
     public function insert_or_update($table, $keys, $columns, $values)
     {
         // Check if version >= 9.5, otherwise use fallback
@@ -233,7 +236,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return array List of all tables of the current database
      */
-    #[Override]
+    #[\Override]
     public function list_tables()
     {
         // get tables if not cached
@@ -248,7 +251,7 @@ class rcube_db_pgsql extends rcube_db
                 . " WHERE TABLE_TYPE = 'BASE TABLE'" . $add
                 . ' ORDER BY TABLE_NAME');
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+            $this->tables = $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -261,7 +264,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return array List of table cols
      */
-    #[Override]
+    #[\Override]
     public function list_cols($table)
     {
         $args = [$table];
@@ -277,7 +280,7 @@ class rcube_db_pgsql extends rcube_db
             . ' WHERE TABLE_NAME = ?' . $add, $args);
 
         if ($q) {
-            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+            return $q->fetchAll(\PDO::FETCH_COLUMN, 0);
         }
 
         return [];
@@ -290,7 +293,7 @@ class rcube_db_pgsql extends rcube_db
      *
      * @return string DSN string
      */
-    #[Override]
+    #[\Override]
     protected function dsn_string($dsn)
     {
         $params = [];
@@ -326,7 +329,7 @@ class rcube_db_pgsql extends rcube_db
     /**
      * Parse SQL file and fix table names according to table prefix
      */
-    #[Override]
+    #[\Override]
     protected function fix_table_names($sql)
     {
         if (!$this->options['table_prefix']) {

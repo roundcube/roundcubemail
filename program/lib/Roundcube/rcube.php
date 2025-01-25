@@ -1,6 +1,20 @@
 <?php
 
 use GuzzleHttp\Client as HttpClient;
+use rcmail_install as rcmail_install;
+use rcube_cache as rcube_cache;
+use rcube_cache_memcache as rcube_cache_memcache;
+use rcube_cache_memcached as rcube_cache_memcached;
+use rcube_cache_redis as rcube_cache_redis;
+use rcube_config as rcube_config;
+use rcube_db as rcube_db;
+use rcube_mime as rcube_mime;
+use rcube_plugin_api as rcube_plugin_api;
+use rcube_session as rcube_session;
+use rcube_smtp as rcube_smtp;
+use rcube_storage as rcube_storage;
+use rcube_user as rcube_user;
+use rcube_utils as rcube_utils;
 
 /*
  +-----------------------------------------------------------------------+
@@ -44,13 +58,13 @@ class rcube
     /** @var ?rcube_db SQL database handler */
     public $db;
 
-    /** @var Memcache|false|null Memcache cache handler */
+    /** @var \Memcache|false|null Memcache cache handler */
     public $memcache;
 
-    /** @var Memcached|false|null Memcached cache handler */
+    /** @var \Memcached|false|null Memcached cache handler */
     public $memcached;
 
-    /** @var Redis|false|null Redis cache handler */
+    /** @var \Redis|false|null Redis cache handler */
     public $redis;
 
     /** @var ?rcube_session Session handler */
@@ -65,7 +79,7 @@ class rcube
     /** @var ?rcube_output Output handler */
     public $output;
 
-    /** @var rcube_plugin_api|rcube_dummy_plugin_api Instance of rcube_plugin_api */
+    /** @var rcube_plugin_api|\rcube_dummy_plugin_api Instance of rcube_plugin_api */
     public $plugins;
 
     /** @var ?rcube_user User database handler */
@@ -98,7 +112,7 @@ class rcube
      * @param int    $mode Options to initialize with this instance. See rcube::INIT_WITH_* constants
      * @param string $env  Environment name to run (e.g. live, dev, test)
      *
-     * @return rcube The one and only instance
+     * @return \rcube The one and only instance
      */
     public static function get_instance($mode = 0, $env = '')
     {
@@ -119,7 +133,7 @@ class rcube
     {
         // load configuration
         $this->config = new rcube_config($env);
-        $this->plugins = new rcube_dummy_plugin_api();
+        $this->plugins = new \rcube_dummy_plugin_api();
 
         register_shutdown_function([$this, 'shutdown']);
     }
@@ -172,7 +186,7 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache|false The memcache engine
+     * @return \Memcache|false The memcache engine
      */
     public function get_memcache()
     {
@@ -186,7 +200,7 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return Memcached|false The memcached engine
+     * @return \Memcached|false The memcached engine
      */
     public function get_memcached()
     {
@@ -200,7 +214,7 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return Redis|false The redis engine
+     * @return \Redis|false The redis engine
      */
     public function get_redis()
     {
@@ -1389,19 +1403,19 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param int|array|Throwable|string|PEAR_Error $arg       Error object, int, string or named parameters array:
-     *                                                         - code:    Error code (required)
-     *                                                         - type:    Error type: php, db, imap, etc.
-     *                                                         - message: Error message
-     *                                                         - file:    File where error occurred
-     *                                                         - line:    Line where error occurred
-     * @param bool                                  $log       True to log the error
-     * @param bool                                  $terminate Terminate script execution
+     * @param int|array|\Throwable|string|\PEAR_Error $arg       Error object, int, string or named parameters array:
+     *                                                           - code:    Error code (required)
+     *                                                           - type:    Error type: php, db, imap, etc.
+     *                                                           - message: Error message
+     *                                                           - file:    File where error occurred
+     *                                                           - line:    Line where error occurred
+     * @param bool                                    $log       True to log the error
+     * @param bool                                    $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
         // handle PHP exceptions and errors
-        if ($arg instanceof Throwable) {
+        if ($arg instanceof \Throwable) {
             $arg = [
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
@@ -1471,7 +1485,7 @@ class rcube
         // terminate script
         if ($terminate) {
             if (defined('ROUNDCUBE_TEST_MODE')) {
-                throw new Exception('Error raised');
+                throw new \Exception('Error raised');
             }
 
             exit(1);
@@ -1743,7 +1757,7 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    $message    Reference to Mail_mime object
+     * @param \Mail_mime   $message    Reference to Mail_mime object
      * @param string       $from       Sender address string
      * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
      *                                 or an array of recipients, each RFC822 valid

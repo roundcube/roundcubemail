@@ -1,5 +1,16 @@
 <?php
 
+use html as html;
+use rcmail as rcmail;
+use rcmail_action_mail_compose as rcmail_action_mail_compose;
+use rcube as rcube;
+use rcube_addressbook as rcube_addressbook;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+use rcube_vcard as rcube_vcard;
+
 /**
  * Detects VCard attachments and show a button to add them to address book
  * Adds possibility to attach a contact vcard to mail messages
@@ -19,7 +30,7 @@ class vcard_attachments extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

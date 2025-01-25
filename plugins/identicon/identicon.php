@@ -1,5 +1,11 @@
 <?php
 
+use identicon_engine as identicon_engine;
+use rcmail as rcmail;
+use rcube_addressbook as rcube_addressbook;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Identicon
  *
@@ -24,7 +30,7 @@ class identicon extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('contact_photo', [$this, 'contact_photo']);

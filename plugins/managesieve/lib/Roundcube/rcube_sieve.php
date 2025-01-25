@@ -1,5 +1,8 @@
 <?php
 
+use rcube as rcube;
+use rcube_sieve_script as rcube_sieve_script;
+
 /*
  * Classes for managesieve operations (using PEAR::Net_Sieve)
  *
@@ -64,7 +67,7 @@ class rcube_sieve
         $auth_cid = null, $auth_pw = null, $options = [], $gssapi_principal = null,
         $gssapi_cname = null)
     {
-        $this->sieve = new Net_Sieve();
+        $this->sieve = new \Net_Sieve();
 
         if ($debug) {
             $this->sieve->setDebug(true, [$this, 'debug_handler']);

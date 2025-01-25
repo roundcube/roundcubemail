@@ -1,5 +1,21 @@
 <?php
 
+use rcube as rcube;
+use rcube_cache as rcube_cache;
+use rcube_charset as rcube_charset;
+use rcube_imap_cache as rcube_imap_cache;
+use rcube_imap_generic as rcube_imap_generic;
+use rcube_imap_search as rcube_imap_search;
+use rcube_message_header as rcube_message_header;
+use rcube_message_header_sorter as rcube_message_header_sorter;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_result_index as rcube_result_index;
+use rcube_result_multifolder as rcube_result_multifolder;
+use rcube_result_thread as rcube_result_thread;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -101,7 +117,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function connect($host, $user, $pass, $port = 143, $use_ssl = null)
     {
         // check for OpenSSL support in PHP build
@@ -209,7 +225,7 @@ class rcube_imap extends rcube_storage
      * Close IMAP connection.
      * Usually done on script shutdown
      */
-    #[Override]
+    #[\Override]
     public function close()
     {
         $this->connect_done = false;
@@ -225,7 +241,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool connection state
      */
-    #[Override]
+    #[\Override]
     public function check_connection()
     {
         // Establish connection if it wasn't done yet
@@ -247,7 +263,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function is_connected()
     {
         return $this->conn->connected();
@@ -258,7 +274,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int Error code
      */
-    #[Override]
+    #[\Override]
     public function get_error_code()
     {
         return $this->conn->errornum;
@@ -269,7 +285,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string Error string
      */
-    #[Override]
+    #[\Override]
     public function get_error_str()
     {
         return $this->conn->error;
@@ -280,7 +296,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int Response code
      */
-    #[Override]
+    #[\Override]
     public function get_response_code()
     {
         switch ($this->conn->resultcode) {
@@ -310,7 +326,7 @@ class rcube_imap extends rcube_storage
      *
      * @param bool $dbg True if IMAP conversation should be logged
      */
-    #[Override]
+    #[\Override]
     public function set_debug($dbg = true)
     {
         $this->options['debug'] = $dbg;
@@ -323,7 +339,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      */
-    #[Override]
+    #[\Override]
     public function set_folder($folder)
     {
         $this->folder = $folder;
@@ -339,7 +355,7 @@ class rcube_imap extends rcube_storage
      *                   3 - sorting field, string
      *                   4 - true if sorted, bool
      */
-    #[Override]
+    #[\Override]
     public function set_search_set($set)
     {
         $set = (array) $set;
@@ -361,7 +377,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array|null Search set
      */
-    #[Override]
+    #[\Override]
     public function get_search_set()
     {
         if (empty($this->search_set)) {
@@ -384,7 +400,7 @@ class rcube_imap extends rcube_storage
      *
      * @return mixed Capability value or TRUE if supported, FALSE if not
      */
-    #[Override]
+    #[\Override]
     public function get_capability($cap)
     {
         $cap = strtoupper($cap);
@@ -413,7 +429,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True if this flag is supported
      */
-    #[Override]
+    #[\Override]
     public function check_permflag($flag)
     {
         $flag = strtoupper($flag);
@@ -458,7 +474,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string Delimiter string
      */
-    #[Override]
+    #[\Override]
     public function get_hierarchy_delimiter()
     {
         return $this->delimiter;
@@ -471,7 +487,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string|array|null Namespace data
      */
-    #[Override]
+    #[\Override]
     public function get_namespace($name = null)
     {
         $ns = $this->namespace;
@@ -624,7 +640,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 1.2
      */
-    #[Override]
+    #[\Override]
     public function get_vendor()
     {
         if (isset($_SESSION['imap_vendor'])) {
@@ -680,7 +696,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int Number of messages
      */
-    #[Override]
+    #[\Override]
     public function count($folder = null, $mode = 'ALL', $force = false, $status = true)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -818,7 +834,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Indexed array with message flags
      */
-    #[Override]
+    #[\Override]
     public function list_flags($folder, $uids, $mod_seq = null)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -855,7 +871,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array<rcube_message_header> Indexed array with message header objects
      */
-    #[Override]
+    #[\Override]
     public function list_messages($folder = null, $page = null, $sort_field = null, $sort_order = null, $slice = 0)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -1275,7 +1291,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Messages headers indexed by UID
      */
-    #[Override]
+    #[\Override]
     public function fetch_headers($folder, $msgs, $sort = true, $force = false)
     {
         if (empty($msgs)) {
@@ -1323,7 +1339,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int Folder status
      */
-    #[Override]
+    #[\Override]
     public function folder_status($folder = null, &$diff = [])
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -1403,7 +1419,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_index|rcube_result_thread List of messages (UIDs)
      */
-    #[Override]
+    #[\Override]
     public function index($folder = null, $sort_field = null, $sort_order = null,
         $no_threads = false, $no_search = false
     ) {
@@ -1601,7 +1617,7 @@ class rcube_imap extends rcube_storage
      *
      * @todo: Search criteria should be provided in non-IMAP format, e.g. array
      */
-    #[Override]
+    #[\Override]
     public function search($folder = '', $search = 'ALL', $charset = null, $sort_field = null)
     {
         if (!$search) {
@@ -1674,7 +1690,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_result_index|rcube_result_multifolder Search result (UIDs)
      */
-    #[Override]
+    #[\Override]
     public function search_once($folder = null, $str = 'ALL')
     {
         if (!$this->check_connection()) {
@@ -1821,7 +1837,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Current search set
      */
-    #[Override]
+    #[\Override]
     public function refresh_search()
     {
         if (!empty($this->search_string)) {
@@ -1858,7 +1874,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_message_header|false Message headers, False on error
      */
-    #[Override]
+    #[\Override]
     public function get_message_headers($uid, $folder = null, $force = false)
     {
         // decode combined UID-folder identifier
@@ -1896,7 +1912,7 @@ class rcube_imap extends rcube_storage
      *
      * @return rcube_message_header|false Message data, False on error
      */
-    #[Override]
+    #[\Override]
     public function get_message($uid, $folder = null)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -2331,7 +2347,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string|bool Message/part body if not printed
      */
-    #[Override]
+    #[\Override]
     public function get_message_part($uid, $part, $o_part = null, $print = null, $fp = null,
         $skip_charset_conv = false, $max_bytes = 0, $formatted = true)
     {
@@ -2402,7 +2418,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string|false Message source string
      */
-    #[Override]
+    #[\Override]
     public function get_raw_body($uid, $fp = null, $part = null)
     {
         if (!$this->check_connection()) {
@@ -2421,7 +2437,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string|false Message headers string
      */
-    #[Override]
+    #[\Override]
     public function get_raw_headers($uid, $part = null)
     {
         if (!$this->check_connection()) {
@@ -2437,7 +2453,7 @@ class rcube_imap extends rcube_storage
      * @param int  $uid       Message UID
      * @param bool $formatted Enables line-ending formatting
      */
-    #[Override]
+    #[\Override]
     public function print_raw_body($uid, $formatted = true)
     {
         if (!$this->check_connection()) {
@@ -2457,7 +2473,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool Operation status
      */
-    #[Override]
+    #[\Override]
     public function set_flag($uids, $flag, $folder = null, $skip_cache = false)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -2520,7 +2536,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int|bool Appended message UID or True on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function save_message($folder, &$message, $headers = '', $is_file = false, $flags = [], $date = null, $binary = false)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -2572,7 +2588,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function move_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
@@ -2656,7 +2672,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function copy_message($uids, $to_mbox, $from_mbox = '')
     {
         if (!strlen($from_mbox)) {
@@ -2692,7 +2708,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function delete_message($uids, $folder = null)
     {
         if (!is_string($folder) || !strlen($folder)) {
@@ -2755,7 +2771,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function expunge_message($uids, $folder = null, $clear_cache = true)
     {
         if ($uids && $this->get_capability('UIDPLUS')) {
@@ -2837,7 +2853,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array List of folders
      */
-    #[Override]
+    #[\Override]
     public function list_folders_subscribed($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false)
     {
         $cache_key = rcube_cache::key_name('mailboxes', [$root, $name, $filter, $rights]);
@@ -2973,7 +2989,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Indexed array with folder names
      */
-    #[Override]
+    #[\Override]
     public function list_folders($root = '', $name = '*', $filter = null, $rights = null, $skip_sort = false)
     {
         $cache_key = rcube_cache::key_name('mailboxes.list', [$root, $name, $filter, $rights]);
@@ -3175,7 +3191,7 @@ class rcube_imap extends rcube_storage
      *
      * @return mixed Quota info or False if not supported
      */
-    #[Override]
+    #[\Override]
     public function get_quota($folder = null)
     {
         if ($this->get_capability('QUOTA') && $this->check_connection()) {
@@ -3192,7 +3208,7 @@ class rcube_imap extends rcube_storage
      *
      * @return int|false Folder size in bytes, False on error
      */
-    #[Override]
+    #[\Override]
     public function folder_size($folder)
     {
         if (!strlen($folder)) {
@@ -3237,7 +3253,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function subscribe($folders)
     {
         // let this common function do the main work
@@ -3251,7 +3267,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function unsubscribe($folders)
     {
         // let this common function do the main work
@@ -3270,7 +3286,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function create_folder($folder, $subscribe = false, $type = null, $noselect = false)
     {
         if (!$this->check_connection()) {
@@ -3310,7 +3326,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function rename_folder($folder, $new_name)
     {
         if (!strlen($new_name)) {
@@ -3368,7 +3384,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     public function delete_folder($folder)
     {
         if (!$this->check_connection()) {
@@ -3411,7 +3427,7 @@ class rcube_imap extends rcube_storage
     /**
      * Detect special folder associations stored in storage backend
      */
-    #[Override]
+    #[\Override]
     public function get_special_folders($forced = false)
     {
         $result = parent::get_special_folders();
@@ -3468,7 +3484,7 @@ class rcube_imap extends rcube_storage
     /**
      * Set special folder associations stored in storage backend
      */
-    #[Override]
+    #[\Override]
     public function set_special_folders($specials)
     {
         if (!$this->get_capability('SPECIAL-USE') || !$this->get_capability('METADATA')) {
@@ -3512,7 +3528,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True or False
      */
-    #[Override]
+    #[\Override]
     public function folder_exists($folder, $subscription = false)
     {
         if ($folder == 'INBOX') {
@@ -3562,7 +3578,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string One of 'personal', 'other' or 'shared'
      */
-    #[Override]
+    #[\Override]
     public function folder_namespace($folder)
     {
         if ($folder == 'INBOX') {
@@ -3597,7 +3613,7 @@ class rcube_imap extends rcube_storage
      *
      * @return string Folder name
      */
-    #[Override]
+    #[\Override]
     public function mod_folder($folder, $mode = 'out')
     {
         $prefix = $this->namespace['prefix_' . $mode] ?? null;
@@ -3629,7 +3645,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Options list
      */
-    #[Override]
+    #[\Override]
     public function folder_attributes($folder, $force = false)
     {
         // get attributes directly from LIST command
@@ -3670,7 +3686,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Folder properties
      */
-    #[Override]
+    #[\Override]
     public function folder_data($folder)
     {
         if (!strlen((string) $folder)) {
@@ -3718,7 +3734,7 @@ class rcube_imap extends rcube_storage
      *
      * @return array Data
      */
-    #[Override]
+    #[\Override]
     public function folder_info($folder)
     {
         if (!empty($this->icache['options']) && $this->icache['options']['name'] == $folder) {
@@ -3809,7 +3825,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $folder Folder name
      */
-    #[Override]
+    #[\Override]
     public function folder_sync($folder)
     {
         if ($mcache = $this->get_mcache_engine()) {
@@ -3825,7 +3841,7 @@ class rcube_imap extends rcube_storage
      *
      * @return bool True if the name is valid, False otherwise
      */
-    #[Override]
+    #[\Override]
     public function folder_validate($folder, &$char = null)
     {
         if (parent::folder_validate($folder, $char)) {
@@ -3892,7 +3908,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function set_acl($folder, $user, $acl)
     {
         if (!$this->get_capability('ACL')) {
@@ -3920,7 +3936,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function delete_acl($folder, $user)
     {
         if (!$this->get_capability('ACL')) {
@@ -3943,7 +3959,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function get_acl($folder)
     {
         if (!$this->get_capability('ACL')) {
@@ -3968,7 +3984,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function list_rights($folder, $user)
     {
         if (!$this->get_capability('ACL')) {
@@ -3992,7 +4008,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function my_rights($folder)
     {
         if (!$this->get_capability('ACL')) {
@@ -4016,7 +4032,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function set_metadata($folder, $entries)
     {
         if (!$this->check_connection()) {
@@ -4053,7 +4069,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function delete_metadata($folder, $entries)
     {
         if (!$this->check_connection()) {
@@ -4092,7 +4108,7 @@ class rcube_imap extends rcube_storage
      *
      * @since 0.5-beta
      */
-    #[Override]
+    #[\Override]
     public function get_metadata($folder, $entries, $options = [], $force = false)
     {
         $entries = (array) $entries;
@@ -4183,7 +4199,7 @@ class rcube_imap extends rcube_storage
      *
      * @param string $type Cache type (@see rcube::get_cache)
      */
-    #[Override]
+    #[\Override]
     public function set_caching($type)
     {
         if ($type) {
@@ -4220,7 +4236,7 @@ class rcube_imap extends rcube_storage
      *
      * @return mixed
      */
-    #[Override]
+    #[\Override]
     public function get_cache($key)
     {
         if ($cache = $this->get_cache_engine()) {
@@ -4250,7 +4266,7 @@ class rcube_imap extends rcube_storage
      * @param bool   $prefix_mode Enable it to clear all keys starting
      *                            with prefix specified in $key
      */
-    #[Override]
+    #[\Override]
     public function clear_cache($key = null, $prefix_mode = false)
     {
         if ($cache = $this->get_cache_engine()) {
@@ -4268,7 +4284,7 @@ class rcube_imap extends rcube_storage
      * @param bool $set  Flag
      * @param int  $mode Cache mode
      */
-    #[Override]
+    #[\Override]
     public function set_messages_caching($set, $mode = null)
     {
         if ($set) {
@@ -4321,7 +4337,7 @@ class rcube_imap extends rcube_storage
     /**
      * Delete outdated cache entries
      */
-    #[Override]
+    #[\Override]
     public function cache_gc()
     {
         rcube_imap_cache::gc();
@@ -4611,8 +4627,8 @@ class rcube_imap extends rcube_storage
         if (!is_object($date) || !is_a($date, 'DateTime')) {
             try {
                 $timestamp = rcube_utils::strtotime($date);
-                $date = new DateTime('@' . $timestamp);
-            } catch (Exception $e) {
+                $date = new \DateTime('@' . $timestamp);
+            } catch (\Exception $e) {
                 return null;
             }
         }

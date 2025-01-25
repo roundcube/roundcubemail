@@ -1,5 +1,11 @@
 <?php
 
+use html as html;
+use html_inputfield as html_inputfield;
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * Quotation block hiding
  *
@@ -20,7 +26,7 @@ class hide_blockquote extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

@@ -1,5 +1,8 @@
 <?php
 
+use rcmail as rcmail;
+use rcmail_action_mail_attachment_upload as rcmail_action_mail_attachment_upload;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -27,7 +30,7 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         self::init();

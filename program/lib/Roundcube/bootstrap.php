@@ -1,5 +1,7 @@
 <?php
 
+use rcube as rcube;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube webmail client                     |
@@ -108,7 +110,7 @@ spl_autoload_register('rcube_autoload');
 // set PEAR error handling (will also load the PEAR main class)
 if (class_exists('PEAR')) {
     // @phpstan-ignore-next-line
-    PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, static function ($err) { rcube::raise_error($err, true); });
+    \PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, static function ($err) { rcube::raise_error($err, true); });
 }
 
 /**

@@ -1,5 +1,8 @@
 <?php
 
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+
 /**
  * Additional Message Headers
  *
@@ -18,7 +21,7 @@ class additional_message_headers extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('message_before_send', [$this, 'message_headers']);

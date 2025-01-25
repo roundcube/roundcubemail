@@ -1,5 +1,16 @@
 <?php
 
+use html as html;
+use html_checkbox as html_checkbox;
+use html_select as html_select;
+use rcmail as rcmail;
+use rcmail_action as rcmail_action;
+use rcmail_action_mail_index as rcmail_action_mail_index;
+use rcube as rcube;
+use rcube_plugin as rcube_plugin;
+use rcube_storage as rcube_storage;
+use rcube_utils as rcube_utils;
+
 /**
  * Archive
  *
@@ -22,7 +33,7 @@ class archive extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $rcmail = rcmail::get_instance();

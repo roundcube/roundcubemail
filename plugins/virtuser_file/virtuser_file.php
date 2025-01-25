@@ -1,5 +1,9 @@
 <?php
 
+use rcmail as rcmail;
+use rcube_plugin as rcube_plugin;
+use rcube_utils as rcube_utils;
+
 /**
  * File based User-to-Email and Email-to-User lookup
  *
@@ -19,7 +23,7 @@ class virtuser_file extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->app = rcmail::get_instance();

@@ -1,5 +1,12 @@
 <?php
 
+use html_select as html_select;
+use rcmail_utils as rcmail_utils;
+use rcube as rcube;
+use rcube_db as rcube_db;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -659,9 +666,9 @@ class rcmail_install
         } elseif ($expected === '-VALID-') {
             if ($var == 'date.timezone') {
                 try {
-                    $tz = new DateTimeZone($status);
+                    $tz = new \DateTimeZone($status);
                     $this->pass($var);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
                 }
             } else {
@@ -934,7 +941,7 @@ class rcmail_install
         if (class_exists('ZipArchive', false)) {
             echo "Extracting {$zipfile} into {$destdir}\n";
 
-            $zip = new ZipArchive();
+            $zip = new \ZipArchive();
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {

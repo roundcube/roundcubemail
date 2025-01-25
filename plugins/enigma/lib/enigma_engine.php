@@ -1,5 +1,16 @@
 <?php
 
+use enigma_error as enigma_error;
+use enigma_key as enigma_key;
+use enigma_mime_message as enigma_mime_message;
+use enigma_signature as enigma_signature;
+use rcmail as rcmail;
+use rcube as rcube;
+use rcube_message as rcube_message;
+use rcube_message_part as rcube_message_part;
+use rcube_mime as rcube_mime;
+use rcube_utils as rcube_utils;
+
 /*
  +-------------------------------------------------------------------------+
  | Engine of the Enigma Plugin                                             |
@@ -108,8 +119,8 @@ class enigma_engine
     /**
      * Handler for message signing
      *
-     * @param Mail_mime &$message Original message
-     * @param int       $mode     Encryption mode
+     * @param \Mail_mime &$message Original message
+     * @param int        $mode     Encryption mode
      *
      * @return ?enigma_error On error returns error object
      */
@@ -140,21 +151,21 @@ class enigma_engine
         // select mode
         switch ($mode) {
             case self::SIGN_MODE_BODY:
-                $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+                $pgp_mode = \Crypt_GPG::SIGN_MODE_CLEAR;
                 break;
             case self::SIGN_MODE_MIME:
-                $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                $pgp_mode = \Crypt_GPG::SIGN_MODE_DETACHED;
                 break;
             default:
                 if ($mime->isMultipart()) {
-                    $pgp_mode = Crypt_GPG::SIGN_MODE_DETACHED;
+                    $pgp_mode = \Crypt_GPG::SIGN_MODE_DETACHED;
                 } else {
-                    $pgp_mode = Crypt_GPG::SIGN_MODE_CLEAR;
+                    $pgp_mode = \Crypt_GPG::SIGN_MODE_CLEAR;
                 }
         }
 
         // get message body
-        if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
+        if ($pgp_mode == \Crypt_GPG::SIGN_MODE_CLEAR) {
             // in this mode we'll replace text part
             // with the one containing signature
             $body = $message->getTXTBody();
@@ -189,7 +200,7 @@ class enigma_engine
         }
 
         // replace message body
-        if ($pgp_mode == Crypt_GPG::SIGN_MODE_CLEAR) {
+        if ($pgp_mode == \Crypt_GPG::SIGN_MODE_CLEAR) {
             $message->setTXTBody($body);
             if (!empty($text_charset)) {
                 $message->setParam('text_charset', $text_charset);
@@ -205,9 +216,9 @@ class enigma_engine
     /**
      * Handler for message encryption
      *
-     * @param Mail_mime &$message Original message
-     * @param int       $mode     Encryption mode
-     * @param bool      $is_draft Is draft-save action - use only sender's key for encryption
+     * @param \Mail_mime &$message Original message
+     * @param int        $mode     Encryption mode
+     * @param bool       $is_draft Is draft-save action - use only sender's key for encryption
      *
      * @return ?enigma_error On error returns error object
      */
@@ -315,7 +326,7 @@ class enigma_engine
     /**
      * Handler for attaching public key to a message
      *
-     * @param Mail_mime &$message Original message
+     * @param \Mail_mime &$message Original message
      *
      * @return bool True on success, False on failure
      */

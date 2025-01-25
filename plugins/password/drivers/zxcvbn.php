@@ -1,5 +1,7 @@
 <?php
 
+use rcmail as rcmail;
+use rcube as rcube;
 use ZxcvbnPhp\Zxcvbn;
 
 /**

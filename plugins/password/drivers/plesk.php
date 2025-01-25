@@ -1,5 +1,9 @@
 <?php
 
+use password as password;
+use rcmail as rcmail;
+use rcube as rcube;
+
 /*
  * Roundcube Password Driver for Plesk-RPC.
  *
@@ -110,7 +114,7 @@ class rcube_plesk_password
             $body = $response->getBody()->getContents();
 
             return $body && strpos($body, '<?xml') === 0 ? $body : null;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Error on {$this->url}: {$e->getMessage()}", true);
         }
 
@@ -127,7 +131,7 @@ class rcube_plesk_password
     private function domain_info($domain)
     {
         // build xml
-        $request = new SimpleXMLElement('<packet></packet>');
+        $request = new \SimpleXMLElement('<packet></packet>');
         $site = $request->addChild('site');
         $get = $site->addChild('get');
         $filter = $get->addChild('filter');
@@ -141,7 +145,7 @@ class rcube_plesk_password
 
         // send the request and make it to simple-xml-object
         if ($res = $this->send_request($packet)) {
-            $xml = new SimpleXMLElement($res);
+            $xml = new \SimpleXMLElement($res);
         }
 
         // Old Plesk versions require version attribute, add it and try again
@@ -155,7 +159,7 @@ class rcube_plesk_password
 
             // send the request and make it to simple-xml-object
             if ($res = $this->send_request($packet)) {
-                $xml = new SimpleXMLElement($res);
+                $xml = new \SimpleXMLElement($res);
             }
         }
 
@@ -197,7 +201,7 @@ class rcube_plesk_password
         }
 
         // build xml-packet
-        $request = new SimpleXMLElement('<packet></packet>');
+        $request = new \SimpleXMLElement('<packet></packet>');
         $mail = $request->addChild('mail');
         $update = $mail->addChild('update');
         $add = $update->addChild('set');
@@ -219,7 +223,7 @@ class rcube_plesk_password
 
         // send the request to plesk
         if ($res = $this->send_request($packet)) {
-            $xml = new SimpleXMLElement($res);
+            $xml = new \SimpleXMLElement($res);
             $res = strval($xml->mail->update->set->result->status);
 
             if ($res == 'ok') {
