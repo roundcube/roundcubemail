@@ -492,7 +492,7 @@ echo $input_locale->show($RCI->getprop('language'));
 
 ?>
 <div>The default locale setting. This also defines the language of the login screen.<br/>Leave it empty to auto-detect the user agent language.</div>
-<p class="hint">Enter a <a href="http://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted language name. Examples: en_US, de_DE, de_CH, fr_FR, pt_BR</p>
+<p class="hint">Enter a <a href="https://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted language name. Examples: en_US, de_DE, de_CH, fr_FR, pt_BR</p>
 </dd>
 
 <dt class="propname">skin <span class="userconf">*</span></dt>

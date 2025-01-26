@@ -108,7 +108,7 @@ abstract class rcube_plugin
      *      name: The plugin name
      *    vendor: Name of the plugin developer
      *   version: Plugin version name
-     *   license: License name (short form according to http://spdx.org/licenses/)
+     *   license: License name (short form according to https://spdx.org/licenses/)
      *       uri: The URL to the plugin homepage or source repository
      *   src_uri: Direct download URL to the source code of this plugin
      *   require: List of plugins required for this one (as array of plugin names)

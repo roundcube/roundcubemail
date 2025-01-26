@@ -4,11 +4,11 @@
  * domainFACTORY Password Driver
  *
  * Driver to change passwords with the hosting provider domainFACTORY.
- * http://www.df.eu/
+ * https://www.df.eu/
  *
  * @version 2.1
  * @author Till Krüss <me@tillkruess.com>
- * @link http://tillkruess.com/projects/roundcube/
+ * @see https://tillkruess.com/projects/roundcube/
  *
  * Copyright (C) The Roundcube Dev Team
  *
@@ -23,7 +23,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see http://www.gnu.org/licenses/.
+ * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
 class rcube_domainfactory_password

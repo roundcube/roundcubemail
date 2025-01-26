@@ -4,7 +4,7 @@
  * LDAP Password Driver
  *
  * Driver for passwords stored in LDAP
- * This driver use the PEAR Net_LDAP2 class (http://pear.php.net/package/Net_LDAP2).
+ * This driver use the PEAR Net_LDAP2 class (https://pear.php.net/package/Net_LDAP2).
  *
  * @version 2.0
  * @author Edouard MOREAU <edouard.moreau@ensma.fr>
@@ -25,7 +25,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see http://www.gnu.org/licenses/.
+ * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
 class rcube_ldap_password

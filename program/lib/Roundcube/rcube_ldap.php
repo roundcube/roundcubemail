@@ -305,7 +305,7 @@ class rcube_ldap extends rcube_addressbook
 
         // try to connect + bind for every host configured
         // with OpenLDAP 2.x ldap_connect() always succeeds but ldap_bind will fail if host isn't reachable
-        // see http://www.php.net/manual/en/function.ldap-connect.php
+        // see https://www.php.net/manual/en/function.ldap-connect.php
         foreach ((array) $this->prop['hosts'] as $host) {
             // Parse host specification into the format expected by Net_LDAP3 (ldap_connect)
             list($host, $scheme, $port) = rcube_utils::parse_host_uri($host, 389, 636);

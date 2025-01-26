@@ -497,7 +497,7 @@ abstract class rcube_session
 
     /**
      * Unserialize session data
-     * http://www.php.net/manual/en/function.session-decode.php#56106
+     * https://www.php.net/manual/en/function.session-decode.php#56106
      *
      * @param string $str Serialized data string
      *

@@ -211,7 +211,7 @@ class rcmail extends rcube
         // set localization
         setlocale(LC_ALL, $lang . '.utf8', $lang . '.UTF-8', 'en_US.utf8', 'en_US.UTF-8');
 
-        // Workaround for http://bugs.php.net/bug.php?id=18556
+        // Workaround for https://bugs.php.net/bug.php?id=18556
         // Also strtoupper/strtolower and other methods are locale-aware
         // for these locales it is problematic (#1490519)
         if (in_array($lang, ['tr_TR', 'ku', 'az_AZ'])) {

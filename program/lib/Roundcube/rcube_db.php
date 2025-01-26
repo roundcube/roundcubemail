@@ -171,7 +171,7 @@ class rcube_db
         try {
             // with this check we skip fatal error on PDO object creation
             if (!class_exists('PDO', false)) {
-                throw new Exception('PDO extension not loaded. See http://php.net/manual/en/intro.pdo.php');
+                throw new Exception('PDO extension not loaded. See https://php.net/manual/en/intro.pdo.php');
             }
 
             $this->conn_prepare($dsn);

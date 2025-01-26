@@ -5,7 +5,7 @@
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
- | Copyright (C) 2002-2010, The Horde Project (http://www.horde.org/)    |
+ | Copyright (C) 2002-2010, The Horde Project (https://www.horde.org/)   |
  |                                                                       |
  | Licensed under the GNU General Public License version 3 or            |
  | any later version with exceptions for skins & plugins.                |

@@ -133,14 +133,13 @@ class help extends rcube_plugin
         // License
         if (is_readable($this->home . '/content/license.html')) {
             $content['license'] = 'self';
-        }
-        else {
-            $content['license'] = $rcmail->config->get('help_license_url', 'http://www.gnu.org/licenses/gpl-3.0-standalone.html');
+        } else {
+            $content['license'] = $rcmail->config->get('help_license_url', 'https://www.gnu.org/licenses/gpl-3.0-standalone.html');
             $content['license'] = $this->resolve_language($content['license']);
         }
 
         // Help Index
-        $src       = $rcmail->config->get('help_source', 'http://docs.roundcube.net/doc/help/1.1/%l/');
+        $src = $rcmail->config->get('help_source', 'https://docs.roundcube.net/doc/help/1.1/%l/');
         $index_map = $rcmail->config->get('help_index_map', []);
 
         // resolve task/action for deep linking

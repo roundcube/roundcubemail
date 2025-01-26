@@ -10,7 +10,7 @@
  * $config['additional_message_headers'] = ['User-Agent' => 'My-Very-Own-Webmail'];
  *
  * @author Ziba Scott
- * @website http://roundcube.net
+ * @website https://roundcube.net
  */
 class additional_message_headers extends rcube_plugin
 {

@@ -12,7 +12,7 @@
  *
  * @license GNU GPLv3+
  * @author Aleksander Machniak <alec@alec.pl>
- * @website http://roundcube.net
+ * @website https://roundcube.net
  */
 class identicon extends rcube_plugin
 {

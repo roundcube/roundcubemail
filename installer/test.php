@@ -252,9 +252,8 @@ if ($errors = $RCI->check_mime_detection()) {
     $RCI->fail('Fileinfo/mime_content_type configuration');
     if (!empty($RCI->config['mime_magic'])) {
         echo '<p class="hint">Try setting the <tt>mime_magic</tt> config option to <tt>null</tt>.</p>';
-    }
-    else {
-        echo '<p class="hint">Check the <a href="http://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
+    } else {
+        echo '<p class="hint">Check the <a href="https://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
         echo 'The path to the magic.mime file can be set using the <tt>mime_magic</tt> config option in Roundcube.</p>';
     }
 }
@@ -267,9 +266,8 @@ else {
 if ($errors = $RCI->check_mime_extensions()) {
     $RCI->fail('Mimetype to file extension mapping');
     echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
-    echo 'If you can\'t find such a file, download it from <a href="http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
-}
-else {
+    echo 'If you can\'t find such a file, download it from <a href="https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
+} else {
     $RCI->pass('Mimetype to file extension mapping');
     echo "<br/>";
 }

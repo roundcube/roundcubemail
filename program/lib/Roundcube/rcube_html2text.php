@@ -23,12 +23,12 @@
 /**
  *  Takes HTML and converts it to formatted, plain text.
  *
- *  Thanks to Alexander Krug (http://www.krugar.de/) to pointing out and
+ *  Thanks to Alexander Krug (https://www.krugar.de/) to pointing out and
  *  correcting an error in the regexp search array. Fixed 7/30/03.
  *
  *  Updated set_html() function's file reading mechanism, 9/25/03.
  *
- *  Thanks to Joss Sanglier (http://www.dancingbear.co.uk/) for adding
+ *  Thanks to Joss Sanglier (https://www.dancingbear.co.uk/) for adding
  *  several more HTML entity codes to the $search and $replace arrays.
  *  Updated 11/7/03.
  *
@@ -46,7 +46,7 @@
  *  rendered email address.
  *  Updated 12/16/04.
  *
- *  Thanks to Wojciech Bajon (http://histeria.pl/) for submitting code
+ *  Thanks to Wojciech Bajon (https://histeria.pl/) for submitting code
  *  to handle relative links, which I hadn't considered. I modified his
  *  code a bit to handle normal HTTP links and MAILTO links. Also for
  *  suggesting three additional HTML entity codes to search for.
@@ -56,7 +56,7 @@
  *  for the _build_link_list() function: "https".
  *  Updated 04/06/05.
  *
- *  Thanks to Marc Bertrand (http://www.dresdensky.com/) for
+ *  Thanks to Marc Bertrand (https://www.dresdensky.com/) for
  *  suggesting a revision to the word wrapping functionality; if you
  *  specify a $width of 0 or less, word wrapping will be ignored.
  *  Updated 11/02/06.
@@ -68,8 +68,8 @@
  *  Christian Basedau (http://www.movetheweb.de/) also suggested the
  *  blank lines fix.
  *
- *  Special thanks to Marcus Bointon (http://www.synchromedia.co.uk/),
- *  Christian Basedau, Norbert Laposa (http://ln5.co.uk/),
+ *  Special thanks to Marcus Bointon (https://www.synchromedia.co.uk/),
+ *  Christian Basedau, Norbert Laposa (https://norbertlaposa.com/),
  *  Bas van de Weijer, and Marijn van Butselaar
  *  for pointing out my glaring error in the <th> handling. Marcus also
  *  supplied a host of fixes.
@@ -78,7 +78,7 @@
  *  out that extra spaces should be compressed--a problem addressed with
  *  Marcus Bointon's fixes but that I had not yet incorporated.
  *
- *  Thanks to Daniel Schledermann (http://www.typoconsult.dk/) for
+ *  Thanks to Daniel Schledermann (https://www.typoconsult.dk/) for
  *  suggesting a valuable fix with <a> tag handling.
  *
  *  Thanks to Wojciech Bajon (again!) for suggesting fixes and additions,
