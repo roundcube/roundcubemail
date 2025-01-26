@@ -803,7 +803,7 @@ class rcube_config
      */
     public static function resolve_timezone_alias($tzname)
     {
-        // http://www.php.net/manual/en/timezones.others.php
+        // https://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
         $deprecated_timezones = [
             'Australia/ACT' => 'Australia/Sydney',

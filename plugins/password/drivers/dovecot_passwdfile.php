@@ -10,7 +10,7 @@
  *
  * $config['password_dovecot_passwdfile_path']: The path of your dovecot passwd-file '/path/to/filename'
  * $config['password_dovecotpw']: Full path and 'pw' command of doveadm binary - like '/usr/local/bin/doveadm pw'
- * $config['password_dovecotpw_method']: Dovecot hashing algo (http://wiki2.dovecot.org/Authentication/PasswordSchemes)
+ * $config['password_dovecotpw_method']: Dovecot hashing algo (https://doc.dovecot.org/2.3/configuration_manual/authentication/password_schemes/#authentication-password-schemes)
  * $config['password_dovecotpw_with_method']: True if you want the hashing algo as prefix in your passwd-file
  *
  * @version 1.1
@@ -29,7 +29,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program. If not, see http://www.gnu.org/licenses/.
+ * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
 class rcube_dovecot_passwdfile_password
