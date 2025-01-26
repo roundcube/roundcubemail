@@ -431,7 +431,7 @@ rcube_event_engine.prototype = {
 
 // check if input is a valid email address
 // By Cal Henderson <cal@iamcal.com>
-// http://code.iamcal.com/php/rfc822/
+// https://code.iamcal.com/php/rfc822/
 function rcube_check_email(input, inline, count, strict) {
     if (!input) {
         return count ? 0 : false;
@@ -695,7 +695,7 @@ var rcube_parse_query = function (query) {
 };
 
 
-// Base64 code from Tyler Akins -- http://rumkin.com
+// Base64 code from Tyler Akins -- https://rumkin.com
 var Base64 = (function () {
     var keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 

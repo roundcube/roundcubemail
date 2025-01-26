@@ -17,7 +17,7 @@
  *
  * @author Ziba Scott
  *
- * @website http://roundcube.net
+ * @website https://roundcube.net
  *
  * Example:
  *
