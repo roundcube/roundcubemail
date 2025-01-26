@@ -14,6 +14,7 @@
 - Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
 - Fix Oauth issues with use_secure_urls=true (#9722)
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
+- Fix links in comments and config to https:// where available (#9759, #9756)
 
 ## Release 1.6.9
 
