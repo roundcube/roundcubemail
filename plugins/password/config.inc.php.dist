@@ -22,6 +22,7 @@ $config['password_minimum_length'] = 8;
 
 // Require the new password to have at least the specified strength score.
 // Note: Password strength is scored from 1 (week) to 5 (strong).
+// Note: Some strength drivers (e.g. pwned) do not support full range.
 $config['password_minimum_score'] = 0;
 
 // Enables logging of password changes into logs/password
