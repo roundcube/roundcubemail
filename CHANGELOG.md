@@ -30,6 +30,7 @@
 - Use draft settings (like DSN) on "Edit as new" (#9349)
 - Add more detailed feedback on vCard import errors (#9591)
 - Use new HTML5 parser available on PHP >= 8.4
+- Clear "list is empty" message on loading a new list (#9006)
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
@@ -76,7 +77,7 @@
 - Fix insert_or_update() and reading database server config on PostgreSQL (#9710)
 - Fix Oauth issues with use_secure_urls=true (#9722)
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
-- Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
+- Fix links in comments and config to https:// where available (#9759, #9756)
 
 ## Release 1.6.9
 
