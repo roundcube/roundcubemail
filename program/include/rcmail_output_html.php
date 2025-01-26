@@ -737,7 +737,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool   $exit  Exit script
      * @param bool   $write Don't write to stdout, return parsed content instead
      *
-     * @see http://php.net/manual/en/function.exit.php
+     * @see https://php.net/manual/en/function.exit.php
      */
     public function parse($name = 'main', $exit = true, $write = true)
     {

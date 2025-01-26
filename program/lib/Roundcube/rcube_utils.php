@@ -1768,7 +1768,7 @@ class rcube_utils
      * Generates the HAproxy style PROXY protocol header for injection
      * into the TCP stream, if configured.
      *
-     * http://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
+     * https://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
      *
      * PROXY protocol headers must be sent before any other data is sent on the TCP socket.
      *

@@ -11,7 +11,7 @@
  *
  * @author Ziba Scott
  *
- * @website http://roundcube.net
+ * @website https://roundcube.net
  */
 class additional_message_headers extends rcube_plugin
 {

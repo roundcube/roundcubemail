@@ -55,7 +55,7 @@ class enigma_subkey
      */
     public function get_algorithm()
     {
-        // http://tools.ietf.org/html/rfc4880#section-9.1
+        // https://datatracker.ietf.org/doc/html/rfc4880#section-9.1
         switch ($this->algorithm) {
             case 1:
             case 2:
