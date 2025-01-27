@@ -25,13 +25,8 @@ $config = [];
 
 // Database connection string (DSN) for read+write operations
 // Format (compatible with PEAR MDB2): db_provider://user:password@host/database
-<<<<<<< HEAD
 // Currently supported db_providers: mysql, pgsql, sqlite, mssql, sqlsrv, oracle
-// For examples see http://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
-=======
-// Currently supported db_providers: mysql, pgsql, sqlite
 // For examples see https://pear.php.net/manual/en/package.database.mdb2.intro-dsn.php
->>>>>>> ccede1f27 (Update links in comments and config to https where available (#9759))
 // Note: for SQLite use absolute path (Linux): 'sqlite:////full/path/to/sqlite.db?mode=0646'
 //       or (Windows): 'sqlite:///C:/full/path/to/sqlite.db'
 // Note: Various drivers support various additional arguments for connection,
@@ -94,13 +89,8 @@ $config['log_file_ext'] = '.log';
 $config['syslog_id'] = 'roundcube';
 
 // Syslog facility to use, if using the 'syslog' log driver.
-<<<<<<< HEAD
-// For possible values see installer or http://php.net/manual/en/function.openlog.php
-$config['syslog_facility'] = LOG_USER;
-=======
 // For possible values see installer or https://php.net/manual/en/function.openlog.php
-$config['syslog_facility'] = \LOG_USER;
->>>>>>> ccede1f27 (Update links in comments and config to https where available (#9759))
+$config['syslog_facility'] = LOG_USER;
 
 // Activate this option if logs should be written to per-user directories.
 // Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.
@@ -165,33 +155,12 @@ $config['imap_auth_type'] = null;
 // IMAP socket context options
 // See https://php.net/manual/en/context.ssl.php
 // The example below enables server certificate validation
-<<<<<<< HEAD
 //$config['imap_conn_options'] = [
 //  'ssl'         => [
 //     'verify_peer'  => true,
 //     'verify_depth' => 3,
 //     'cafile'       => '/etc/openssl/certs/ca.crt',
 //   ],
-=======
-//
-// proxy_protocol is used to inject HAproxy style headers in the TCP stream
-// See https://www.haproxy.org/download/1.6/doc/proxy-protocol.txt
-// WARNING: Please note this is currently incompatible with implicit ssl,
-// since the proxy protocol preamble is expected before the ssl handshake.
-// $config['imap_conn_options'] = [
-//    'ssl' => [
-//        'verify_peer'  => true,
-//        'verify_depth' => 3,
-//        'cafile'       => '/etc/openssl/certs/ca.crt',
-//    ],
-//    'proxy_protocol' => 1 | 2 | [ // required (either version number (1|2) or array with 'version' key)
-//        'version'       => 1 | 2, // required, if array
-//        'remote_addr'   => $_SERVER['REMOTE_ADDR'], // optional
-//        'remote_port'   => $_SERVER['REMOTE_PORT'], // optional
-//        'local_addr'    => $_SERVER['SERVER_ADDR'], // optional
-//        'local_port'    => $_SERVER['SERVER_PORT'], // optional
-//    ],
->>>>>>> ccede1f27 (Update links in comments and config to https where available (#9759))
 // ];
 // Note: These can be also specified as an array of options indexed by hostname
 $config['imap_conn_options'] = null;
