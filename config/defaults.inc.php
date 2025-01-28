@@ -1573,4 +1573,4 @@ $config['content_security_policy'] = "default-src 'self' data: blob:; script-src
 
 // Additions to the Content-Security-Policy to use if remote objects *are*
 // allowed to be loaded.
-$config['content_security_policy_add_allow_remote'] = 'img-src *; media-src *; font-src: *; frame-src: *';
+$config['content_security_policy_add_allow_remote'] = 'img-src *; media-src *; font-src *; frame-src *';
