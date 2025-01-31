@@ -75,6 +75,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             $rcmail->output->send('identityadd');
         }
 
+        $rcmail->output->set_env('safemode', true);
         $rcmail->output->send('identityedit');
     }
 
