@@ -78,6 +78,7 @@ class help extends rcube_plugin
             'tablink' => [$this, 'tablink'],
         ]);
 
+        $rcmail->output->set_env('safemode', true);
         $rcmail->output->set_env('help_links', $this->help_metadata());
         $rcmail->output->send(!empty($_GET['_content']) ? 'help.content' : 'help.help');
     }
