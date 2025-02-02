@@ -15,6 +15,7 @@
 - Fix Oauth issues with use_secure_urls=true (#9722)
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
 - Fix links in comments and config to https:// where available (#9759, #9756)
+- Fix decoding of attachment names encoded using both RFC2231 and RFC2047 standards (#9725)
 
 ## Release 1.6.9
 
