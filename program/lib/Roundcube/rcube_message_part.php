@@ -188,22 +188,22 @@ class rcube_message_part
             $filename_mime = $this->headers['content-description'];
         }
 
-        // decode filename
-        if (isset($filename_encoded)) {
-            // decode filename according to RFC 2231, Section 4
-            if (preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
-                $filename_charset = $fmatches[1];
-                $filename_encoded = $fmatches[2];
-            }
+        // decode filename according to RFC 2231, Section 4
+        if (isset($filename_encoded) && preg_match("/^([^']*)'[^']*'(.*)$/", $filename_encoded, $fmatches)) {
+            $filename_charset = $fmatches[1];
+            $filename_encoded = $fmatches[2];
 
             $this->filename = rawurldecode($filename_encoded);
 
             if (!empty($filename_charset)) {
                 $this->filename = rcube_charset::convert($this->filename, $filename_charset);
             }
-        } elseif (isset($filename_mime)) {
-            // Note: Do not use charset of part/message nor the default charset (#9376)
-            $this->filename = rcube_mime::decode_mime_string($filename_mime, false);
+        } else {
+            // Note: RFC2047 can appear inside RFC2231 formatted parameters too (#9725)
+            if (isset($filename_encoded) || isset($filename_mime)) {
+                // Note: Do not use charset of part/message nor the default charset (#9376)
+                $this->filename = rcube_mime::decode_mime_string($filename_encoded ?? $filename_mime, false);
+            }
         }
 
         // Workaround for invalid Content-Type (#6816)
