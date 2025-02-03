@@ -51,11 +51,11 @@ class rcmail_action_settings_folder_delete extends rcmail_action
 
         if (!empty($deleted)) {
             // Remove folder and subfolders rows
-            $rcmail->output->command('remove_folder_row', $mbox);
+            $rcmail->output->add_js_call('remove_folder_row', $mbox);
             $rcmail->output->show_message('folderdeleted', 'confirmation');
             // Clear content frame
-            $rcmail->output->command('subscription_select');
-            $rcmail->output->command('set_quota', self::quota_content());
+            $rcmail->output->add_js_call('subscription_select');
+            $rcmail->output->add_js_call('set_quota', self::quota_content());
         } else {
             self::display_server_error('errorsaving');
         }

@@ -57,7 +57,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         if (empty($deleted)) {
             // send error message
             if ($_POST['_from'] != 'show') {
-                $rcmail->output->command('list_mailbox');
+                $rcmail->output->add_js_call('list_mailbox');
             }
 
             self::display_server_error('errordeleting');
@@ -75,9 +75,9 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
 
         if (!empty($_POST['_from']) && $_POST['_from'] == 'show') {
             if ($next = rcube_utils::get_input_string('_next_uid', rcube_utils::INPUT_GPC)) {
-                $rcmail->output->command('show_message', $next);
+                $rcmail->output->add_js_call('show_message', $next);
             } else {
-                $rcmail->output->command('command', 'list');
+                $rcmail->output->add_js_call('command', 'list');
             }
 
             $rcmail->output->send();
@@ -111,8 +111,8 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_quota', self::quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
-        $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
+        $rcmail->output->add_js_call('set_quota', self::quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
+        $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {
             $count = rcube_utils::get_input_string('_count', rcube_utils::INPUT_POST);
@@ -130,7 +130,7 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
 
         // set trash folder state
         if ($mbox === $trash) {
-            $rcmail->output->command('set_trash_count', $exists);
+            $rcmail->output->add_js_call('set_trash_count', $exists);
         }
 
         // send response

@@ -171,7 +171,7 @@ abstract class rcmail_action
         $quota = self::quota_content($attrib);
 
         $rcmail->output->add_gui_object('quotadisplay', $attrib['id']);
-        $rcmail->output->add_script('rcmail.set_quota(' . rcube_output::json_serialize($quota) . ');', 'docready');
+        $rcmail->output->add_js_call('set_quota', $quota);
 
         return html::span($attrib, '&nbsp;');
     }
@@ -431,10 +431,8 @@ abstract class rcmail_action
         }
 
         if (!empty($editorId)) {
-            $script = rcmail_output::JS_OBJECT_NAME . ".enable_command('toggle-editor', true);"
-                . rcmail_output::JS_OBJECT_NAME . ".editor_init(null, '{$editorId}');";
-
-            $rcmail->output->add_script($script, 'docready');
+            $rcmail->output->add_js_call('enable_command', 'toggle-editor', true);
+            $rcmail->output->add_js_call('editor_init', null, $editorId);
         }
 
         $rcmail->output->include_script('tinymce/tinymce.min.js');
@@ -512,7 +510,6 @@ abstract class rcmail_action
         // set defaults
         $attrib += ['id' => 'rcmUploadbox', 'buttons' => 'yes'];
 
-        $event = rcmail_output::JS_OBJECT_NAME . ".command('{$action}', this.form)";
         $form_id = $attrib['id'] . 'Frm';
 
         // Default attributes of file input and form
@@ -536,7 +533,9 @@ abstract class rcmail_action
             $input_attr = array_merge($input_attr, [
                 // #5854: Chrome does not execute onchange when selecting the same file.
                 //        To fix this we reset the input using null value.
-                'onchange' => "{$event}; this.value=null",
+                'data-event-handle' => 'command_with_form',
+                'data-action' => $action,
+                'data-nullify-value' => true,
                 'class' => 'smart-upload',
                 'tabindex' => '-1',
             ]);
@@ -552,9 +551,9 @@ abstract class rcmail_action
         if (self::get_bool_attr($attrib, 'buttons')) {
             $button = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
-                $button->show($rcmail->gettext('close'), ['class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()"])
+                $button->show($rcmail->gettext('close'), ['class' => 'button', 'data-event-handle' => 'hide_by_id', 'data-id' => $attrib['id']])
                 . ' ' .
-                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'onclick' => $event])
+                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'data-event-handle' => 'command_with_form', 'data-action' => $action])
             );
         }
 
@@ -585,7 +584,7 @@ abstract class rcmail_action
             $msg = $rcmail->gettext('fileuploaderror');
         }
 
-        $rcmail->output->command('display_message', $msg, 'error');
+        $rcmail->output->add_js_call('display_message', $msg, 'error');
     }
 
     /**
@@ -612,7 +611,7 @@ abstract class rcmail_action
             $msg = $rcmail->gettext('fileuploaderror');
         }
 
-        $rcmail->output->command('display_message', $msg, 'error');
+        $rcmail->output->add_js_call('display_message', $msg, 'error');
 
         return true;
     }
@@ -1216,7 +1215,8 @@ abstract class rcmail_action
             $html_name = rcube::Q($foldername) . ($unread ? html::span('unreadcount skip-content', sprintf($attrib['unreadwrap'], $unread)) : '');
             $link_attrib = $folder['virtual'] ? [] : [
                 'href' => $rcmail->url(['_mbox' => $folder['id']]),
-                'onclick' => sprintf("return %s.command('list','%s',this,event)", rcmail_output::JS_OBJECT_NAME, $js_name),
+                'data-event-handle' => 'folder_tree_list',
+                'data-name' => $js_name,
                 'rel' => $folder['id'],
                 'title' => $title,
             ];

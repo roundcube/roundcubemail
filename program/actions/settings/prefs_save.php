@@ -171,7 +171,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 // switch UI language
                 if (isset($_POST['_language']) && $a_user_prefs['language'] != $_SESSION['language']) {
                     $rcmail->load_language($a_user_prefs['language']);
-                    $rcmail->output->command('reload', 500);
+                    $rcmail->output->add_js_call('reload', 500);
                 }
 
                 // switch skin (if valid, otherwise unset the pref and fall back to default)
@@ -179,7 +179,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     if (!$rcmail->output->check_skin($a_user_prefs['skin'])) {
                         unset($a_user_prefs['skin']);
                     } elseif ($rcmail->config->get('skin') != $a_user_prefs['skin']) {
-                        $rcmail->output->command('reload', 500);
+                        $rcmail->output->add_js_call('reload', 500);
                     }
                 }
 

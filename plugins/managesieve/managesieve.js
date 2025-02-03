@@ -537,10 +537,6 @@ rcube_webmail.prototype.managesieve_save = function () {
 };
 
 // Operations on filters form
-rcube_webmail.prototype.managesieve_ruleadd = function (id) {
-    this.http_post('plugin.managesieve-action', '_act=ruleadd&_rid=' + id);
-};
-
 rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
     if (content != '') {
     // create new element
@@ -559,22 +555,6 @@ rcube_webmail.prototype.managesieve_rulefill = function (content, id, after) {
     }
 };
 
-rcube_webmail.prototype.managesieve_ruledel = function (id) {
-    if ($('#ruledel' + id).hasClass('disabled')) {
-        return;
-    }
-
-    this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function (e, ref) {
-        var row = document.getElementById('rulerow' + id);
-        row.parentNode.removeChild(row);
-        ref.managesieve_formbuttons(document.getElementById('rules'));
-    });
-};
-
-rcube_webmail.prototype.managesieve_actionadd = function (id) {
-    this.http_post('plugin.managesieve-action', '_act=actionadd&_aid=' + id);
-};
-
 rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
     if (content != '') {
         var div = $('#actions')[0],
@@ -590,18 +570,6 @@ rcube_webmail.prototype.managesieve_actionfill = function (content, id, after) {
 
         this.managesieve_formbuttons(div);
     }
-};
-
-rcube_webmail.prototype.managesieve_actiondel = function (id) {
-    if ($('#actiondel' + id).hasClass('disabled')) {
-        return;
-    }
-
-    this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function (e, ref) {
-        var row = document.getElementById('actionrow' + id);
-        row.parentNode.removeChild(row);
-        ref.managesieve_formbuttons(document.getElementById('actions'));
-    });
 };
 
 // insert rule/action row in specified place on the list
@@ -625,12 +593,6 @@ rcube_webmail.prototype.managesieve_formbuttons = function (div) {
     if (buttons.length == 1) {
         buttons.addClass('disabled');
     }
-};
-
-// update vacation addresses field with user identities
-rcube_webmail.prototype.managesieve_vacation_addresses = function (id) {
-    var lock = this.set_busy(true, 'loading');
-    this.http_post('plugin.managesieve-action', { _act: 'addresses', _aid: id }, lock);
 };
 
 // update vacation addresses field with user identities
@@ -747,6 +709,8 @@ function rule_op_select(obj, id, header) {
     target.style.display = obj.value.match(/^(exists|notexists)$/) || header.match(/^(size|spamtest|message)$/) ? 'none' : '';
 }
 
+rcube_webmail.prototype.managesieve_rule_op_select = rule_op_select;
+
 function rule_trans_select(id) {
     var obj = document.getElementById('rule_trans_op' + id),
         target = document.getElementById('rule_trans_type' + id);
@@ -785,22 +749,6 @@ function rule_spamtest_select(id) {
 
     target.style.display = obj.value ? '' : 'none';
     $(obj)[obj.value ? 'removeClass' : 'addClass']('rounded-right');
-}
-
-function rule_join_radio(value) {
-    $('#rules').css('display', value == 'any' ? 'none' : 'block');
-}
-
-function rule_adv_switch(id, elem) {
-    var elem = $(elem), enabled = elem.hasClass('hide'), adv = $('#rule_advanced' + id);
-
-    if (enabled) {
-        adv.get(0).style.display = 'none';
-        elem.removeClass('hide').addClass('show');
-    } else {
-        adv.get(0).style.display = '';
-        elem.removeClass('show').addClass('hide');
-    }
 }
 
 function rule_mime_select(id) {
@@ -846,6 +794,8 @@ function action_type_select(id) {
         }
     }
 }
+
+rcube_webmail.prototype.managesieve_action_type_select = action_type_select;
 
 function vacation_action_select() {
     var selected = $('#vacation_action').val();
@@ -1169,7 +1119,7 @@ var cmeditor;
 function cmCreateErrorElem(msg) {
     var marker = document.createElement('div');
     marker.style.color = '#822';
-    marker.innerHTML = '●';
+    marker.innerText = '●';
     marker.title = msg;
 
     return marker;
@@ -1312,3 +1262,77 @@ rcube_webmail.prototype.managesieve_dialog_resize = function (o) {
 
     dialog.dialog('option', { height: Math.min(h - 20, height + 120), width: Math.min(w - 20, width + 65) });
 };
+
+// Some event handlers.
+window.rcmail.addEventListener('init', function () {
+
+    $('[data-event-handle="managesieve_switch_nav_list"]').on('click', function (event) {
+        UI.switch_nav_list(event.target);
+    });
+
+    $('[data-event-handle="managesieve_ruleadd"]').on('click', function (event) {
+        const id = event.target.dataset.id;
+        this.http_post('plugin.managesieve-action', '_act=ruleadd&_rid=' + id);
+        return false;
+    });
+
+    $('[data-event-handle="managesieve_ruledel"]').on('click', function (event) {
+        const id = event.target.dataset.id;
+        if ($('#ruledel' + id).hasClass('disabled')) {
+            return;
+        }
+
+        this.confirm_dialog(this.get_label('managesieve.ruledeleteconfirm'), 'delete', function (e, ref) {
+            var row = document.getElementById('rulerow' + id);
+            row.parentNode.removeChild(row);
+            ref.managesieve_formbuttons(document.getElementById('rules'));
+        });
+    });
+
+    $('[data-event-handle="managesieve_actionadd"]').on('click', function (event) {
+        const id = event.target.dataset.id;
+        this.http_post('plugin.managesieve-action', '_act=actionadd&_aid=' + id);
+    });
+
+    $('[data-event-handle="managesieve_actiondel"]').on('click', function (event) {
+        const id = event.target.dataset.id;
+        if ($('#actiondel' + id).hasClass('disabled')) {
+            return;
+        }
+
+        this.confirm_dialog(this.get_label('managesieve.actiondeleteconfirm'), 'delete', function (e, ref) {
+            var row = document.getElementById('actionrow' + id);
+            row.parentNode.removeChild(row);
+            ref.managesieve_formbuttons(document.getElementById('actions'));
+        });
+    });
+
+    // update vacation addresses field with user identities
+    $('[data-event-handle="managesieve_vacation_addresses"]').on('click', function (event) {
+        const id = event.target.dataset.id;
+        var lock = window.rcmail.set_busy(true, 'loading');
+        window.rcmail.http_post('plugin.managesieve-action', { _act: 'addresses', _aid: id }, lock);
+    });
+
+    $('data-event-handle="managesieve_rule_join_radio"]').on('click', function (event) {
+        const value = event.target.dataset.value;
+        $('#rules').css('display', value == 'any' ? 'none' : 'block');
+    });
+
+    $('data-event-handle="managesieve_rule_adv_switch"]').on('click', function (event) {
+        var elem = event.target;
+        var id = elem.dataset.id;
+        var elem = $(elem), enabled = elem.hasClass('hide'), adv = $('#rule_advanced' + id);
+
+        if (enabled) {
+            adv.get(0).style.display = 'none';
+            elem.removeClass('hide').addClass('show');
+        } else {
+            adv.get(0).style.display = '';
+            elem.removeClass('show').addClass('hide');
+        }
+
+        return false;
+    });
+
+});

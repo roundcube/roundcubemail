@@ -52,10 +52,8 @@ class rcmail_string_replacer extends rcube_string_replacer
 
         $attribs = [
             'href' => 'mailto:' . $href,
-            'onclick' => sprintf("return %s.command('compose','%s',this)",
-                rcmail_output::JS_OBJECT_NAME,
-                rcube::JQ($href)
-            ),
+            'data-href' => $href,
+            'data-event-handle' => 'compose_mailto_callback',
         ];
 
         $i = $this->add(html::a($attribs, rcube::Q($href)) . $suffix);

@@ -111,7 +111,7 @@ class newmail_notifier extends rcube_plugin
                 $field_id = '_' . $key;
                 $input = new html_checkbox(['name' => $field_id, 'id' => $field_id, 'value' => 1]);
                 $content = $input->show($this->rc->config->get($key))
-                    . ' ' . html::a(['href' => '#', 'onclick' => 'newmail_notifier_test_' . $type . '(); return false'],
+                    . ' ' . html::a(['href' => '#', 'data-onclick' => ['newmail_notifier_test_' . $type, ['preventDefault' => true]]],
                         $this->gettext('test'));
 
                 $args['blocks']['new_message']['options'][$key] = [
@@ -204,7 +204,7 @@ class newmail_notifier extends rcube_plugin
             $this->notified = true;
 
             $this->rc->output->set_env('newmail_notifier_timeout', $this->rc->config->get('newmail_notifier_desktop_timeout'));
-            $this->rc->output->command('plugin.newmail_notifier',
+            $this->rc->output->add_js_call('newmail_notifier_run',
                 [
                     'basic' => $this->opt['basic'],
                     'sound' => $this->opt['sound'],

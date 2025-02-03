@@ -53,13 +53,13 @@ class rcmail_action_settings_folder_subscribe extends rcmail_action
         if (!empty($result)) {
             // Handle subscription of protected folder (#1487656)
             if ($rcmail->config->get('protect_default_folders') && $storage->is_special_folder($mbox)) {
-                $rcmail->output->command('disable_subscription', $mbox);
+                $rcmail->output->add_js_call('disable_subscription', $mbox);
             }
 
             $rcmail->output->show_message('foldersubscribed', 'confirmation');
         } else {
             self::display_server_error('errorsaving');
-            $rcmail->output->command('reset_subscription', $mbox, false);
+            $rcmail->output->add_js_call('reset_subscription', $mbox, false);
         }
 
         $rcmail->output->send();

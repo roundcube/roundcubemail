@@ -108,7 +108,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
                     }
                     $link = html::a(['title' => $title], $link_content);
 
-                    $rcmail->output->command('add_contact_row', $row_id, [$keyname => $link], $classname);
+                    $rcmail->output->add_js_call('add_contact_row', $row_id, [$keyname => $link], $classname);
                 }
             }
 
@@ -123,7 +123,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             $rcmail->output->set_env('search_request', $search_request);
             $rcmail->output->set_env('source', '');
-            $rcmail->output->command('unselect_directory');
+            $rcmail->output->add_js_call('unselect_directory');
         } elseif (!$group_count) {
             $rcmail->output->show_message('nocontactsfound', 'notice');
         }
@@ -131,7 +131,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         // update env
         $rcmail->output->set_env('contactdata', $jsresult);
         $rcmail->output->set_env('pagecount', ceil($result->count / $page_size));
-        $rcmail->output->command('set_page_buttons');
+        $rcmail->output->add_js_call('set_page_buttons');
 
         // send response
         $rcmail->output->send();

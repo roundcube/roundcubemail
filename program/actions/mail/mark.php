@@ -79,7 +79,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         if (!$marked) {
             // send error message
             if ($from != 'show') {
-                $rcmail->output->command('list_mailbox');
+                $rcmail->output->add_js_call('list_mailbox');
             }
 
             self::display_server_error('errormarking');
@@ -96,7 +96,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             }
 
             if ($read && !$skip_deleted) {
-                $rcmail->output->command('flag_deleted_as_read', $ruids);
+                $rcmail->output->add_js_call('flag_deleted_as_read', $ruids);
             }
         }
 
@@ -109,9 +109,9 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
         } elseif ($flag == 'DELETED' && $skip_deleted) {
             if ($from == 'show') {
                 if ($next = rcube_utils::get_input_value('_next_uid', rcube_utils::INPUT_GPC)) {
-                    $rcmail->output->command('show_message', $next);
+                    $rcmail->output->add_js_call('show_message', $next);
                 } else {
-                    $rcmail->output->command('command', 'list');
+                    $rcmail->output->add_js_call('command', 'list');
                 }
             } else {
                 $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
@@ -145,7 +145,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
                 $rcmail->output->set_env('messagecount', $msg_count);
                 $rcmail->output->set_env('current_page', $page);
                 $rcmail->output->set_env('pagecount', $pages);
-                $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
+                $rcmail->output->add_js_call('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
                 if ($threading) {
                     $count = rcube_utils::get_input_value('_count', rcube_utils::INPUT_POST);

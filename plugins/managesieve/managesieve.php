@@ -222,7 +222,7 @@ class managesieve extends rcube_plugin
         $headers = $this->parse_headers($args['headers']);
 
         if ($this->rc->action == 'preview') {
-            $this->rc->output->command('parent.set_env', ['sieve_headers' => $headers]);
+            $this->rc->output->add_js_call('parent.set_env', ['sieve_headers' => $headers]);
         } else {
             $this->rc->output->set_env('sieve_headers', $headers);
         }
@@ -244,7 +244,7 @@ class managesieve extends rcube_plugin
             $headers = $this->parse_headers($message->headers);
 
             $this->rc->output->set_env('sieve_headers', $headers);
-            $this->rc->output->command('managesieve_create', true);
+            $this->rc->output->add_js_call('managesieve_create', true);
             $this->rc->output->send();
         }
 

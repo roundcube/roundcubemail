@@ -49,7 +49,7 @@ class rcmail_action_mail_group_expand extends rcmail_action
                 }
             }
 
-            $rcmail->output->command('replace_group_recipients', $gid, implode(', ', array_unique($members)));
+            $rcmail->output->add_js_call('replace_group_recipients', $gid, implode(', ', array_unique($members)));
         }
 
         $rcmail->output->send();

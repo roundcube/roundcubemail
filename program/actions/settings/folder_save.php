@@ -59,7 +59,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         }
 
         if (!empty($error)) {
-            $rcmail->output->command('display_message', $error, 'error');
+            $rcmail->output->add_js_call('display_message', $error, 'error');
         } else {
             if (!empty($options['protected']) || !empty($options['norename'])) {
                 $name_imap = $old_imap;
@@ -84,7 +84,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
         }
 
         if (!empty($error)) {
-            $rcmail->output->command('display_message', $error, 'error');
+            $rcmail->output->add_js_call('display_message', $error, 'error');
             $folder = null;
         } else {
             $folder = [
@@ -140,7 +140,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
 
                 $rcmail->output->show_message('foldercreated', 'confirmation');
                 // reset folder preview frame
-                $rcmail->output->command('subscription_select');
+                $rcmail->output->add_js_call('subscription_select');
                 $rcmail->output->send('iframe');
             } else {
                 // show error message

@@ -54,7 +54,7 @@ class rcmail_action_contacts_group_delete extends rcmail_action_contacts_index
 
         if (!empty($deleted)) {
             $rcmail->output->show_message('groupdeleted', 'confirmation');
-            $rcmail->output->command('remove_group_item', ['source' => $source, 'id' => $gid]);
+            $rcmail->output->add_js_call('remove_group_item', ['source' => $source, 'id' => $gid]);
         } else {
             $error = !empty($plugin['message']) ? $plugin['message'] : 'errorsaving';
             $rcmail->output->show_message($error, 'error');

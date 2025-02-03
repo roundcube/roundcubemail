@@ -29,14 +29,13 @@ class rcmail_output_html extends rcmail_output
     protected $objects = [];
     protected $js_env = [];
     protected $js_labels = [];
-    protected $js_commands = [];
+    protected $js_calls = [];
     protected $skin_paths = [];
     protected $skin_extends = [];
     protected $skin_name = '';
     protected $scripts_path = '';
     protected $script_files = [];
     protected $css_files = [];
-    protected $scripts = [];
     protected $task;
     protected $meta_tags = [];
     protected $link_tags = ['shortcut icon' => ''];
@@ -141,12 +140,6 @@ class rcmail_output_html extends rcmail_output
             */
             EOF;
         // add common javascripts
-        $this->add_script($lic, 'head_top');
-        $this->add_script('var ' . self::JS_OBJECT_NAME . ' = new rcube_webmail();', 'head_top');
-
-        // don't wait for page onload. Call init at the bottom of the page (delayed)
-        $this->add_script(self::JS_OBJECT_NAME . '.init();', 'docready');
-
         $this->scripts_path = 'program/js/';
         $this->include_script('jquery.min.js');
         $this->include_script('common.js');
@@ -490,7 +483,22 @@ class rcmail_output_html extends rcmail_output
      */
     public function add_gui_object($obj, $id)
     {
-        $this->add_script(self::JS_OBJECT_NAME . ".gui_object('{$obj}', '{$id}');");
+        $this->js_calls[] = ['gui_object', $obj, $id];
+    }
+
+    /**
+     * Deprecated function to call a client method.
+     * Left here to allow a grace period for old code.
+     *
+     * @deprecated
+     *
+     * @param string $cmd     Method to call
+     * @param mixed  ...$args Method arguments
+     */
+    public function command($cmd, ...$args)
+    {
+        rcube::write_log('errors', 'rcmail_output_html->command() is deprecated, replace it with a call to rcmail_output_html->add_js_call()');
+        return $this->add_js_call($cmd, ...$args);
     }
 
     /**
@@ -500,14 +508,14 @@ class rcmail_output_html extends rcmail_output
      * @param mixed  ...$args Method arguments
      */
     #[Override]
-    public function command($cmd, ...$args)
+    public function add_js_call($cmd, ...$args)
     {
         if (strpos($cmd, 'plugin.') !== false) {
-            $this->js_commands[] = ['triggerEvent', $cmd, $args[0]];
+            $this->js_calls[] = ['triggerEvent', $cmd, $args[0]];
         } else {
             array_unshift($args, $cmd);
 
-            $this->js_commands[] = $args;
+            $this->js_calls[] = $args;
         }
     }
 
@@ -537,7 +545,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool   $override Override last set message
      * @param int    $timeout  Message display time in seconds
      *
-     * @uses self::command()
+     * @uses self::add_js_call()
      */
     #[Override]
     public function show_message($message, $type = 'notice', $vars = null, $override = true, $timeout = 0)
@@ -554,7 +562,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $this->message = $message;
-            $this->command('display_message', $msgtext, $type, $timeout * 1000);
+            $this->add_js_call('display_message', $msgtext, $type, $timeout * 1000);
         }
     }
 
@@ -593,8 +601,7 @@ class rcmail_output_html extends rcmail_output
         $this->env = $this->js_env = $env;
         $this->framed = $framed || !empty($this->env['framed']);
         $this->js_labels = [];
-        $this->js_commands = [];
-        $this->scripts = [];
+        $this->js_calls = [];
         $this->header = '';
         $this->footer = '';
         $this->body = '';
@@ -688,23 +695,6 @@ class rcmail_output_html extends rcmail_output
             $this->js_env['blankpage'] = $this->asset_url($this->js_env['blankpage'], true);
         }
 
-        $commands = $this->get_js_commands($framed);
-
-        // if all js commands go to parent window we can ignore all
-        // script files and skip rcube_webmail initialization (#1489792)
-        // but not on error pages where skins may need jQuery, etc.
-        if ($framed && empty($this->js_env['server_error'])) {
-            $this->scripts = [];
-            $this->script_files = [];
-            $this->header = '';
-            $this->footer = '';
-        }
-
-        // write all javascript commands
-        if (!empty($commands)) {
-            $this->add_script($commands, 'head_top');
-        }
-
         $this->page_headers();
 
         // call super method
@@ -728,6 +718,7 @@ class rcmail_output_html extends rcmail_output
                 $this->header('X-Frame-Options: sameorigin', true);
             }
         }
+        $this->header("Content-Security-Policy: script-src 'self'", true);
     }
 
     /**
@@ -853,7 +844,7 @@ class rcmail_output_html extends rcmail_output
     /**
      * Return executable javascript code for all registered commands
      */
-    protected function get_js_commands(&$framed = null)
+    protected function get_js_commands()
     {
         $out = '';
         $parent_commands = 0;
@@ -877,38 +868,22 @@ class rcmail_output_html extends rcmail_output
             $top_commands[] = ['hide_message', $unlock];
         }
 
-        $commands = array_merge($top_commands, $this->js_commands);
+        $commands = array_merge($top_commands, $this->js_calls);
 
-        foreach ($commands as $args) {
-            $method = array_shift($args);
-            $parent = $this->framed || preg_match('/^parent\./', $method);
-
-            foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg, $this->devel_mode);
+        // If this is framed, prefix all commands (which are the first element
+        // of each sub-array) so they're called on the parent's `rcmail`
+        // instance.
+        if ($this->framed) {
+            // Using `for` because we modify the array's content and want to
+            // avoid the pitfalls of `foreach` and passing by reference.
+            for ($i = 0; $i < count($commands); $i++) {
+                if (strpos($commands[$i][0], 'parent.') !== 0) {
+                    $commands[$i][0] = "parent.{$commands[$i][0]}";
+                }
             }
-
-            if ($parent) {
-                $parent_commands++;
-                $method = preg_replace('/^parent\./', '', $method);
-                $parent_prefix = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ') parent.';
-                $method = $parent_prefix . self::JS_OBJECT_NAME . '.' . $method;
-            } else {
-                $method = self::JS_OBJECT_NAME . '.' . $method;
-            }
-
-            $out .= sprintf("%s(%s);\n", $method, implode(',', $args));
         }
 
-        $framed = $parent_prefix && $parent_commands == count($commands);
-
-        // make the output more compact if all commands go to parent window
-        if ($framed) {
-            $out = 'if (window.parent && parent.' . self::JS_OBJECT_NAME . ") {\n"
-                . str_replace($parent_prefix, "\tparent.", $out)
-                . "}\n";
-        }
-
-        return $out;
+        return self::json_serialize($commands, $this->devel_mode);
     }
 
     /**
@@ -1447,7 +1422,7 @@ class rcmail_output_html extends rcmail_output
                 // define a container block (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
             case 'container':
                 if (!empty($attrib['name']) && !empty($attrib['id'])) {
-                    $this->command('gui_container', $attrib['name'], $attrib['id']);
+                    $this->add_js_call('gui_container', $attrib['name'], $attrib['id']);
                     // let plugins insert some content here
                     $hook = $this->app->plugins->exec_hook('template_container', $attrib + ['content' => '']);
                     return $hook['content'];
@@ -1496,7 +1471,8 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     if (($link = $this->get_template_logo('link')) !== null) {
-                        $attrib['onclick'] = "location.href='{$link}';";
+                        $attrib['data-url'] = $link;
+                        $attrib['data-event-handle'] = 'call_redirect';
                         $attrib['style'] = 'cursor:pointer;';
                     }
 
@@ -1801,21 +1777,21 @@ class rcmail_output_html extends rcmail_output
 
         // register button in the system
         if (!empty($attrib['command'])) {
-            $this->add_script(sprintf(
-                "%s.register_button('%s', '%s', '%s', '%s', '%s', '%s');",
-                self::JS_OBJECT_NAME,
+            $this->js_calls[] = [
+                'register_button',
                 $command,
                 $attrib['id'],
                 $attrib['type'],
                 !empty($attrib['imageact']) ? $this->abs_url($attrib['imageact']) : (!empty($attrib['classact']) ? $attrib['classact'] : ''),
                 !empty($attrib['imagesel']) ? $this->abs_url($attrib['imagesel']) : (!empty($attrib['classsel']) ? $attrib['classsel'] : ''),
-                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : ''
-            ));
+                !empty($attrib['imageover']) ? $this->abs_url($attrib['imageover']) : '',
+            ];
 
             // make valid href to specific buttons
             if (in_array($attrib['command'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['task' => $attrib['command']]);
-                $attrib['onclick'] = sprintf("return %s.command('switch-task','%s',this,event)", self::JS_OBJECT_NAME, $attrib['command']);
+                $attrib['data-arg'] = $attrib['command'];
+                $attrib['data-event-handle'] = 'switch_task';
             } elseif (!empty($attrib['task']) && in_array($attrib['task'], rcmail::$main_tasks)) {
                 $attrib['href'] = $this->app->url(['action' => $attrib['command'], 'task' => $attrib['task']]);
             } elseif (in_array($attrib['command'], $a_static_commands)) {
@@ -1834,13 +1810,10 @@ class rcmail_output_html extends rcmail_output
             if (!empty($attrib['classact'])) {
                 $attrib['class'] = $attrib['classact'];
             }
-        } elseif ($command && empty($attrib['onclick'])) {
-            $attrib['onclick'] = sprintf(
-                "return %s.command('%s','%s',this,event)",
-                self::JS_OBJECT_NAME,
-                $command,
-                !empty($attrib['prop']) ? $attrib['prop'] : ''
-            );
+        } elseif ($command && empty($attrib['data-event-handle'])) {
+            $attrib['data-command'] = $command;
+            $attrib['data-prop'] = !empty($attrib['prop']) ? $attrib['prop'] : '';
+            $attrib['data-event-handle'] = 'call_command';
         }
 
         $out = '';
@@ -1860,10 +1833,10 @@ class rcmail_output_html extends rcmail_output
             if (!empty($attrib['label'])) {
                 $btn_content .= ' ' . $attrib['label'];
             }
-            $link_attrib = ['href', 'onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'target'];
+            $link_attrib = ['href', 'target'];
         } elseif ($attrib['type'] == 'link') {
             $btn_content = $attrib['content'] ?? (!empty($attrib['label']) ? $attrib['label'] : $attrib['command']);
-            $link_attrib = array_merge(html::$common_attrib, ['href', 'onclick', 'tabindex', 'target', 'rel']);
+            $link_attrib = array_merge(html::$common_attrib, ['href', 'tabindex', 'target', 'rel']);
             if (!empty($attrib['innerclass'])) {
                 $btn_content = html::span($attrib['innerclass'], $btn_content);
             }
@@ -1877,7 +1850,7 @@ class rcmail_output_html extends rcmail_output
                 $attrib['disabled'] = 'disabled';
             }
 
-            $out = html::tag('input', $attrib, null, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
+            $out = html::tag('input', $attrib, null, ['type', 'value', 'id', 'class', 'style', 'tabindex', 'disabled']);
         } else {
             if (!empty($attrib['label'])) {
                 $attrib['value'] = $attrib['label'];
@@ -1887,7 +1860,7 @@ class rcmail_output_html extends rcmail_output
             }
 
             $content = $attrib['content'] ?? $attrib['label'];
-            $out = html::tag('button', $attrib, $content, ['type', 'value', 'onclick', 'id', 'class', 'style', 'tabindex', 'disabled']);
+            $out = html::tag('button', $attrib, $content, ['type', 'value', 'id', 'class', 'style', 'tabindex', 'disabled']);
         }
 
         // generate html code for button
@@ -1926,21 +1899,6 @@ class rcmail_output_html extends rcmail_output
 
         if (!in_array($file, $this->script_files[$position])) {
             $this->script_files[$position][] = $file;
-        }
-    }
-
-    /**
-     * Add inline javascript code
-     *
-     * @param string $script   JS code snippet
-     * @param string $position Target position [head|head_top|foot|docready]
-     */
-    public function add_script($script, $position = 'head')
-    {
-        if (!isset($this->scripts[$position])) {
-            $this->scripts[$position] = rtrim($script);
-        } else {
-            $this->scripts[$position] .= "\n" . rtrim($script);
         }
     }
 
@@ -1993,15 +1951,6 @@ class rcmail_output_html extends rcmail_output
             return $output . html::script($script);
         };
 
-        $merge_scripts = static function ($output, $script) {
-            return $output . html::script([], $script);
-        };
-
-        // put docready commands into page footer
-        if (!empty($this->scripts['docready'])) {
-            $this->add_script("\$(function() {\n" . $this->scripts['docready'] . "\n});", 'foot');
-        }
-
         $page_header = '';
         $page_footer = '';
         $meta = '';
@@ -2042,24 +1991,21 @@ class rcmail_output_html extends rcmail_output
             $page_header .= array_reduce((array) $this->script_files['head'], $merge_script_files);
         }
 
-        $head = $this->scripts['head_top'] ?? '';
-        $head .= $this->scripts['head'] ?? '';
-
-        $page_header .= array_reduce((array) $head, $merge_scripts);
         $page_header .= $this->header . "\n";
 
         if (!empty($this->script_files['head_bottom'])) {
             $page_header .= array_reduce((array) $this->script_files['head_bottom'], $merge_script_files);
         }
 
-        if (!empty($this->script_files['foot'])) {
-            $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
-        }
+        $page_footer .= html::div(['id' => 'js-calls', 'style' => 'display: none', 'hidden' => true, 'data-js' => $this->get_js_commands()], '');
 
         $page_footer .= $this->footer . "\n";
 
-        if (!empty($this->scripts['foot'])) {
-            $page_footer .= array_reduce((array) $this->scripts['foot'], $merge_scripts);
+        // Make sure to add the 'foot' scripts after the footer data, because
+        // that data can contain e.g. relevant elements for popups that are
+        // triggered from `rcmail.init()`.
+        if (!empty($this->script_files['foot'])) {
+            $page_footer .= array_reduce((array) $this->script_files['foot'], $merge_script_files);
         }
 
         // find page header
@@ -2155,7 +2101,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         $attrib['name'] = $attrib['id'];
-        $attrib['src'] = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'javascript:false;';
+        $attrib['src'] = !empty($attrib['src']) ? $this->abs_url($attrib['src'], true) : 'about:blank';
 
         // register as 'contentframe' object
         if ($is_contentframe || !empty($attrib['contentframe'])) {
@@ -2194,7 +2140,7 @@ class rcmail_output_html extends rcmail_output
         return html::tag('form',
             $attrib + ['action' => $this->app->comm_path, 'method' => 'get'],
             $hidden . $content,
-            ['id', 'class', 'style', 'name', 'method', 'action', 'enctype', 'onsubmit']
+            ['id', 'class', 'style', 'name', 'method', 'action', 'enctype', 'data-onsubmit']
         );
     }
 
@@ -2424,11 +2370,7 @@ class rcmail_output_html extends rcmail_output
             return;
         }
 
-        $this->add_script('var images = ' . self::json_serialize($images, $this->devel_mode) . ';
-            for (var i=0; i<images.length; i++) {
-                img = new Image();
-                img.src = images[i];
-            }', 'docready');
+        $this->add_js_call('preload_images', $images);
     }
 
     /**
@@ -2473,11 +2415,7 @@ class rcmail_output_html extends rcmail_output
         if (empty($attrib['form']) && empty($attrib['no-form'])) {
             $out = $this->form_tag([
                 'name' => !empty($attrib['form-name']) ? $attrib['form-name'] : 'rcmqsearchform',
-                'onsubmit' => sprintf(
-                    "%s.command('%s'); return false",
-                    self::JS_OBJECT_NAME,
-                    !empty($attrib['command']) ? $attrib['command'] : 'search'
-                ),
+                'data-onsubmit' => ['command', !empty($attrib['command']) ? $attrib['command'] : 'search', ['preventDefault' => true]],
                 // 'style'    => "display:inline"
             ], $out);
         }

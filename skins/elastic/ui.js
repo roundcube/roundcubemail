@@ -287,7 +287,7 @@ function rcube_elastic_ui() {
             }
 
             $(this).on('mouseover', function () {
-                rcube_webmail.long_subject_title(this, 0, $('span.inner', this));
+                rcmail.long_subject_title(this, 0, $('span.inner', this));
             });
         });
 
@@ -363,7 +363,7 @@ function rcube_elastic_ui() {
             // TODO: This should be done in another way, so if an entry is
             // added after page load it also works there.
             $('li.mailbox > a').on('mouseover', function () {
-                rcube_webmail.long_subject_title_ex(this);
+                rcmail.long_subject_title_ex(this);
             });
         });
     }
@@ -728,10 +728,9 @@ function rcube_elastic_ui() {
             // In compose/preview window we do not provide "Back" button, instead
             // we modify the "Mail" button in the task menu to act like it (i.e. calls 'list' command)
             if (!rcmail.env.extwin && (rcmail.env.action == 'compose' || rcmail.env.action == 'show')) {
-                $('a.mail', layout.menu).attr({
-                    'aria-disabled': false,
-                    onclick: "return rcmail.command('list','',this,event);",
-                });
+                $('a.mail', layout.menu)
+                    .attr({'aria-disabled': false})
+                    .on('click', () => rcmail.command('list','',this,event));
             }
 
             // Append contact menu to all mailto: links
@@ -1187,7 +1186,7 @@ function rcube_elastic_ui() {
         });
 
         $(document).on('click', popups_close);
-        rcube_webmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
+        rcmail.set_iframe_events({ mousedown: popups_close, touchstart: popups_close });
     }
 
     /**
@@ -2311,7 +2310,7 @@ function rcube_elastic_ui() {
                     popup = popup_orig.clone(true, true);
                     popup.attr('id', popup_id + '-clone')
                         .appendTo(document.body)
-                        .find('li > a').attr('onclick', '').off('click').on('click', function (e) {
+                        .find('li > a').off('click').on('click', function (e) {
                             if (!$(this).is('.disabled')) {
                                 $(item).popover('hide');
                                 win.$('#' + $(this).attr('id')).click();
@@ -3034,7 +3033,7 @@ function rcube_elastic_ui() {
 
         $.each(['open', 'download', 'rename'], function () {
             var action = this;
-            $('#attachmenu' + action, obj).off('click').attr('onclick', '').click(function (e) {
+            $('#attachmenu' + action, obj).off('click').on('click', function (e) {
                 return rcmail.command(action + '-attachment', id, this, e.originalEvent);
             });
         });
@@ -3105,10 +3104,10 @@ function rcube_elastic_ui() {
         $('.compose', obj).addClass('active').on('click', function (e) {
             // Execute the original onclick handler to support mailto URL arguments (#6751)
             if (onclick) {
-                button.onclick = onclick;
+                $(button).on('click', onclick);
                 // use the second argument to tell our handler to not display the menu again
                 $(button).trigger('click', [true]);
-                button.onclick = null;
+                $(button).off('click');
             } else {
                 rcmail.command('compose', mailto, this, e.originalEvent);
             }
@@ -3125,7 +3124,7 @@ function rcube_elastic_ui() {
     function mailtomenu_append(item) {
         // Remember the original onclick handler and display the menu instead
         var onclick = item.onclick;
-        item.onclick = null;
+        $(item).off('click');
         $(item).on('click', function (e, menu) {
             return menu || mailtomenu($('#mailto-menu'), item, e, onclick);
         });
@@ -4454,7 +4453,6 @@ if (window.rcmail) {
     // rcmail does not exists e.g. on the error template inside a frame
     // we fake the engine a little
     var rcmail = parent.rcmail,
-        rcube_webmail = parent.rcube_webmail,
         bw = {};
 }
 
@@ -4476,3 +4474,64 @@ if ($ && $.datepicker) {
         },
     });
 }
+
+// Some event handlers.
+window.rcmail.addEventListener('init', function () {
+
+    $('[data-event-handle="ui_props_dialog"]').on('click', function (event) {
+        UI.props_dialog();
+    });
+
+    $('[data-event-handle="ui_image_tools_toggle_and_set_title"]').on('click', function (event) {
+        const elem = event.target;
+        $(elem).attr('title', $(elem).data('label-' + ($('#image-tools').toggleClass('open').is('.open') ? 'hide' : 'show')));
+    });
+
+    $('[data-event-handle="ui_header_reset"]').on('click', function (event) {
+        UI.header_reset(event.target.dataset.field)
+    });
+
+    $('[data-event-handle="ui_show_sidebar"]').on('click', function (event) {
+        UI.show_sidebar();
+    });
+
+    $('[data-event-handle="ui_upload_input"]').on('click', function (event) {
+        window.rcmail.upload_input(event.target.dataset.name);
+    });
+
+    $('[data-event-handle="ui_upload_input_unless_disabled"]').on('click', function (event) {
+        if (!$(event.target).is('.disabled')) {
+            rcmail.upload_input('uploadform');
+        }
+    });
+
+    $('[data-event-handle="ui_recipient_selector"]').on('click', function (event) {
+        UI.recipient_selector(event.target.dataset.field);
+    });
+
+    $('[data-event-handle="ui_toggle_list_selection"]').on('click', function (event) {
+        const elem = event.target;
+        UI.toggle_list_selection(elem, elem.dataset.arg);
+    });
+
+    $('[data-event-handle="ui_import_dialog"]').on('click', function (event) {
+        UI.import_dialog();
+    });
+
+    $('[data-event-handle="ui_headers_show"]').on('click', function (event) {
+        UI.headers_show(true);
+    });
+
+    $('[data-event-handle="ui_headers_dialog"]').on('click', function (event) {
+        UI.headers_dialog();
+    });
+
+    $('[data-event-handle="ui_about_dialog"]').on('click', function (event) {
+        UI.about_dialog(event.target);
+    });
+
+    $('[data-event-handle="call_drag_menu_action"]').on('click', function (event) {
+        window.rcmail.drag_menu_action(event.target.dataset.arg)
+    });
+
+});

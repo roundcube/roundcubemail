@@ -42,13 +42,13 @@ if (!empty($_POST['submit'])) {
             echo '<input name="_getconfig" value="2" /></form>';
 
             $button_txt = html::quote('Save in ' . $dir);
-            $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
+            $save_button = '&nbsp;<input type="button" id="button-save-config"  value="' . $button_txt . '" />';
         }
 
         echo '<p class="notice">Copy or download the following configuration and save it';
         echo ' as <tt><b>config.inc.php</b></tt> within the <tt>' . RCUBE_CONFIG_DIR . '</tt> directory of your Roundcube installation.<br/>';
         echo ' Make sure that there are no characters before the <tt>&lt;?php</tt> bracket when saving the file.';
-        echo '&nbsp;<input type="button" onclick="location.href=\'index.php?_getconfig=1\'" value="Download" />';
+        echo '&nbsp;<input type="button" id="button-download-config" value="Download" />';
         echo $save_button;
 
         if ($RCI->legacy_config) {
@@ -65,7 +65,7 @@ if (!empty($_POST['submit'])) {
     echo '<p class="hint">Of course there are more options to configure.
     Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
 
-    echo '<p><input type="button" onclick="location.href=\'./index.php?_step=3\'" value="CONTINUE" /></p>';
+    echo '<p><input type="button" id="button-continue-step-3" value="CONTINUE" /></p>';
 
     // echo '<style type="text/css"> .configblock { display:none } </style>';
     echo "\n<hr style='margin-bottom:1.6em' />\n";
@@ -327,14 +327,14 @@ $i = 0;
 foreach ($default_hosts as $host) {
     echo '<div id="defaulthostentry' . $i . '">' . $text_imaphost->show($host);
     if ($i++ > 0) {
-        echo '<a href="#" onclick="removehostfield(this.parentNode);return false" class="removelink" title="Remove this entry">remove</a>';
+        echo '<a href="#" id="remove-host-field" class="removelink" title="Remove this entry">remove</a>';
     }
     echo '</div>';
 }
 
 ?>
 </div>
-<div><a href="javascript:addhostfield()" class="addlink" title="Add another field">add</a></div>
+<div><a href="#" id="add-host-field" class="addlink" title="Add another field">add</a></div>
 
 <div>The IMAP host(s) chosen to perform the log-in</div>
 <p class="hint">Leave blank to show a textbox at login. To use SSL/STARTTLS connection add ssl:// or tls:// prefix. It can also contain the port number, e.g. tls://imap.domain.tld:143.

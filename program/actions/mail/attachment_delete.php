@@ -35,7 +35,7 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
         $rcmail = rcmail::get_instance();
 
         if ($rcmail->delete_uploaded_file(self::$file_id)) {
-            $rcmail->output->command('remove_from_attachment_list', 'rcmfile' . self::$file_id);
+            $rcmail->output->add_js_call('remove_from_attachment_list', 'rcmfile' . self::$file_id);
         }
 
         $rcmail->output->send();

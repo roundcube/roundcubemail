@@ -58,7 +58,7 @@ class rcmail_action_mail_copy extends rcmail_action_mail_index
 
             self::send_unread_count($target, true);
 
-            $rcmail->output->command('set_quota', self::quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
+            $rcmail->output->add_js_call('set_quota', self::quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
         }
 
         $rcmail->output->send();

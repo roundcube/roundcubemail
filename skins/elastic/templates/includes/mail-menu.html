@@ -64,7 +64,7 @@
 		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print disabled" classAct="print active" data-hidden="small"/>
 		<roundcube:if condition="template:name != 'message'" />
 			<roundcube:button type="link-menuitem" command="import-messages" label="import" class="import disabled" classAct="import active"
-				name="messageimport" onclick="UI.import_dialog()" />
+				name="messageimport" data-event-handle="ui_import_dialog" />
 		<roundcube:endif />
 		<roundcube:button type="link-menuitem" command="download" label="export" class="download disabled" classAct="download active" />
 		<roundcube:button type="link-menuitem" command="edit" prop="new" label="editasnew" class="edit asnew disabled" classAct="edit asnew active" />
