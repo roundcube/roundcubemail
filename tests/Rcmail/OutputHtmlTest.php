@@ -451,7 +451,7 @@ class OutputHtmlTest extends TestCase
         $headers = $this->run_add_csp_header_and_get_headers(true);
 
         $this->assertCount(1, $headers);
-        $this->assertSame("Content-Security-Policy: default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src *; media-src *; font-src: *; frame-src: *", $headers[0]);
+        $this->assertSame("Content-Security-Policy: default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src *; media-src *; font-src *; frame-src *", $headers[0]);
     }
 
     /**

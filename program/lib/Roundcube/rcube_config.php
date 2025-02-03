@@ -26,7 +26,7 @@ class rcube_config
 
     public const DEFAULTS = [
         'content_security_policy' => "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'",
-        'content_security_policy_add_allow_remote' => 'img-src *; media-src *; font-src: *; frame-src: *',
+        'content_security_policy_add_allow_remote' => 'img-src *; media-src *; font-src *; frame-src *',
     ];
 
     /** @var string A skin configured in the config file (before being replaced by a user preference) */
