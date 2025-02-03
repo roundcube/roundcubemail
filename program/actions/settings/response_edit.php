@@ -46,7 +46,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
 
         $rcmail->output->set_pagetitle($title);
         $rcmail->output->set_env('readonly', !empty(self::$response['static']));
-        $rcmail->output->set_env('safemode', true);
+        $rcmail->output->csp_allow_remote_ressources = true;
         $rcmail->output->add_handler('responseform', [$this, 'response_form']);
         $rcmail->output->send('responseedit');
     }
