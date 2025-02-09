@@ -243,7 +243,7 @@ class rcube_config
             $error_log .= $this->prop['log_file_ext'] ?? '.log';
         }
 
-        if ($error_log && $error_log != 'stdout') {
+        if ($error_log && ($error_log != 'stdout' && $error_log != 'php')) {
             ini_set('error_log', $error_log);
         }
 
@@ -803,7 +803,7 @@ class rcube_config
      */
     public static function resolve_timezone_alias($tzname)
     {
-        // http://www.php.net/manual/en/timezones.others.php
+        // https://www.php.net/manual/en/timezones.others.php
         // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
         $deprecated_timezones = [
             'Australia/ACT' => 'Australia/Sydney',

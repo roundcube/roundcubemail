@@ -1009,6 +1009,9 @@ rcube_webmail.prototype.managesieve_tip_register = function (tips) {
 function sieve_formattime(hour, minutes) {
     var i, c, h, time = '', format = rcmail.env.time_format || 'H:i';
 
+    // Support all Time and Timezone related formatters from PHP
+    // https://www.php.net/manual/en/datetime.format.php
+    // Even if not all may make sense in this context
     for (i = 0; i < format.length; i++) {
         c = format.charAt(i);
         switch (c) {
@@ -1022,8 +1025,9 @@ function sieve_formattime(hour, minutes) {
                 break;
             case 'g':
             case 'h':
-                h = hour == 0 ? 12 : hour > 12 ? hour - 12 : hour;
-                time += (c == 'h' && hour < 10 ? '0' : '') + hour;
+                h = hour % 12;
+                h = h === 0 ? 12 : h;
+                time += (c === 'h' && h < 10 ? '0' : '') + h;
 
                 break;
             case 'G':
@@ -1040,6 +1044,31 @@ function sieve_formattime(hour, minutes) {
                 break;
             case 's':
                 time += '00';
+
+                break;
+            case 'u': // Microseconds
+                time += '000000';
+
+                break;
+            case 'v': // Milliseconds
+                time += '000';
+
+                break;
+            case 'B': // Swatch Internet time: https://www.swatch.com/en-us/internet-time.html
+                s = (hour * 60 + minutes) * 60 - rcmail.env.server_timezone_info.Z + 3600;
+                time += s / (60 + 24.4);
+
+                break;
+            case 'e': // Timezone identifier
+            case 'I': // Whether the date is in daylight saving time
+            case 'O': // Difference to Greenwich time (GMT) without colon between hours and minutes
+            case 'P': // Difference to Greenwich time (GMT) with colon between hours and minutes
+            case 'p': // The same as P, but returns Z instead of +00:00
+            case 'T': // Timezone abbreviation, if known; otherwise the GMT offset
+            case 'Z': // Timezone offset in seconds. The offset for timezones west of UTC is always negative, and for those east of UTC is always positive.
+                time += rcmail.env.server_timezone_info[c];
+
+                break;
             default:
                 time += c;
         }

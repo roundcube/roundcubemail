@@ -454,10 +454,19 @@ class rcmail_oauth
      */
     public function get_redirect_uri()
     {
-        $url = $this->rcmail->url([], true, true);
+        $url = $this->rcmail->url([]);
 
         // rewrite redirect URL to not contain query parameters because some providers do not support this
         $url = preg_replace('/\?.*/', '', $url);
+
+        // Get rid of the use_secure_urls token from the path
+        // It can happen after you log out that the token is still in the current request path
+        if ($len = $this->rcmail->config->get('use_secure_urls')) {
+            $length = $len > 1 ? $len : 16;
+            $url = preg_replace("~^/[0-9a-zA-Z]{{$length}}/~", '/', $url);
+        }
+
+        $url = rcube_utils::resolve_url($url);
 
         return slashify($url) . 'index.php/login/oauth';
     }

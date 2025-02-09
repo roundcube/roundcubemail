@@ -6,7 +6,7 @@
  * The contents are subject to the Creative Commons Attribution-ShareAlike
  * License. It is allowed to copy, distribute, transmit and to adapt the work
  * by keeping credits to the original autors in the README file.
- * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ * See https://creativecommons.org/licenses/by-sa/3.0/ for details.
  *
  * @license magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt CC0-1.0
  */
@@ -633,9 +633,7 @@ function rcube_elastic_ui() {
                             msg = table.data('label-msg'),
                             list = table.is('ul') ? table : table.children('tbody');
 
-                        if (!rcmail.env.search_request && !rcmail.env.qsearch
-                            && msg && !list.children(':visible').length
-                        ) {
+                        if (msg && !list.children(':visible').length) {
                             ext = table.data('label-ext');
                             command = table.data('create-command');
 
@@ -644,15 +642,16 @@ function rcube_elastic_ui() {
                             }
 
                             info.text(msg).removeClass('hidden');
-                            return;
                         }
-
-                        info.addClass('hidden');
                     },
                     callback = function () {
+                        info.addClass('hidden');
+
                         // wait until the UI stops loading and the list is visible
                         if (rcmail.busy || !table.is(':visible')) {
-                            return setTimeout(callback, 250);
+                            clearTimeout(env.list_timer);
+                            env.list_timer = setTimeout(callback, 250);
+                            return;
                         }
 
                         clearTimeout(env.list_timer);

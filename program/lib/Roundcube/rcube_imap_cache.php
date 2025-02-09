@@ -1094,7 +1094,7 @@ class rcube_imap_cache
                 $mbox_data = $this->imap->folder_data($mailbox);
 
                 // Removed messages found
-                $uids = isset($mbox_data['VANISHED']) ? rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']) : null;
+                $uids = !empty($mbox_data['VANISHED']) ? rcube_imap_generic::uncompressMessageSet($mbox_data['VANISHED']) : null;
                 if (!empty($uids)) {
                     $removed = array_merge($removed, $uids);
                     // Invalidate index

@@ -29,7 +29,7 @@
  | GNU General Public License for more details.                            |
  |                                                                         |
  | You should have received a copy of the GNU General Public License       |
- | along with this program.  If not, see http://www.gnu.org/licenses/.     |
+ | along with this program.  If not, see https://www.gnu.org/licenses/.    |
  |                                                                         |
  +-------------------------------------------------------------------------+
  | Author: Thomas Bruederli <roundcube@gmail.com>                          |
@@ -106,7 +106,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 
 <div id="banner">
   <div class="banner-bg"></div>
-  <div class="banner-logo"><a href="http://roundcube.net"><img src="static.php/installer/images/roundcube_logo.png" width="210" height="55" border="0" alt="Roundcube - open source webmail software" /></a></div>
+  <div class="banner-logo"><a href="https://roundcube.net"><img src="static.php/installer/images/roundcube_logo.png" width="210" height="55" border="0" alt="Roundcube - open source webmail software" /></a></div>
 </div>
 
 <div id="topnav">

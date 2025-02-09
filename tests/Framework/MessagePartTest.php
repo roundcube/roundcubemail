@@ -72,6 +72,27 @@ class MessagePartTest extends TestCase
             $part->normalize($headers)
         );
 
+        // Mixed RFC2047 and RFC2231 encoding (#9725)
+        $headers = "Content-Type: application/edoc;\r\n"
+            . "\tname*0=\"=?UTF-8?B?ZG9rdW1lbnRzLXBhcmFrc3TEq3RzLWFyLWRyb8WhdS1lcGFyYW\";\r\n"
+            . "\tname*1=\"tzdA==?=\r\n"
+            . "\t=?UTF-8?B?YS1kcm/FoXUtcGFyYWtzdHVfdmlzc19zbGlrdGlfd\";\r\n"
+            . "\tname*2=\"MSBbMWray5lZG9j?=\"\r\n"
+            . "Content-Transfer-Encoding: base64\r\n";
+        $this->assertSame(
+            'dokuments-parakstīts-ar-drošu-eparaksta-drošu-parakstu_viss_slikti_tālūk.edoc',
+            $part->normalize($headers)
+        );
+
+        $headers = "Content-Type: text/plain;\r\n"
+            . " name*0=\"very very very very long very very very very l\";\r\n"
+            . " name*1=\"ong.txt\"\r\n"
+            . "Content-Transfer-Encoding: base64\r\n";
+        $this->assertSame(
+            'very very very very long very very very very long.txt',
+            $part->normalize($headers)
+        );
+
         // TODO: Test some more corner cases
     }
 }

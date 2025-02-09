@@ -41,6 +41,7 @@ class rcmail_action_contacts_delete extends rcmail_action_contacts_index
         foreach ($cids as $source => $cid) {
             $CONTACTS = self::contact_source($source);
 
+            // @phpstan-ignore-next-line
             if ($CONTACTS->readonly && empty($CONTACTS->deletable)) {
                 // more sources? do nothing, probably we have search results from
                 // more than one source, some of these sources can be readonly

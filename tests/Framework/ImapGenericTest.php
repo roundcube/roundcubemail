@@ -177,10 +177,16 @@ class ImapGenericTest extends TestCase
      */
     public function test_decode_content_qp()
     {
-        $content = "test quoted-printable\n\n żąśźć encoded content\ntest quoted-printable żąśźć encoded content";
-        $encoded = \Mail_mimePart::quotedPrintableEncode($content, 12);
+        $content = "test quoted-printable\r\n\r\n żąśźć encoded content\r\ntest quoted-printable żąśźć encoded content";
+        $encoded = \Mail_mimePart::quotedPrintableEncode($content, 12, "\r\n");
 
         $this->runDecodeContent($content, $encoded, 2);
+
+        $content = file_get_contents(TESTS_DIR . '/src/test.pdf');
+        $encoded = \Mail_mimePart::quotedPrintableEncode($content, 76, "\r\n");
+
+        $this->runDecodeContent($content, $encoded, 2, strlen($encoded));
+        $this->runDecodeContent($content, $encoded, 2, strlen($encoded) / 2);
     }
 
     /**
@@ -207,16 +213,15 @@ class ImapGenericTest extends TestCase
     public function test_decode_content_formatted()
     {
         $content = "test \r\n plain text\tcontent\t\r\n test plain text content\t";
-        $expected = "test \n plain text\tcontent\n test plain text content";
 
-        $this->runDecodeContent($expected, $content, 4);
+        $this->runDecodeContent(rtrim($content), $content, 4, true);
     }
 
     /**
      * Helper to execute decodeCOntent() method in multiple variations of an input
      * and assert with the expected output
      */
-    public function runDecodeContent($expected, $encoded, $mode, $size = null)
+    public function runDecodeContent($expected, $encoded, $mode, $size = null, $formatted = false)
     {
         $method = new \ReflectionMethod('rcube_imap_generic', 'decodeContent');
         $method->setAccessible(true);
@@ -231,7 +236,7 @@ class ImapGenericTest extends TestCase
             $chunks = str_split($encoded, $x);
 
             foreach ($chunks as $idx => $chunk) {
-                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev]);
+                $decoded .= $method->invokeArgs(null, [$chunk, $mode, $idx == count($chunks) - 1, &$prev, $formatted]);
             }
 
             $this->assertSame($expected, $decoded, "Failed on chunk size of {$x}");

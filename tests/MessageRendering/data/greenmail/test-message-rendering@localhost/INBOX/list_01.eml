@@ -1,0 +1,89 @@
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="=_08f545e592541b77db5fd93e3267655b"
+Date: Sat, 11 Jan 2020 19:31:21 +0100
+From: test-from@domain.tld
+To: test-to@domain.tld
+Subject: Test HTML with local and remote image
+Message-ID: <3ef8a0120cd7dc2fd776468c8515e29a@domain.tld>
+
+--=_08f545e592541b77db5fd93e3267655b
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+
+Attached image: 
+
+Remote image:
+--=_08f545e592541b77db5fd93e3267655b
+Content-Type: multipart/related;
+ boundary="=_48ae8051b8f2cc74607d3ed75f3568af"
+
+--=_48ae8051b8f2cc74607d3ed75f3568af
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3DUTF-8" /></head><body style=3D'font-size: 10pt; font-family: Verdana,Gen=
+eva,sans-serif'>
+<p id=3D"attached">Attached image: <img src=3D"cid:15787674815e1a1479c8db24=
+52476888@alec.pl" alt=3D"" /></p>
+<p id=3D"remote">Remote image: <img src=3D"https://roundcube.net/images/rou=
+ndcube_logo_icon.svg" width=3D"16" /></p>
+<p><br /></p>
+
+</body></html>
+
+--=_48ae8051b8f2cc74607d3ed75f3568af
+Content-Transfer-Encoding: base64
+Content-ID: <15787674815e1a1479c8db2452476888@alec.pl>
+Content-Type: image/x-icon;
+ name=favicon.ico
+Content-Disposition: inline;
+ filename=favicon.ico;
+ size=2294
+
+AAABAAIAEBAAAAEAIABoBAAAJgAAABAQAAABACAAaAQAAI4EAAAoAAAAEAAAACAAAAABACAAAAAA
+AAAEAADDDgAAww4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFRPQABUT0ADT0xAQW9hP8DkrDjA
+/8E3Qf++NwP/vjcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVE9AAFRPQABUT0AiVE9AilNOQOhp
+XD//6rE4//+/N+j/vjeK/743Iv++NwD/vjcAAAAAAAAAAABUT0AAVE9AAFRPQBJUT0BrVE9A11RP
+QP5TTkD/aVw//+qxOP//vzf//743/v++N9f/vjdr/743Ev++NwD/vjcAVE9ACFRPQExUT0C/VE9A
++1RPQP9UT0D/U05A/2hcPv/qsDj//783//++N///vjf//743+/++N7//vjdM/743CFRPQKxUT0Dx
+VE9A/1RPQP9UT0D/VE9A/1FNPv9sYUb/7LRA//++Nf//vjf//743//++N///vjf//7438f++N6xU
+T0D/VE9A/1RPQP9UT0D/U04//1VRQv91cmf/uriz/+vZs//4yWb//r45//++Nf//vjf//743//++
+N///vjf/VE9A/1RPQP9UT0D/U04//2hkWP+cmpT/0NDP/+bn5//l5uj/5+Pb/+/Vn//7xVX//742
+//++N///vjf//743/1RPQP9UT0D/V1JD/4mGfv++vbv/0NDQ/+Hh4f/l5eX/5eXl/+Xl5v/l5uf/
+6ODQ//PPhP/+vzv//743//++N/9UT0D/Uk0+/29rYP/FxcT/zc3N/9PT0//k5OT/5eXl/+Xl5f/l
+5eX/5eXl/+Xl5//n49z/+cdf//++Nf//vjf/VE9Ay1JNPvqJh37/zc3N/8zMzP/X19f/5eXl/+Xl
+5f/l5eX/5eXl/+Xl5f/l5eX/5eXn//PPhf//vTT6/743y1RPQBZRSzxum5mT4M3Nzf/MzMz/2NjY
+/+Xl5f/l5eX/5eXl/+Xl5f/l5eX/5eXl/+Xl5//v1Z/g/70ybv++NxZUT0AA////AMbGxXTMzMz/
+zMzM/9bW1v/l5eX/5eXl/+Xl5f/l5eX/5eXl/+Xl5f/l5eX/5uPdddb9/wD/vjcAAAAAAMzMzADM
+zMw2zMzM7MzMzP/T09P/5OTk/+Xl5f/l5eX/5eXl/+Xl5f/l5eX/5eXl7OXl5Tfl5eUAAAAAAAAA
+AADMzMwAzMzMBczMzJXMzMz/zs7O/+Dg4P/l5eX/5eXl/+Xl5f/l5eX/5eXl/+Xl5Zbk5OQF5OTk
+AAAAAAAAAAAAzMzMAMzMzADMzMwYzMzMp8zMzPvW1tb/5OTk/+Xl5f/l5eX/5eXl++Xl5anl5eUZ
+5eXlAOHh4QAAAAAAAAAAAAAAAADMzMwAzMzMAMzMzBLMzMx1zc3N1Nzc3Prl5eX65eXl1uXl5Xfl
+5eUT5eXlAOLi4gAAAAAAAAAAAPgfAADwDwAAwAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAwAMAAMADAADAAwAA4AcAAPAPAAAoAAAAEAAAACAAAAABACAAAAAAAAAEAADDDgAAww4A
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFRPQABUT0ADT0xAQW9hP8DkrDjA/8E3Qf++NwP/vjcA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVE9AAFRPQABUT0AiVE9AilNOQOhpXD//6rE4//+/N+j/
+vjeK/743Iv++NwD/vjcAAAAAAAAAAABUT0AAVE9AAFRPQBJUT0BrVE9A11RPQP5TTkD/aVw//+qx
+OP//vzf//743/v++N9f/vjdr/743Ev++NwD/vjcAVE9ACFRPQExUT0C/VE9A+1RPQP9UT0D/U05A
+/2hcPv/qsDj//783//++N///vjf//743+/++N7//vjdM/743CFRPQKxUT0DxVE9A/1RPQP9UT0D/
+VE9A/1FNPv9sYUb/7LRA//++Nf//vjf//743//++N///vjf//7438f++N6xUT0D/VE9A/1RPQP9U
+T0D/U04//1VRQv91cmf/uriz/+vZs//4yWb//r45//++Nf//vjf//743//++N///vjf/VE9A/1RP
+QP9UT0D/U04//2hkWP+cmpT/0NDP/+bn5//l5uj/5+Pb/+/Vn//7xVX//742//++N///vjf//743
+/1RPQP9UT0D/V1JD/4mGfv++vbv/0NDQ/+Hh4f/l5eX/5eXl/+Xl5v/l5uf/6ODQ//PPhP/+vzv/
+/743//++N/9UT0D/Uk0+/29rYP/FxcT/zc3N/9PT0//k5OT/5eXl/+Xl5f/l5eX/5eXl/+Xl5//n
+49z/+cdf//++Nf//vjf/VE9Ay1JNPvqJh37/zc3N/8zMzP/X19f/5eXl/+Xl5f/l5eX/5eXl/+Xl
+5f/l5eX/5eXn//PPhf//vTT6/743y1RPQBZRSzxum5mT4M3Nzf/MzMz/2NjY/+Xl5f/l5eX/5eXl
+/+Xl5f/l5eX/5eXl/+Xl5//v1Z/g/70ybv++NxZUT0AA////AMbGxXTMzMz/zMzM/9bW1v/l5eX/
+5eXl/+Xl5f/l5eX/5eXl/+Xl5f/l5eX/5uPdddb9/wD/vjcAAAAAAMzMzADMzMw2zMzM7MzMzP/T
+09P/5OTk/+Xl5f/l5eX/5eXl/+Xl5f/l5eX/5eXl7OXl5Tfl5eUAAAAAAAAAAADMzMwAzMzMBczM
+zJXMzMz/zs7O/+Dg4P/l5eX/5eXl/+Xl5f/l5eX/5eXl/+Xl5Zbk5OQF5OTkAAAAAAAAAAAAzMzM
+AMzMzADMzMwYzMzMp8zMzPvW1tb/5OTk/+Xl5f/l5eX/5eXl++Xl5anl5eUZ5eXlAOHh4QAAAAAA
+AAAAAAAAAADMzMwAzMzMAMzMzBLMzMx1zc3N1Nzc3Prl5eX65eXl1uXl5Xfl5eUT5eXlAOLi4gAA
+AAAAAAAAAPgfAADwDwAAwAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAMAAMAD
+AADAAwAA4AcAAPAPAAA=
+--=_48ae8051b8f2cc74607d3ed75f3568af--
+
+--=_08f545e592541b77db5fd93e3267655b--

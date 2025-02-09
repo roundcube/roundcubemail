@@ -172,7 +172,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
         }
 
-        exit;
+        $rcmail->output->sendExit();
     }
 
     /**

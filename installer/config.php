@@ -200,11 +200,11 @@ echo $input_ilevel->show($RCI->getprop('identities_level'), 0);
 
 <?php
 $select_log_driver = new html_select(['name' => '_log_driver', 'id' => 'cfglogdriver']);
-$select_log_driver->add(['file', 'syslog', 'stdout'], ['file', 'syslog', 'stdout']);
+$select_log_driver->add(['file', 'syslog', 'stdout', 'php'], ['file', 'syslog', 'stdout', 'php']);
 echo $select_log_driver->show($RCI->getprop('log_driver', 'file'));
 ?>
 
-<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility, 'stdout' writes to the process' STDOUT file descriptor.</div>
+<div>How to do logging? 'file' - write to files in the log directory, 'syslog' - use the syslog facility, 'stdout' writes to the process' STDOUT file descriptor, 'php' writes to php's configured error_log facility.</div>
 </dd>
 
 <dt class="propname">log_dir</dt>
@@ -491,7 +491,7 @@ echo $input_locale->show($RCI->getprop('language'));
 
 ?>
 <div>The default locale setting. This also defines the language of the login screen.<br/>Leave it empty to auto-detect the user agent language.</div>
-<p class="hint">Enter a <a href="http://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted language name. Examples: en_US, de_DE, de_CH, fr_FR, pt_BR</p>
+<p class="hint">Enter a <a href="https://www.faqs.org/rfcs/rfc1766">RFC1766</a> formatted language name. Examples: en_US, de_DE, de_CH, fr_FR, pt_BR</p>
 </dd>
 
 <dt class="propname">skin <span class="userconf">*</span></dt>

@@ -25,7 +25,7 @@ class QrcodeTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertCOntains('HTTP/1.0 404 Contact not found', $output->headers);
+        $this->assertContains('HTTP/1.0 404 Contact not found', $output->headers);
         $this->assertSame('', $result);
 
         $type = $action->check_support();
