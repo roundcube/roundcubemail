@@ -77,7 +77,7 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    $files = ['config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json',
+    $files = ['config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'index.php',
         'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL',
         'public_html/index.php', 'public_html/installer.php', 'public_html/static.php'];
 
