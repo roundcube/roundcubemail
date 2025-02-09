@@ -28,7 +28,7 @@ define('RCMAIL_VERSION', '1.7-git');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . '/');
+    define('INSTALL_PATH', realpath(__DIR__ . '/../..') . '/');
 }
 
 if (!defined('RCMAIL_CONFIG_DIR')) {

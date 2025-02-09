@@ -1542,8 +1542,7 @@ class rcmail extends rcube
             return null;
         }
 
-        $assets_dir = $this->config->get('assets_dir');
-        $root_path = unslashify($assets_dir ?: INSTALL_PATH) . '/';
+        $root_path = unslashify(INSTALL_PATH) . '/';
         $full_path = $root_path . trim($path, '/');
 
         if (file_exists($full_path)) {
@@ -1943,7 +1942,7 @@ class rcmail extends rcube
     }
 
     /**
-     * Get resource file content (with assets_dir support)
+     * Get resource file content
      *
      * @param string $name File name
      *

@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit('Not allowed! Please open installer/index.php instead.');
+    exit('Not allowed! Please use installer.php instead.');
 }
 
 $required_php_exts = [
@@ -99,7 +99,7 @@ $source_urls = [
 ];
 
 ?>
-<form action="index.php" method="get">
+<form action="?" method="get">
 
 <?php
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';

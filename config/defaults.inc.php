@@ -875,11 +875,7 @@ $config['request_path'] = null;
 //    <FilesMatch ".(eot|ttf|woff)">
 //    Header set Access-Control-Allow-Origin "*"
 //    </FilesMatch>
-$config['assets_path'] = '';
-
-// While assets_path is for the browser, assets_dir informs
-// PHP code about the location of asset files in filesystem
-$config['assets_dir'] = '';
+$config['assets_path'] = null;
 
 // Options passed when creating Guzzle HTTP client, used to fetch remote content
 // For example:

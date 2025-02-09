@@ -361,8 +361,8 @@ class OutputHtmlTest extends TestCase
         $output = new \rcmail_output_html();
 
         $this->assertSame('http://test', $output->asset_url('http://test'));
-        $this->assertSame('/ui.js', $output->asset_url('/ui.js'));
-        $this->assertSame('skins/elastic/ui.js', $output->asset_url('/ui.js', true));
+        $this->assertSame('static.php/ui.js', $output->asset_url('/ui.js'));
+        $this->assertSame('static.php/skins/elastic/ui.js', $output->asset_url('/ui.js', true));
     }
 
     /**

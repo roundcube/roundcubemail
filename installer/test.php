@@ -15,7 +15,7 @@
 */
 
 if (!class_exists('rcmail_install', false) || !isset($RCI)) {
-    exit('Not allowed! Please open installer/index.php instead.');
+    exit('Not allowed! Please use installer.php instead.');
 }
 
 /** @var rcmail_install $RCI */
@@ -167,7 +167,7 @@ if ($DB) {
     $db_read = $DB->query('SELECT count(*) FROM ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'users'));
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', 'Database not initialized');
-        echo '<form action="index.php?_step=3" method="post">'
+        echo '<form action="?_step=3" method="post">'
             . '<p><input type="submit" name="initdb" value="Initialize database" /></p>'
             . '</form>';
 
@@ -179,7 +179,7 @@ if ($DB) {
         $select = $RCI->versions_select(['name' => 'version']);
         $select->add('0.9 or newer', '');
 
-        echo '<form action="index.php?_step=3" method="post">'
+        echo '<form action="?_step=3" method="post">'
             . '<p class="suggestion">You should run the update queries to get the schema fixed.'
             . '<br/><br/>Version to update from: ' . $select->show('')
             . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>'
@@ -273,7 +273,7 @@ if ($pass == '%p') {
 
 ?>
 
-<form action="index.php?_step=3" method="post">
+<form action="?_step=3" method="post">
 
 <h3>Test SMTP config</h3>
 
@@ -372,7 +372,7 @@ if (isset($_POST['sendmail'])) {
 
 </form>
 
-<form action="index.php?_step=3" method="post">
+<form action="?_step=3" method="post">
 
 <h3>Test IMAP config</h3>
 
@@ -452,12 +452,12 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
 <p class="warning">
 
-After completing the installation and the final tests please <b>remove</b> the whole
-installer folder from the document root of the webserver or make sure that
+After completing the installation and the final tests please <b>remove</b> the
+installer.php file from the document root of the webserver or make sure that
 <tt>enable_installer</tt> option in <tt>config.inc.php</tt> is disabled.<br />
 <br />
 
-These files may expose sensitive configuration data like server passwords and encryption keys
-to the public. Make sure you cannot access this installer from your browser.
+The installer may expose sensitive configuration data like server passwords and encryption keys
+to the public. Make sure you cannot access it from your browser.
 
 </p>
