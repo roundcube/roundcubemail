@@ -3,7 +3,6 @@
 /*
  +-----------------------------------------------------------------------+
  | Roundcube Webmail IMAP Client                                         |
- | Version 1.7-git                                                       |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -60,7 +59,7 @@ define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 $path = validateStaticFile($_SERVER['PATH_INFO']);
 
 if (!$path) {
-    header('HTTP/1.1 404 Not Found');
+    http_response_code(404);
     exit;
 }
 
@@ -73,7 +72,7 @@ serveStaticFile($path);
  *
  * @return ?string Verified and resolved file location
  */
-function validateStaticFile($path): ?string
+function validateStaticFile(string $path): ?string
 {
     $path = trim($path, "/ \t\r\n");
 
@@ -129,7 +128,7 @@ function serveStaticFile($path): void
 
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s \G\M\T', $lastModifiedTime));
     if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModifiedTime) {
-        header('HTTP/1.1 304 Not Modified', true, 304);
+        http_response_code(304); // "Not Modified"
         return;
     }
 
@@ -140,7 +139,7 @@ function serveStaticFile($path): void
     if (isset($_SERVER['HTTP_RANGE'])) {
         // $valid = preg_match('^bytes=\d*-\d*(,\d*-\d*)*$', $_SERVER['HTTP_RANGE']);
         if (substr($_SERVER['HTTP_RANGE'], 0, 6) != 'bytes=') {
-            header('HTTP/1.1 416 Requested Range Not Satisfiable', true, 416);
+            http_response_code(416); // "Range Not Satisfiable"
             header('Content-Range: bytes */' . $size); // Required in 416.
             return;
         }
@@ -156,10 +155,10 @@ function serveStaticFile($path): void
         }
 
         if ($range[0] >= 0 && ($range[1] <= $size - 1) && $range[0] <= $range[1]) {
-            header('HTTP/1.1 206 Partial Content', true, 206);
+            http_response_code(206); // "Partial Content"
             header('Content-Range: bytes ' . sprintf('%u-%u/%u', $range[0], $range[1], $size));
         } else {
-            header('HTTP/1.1 416 Requested Range Not Satisfiable', true, 416);
+            http_response_code(416); // "Range Not Satisfiable"
             header('Content-Range: bytes */' . $size);
             return;
         }
