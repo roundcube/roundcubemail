@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Plugin API: Added message_delete hook (#9499)
-- Plugin API: Added message_move hook (#9499)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Renamed composer.json.dist to composer.json (#9279)
@@ -14,16 +12,15 @@
 - Added an option for a default mail search scope (#9077, #7556)
 - Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
 - IMAP: Support for HAproxy protocol header in IMAP connections (#8625)
-- IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
 - Change 'smtp_log' option default value to False
-- Add 'php' log_driver value (#6138)
+- Add 'php' logging driver (#6138)
 - Delete messages directly from Junk on folder purge if delete_junk is enabled (#8766)
 - Hide information about quota, when there is no quota (#8994)
 - Set timeout=30, connect_timeout=5, read_timeout=120 as defaults for HTTP client (#8865)
 - Remove use of utf8_encode() and utf8_decode() functions deprecated in PHP 8.2
 - Support PHP Zip extension and 7z in install-jsdeps.sh (#8935)
 - Add identities management script - bin/identity.sh (#8887)
-- Add skin info to about dialog (#9441)
+- Add skin information into the About dialog (#9441)
 - Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)
 - Convert images in HTML content pasted into HTML editor to `data:` URIs (and later to attachments) (#6938)
 - Add possibility to change ATTR_EMULATE_PREPARES via config file (#9213)
@@ -32,6 +29,8 @@
 - Use new HTML5 parser available on PHP >= 8.4
 - Clear "list is empty" message on loading a new list (#9006)
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
+- Plugin API: Added message_delete hook (#9499)
+- Plugin API: Added message_move hook (#9499)
 - Mailvelope: Add a button to enable the extension for webmail domain (#9498)
 - OAuth: Add support for SMTP without authentication (#9183)
 - OAuth: Add support for OAuth/OpenIDC discovery (#8201)
@@ -44,7 +43,6 @@
 - OAuth: Fix: missing config `oauth_provider_name` in rcmail_oauth's constructor (#9217)
 - OAuth: Fix Bearer authentication for Kinde (#9244)
 - OAuth: Refactor: move display to the rcmail_oauth class and use `loginform_content` hook (#9217)
-- OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
 - OAuth: Add a flag to the 'authenticate' hook arguments indicating SSO is in use
 - Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
@@ -67,6 +65,11 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.10
+
+- IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
+- OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
 - Fix PHP warnings (#9616, #9611)
 - Fix whitespace handling in vCard line continuation (#9637)
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
