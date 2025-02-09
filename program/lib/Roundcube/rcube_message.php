@@ -56,7 +56,7 @@ class rcube_message
      *
      * @var array
      */
-    protected $replacement_references;
+    protected $replacement_references = [];
 
     public $uid;
     public $folder;
@@ -74,9 +74,6 @@ class rcube_message
 
     /** @var array<rcube_message_part> */
     public $mime_parts = [];
-
-    /** @var array<rcube_message_part> */
-    public $inline_parts = [];
 
     /** @var array<rcube_message_part> */
     public $attachments = [];
@@ -577,21 +574,48 @@ class rcube_message
         return false;
     }
 
+    private function parse_html_for_replacement_references(rcube_message_part $part): array
+    {
+        // Check if the part is actually referenced in a text/html-part sibling
+        // (i.e. that is part of the same `$part`).
+        $html_parts = $this->find_html_parts($part);
+        if (empty($html_parts)) {
+            return [];
+        }
+        // Note: There might be more than one HTML part, thus we use a callback
+        // and concatenate the results.
+        $html_content = implode('', array_map(function ($html_part) { return $this->get_part_body($html_part->mime_id); }, $html_parts));
+
+        $referenced_content_identifiers = [];
+        $replacements = [];
+        // TODO: recursion.
+        // TODO: only get replacements from siblings
+        foreach ($this->mime_parts as $mime_part) {
+            $replacements = array_merge($replacements, array_keys($mime_part->replaces));
+        }
+        foreach ($replacements as $content_identifier) {
+            // Is the Content-Id or Content-Location used?
+            // TODO: match Content-Location more strictly. E.g. "image.jpg" is a
+            // valid value here, too, which can easily be matched wrongly
+            // currently.
+            if (strpos($html_content, $content_identifier) !== false) {
+                $referenced_content_identifiers[] = preg_replace('/^cid:/', '', $content_identifier);
+            }
+        }
+        return $referenced_content_identifiers;
+    }
+
     /**
      * Get a cached list of replacement references, which are collected during
      * parsing from Content-Id and Content-Location headers of mime-parts.
      */
-    protected function get_replacement_references(): array
+    protected function get_replacement_references(rcube_message_part $part): array
     {
-        if ($this->replacement_references === null) {
-            $this->replacement_references = [];
-            foreach ($this->mime_parts as $mime_part) {
-                foreach ($mime_part->replaces as $key => $value) {
-                    $this->replacement_references[] = preg_replace('/^cid:/', '', $key);
-                }
-            }
+        if (!isset($this->replacement_references[$part->mime_id])) {
+            $this->replacement_references[$part->mime_id] = $this->parse_html_for_replacement_references($part);
         }
-        return $this->replacement_references;
+
+        return $this->replacement_references[$part->mime_id];
     }
 
     /**
@@ -607,17 +631,17 @@ class rcube_message
      */
     public function is_referred_attachment(rcube_message_part $part): bool
     {
-        $references = $this->get_replacement_references();
-
         // This code is intentionally verbose to keep it comprehensible.
-        // Filter out attachments that are reference by their Content-ID in
+        $references = $this->get_replacement_references($part);
+
+        // Filter out attachments that are referenced by their Content-ID in
         // another mime-part.
         if (!empty($part->content_id) && in_array($part->content_id, $references)) {
             return true;
         }
 
-        // Filter out attachments that are reference by their
-        // Content-Location in another mime-part.
+        // Filter out attachments that are referenced by their Content-Location
+        // in another mime-part.
         if (!empty($part->content_location) && in_array($part->content_location, $references)) {
             return true;
         }
@@ -736,7 +760,7 @@ class rcube_message
         if ($message_ctype_primary == 'text' && !$recursive) {
             // parts with unsupported type add to attachments list
             if (!in_array($message_ctype_secondary, ['plain', 'html', 'enriched'])) {
-                $this->add_part($structure, 'attachment');
+                $this->add_attachment($structure);
                 return;
             }
 
@@ -747,7 +771,7 @@ class rcube_message
             if ($message_ctype_secondary == 'plain') {
                 foreach ((array) $this->uu_decode($structure) as $uupart) {
                     $this->mime_parts[$uupart->mime_id] = $uupart;
-                    $this->add_part($uupart, 'attachment');
+                    $this->add_attachment($uupart);
                 }
             }
         }
@@ -785,7 +809,7 @@ class rcube_message
                     $enriched_part = $p;
                 } else {
                     // add unsupported/unrecognized parts to attachments list
-                    $this->add_part($sub_part, 'attachment');
+                    $this->add_attachment($sub_part);
                 }
             }
 
@@ -856,7 +880,7 @@ class rcube_message
                 for ($i = 0; $i < count($structure->parts); $i++) {
                     $subpart = $structure->parts[$i];
                     if ($subpart->mimetype == 'application/octet-stream' || !empty($subpart->filename)) {
-                        $this->add_part($subpart, 'attachment');
+                        $this->add_attachment($subpart);
                     }
                 }
             }
@@ -874,7 +898,7 @@ class rcube_message
             $this->add_part($p);
 
             if (!empty($structure->filename)) {
-                $this->add_part($structure, 'attachment');
+                $this->add_attachment($structure);
             }
         }
         // message contains multiple parts
@@ -889,7 +913,7 @@ class rcube_message
                 if ($primary_type == 'multipart' || $part_mimetype == 'message/rfc822') {
                     // list message/rfc822 as attachment as well
                     if ($part_mimetype == 'message/rfc822') {
-                        $this->add_part($mail_part, 'attachment');
+                        $this->add_attachment($mail_part);
                     }
 
                     $this->parse_structure($mail_part, true);
@@ -928,7 +952,7 @@ class rcube_message
 
                     // list as attachment as well
                     if (!empty($mail_part->filename)) {
-                        $this->add_part($mail_part, 'attachment');
+                        $this->add_attachment($mail_part);
                     }
                 }
                 // ignore "virtual" protocol parts
@@ -938,13 +962,11 @@ class rcube_message
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 elseif ($part_mimetype == 'application/ms-tnef' && $this->tnef_decode) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);
-                    $tnef_body = '';
 
                     foreach ($tnef_parts as $tpart) {
                         $this->mime_parts[$tpart->mime_id] = $tpart;
 
                         if (strpos($tpart->mime_id, '.html')) {
-                            $tnef_body = $tpart->body;
                             if ($this->opt['prefer_html']) {
                                 $tpart->type = 'content';
 
@@ -961,15 +983,14 @@ class rcube_message
                             }
                             $this->add_part($tpart);
                         } else {
-                            $inline = !empty($tpart->content_id) && strpos($tnef_body, "cid:{$tpart->content_id}") !== false;
-                            $this->add_part($tpart, $inline ? 'inline' : 'attachment');
+                            $this->add_attachment($tpart);
                         }
                     }
 
                     // add winmail.dat to the list if it's content is unknown
                     if (empty($tnef_parts) && !empty($mail_part->filename)) {
                         $this->mime_parts[$mail_part->mime_id] = $mail_part;
-                        $this->add_part($mail_part, 'attachment');
+                        $this->add_attachment($mail_part);
                     }
                 }
                 // part is a file/attachment
@@ -1006,13 +1027,11 @@ class rcube_message
                         $mail_part->disposition = 'attachment';
                     }
 
-                    // part belongs to a related message and is linked
+                    // part belongs to a related message
                     // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
-                    if (
-                        preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)
-                        && (!empty($mail_part->content_id) || !empty($mail_part->content_location))
-                    ) {
-                        $this->add_part($mail_part, 'inline');
+                    if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
+                        $this->add_attachment($mail_part);
+                        continue;
                     }
 
                     // Any non-inline attachment
@@ -1025,7 +1044,7 @@ class rcube_message
                             $mail_part->mimetype = 'application/octet-stream';
                         }
 
-                        $this->add_part($mail_part, 'attachment');
+                        $this->add_attachment($mail_part);
                     }
                 }
                 // calendar part not marked as attachment (#1490325)
@@ -1034,48 +1053,33 @@ class rcube_message
                         $mail_part->filename = 'calendar.ics';
                     }
 
-                    $this->add_part($mail_part, 'attachment');
+                    $this->add_attachment($mail_part);
                 }
-                // Last resort, non-inline and non-text part of multipart/mixed message (#7117)
+                // Last resort, non-text and non-multipart part of multipart/mixed message (#7117)
                 elseif ($mimetype == 'multipart/mixed'
-                    && $mail_part->disposition != 'inline'
                     && $primary_type && $primary_type != 'text' && $primary_type != 'multipart'
                 ) {
-                    $this->add_part($mail_part, 'attachment');
+                    $this->add_attachment($mail_part);
                 }
             }
 
             // if this is a related part try to resolve references
             // Note: mixed is not supposed to contain inline images, but we've found such examples (#5905)
-            if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype) && count($this->inline_parts)) {
+            if (preg_match('/^multipart\/(related|relative|mixed)/', $mimetype)) {
                 $a_replaces = [];
-                $img_regexp = '/^image\/(gif|jpe?g|png|tiff|bmp|svg)/';
 
-                foreach ($this->inline_parts as $inline_object) {
-                    $part_url = $this->get_part_url($inline_object->mime_id, $inline_object->ctype_primary);
-                    if (isset($inline_object->content_id)) {
-                        $a_replaces['cid:' . $inline_object->content_id] = $part_url;
+                foreach ($this->attachments as $attachment) {
+                    $part_url = $this->get_part_url($attachment->mime_id, $attachment->ctype_primary);
+                    // We did not yet check if the values of these
+                    // Content-Id/Content-Location headers are actually present in
+                    // the corresponding HTML part body, because it's too expensive
+                    // right now.
+                    // Storing the replacement references just in case.
+                    if (isset($attachment->content_id)) {
+                        $a_replaces['cid:' . $attachment->content_id] = $part_url;
                     }
-                    if (!empty($inline_object->content_location)) {
-                        $a_replaces[$inline_object->content_location] = $part_url;
-                    }
-
-                    if (!empty($inline_object->filename)) {
-                        // MS Outlook sends sometimes non-related attachments as related
-                        // In this case multipart/related message has only one text part
-                        // We'll add all such attachments to the attachments list
-                        if ($this->got_html_part === false) {
-                            $this->add_part($inline_object, 'attachment');
-                        }
-                        // MS Outlook sometimes also adds non-image attachments as related
-                        // We'll add all such attachments to the attachments list
-                        // Warning: some browsers support pdf in <img/>
-                        elseif (!preg_match($img_regexp, $inline_object->mimetype)) {
-                            $this->add_part($inline_object, 'attachment');
-                        }
-                        // @TODO: we should fetch HTML body and find attachment's content-id
-                        // to handle also image attachments without reference in the body
-                        // @TODO: should we list all image attachments in text mode?
+                    if (!empty($attachment->content_location)) {
+                        $a_replaces[$attachment->content_location] = $part_url;
                     }
                 }
 
@@ -1090,8 +1094,40 @@ class rcube_message
         }
         // message is a single part non-text
         elseif ($structure->filename || preg_match('/^application\//i', $mimetype)) {
-            $this->add_part($structure, 'attachment');
+            $this->add_attachment($structure);
         }
+    }
+
+    private function find_parent_part($child_part, $start_part)
+    {
+        $parts = $start_part->mime_parts ?? $start_part->parts;
+        foreach ($parts as $mime_part) {
+            if ($mime_part->mime_id === $child_part->mime_id) {
+                return $start_part;
+            } elseif (!empty($mime_part->parts)) {
+                return $this->find_parent_part($child_part, $mime_part);
+            }
+        }
+    }
+
+    private function find_html_parts($initial_part)
+    {
+        // Find the parent part of the initial part.
+        $parent_part = $this->find_parent_part($initial_part, $this);
+        if (empty($parent_part)) {
+            // Shouldn't happen, but who knows...
+            // TODO: handle this error more explicitly?
+            return [];
+        }
+
+        $html_parts = [];
+        foreach ($parent_part->parts as $child_part) {
+            if ($child_part->mimetype === 'text/html') {
+                $html_parts[] = $child_part;
+            }
+        }
+
+        return $html_parts;
     }
 
     /**
@@ -1111,27 +1147,28 @@ class rcube_message
     }
 
     /**
-     * Add a part to object parts array(s) (with context check)
+     * Add a part to the list of attachments (with context check)
      *
      * @param rcube_message_part $part Message part
-     * @param string             $type Part type (inline/attachment)
      */
-    private function add_part($part, $type = null)
+    private function add_attachment($part)
     {
         if ($this->check_context($part)) {
             // It may happen that we add the same part to the array many times
             // use part ID index to prevent from duplicates
-            switch ($type) {
-                case 'inline':
-                    $this->inline_parts[$part->mime_id] = $part;
-                    break;
-                case 'attachment':
-                    $this->attachments[$part->mime_id] = $part;
-                    break;
-                default:
-                    $this->parts[] = $part;
-                    break;
-            }
+            $this->attachments[$part->mime_id] = $part;
+        }
+    }
+
+    /**
+     * Add a part to object parts array(s) (with context check)
+     *
+     * @param rcube_message_part $part Message part
+     */
+    private function add_part($part)
+    {
+        if ($this->check_context($part)) {
+            $this->parts[] = $part;
         }
     }
 
