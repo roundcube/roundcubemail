@@ -1507,9 +1507,9 @@ class rcmail_output_html extends rcmail_output
 
                     foreach ($logo_types as $type) {
                         if (($template_logo = $this->get_template_logo($type)) !== null) {
-                            $additional_logos[$type] = $this->abs_url($template_logo);
+                            $additional_logos[$type] = $this->asset_url($template_logo, true);
                         } elseif (!empty($attrib['data-src-' . $type])) {
-                            $additional_logos[$type] = $this->abs_url($attrib['data-src-' . $type]);
+                            $additional_logos[$type] = $this->asset_url($attrib['data-src-' . $type], true);
                         }
                     }
 
