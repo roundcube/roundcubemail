@@ -23,6 +23,7 @@
 class rcmail_output_html extends rcmail_output
 {
     public $type = 'html';
+    public $csp_allow_remote_ressources = false;
 
     protected $message;
     protected $template_name;
@@ -718,6 +719,8 @@ class rcmail_output_html extends rcmail_output
                 $this->header('X-Frame-Options: sameorigin', true);
             }
         }
+
+        $this->add_csp_header();
     }
 
     /**
@@ -2718,5 +2721,42 @@ class rcmail_output_html extends rcmail_output
         }
 
         return $template_logo;
+    }
+
+    /**
+     * Add the Content-Security-Policy to the HTTP response headers (unless it
+     * is disabled).
+     */
+    protected function add_csp_header(): void
+    {
+        $csp = $this->get_csp_value('content_security_policy');
+        if ($csp !== false) {
+            $csp_parts = [$csp];
+            if ($this->csp_allow_remote_ressources || (isset($this->env['safemode']) && $this->env['safemode'] === true)) {
+                $csp_allow_remote = $this->get_csp_value('content_security_policy_add_allow_remote');
+                if ($csp_allow_remote !== false) {
+                    $csp_parts[] = $csp_allow_remote;
+                }
+            }
+            $this->header('Content-Security-Policy: ' . implode('; ', $csp_parts));
+        }
+    }
+
+    /**
+     * Get a CSP-related value from the config, stripped by surrounding
+     * whitespace and semicolons (and NUL byte, because it's included in the
+     * default second argument to trim(), too).
+     *
+     * @param $name string The key of the wanted config value
+     *
+     * @return string|false
+     */
+    protected function get_csp_value($name)
+    {
+        $value = $this->app->config->get($name);
+        if (is_string($value)) {
+            return trim($value, "; \n\r\t\v\x00");
+        }
+        return false;
     }
 }
