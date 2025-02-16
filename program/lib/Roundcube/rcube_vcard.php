@@ -231,7 +231,7 @@ class rcube_vcard
                                 && !in_array($k, ['pref', 'internet', 'voice', 'base64'])
                             ) {
                                 $k_uc = strtoupper($k);
-                                $subtype = $typemap[$k_uc] ?: $k;
+                                $subtype = !empty($typemap[$k_uc]) ? $typemap[$k_uc] : $k;
                                 break;
                             }
                         }

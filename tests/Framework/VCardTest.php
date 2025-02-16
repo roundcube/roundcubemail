@@ -32,6 +32,9 @@ class VCardTest extends TestCase
         $this->assertSame('roundcube.net', $vcard->organization, 'Test organization field');
         $this->assertCount(2, $vcard->email, 'List two e-mail addresses');
         $this->assertSame('roundcube@gmail.com', $vcard->email[0], 'Use PREF e-mail as primary');
+
+        $contact = $vcard->get_assoc();
+        $this->assertSame('The notes...', $contact['notes'][0]);
     }
 
     /**
