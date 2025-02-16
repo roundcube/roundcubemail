@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Set minimum required PHP version to 8.1 (#9599)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
 - Renamed composer.json.dist to composer.json (#9279)

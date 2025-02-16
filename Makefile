@@ -7,7 +7,7 @@ GITBRANCH=master
 GPGKEY=devs@roundcube.net
 VERSION=1.7-git
 SEDI=sed -i
-PHP_VERSION=7.3
+PHP_VERSION=8.1
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)

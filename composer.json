@@ -3,8 +3,8 @@
     "description": "The Roundcube Webmail suite",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": ">=7.3 <8.5",
-        "bacon/bacon-qr-code": "^2.0.8 || ^3.0.0",
+        "php": ">=8.1 <8.5",
+        "bacon/bacon-qr-code": "^3.0.0",
         "guzzlehttp/guzzle": "^7.9.2",
         "guzzlehttp/promises": "^2.0",
         "masterminds/html5": "~2.8.0 || ~2.9.0",
@@ -15,8 +15,7 @@
         "pear/net_smtp": "~1.12.0",
         "pear/pear-core-minimal": "~1.10.1",
         "roundcube/plugin-installer": "~0.3.5",
-        "roundcube/rtf-html-php": "^2.1",
-        "symfony/polyfill-php80": "^1.31"
+        "roundcube/rtf-html-php": "^2.1"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.13",
