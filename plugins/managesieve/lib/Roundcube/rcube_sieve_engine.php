@@ -2460,7 +2460,7 @@ class rcube_sieve_engine
                 'type' => 'text',
                 'name' => '_action_var' . $unit . '[' . $id . ']',
                 'id' => 'action_var' . $unit . $id,
-                'value' => $action[$unit] ?? '',
+                'value' => isset($action[$unit]) && !is_array($action[$unit]) ? $action[$unit] : '',
                 'size' => 35,
                 'class' => $this->error_class($id, 'action', $unit, 'action_var' . $unit),
             ]);
@@ -2599,7 +2599,7 @@ class rcube_sieve_engine
                 'type' => 'text',
                 'name' => "_action_addheader_value[{$id}]",
                 'id' => "action_addheader_value{$id}",
-                'value' => $action['value'] ?? '',
+                'value' => $action['type'] == 'addheader' ? ($action['value'] ?? '') : '',
                 'size' => 35,
                 'class' => $this->error_class($id, 'action', 'value', 'action_addheader_value'),
             ]);
