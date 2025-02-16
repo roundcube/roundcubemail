@@ -3334,18 +3334,24 @@ class rcube_sieve_engine
         ]);
 
         $select_op->add(rcube::Q($this->plugin->gettext('filtercontains')), 'contains');
-        $select_op->add(rcube::Q($this->plugin->gettext('filternotcontains')), 'notcontains');
-        $select_op->add(rcube::Q($this->plugin->gettext('filteris')), 'is');
-        $select_op->add(rcube::Q($this->plugin->gettext('filterisnot')), 'notis');
         if ($mode == 'all') {
+            $select_op->add(rcube::Q($this->plugin->gettext('filternotcontains')), 'notcontains');
+        }
+        $select_op->add(rcube::Q($this->plugin->gettext('filteris')), 'is');
+        if ($mode == 'all') {
+            $select_op->add(rcube::Q($this->plugin->gettext('filterisnot')), 'notis');
             $select_op->add(rcube::Q($this->plugin->gettext('filterexists')), 'exists');
             $select_op->add(rcube::Q($this->plugin->gettext('filternotexists')), 'notexists');
         }
         $select_op->add(rcube::Q($this->plugin->gettext('filtermatches')), 'matches');
-        $select_op->add(rcube::Q($this->plugin->gettext('filternotmatches')), 'notmatches');
+        if ($mode == 'all') {
+            $select_op->add(rcube::Q($this->plugin->gettext('filternotmatches')), 'notmatches');
+        }
         if (in_array('regex', $this->exts)) {
             $select_op->add(rcube::Q($this->plugin->gettext('filterregex')), 'regex');
-            $select_op->add(rcube::Q($this->plugin->gettext('filternotregex')), 'notregex');
+            if ($mode == 'all') {
+                $select_op->add(rcube::Q($this->plugin->gettext('filternotregex')), 'notregex');
+            }
         }
         if ($mode == 'all' && in_array('relational', $this->exts)) {
             $select_op->add(rcube::Q($this->plugin->gettext('countisgreaterthan')), 'count-gt');

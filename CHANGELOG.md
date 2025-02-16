@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
+
+## Release 1.6.10
+
 - IMAP: Partial support for ANNOTATE-EXPERIMENT-1 extension (RFC 5257)
 - OAuth: Support standard authentication with short-living password received with OIDC token (#9530)
 - Fix PHP warnings (#9616, #9611)
