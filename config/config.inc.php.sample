@@ -70,10 +70,10 @@ $config['skin'] = 'elastic';
 // $config['additional_message_headers']['X-Sender'] = null;
 //
 // You can also specify a callback function like this, which would be called when
-// the user clicks the "Send" button, allowing you to access to the rcube object.
+// the user clicks the "Send" button, giving you access to the rcube object.
 // This example adds an X-RC-USR header with a base64-encoded JSON string.
-// Do not use this in production unless you know what you are doing and your
-// users are informed via Terms of Service or other means of compliance.
+// Kindly take care not to expose personally identifiable information.
+// Do not use below example in production without adjustments and testing.
 // $config['additional_message_headers']['X-RC-USR'] = (function() {
 //                $d = json_encode([
 //                    'u' => rcube::get_instance()->get_user_name(),
