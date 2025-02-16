@@ -4452,6 +4452,26 @@ class rcube_imap extends rcube_storage
             }
         }
 
+        // If special folders are INBOX's subfolders we need to place them after INBOX, otherwise
+        // they won't be displayed in proper order in UI after we remove the namespace prefix (#9452)
+        // FIXME: All this looks complicated and fragile, other options?
+        if (!empty($special) && !empty($inbox) && $inbox[0] == 'INBOX'
+            && !empty($this->namespace['personal'])
+            && count($this->namespace['personal']) == 1
+        ) {
+            $insert = [];
+            foreach ($special as $idx => $spec_folder) {
+                if (str_starts_with($spec_folder, 'INBOX' . $this->delimiter)) {
+                    $insert[] = $spec_folder;
+                    unset($special[$idx]);
+                }
+            }
+            if (!empty($insert)) {
+                array_shift($inbox);
+                $inbox = array_merge(['INBOX'], $insert, $inbox);
+            }
+        }
+
         return array_merge(
             $inbox, // INBOX and its subfolders
             $special, // special folders and their subfolders

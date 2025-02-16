@@ -49,7 +49,7 @@ class ImapTest extends TestCase
     {
         // The sorting requires this locale.
         if (setlocale(\LC_ALL, 'en_US.UTF-8', 'en_US.utf8', 'en_US', 'en-US') === false) {
-            throw new \Error('This test requires `en_US` to be settable as locale, but those appear to not be present in your environment!');
+            throw new \Error('This test requires `en_US` to be settable as locale.');
         }
 
         $_SESSION['imap_delimiter'] = '.';
@@ -146,6 +146,50 @@ class ImapTest extends TestCase
             'Junk',
             'Other Users.Test2',
             'Shared.Test1',
+        ];
+
+        $result = $object->sort_folder_list($folders);
+
+        $this->assertSame($expected, $result);
+
+        // Test sorting when using INBOX/ as a personal namespace prefix (#9452)
+        $_SESSION['imap_delimiter'] = '/';
+        $_SESSION['imap_namespace'] = [
+            'personal' => [['INBOX/', '/']],
+            'other' => [['Other Users/', '/']],
+            'shared' => [['Shared/', '/']],
+        ];
+
+        foreach (['drafts', 'sent', 'junk', 'trash'] as $mbox) {
+            \rcube::get_instance()->config->set("{$mbox}_mbox", 'INBOX/' . ucfirst($mbox));
+        }
+
+        $object = new \rcube_imap();
+
+        $folders = [
+            'INBOX',
+            'INBOX/Joker',
+            'INBOX/Junk',
+            'INBOX/Trash',
+            'INBOX/Contacts',
+            'INBOX/Sent',
+            'INBOX/Sent/RIPE',
+            'INBOX/Calendar',
+            'INBOX/AJunk',
+            'INBOX/Drafts',
+        ];
+
+        $expected = [
+            'INBOX',
+            'INBOX/Drafts',
+            'INBOX/Sent',
+            'INBOX/Sent/RIPE',
+            'INBOX/Junk',
+            'INBOX/Trash',
+            'INBOX/AJunk',
+            'INBOX/Calendar',
+            'INBOX/Contacts',
+            'INBOX/Joker',
         ];
 
         $result = $object->sort_folder_list($folders);
