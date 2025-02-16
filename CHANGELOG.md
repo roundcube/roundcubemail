@@ -67,6 +67,7 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
 
 ## Release 1.6.10
 
