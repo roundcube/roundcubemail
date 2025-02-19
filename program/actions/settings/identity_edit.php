@@ -75,6 +75,7 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             $rcmail->output->send('identityadd');
         }
 
+        $rcmail->output->csp_allow_remote_ressources = true;
         $rcmail->output->send('identityedit');
     }
 

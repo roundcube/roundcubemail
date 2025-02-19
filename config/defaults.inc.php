@@ -1559,3 +1559,14 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+
+// The Content-Security-Policy to use if no remote objects are allowed to
+// be loaded. If you use plugins you might need to extend this.
+// Only change this if you know what you're doing! You can break the whole
+// application with changes to this setting!
+// To disable completely set the value to `false`;
+$config['content_security_policy'] = "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'";
+
+// Additions to the Content-Security-Policy to use if remote objects *are*
+// allowed to be loaded.
+$config['content_security_policy_add_allow_remote'] = 'img-src *; media-src *; font-src *; frame-src *';

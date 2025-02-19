@@ -24,6 +24,11 @@ class rcube_config
 {
     public const DEFAULT_SKIN = 'elastic';
 
+    public const DEFAULTS = [
+        'content_security_policy' => "default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'",
+        'content_security_policy_add_allow_remote' => 'img-src *; media-src *; font-src *; frame-src *',
+    ];
+
     /** @var string A skin configured in the config file (before being replaced by a user preference) */
     public $system_skin = 'elastic';
 
@@ -376,8 +381,12 @@ class rcube_config
     {
         if (isset($this->prop[$name])) {
             $result = $this->prop[$name];
-        } else {
+        } elseif (isset($def)) {
             $result = $def;
+        } elseif (isset(self::DEFAULTS[$name])) {
+            $result = self::DEFAULTS[$name];
+        } else {
+            $result = null;
         }
 
         $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);

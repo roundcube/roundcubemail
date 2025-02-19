@@ -680,6 +680,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         self::$HTML_MODE = $isHtml;
 
+        // We can't depend the "safemode" on the message being HTML or not
+        // because the user might want to change the editor after loading the
+        // page, and then add remote ressources.
+        $rcmail->output->csp_allow_remote_ressources = true;
+
         return $body;
     }
 
