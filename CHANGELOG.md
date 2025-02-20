@@ -68,6 +68,7 @@
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
 - Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
+- Render all email content parts in an individual iframe to mitigate scripting, redressing, and other attacks. (#9519)
 
 ## Release 1.6.10
 
@@ -85,6 +86,7 @@
 - Fix handling of binary mail parts (e.g. PDF) encoded with quoted-printable (#9728)
 - Fix links in comments and config to https:// where available (#9759, #9756)
 - Fix decoding of attachment names encoded using both RFC2231 and RFC2047 standards (#9725)
+- Clear "list is empty" message on loading a new list. Previously that message was still visible until the new list was fully loaded, which (if loading was slow) could give the impression that the newly loading is list empty, too. (#9006)
 
 ## Release 1.6.9
 

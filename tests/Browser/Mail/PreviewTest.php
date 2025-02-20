@@ -55,8 +55,10 @@ class PreviewTest extends TestCase
                     ->assertSeeIn('#remote-objects-message', 'To protect your privacy remote resources have been blocked.');
 
                 // Images
-                $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#v1attached > img', 'src'));
-                $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#v1remote > img', 'src'));
+                $browser->withinFrame('#message-htmlpart1 .framed-message-part', function ($browser) {
+                    $this->assertMatchesRegularExpression('/action=get/', $browser->attribute('p#attached > img', 'src'));
+                    $this->assertMatchesRegularExpression('/blocked/', $browser->attribute('p#remote > img', 'src'));
+                });
 
                 // Attachments list
                 $browser->assertMissing('#attachment-list');
@@ -118,7 +120,6 @@ class PreviewTest extends TestCase
 
             $txt = $browser->readDownloadedFile('lines.txt');
 
-            $this->assertTrue(strlen($txt) == 13);
             $this->assertSame("foo\r\nbar\r\ngna", $txt);
             $browser->removeDownloadedFile('lines.txt');
 
@@ -151,9 +152,7 @@ class PreviewTest extends TestCase
             $browser->withinFrame('#messagecontframe', static function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
-                $browser->assertSeeIn('.subject', 'Lines')
-                    ->assertSeeIn('.message-part div.pre', 'Plain text message body.')
-                    ->assertVisible('.message-part div.pre .sig');
+                $browser->assertSeeIn('.subject', 'Lines');
 
                 $browser->assertMissing('.header-headers')
                     ->click('a.headers-details')
@@ -163,6 +162,11 @@ class PreviewTest extends TestCase
                     ->assertDontSeeIn('.header.cc', 'test11@domain.tld')
                     ->assertSeeIn('.header.cc a.morelink', '2 more...')
                     ->click('.header.cc a.morelink');
+
+                $browser->withinFrame('#message-part1 .framed-message-part', static function ($browser) {
+                    $browser->assertSeeIn('div.pre', 'Plain text message body.')
+                        ->assertVisible('div.pre .sig');
+                });
             });
 
             $browser->with(new Dialog(), static function ($browser) {
