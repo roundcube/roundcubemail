@@ -656,7 +656,6 @@ $config['session_auth_name'] = null;
 $config['session_path'] = null;
 
 // Session samesite. Defaults to PHP session.cookie_samesite setting.
-// Requires PHP >= 7.3.0, see https://wiki.php.net/rfc/same-site-cookie for more info
 // Possible values: null (default), 'Lax', or 'Strict'
 $config['session_samesite'] = null;
 
@@ -1103,7 +1102,7 @@ $config['ldap_public']['Verisign'] = [
   // Note: To enable TLS use tls:// prefix
   'hosts'         => array('directory.verisign.com:389'),
   'ldap_version'  => 3,       // using LDAPv3
-  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind attempts. This is only supported in PHP >= 5.3.0 with OpenLDAP 2.x
+  'network_timeout' => 10,    // The timeout (in seconds) for connect + bind attempts.
   'user_specific' => false,   // If true the base_dn, bind_dn and bind_pass default to the user's IMAP login.
   // When 'user_specific' is enabled following variables can be used in base_dn/bind_dn config:
   // %fu - The full username provided, assumes the username is an email

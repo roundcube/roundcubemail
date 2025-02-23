@@ -7,7 +7,6 @@ download of a selection of messages in 1 zip file.
 Requirements
 ============
 * php_zip extension (including ZipArchive class)
-  Either install it via PECL or for PHP >= 5.2 compile with --enable-zip option
 
 License
 =======
