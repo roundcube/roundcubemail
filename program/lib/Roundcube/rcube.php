@@ -460,7 +460,7 @@ class rcube
         $sess_path = $this->config->get('session_path');
         $sess_samesite = $this->config->get('session_samesite');
         $lifetime = $this->config->get('session_lifetime', 0) * 60;
-        $is_secure = $this->config->get('use_https') || rcube_utils::https_check();
+        $is_secure = rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
