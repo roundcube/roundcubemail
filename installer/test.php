@@ -62,8 +62,8 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 
         echo '<ul class="configwarnings">';
         foreach ($messages['replaced'] as $msg) {
-            echo html::tag('li', null, html::span('propname', $msg['prop']) .
-                ' was replaced by ' . html::span('propname', $msg['replacement']));
+            echo html::tag('li', null, html::span('propname', $msg['prop'])
+                . ' was replaced by ' . html::span('propname', $msg['replacement']));
         }
         echo '</ul>';
     }
