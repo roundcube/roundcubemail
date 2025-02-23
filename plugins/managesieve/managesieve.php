@@ -107,7 +107,7 @@ class managesieve extends rcube_plugin
                 'I' => $dt->format('I'),
                 'O' => $dt->format('O'),
                 'P' => $dt->format('P'),
-                'p' => version_compare(\PHP_VERSION, '8.0.0') >= 0 ? $dt->format('p') : $dt->format('P'),
+                'p' => $dt->format('p'),
                 'T' => $dt->format('T'),
                 'Z' => $dt->format('Z'),
             ]);

@@ -19,8 +19,8 @@
  +-----------------------------------------------------------------------+
 */
 
-if (\PHP_VERSION_ID < 70300) {
-    exit('Unsupported PHP version. Required PHP >= 7.3.');
+if (\PHP_VERSION_ID < 80100) {
+    exit('Unsupported PHP version. Required PHP >= 8.1.');
 }
 
 // application constants

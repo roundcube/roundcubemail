@@ -18,23 +18,11 @@
  +-----------------------------------------------------------------------+
 */
 
-/**
- * Roundcube Framework Initialization
- */
-
+// Some users are not using Installer, so we'll check some critical PHP settings here
 $config = [
     'display_errors' => false,
     'log_errors' => true,
 ];
-
-// Some users are not using Installer, so we'll check some
-// critical PHP settings here. Only these, which doesn't provide
-// an error/warning in the logs later. See (#1486307).
-if (\PHP_MAJOR_VERSION < 8) {
-    $config += [
-        'mbstring.func_overload' => 0,
-    ];
-}
 
 // check these additional ini settings if not called via CLI
 if (\PHP_SAPI != 'cli') {
@@ -47,8 +35,10 @@ if (\PHP_SAPI != 'cli') {
 }
 
 foreach ($config as $optname => $optval) {
+    // @phpstan-ignore-next-line
     $ini_optval = filter_var(ini_get($optname), is_bool($optval) ? \FILTER_VALIDATE_BOOLEAN : \FILTER_VALIDATE_INT);
     if ($optval != $ini_optval && @ini_set($optname, $optval) === false) {
+        // @phpstan-ignore-next-line
         $optval = !is_bool($optval) ? $optval : ($optval ? 'On' : 'Off');
         $error = "ERROR: Wrong '{$optname}' option value and it wasn't possible to set it to required value ({$optval}).\n"
             . 'Check your PHP configuration (including php_admin_flag).';
