@@ -339,11 +339,11 @@ class rcmail_action_settings_index extends rcmail_action
                                 ]);
 
                                 $blocks['skin']['options'][$skin]['content'] = html::label(['class' => 'skinselection'],
-                                    html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id . $skin])) .
-                                    html::span('skinitem', $img) .
-                                    html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . html::br() .
-                                        html::span('skinauthor', !empty($meta['author_link']) ? $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]]) : '') . html::br() .
-                                        html::span('skinlicense', !empty($meta['license_link']) ? $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link'] : ''))
+                                    html::span('skinitem', $input->show($config['skin'], ['value' => $skin, 'id' => $field_id . $skin]))
+                                    . html::span('skinitem', $img)
+                                    . html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . html::br()
+                                        . html::span('skinauthor', !empty($meta['author_link']) ? $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]]) : '') . html::br()
+                                        . html::span('skinlicense', !empty($meta['license_link']) ? $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link'] : ''))
                                 );
                             }
                         }
@@ -377,8 +377,8 @@ class rcmail_action_settings_index extends rcmail_action
 
                     $blocks['browser']['options']['mailtoprotohandler'] = [
                         'content' => html::a(['href' => '#', 'id' => 'mailtoprotohandler'],
-                            rcube::Q($rcmail->gettext('mailtoprotohandler'))) .
-                        html::span('mailtoprotohandler-status', ''),
+                            rcube::Q($rcmail->gettext('mailtoprotohandler')))
+                        . html::span('mailtoprotohandler-status', ''),
                     ];
 
                     break;

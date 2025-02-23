@@ -33,6 +33,19 @@ class EnrichedTest extends TestCase
     }
 
     /**
+     * Test formatting conversion
+     *
+     * @dataProvider provide_formatting_cases
+     */
+    #[DataProvider('provide_formatting_cases')]
+    public function test_formatting($enriched, $expected)
+    {
+        $result = \rcube_enriched::to_html($enriched);
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * Data for test_formatting()
      */
     public static function provide_formatting_cases(): iterable
@@ -61,18 +74,5 @@ class EnrichedTest extends TestCase
             ['<indentright>', '<span style="padding-right: 20px">'],
             ['</indentright>', '</span>'],
         ];
-    }
-
-    /**
-     * Test formatting conversion
-     *
-     * @dataProvider provide_formatting_cases
-     */
-    #[DataProvider('provide_formatting_cases')]
-    public function test_formatting($enriched, $expected)
-    {
-        $result = \rcube_enriched::to_html($enriched);
-
-        $this->assertSame($expected, $result);
     }
 }

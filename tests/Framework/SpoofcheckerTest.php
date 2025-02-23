@@ -11,6 +11,15 @@ use PHPUnit\Framework\TestCase;
 class SpoofcheckerTest extends TestCase
 {
     /**
+     * @dataProvider provide_check_cases
+     */
+    #[DataProvider('provide_check_cases')]
+    public function test_check($email, $expected)
+    {
+        $this->assertSame($expected, \rcube_spoofchecker::check($email));
+    }
+
+    /**
      * Test data for test_check()
      */
     public static function provide_check_cases(): iterable
@@ -32,14 +41,5 @@ class SpoofcheckerTest extends TestCase
             // ['test@paypal' . "\xe2\x80\x8b" . '.com', true],
             // ['adoḅe.com', true], // ???????
         ];
-    }
-
-    /**
-     * @dataProvider provide_check_cases
-     */
-    #[DataProvider('provide_check_cases')]
-    public function test_check($email, $expected)
-    {
-        $this->assertSame($expected, \rcube_spoofchecker::check($email));
     }
 }

@@ -15,6 +15,15 @@ use PHPUnit\Framework\TestCase;
 class CharsetTest extends TestCase
 {
     /**
+     * @dataProvider provide_clean_cases
+     */
+    #[DataProvider('provide_clean_cases')]
+    public function test_clean($input, $output)
+    {
+        $this->assertSame($output, \rcube_charset::clean($input));
+    }
+
+    /**
      * Data for test_clean()
      */
     public static function provide_clean_cases(): iterable
@@ -31,12 +40,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_clean_cases
+     * @dataProvider provide_is_valid_cases
      */
-    #[DataProvider('provide_clean_cases')]
-    public function test_clean($input, $output)
+    #[DataProvider('provide_is_valid_cases')]
+    public function test_is_valid($input, $result)
     {
-        $this->assertSame($output, \rcube_charset::clean($input));
+        $this->assertSame($result, \rcube_charset::is_valid($input));
     }
 
     /**
@@ -61,12 +70,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_is_valid_cases
+     * @dataProvider provide_parse_charset_cases
      */
-    #[DataProvider('provide_is_valid_cases')]
-    public function test_is_valid($input, $result)
+    #[DataProvider('provide_parse_charset_cases')]
+    public function test_parse_charset($input, $output)
     {
-        $this->assertSame($result, \rcube_charset::is_valid($input));
+        $this->assertSame($output, \rcube_charset::parse_charset($input));
     }
 
     /**
@@ -81,12 +90,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_parse_charset_cases
+     * @dataProvider provide_convert_cases
      */
-    #[DataProvider('provide_parse_charset_cases')]
-    public function test_parse_charset($input, $output)
+    #[DataProvider('provide_convert_cases')]
+    public function test_convert($input, $output, $from, $to)
     {
-        $this->assertSame($output, \rcube_charset::parse_charset($input));
+        $this->assertSame($output, \rcube_charset::convert($input, $from, $to));
     }
 
     /**
@@ -118,25 +127,6 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_convert_cases
-     */
-    #[DataProvider('provide_convert_cases')]
-    public function test_convert($input, $output, $from, $to)
-    {
-        $this->assertSame($output, \rcube_charset::convert($input, $from, $to));
-    }
-
-    /**
-     * Data for test_utf7_to_utf8()
-     */
-    public static function provide_utf7_to_utf8_cases(): iterable
-    {
-        return [
-            ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
-        ];
-    }
-
-    /**
      * @dataProvider provide_utf7_to_utf8_cases
      */
     #[DataProvider('provide_utf7_to_utf8_cases')]
@@ -147,12 +137,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * Data for test_utf7imap_to_utf8()
+     * Data for test_utf7_to_utf8()
      */
-    public static function provide_utf7imap_to_utf8_cases(): iterable
+    public static function provide_utf7_to_utf8_cases(): iterable
     {
         return [
-            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
+            ['+BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
         ];
     }
 
@@ -167,12 +157,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * Data for test_utf8_to_utf7imap()
+     * Data for test_utf7imap_to_utf8()
      */
-    public static function provide_utf8_to_utf7imap_cases(): iterable
+    public static function provide_utf7imap_to_utf8_cases(): iterable
     {
         return [
-            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
+            ['&BCAEMARBBEEESwQ7BDoEOA-', 'Рассылки'],
         ];
     }
 
@@ -187,12 +177,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * Data for test_utf16_to_utf8()
+     * Data for test_utf8_to_utf7imap()
      */
-    public static function provide_utf16_to_utf8_cases(): iterable
+    public static function provide_utf8_to_utf7imap_cases(): iterable
     {
         return [
-            [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
+            ['Рассылки', '&BCAEMARBBEEESwQ7BDoEOA-'],
         ];
     }
 
@@ -207,13 +197,12 @@ class CharsetTest extends TestCase
     }
 
     /**
-     * Data for test_detect()
+     * Data for test_utf16_to_utf8()
      */
-    public static function provide_detect_cases(): iterable
+    public static function provide_utf16_to_utf8_cases(): iterable
     {
         return [
-            ['', '', 'UTF-8'],
-            ['a', 'UTF-8', 'UTF-8'],
+            [base64_decode('BCAEMARBBEEESwQ7BDoEOA=='), 'Рассылки'],
         ];
     }
 
@@ -230,10 +219,11 @@ class CharsetTest extends TestCase
     /**
      * Data for test_detect()
      */
-    public static function provide_detect_with_lang_cases(): iterable
+    public static function provide_detect_cases(): iterable
     {
         return [
-            [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
+            ['', '', 'UTF-8'],
+            ['a', 'UTF-8', 'UTF-8'],
         ];
     }
 
@@ -245,5 +235,15 @@ class CharsetTest extends TestCase
     {
         // @phpstan-ignore-next-line
         $this->assertSame($output, \rcube_charset::detect($input, $output, $lang));
+    }
+
+    /**
+     * Data for test_detect()
+     */
+    public static function provide_detect_with_lang_cases(): iterable
+    {
+        return [
+            [base64_decode('xeOl3KZXutkspUStbg=='), 'zh_TW', 'BIG-5'],
+        ];
     }
 }

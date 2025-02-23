@@ -775,16 +775,16 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                     'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
                                     'onload' => $supported ? '' : '$(this).parents(\'p.image-attachment\').show()',
                                 ])
-                            ) .
-                            html::span('image-filename', rcube::Q($attach_prop->filename)) .
-                            html::span('image-filesize', rcube::Q(self::message_part_size($attach_prop))) .
-                            html::span('attachment-links', ($supported ? $show_link . '&nbsp;' : '') . $download_link) .
-                            html::br(['style' => 'clear:both'])
+                            )
+                            . html::span('image-filename', rcube::Q($attach_prop->filename))
+                            . html::span('image-filesize', rcube::Q(self::message_part_size($attach_prop)))
+                            . html::span('attachment-links', ($supported ? $show_link . '&nbsp;' : '') . $download_link)
+                            . html::br(['style' => 'clear:both'])
                         );
                     } else {
                         $out .= html::tag('fieldset', 'image-attachment',
-                            html::tag('legend', 'image-filename', rcube::Q($attach_prop->filename)) .
-                            html::p(['align' => 'center'],
+                            html::tag('legend', 'image-filename', rcube::Q($attach_prop->filename))
+                            . html::p(['align' => 'center'],
                                 html::img([
                                     'src' => self::$MESSAGE->get_part_url($attach_prop->mime_id, 'image'),
                                     'title' => $attach_prop->filename,

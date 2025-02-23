@@ -274,6 +274,20 @@ class OutputHtmlTest extends TestCase
     }
 
     /**
+     * Test text to html conversion
+     *
+     * @dataProvider provide_conditions_cases
+     */
+    #[DataProvider('provide_conditions_cases')]
+    public function test_conditions($input, $output)
+    {
+        $object = new \rcmail_output_html();
+        $result = $object->just_parse($input);
+
+        $this->assertSame($output, $result);
+    }
+
+    /**
      * Data for test_conditions()
      */
     public static function provide_conditions_cases(): iterable
@@ -313,20 +327,6 @@ class OutputHtmlTest extends TestCase
             ["_start_<roundcube:if condition='1' />A<roundcube:elseif condition='1' />_end_", '_start_A'],
             ['_start_<roundcube:if />A<roundcube:endif />_end_', '_start__end_'],
         ];
-    }
-
-    /**
-     * Test text to html conversion
-     *
-     * @dataProvider provide_conditions_cases
-     */
-    #[DataProvider('provide_conditions_cases')]
-    public function test_conditions($input, $output)
-    {
-        $object = new \rcmail_output_html();
-        $result = $object->just_parse($input);
-
-        $this->assertSame($output, $result);
     }
 
     /**

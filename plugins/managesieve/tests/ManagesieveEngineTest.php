@@ -48,22 +48,6 @@ class ManagesieveEngineTest extends ActionTestCase
     }
 
     /**
-     * Data sets for strip_value() test
-     */
-    public static function provide_strip_value_cases(): iterable
-    {
-        return [
-            ['', ['']],
-            [' test ', [' test ', true, false]],
-            ['test', [' test ', false, true]],
-            ['test', ['test<p>']],
-            ['test<p>', ['test<p>', true]],
-            [['test1', 'test2'], [['test1<p>', 'test2<p>'], false]],
-            [['test1<p>', 'test2<p>'], [['test1<p>', 'test2<p>'], true]],
-        ];
-    }
-
-    /**
      * Test strip_value()
      *
      * @dataProvider provide_strip_value_cases
@@ -77,6 +61,22 @@ class ManagesieveEngineTest extends ActionTestCase
         $engine = new \rcube_sieve_engine($plugin);
 
         $this->assertSame($expected, invokeMethod($engine, 'strip_value', $args));
+    }
+
+    /**
+     * Data sets for strip_value() test
+     */
+    public static function provide_strip_value_cases(): iterable
+    {
+        return [
+            ['', ['']],
+            [' test ', [' test ', true, false]],
+            ['test', [' test ', false, true]],
+            ['test', ['test<p>']],
+            ['test<p>', ['test<p>', true]],
+            [['test1', 'test2'], [['test1<p>', 'test2<p>'], false]],
+            [['test1<p>', 'test2<p>'], [['test1<p>', 'test2<p>'], true]],
+        ];
     }
 
     /**

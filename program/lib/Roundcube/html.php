@@ -905,8 +905,8 @@ class html_table extends html
             foreach ($this->header->cells as $c => $col) {
                 $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
-            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib)) :
-                self::tag($row_tagname, ['class' => 'thead'], $rowcontent, parent::$common_attrib);
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib))
+                : self::tag($row_tagname, ['class' => 'thead'], $rowcontent, parent::$common_attrib);
         }
 
         foreach ($this->rows as $r => $row) {

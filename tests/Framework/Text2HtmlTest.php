@@ -11,6 +11,21 @@ use PHPUnit\Framework\TestCase;
 class Text2HtmlTest extends TestCase
 {
     /**
+     * Test text to html conversion
+     *
+     * @dataProvider provide_text2html_cases
+     */
+    #[DataProvider('provide_text2html_cases')]
+    public function test_text2html($input, $output, $options)
+    {
+        $t2h = new \rcube_text2html($input, false, $options);
+
+        $html = $t2h->get_html();
+
+        $this->assertSame($output, $html);
+    }
+
+    /**
      * Data for test_text2html()
      */
     public static function provide_text2html_cases(): iterable
@@ -108,21 +123,6 @@ class Text2HtmlTest extends TestCase
             'aaaa<blockquote>bbbb<br>cccc</blockquote><br>dddd<blockquote><blockquote>test</blockquote></blockquote>', $options];
 
         return $data;
-    }
-
-    /**
-     * Test text to html conversion
-     *
-     * @dataProvider provide_text2html_cases
-     */
-    #[DataProvider('provide_text2html_cases')]
-    public function test_text2html($input, $output, $options)
-    {
-        $t2h = new \rcube_text2html($input, false, $options);
-
-        $html = $t2h->get_html();
-
-        $this->assertSame($output, $html);
     }
 
     /**

@@ -10,6 +10,20 @@ use PHPUnit\Framework\TestCase;
  */
 class Html2textTest extends TestCase
 {
+    /**
+     * @dataProvider provide_html2text_cases
+     */
+    #[DataProvider('provide_html2text_cases')]
+    public function test_html2text($title, $in, $out)
+    {
+        $ht = new \rcube_html2text(null, false, \rcube_html2text::LINKS_NONE);
+
+        $ht->set_html($in);
+        $res = $ht->get_text();
+
+        $this->assertSame($out, $res, $title);
+    }
+
     public static function provide_html2text_cases(): iterable
     {
         return [
@@ -93,20 +107,6 @@ class Html2textTest extends TestCase
                 'out' => 'test',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider provide_html2text_cases
-     */
-    #[DataProvider('provide_html2text_cases')]
-    public function test_html2text($title, $in, $out)
-    {
-        $ht = new \rcube_html2text(null, false, \rcube_html2text::LINKS_NONE);
-
-        $ht->set_html($in);
-        $res = $ht->get_text();
-
-        $this->assertSame($out, $res, $title);
     }
 
     /**

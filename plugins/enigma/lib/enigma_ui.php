@@ -1105,8 +1105,8 @@ class enigma_ui
 
             // add box above the message body
             $p['content'] = html::p(['class' => 'enigmaattachment boxinformation aligned-buttons'],
-                html::span(null, rcube::Q($this->enigma->gettext('keyattfound'))) .
-                html::tag('button', [
+                html::span(null, rcube::Q($this->enigma->gettext('keyattfound')))
+                . html::tag('button', [
                         'onclick' => 'return ' . rcmail_output::JS_OBJECT_NAME . ".enigma_import_attachment('" . rcube::JQ($part) . "')",
                         'title' => $this->enigma->gettext('keyattimport'),
                         'class' => 'import btn-sm',

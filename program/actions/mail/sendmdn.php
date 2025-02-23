@@ -121,11 +121,11 @@ class rcmail_action_mail_sendmdn extends rcmail_action
 
             $to = rcube_mime::decode_mime_string($message->headers->to, $charset);
             $date = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
-            $body = $rcmail->gettext('yourmessage') . "\r\n\r\n" .
-                "\t" . $rcmail->gettext('to') . ": {$to}\r\n" .
-                "\t" . $rcmail->gettext('subject') . ": {$message->subject}\r\n" .
-                "\t" . $rcmail->gettext('date') . ": {$date}\r\n" .
-                "\r\n" . $rcmail->gettext('receiptnote');
+            $body = $rcmail->gettext('yourmessage') . "\r\n\r\n"
+                . "\t" . $rcmail->gettext('to') . ": {$to}\r\n"
+                . "\t" . $rcmail->gettext('subject') . ": {$message->subject}\r\n"
+                . "\t" . $rcmail->gettext('date') . ": {$date}\r\n"
+                . "\r\n" . $rcmail->gettext('receiptnote');
 
             $compose->headers(array_filter($headers));
             $compose->setContentType('multipart/report', ['report-type' => 'disposition-notification']);

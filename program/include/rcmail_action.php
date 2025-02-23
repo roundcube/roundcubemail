@@ -552,8 +552,8 @@ abstract class rcmail_action
             $button = new html_inputfield(['type' => 'button']);
             $content .= html::div('buttons',
                 $button->show($rcmail->gettext('close'), ['class' => 'button', 'onclick' => "$('#{$attrib['id']}').hide()"])
-                . ' ' .
-                $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'onclick' => $event])
+                . ' '
+                . $button->show($rcmail->gettext('upload'), ['class' => 'button mainaction', 'onclick' => $event])
             );
         }
 

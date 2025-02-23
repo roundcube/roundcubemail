@@ -73,6 +73,17 @@ class ManagesieveScriptTest extends TestCase
         $this->assertSame("require [\"vacation\"];\r\nvacation :subject \"a\" :from \"b\" \"a\";\r\n", $result);
     }
 
+    /**
+     * @dataProvider provide_tokenizer_cases
+     */
+    #[DataProvider('provide_tokenizer_cases')]
+    public function test_tokenizer($num, $input, $output)
+    {
+        $res = json_encode(\rcube_sieve_script::tokenize($input, $num));
+
+        $this->assertSame(trim($output), trim($res));
+    }
+
     public static function provide_tokenizer_cases(): iterable
     {
         return [
@@ -86,17 +97,6 @@ class ManagesieveScriptTest extends TestCase
             [0, "text:\r\ntest\r\n.\r\ntext:\r\ntest\r\n.\r\n", '["test","test"]'],
             [1, '"\a\\\\\"a"', '"a\\\\\"a"'],
         ];
-    }
-
-    /**
-     * @dataProvider provide_tokenizer_cases
-     */
-    #[DataProvider('provide_tokenizer_cases')]
-    public function test_tokenizer($num, $input, $output)
-    {
-        $res = json_encode(\rcube_sieve_script::tokenize($input, $num));
-
-        $this->assertSame(trim($output), trim($res));
     }
 
     public function test_escape_string()

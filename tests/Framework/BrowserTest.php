@@ -26,6 +26,11 @@ class BrowserTest extends TestCase
         $this->assertSame($mz, $object->mz, 'Check for MZ failed');
     }
 
+    public static function provide_browser_cases(): iterable
+    {
+        return static::extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
+    }
+
     /**
      * @dataProvider provide_os_cases
      */
@@ -38,6 +43,11 @@ class BrowserTest extends TestCase
         $this->assertSame($linux, $object->linux, 'Check Result of Linux');
         $this->assertSame($mac, $object->mac, 'Check Result of Mac');
         $this->assertSame($unix, $object->unix, 'Check Result of Unix');
+    }
+
+    public static function provide_os_cases(): iterable
+    {
+        return static::extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }
 
     /**
@@ -53,11 +63,6 @@ class BrowserTest extends TestCase
     public static function provide_version_cases(): iterable
     {
         return static::extractDataSet(['version']);
-    }
-
-    public static function provide_browser_cases(): iterable
-    {
-        return static::extractDataSet(['isOpera', 'isChrome', 'isIE', 'isEdge', 'isSafari', 'isMZ']);
     }
 
     public static function useragents()
@@ -153,11 +158,6 @@ class BrowserTest extends TestCase
                 'isMZ' => false,
             ],
         ];
-    }
-
-    public static function provide_os_cases(): iterable
-    {
-        return static::extractDataSet(['isWin', 'isLinux', 'isUnix', 'isMac']);
     }
 
     protected static function extractDataSet($keys)

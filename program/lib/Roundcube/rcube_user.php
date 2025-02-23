@@ -211,9 +211,9 @@ class rcube_user
         }
 
         $result = $this->db->query(
-            'UPDATE ' . $this->db->table_name('users', true) .
-            ' SET `preferences` = ?, `language` = ?' .
-            ' WHERE `user_id` = ?',
+            'UPDATE ' . $this->db->table_name('users', true)
+            . ' SET `preferences` = ?, `language` = ?'
+            . ' WHERE `user_id` = ?',
             $save_prefs,
             $this->language,
             $this->ID
@@ -374,8 +374,8 @@ class rcube_user
         $query_params[] = $iid;
         $query_params[] = $this->ID;
 
-        $sql = 'UPDATE ' . $this->db->table_name('identities', true) .
-            ' SET `changed` = ' . $this->db->now() . ', ' . implode(', ', $query_cols)
+        $sql = 'UPDATE ' . $this->db->table_name('identities', true)
+            . ' SET `changed` = ' . $this->db->now() . ', ' . implode(', ', $query_cols)
             . ' WHERE `identity_id` = ?'
                 . ' AND `user_id` = ?'
                 . ' AND `del` <> 1';

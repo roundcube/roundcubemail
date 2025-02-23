@@ -21,6 +21,17 @@ class HtmlTest extends TestCase
     }
 
     /**
+     * Test for attrib_string()
+     *
+     * @dataProvider provide_attrib_string_cases
+     */
+    #[DataProvider('provide_attrib_string_cases')]
+    public function test_attrib_string($arg1, $arg2, $expected)
+    {
+        $this->assertSame($expected, \html::attrib_string($arg1, $arg2));
+    }
+
+    /**
      * Data for test_attrib_string()
      */
     public static function provide_attrib_string_cases(): iterable
@@ -60,14 +71,14 @@ class HtmlTest extends TestCase
     }
 
     /**
-     * Test for attrib_string()
+     * Test for quote()
      *
-     * @dataProvider provide_attrib_string_cases
+     * @dataProvider provide_quote_cases
      */
-    #[DataProvider('provide_attrib_string_cases')]
-    public function test_attrib_string($arg1, $arg2, $expected)
+    #[DataProvider('provide_quote_cases')]
+    public function test_quote($str, $expected)
     {
-        $this->assertSame($expected, \html::attrib_string($arg1, $arg2));
+        $this->assertSame($expected, \html::quote($str));
     }
 
     /**
@@ -87,14 +98,14 @@ class HtmlTest extends TestCase
     }
 
     /**
-     * Test for quote()
+     * Test for parse_attrib_string()
      *
-     * @dataProvider provide_quote_cases
+     * @dataProvider provide_parse_attrib_string_cases
      */
-    #[DataProvider('provide_quote_cases')]
-    public function test_quote($str, $expected)
+    #[DataProvider('provide_parse_attrib_string_cases')]
+    public function test_parse_attrib_string($arg1, $expected)
     {
-        $this->assertSame($expected, \html::quote($str));
+        $this->assertSame($expected, \html::parse_attrib_string($arg1));
     }
 
     /**
@@ -128,16 +139,5 @@ class HtmlTest extends TestCase
                 ['href' => 'http://domain.tld/страница'],
             ],
         ];
-    }
-
-    /**
-     * Test for parse_attrib_string()
-     *
-     * @dataProvider provide_parse_attrib_string_cases
-     */
-    #[DataProvider('provide_parse_attrib_string_cases')]
-    public function test_parse_attrib_string($arg1, $expected)
-    {
-        $this->assertSame($expected, \html::parse_attrib_string($arg1));
     }
 }

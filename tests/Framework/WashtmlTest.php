@@ -375,6 +375,20 @@ class WashtmlTest extends TestCase
     }
 
     /**
+     * Test SVG cleanup
+     *
+     * @dataProvider provide_wash_svg_tests_cases
+     */
+    #[DataProvider('provide_wash_svg_tests_cases')]
+    public function test_wash_svg_tests($input, $expected)
+    {
+        $washer = new \rcube_washtml();
+        $washed = $washer->wash($input);
+
+        $this->assertSame($expected, $this->cleanupResult($washed), 'SVG content');
+    }
+
+    /**
      * Test cases for SVG tests
      */
     public static function provide_wash_svg_tests_cases(): iterable
@@ -484,17 +498,17 @@ class WashtmlTest extends TestCase
     }
 
     /**
-     * Test SVG cleanup
+     * Test various XSS issues
      *
-     * @dataProvider provide_wash_svg_tests_cases
+     * @dataProvider provide_wash_xss_tests_cases
      */
-    #[DataProvider('provide_wash_svg_tests_cases')]
-    public function test_wash_svg_tests($input, $expected)
+    #[DataProvider('provide_wash_xss_tests_cases')]
+    public function test_wash_xss_tests($input, $expected)
     {
-        $washer = new \rcube_washtml();
+        $washer = new \rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
         $washed = $washer->wash($input);
 
-        $this->assertSame($expected, $this->cleanupResult($washed), 'SVG content');
+        $this->assertSame($expected, $this->cleanupResult($washed), 'XSS issues');
     }
 
     /**
@@ -548,20 +562,6 @@ class WashtmlTest extends TestCase
                 '<body><math><ms x-washed="href">clickme</ms></math></body>',
             ],
         ];
-    }
-
-    /**
-     * Test various XSS issues
-     *
-     * @dataProvider provide_wash_xss_tests_cases
-     */
-    #[DataProvider('provide_wash_xss_tests_cases')]
-    public function test_wash_xss_tests($input, $expected)
-    {
-        $washer = new \rcube_washtml(['allow_remote' => true, 'html_elements' => ['body']]);
-        $washed = $washer->wash($input);
-
-        $this->assertSame($expected, $this->cleanupResult($washed), 'XSS issues');
     }
 
     /**

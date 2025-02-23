@@ -98,6 +98,18 @@ class SendmailTest extends ActionTestCase
     }
 
     /**
+     * @dataProvider provide_email_input_format_cases
+     */
+    #[DataProvider('provide_email_input_format_cases')]
+    public function test_email_input_format($input, $output, $charset)
+    {
+        $sendmail = new \rcmail_sendmail();
+        $sendmail->options['charset'] = $charset;
+
+        $this->assertSame($output, $sendmail->email_input_format($input));
+    }
+
+    /**
      * Data for test_convert()
      */
     public static function provide_email_input_format_cases(): iterable
@@ -149,18 +161,6 @@ class SendmailTest extends ActionTestCase
                 'UTF-8',
             ],
         ];
-    }
-
-    /**
-     * @dataProvider provide_email_input_format_cases
-     */
-    #[DataProvider('provide_email_input_format_cases')]
-    public function test_email_input_format($input, $output, $charset)
-    {
-        $sendmail = new \rcmail_sendmail();
-        $sendmail->options['charset'] = $charset;
-
-        $this->assertSame($output, $sendmail->email_input_format($input));
     }
 
     /**

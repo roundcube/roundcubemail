@@ -35,6 +35,20 @@ class BaseReplacerTest extends TestCase
     }
 
     /**
+     * Test absolute_url()
+     *
+     * @dataProvider provide_absolute_url_cases
+     */
+    #[DataProvider('provide_absolute_url_cases')]
+    public function test_absolute_url($path, $base, $expected)
+    {
+        $replacer = new \rcube_base_replacer('test');
+        $result = $replacer->absolute_url($path, $base);
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * Data for absolute_url() test
      */
     public static function provide_absolute_url_cases(): iterable
@@ -48,19 +62,5 @@ class BaseReplacerTest extends TestCase
             ['../test1', 'http://test/test2', 'http://test1'],
             ['../test1', 'http://test/test2/', 'http://test/test1'],
         ];
-    }
-
-    /**
-     * Test absolute_url()
-     *
-     * @dataProvider provide_absolute_url_cases
-     */
-    #[DataProvider('provide_absolute_url_cases')]
-    public function test_absolute_url($path, $base, $expected)
-    {
-        $replacer = new \rcube_base_replacer('test');
-        $result = $replacer->absolute_url($path, $base);
-
-        $this->assertSame($expected, $result);
     }
 }

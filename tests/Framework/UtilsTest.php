@@ -38,6 +38,15 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * @dataProvider provide_valid_email_cases
+     */
+    #[DataProvider('provide_valid_email_cases')]
+    public function test_valid_email($email, $title)
+    {
+        $this->assertTrue(\rcube_utils::check_email($email, false), $title);
+    }
+
+    /**
      * Valid email addresses for test_valid_email()
      */
     public static function provide_valid_email_cases(): iterable
@@ -62,6 +71,15 @@ class UtilsTest extends TestCase
             ['あいうえお@domain.com', 'Unicode char as address'],
             ['test@domain.2legit2quit', 'Extended TLD'],
         ];
+    }
+
+    /**
+     * @dataProvider provide_invalid_email_cases
+     */
+    #[DataProvider('provide_invalid_email_cases')]
+    public function test_invalid_email($email, $title)
+    {
+        $this->assertFalse(\rcube_utils::check_email($email, false), $title);
     }
 
     /**
@@ -98,21 +116,12 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_valid_email_cases
+     * @dataProvider provide_valid_ip_cases
      */
-    #[DataProvider('provide_valid_email_cases')]
-    public function test_valid_email($email, $title)
+    #[DataProvider('provide_valid_ip_cases')]
+    public function test_valid_ip($ip)
     {
-        $this->assertTrue(\rcube_utils::check_email($email, false), $title);
-    }
-
-    /**
-     * @dataProvider provide_invalid_email_cases
-     */
-    #[DataProvider('provide_invalid_email_cases')]
-    public function test_invalid_email($email, $title)
-    {
-        $this->assertFalse(\rcube_utils::check_email($email, false), $title);
+        $this->assertTrue(\rcube_utils::check_ip($ip));
     }
 
     /**
@@ -130,6 +139,15 @@ class UtilsTest extends TestCase
             ['2001::'],
             ['2001::1'],
         ];
+    }
+
+    /**
+     * @dataProvider provide_invalid_ip_cases
+     */
+    #[DataProvider('provide_invalid_ip_cases')]
+    public function test_invalid_ip($ip)
+    {
+        $this->assertFalse(\rcube_utils::check_ip($ip));
     }
 
     /**
@@ -152,21 +170,17 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_valid_ip_cases
+     * Test for rep_specialchars_output
+     *
+     * @dataProvider provide_rep_specialchars_output_cases
      */
-    #[DataProvider('provide_valid_ip_cases')]
-    public function test_valid_ip($ip)
+    #[DataProvider('provide_rep_specialchars_output_cases')]
+    public function test_rep_specialchars_output($type, $mode, $str, $res)
     {
-        $this->assertTrue(\rcube_utils::check_ip($ip));
-    }
+        $result = \rcube_utils::rep_specialchars_output(
+            $str, $type ?: 'html', $mode ?: 'strict');
 
-    /**
-     * @dataProvider provide_invalid_ip_cases
-     */
-    #[DataProvider('provide_invalid_ip_cases')]
-    public function test_invalid_ip($ip)
-    {
-        $this->assertFalse(\rcube_utils::check_ip($ip));
+        $this->assertSame($result, $res);
     }
 
     /**
@@ -185,20 +199,6 @@ class UtilsTest extends TestCase
             ['', '', '<a>', '&lt;a&gt;'],
             ['', 'remove', '<a>', ''],
         ];
-    }
-
-    /**
-     * Test for rep_specialchars_output
-     *
-     * @dataProvider provide_rep_specialchars_output_cases
-     */
-    #[DataProvider('provide_rep_specialchars_output_cases')]
-    public function test_rep_specialchars_output($type, $mode, $str, $res)
-    {
-        $result = \rcube_utils::rep_specialchars_output(
-            $str, $type ?: 'html', $mode ?: 'strict');
-
-        $this->assertSame($result, $res);
     }
 
     /**
@@ -368,6 +368,17 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Test parse_css_block()
+     *
+     * @dataProvider provide_explode_style_cases
+     */
+    #[DataProvider('provide_explode_style_cases')]
+    public function test_explode_style($input, $output)
+    {
+        $this->assertSame($output, \rcube_utils::parse_css_block($input));
+    }
+
+    /**
      * Test-Cases for parse_css_block() test
      */
     public static function provide_explode_style_cases(): iterable
@@ -434,17 +445,6 @@ class UtilsTest extends TestCase
                 [['font-family', '"新細明體","serif"'], ['color', 'red']],
             ],
         ];
-    }
-
-    /**
-     * Test parse_css_block()
-     *
-     * @dataProvider provide_explode_style_cases
-     */
-    #[DataProvider('provide_explode_style_cases')]
-    public function test_explode_style($input, $output)
-    {
-        $this->assertSame($output, \rcube_utils::parse_css_block($input));
     }
 
     /**
@@ -776,6 +776,34 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Test idn_to_ascii
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     *
+     * @dataProvider provide_idn_convert_cases
+     */
+    #[DataProvider('provide_idn_convert_cases')]
+    public function test_idn_to_ascii($decoded, $encoded)
+    {
+        $this->assertSame(\rcube_utils::idn_to_ascii($decoded), $encoded);
+    }
+
+    /**
+     * Test idn_to_utf8
+     *
+     * @param string $decoded Decoded email address
+     * @param string $encoded Encoded email address
+     *
+     * @dataProvider provide_idn_convert_cases
+     */
+    #[DataProvider('provide_idn_convert_cases')]
+    public function test_idn_to_utf8($decoded, $encoded)
+    {
+        $this->assertSame(\rcube_utils::idn_to_utf8($encoded), $decoded);
+    }
+
+    /**
      * Test-Cases for IDN to ASCII and IDN to UTF-8
      */
     public static function provide_idn_convert_cases(): iterable
@@ -808,40 +836,23 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * Test idn_to_ascii
-     *
-     * @param string $decoded Decoded email address
-     * @param string $encoded Encoded email address
-     *
-     * @dataProvider provide_idn_convert_cases
-     */
-    #[DataProvider('provide_idn_convert_cases')]
-    public function test_idn_to_ascii($decoded, $encoded)
-    {
-        $this->assertSame(\rcube_utils::idn_to_ascii($decoded), $encoded);
-    }
-
-    /**
-     * Test idn_to_utf8
-     *
-     * @param string $decoded Decoded email address
-     * @param string $encoded Encoded email address
-     *
-     * @dataProvider provide_idn_convert_cases
-     */
-    #[DataProvider('provide_idn_convert_cases')]
-    public function test_idn_to_utf8($decoded, $encoded)
-    {
-        $this->assertSame(\rcube_utils::idn_to_utf8($encoded), $decoded);
-    }
-
-    /**
      * Test idn_to_ascii with non-domain input (#6224)
      */
     public function test_idn_to_ascii_special()
     {
         $this->assertSame(\rcube_utils::idn_to_ascii('H.S'), 'H.S');
         $this->assertSame(\rcube_utils::idn_to_ascii('d.-h.lastname'), 'd.-h.lastname');
+    }
+
+    /**
+     * Test parse_host()
+     *
+     * @dataProvider provide_parse_host_cases
+     */
+    #[DataProvider('provide_parse_host_cases')]
+    public function test_parse_host($name, $host, $result)
+    {
+        $this->assertSame(\rcube_utils::parse_host($name, $host), $result);
     }
 
     /**
@@ -858,14 +869,14 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * Test parse_host()
+     * Test parse_host_uri()
      *
-     * @dataProvider provide_parse_host_cases
+     * @dataProvider provide_parse_host_uri_cases
      */
-    #[DataProvider('provide_parse_host_cases')]
-    public function test_parse_host($name, $host, $result)
+    #[DataProvider('provide_parse_host_uri_cases')]
+    public function test_parse_host_uri($args, $result)
     {
-        $this->assertSame(\rcube_utils::parse_host($name, $host), $result);
+        $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
     }
 
     /**
@@ -889,14 +900,14 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * Test parse_host_uri()
+     * Test remove_subject_prefix
      *
-     * @dataProvider provide_parse_host_uri_cases
+     * @dataProvider provide_remove_subject_prefix_cases
      */
-    #[DataProvider('provide_parse_host_uri_cases')]
-    public function test_parse_host_uri($args, $result)
+    #[DataProvider('provide_remove_subject_prefix_cases')]
+    public function test_remove_subject_prefix($mode, $subject, $result)
     {
-        $this->assertSame($result, call_user_func_array('rcube_utils::parse_host_uri', $args));
+        $this->assertSame(\rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
     /**
@@ -914,17 +925,6 @@ class UtilsTest extends TestCase
             ['forward', 'Fwd: Re: Test subject forward', 'Re: Test subject forward'],
             ['forward', 'Fw: Re: Test subject forward', 'Re: Test subject forward'],
         ];
-    }
-
-    /**
-     * Test remove_subject_prefix
-     *
-     * @dataProvider provide_remove_subject_prefix_cases
-     */
-    #[DataProvider('provide_remove_subject_prefix_cases')]
-    public function test_remove_subject_prefix($mode, $subject, $result)
-    {
-        $this->assertSame(\rcube_utils::remove_subject_prefix($subject, $mode), $result);
     }
 
     /**

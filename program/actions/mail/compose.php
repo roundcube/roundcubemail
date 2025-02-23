@@ -514,17 +514,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             // include GoogieSpell
             $rcmail->output->include_script('googiespell.js');
             $rcmail->output->add_script(sprintf(
-                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n" .
-                "googie.lang_chck_spell = \"%s\";\n" .
-                "googie.lang_rsm_edt = \"%s\";\n" .
-                "googie.lang_close = \"%s\";\n" .
-                "googie.lang_revert = \"%s\";\n" .
-                "googie.lang_no_error_found = \"%s\";\n" .
-                "googie.lang_learn_word = \"%s\";\n" .
-                "googie.setLanguages(%s);\n" .
-                "googie.setCurrentLanguage('%s');\n" .
-                "googie.setDecoration(false);\n" .
-                "googie.decorateTextarea(rcmail.env.composebody);\n",
+                "var googie = new GoogieSpell('%s/images/googiespell/','%s&lang=', %s);\n"
+                . "googie.lang_chck_spell = \"%s\";\n"
+                . "googie.lang_rsm_edt = \"%s\";\n"
+                . "googie.lang_close = \"%s\";\n"
+                . "googie.lang_revert = \"%s\";\n"
+                . "googie.lang_no_error_found = \"%s\";\n"
+                . "googie.lang_learn_word = \"%s\";\n"
+                . "googie.setLanguages(%s);\n"
+                . "googie.setCurrentLanguage('%s');\n"
+                . "googie.setDecoration(false);\n"
+                . "googie.decorateTextarea(rcmail.env.composebody);\n",
                 $rcmail->output->asset_url($rcmail->output->get_skin_path()),
                 $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
                 !empty($dictionary) ? 'true' : 'false',
@@ -936,12 +936,12 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $prefix .= "\n";
         } else {
             $prefix = sprintf(
-                '<br /><p>-------- ' . $rcmail->gettext('originalmessage') . ' --------</p>' .
-                '<table border="0" cellpadding="0" cellspacing="0"><tbody>' .
-                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
-                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
-                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>' .
-                '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>',
+                '<br /><p>-------- ' . $rcmail->gettext('originalmessage') . ' --------</p>'
+                . '<table border="0" cellpadding="0" cellspacing="0"><tbody>'
+                . '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>'
+                . '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>'
+                . '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>'
+                . '<tr><th align="right" nowrap="nowrap" valign="baseline">%s: </th><td>%s</td></tr>',
                 $rcmail->gettext('subject'), rcube::Q($message->subject),
                 $rcmail->gettext('date'), rcube::Q($date),
                 $rcmail->gettext('from'), rcube::Q($message->get_header('from'), 'replace'),

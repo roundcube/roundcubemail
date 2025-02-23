@@ -117,6 +117,23 @@ class SearchTest extends ActionTestCase
     }
 
     /**
+     * Test search_input() method
+     *
+     * @dataProvider provide_search_input_cases
+     */
+    #[DataProvider('provide_search_input_cases')]
+    public function test_search_input($input, $output)
+    {
+        if (is_array($input)) {
+            $result = call_user_func_array('rcmail_action_mail_search::search_input', $input);
+        } else {
+            $result = \rcmail_action_mail_search::search_input($input);
+        }
+
+        $this->assertSame($output, $result);
+    }
+
+    /**
      * Test data for test_search_input()
      */
     public static function provide_search_input_cases(): iterable
@@ -287,19 +304,14 @@ class SearchTest extends ActionTestCase
     }
 
     /**
-     * Test search_input() method
+     * Test search_interval_criteria() method
      *
-     * @dataProvider provide_search_input_cases
+     * @dataProvider provide_search_interval_criteria_cases
      */
-    #[DataProvider('provide_search_input_cases')]
-    public function test_search_input($input, $output)
+    #[DataProvider('provide_search_interval_criteria_cases')]
+    public function test_search_interval_criteria($input, $output)
     {
-        if (is_array($input)) {
-            $result = call_user_func_array('rcmail_action_mail_search::search_input', $input);
-        } else {
-            $result = \rcmail_action_mail_search::search_input($input);
-        }
-
+        $result = \rcmail_action_mail_search::search_interval_criteria($input);
         $this->assertSame($output, $result);
     }
 
@@ -323,17 +335,5 @@ class SearchTest extends ActionTestCase
             ['-1M', 'BEFORE ' . (new \DateTime('now', $utcTz))->sub($month)->format('j-M-Y')],
             ['-1Y', 'BEFORE ' . (new \DateTime('now', $utcTz))->sub($year)->format('j-M-Y')],
         ];
-    }
-
-    /**
-     * Test search_interval_criteria() method
-     *
-     * @dataProvider provide_search_interval_criteria_cases
-     */
-    #[DataProvider('provide_search_interval_criteria_cases')]
-    public function test_search_interval_criteria($input, $output)
-    {
-        $result = \rcmail_action_mail_search::search_interval_criteria($input);
-        $this->assertSame($output, $result);
     }
 }
