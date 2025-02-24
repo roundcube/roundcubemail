@@ -2392,6 +2392,7 @@ function rcube_webmail() {
             flagged_children: flags.flagged_children || 0,
             parent_uid: flags.parent_uid || 0,
             selected: this.select_all_mode || this.message_list.in_selection(uid),
+            prio: flags.prio ? flags.prio : 0,
             ml: flags.ml ? 1 : 0,
             ctype: flags.ctype,
             mbox: flags.mbox,
