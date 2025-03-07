@@ -55,6 +55,7 @@ class PrintTest extends TestCase
             });
 
             // Check iframed body.
+            $browser->waitUntilMissing('.loading');
             $browser->withinFrame('#message-part1 .framed-message-part', static function ($browser) {
                 $browser->assertSeeIn('div.pre', 'Plain text message body.')
                     ->assertVisible('div.pre .sig');
