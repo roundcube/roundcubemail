@@ -50,6 +50,7 @@ class PreviewTest extends TestCase
             $browser->withinFrame('#messagecontframe', function ($browser) {
                 $browser->waitFor('img.contactphoto');
 
+                $browser->waitUntilMissing('.loading');
                 // Privacy warning
                 $browser->assertVisible('#remote-objects-message.alert-warning')
                     ->assertSeeIn('#remote-objects-message', 'To protect your privacy remote resources have been blocked.');
