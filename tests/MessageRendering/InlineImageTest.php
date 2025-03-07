@@ -7,13 +7,19 @@ namespace Tests\MessageRendering;
  */
 class InlineImageTest extends MessageRenderingTestCase
 {
-    public function testImageFromDataUri()
+    public function testImageFromDataUri(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('trinity-eb9e559b-1926-4b09-990d-80e9da9a9c35-1723163091112@3c-app-mailcom-bs14');
+        $domxpath = $this->renderMessage('trinity-eb9e559b-1926-4b09-990d-80e9da9a9c35-1723163091112@3c-app-mailcom-bs14');
 
         $this->assertSame('***SPAM***  wir gratulieren Ihnen recht herzlich.', $this->getScrubbedSubject($domxpath));
 
-        $divElements = $domxpath->query('//div[@class="rcmBody"]/div/div');
+        $bodyParts = $domxpath->query('//iframe[contains(@class, "framed-message-part")]');
+        $this->assertCount(1, $bodyParts, 'Message body parts');
+        $params = $this->getSrcParams($bodyParts[0]);
+        $this->assertSrcUrlParams($params, '1');
+        $domxpath_body = $this->renderIframedBodyContent($params);
+
+        $divElements = $domxpath_body->query('//body/div/div');
         $this->assertCount(3, $divElements, 'Body HTML DIV elements');
 
         $this->assertSame('wir gratulieren Ihnen recht herzlich.', $divElements[0]->textContent);
@@ -24,7 +30,7 @@ class InlineImageTest extends MessageRenderingTestCase
         $this->assertStringContainsString('?_task=mail&_action=get&_mbox=INBOX&_uid=', $src);
         $this->assertStringContainsString('&_part=2&_embed=1&_mimeclass=image', $src);
 
-        $this->assertSame('v1signature', $divElements[2]->attributes->getNamedItem('class')->textContent);
+        $this->assertSame('signature', $divElements[2]->attributes->getNamedItem('class')->textContent);
         // This matches a non-breakable space.
         $this->assertMatchesRegularExpression('|^\x{00a0}$|u', $divElements[2]->textContent);
 

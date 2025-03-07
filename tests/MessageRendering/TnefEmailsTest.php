@@ -7,32 +7,45 @@ namespace Tests\MessageRendering;
  */
 class TnefEmailsTest extends MessageRenderingTestCase
 {
-    public function testTnefEmail1()
+    public function testTnefEmail1(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('631a672e15f742a98035f1cb7efe1f8db6310138@example.net');
+        $domxpath = $this->renderMessage('631a672e15f742a98035f1cb7efe1f8db6310138@example.net');
 
-        $this->assertSame('', $this->getBody($domxpath));
+        $bodyParts = $domxpath->query('//iframe[contains(@class, "framed-message-part")]');
+        $this->assertCount(0, $bodyParts, 'Message body parts');
 
         $attchNames = $domxpath->query('//span[@class="attachment-name"]');
         $this->assertCount(1, $attchNames, 'Attachments');
         $this->assertStringStartsWith('AUTHORS', $attchNames[0]->textContent);
     }
 
-    public function testTnefEmail2()
+    public function testTnefEmail2(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('b6057653610f8041b120965652ff7f26a1a8f02d@example.net');
+        $domxpath = $this->renderMessage('b6057653610f8041b120965652ff7f26a1a8f02d@example.net');
 
-        $this->assertStringStartsWith('THE BILL OF RIGHTSAmendments 1-10 of the', $this->getBody($domxpath));
+        $bodyParts = $domxpath->query('//iframe[contains(@class, "framed-message-part")]');
+        $this->assertCount(1, $bodyParts, 'Message body parts');
+        $params = $this->getSrcParams($bodyParts[0]);
+        $this->assertSrcUrlParams($params, 'winmail.1.html');
+        $body = $this->getIframedContent($params);
+
+        $this->assertStringStartsWith('THE BILL OF RIGHTSAmendments 1-10 of the', trim($body));
 
         $attchNames = $domxpath->query('//span[@class="attachment-name"]');
         $this->assertCount(0, $attchNames, 'Attachments');
     }
 
-    public function testTnefEmail3()
+    public function testTnefEmail3(): void
     {
-        $domxpath = $this->runAndGetHtmlOutputDomxpath('cde7964538f283305609ec9146b4a80c121fd0ae@example.net');
+        $domxpath = $this->renderMessage('cde7964538f283305609ec9146b4a80c121fd0ae@example.net');
 
-        $bodyParagraphs = $domxpath->query('//div[@class="rcmBody"]/p');
+        $bodyParts = $domxpath->query('//iframe[contains(@class, "framed-message-part")]');
+        $this->assertCount(1, $bodyParts, 'Message body parts');
+        $params = $this->getSrcParams($bodyParts[0]);
+        $this->assertSrcUrlParams($params, 'winmail.1.html');
+        $domxpath_body = $this->renderIframedBodyContent($params);
+
+        $bodyParagraphs = $domxpath_body->query('//p');
         $this->assertCount(8, $bodyParagraphs, 'Body HTML paragraphs');
         $this->assertSame('Casdasdfasdfasd', $bodyParagraphs[0]->textContent);
         $this->assertSame('Casdasdfasdfasd', $bodyParagraphs[1]->textContent);

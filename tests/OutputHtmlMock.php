@@ -120,6 +120,21 @@ class OutputHtmlMock extends \rcmail_output_html
     }
 
     /**
+     * Write output on a blank slate: no env, no scripts, no injected
+     * stylesheets.
+     *
+     * @param string $content HTML content
+     */
+    #[\Override]
+    public function write_blank_slate($content): void
+    {
+        ob_start();
+        parent::write_blank_slate($content);
+        $this->output = ob_get_contents();
+        ob_end_clean();
+    }
+
+    /**
      * Parse a specific skin template and deliver to stdout (or return)
      *
      * @param string $name  Template name

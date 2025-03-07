@@ -35,22 +35,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         // This resets X-Frame-Options for framed output (#6688)
         $rcmail->output->page_headers();
 
-        // show loading page
-        if (!empty($_GET['_preload'])) {
-            unset($_GET['_preload']);
-            unset($_GET['_safe']);
-
-            $url = $rcmail->url($_GET + ['_mimewarning' => 1, '_embed' => 1]);
-            $message = $rcmail->gettext('loadingdata');
-
-            header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
-            echo "<html>\n<head>\n"
-                . '<meta http-equiv="refresh" content="0; url=' . rcube::Q($url) . '">' . "\n"
-                . '<meta http-equiv="content-type" content="text/html; charset=' . RCUBE_CHARSET . '">' . "\n"
-                . "</head>\n<body>\n{$message}\n</body>\n</html>";
-            $rcmail->output->sendExit();
-        }
-
         $attachment = new rcmail_attachment_handler();
         $mimetype = $attachment->mimetype;
         $filename = $attachment->filename;
@@ -197,8 +181,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                     }
                     // html warning with a button to load the file anyway
                     else {
-                        $rcmail->output = new rcmail_html_page();
-                        $rcmail->output->register_inline_warning(
+                        $inline_warning = $this->make_inline_warning(
                             $rcmail->gettext([
                                 'name' => 'attachmentvalidationerror',
                                 'vars' => [
@@ -209,8 +192,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                             $rcmail->gettext('showanyway'),
                             $rcmail->url(array_merge($_GET, ['_nocheck' => 1]))
                         );
-
-                        $rcmail->output->write();
+                        $this->send_html('', $inline_warning);
                     }
 
                     $rcmail->output->sendExit();
@@ -232,40 +214,36 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 }
             }
 
+            // Deliver plaintext with HTML-markup
+            if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
+                $body = $attachment->print_body();
+                // Don't use rcmail_html_page here, because that always loads
+                // embed.css and blocks loading other css files (though calling
+                // reset() in write()). Also we don't need all the processing that it
+                // brings.
+                $styles_path = $rcmail->output->get_skin_file('/styles/styles.css');
+                $body = html::tag('html', [],
+                    html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
+                    . html::tag('body', [], $body)
+                );
+                $rcmail->output->sendExit($body);
+            }
+
             // deliver part content
             if ($mimetype == 'text/html' && empty($_GET['_download'])) {
-                $rcmail->output = new rcmail_html_page();
-                $out = '';
-
                 // Check if we have enough memory to handle the message in it
                 // #1487424: we need up to 10x more memory than the body
                 if (!rcube_utils::mem_check($attachment->size * 10)) {
-                    $rcmail->output->register_inline_warning(
+                    $inline_warning = $this->make_inline_warning(
                         $rcmail->gettext('messagetoobig'),
                         $rcmail->gettext('download'),
                         $rcmail->url(array_merge($_GET, ['_download' => 1]))
                     );
+                    $this->send_html('', $inline_warning);
                 } else {
                     // render HTML body
-                    $out = $attachment->html();
-
-                    // insert remote objects warning into HTML body
-                    if (self::$REMOTE_OBJECTS) {
-                        $rcmail->output->register_inline_warning(
-                            $rcmail->gettext('blockedresources'),
-                            $rcmail->gettext('allow'),
-                            $rcmail->url(array_merge($_GET, ['_safe' => 1]))
-                        );
-                    } else {
-                        // Use strict security policy to make sure no javascript is executed
-                        // TODO: Make the above "blocked resources button" working with strict policy
-                        // TODO: Move this to rcmail_html_page::write()?
-                        header("Content-Security-Policy: script-src 'none'");
-                    }
+                    $this->send_html($attachment->html());
                 }
-
-                $rcmail->output->write($out);
-                $rcmail->output->sendExit();
             }
 
             // add filename extension if missing
@@ -357,16 +335,75 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+            $url['_embed'] = 1;
             unset($url['_frame']);
         }
 
         $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
 
         $attrib['src'] = $rcmail->url($url);
+        $attrib['sandbox'] = 'allow-same-origin';
 
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
 
         return html::iframe($attrib);
+    }
+
+    /**
+     * @param $contents       string Content to send as HTTP body
+     * @param $inline_warning string Something to inject into the beginning of the content
+     */
+    protected function send_html($contents, $inline_warning = null): void
+    {
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->reset(true);
+
+        // load embed.css from skin folder (if exists)
+        $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
+        if ($embed_css = $rcmail->output->get_skin_file($embed_css)) {
+            $rcmail->output->include_css($embed_css);
+        } else {  // set default styles for warning blocks inside the attachment part frame
+            $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
+                '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
+                                        . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n"
+                . '.rcmail-inline-buttons { margin-bottom:0 }'
+            ));
+        }
+
+        if (empty($contents)) {
+            $contents = '<html><body></body></html>';
+        }
+
+        if ($inline_warning) {
+            $body_start = 0;
+            if ($body_pos = strpos($contents, '<body')) {
+                $body_start = strpos($contents, '>', $body_pos) + 1;
+            }
+
+            $contents = substr_replace($contents, $inline_warning, $body_start, 0);
+        }
+
+        $rcmail->output->write_blank_slate($contents);
+        $rcmail->output->sendExit();
+    }
+
+    /**
+     * @param $text         string Text content
+     * @param $button_label string Text for the optional button to append to the content
+     * @param $button_url   string URL of the button
+     *
+     * @return string HTML code as string
+     */
+    protected function make_inline_warning($text, $button_label = null, $button_url = null): string
+    {
+        $text = html::span(null, $text);
+
+        if ($button_label) {
+            $onclick = "location.href = '{$button_url}'";
+            $button = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
+            $text .= html::p(['class' => 'rcmail-inline-buttons'], $button);
+        }
+
+        return html::div(['class' => 'rcmail-inline-message rcmail-inline-warning'], $text);
     }
 }

@@ -199,7 +199,11 @@ class rcmail_attachment_handler
                 $result = fwrite($fp, $result) !== false;
             }
         } elseif ($this->message) {
-            $result = $this->message->get_part_body($this->part->mime_id, false, 0, $fp);
+            // Formatting also changes newlines, converts from charsets, etc.
+            // Thus we only do this for parts that are to be shown in the
+            // browser, not for other parts, or if the part is downloaded.
+            $formatting_wanted = $this->part->ctype_primary === 'text' && !$this->download;
+            $result = $this->message->get_part_body($this->part->mime_id, $formatting_wanted, 0, $fp);
 
             // check connection status
             if (!$fp && $this->size && empty($result)) {
@@ -291,6 +295,16 @@ class rcmail_attachment_handler
         return $this->body(0, -1);
     }
 
+    public function print_body()
+    {
+        $rcmail = rcmail::get_instance();
+        $body_args = [
+            'safe' => $this->message->is_safe,
+            'plain' => !$rcmail->config->get('prefer_html'),
+        ];
+        return rcmail_action_mail_index::print_body($this->body(), $this->part, $body_args);
+    }
+
     /**
      * Returns formatted HTML if the attachment is HTML
      */
@@ -309,7 +323,13 @@ class rcmail_attachment_handler
         // show images?
         $is_safe = $this->is_safe();
 
-        return rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false]);
+        if (isset($this->part->replaces)) {
+            $wash_replacements = $this->part->replaces;
+        } else {
+            $wash_replacements = [];
+        }
+
+        return rcmail_action_mail_index::wash_html($body, ['safe' => $is_safe, 'inline_html' => false], $wash_replacements);
     }
 
     /**
