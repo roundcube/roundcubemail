@@ -248,29 +248,8 @@ function rcube_webmail() {
             parent.rcmail.unlock_frame();
         }
 
-        if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show')) {
-            document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
-                // Resize twice initially: first time when the iframe's
-                // document was parsed, to already provide roughly the
-                // correct height; second time when all resources have been
-                // loaded, to finally ensure the correct height with all
-                // images etc.
-                iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
-                iframe.addEventListener('load', () => {
-                    // Hide "Loading data" message.
-                    $(iframe).siblings('.loading').hide();
-                    // Show remote objects notice
-                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
-                        $(this.gui_objects.remoteobjectsmsg).show();
-                        this.enable_command('load-remote', true);
-                    }
-                    this.resize_preview_iframe(iframe);
-                });
-                // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
-                iframe.setAttribute('src', iframe.dataset.src);
-                // Also run on window resizes, because the changed text flow could need more space.
-                window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
-            });
+        if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show' || this.env.action === 'print')) {
+            this.handleContentIframes();
         }
 
         // enable general commands
@@ -492,7 +471,7 @@ function rcube_webmail() {
                 // show printing dialog unless decryption must be done first
                 else if (this.env.action == 'print' && this.env.uid) {
                     if (!this.env.is_pgp_content && !this.env.pgp_mime_part) {
-                        this.print_dialog();
+                        this.afterAllContentIframesLoaded(() => this.print_dialog());
                     }
                 }
 
@@ -4025,8 +4004,10 @@ function rcube_webmail() {
         this.env.browser_capabilities.pgpmime = 1;
         var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
             fn = function (kr) {
-                ref.mailvelope_keyring = kr;
-                ref.mailvelope_init(action, kr);
+                this.afterAllContentIframesLoaded(() => {
+                    ref.mailvelope_keyring = kr;
+                    ref.mailvelope_init(action, kr);
+                });
             };
 
         mailvelope.getVersion().then(function (v) {
@@ -10695,6 +10676,54 @@ function rcube_webmail() {
         // Add a few pixels to avoid problems with wrapped lines.
         iframe.style.height = wantedHeight + 20 + 'px';
         iframe.resizePreviewIframeTimer = null;
+    };
+
+    this.handleContentIframes = function () {
+        iframe_loaded_promises = [];
+        window.allContentIframesLoaded = false;
+        document.querySelectorAll('iframe.framed-message-part').forEach((iframe) => {
+            promise = new Promise((resolve, reject) => {
+                // Resize twice initially: first time when the iframe's
+                // document was parsed, to already provide roughly the
+                // correct height; second time when all resources have been
+                // loaded, to finally ensure the correct height with all
+                // images etc.
+                iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
+                iframe.addEventListener('load', () => {
+                    // Hide "Loading data" message.
+                    $(iframe).siblings('.loading').hide();
+                    // Show remote objects notice
+                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
+                        $(this.gui_objects.remoteobjectsmsg).show();
+                        this.enable_command('load-remote', true);
+                    }
+                    this.resize_preview_iframe(iframe);
+                    resolve();
+                });
+                // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
+                iframe.setAttribute('src', iframe.dataset.src);
+                // Also run on window resizes, because the changed text flow could need more space.
+                window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
+            });
+            iframe_loaded_promises.push(promise);
+        });
+
+        Promise.all(iframe_loaded_promises)
+            .then(() => {
+                window.allContentIframesLoaded = true;
+                // Add a short timeout to allow the iframes to finish rendering.
+                setTimeout(() => window.dispatchEvent(new Event('allContentIframesLoaded')), 50);
+            });
+    };
+
+    this.afterAllContentIframesLoaded = function (callback) {
+        if (window.allContentIframesLoaded === true) {
+            callback();
+        } else {
+            window.addEventListener('allContentIframesLoaded', () => {
+                callback();
+            });
+        }
     };
 } // end object rcube_webmail
 
