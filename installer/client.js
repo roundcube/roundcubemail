@@ -46,3 +46,20 @@ function removehostfield(row)
   var container = document.getElementById('defaulthostlist');
   container.removeChild(row);
 }
+
+function smtp_auth_switch(input)
+{
+    var user = document.getElementById('cfgsmtpuser');
+    var pass = document.getElementById('cfgsmtppass');
+    if (input.checked) {
+        user.value = '%u';
+        pass.value = '%p';
+    } else {
+        if (user.value == '%u') {
+            user.value = '';
+        }
+        if (pass.value == '%p') {
+            pass.value = '';
+        }
+    }
+}

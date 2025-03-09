@@ -272,10 +272,12 @@ $config['smtp_host'] = 'localhost:587';
 
 // SMTP username (if required)
 // Note: %u variable will be replaced with current user's username
+// Note: To disable user authentication set smtp_user and smtp_pass to ''.
 $config['smtp_user'] = '%u';
 
 // SMTP password (if required)
 // Note: When set to '%p' current user's password will be used
+// Note: To disable user authentication set smtp_user and smtp_pass to ''.
 $config['smtp_pass'] = '%p';
 
 // SMTP AUTH type (DIGEST-MD5, CRAM-MD5, LOGIN, PLAIN or empty to use
