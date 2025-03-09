@@ -445,22 +445,23 @@ echo $text_smtphost->show($RCI->getprop('smtp_host', 'localhost:587'));
 <dd>
 <?php
 
-$text_smtpuser = new html_inputfield(['name' => '_smtp_user', 'size' => 20, 'id' => 'cfgsmtpuser']);
-$text_smtppass = new html_inputfield(['name' => '_smtp_pass', 'size' => 20, 'id' => 'cfgsmtppass']);
+$text_smtpuser = new html_inputfield(['name' => '_smtp_user', 'size' => 20, 'id' => 'cfgsmtpuser', 'placeholder' => 'username']);
+$text_smtppass = new html_inputfield(['name' => '_smtp_pass', 'size' => 20, 'id' => 'cfgsmtppass', 'placeholder' => 'password']);
 echo $text_smtpuser->show($RCI->getprop('smtp_user'));
 echo $text_smtppass->show($RCI->getprop('smtp_pass'));
 
 ?>
-<div>SMTP username and password (if required)</div>
-<p>
+<div>
 <?php
 
-$check_smtpuser = new html_checkbox(['name' => '_smtp_user_u', 'id' => 'cfgsmtpuseru']);
+$check_smtpuser = new html_checkbox(['name' => '_smtp_user_u', 'id' => 'cfgsmtpuseru', 'onchange' => 'smtp_auth_switch(this)']);
 echo $check_smtpuser->show($RCI->getprop('smtp_user') == '%u' || !empty($_POST['_smtp_user_u']) ? 1 : 0, ['value' => 1]);
 
 ?>
-<label for="cfgsmtpuseru">Use the current IMAP username and password for SMTP authentication</label>
-</p>
+<label for="cfgsmtpuseru">Use the current (IMAP) username and password</label>
+</div>
+<p>SMTP username and password (if required)</p>
+<p class="hint">Note: To disable SMTP authentication uncheck the checkbox above and leave the inputs empty.</p>
 </dd>
 
 <dt class="propname">smtp_log</dt>

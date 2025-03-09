@@ -68,6 +68,7 @@
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
 - Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
+- Improve installer to fix confusion about disabling SMTP authentication (#9801)
 
 ## Release 1.6.10
 
