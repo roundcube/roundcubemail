@@ -71,7 +71,7 @@ function rcube_webmail() {
         popup_width: 1150,
         popup_width_small: 900,
         thread_padding: '15px',
-        browser_capabilities: {}
+        browser_capabilities: {},
     };
 
     // create protected reference to myself
