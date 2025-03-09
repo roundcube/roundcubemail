@@ -71,6 +71,7 @@ function rcube_webmail() {
         popup_width: 1150,
         popup_width_small: 900,
         thread_padding: '15px',
+        browser_capabilities: {}
     };
 
     // create protected reference to myself
@@ -10461,10 +10462,6 @@ function rcube_webmail() {
 
     // Checks browser capabilities e.g. PDF support, TIF support
     this.browser_capabilities_check = function () {
-        if (!this.env.browser_capabilities) {
-            this.env.browser_capabilities = {};
-        }
-
         $.each(['pdf', 'flash', 'tiff', 'webp', 'pgpmime'], function () {
             if (ref.env.browser_capabilities[this] === undefined) {
                 ref.env.browser_capabilities[this] = ref[this + '_support_check']();
@@ -10474,10 +10471,6 @@ function rcube_webmail() {
 
     // Returns browser capabilities string
     this.browser_capabilities = function () {
-        if (!this.env.browser_capabilities) {
-            return '';
-        }
-
         var n, ret = [];
 
         for (n in this.env.browser_capabilities) {
