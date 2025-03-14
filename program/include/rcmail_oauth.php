@@ -149,6 +149,18 @@ class rcmail_oauth
     }
 
     /**
+     * Check if current OAUTH token is valid, attempt to refresh if possible/needed.
+     *
+     * Method intended for plugins that need to make sure the OAUTH "session" is valid.
+     *
+     * @return bool
+     */
+    public function is_token_valid()
+    {
+        return isset($_SESSION['oauth_token']) && $this->check_token_validity($_SESSION['oauth_token']);
+    }
+
+    /**
      * Helper method to decode a JWT
      * 
      * @param string $jwt
@@ -509,6 +521,7 @@ class rcmail_oauth
         if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             return $this->refresh_access_token($token) !== false;
         }
+
         return false;
     }
 
