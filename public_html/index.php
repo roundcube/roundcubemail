@@ -190,7 +190,7 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
 }
 
 // end session
-elseif ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
+elseif ($RCMAIL->task == 'logout' && !empty($_SESSION['user_id'])) {
     $RCMAIL->request_security_check(rcube_utils::INPUT_GET | rcube_utils::INPUT_POST);
 
     $userdata = [
@@ -207,7 +207,7 @@ elseif ($RCMAIL->task == 'logout' && isset($_SESSION['user_id'])) {
 }
 
 // check session and auth cookie
-elseif ($RCMAIL->task != 'login' && $_SESSION['user_id']) {
+elseif ($RCMAIL->task != 'login' && !empty($_SESSION['user_id'])) {
     if (!$RCMAIL->session->check_auth()) {
         $RCMAIL->kill_session();
         $session_error = 'sessionerror';
