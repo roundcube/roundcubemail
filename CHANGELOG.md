@@ -4,6 +4,7 @@
 
 - Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
 - Improve installer to fix confusion about disabling SMTP authentication (#9801)
+- Fix PHP warning in index.php (#9813)
 
 ## Release 1.6.10
 
