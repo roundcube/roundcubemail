@@ -334,6 +334,20 @@ class rcmail_oauth
     }
 
     /**
+     * Check if current OAUTH token is valid, attempt to refresh if possible/needed.
+     *
+     * Method intended for plugins that need to make sure the OAUTH "session" is valid.
+     *
+     * @return bool
+     */
+    public function is_token_valid()
+    {
+        $state = isset($_SESSION['oauth_token']) ? $this->check_token_validity($_SESSION['oauth_token']) : self::TOKEN_ERROR;
+
+        return $state == self::TOKEN_REFRESHED || $state == self::TOKEN_STILL_VALID;
+    }
+
+    /**
      * Getter for the last error occurred
      *
      * @return mixed
