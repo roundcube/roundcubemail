@@ -14,9 +14,13 @@
  |   This is the public entry point for all HTTP requests to the         |
  |   Roundcube Installer.                                                |
  +-----------------------------------------------------------------------+
- | Author: Thomas Bruederli <roundcube@gmail.com>                        |
  | Author: Aleksander Machniak <alec@alec.pl>                            |
  +-----------------------------------------------------------------------+
 */
+
+if (!file_exists(__DIR__ . '/../installer/index.php')) {
+    http_response_code(404);
+    exit;
+}
 
 require __DIR__ . '/../installer/index.php';
