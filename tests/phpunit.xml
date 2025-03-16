@@ -2,21 +2,21 @@
 <phpunit
   bootstrap="bootstrap.php"
   colors="true"
-  convertDeprecationsToExceptions="true"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
+  failOnDeprecation="true"
+  failOnNotice="true"
+  failOnWarning="true"
+  displayDetailsOnPhpunitDeprecations="true"
 >
-  <coverage>
+  <source>
     <include>
       <directory>../program/lib</directory>
       <directory>../program/include</directory>
       <directory>../program/actions</directory>
       <directory>../plugins</directory>
     </include>
-  </coverage>
+  </source>
   <extensions>
-    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
   </extensions>
   <testsuites>
     <testsuite name="tests">
