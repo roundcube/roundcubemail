@@ -5,7 +5,6 @@
   failOnDeprecation="true"
   failOnNotice="true"
   failOnWarning="true"
-  displayDetailsOnPhpunitDeprecations="true"
 >
   <source>
     <include>
