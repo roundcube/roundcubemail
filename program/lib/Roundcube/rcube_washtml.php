@@ -593,7 +593,7 @@ class rcube_washtml
                             }
 
                             foreach ($ns_nodes as $ns) {
-                                if (isset($ns->nodeName) && isset($ns->nodeValue) // @phpstan-ignore property.notFound
+                                if (isset($ns->nodeName) && isset($ns->nodeValue)
                                     && $ns->nodeName != 'xmlns:xml'
                                     && preg_match('/^[a-zA-Z:-]+$/', $ns->nodeName)
                                     && strpos($ns->nodeValue, '://')
