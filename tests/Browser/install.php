@@ -54,7 +54,7 @@ class Installer extends ChromeDriverCommand
 
         $data = file_put_contents($archive, $response->getBody());
 
-        $binary = $this->extract($version, $archive);
+        $binary = $this->extract($archive);
 
         $this->rename($binary, $os);
 

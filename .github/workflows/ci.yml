@@ -70,7 +70,7 @@ jobs:
       - name: Setup composer
         run: |
             composer require "kolab/net_ldap3:~1.1.1" --no-update
-            composer require "laravel/dusk:^7.9" --no-update
+            composer require "laravel/dusk:^8.3" --no-update
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
