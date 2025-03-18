@@ -99,6 +99,7 @@ class rcmail_oauth
             $this->rcmail->plugins->register_hook('login_failed', [$this, 'login_failed']);
             $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
             $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
+            $this->rcmail->plugins->register_hook('keep-alive', [$this, 'refresh']);
         }
     }
 
@@ -499,8 +500,25 @@ class rcmail_oauth
      */
     protected function mask_auth_data(&$data)
     {
+        $refresh_interval = $this->rcmail->config->get('refresh_interval');
+
         // compute absolute token expiration date
-        $data['expires'] = time() + $data['expires_in'] - 10;
+        if (empty($data['expires_in'])) {
+            // expires_in is recommended but not required
+            // TODO: This probably should be a config option
+            $data['expires'] = null;
+        } elseif (!isset($data['refresh_token'])) {
+            // refresh_token is optional, there will be no refreshes
+            $data['expires'] = time() + $data['expires_in'] - 5;
+        } elseif ($data['expires_in'] <= $refresh_interval) {
+            rcube::raise_error(sprintf('Token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
+            // note: remove 10 sec by security (avoid tangent issues)
+            $data['expires'] = time() + $data['expires_in'] - 10;
+        } else {
+            // try to request a refresh before it's too late according to the refesh interval
+            // note: remove 10 sec by security (avoid tangent issues)
+            $data['expires'] = time() + $data['expires_in'] - $refresh_interval - 10;
+        }
 
         // encrypt refresh token if provided
         if (isset($data['refresh_token'])) {
@@ -518,7 +536,7 @@ class rcmail_oauth
      */
     protected function check_token_validity($token)
     {
-        if ($token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
+        if (isset($token['expires']) && $token['expires'] < time() && isset($token['refresh_token']) && empty($this->last_error)) {
             return $this->refresh_access_token($token) !== false;
         }
 
