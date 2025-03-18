@@ -319,6 +319,7 @@ class rcmail_oauth
         $this->rcmail->plugins->register_hook('unauthenticated', [$this, 'unauthenticated']);
 
         $this->rcmail->plugins->register_hook('refresh', [$this, 'refresh']);
+        $this->rcmail->plugins->register_hook('keep-alive', [$this, 'refresh']);
     }
 
     /**
