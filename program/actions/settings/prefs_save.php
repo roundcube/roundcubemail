@@ -100,6 +100,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'spellcheck_ignore_caps' => isset($_POST['_spellcheck_ignore_caps']),
                     'show_sig' => self::prefs_input_int('show_sig'),
                     'reply_mode' => self::prefs_input_int('reply_mode'),
+                    'enable_autolink' => isset($_POST['_enable_autolink']),
                     'sig_below' => isset($_POST['_sig_below']),
                     'strip_existing_sig' => isset($_POST['_strip_existing_sig']),
                     'sig_separator' => isset($_POST['_sig_separator']),

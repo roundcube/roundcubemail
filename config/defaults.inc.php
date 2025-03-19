@@ -1016,6 +1016,9 @@ $config['spellcheck_ignore_nums'] = false;
 // Makes that words with symbols will be ignored (e.g. g@@gle)
 $config['spellcheck_ignore_syms'] = false;
 
+// Automatically create hyperlinks when a user types a valid, complete URL, in the HTML editor
+$config['enable_autolink'] = true;
+
 // Number of lines at the end of a message considered to contain the signature.
 // Increase this value if signatures are not properly detected and colored
 $config['sig_max_lines'] = 15;

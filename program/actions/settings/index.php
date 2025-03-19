@@ -660,6 +660,7 @@ class rcmail_action_settings_index extends rcmail_action
                 case 'compose':
                     $blocks = [
                         'main' => ['name' => rcube::Q($rcmail->gettext('mainoptions'))],
+                        'editor' => ['name' => rcube::Q($rcmail->gettext('editoroptions'))],
                         'sig' => ['name' => rcube::Q($rcmail->gettext('signatureoptions'))],
                         'spellcheck' => ['name' => rcube::Q($rcmail->gettext('spellcheckoptions'))],
                         'advanced' => ['name' => rcube::Q($rcmail->gettext('advancedoptions'))],
@@ -823,6 +824,20 @@ class rcmail_action_settings_index extends rcmail_action
                         $blocks['main']['options']['reply_mode'] = [
                             'title' => html::label($field_id, rcube::Q($rcmail->gettext('whenreplying'))),
                             'content' => $select->show(intval($config['reply_mode'])),
+                        ];
+                    }
+
+                    if (!isset($no_override['enable_autolink'])) {
+                        if (!$current) {
+                            continue 2;
+                        }
+
+                        $field_id = 'rcmfd_enable_autolink';
+                        $input = new html_checkbox(['name' => '_enable_autolink', 'id' => $field_id, 'value' => 1]);
+
+                        $blocks['editor']['options']['enable_autolink'] = [
+                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('enableautolink'))),
+                            'content' => $input->show($rcmail->config->get('enable_autolink', true) ? 1 : 0),
                         ];
                     }
 
