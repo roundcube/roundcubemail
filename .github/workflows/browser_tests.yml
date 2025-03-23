@@ -45,10 +45,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 # v2.32.0
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, fileinfo, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, ldap, intl, pspell
@@ -56,7 +56,7 @@ jobs:
           coverage: none
 
       - name: Setup NPM
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
         with:
           node-version: '16'
 
@@ -72,7 +72,7 @@ jobs:
       - name: Upload screenshots as artifacts
         # Upload screenshot if the test suite failed.
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
           name: screenshots
           path: tests/Browser/screenshots
