@@ -62,8 +62,9 @@ class rcmail_action_mail_list extends rcmail_action_mail_index
         // register layout change
         if ($layout && preg_match('/^[a-zA-Z_-]+$/', $layout)) {
             $rcmail->output->set_env('layout', $layout);
-            if (!in_array('layout', $dont_override))
+            if (!in_array('layout', $dont_override)) {
                 $save_arr['layout'] = $layout;
+            }
             // force header replace on layout change
             if (!empty($_SESSION['list_attrib']['columns'])) {
                 $cols = $_SESSION['list_attrib']['columns'];
