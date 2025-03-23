@@ -26,6 +26,13 @@ It includes a custom framework with an IMAP library derived from [IlohaMail][ilo
 and requires a set of external libraries (see composer.json and jsdeps.json files).
 
 
+RELEASES
+--------
+
+Roundcubemail follows the semantic versioning rules for releases. For more details please read [the RELEASE_MANAGEMENT
+file](RELEASE_MANAGEMENT.md).
+
+
 INSTALLATION
 ------------
 For detailed instructions on how to install Roundcube webmail on your server,
