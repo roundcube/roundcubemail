@@ -345,6 +345,7 @@ abstract class rcmail_action
         $rcmail = rcmail::get_instance();
         $spellcheck = intval($rcmail->config->get('enable_spellcheck'));
         $spelldict = intval($rcmail->config->get('spellcheck_dictionary'));
+        $autolink = intval($rcmail->config->get('enable_autolink', true));
         $disabled_plugins = [];
         $disabled_buttons = [];
         $extra_plugins = [];
@@ -352,6 +353,10 @@ abstract class rcmail_action
 
         if (!$spellcheck) {
             $disabled_plugins[] = 'spellchecker';
+        }
+
+        if (!$autolink) {
+            $disabled_plugins[] = 'autolink';
         }
 
         $hook = $rcmail->plugins->exec_hook('html_editor', [
