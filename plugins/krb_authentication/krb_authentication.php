@@ -63,11 +63,8 @@ class krb_authentication extends rcube_plugin
                 $args['host'] = rcube_utils::idn_to_ascii(rcube_utils::parse_host($host));
             }
 
-            if (!empty($_SERVER['REMOTE_USER'])) {
-                $args['user'] = $_SERVER['REMOTE_USER'];
-                $args['pass'] = null;
-            }
-
+            $args['user'] = $_SERVER['REMOTE_USER'];
+            $args['pass'] = null;
             $args['cookiecheck'] = false;
             $args['valid'] = true;
         }

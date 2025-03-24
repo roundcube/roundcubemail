@@ -660,7 +660,8 @@ class rcube_csv2vcard
             }
         }
 
-        if (!empty($contact['gender']) && ($gender = strtolower($contact['gender']))) {
+        if (!empty($contact['gender'])) {
+            $gender = strtolower($contact['gender']);
             if (!in_array($gender, ['male', 'female'])) {
                 unset($contact['gender']);
             }

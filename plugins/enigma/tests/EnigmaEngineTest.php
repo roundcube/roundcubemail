@@ -18,7 +18,7 @@ class EnigmaEngineTest extends TestCase
 
         $engine->password_handler();
 
-        $this->assertTrue(!array_key_exists('enigma_pass', $_SESSION));
+        $this->assertFalse(array_key_exists('enigma_pass', $_SESSION)); // @phpstan-ignore-line
         $this->assertSame([], $engine->get_passwords());
 
         $_POST = ['_keyid' => 'abc', '_passwd' => '123<a>456'];
@@ -26,7 +26,7 @@ class EnigmaEngineTest extends TestCase
         $time = time();
         $engine->password_handler();
 
-        $store = unserialize($rcube->decrypt($_SESSION['enigma_pass']));
+        $store = unserialize($rcube->decrypt($_SESSION['enigma_pass'])); // @phpstan-ignore-line
 
         $this->assertCount(2, $store['ABC']);
         $this->assertSame('123<a>456', $store['ABC'][0]);

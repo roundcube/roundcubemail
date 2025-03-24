@@ -688,9 +688,9 @@ class rcube_ldap extends rcube_addressbook
             $attrs = [];
 
             foreach ((array) $entry['objectclass'] as $objectclass) {
-                if (($member_attr = $this->get_group_member_attr([$objectclass], ''))
-                    && ($member_attr = strtolower($member_attr)) && !in_array($member_attr, $attrs)
-                ) {
+                $member_attr = $this->get_group_member_attr([$objectclass], '');
+                $member_attr = $member_attr ? strtolower($member_attr) : null;
+                if ($member_attr && !in_array($member_attr, $attrs)) {
                     $members = $this->_list_group_members($dn, $entry, $member_attr, $count);
                     $group_members = array_merge($group_members, $members);
                     $attrs[] = $member_attr;
