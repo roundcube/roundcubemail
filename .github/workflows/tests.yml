@@ -37,10 +37,6 @@ jobs:
       - name: Install Aspell/Hunspell
         run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
-      - name: Fix for PHP 8.4
-        run: composer config platform.php 8.1
-        if: matrix.php >= 8.4
-
       - name: Execute tests
         run: .ci/run_tests.sh
 
