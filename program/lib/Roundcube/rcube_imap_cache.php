@@ -490,7 +490,7 @@ class rcube_imap_cache
             }
         }
 
-        unset($msg->flags);
+        $msg->flags = [];
 
         $msg = $this->db->encode($msg, true);
         $expires = $this->db->param($this->ttl ? $this->db->now($this->ttl) : 'NULL', rcube_db::TYPE_SQL);
