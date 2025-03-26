@@ -46,7 +46,7 @@ class rcube_cache
     /**
      * Object factory
      *
-     * @param string     $type    Engine type ('db', 'memcache', 'apc', 'redis')
+     * @param string     $type    Engine type ('db', 'memcache', 'apc', 'apcu', 'redis')
      * @param int        $userid  User identifier
      * @param string     $prefix  Key name prefix
      * @param int|string $ttl     Expiration time of memcache/apc items
