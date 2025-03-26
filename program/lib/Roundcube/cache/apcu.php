@@ -20,7 +20,7 @@
 */
 
 /**
- * Interface implementation class for accessing APC cache
+ * Interface implementation class for accessing APCu cache
  */
 class rcube_cache_apcu extends rcube_cache
 {
