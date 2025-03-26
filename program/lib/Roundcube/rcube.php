@@ -215,7 +215,7 @@ class rcube
      * Initialize and get user cache object
      *
      * @param string     $name    Cache identifier
-     * @param string     $type    Cache type ('db', 'apc', 'memcache', 'redis')
+     * @param string     $type    Cache type ('db', 'apc', 'apcu', 'memcache', 'redis')
      * @param string|int $ttl     Expiration time for cache items
      * @param bool       $packed  Enables/disables data serialization
      * @param bool       $indexed Use indexed cache

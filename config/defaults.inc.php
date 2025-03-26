@@ -240,7 +240,7 @@ $config['imap_disabled_caps'] = [];
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc', 'redis' and 'memcache' or 'memcached'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apc', 'apcu', 'redis' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -460,7 +460,7 @@ $config['oauth_password_claim'] = null;
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
+// Type of LDAP cache. Supported values: 'db', 'apc', 'apcu' and 'memcache' or 'memcached'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
