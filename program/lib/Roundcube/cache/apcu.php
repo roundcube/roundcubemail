@@ -38,7 +38,7 @@ class rcube_cache_apcu extends rcube_cache
         $rcube = rcube::get_instance();
 
         $this->type = 'apcu';
-        $this->enabled = function_exists('apcu_exists'); // APC 3.1.4 required
+        $this->enabled = function_exists('apcu_exists'); // APCu required (pecl install apcu)
         $this->debug = $rcube->config->get('apcu_debug');
     }
 
