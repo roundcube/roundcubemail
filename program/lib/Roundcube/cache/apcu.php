@@ -84,7 +84,7 @@ class rcube_cache_apcu extends rcube_cache
     }
 
     /**
-     * Adds entry into memcache/apc/redis DB.
+     * Adds entry into memcache/apc/apcu/redis DB.
      *
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
@@ -112,7 +112,7 @@ class rcube_cache_apcu extends rcube_cache
     }
 
     /**
-     * Deletes entry from memcache/apc/redis DB.
+     * Deletes entry from memcache/apc/apcu/redis DB.
      *
      * @param string $key Cache internal key name
      *
