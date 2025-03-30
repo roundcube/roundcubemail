@@ -1273,7 +1273,7 @@ class enigma_engine
         $old_id = $p['structure']->mime_id;
 
         foreach (array_keys($p['object']->mime_parts) as $idx) {
-            if (!$old_id || $idx == $old_id || strpos($idx, $old_id . '.') === 0) {
+            if (!$old_id || $idx == $old_id || str_starts_with($idx, $old_id . '.')) {
                 unset($p['object']->mime_parts[$idx]);
             }
         }
@@ -1471,7 +1471,7 @@ class enigma_engine
             }
 
             foreach ($records as $record) {
-                if (strpos($record['txt'], 'v=woat1,') === 0) {
+                if (str_starts_with($record['txt'], 'v=woat1,')) {
                     $entry = explode('public_key=', $record['txt']);
                     if (count($entry) == 2) {
                         $import[] = $entry[1];

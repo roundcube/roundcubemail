@@ -843,7 +843,7 @@ abstract class rcmail_action
      */
     public static function get_resource_content($name)
     {
-        if (strpos($name, '/') !== 0) {
+        if (!str_starts_with($name, '/')) {
             $name = "program/resources/{$name}";
         }
 

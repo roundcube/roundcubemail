@@ -80,7 +80,7 @@ class password extends rcube_plugin
 
         if ($this->rc->config->get('password_force_new_user')) {
             if ($this->rc->config->get('newuserpassword') && $this->check_host_login_exceptions()) {
-                if (!($this->rc->task == 'settings' && strpos($this->rc->action, 'plugin.password') === 0)) {
+                if (!($this->rc->task == 'settings' && str_starts_with($this->rc->action, 'plugin.password'))) {
                     $this->rc->output->command('redirect', '?_task=settings&_action=plugin.password&_first=1', false);
                 }
             }

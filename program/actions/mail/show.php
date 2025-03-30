@@ -204,7 +204,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
 
             // Skip inline images
-            if (strpos($mimetype, 'image/') === 0 && self::$MESSAGE->is_referred_attachment($attach_prop)) {
+            if (str_starts_with($mimetype, 'image/') && self::$MESSAGE->is_referred_attachment($attach_prop)) {
                 continue;
             }
 
@@ -316,7 +316,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         if (!empty(self::$MESSAGE->context)
             || (
                 !empty(self::$MESSAGE->folder)
-                && (self::$MESSAGE->folder != $dbox && strpos(self::$MESSAGE->folder, $dbox . $delim) !== 0)
+                && (self::$MESSAGE->folder != $dbox && !str_starts_with(self::$MESSAGE->folder, $dbox . $delim))
             )
         ) {
             return '';

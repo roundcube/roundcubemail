@@ -80,7 +80,7 @@ class rcube_base_replacer
         }
 
         // check if path is a content-id scheme
-        if (strpos($path, 'cid:') === 0) {
+        if (str_starts_with($path, 'cid:')) {
             return $path;
         }
 

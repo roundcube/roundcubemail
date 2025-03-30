@@ -382,7 +382,7 @@ class rcube_message
                 }
 
                 // The HTML body part extracted from a winmail.dat attachment part
-                if (strpos($part->mime_id, 'winmail.') === 0) {
+                if (str_starts_with($part->mime_id, 'winmail.')) {
                     $ref = $part;
 
                     return true;
@@ -1181,7 +1181,7 @@ class rcube_message
      */
     private function check_context($part)
     {
-        return $this->context === null || strpos($part->mime_id, $this->context . '.') === 0;
+        return $this->context === null || str_starts_with($part->mime_id, $this->context . '.');
     }
 
     /**

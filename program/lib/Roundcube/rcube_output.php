@@ -243,7 +243,7 @@ abstract class rcube_output
                 $ctype = 'text/plain';
             }
 
-            if (strpos($ctype, 'text') === 0) {
+            if (str_starts_with($ctype, 'text')) {
                 $charset = $this->charset;
                 if (!empty($params['type_charset']) && rcube_charset::is_valid($params['type_charset'])) {
                     $charset = $params['type_charset'];

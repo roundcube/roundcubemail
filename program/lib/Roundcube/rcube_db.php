@@ -1173,7 +1173,7 @@ class rcube_db
         $table = $plugin['table'];
 
         // add prefix to the table name if configured
-        if (($prefix = $this->options['table_prefix']) && strpos($table, $prefix) !== 0) {
+        if (($prefix = $this->options['table_prefix']) && !str_starts_with($table, $prefix)) {
             $table = $prefix . $table;
         }
 

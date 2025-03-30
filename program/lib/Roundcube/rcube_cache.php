@@ -343,7 +343,7 @@ class rcube_cache
             $this->add_item($this->ekey($prefix), $ts->format(self::DATE_FORMAT));
 
             foreach (array_keys($this->cache) as $k) {
-                if (strpos($k, $key) === 0) {
+                if (str_starts_with($k, $key)) {
                     $this->cache[$k] = null;
                 }
             }
@@ -376,7 +376,7 @@ class rcube_cache
         // Remove keys by name prefix
         elseif ($prefix_mode) {
             foreach ($this->index as $idx => $k) {
-                if (strpos($k, $key) === 0) {
+                if (str_starts_with($k, $key)) {
                     $this->delete_item($this->ckey($k));
                     unset($this->index[$idx]);
                     if (!$this->index_update) {

@@ -72,7 +72,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             // message/rfc822 preview (Note: handle also multipart/ parts, they can
             // come from Enigma, which replaces message/rfc822 with real mimetype)
-            if ($part_id && ($mimetype == 'message/rfc822' || strpos($mimetype, 'multipart/') === 0)) {
+            if ($part_id && ($mimetype == 'message/rfc822' || str_starts_with($mimetype, 'multipart/'))) {
                 $uid = preg_replace('/\.[0-9.]+/', '', $uid);
                 $uid .= '.' . $part_id;
 
@@ -152,7 +152,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         $valid_extension = true;
                     }
                     // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                    elseif ($real_ctype_primary == 'text' && strpos($mimetype, $real_ctype_primary) === 0) {
+                    elseif ($real_ctype_primary == 'text' && str_starts_with($mimetype, $real_ctype_primary)) {
                         $real_mimetype = $mimetype;
                         $valid_extension = true;
                     }
@@ -169,7 +169,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         // fix mimetype for files wrongly declared as octet-stream
                         ($mimetype == 'application/octet-stream' && $valid_extension)
                         // force detected mimetype for images (#8158)
-                        || (strpos($real_mimetype, 'image/') === 0)
+                        || str_starts_with($real_mimetype, 'image/')
                     ) {
                         $mimetype = $real_mimetype;
                     }
@@ -185,7 +185,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 // show warning if validity checks failed
                 if (!$valid) {
                     // send blocked.gif for expected images
-                    if (empty($_REQUEST['_mimewarning']) && strpos($mimetype, 'image/') === 0) {
+                    if (empty($_REQUEST['_mimewarning']) && str_starts_with($mimetype, 'image/')) {
                         // Do not cache. Failure might be the result of a misconfiguration,
                         // thus real content should be returned once fixed.
                         $content = self::get_resource_content('blocked.gif');
@@ -357,7 +357,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url[strpos($mimetype, 'text/') === 0 ? '_embed' : '_preload'] = 1;
+            $url[str_starts_with($mimetype, 'text/') ? '_embed' : '_preload'] = 1;
             unset($url['_frame']);
         }
 

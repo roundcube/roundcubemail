@@ -543,7 +543,7 @@ class rcmail extends rcube
         $record = null;
 
         // Static response
-        if (strpos((string) $id, 'static-') === 0) {
+        if (str_starts_with((string) $id, 'static-')) {
             foreach ($this->config->get('compose_responses_static', []) as $response) {
                 $rid = 'static-' . substr(md5($response['name']), 0, 16);
                 if ($id === $rid) {
@@ -1034,7 +1034,7 @@ class rcmail extends rcube
                 // but not if there's a subfolder
                 if (
                     ($messages === '*' || $messages->count() == $storage->count($folder, 'ALL', false, false))
-                    && strpos($last, $folder . $delimiter) !== 0
+                    && !str_starts_with($last, $folder . $delimiter)
                 ) {
                     $storage->delete_folder($folder);
                 } else {
@@ -1140,7 +1140,7 @@ class rcmail extends rcube
 
         if ($path && isset($_SERVER[$path])) {
             // HTTP headers need to come from a trusted proxy host
-            if (strpos($path, 'HTTP_') === 0 && !rcube_utils::check_proxy_whitelist_ip()) {
+            if (str_starts_with($path, 'HTTP_') && !rcube_utils::check_proxy_whitelist_ip()) {
                 return '/';
             }
 

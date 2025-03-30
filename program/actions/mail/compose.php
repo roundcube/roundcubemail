@@ -616,7 +616,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                     // skip all content parts inside the message/rfc822 part
                     foreach ($messages as $mimeid) {
-                        if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                        if (str_starts_with($part->mime_id, $mimeid . '.')) {
                             continue 2;
                         }
                     }
@@ -1074,7 +1074,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
                 // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
                 foreach ($messages as $mimeid) {
-                    if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    if (str_starts_with($part->mime_id, $mimeid . '.')) {
                         continue 2;
                     }
                 }
@@ -1144,7 +1144,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             if (!empty($part->content_id) || !empty($part->content_location)) {
                 // skip attachments included in message/rfc822 attachment (#1486487, #1490607)
                 foreach ($messages as $mimeid) {
-                    if (strpos($part->mime_id, $mimeid . '.') === 0) {
+                    if (str_starts_with($part->mime_id, $mimeid . '.')) {
                         continue 2;
                     }
                 }

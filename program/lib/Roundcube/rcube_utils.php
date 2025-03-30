@@ -137,7 +137,7 @@ class rcube_utils
 
         // last domain part (allow extended TLD)
         $last_part = array_pop($domain_array);
-        if (strpos($last_part, 'xn--') !== 0
+        if (!str_starts_with($last_part, 'xn--')
             && (preg_match('/[^a-zA-Z0-9]/', $last_part) || preg_match('/^[0-9]+$/', $last_part))
         ) {
             return false;
@@ -435,7 +435,7 @@ class rcube_utils
         $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
 
         $url_callback = static function ($url) use ($allow_remote) {
-            if (strpos($url, 'data:image') === 0) {
+            if (str_starts_with($url, 'data:image')) {
                 return $url;
             }
             if ($allow_remote && preg_match('|^https?://[a-z0-9/._+-]+$|i', $url)) {

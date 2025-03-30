@@ -81,7 +81,7 @@ class enigma extends rcube_plugin
 
             $this->load_ui();
 
-            if (empty($_REQUEST['_framed']) || strpos($this->rc->action, 'plugin.enigma') === 0) {
+            if (empty($_REQUEST['_framed']) || str_starts_with($this->rc->action, 'plugin.enigma')) {
                 $this->ui->add_css();
             }
 

@@ -229,7 +229,7 @@ class rcube_mime_decode
         $header = substr($input, 0, $pos);
         $body = substr($input, $pos + 2 * $crlf_len);
 
-        if (substr_compare($body, $this->params['crlf'], -$crlf_len) === 0) {
+        if (str_ends_with($body, $this->params['crlf'])) {
             $body = substr($body, 0, -$crlf_len);
         }
 

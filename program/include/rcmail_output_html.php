@@ -564,14 +564,14 @@ class rcmail_output_html extends rcmail_output
         $css_files = $script_files = [];
 
         foreach ($this->css_files as $file) {
-            if (strpos($file, 'plugins/jqueryui') === 0) {
+            if (str_starts_with($file, 'plugins/jqueryui')) {
                 $css_files[] = $file;
             }
         }
 
         foreach ($this->script_files as $position => $files) {
             foreach ($files as $file) {
-                if (strpos($file, 'plugins/jqueryui') === 0) {
+                if (str_starts_with($file, 'plugins/jqueryui')) {
                     $script_files[$position][] = $file;
                 }
             }
@@ -1663,7 +1663,7 @@ class rcmail_output_html extends rcmail_output
     protected function prepare_object_attribs(&$attribs)
     {
         foreach ($attribs as $key => &$value) {
-            if (strpos($key, 'data-label-') === 0) {
+            if (str_starts_with($key, 'data-label-')) {
                 // Localize data-label-* attributes
                 $value = $this->app->gettext($value);
             } elseif ($key[0] == ':') {

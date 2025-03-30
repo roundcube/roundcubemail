@@ -182,7 +182,7 @@ class rcube_cache_db extends rcube_cache
         elseif ($prefix_mode) {
             $where = '`cache_key` LIKE ' . $this->db->quote($this->prefix . '.' . $key . '%');
             foreach (array_keys($this->cache) as $k) {
-                if (strpos($k, $key) === 0) {
+                if (str_starts_with($k, $key)) {
                     $this->cache[$k] = null;
                 }
             }

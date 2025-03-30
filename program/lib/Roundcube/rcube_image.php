@@ -508,7 +508,7 @@ class rcube_image
         }
 
         // Executable must exist, also disallow network shares on Windows
-        if ($cmd[0] !== '\\' && strpos($cmd, '//') !== 0 && file_exists($cmd)) {
+        if ($cmd[0] !== '\\' && !str_starts_with($cmd, '//') && file_exists($cmd)) {
             return $cmd;
         }
 

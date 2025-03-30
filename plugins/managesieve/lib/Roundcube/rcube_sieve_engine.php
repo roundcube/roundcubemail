@@ -756,13 +756,13 @@ class rcube_sieve_engine
                         if ($type != 'exists') {
                             if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                            } elseif (strpos($type, 'count-') === 0) {
+                            } elseif (str_starts_with($type, 'count-')) {
                                 foreach ($target as $arg) {
                                     if (preg_match('/[^0-9]/', $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                     }
                                 }
-                            } elseif (strpos($type, 'value-') === 0) {
+                            } elseif (str_starts_with($type, 'value-')) {
                                 // Some date/time formats do not support i;ascii-numeric comparator
                                 if ($comparator == 'i;ascii-numeric' && in_array($datepart, ['date', 'time', 'iso8601', 'std11'])) {
                                     $comparator = '';
@@ -812,13 +812,13 @@ class rcube_sieve_engine
                         if ($type != 'exists') {
                             if (empty($target)) {
                                 $this->errors['tests'][$i]['target'] = $this->plugin->gettext('cannotbeempty');
-                            } elseif (strpos($type, 'count-') === 0) {
+                            } elseif (str_starts_with($type, 'count-')) {
                                 foreach ($target as $arg) {
                                     if (preg_match('/[^0-9]/', $arg)) {
                                         $this->errors['tests'][$i]['target'] = $this->plugin->gettext('forbiddenchars');
                                     }
                                 }
-                            } elseif (strpos($type, 'value-') === 0) {
+                            } elseif (str_starts_with($type, 'value-')) {
                                 // Some date/time formats do not support i;ascii-numeric comparator
                                 if ($comparator == 'i;ascii-numeric' && in_array($datepart, ['date', 'time', 'iso8601', 'std11'])) {
                                     $comparator = '';

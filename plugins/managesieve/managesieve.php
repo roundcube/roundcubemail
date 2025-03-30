@@ -74,7 +74,7 @@ class managesieve extends rcube_plugin
             }
 
             // inject Create Filter popup stuff
-            if (empty($action) || $action == 'show' || strpos($action, 'plugin.managesieve') === 0) {
+            if (empty($action) || $action == 'show' || str_starts_with($action, 'plugin.managesieve')) {
                 $this->mail_task_handler();
             }
         }
@@ -92,7 +92,7 @@ class managesieve extends rcube_plugin
         // load localization
         $this->add_texts('localization/');
 
-        $sieve_action = strpos($this->rc->action, 'plugin.managesieve') === 0;
+        $sieve_action = str_starts_with($this->rc->action, 'plugin.managesieve');
 
         if ($this->rc->task == 'mail' || $sieve_action) {
             // Injection of Timezone information into the JS Frontend.

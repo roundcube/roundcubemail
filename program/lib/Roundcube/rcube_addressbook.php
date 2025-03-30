@@ -605,7 +605,7 @@ abstract class rcube_addressbook
     {
         $out = [];
         foreach ((array) $data as $c => $values) {
-            if ($c === $col || strpos($c, $col . ':') === 0) {
+            if ($c === $col || str_starts_with($c, $col . ':')) {
                 if ($flat) {
                     $out = array_merge($out, (array) $values);
                 } else {

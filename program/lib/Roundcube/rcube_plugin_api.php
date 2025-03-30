@@ -521,7 +521,7 @@ class rcube_plugin_api
         // check action name
         if ($task) {
             $action = $task . '.' . $action;
-        } elseif (strpos($action, 'plugin.') !== 0) {
+        } elseif (!str_starts_with($action, 'plugin.')) {
             $action = 'plugin.' . $action;
         }
 
@@ -569,7 +569,7 @@ class rcube_plugin_api
     public function register_handler($name, $owner, $callback)
     {
         // check name
-        if (strpos($name, 'plugin.') !== 0) {
+        if (!str_starts_with($name, 'plugin.')) {
             $name = 'plugin.' . $name;
         }
 

@@ -309,7 +309,8 @@ class rcmail_action_mail_index extends rcmail_action
             $mbox = $rcmail->storage->get_folder();
         }
 
-        if ((strpos($mbox . $delim, $sent_mbox . $delim) === 0 || strpos($mbox . $delim, $drafts_mbox . $delim) === 0)
+        if ((str_starts_with($mbox . $delim, $sent_mbox . $delim)
+                || str_starts_with($mbox . $delim, $drafts_mbox . $delim))
             && strtoupper($mbox) != 'INBOX'
         ) {
             return 'to';
@@ -1224,7 +1225,7 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         // Content-Type: image/*...
-        if (strpos($mimetype, 'image/') === 0) {
+        if (str_starts_with($mimetype, 'image/')) {
             return $mimetype;
         }
 

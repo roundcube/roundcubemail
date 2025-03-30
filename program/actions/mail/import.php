@@ -142,7 +142,7 @@ class rcmail_action_mail_import extends rcmail_action
         } while ($line !== false && trim($line) == '');
 
         $format = null;
-        if (strncmp($line, 'From ', 5) === 0) {
+        if (str_starts_with($line, 'From ')) {
             $format = 'mbox';
         } elseif (preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
             $format = 'eml';
@@ -157,7 +157,7 @@ class rcmail_action_mail_import extends rcmail_action
 
         while (($line = fgets($fp)) !== false) {
             // importing mbox file, split by From - lines
-            if ($format == 'mbox' && strncmp($line, 'From ', 5) === 0 && strlen($line) > 5) {
+            if ($format == 'mbox' && str_starts_with($line, 'From ') && strlen($line) > 5) {
                 if (strlen($message)) {
                     $imported += (int) self::save_message($folder, $message, $format);
                 }

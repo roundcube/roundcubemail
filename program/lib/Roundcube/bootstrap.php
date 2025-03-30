@@ -401,16 +401,16 @@ function version_parse($version)
  */
 function rcube_autoload(string $classname): bool
 {
-    if (strpos($classname, 'rcube') === 0) {
+    if (str_starts_with($classname, 'rcube')) {
         $classname = preg_replace('/^rcube_(cache|db|session|spellchecker)_/', '\1/', $classname);
         $classname = 'Roundcube/' . $classname;
-    } elseif (strpos($classname, 'html_') === 0 || $classname === 'html') {
+    } elseif (str_starts_with($classname, 'html_') || $classname === 'html') {
         $classname = 'Roundcube/html';
-    } elseif (strpos($classname, 'Mail_') === 0) {
+    } elseif (str_starts_with($classname, 'Mail_')) {
         $classname = 'Mail/' . substr($classname, 5);
-    } elseif (strpos($classname, 'Net_') === 0) {
+    } elseif (str_starts_with($classname, 'Net_')) {
         $classname = 'Net/' . substr($classname, 4);
-    } elseif (strpos($classname, 'Auth_') === 0) {
+    } elseif (str_starts_with($classname, 'Auth_')) {
         $classname = 'Auth/' . substr($classname, 5);
     }
 

@@ -190,7 +190,7 @@ class newmail_notifier extends rcube_plugin
 
         // Skip exception (sent/drafts) folders (and their subfolders)
         foreach ($this->exceptions as $folder) {
-            if (strpos($mbox . $delimiter, $folder . $delimiter) === 0) {
+            if (str_starts_with($mbox . $delimiter, $folder . $delimiter)) {
                 return $args;
             }
         }

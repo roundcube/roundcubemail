@@ -533,7 +533,7 @@ class rcube
 
         if ($tmp && ($dir = opendir($tmp))) {
             while (($fname = readdir($dir)) !== false) {
-                if (strpos($fname, RCUBE_TEMP_FILE_PREFIX) !== 0) {
+                if (!str_starts_with($fname, RCUBE_TEMP_FILE_PREFIX)) {
                     continue;
                 }
 

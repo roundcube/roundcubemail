@@ -86,7 +86,7 @@ spl_autoload_register('rcmail_autoload');
  */
 function rcmail_autoload(string $classname): bool
 {
-    if (strpos($classname, 'rcmail') === 0) {
+    if (str_starts_with($classname, 'rcmail')) {
         if (preg_match('/^rcmail_action_([^_]+)_(.*)$/', $classname, $matches)) {
             $filepath = INSTALL_PATH . "program/actions/{$matches[1]}/{$matches[2]}.php";
         } else {

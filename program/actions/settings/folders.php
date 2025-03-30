@@ -189,7 +189,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 if (!$is_disabled) {
                     $tmp_ns = array_merge((array) $namespace['other'], (array) $namespace['shared']);
                     foreach ($tmp_ns as $item) {
-                        if (strlen($item[0]) && strpos($folder['id'], $item[0]) === 0) {
+                        if (strlen($item[0]) && str_starts_with($folder['id'], $item[0])) {
                             $is_disabled = true;
                             break;
                         }

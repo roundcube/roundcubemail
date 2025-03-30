@@ -405,7 +405,7 @@ class rcube_contacts extends rcube_addressbook
                         foreach ($required as $req) {
                             $hit = false;
                             foreach (array_keys($row) as $c) {
-                                if ($c === $req || strpos($c, $req . ':') === 0) {
+                                if ($c === $req || str_starts_with($c, $req . ':')) {
                                     if ((is_string($row[$c]) && strlen($row[$c])) || !empty($row[$c])) {
                                         $hit = true;
                                         break;
@@ -649,7 +649,7 @@ class rcube_contacts extends rcube_addressbook
 
         if ($check) {
             foreach ($save_data as $col => $values) {
-                if (strpos($col, 'email') === 0) {
+                if (str_starts_with($col, 'email')) {
                     foreach ((array) $values as $email) {
                         $existing = $this->search('email', $email, false, false);
                         if ($existing->count) {

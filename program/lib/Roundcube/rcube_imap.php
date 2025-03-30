@@ -2471,7 +2471,7 @@ class rcube_imap extends rcube_storage
         $flag = strtoupper($flag);
         [$uids, $all_mode] = $this->parse_uids($uids);
 
-        if (strpos($flag, 'UN') === 0) {
+        if (str_starts_with($flag, 'UN')) {
             $result = $this->conn->unflag($folder, $uids, substr($flag, 2));
         } else {
             $result = $this->conn->flag($folder, $uids, $flag);
@@ -2481,7 +2481,7 @@ class rcube_imap extends rcube_storage
             // reload message headers if cached
             // update flags instead removing from cache
             if ($mcache = $this->get_mcache_engine()) {
-                $status = strpos($flag, 'UN') !== 0;
+                $status = !str_starts_with($flag, 'UN');
                 $mflag = preg_replace('/^UN/', '', $flag);
                 $mcache->change_flag($folder, $all_mode ? null : explode(',', $uids),
                     $mflag, $status);
@@ -3080,7 +3080,7 @@ class rcube_imap extends rcube_storage
         if ($root === '*' && !empty($this->list_excludes)) {
             $result = array_filter($result, function ($v) {
                 foreach ($this->list_excludes as $prefix) {
-                    if (strpos($v, $prefix) === 0) {
+                    if (str_starts_with($v, $prefix)) {
                         return false;
                     }
                 }
@@ -3117,7 +3117,7 @@ class rcube_imap extends rcube_storage
             // go through all folders detecting namespace usage
             foreach ($result as $folder) {
                 foreach ($search as $idx => $prefix) {
-                    if (strpos($folder, $prefix) === 0) {
+                    if (str_starts_with($folder, $prefix)) {
                         unset($search[$idx]);
                     }
                 }
@@ -3343,7 +3343,7 @@ class rcube_imap extends rcube_storage
 
             // check if folder children are subscribed
             foreach ($a_subscribed as $c_subscribed) {
-                if (strpos($c_subscribed, $folder . $delm) === 0) {
+                if (str_starts_with($c_subscribed, $folder . $delm)) {
                     $this->conn->unsubscribe($c_subscribed);
                     $this->conn->subscribe(preg_replace('/^' . preg_quote($folder, '/') . '/',
                         $new_name, $c_subscribed));
@@ -3387,7 +3387,7 @@ class rcube_imap extends rcube_storage
         // subfolders first (in reverse order) (#5466)
         if (!empty($sub_mboxes)) {
             foreach (array_reverse($sub_mboxes) as $mbox) {
-                if (strpos($mbox, $folder . $delm) === 0) {
+                if (str_starts_with($mbox, $folder . $delm)) {
                     if ($this->conn->deleteFolder($mbox)) {
                         $this->conn->unsubscribe($mbox);
                         $this->clear_message_cache($mbox);
@@ -3574,7 +3574,7 @@ class rcube_imap extends rcube_storage
                 foreach ($namespace as $ns) {
                     if ($len = strlen($ns[0])) {
                         if (($len > 1 && $folder == substr($ns[0], 0, -1))
-                            || strpos($folder, $ns[0]) === 0
+                            || str_starts_with($folder, $ns[0])
                         ) {
                             return $type;
                         }
@@ -4404,7 +4404,7 @@ class rcube_imap extends rcube_storage
         $shared = [];
         $match_function = static function ($idx, $search, $prefix, &$list) use (&$folders) {
             $folder = $folders[$idx];
-            if ($folder !== null && ($folder === $search || strpos($folder, $prefix) === 0)) {
+            if ($folder !== null && ($folder === $search || str_starts_with($folder, $prefix))) {
                 $folders[$idx] = null;
                 $list[] = $folder;
             }

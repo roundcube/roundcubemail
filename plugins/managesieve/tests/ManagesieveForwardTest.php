@@ -24,7 +24,7 @@ class ManagesieveForwardTest extends ActionTestCase
 
         $result = $forward->forward_form([]);
 
-        $this->assertTrue(strpos($result, '<form id="form"') === 0);
+        $this->assertTrue(str_starts_with($result, '<form id="form"'));
         $this->assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-forward">') !== false);
     }
 }

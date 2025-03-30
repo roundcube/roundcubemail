@@ -386,7 +386,7 @@ class rcube_smtp
             $this->anonymize_log = $m[1] == 'LOGIN' ? 2 : 1;
         }
         // anonymize this log entry
-        elseif ($this->anonymize_log > 0 && strpos($message, 'Send:') === 0 && --$this->anonymize_log == 0) {
+        elseif ($this->anonymize_log > 0 && str_starts_with($message, 'Send:') && --$this->anonymize_log == 0) {
             $message = sprintf('Send: ****** [%d]', strlen($message) - 8);
         }
 

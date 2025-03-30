@@ -100,7 +100,7 @@ class rcmail_output_json extends rcmail_output
     {
         array_unshift($args, $cmd);
 
-        if (strpos($args[0], 'plugin.') === 0) {
+        if (str_starts_with($args[0], 'plugin.')) {
             $this->callbacks[] = $args;
         } else {
             $this->commands[] = $args;

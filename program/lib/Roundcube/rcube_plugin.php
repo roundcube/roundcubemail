@@ -430,7 +430,7 @@ abstract class rcube_plugin
      */
     private function label_map_callback($key)
     {
-        if (strpos($key, $this->ID . '.') === 0) {
+        if (str_starts_with($key, $this->ID . '.')) {
             return $key;
         }
 

@@ -374,7 +374,7 @@ class rcube_vcard
                 $this->raw['ORG'][0][0] = $this->organization = $value;
                 break;
             case 'photo':
-                if (strpos($value, 'http:') === 0) {
+                if (str_starts_with($value, 'http:')) {
                     // TODO: fetch file from URL and save it locally?
                     $this->raw['PHOTO'][0] = [0 => $value, 'url' => true];
                 } else {

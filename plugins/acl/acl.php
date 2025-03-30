@@ -505,7 +505,7 @@ class acl extends rcube_plugin
             $username = '';
             $prefix = $this->rc->config->get('acl_groups') ? $this->rc->config->get('acl_group_prefix') : '';
 
-            if ($prefix && strpos($user, $prefix) === 0) {
+            if ($prefix && str_starts_with($user, $prefix)) {
                 $username = $user;
             } elseif (!empty($this->specials) && in_array($user, $this->specials)) {
                 $username = $this->gettext($user);
@@ -831,7 +831,7 @@ class acl extends rcube_plugin
 
             // Unfortunately this works only if group_field=name,
             // list_groups() allows searching by group name only
-            if ($groups && $prefix && $group_field === 'name' && strpos($id, $prefix) === 0) {
+            if ($groups && $prefix && $group_field === 'name' && str_starts_with($id, $prefix)) {
                 $gid = substr($id, strlen($prefix));
                 $result = $this->ldap->list_groups($gid, rcube_addressbook::SEARCH_STRICT);
 

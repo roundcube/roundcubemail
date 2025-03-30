@@ -881,7 +881,7 @@ class rcmail_sendmail
 
         foreach (preg_split('/;\s+/', $str) as $part) {
             [$key, $val] = explode('=', $part, 2);
-            if (strpos($val, 'B::') === 0) {
+            if (str_starts_with($val, 'B::')) {
                 $val = base64_decode(substr($val, 3));
             } elseif ($key == 'folder') {
                 $val = base64_decode($val);
