@@ -958,11 +958,7 @@ class rcmail_output_html extends rcmail_output
         }
 
         if (!$this->assets_path || in_array($path[0], ['?', '/', '.']) || strpos($path, '://')) {
-            if (!str_starts_with($path, 'static.php/') && strpos($path, '://') === false) {
-                $path = 'static.php/' . ltrim($path, '/');
-            }
-
-            return $path;
+            return $this->resource_location($path);
         }
 
         return $this->assets_path . $path;
@@ -1022,9 +1018,7 @@ class rcmail_output_html extends rcmail_output
             $file = $this->file_mod($file);
         }
 
-        if (!str_starts_with($file, 'static.php/') && strpos($file, '://') === false) {
-            $file = 'static.php/' . $file;
-        }
+        $file = $this->resource_location($file);
 
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
@@ -1047,10 +1041,7 @@ class rcmail_output_html extends rcmail_output
     protected function assets_callback($matches)
     {
         $file = $this->asset_url($matches[3]);
-
-        if (!str_starts_with($file, 'static.php/') && strpos($file, '://') === false) {
-            $file = 'static.php/' . $file;
-        }
+        $file = $this->resource_location($file);
 
         return $matches[1] . '=' . $matches[2] . $file . $matches[4];
     }
@@ -1079,15 +1070,34 @@ class rcmail_output_html extends rcmail_output
     }
 
     /**
+     * Modify resource file location to be passed via the static.php end-point.
+     */
+    protected function resource_location($location)
+    {
+        if (strpos($location, '://') === false) {
+            $location = ltrim($location, '/');
+            $prefix = '';
+
+            // FIXME: Would REQUEST_URI be a better option than PATH_INFO?
+            if (!empty($_SERVER['PATH_INFO'])) {
+                $path = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+                $prefix = str_repeat('../', count($path) + 1);
+            }
+
+            if (!str_starts_with($location, $prefix . 'static.php')) {
+                $location = $prefix . 'static.php/' . $location;
+            }
+        }
+
+        return $location;
+    }
+
+    /**
      * Public wrapper to dip into template parsing.
      *
      * @param string $input Template content
      *
      * @return string
-     *
-     * @uses   rcmail_output_html::parse_xml()
-     *
-     * @since  0.1-rc1
      */
     public function just_parse($input)
     {
