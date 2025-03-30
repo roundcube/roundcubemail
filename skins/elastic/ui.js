@@ -3431,7 +3431,7 @@ function rcube_elastic_ui() {
             };
 
         // Create the input element and "editable" area
-        input = $('<input>').attr({ type: 'text', tabindex: $(obj).attr('tabindex') })
+        input = $('<input>').attr({ type: 'text', spellcheck: false, tabindex: $(obj).attr('tabindex') })
             .on('paste change', parse_func)
             .on('keydown', keydown_func)
             .on('blur', function () {
