@@ -3889,8 +3889,6 @@ class rcube_imap extends rcube_storage
      * @param string $acl    ACL string
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function set_acl($folder, $user, $acl)
@@ -3917,8 +3915,6 @@ class rcube_imap extends rcube_storage
      * @param string $user   User name
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function delete_acl($folder, $user)
@@ -3940,8 +3936,6 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder name
      *
      * @return array|null User-rights array on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function get_acl($folder)
@@ -3965,8 +3959,6 @@ class rcube_imap extends rcube_storage
      * @param string $user   User name
      *
      * @return array|null List of user rights
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function list_rights($folder, $user)
@@ -3989,8 +3981,6 @@ class rcube_imap extends rcube_storage
      * @param string $folder Folder name
      *
      * @return array|null MYRIGHTS response on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function my_rights($folder)
@@ -4013,8 +4003,6 @@ class rcube_imap extends rcube_storage
      * @param array   $entries Entry-value array (use NULL value as NIL)
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function set_metadata($folder, $entries)
@@ -4050,8 +4038,6 @@ class rcube_imap extends rcube_storage
      * @param array   $entries Entry names array
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function delete_metadata($folder, $entries)
@@ -4089,8 +4075,6 @@ class rcube_imap extends rcube_storage
      * @param bool    $force   Disables cache use
      *
      * @return array|null Metadata entry-value hash array on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     #[Override]
     public function get_metadata($folder, $entries, $options = [], $force = false)

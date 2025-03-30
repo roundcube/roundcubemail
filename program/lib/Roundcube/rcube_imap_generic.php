@@ -1309,8 +1309,6 @@ class rcube_imap_generic
      *                        in RFC3501: UIDNEXT, UIDVALIDITY, RECENT
      *
      * @return array|false Status item-value hash, False on error
-     *
-     * @since 0.5-beta
      */
     public function status($mailbox, $items = [])
     {
@@ -1398,8 +1396,6 @@ class rcube_imap_generic
      * Executes CLOSE command
      *
      * @return bool True on success, False on error
-     *
-     * @since 0.5
      */
     public function close()
     {
@@ -1798,8 +1794,6 @@ class rcube_imap_generic
      * @param array $items Client identification information key/value hash
      *
      * @return array|false Server identification information key/value hash, False on error
-     *
-     * @since 0.6
      */
     public function id($items = [])
     {
@@ -1839,8 +1833,6 @@ class rcube_imap_generic
      * @param mixed $extension Extension name to enable (or array of names)
      *
      * @return array|bool List of enabled extensions, False on error
-     *
-     * @since 0.6
      */
     public function enable($extension)
     {
@@ -2459,8 +2451,6 @@ class rcube_imap_generic
      * @param bool   $vanished    Enables VANISHED parameter (RFC5162) for CHANGEDSINCE query
      *
      * @return array|false List of rcube_message_header elements, False on error
-     *
-     * @since 0.6
      */
     public function fetch($mailbox, $message_set, $is_uid = false, $query_items = [],
         $mod_seq = null, $vanished = false)
@@ -3372,8 +3362,6 @@ class rcube_imap_generic
      * @param mixed  $acl     ACL string or array
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function setACL($mailbox, $user, $acl)
     {
@@ -3396,8 +3384,6 @@ class rcube_imap_generic
      * @param string $user    User name
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function deleteACL($mailbox, $user)
     {
@@ -3415,8 +3401,6 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      *
      * @return ?array User-rights array on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     public function getACL($mailbox)
     {
@@ -3456,8 +3440,6 @@ class rcube_imap_generic
      * @param string $user    User name
      *
      * @return ?array List of user rights, NULL on error
-     *
-     * @since 0.5-beta
      */
     public function listRights($mailbox, $user)
     {
@@ -3488,8 +3470,6 @@ class rcube_imap_generic
      * @param string $mailbox Mailbox name
      *
      * @return ?array MYRIGHTS response on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     public function myRights($mailbox)
     {
@@ -3515,8 +3495,6 @@ class rcube_imap_generic
      * @param array  $entries Entry-value array (use NULL value as NIL)
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function setMetadata($mailbox, $entries)
     {
@@ -3545,8 +3523,6 @@ class rcube_imap_generic
      * @param array|string $entries Entry names array (or space separated string)
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function deleteMetadata($mailbox, $entries)
     {
@@ -3575,8 +3551,6 @@ class rcube_imap_generic
      * @param array        $options Command options (with MAXSIZE and DEPTH keys)
      *
      * @return ?array GETMETADATA result on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     public function getMetadata($mailbox, $entries, $options = [])
     {
@@ -3644,8 +3618,6 @@ class rcube_imap_generic
      *                        three elements: entry name, attribute name, value
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function setAnnotation($mailbox, $data)
     {
@@ -3675,8 +3647,6 @@ class rcube_imap_generic
      *                        two elements: entry name and attribute name
      *
      * @return bool True on success, False on failure
-     *
-     * @since 0.5-beta
      */
     public function deleteAnnotation($mailbox, $data)
     {
@@ -3691,8 +3661,6 @@ class rcube_imap_generic
      * @param array|string $attribs Attribs name(s)
      *
      * @return ?array Annotations result on success, NULL on error
-     *
-     * @since 0.5-beta
      */
     public function getAnnotation($mailbox, $entries, $attribs)
     {
@@ -3838,8 +3806,6 @@ class rcube_imap_generic
      * @param bool   $is_uid  True if $id is an UID
      *
      * @return array|bool body structure array or False on error
-     *
-     * @since 0.6
      */
     public function getStructure($mailbox, $id, $is_uid = false)
     {
@@ -3927,8 +3893,6 @@ class rcube_imap_generic
      * Creates next command identifier (tag)
      *
      * @return string Command identifier
-     *
-     * @since 0.5-beta
      */
     public function nextTag()
     {
@@ -3947,8 +3911,6 @@ class rcube_imap_generic
      * @param string $filter    Line filter (regexp)
      *
      * @return mixed Response code or list of response code and data
-     *
-     * @since 0.5-beta
      */
     public function execute($command, $arguments = [], $options = 0, $filter = null)
     {
@@ -4024,8 +3986,6 @@ class rcube_imap_generic
      * @param int    $num  Number of tokens to return
      *
      * @return mixed Tokens array or string if $num=1
-     *
-     * @since 0.5-beta
      */
     public static function tokenizeResponse(&$str, $num = 0)
     {
@@ -4324,8 +4284,6 @@ class rcube_imap_generic
      *
      * @param bool     $debug   new value for the debugging flag
      * @param callable $handler Logging handler function
-     *
-     * @since 0.5-stable
      */
     public function setDebug($debug, $handler = null)
     {
@@ -4337,8 +4295,6 @@ class rcube_imap_generic
      * Write the given debug text to the current debug output handler.
      *
      * @param string $message debug message text
-     *
-     * @since 0.5-stable
      */
     protected function debug($message)
     {
