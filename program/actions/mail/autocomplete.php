@@ -83,11 +83,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     'source' => $abook_id,
                                 ];
 
-                                $display = rcube_addressbook::compose_search_name($record, $email, $name);
-
-                                if ($display && $display != $contact['name']) {
-                                    $contact['display'] = $display;
-                                }
+                                $contact['fields'] = rcube_addressbook::compose_search_name($record, $email, $name, false);
 
                                 // groups with defined email address will not be expanded to its members' addresses
                                 if ($contact['type'] == 'group') {
