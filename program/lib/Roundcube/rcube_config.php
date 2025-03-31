@@ -405,6 +405,10 @@ class rcube_config
                 $result = $result ? rcube_addressbook::TYPE_RECIPIENT : '';
             }
             $result = (string) $result;
+        } elseif ($name == 'contact_search_name') {
+            if (empty($result)) {
+                $result = '{name} <{email}>';
+            }
         }
 
         $plugin = $rcube->plugins->exec_hook('config_get', [

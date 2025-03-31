@@ -339,6 +339,14 @@ html.touch {
     &.group > i:before {
         content: @fa-var-users;
     }
+    & > span.field.email {
+        display: block;
+        margin-left: .5rem;
+        font-size: 1rem;
+        line-height: 1;
+        .overflow-ellipsis();
+        padding-bottom: 1rem;
+    }
 }
 
 html.ie11 .listing.iconized li a:before {

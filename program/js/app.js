@@ -6345,10 +6345,11 @@ function rcube_webmail() {
         if (results && (len = results.length)) {
             for (i = 0; i < len && maxlen > 0; i++) {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
+                fields = typeof results[i] === 'object' ? results[i].fields : null;
                 type = typeof results[i] === 'object' ? results[i].type : '';
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
-                    .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('(' + RegExp.escape(value) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
+                    .html(this.ksearch_results_display(fields ? fields : text, value, is_composite_input))
                     .addClass(type || '')
                     .appendTo(ul)
                     .mouseover(function () {
@@ -6382,6 +6383,28 @@ function rcube_webmail() {
         if (this.ksearch_data.id == reqid) {
             this.ksearch_data.num--;
         }
+    };
+
+    this.ksearch_results_display = function (item, value, is_composite_input) {
+        if (typeof item === 'object') {
+            line = is_composite_input ? "{name}<span class='field email'>{email}</span>" : this.quote_html(this.env.contact_search_name);
+
+            $.each(fields, function (key, data) {
+                line = line.replace('{' + key + '}', ref.ksearch_results_highlight(data, value));
+            });
+            line = line.replace(/\s+/ug, ' ');
+            line = line.replace(/\s*(&lt;&gt;|\(\)|\[\])/ug, '');
+            line = line.trim();
+        }
+        else {
+            line = this.ksearch_results_highlight(item, value);
+        }
+
+        return '<i class="icon"></i>' + line;
+    };
+
+    this.ksearch_results_highlight = function (text, value) {
+        return this.quote_html(text.replace(new RegExp('(' + RegExp.escape(value) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
     };
 
     // Getter for input value

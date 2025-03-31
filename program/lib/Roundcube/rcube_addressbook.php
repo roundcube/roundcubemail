@@ -764,14 +764,15 @@ abstract class rcube_addressbook
 
         if (empty($templ) && !isset($template)) {  // cache this
             $template = rcube::get_instance()->config->get('contact_search_name');
-            if (empty($template)) {
-                $template = '{name} <{email}>';
-            }
         }
 
         $result = $templ ?: $template;
+        $fields = [];
 
         if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
+            // make sure the name and email fields are always present in the response
+            // they are used in autocomplete on small/phone screens
+            $matches[0] = array_unique(array_merge($matches[0], ['name', 'email']));
             foreach ($matches[0] as $key) {
                 $key = trim($key, '{}');
                 $value = '';
@@ -804,6 +805,7 @@ abstract class rcube_addressbook
                 }
 
                 $result = str_replace('{' . $key . '}', $value, $result);
+                $fields[$key] = $value;
             }
         }
 
@@ -811,7 +813,7 @@ abstract class rcube_addressbook
         $result = preg_replace('/\s*(<>|\(\)|\[\])/u', '', $result);
         $result = trim($result, '/ ');
 
-        return $result;
+        return $templ === false ? $fields : $result;
     }
 
     /**
