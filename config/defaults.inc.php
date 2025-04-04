@@ -1290,11 +1290,6 @@ $config['addressbook_search_mode'] = 0;
 // Warning: These are field names not LDAP attributes (see 'fieldmap' setting)!
 $config['contactlist_fields'] = ['name', 'firstname', 'surname', 'email'];
 
-// Template of contact entry on the autocompletion list.
-// You can use contact fields as: name, email, organization, department, etc.
-// See program/actions/contacts/index.php for a list
-$config['contact_search_name'] = '{name} <{email}>';
-
 // Contact mode. If your contacts are mostly business, switch it to 'business'.
 // This will prioritize form fields related to 'work' (instead of 'home').
 // Default: 'private'.
