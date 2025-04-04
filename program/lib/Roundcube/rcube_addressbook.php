@@ -754,7 +754,7 @@ abstract class rcube_addressbook
      * @param array  $contact Hash array with contact data as key-value pairs
      * @param string $email   Optional email address
      * @param string $name    Optional name (self::compose_list_name() result)
-     * @param string $templ   Optional template to use (defaults to the 'contact_search_name' config option)
+     * @param string $templ   Optional template to use (defaults to '{name} <{email}>')
      *
      * @return string Display name
      */
@@ -763,49 +763,15 @@ abstract class rcube_addressbook
         static $template;
 
         if (empty($templ) && !isset($template)) {  // cache this
-            $template = rcube::get_instance()->config->get('contact_search_name');
+            $template = '{name} <{email}>';
         }
 
         $result = $templ ?: $template;
-        $fields = [];
 
-        if (preg_match_all('/\{[a-z]+\}/', $result, $matches)) {
-            // make sure the name and email fields are always present in the response
-            // they are used in autocomplete on small/phone screens
-            $matches[0] = array_unique(array_merge($matches[0], ['name', 'email']));
-            foreach ($matches[0] as $key) {
-                $key = trim($key, '{}');
-                $value = '';
-
-                switch ($key) {
-                    case 'name':
-                        $value = $name ?: self::compose_list_name($contact);
-
-                        // If name(s) are undefined compose_list_name() may return an email address
-                        // here we prevent from returning the same name and email
-                        if ($name === $email && str_contains($result, '{email}')) {
-                            $value = '';
-                        }
-
-                        break;
-                    case 'email':
-                        $value = $email;
-                        break;
-                }
-
-                if (empty($value)) {
-                    $value = strpos($key, ':') ? $contact[$key] : self::get_col_values($key, $contact, true);
-                    if (is_array($value) && isset($value[0])) {
-                        $value = $value[0];
-                    }
-                }
-
-                if (!is_string($value)) {
-                    $value = '';
-                }
-
+        if (preg_match_all('/\{([a-z]+)\}/', $result, $matches)) {
+            $values = self::compose_autocomplete_fields($contact, $email, $name, $matches[1]);
+            foreach ($values as $key => $value) {
                 $result = str_replace('{' . $key . '}', $value, $result);
-                $fields[$key] = $value;
             }
         }
 
@@ -813,7 +779,66 @@ abstract class rcube_addressbook
         $result = preg_replace('/\s*(<>|\(\)|\[\])/u', '', $result);
         $result = trim($result, '/ ');
 
-        return $templ === false ? $fields : $result;
+        return $result;
+    }
+
+    /**
+     * Build contact display name for autocomplete listing
+     *
+     * @param array  $contact Hash array with contact data as key-value pairs
+     * @param string $email   Optional email address
+     * @param string $name    Optional name (self::compose_list_name() result)
+     * @param array  $fields  Optional fields to return (defaults to ['name', 'email'])
+     *
+     * @return array Fields
+     */
+    public static function compose_autocomplete_fields($contact, $email = null, $name = null, $fields = null)
+    {
+        static $template;
+
+        if (empty($templ) && !isset($template)) {  // cache this
+            $template = ['name', 'email'];
+        }
+
+        $fields = $fields ?: $template;
+        $result = [];
+
+        foreach ($fields as $key) {
+            $value = '';
+
+            switch ($key) {
+                case 'name':
+                    $value = $name ?: self::compose_list_name($contact);
+
+                    // If name(s) are undefined compose_list_name() may return an email address
+                    // here we prevent from returning the same name and email
+                    if ($name === $email && in_array('email', $result) !== false) {
+                        $value = '';
+                    }
+
+                    break;
+                case 'email':
+                    $value = $email;
+                    break;
+            }
+
+            if (empty($value)) {
+                $value = strpos($key, ':') ? $contact[$key] : self::get_col_values($key, $contact, true);
+                if (is_array($value) && isset($value[0])) {
+                    $value = $value[0];
+                }
+            }
+
+            if (!is_string($value)) {
+                $value = '';
+            }
+
+            $result[$key] = $value;
+        }
+
+        $plugin = rcube::get_instance()->plugins->exec_hook('compose_autocomplete_fields', ['fields' => $result]);
+
+        return $plugin['fields'];
     }
 
     /**

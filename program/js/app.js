@@ -6345,11 +6345,11 @@ function rcube_webmail() {
         if (results && (len = results.length)) {
             for (i = 0; i < len && maxlen > 0; i++) {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
-                fields = typeof results[i] === 'object' ? results[i].fields : null;
+                fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { 'name': text };
                 type = typeof results[i] === 'object' ? results[i].type : '';
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
-                    .html(this.ksearch_results_display(fields ? fields : text, value, is_composite_input))
+                    .html(this.ksearch_results_display(fields, value))
                     .addClass(type || '')
                     .appendTo(ul)
                     .mouseover(function () {
@@ -6385,26 +6385,22 @@ function rcube_webmail() {
         }
     };
 
-    this.ksearch_results_display = function (item, value, is_composite_input) {
-        if (typeof item === 'object') {
-            line = is_composite_input ? "{name}<span class='field email'>{email}</span>" : this.quote_html(this.env.contact_search_name);
+    this.ksearch_results_display = function (fields, search_term) {
+        line = "<i class='icon'></i>{name} &lt;{email}&gt;";
 
-            $.each(fields, function (key, data) {
-                line = line.replace('{' + key + '}', ref.ksearch_results_highlight(data, value));
-            });
-            line = line.replace(/\s+/ug, ' ');
-            line = line.replace(/\s*(&lt;&gt;|\(\)|\[\])/ug, '');
-            line = line.trim();
-        }
-        else {
-            line = this.ksearch_results_highlight(item, value);
-        }
+        $.each(fields, function (key, data) {
+            line = line.replace('{' + key + '}', data ? ref.ksearch_results_highlight(data, search_term) : '');
+        });
+        line = line.replace(/\{[a-z]+\}/ug, '');
+        line = line.replace(/\s*&lt;&gt;/ug, '');
+        line = line.replace(/\s+/ug, ' ');
+        line = line.trim();
 
-        return '<i class="icon"></i>' + line;
+        return  line;
     };
 
-    this.ksearch_results_highlight = function (text, value) {
-        return this.quote_html(text.replace(new RegExp('(' + RegExp.escape(value) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
+    this.ksearch_results_highlight = function (haystack, needle) {
+        return this.quote_html(haystack.replace(new RegExp('(' + RegExp.escape(needle) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
     };
 
     // Getter for input value
