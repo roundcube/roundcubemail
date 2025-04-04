@@ -1084,7 +1084,7 @@ class rcmail_output_html extends rcmail_output
                 $prefix = str_repeat('../', count($path) + 1);
             }
 
-            if (!str_starts_with($location, $prefix . 'static.php') && strpos($location, 'data:image') === false) {
+            if (!str_starts_with($location, $prefix . 'static.php') && !str_starts_with($location, 'data:')) {
                 $location = $prefix . 'static.php/' . $location;
             }
         }
