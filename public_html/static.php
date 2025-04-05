@@ -98,7 +98,7 @@ function validateStaticFile(string $path): ?string
 
     $found = false;
     foreach (ALLOWED_PATHS as $prefix) {
-        if (strpos($path, $prefix) === 0 && !preg_match('~skins/.+/templates/~', $path)) {
+        if (str_starts_with($path, $prefix) && !preg_match('~skins/.+/templates/~', $path)) {
             $found = true;
             break;
         }
@@ -138,7 +138,7 @@ function serveStaticFile($path): void
 
     if (isset($_SERVER['HTTP_RANGE'])) {
         // $valid = preg_match('^bytes=\d*-\d*(,\d*-\d*)*$', $_SERVER['HTTP_RANGE']);
-        if (substr($_SERVER['HTTP_RANGE'], 0, 6) != 'bytes=') {
+        if (!str_starts_with($_SERVER['HTTP_RANGE'], 'bytes=')) {
             http_response_code(416); // "Range Not Satisfiable"
             header('Content-Range: bytes */' . $size); // Required in 416.
             return;
