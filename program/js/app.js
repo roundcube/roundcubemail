@@ -6345,7 +6345,7 @@ function rcube_webmail() {
         if (results && (len = results.length)) {
             for (i = 0; i < len && maxlen > 0; i++) {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
-                fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { 'name': text };
+                fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { name: text };
                 type = typeof results[i] === 'object' ? results[i].type : '';
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
@@ -6396,7 +6396,7 @@ function rcube_webmail() {
         line = line.replace(/\s+/ug, ' ');
         line = line.trim();
 
-        return  line;
+        return line;
     };
 
     this.ksearch_results_highlight = function (haystack, needle) {
