@@ -90,7 +90,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     $contact['email'] = $email;
                                 }
 
-                                $name = !empty($contact['display']) ? $contact['display'] : $name;
+                                $name = !empty($contact['fields']['name']) ? $contact['fields']['name'] : $name;
                                 $contacts[$index] = $contact;
                                 $sort_keys[$index] = sprintf('%s %03d', $name, $idx++);
 

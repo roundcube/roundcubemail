@@ -808,7 +808,7 @@ abstract class rcube_addressbook
     {
         static $template;
 
-        if (empty($templ) && !isset($template)) {  // cache this
+        if (!isset($template)) {  // cache this
             $template = ['name', 'email'];
         }
 
