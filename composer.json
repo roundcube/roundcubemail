@@ -61,7 +61,7 @@
         "roundcube/virtuser_file": "*",
         "roundcube/virtuser_query": "*",
         "roundcube/zipdownload": "*",
-        "symfony/process": "^7.0"
+        "symfony/process": "^6.4 || ^7.0"
     },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
