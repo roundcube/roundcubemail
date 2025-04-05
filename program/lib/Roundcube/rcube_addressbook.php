@@ -679,7 +679,7 @@ abstract class rcube_addressbook
      */
     public static function compose_list_name($contact)
     {
-        static $compose_mode;
+        static $compose_mode, $template;
 
         if (!isset($compose_mode)) {
             $compose_mode = (int) rcube::get_instance()->config->get('addressbook_name_listing', 0);
@@ -745,6 +745,16 @@ abstract class rcube_addressbook
             }
         }
 
+        if ($fn !== '') {
+            if (!isset($template)) {  // cache this
+                $template = rcube::get_instance()->config->get('contactlist_name_template', '{name}');
+            }
+
+            if ($template !== '{name}') {
+                $fn = self::compose_search_name($contact, null, $fn, $template);
+            }
+        }
+
         return $fn;
     }
 
@@ -763,6 +773,8 @@ abstract class rcube_addressbook
         static $template;
 
         if (empty($templ) && !isset($template)) {  // cache this
+            // formerly contact_search_name config var
+            // use contactlist_name_template instead
             $template = '{name} <{email}>';
         }
 
