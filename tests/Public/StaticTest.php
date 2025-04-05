@@ -38,7 +38,7 @@ class StaticTest extends ServerTestCase
         $this->assertSame(['bytes'], $response->getHeader('Accept-Ranges'));
         $this->assertSame([(string) strlen($file)], $response->getHeader('Content-Length'));
         $this->assertStringContainsString($ctype, $response->getHeader('Content-Type')[0]);
-        // TODO: Expires header
+        // TODO: Expires and Last-Modified header
     }
 
     /**
@@ -77,7 +77,16 @@ class StaticTest extends ServerTestCase
      */
     public function testModifiedSinceHeader(): void
     {
-        $this->markTestIncomplete();
+        $path = 'program/resources/blank.gif';
+        $mtime = gmdate('D, d M Y H:i:s \G\M\T', filemtime(INSTALL_PATH . $path));
+        $headers = [
+            'If-Modified-Since' => $mtime,
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $this->assertSame(304, $response->getStatusCode());
+        $this->assertSame('', (string) $response->getBody());
     }
 
     /**
@@ -85,6 +94,41 @@ class StaticTest extends ServerTestCase
      */
     public function testRangeHeader(): void
     {
-        $this->markTestIncomplete();
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+
+        // Invalid header
+        $headers = [
+            'Range' => 'invalid',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $this->assertSame(416, $response->getStatusCode());
+        $this->assertSame(['bytes */' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame('', (string) $response->getBody());
+
+        // Invalid header
+        $headers = [
+            'Range' => 'bytes=1000-10',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $this->assertSame(416, $response->getStatusCode());
+        $this->assertSame(['bytes */' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame('', (string) $response->getBody());
+
+        // Valid request
+        $headers = [
+            'Range' => 'bytes=10-50',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame(['41'], $response->getHeader('Content-Length'));
+        $this->assertSame(['bytes 10-50/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame(substr($file, 10, 41), (string) $response->getBody());
     }
 }
