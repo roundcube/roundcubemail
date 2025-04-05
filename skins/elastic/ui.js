@@ -4450,6 +4450,21 @@ if (window.rcmail) {
         // delegate to rcube_elastic_ui
         return rcmail.triggerEvent('menu-close', { name: name, props: { menu: name }, originalEvent: event });
     };
+
+    /**
+     * Elastic version of ksearch_results_display with small screen support
+     */
+    rcmail.ksearch_results_display = function (fields, search_term) {
+        var line = $('<li>')
+            .append($('<i>').addClass('icon'))
+            .append($('<span>').addClass('fields'));
+
+        $.each(fields, function (key, data) {
+            line.children('span.fields').append($('<span>').addClass('field ' + key).html(data ? rcmail.ksearch_results_highlight(data, search_term) : ''));
+        });
+
+        return line.html();
+    };
 } else {
     // rcmail does not exists e.g. on the error template inside a frame
     // we fake the engine a little
