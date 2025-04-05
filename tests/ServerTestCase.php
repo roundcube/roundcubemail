@@ -22,7 +22,7 @@ class ServerTestCase extends TestCase
         static::$phpProcess = new Process($cmd, null, $env);
         static::$phpProcess->setWorkingDirectory($path);
         static::$phpProcess->start();
-        usleep(50 * 1000); // give the server some time before we start testing
+        usleep(100 * 1000); // give the server some time before we start testing
     }
 
     #[\Override]
