@@ -337,6 +337,8 @@ body.task-error-login #layout {
     div.rcmBody {
         // Remove margins that can be set by the mail message styles
         margin: 0 auto !important;
+        // Fix floating table issue (#9804)
+        overflow: auto hidden;
     }
 
     blockquote {
