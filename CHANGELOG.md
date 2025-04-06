@@ -73,6 +73,7 @@
 - Fix PHP warning in index.php (#9813)
 - OAuth: Fix/improve token refresh
 - Fix dark mode bug where wrong colors were used for blockquotes in HTML mail preview (#9820)
+- Fix HTML message preview if it contains floating tables (#9804)
 
 ## Release 1.6.10
 
