@@ -72,6 +72,7 @@
 - Improve installer to fix confusion about disabling SMTP authentication (#9801)
 - Fix PHP warning in index.php (#9813)
 - OAuth: Fix/improve token refresh
+- Fix dark mode bug where wrong colors were used for blockquotes in HTML mail preview (#9820)
 
 ## Release 1.6.10
 
