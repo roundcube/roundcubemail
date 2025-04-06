@@ -11,7 +11,7 @@ EMAIL;TYPE=work:work@email.pl
 EMAIL:unknown@email.com
 EMAIL:other@email.com
 TEL;TYPE=pager:pager
-TEL;TYPE=pref:mainphone
+TEL;TYPE=main:mainphone
 TEL;TYPE=home:homephone
 TEL;TYPE=homefax:homefax
 TEL;TYPE=cell:mobile
