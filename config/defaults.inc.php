@@ -119,8 +119,8 @@ $config['smtp_debug'] = false;
 // Log Memcache conversation to <log_dir>/memcache.log or to syslog
 $config['memcache_debug'] = false;
 
-// Log APC conversation to <log_dir>/apc.log or to syslog
-$config['apc_debug'] = false;
+// Log APCu conversation to <log_dir>/apc.log or to syslog
+$config['apcu_debug'] = false;
 
 // Log Redis conversation to <log_dir>/redis.log or to syslog
 $config['redis_debug'] = false;
@@ -240,7 +240,7 @@ $config['imap_disabled_caps'] = [];
 // This is used to relate IMAP session with Roundcube user sessions
 $config['imap_log_session'] = false;
 
-// Type of IMAP indexes cache. Supported values: 'db', 'apc', 'apcu', 'redis' and 'memcache' or 'memcached'.
+// Type of IMAP indexes cache. Supported values: 'db', 'apcu', 'redis' and 'memcache' or 'memcached'.
 $config['imap_cache'] = null;
 
 // Enables messages cache. Only 'db' cache is supported.
@@ -396,7 +396,8 @@ $config['oauth_login_redirect'] = false;
 // Optional: boolean, if true will generate debug information to <default log path>/oauth.log
 $config['oauth_debug'] = false;
 
-// Mandatory for backchannel, highly recommended when using `oauth_config_uri` or `oauth_jwks_uri` (Type of cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached')
+// Mandatory for backchannel, highly recommended when using `oauth_config_uri` or `oauth_jwks_uri`
+// (Type of cache. Supported values: 'db', 'apcu', 'memcache', 'memcached', 'redis')
 $config['oauth_cache'] = 'db';
 
 // Optional: cache ttl
@@ -460,7 +461,7 @@ $config['oauth_password_claim'] = null;
 // LDAP
 // ----------------------------------
 
-// Type of LDAP cache. Supported values: 'db', 'apc', 'apcu' and 'memcache' or 'memcached'.
+// Type of LDAP cache. Supported values: 'db', 'apcu', 'memcache', 'memcached', 'redis'.
 $config['ldap_cache'] = 'db';
 
 // Lifetime of LDAP cache. Possible units: s, m, h, d, w
@@ -501,8 +502,8 @@ $config['redis_hosts'] = null;
 // Maximum size of an object in memcache (in bytes). Default: 2MB
 $config['memcache_max_allowed_packet'] = '2M';
 
-// Maximum size of an object in APC cache (in bytes). Default: 2MB
-$config['apc_max_allowed_packet'] = '2M';
+// Maximum size of an object in APCu cache (in bytes). Default: 2MB
+$config['apcu_max_allowed_packet'] = '2M';
 
 // Maximum size of an object in Redis cache (in bytes). Default: 2MB
 $config['redis_max_allowed_packet'] = '2M';

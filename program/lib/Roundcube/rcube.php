@@ -215,7 +215,7 @@ class rcube
      * Initialize and get user cache object
      *
      * @param string     $name    Cache identifier
-     * @param string     $type    Cache type ('db', 'apc', 'apcu', 'memcache', 'redis')
+     * @param string     $type    Cache type ('db', 'apcu', 'memcache', 'memcached', 'redis')
      * @param string|int $ttl     Expiration time for cache items
      * @param bool       $packed  Enables/disables data serialization
      * @param bool       $indexed Use indexed cache
@@ -1522,7 +1522,7 @@ class rcube
     /**
      * Write debug info to the log
      *
-     * @param string $engine Engine type - file name (memcache, apc, redis)
+     * @param string $engine Engine type - file name (db, memcache, memcached, apcu, redis)
      * @param string $data   Data string to log
      * @param bool   $result Operation result
      */

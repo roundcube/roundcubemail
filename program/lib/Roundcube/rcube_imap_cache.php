@@ -108,7 +108,7 @@ class rcube_imap_cache
      * @param rcube_imap $imap         IMAP handler
      * @param int        $userid       User identifier
      * @param bool       $skip_deleted skip_deleted flag
-     * @param int        $ttl          Expiration time of memcache/apc items
+     * @param int        $ttl          Expiration time of cache items
      * @param int        $threshold    Maximum cached message size
      */
     public function __construct($db, $imap, $userid, $skip_deleted, $ttl = 0, $threshold = 0)

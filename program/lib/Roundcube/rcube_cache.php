@@ -46,10 +46,10 @@ class rcube_cache
     /**
      * Object factory
      *
-     * @param string     $type    Engine type ('db', 'memcache', 'apc', 'apcu', 'redis')
+     * @param string     $type    Engine type ('db', 'memcache', 'memcached', 'apcu', 'redis')
      * @param int        $userid  User identifier
      * @param string     $prefix  Key name prefix
-     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param int|string $ttl     Expiration time of cache items
      * @param bool       $packed  Enables/disabled data serialization.
      *                            It's possible to disable data serialization if you're sure
      *                            stored data will be always a safe string
@@ -81,7 +81,7 @@ class rcube_cache
      *
      * @param int        $userid  User identifier
      * @param string     $prefix  Key name prefix
-     * @param int|string $ttl     Expiration time of memcache/apc items
+     * @param int|string $ttl     Expiration time of cache items
      * @param bool       $packed  Enables/disabled data serialization.
      *                            It's possible to disable data serialization if you're sure
      *                            stored data will be always a safe string
@@ -400,7 +400,7 @@ class rcube_cache
     }
 
     /**
-     * Writes the index entry as well as updated entries into memcache/apc/redis DB.
+     * Writes the index entry as well as updated entries into cache storage
      */
     protected function write_index($force = null)
     {
@@ -439,7 +439,7 @@ class rcube_cache
     }
 
     /**
-     * Gets the index entry from memcache/apc/redis DB.
+     * Gets the index entry from cache storage.
      */
     protected function load_index()
     {
@@ -501,7 +501,7 @@ class rcube_cache
     }
 
     /**
-     * Adds entry into memcache/apc/redis DB.
+     * Adds entry into cache storage.
      *
      * @param string $key  Cache internal key name
      * @param mixed  $data Serialized cache data
@@ -515,7 +515,7 @@ class rcube_cache
     }
 
     /**
-     * Deletes entry from memcache/apc/redis DB.
+     * Deletes entry from cache storage.
      *
      * @param string $key Cache internal key name
      *
@@ -624,7 +624,7 @@ class rcube_cache
     }
 
     /**
-     * Write memcache/apc/redis debug info to the log
+     * Write debug info to the log
      */
     protected function debug($type, $key, $data = null, $result = null)
     {

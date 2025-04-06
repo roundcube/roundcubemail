@@ -5,6 +5,8 @@
 - Set minimum required PHP version to 8.1 (#9599)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
+- Added apcu cache driver (#9828)
+- Removed apc cache driver
 - Renamed composer.json.dist to composer.json (#9279)
 - Make public_html/ entry-point mandatory, all static resources are served via static.php (#9294, #8851)
 - Removed support for MS SQL Server and Oracle (#7854)

@@ -4,7 +4,7 @@ $config = [];
 
 // By default this plugin stores attachments in filesystem
 // and copies them into sql database.
-// You can change it to use 'memcache', 'memcached', 'redis', 'apc' or 'apcu'.
+// You can change it to use 'memcache', 'memcached', 'redis' or 'apcu'.
 // -----------------------------------------------------------
 // WARNING: Remember to set max_allowed_packet in database or
 //          config to match with expected max attachment size.
