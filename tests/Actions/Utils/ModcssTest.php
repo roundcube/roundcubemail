@@ -3,9 +3,8 @@
 namespace Roundcube\Tests\Actions\Utils;
 
 use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\HttpClientMock;
 use Roundcube\Tests\OutputHtmlMock;
-
-use function Roundcube\Tests\setHttpClientMock;
 
 /**
  * Test class to test rcmail_action_utils_modcss
@@ -52,9 +51,9 @@ class ModcssTest extends ActionTestCase
         // Valid url pointing to non-existing resource
         $_SESSION['modcssurls'][$key] = $url;
 
-        setHttpClientMock([
-            ['code' => 404],
-            ['code' => 200, 'headers' => ['Content-Type' => 'text/css'], 'response' => 'div.pre { display: none; }'],
+        HttpClientMock::setResponses([
+            [404],
+            [200, ['Content-Type' => 'text/css'], 'div.pre { display: none; }'],
         ]);
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);

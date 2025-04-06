@@ -2,9 +2,9 @@
 
 namespace Roundcube\Tests;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
+use Dom\HTMLDocument;
+use Dom\NodeList;
+use Dom\XPath;
 use Masterminds\HTML5;
 
 /*
@@ -116,36 +116,20 @@ function setProperty($object, $name, $value, $class = null): void
  * @param string $html        HTML content
  * @param string $xpath_query XPath query
  *
- * @return \DOMNodeList List of nodes found
+ * @return \DOMNodeList|NodeList List of nodes found
  */
 function getHTMLNodes($html, $xpath_query)
 {
-    $html5 = new HTML5(['disable_html_ns' => true]);
-    $doc = $html5->loadHTML($html);
-
-    $xpath = new \DOMXPath($doc);
-
-    return $xpath->query($xpath_query);
-}
-
-/**
- * Mock Guzzle HTTP Client
- */
-function setHttpClientMock(array $responses)
-{
-    foreach ($responses as $idx => $response) {
-        if (is_array($response)) {
-            $responses[$idx] = new Response(
-                $response['code'] ?? 200,
-                $response['headers'] ?? [],
-                $response['response'] ?? ''
-            );
-        }
+    // Try HTML5 parser available in PHP >= 8.4
+    if (class_exists(HTMLDocument::class)) {
+        $options = constant('Dom\HTML_NO_DEFAULT_NS') | \LIBXML_COMPACT | \LIBXML_NOERROR;
+        $doc = HTMLDocument::createFromString($html, $options, RCUBE_CHARSET);
+        $xpath = new XPath($doc);
+    } else {
+        $html5 = new HTML5(['disable_html_ns' => true]);
+        $doc = $html5->loadHTML($html);
+        $xpath = new \DOMXPath($doc);
     }
 
-    $mock = new MockHandler($responses);
-    $handler = HandlerStack::create($mock);
-    $rcube = \rcube::get_instance();
-
-    $rcube->config->set('http_client', ['handler' => $handler]);
+    return $xpath->query($xpath_query);
 }

@@ -2,11 +2,9 @@
 
 namespace Roundcube\Tests\Rcmail;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\ExitException;
+use Roundcube\Tests\HttpClientMock;
 use Roundcube\Tests\OutputHtmlMock;
 use Roundcube\Tests\StderrMock;
 
@@ -151,17 +149,15 @@ class OauthTest extends ActionTestCase
             'jwks_uri' => 'https://test/jwks',
         ];
 
-        $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($config_answer)),
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($config_answer)],
         ]);
-        $handler = HandlerStack::create($mock);
 
         // provide only the config
         $oauth = new \rcmail_oauth([
             'provider' => 'example',
             'config_uri' => 'https://test/config',
             'client_id' => 'some-client',
-            'http_options' => ['handler' => $handler],
         ]);
         $oauth->init();
 
@@ -249,13 +245,11 @@ class OauthTest extends ActionTestCase
             'scope' => 'openid profile email',
         ];
 
-        $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($payload)],
         ]);
-        $handler = HandlerStack::create($mock);
-        $oauth = new \rcmail_oauth((array) $this->config + [
-            'http_options' => ['handler' => $handler],
-        ]);
+
+        $oauth = new \rcmail_oauth((array) $this->config);
         $oauth->init();
 
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
@@ -286,13 +280,11 @@ class OauthTest extends ActionTestCase
             'scope' => 'openid profile email',
         ];
 
-        $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($payload)],
         ]);
-        $handler = HandlerStack::create($mock);
-        $oauth = new \rcmail_oauth((array) $this->config + [
-            'http_options' => ['handler' => $handler],
-        ]);
+
+        $oauth = new \rcmail_oauth((array) $this->config);
         $oauth->init();
 
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
@@ -326,15 +318,12 @@ class OauthTest extends ActionTestCase
         ];
 
         // TODO should create a specific Mock to check request and validate it
-        $mock = new MockHandler([
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($payload)),        // the request access
-            new Response(200, ['Content-Type' => 'application/json'], json_encode($this->identity)), // call to userinfo
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($payload)],        // the request access
+            [200, ['Content-Type' => 'application/json'], json_encode($this->identity)], // call to userinfo
         ]);
-        $handler = HandlerStack::create($mock);
 
-        $oauth = new \rcmail_oauth((array) $this->config + [
-            'http_options' => ['handler' => $handler],
-        ]);
+        $oauth = new \rcmail_oauth((array) $this->config);
         $oauth->init();
 
         $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
