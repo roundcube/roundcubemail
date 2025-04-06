@@ -37,7 +37,7 @@ abstract class TestCase extends PHPUnitTestCase
     public static function prepare()
     {
         static::startWebServer();
-        static::startChromeDriver();
+        static::startChromeDriver(['--port=9515']);
     }
 
     /**
