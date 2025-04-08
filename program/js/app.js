@@ -1659,18 +1659,18 @@ function rcube_webmail() {
     };
 
     // return a localized string
-    this.get_label = function (label, domain, variables = null) {
-        if (domain && this.labels[domain + '.' + label]) {
-            label = this.labels[domain + '.' + label];
+    this.get_label = function (name, domain, variables = null) {
+        if (domain && this.labels[domain + '.' + name]) {
+            name = this.labels[domain + '.' + name];
         }
-        else if (this.labels[label]) {
-            label = this.labels[label];
+        else if (this.labels[name]) {
+            name = this.labels[name];
         }
 
         // set variable value in localized string
         if (variables && Object.keys(variables).length) {
             for (const [key, value] of Object.entries(variables)) {
-                label = label.replaceAll(`$${key}`, value);
+                name = name.replaceAll(`$${key}`, value);
             }
         }
 
