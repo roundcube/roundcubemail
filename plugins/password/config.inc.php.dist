@@ -402,6 +402,15 @@ $config['hmailserver_server'] = [
     'Password' => 'password',       // windows user password
 ];
 
+// hMailDb Driver options
+// -----------------------
+// hMailServer database connection string
+$config['hmaildb'] = [
+    'dsn' => 'mysql:host=<host_address>;dbname=<dbname>;charset=utf8mb4',
+    'user' => 'dbuser',  // db username
+    'password' => 'dbpassword',   // db user password
+];
+
 // pw_usermod Driver options
 // --------------------------
 // Use comma delimited exlist to disable password change for users.
