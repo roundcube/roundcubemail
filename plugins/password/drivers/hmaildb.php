@@ -6,10 +6,10 @@
  * @version 1.0
  *
  * @author Andrea Lanfranchi <andrea.lanfranchi@gmail.com>
- * 
+ *
  * Note: This code is based on the hMailServer published code
  * here https://github.com/hmailserver/hmailserver/tree/master/hmailserver/source
- * 
+ *
  * Warning: Unlike the hmail password plugin (DCOM), this plugin does not use 
  * the hmailserver COM object to change the password. As a result while the password
  * is correctly changed in the database, hMailServer will not be notified of the change
@@ -34,11 +34,13 @@
 
 class rcube_hmaildb_password
 {
-
     private const SALT_LENGTH = 6;  // Length of the salt to be used in the password hashing (SHA256)
-    private const ENC_NONE = 0;     // No encryption (plaintext case insensitive ! Ugh !)
-    private const ENC_BLOWFISH = 1; // Blowfish encryption (deprecated)
-    private const ENC_MD5 = 2;      // MD5 encryption (deprecated)
+
+    // The following constants are used to define the encryption types supported by hMailServer.
+    // They are not (yet) used in this plugin, but are kept for reference and future use.
+    // private const ENC_NONE = 0;     // No encryption (plaintext case insensitive ! Ugh !)
+    // private const ENC_BLOWFISH = 1; // Blowfish encryption (deprecated)
+    // private const ENC_MD5 = 2;      // MD5 encryption (deprecated)
     private const ENC_SHA256 = 3;   // SHA256 encryption with salt (default)
 
     /**
@@ -55,8 +57,8 @@ class rcube_hmaildb_password
         $rcmail = rcmail::get_instance();
         $dbconf = $rcmail->config->get('hmaildb');
 
-        if (!is_string($dbconf['dsn']) || !is_string($dbconf['user']) || !is_string($dbconf['password']) ||
-            empty($dbconf['dsn']) || empty($dbconf['user']) || empty($dbconf['password'])) {
+        if (!is_string($dbconf['dsn']) || !is_string($dbconf['user']) || !is_string($dbconf['password'])
+            || empty($dbconf['dsn']) || empty($dbconf['user']) || empty($dbconf['password'])) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -93,24 +95,12 @@ class rcube_hmaildb_password
 
         $encType = $data['enctype'];
         $curEncPass = $this->encrypt_($curpass, $encType, $salt);
-        if ($curEncPass === null) {
-            return PASSWORD_CRYPT_ERROR;
-        } else {
-            if (strcasecmp($curEncPass, $data['encpw']) !== 0) {
-                rcube::raise_error([
-                    'code'    => 403,
-                    'type'    => 'php',
-                    'message' => 'Password plugin: Current password does not match'
-                ], false);
-                return PASSWORD_COMPARE_CURRENT;
-            }
+        if (strcasecmp($curEncPass, $data['encpw']) !== 0) {
+            return PASSWORD_COMPARE_CURRENT;
         }
 
         // Hash the new password using SHA256 with a new random salt
         $newSalt = $this->gen_salt_();
-        if ($newSalt === null) {
-            return PASSWORD_CRYPT_ERROR;
-        }
         $newEncPass = $this->encrypt_($passwd, $encType, $newSalt);
         if ($newEncPass === null) {
             return PASSWORD_CRYPT_ERROR;
@@ -128,7 +118,6 @@ class rcube_hmaildb_password
         // If the update was successful, we can assume the password has been changed
         return PASSWORD_SUCCESS; // All done, return success
     }
-
 
     /**
      * Extracts the salt part from a given hash.
@@ -148,6 +137,7 @@ class rcube_hmaildb_password
      * Generates a random salt string
      *
      * @return string The generated salt string.
+     *
      * @throws Exception If the random bytes generation fails.
      */
     private function gen_salt_(): string
@@ -161,8 +151,7 @@ class rcube_hmaildb_password
      * @param string $password The password to hash.
      * @param int $encType The encryption type (currently only SHA256 is supported).
      * @param string $salt The hexadecimal-encoded salt string.
-     * @return string The resulting hash string.
-     * @throws Exception If the salt length is invalid or the hash length is incorrect.
+     * @return string The resulting hash string or null on validation failure.
      */
     private function encrypt_(string $password, int $encType, string $salt): ?string
     {
@@ -191,5 +180,4 @@ class rcube_hmaildb_password
         }
         return $salt . $ret;
     }
-
 }
