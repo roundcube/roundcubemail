@@ -1516,6 +1516,10 @@ class rcube
     {
         static $debug_counter;
 
+        if (!isset($debug_counter[$engine])) {
+            $debug_counter[$engine] = 0;
+        }
+
         $line = '[' . (++$debug_counter[$engine]) . '] ' . $data;
 
         if (($len = strlen($line)) > self::DEBUG_LINE_LENGTH) {

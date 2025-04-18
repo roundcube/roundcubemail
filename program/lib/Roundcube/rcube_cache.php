@@ -189,6 +189,7 @@ class rcube_cache
         $this->index   = null;
         $this->cache   = [];
         $this->updates = [];
+        $this->exp_records = [];
     }
 
     /**
@@ -341,6 +342,7 @@ class rcube_cache
         if ($key === null) {
             $ts = new DateTime('now', new DateTimeZone('UTC'));
             $this->add_item($this->ekey('*'), $ts->format(self::DATE_FORMAT));
+            $this->exp_records['*'] = $ts;
             $this->cache = [];
         }
         // "Remove" keys by name prefix
@@ -349,6 +351,7 @@ class rcube_cache
             $prefix = implode('.', array_slice(explode('.', trim($key, '. ')), 0, self::MAX_EXP_LEVEL));
 
             $this->add_item($this->ekey($prefix), $ts->format(self::DATE_FORMAT));
+            $this->exp_records[$prefix] = $ts;
 
             foreach (array_keys($this->cache) as $k) {
                 if (strpos($k, $key) === 0) {
