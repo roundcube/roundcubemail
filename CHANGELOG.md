@@ -76,6 +76,7 @@
 - OAuth: Fix/improve token refresh
 - Fix dark mode bug where wrong colors were used for blockquotes in HTML mail preview (#9820)
 - Fix HTML message preview if it contains floating tables (#9804)
+- Fix removing/expiring redis/memcache records when using a key prefix
 
 ## Release 1.6.10
 
