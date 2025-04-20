@@ -77,6 +77,7 @@
 - Fix dark mode bug where wrong colors were used for blockquotes in HTML mail preview (#9820)
 - Fix HTML message preview if it contains floating tables (#9804)
 - Fix removing/expiring redis/memcache records when using a key prefix
+- Fix bug where a wrong SPECIAL-USE folder could have been detected, if there were more than one per-type (#9781)
 
 ## Release 1.6.10
 

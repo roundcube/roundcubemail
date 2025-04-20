@@ -3452,6 +3452,12 @@ class rcube_imap extends rcube_storage
                     foreach ($types as $type) {
                         if (in_array($type, $flags)) {
                             $type = strtolower(substr($type, 1));
+
+                            // Ignore all but first personal special folder per type (#9781)
+                            if (isset($special[$type]) && $this->folder_namespace($special[$type]) == 'personal') {
+                                continue;
+                            }
+
                             $special[$type] = $folder;
                         }
                     }
