@@ -81,6 +81,7 @@
 - Fix HTML message preview if it contains floating tables (#9804)
 - Fix removing/expiring redis/memcache records when using a key prefix
 - Fix bug where a wrong SPECIAL-USE folder could have been detected, if there were more than one per-type (#9781)
+- Fix a default value and documentation of password_ldap_encodage option (#9658)
 
 ## Release 1.6.10
 
