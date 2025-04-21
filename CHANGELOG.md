@@ -67,6 +67,7 @@
 - Password: Use Guzzle HTTP Client in the `cpanel` driver
 - Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
 - Zipdownload: Change "Download..." menu label into "Export..." (#9713)
+- Fix bug in handling rcmail::format_date()'s $convert argument (#9666)
 - Fix use of Bootstrap's `box-sizing` inside a HTML message content (#9727)
 - Fix folders hierarchy when special folders are subfolders of INBOX, with no personal namespace prefix (#9452)
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)

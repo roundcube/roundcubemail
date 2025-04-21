@@ -1591,9 +1591,7 @@ class rcmail extends rcube
      */
     public function format_date($date, $format = null, $convert = true)
     {
-        if ($date instanceof DateTimeInterface) {
-            $timestamp = $date->format('U');
-        } else {
+        if (!$date instanceof DateTimeInterface) {
             if (!empty($date)) {
                 $timestamp = rcube_utils::strtotime($date);
             }
@@ -1614,10 +1612,8 @@ class rcmail extends rcube
                 // convert to the right timezone
                 $stz = date_default_timezone_get();
                 $tz = new DateTimeZone($this->config->get('timezone'));
+                $date = clone $date; // don't modify the original object
                 $date->setTimezone($tz);
-                date_default_timezone_set($tz->getName());
-
-                $timestamp = $date->format('U');
             } catch (Exception $e) {
                 // ignore
             }
@@ -1630,6 +1626,7 @@ class rcmail extends rcube
             $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
             $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'] - 6, $now_date['year']);
             $pretty_date = $this->config->get('prettydate');
+            $timestamp = $date->format('U');
 
             if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
                 $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
@@ -1654,24 +1651,23 @@ class rcmail extends rcube
             }
             // weekday (short)
             elseif ($format[$i] == 'D') {
-                $out .= $this->gettext(strtolower(date('D', $timestamp)));
+                $out .= $this->gettext(strtolower($date->format('D')));
             }
             // weekday long
             elseif ($format[$i] == 'l') {
-                $out .= $this->gettext(strtolower(date('l', $timestamp)));
+                $out .= $this->gettext(strtolower($date->format('l')));
             }
             // month name (short)
             elseif ($format[$i] == 'M') {
-                $out .= $this->gettext(strtolower(date('M', $timestamp)));
+                $out .= $this->gettext(strtolower($date->format('M')));
             }
             // month name (long)
             elseif ($format[$i] == 'F') {
-                $out .= $this->gettext('long' . strtolower(date('M', $timestamp)));
+                $out .= $this->gettext('long' . strtolower($date->format('M')));
             } elseif ($format[$i] == 'x') {
-                $formatter = new IntlDateFormatter(null, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT);
-                $out .= $formatter->format($timestamp);
+                $out .= IntlDateFormatter::formatObject($date, [IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]);
             } else {
-                $out .= date($format[$i], $timestamp);
+                $out .= $date->format($format[$i]);
             }
         }
 
@@ -1683,10 +1679,6 @@ class rcmail extends rcube
             } else {
                 $out = $label . ' ' . $out;
             }
-        }
-
-        if (isset($stz)) {
-            date_default_timezone_set($stz);
         }
 
         return $out;

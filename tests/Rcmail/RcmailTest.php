@@ -298,5 +298,12 @@ class RcmailTest extends ActionTestCase
         $this->assertSame($date_x, $rcmail->format_date($date, 'x'));
         $this->assertSame('1591014030', $rcmail->format_date($date, 'U'));
         $this->assertSame('2020-06-01T12:20:30+00:00', $rcmail->format_date($date, 'c'));
+
+        // Test the $convert argument
+        $date = new \DateTime('2020-06-01 12:00:00', new \DateTimeZone('Europe/Berlin'));
+        $this->assertSame('10:00 UTC', $rcmail->format_date($date, 'H:i e', true));
+        $this->assertSame('Europe/Berlin', $date->getTimeZone()->getName());
+        $date = new \DateTime('2020-06-01 12:00:00', new \DateTimeZone('Europe/Berlin'));
+        $this->assertSame('12:00 Europe/Berlin', $rcmail->format_date($date, 'H:i e', false));
     }
 }
