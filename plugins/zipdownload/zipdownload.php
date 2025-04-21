@@ -92,7 +92,7 @@ class zipdownload extends rcube_plugin
     public function download_menu()
     {
         $this->include_script('zipdownload.js');
-        $this->add_label('download');
+        $this->add_label('export');
 
         $rcmail = rcmail::get_instance();
         $menu = [];
@@ -115,7 +115,7 @@ class zipdownload extends rcube_plugin
 
         $rcmail->output->add_footer(
             html::div(['id' => 'zipdownload-menu', 'class' => 'popupmenu', 'aria-hidden' => 'true'],
-                html::tag('h2', ['class' => 'voice', 'id' => 'aria-label-zipdownloadmenu'], 'Message Download Options Menu')
+                html::tag('h2', ['class' => 'voice', 'id' => 'aria-label-zipdownloadmenu'], rcube::Q($this->gettext('exportmenu')))
                 . html::tag('ul', $ul_attr, implode('', $menu))
             )
         );

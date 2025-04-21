@@ -49,7 +49,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
 
         link.attr('aria-haspopup', 'true');
 
-        span.text(rcmail.get_label('zipdownload.download'));
+        span.text(rcmail.get_label('zipdownload.export'));
         rcmail.env.download_link = link;
     });
 });

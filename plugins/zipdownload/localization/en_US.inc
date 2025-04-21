@@ -15,8 +15,12 @@
 */
 
 $labels['downloadall'] = 'Download all attachments';
-$labels['download'] = 'Download...';
+$labels['export'] = 'Export...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
 $labels['downloademl'] = 'Source (.eml)';
 $labels['sizelimiterror'] = 'Total size of selected messages exceeds the limit ($size)';
+$labels['exportmenu'] = 'Message Export Options Menu';
+
+// to be removed
+$labels['download'] = 'Download...';
