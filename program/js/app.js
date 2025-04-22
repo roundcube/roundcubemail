@@ -457,15 +457,15 @@ function rcube_webmail() {
 
                             // do not apply styles to an error page (with no image)
                             if (contents.find('img').length) {
-                                contents.find('img').css({ 
+                                contents.find('img').css({
                                     maxWidth: '100%',
                                     maxHeight: '100%',
                                     margin: '0 auto',
-                                    display: 'block'
+                                    display: 'block',
                                 });
                                 contents.find('body').css({
                                     height: '100%',
-                                    margin: 0
+                                    margin: 0,
                                 });
                                 contents.find('html').css({ height: '100%' });
                             }
@@ -6005,19 +6005,19 @@ function rcube_webmail() {
             img = $(this.gui_objects.messagepartframe).contents().find('img');
 
         this.image_style.rotate = curr > 180 ? 0 : curr + 90;
-        
+
         img.css({ transform: `rotate(${this.image_style.rotate}deg)` });
     };
 
     this.image_scale = function (prop) {
-        var curr = this.image_style ? (this.image_style.scale || 1) : 1;
+        var curr = this.image_style ? (this.image_style.scale || 1) : 1,
             img = $(this.gui_objects.messagepartframe).contents().find('img'),
             zoom_base = img.width() <= img.height() ? (img.width() / curr) : (img.height() / curr),
             zoom_dim = img.width() <= img.height() ? 'width' : 'height';
 
         this.image_style.scale = Math.max(0.1, curr + 0.1 * (prop == '-' ? -1 : 1));
-        
-        img.css({ maxWidth: '', maxHeight: ''});
+
+        img.css({ maxWidth: '', maxHeight: '' });
         img.css({ [zoom_dim]: zoom_base * this.image_style.scale });
     };
 
