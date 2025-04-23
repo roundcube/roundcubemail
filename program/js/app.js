@@ -6002,12 +6002,12 @@ function rcube_webmail() {
     };
 
     this.image_rotate = function () {
-        var curr = this.image_style ? (this.image_style.rotate || 0) : 0,
-            img = $(this.gui_objects.messagepartframe).contents().find('img');
+        var curr = this.image_style ? (this.image_style.rotate || 0) : 0;
 
         this.image_style.rotate = curr > 180 ? 0 : curr + 90;
 
-        img.css({ rotate: this.image_style.rotate + 'deg' });
+        $(this.gui_objects.messagepartframe).contents().find('img')
+            .css({ rotate: this.image_style.rotate + 'deg' });
     };
 
     this.image_scale = function (prop) {
@@ -6018,8 +6018,12 @@ function rcube_webmail() {
 
         this.image_style.scale = Math.max(0.1, curr + 0.1 * (prop == '-' ? -1 : 1));
 
-        img.css({ maxWidth: '', maxHeight: '' });
-        img.css({ [zoom_dim[0]]: zoom_base * this.image_style.scale, [zoom_dim[1]]: 'auto' });
+        img.css({
+            maxWidth: '',
+            maxHeight: '',
+            [zoom_dim[0]]: zoom_base * this.image_style.scale,
+            [zoom_dim[1]]: 'auto'
+        });
     };
 
     // Update import dialog state
