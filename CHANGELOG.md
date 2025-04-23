@@ -33,6 +33,7 @@
 - Use new HTML5 parser available on PHP >= 8.4
 - Clear "list is empty" message on loading a new list (#9006)
 - Add `enable_autolink` option for HTML editor (#9818, #9762)
+- Rework/fix zoom and rotate of attached images (#9843, #7669)
 - Installer: Show NOT OK if none of the database extensions is installed (#9594, #9604)
 - Plugin API: Added message_delete hook (#9499)
 - Plugin API: Added message_move hook (#9499)
