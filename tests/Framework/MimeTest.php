@@ -355,9 +355,15 @@ class MimeTest extends TestCase
     public function test_file_content_type()
     {
         $file = INSTALL_PATH . 'program/resources/blocked.gif';
-        $this->assertSame('image/gif', \rcube_mime::file_content_type($file, 'blocked.gif'));
 
-        $this->assertSame('image/gif', \rcube_mime::file_content_type($file, 'blocked.gif', 'application/octet-stream', false, true));
+        // Test file path
+        $this->assertSame('image/gif', \rcube_mime::file_content_type($file, 'blocked.gif'));
+        $this->assertSame('image/gif', \rcube_mime::file_content_type($file, 'blocked.gif', 'application/octet-stream', false, false));
+
+        // Test file content
+        $content = file_get_contents($file);
+        $this->assertSame('image/gif', \rcube_mime::file_content_type($content, 'blocked.gif', 'application/octet-stream', true, true));
+        $this->assertSame('image/gif', \rcube_mime::file_content_type($content, 'blocked.gif', 'application/octet-stream', true, false));
     }
 
     /**

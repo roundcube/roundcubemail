@@ -700,7 +700,7 @@ class rcube_mime
     }
 
     /**
-     * A method to guess the mime_type of an attachment.
+     * A method to guess the MIME type of a file.
      *
      * @param string $path        Path to the file or file contents
      * @param string $name        File name (with suffix)
@@ -726,20 +726,21 @@ class rcube_mime
         }
 
         // try fileinfo extension if available
-        if (!$mime_type && function_exists('finfo_open')) {
+        if (!$mime_type && class_exists('finfo')) {
             $mime_magic = $config->get('mime_magic');
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
-                $finfo = finfo_open(\FILEINFO_MIME, $mime_magic);
+                $finfo = new \finfo(\FILEINFO_MIME, $mime_magic);
             } else {
-                $finfo = finfo_open(\FILEINFO_MIME);
+                $finfo = new \finfo(\FILEINFO_MIME);
             }
 
-            if ($finfo) {
-                $func = $is_stream ? 'finfo_buffer' : 'finfo_file';
-                $mime_type = $func($finfo, $path, \FILEINFO_MIME_TYPE);
-                finfo_close($finfo);
+            if ($is_stream) {
+                $mime_type = $finfo->buffer($path, \FILEINFO_MIME_TYPE);
+            }
+            else {
+                $mime_type = $finfo->file($path, \FILEINFO_MIME_TYPE);
             }
         }
 
@@ -749,11 +750,7 @@ class rcube_mime
         }
 
         // fall back to user-submitted string
-        if (!$mime_type) {
-            $mime_type = $failover;
-        }
-
-        return $mime_type;
+        return $mime_type ?: $failover;
     }
 
     /**
