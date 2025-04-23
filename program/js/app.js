@@ -6022,7 +6022,7 @@ function rcube_webmail() {
             maxWidth: '',
             maxHeight: '',
             [zoom_dim[0]]: zoom_base * this.image_style.scale,
-            [zoom_dim[1]]: 'auto'
+            [zoom_dim[1]]: 'auto',
         });
     };
 
