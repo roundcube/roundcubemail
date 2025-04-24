@@ -405,11 +405,11 @@ $config['hmailserver_server'] = [
 // hMailDb Driver options
 // -----------------------
 // hMailServer database connection string
-$config['hmaildb'] = [
-    'dsn' => 'mysql:host=<host_address>;dbname=<dbname>;charset=utf8mb4',
-    'user' => 'dbuser',  // db username
-    'password' => 'dbpassword',   // db user password
-];
+// Please note that the database connection string is not the same
+// as the hMailServer connection string although it assumes the 
+// same format which is "mysql://<user>:<password>@<host[:port]>/<dbname>"
+
+$config['password_hmaildb_dsn'] = ''
 
 // pw_usermod Driver options
 // --------------------------

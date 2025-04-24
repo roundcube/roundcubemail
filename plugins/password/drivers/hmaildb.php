@@ -55,67 +55,65 @@ class rcube_hmaildb_password
     public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
-        $dbconf = $rcmail->config->get('hmaildb');
+        $dsn = $rcmail->config->get('password_hmaildb_dsn', '');
+        if(empty($dsn)) {
 
-        if (!is_string($dbconf['dsn']) || !is_string($dbconf['user']) || !is_string($dbconf['password'])
-            || empty($dbconf['dsn']) || empty($dbconf['user']) || empty($dbconf['password'])) {
+            return PASSWORD_CONNECT_ERROR;
+        }
+        $db = rcube_db::factory($dsn);
+        if($db->is_error()) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $db = null;
-        try {
-            $db = new PDO($dbconf['dsn'], $dbconf['user'], $dbconf['password'],
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                    PDO::ATTR_PERSISTENT => true,
-                ]
-            );
-        } catch (Exception $e) {
-            return PASSWORD_CONNECT_ERROR;
+        $sql = "SELECT accountid as id, accountaddress as addr, accountpassword as encpw, accountpwencryption as enctype 
+                FROM hm_accounts WHERE accountaddress = ? AND accountactive = 1";
+        $result = $db->query($sql, $username);
+        if($db->is_error($result)) {
+            return PASSWORD_ERROR;
         }
 
-        // Check if the user exists in the database
-        $stmt = $db->prepare('SELECT accountid as id, accountaddress as addr, accountpassword as encpw, accountpwencryption as enctype FROM hm_accounts WHERE accountaddress = :username AND accountactive = 1');
-        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$data) {
+        $data = $result->fetchAll();
+        if (!$data || count($data) != 1 /* Something VERY bad in hMailDb */) {
             return PASSWORD_COMPARE_CURRENT;
         }
+        $row = $data[0];
 
         // Check if the current password matches the one in the database
-        // The password is stored in the database as a hash, so we need to hash the current password with the same salt and compare it
-        $salt = $this->get_salt_($data['encpw']);
+        // The password is stored in the database as a hash with first SALT_LENGTH chars
+        // being the current salt. So we need to re-hash the current password with
+        // the same salt and compare it to ensure password has not been changed
+        // in the meantime (e.g. through hMailServer GUI).
+        $salt = $this->get_salt($row['encpw']);
         if ($salt === null) {
             return PASSWORD_CRYPT_ERROR;
         }
 
-        $encType = $data['enctype'];
-        $curEncPass = $this->encrypt_($curpass, $encType, $salt);
-        if (strcasecmp($curEncPass, $data['encpw']) !== 0) {
+        $encType = (int) $row['enctype'];
+        $curEncPass = $this->encrypt($curpass, $encType, $salt);
+        if (strcasecmp($curEncPass, $row['encpw']) !== 0) {
             return PASSWORD_COMPARE_CURRENT;
         }
 
         // Hash the new password using SHA256 with a new random salt
-        $newSalt = $this->gen_salt_();
-        $newEncPass = $this->encrypt_($passwd, $encType, $newSalt);
+        $newSalt = $this->gen_salt();
+        $newEncPass = $this->encrypt($passwd, $encType, $newSalt);
         if ($newEncPass === null) {
             return PASSWORD_CRYPT_ERROR;
         }
 
         // Update the password hash in the database
-        $stmt = $db->prepare('UPDATE hm_accounts SET accountpassword = :newpw WHERE accountid = :id AND accountactive = 1 AND accountpassword = :oldpw');
-        $stmt->bindParam(':oldpw', $data['encpw'], PDO::PARAM_STR);
-        $stmt->bindParam(':newpw', $newEncPass, PDO::PARAM_STR);
-        $stmt->bindParam(':id', $data['id'], PDO::PARAM_INT);
-        $stmt->execute();
-        if ($stmt->rowCount() == 0) {
+        $sql = "UPDATE hm_accounts 
+                SET accountpassword = ?, accountpwencryption = ? 
+                WHERE accountid = ? AND accountactive = 1 AND accountpassword = ?";
+        $result = $db->query($sql, $newEncPass, $encType, (int) $row['id'], $row['encpw']);
+        
+        if ($db->is_error($result)) {
+            return PASSWORD_ERROR;
+        }
+        if($db->affected_rows($result) == 0) {
             return PASSWORD_COMPARE_CURRENT;
         }
-        // If the update was successful, we can assume the password has been changed
+
         return PASSWORD_SUCCESS; // All done, return success
     }
 
@@ -125,7 +123,7 @@ class rcube_hmaildb_password
      * @param string $input The full hash string from which to extract the salt.
      * @return string|null The extracted salt if valid, or null on failure.
      */
-    private function get_salt_(string $input): ?string
+    private function get_salt(string $input): ?string
     {
         if (strlen($input) < self::SALT_LENGTH || !ctype_xdigit($input)) {
             return null;
@@ -140,7 +138,7 @@ class rcube_hmaildb_password
      *
      * @throws Exception If the random bytes generation fails.
      */
-    private function gen_salt_(): string
+    private function gen_salt(): string
     {
         return bin2hex(random_bytes(intval(self::SALT_LENGTH / 2)));
     }
@@ -153,7 +151,7 @@ class rcube_hmaildb_password
      * @param string $salt The hexadecimal-encoded salt string.
      * @return string The resulting hash string or null on validation failure.
      */
-    private function encrypt_(string $password, int $encType, string $salt): ?string
+    private function encrypt(string $password, int $encType, string $salt): ?string
     {
         // Latest hmailserver implement by default SHA256 with salt by default
         // Other encryption types are still in hMailServer code for backward compatibility.
@@ -165,7 +163,7 @@ class rcube_hmaildb_password
 
         // If no salt provided, generate a new one
         if (empty($salt)) {
-            $salt = $this->gen_salt_();
+            $salt = $this->gen_salt();
         }
 
         // Validate the salt length and format
