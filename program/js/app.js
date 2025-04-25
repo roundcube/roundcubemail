@@ -5437,7 +5437,7 @@ function rcube_webmail() {
                 }
             }, 5000);
 
-            $(window).on('unload', function () {
+            $(window).on('pagehide', function () {
                 // remove copy from local storage if compose screen is left after warning
                 if (!ref.env.server_error) {
                     ref.remove_compose_data(ref.env.compose_id);

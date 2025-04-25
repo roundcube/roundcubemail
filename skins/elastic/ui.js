@@ -1270,7 +1270,7 @@ function rcube_elastic_ui() {
                 show = !href.endsWith(rcmail.env.blankpage);
 
                 // Reset title back to the default
-                $(win).on('unload', title_reset);
+                $(win).on('pagehide', title_reset);
             } catch (e) { /* ignore */ }
 
             common_content_handler(e, href, show);
