@@ -768,34 +768,24 @@ abstract class rcube_addressbook
      *
      * @return string Display name
      */
-    public static function compose_search_name($contact, $email = null, $name = null, $templ = null)
+    public static function compose_search_name($contact, $email = null, $name = null, $templ = '{name} <{email}>')
     {
-        static $template;
-
-        if (empty($templ) && !isset($template)) {  // cache this
-            // formerly contact_search_name config var
-            // use contactlist_name_template instead
-            $template = '{name} <{email}>';
-        }
-
-        $result = $templ ?: $template;
-
-        if (preg_match_all('/\{([a-z]+)\}/', $result, $matches)) {
-            $values = self::compose_autocomplete_fields($contact, $email, $name, $matches[1]);
+        if (preg_match_all('/\{([a-z]+)\}/', $templ, $matches)) {
+            $values = self::compose_search_fields($contact, $email, $name, $matches[1]);
             foreach ($values as $key => $value) {
-                $result = str_replace('{' . $key . '}', $value, $result);
+                $templ = str_replace('{' . $key . '}', $value, $templ);
             }
         }
 
-        $result = preg_replace('/\s+/u', ' ', $result);
-        $result = preg_replace('/\s*(<>|\(\)|\[\])/u', '', $result);
-        $result = trim($result, '/ ');
+        $templ = preg_replace('/\s+/u', ' ', $templ);
+        $templ = preg_replace('/\s*(<>|\(\)|\[\])/u', '', $templ);
+        $templ = trim($templ, '/ ');
 
-        return $result;
+        return $templ;
     }
 
     /**
-     * Build contact display name for autocomplete listing
+     * Build contact display name for search result listing
      *
      * @param array  $contact Hash array with contact data as key-value pairs
      * @param string $email   Optional email address
@@ -804,15 +794,8 @@ abstract class rcube_addressbook
      *
      * @return array Fields
      */
-    public static function compose_autocomplete_fields($contact, $email = null, $name = null, $fields = null)
+    public static function compose_search_fields($contact, $email = null, $name = null, $fields = ['name', 'email'])
     {
-        static $template;
-
-        if (!isset($template)) {  // cache this
-            $template = ['name', 'email'];
-        }
-
-        $fields = $fields ?: $template;
         $result = [];
 
         foreach ($fields as $key) {
@@ -848,7 +831,7 @@ abstract class rcube_addressbook
             $result[$key] = $value;
         }
 
-        $plugin = rcube::get_instance()->plugins->exec_hook('compose_autocomplete_fields', ['fields' => $result]);
+        $plugin = rcube::get_instance()->plugins->exec_hook('compose_search_fields', ['contact' => $contact, 'email' => $email, 'name' => $name, 'fields' => $result]);
 
         return $plugin['fields'];
     }

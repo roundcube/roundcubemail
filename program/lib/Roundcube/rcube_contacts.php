@@ -347,16 +347,7 @@ class rcube_contacts extends rcube_addressbook
             foreach ($words as $word) {
                 $groups = [];
                 foreach ((array) $fields as $idx => $col) {
-                    // table column
-                    if (in_array($col, $this->table_cols)) {
-                        $groups[] = $this->fulltext_sql_where($word, $mode, $col);
-                    }
-                    // vCard field
-                    else {
-                        if (in_array($col, $this->fulltext_cols)) {
-                            $groups[] = $this->fulltext_sql_where($word, $mode, 'words');
-                        }
-                    }
+                    $groups[] = $this->fulltext_sql_where($word, $mode, $col);
                 }
                 $where[] = '(' . implode(' OR ', $groups) . ')';
             }

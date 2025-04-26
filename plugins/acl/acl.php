@@ -101,7 +101,7 @@ class acl extends rcube_plugin
                 }
 
                 if ($user) {
-                    $fields = rcube_addressbook::compose_autocomplete_fields($record);
+                    $fields = rcube_addressbook::compose_search_fields($record);
                     $user = ['name' => $user, 'fields' => $fields];
                     $users[] = $user;
                     $keys[] = $fields['name'] ?: $user['name'];
