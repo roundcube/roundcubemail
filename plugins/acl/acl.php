@@ -104,7 +104,7 @@ class acl extends rcube_plugin
                     $fields = rcube_addressbook::compose_search_fields($record);
                     $user = ['name' => $user, 'fields' => $fields];
                     $users[] = $user;
-                    $keys[] = $fields['name'] ?: $user['name'];
+                    $keys[] = isset($fields['name']) ? $fields['name'] : $user['name'];
                 }
             }
 
