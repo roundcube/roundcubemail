@@ -24,8 +24,7 @@
 	</div>
 	<div class="scroller" tabindex="-1">
 		<roundcube:object name="foldersubscription" id="subscription-table"
-			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list"
-			data-label-msg="listempty" data-label-ext="listusebutton" data-create-command="folder-create" />
+			class="treelist listing folderlist iconized" role="listbox" data-list="subscription_list" data-label-msg="listempty" />
 	</div>
 	<div class="footer small">
 		<roundcube:if condition="env:quota" />
@@ -46,7 +45,7 @@
 		<!-- toolbar -->
 		<div id="folderstoolbar" class="toolbar menu">
 			<roundcube:button command="create-folder" type="link" class="create disabled" classAct="create"
-				label="create" title="createfolder" innerClass="inner" data-fab="true" />
+				label="create" title="createfolder" innerClass="inner" />
 			<roundcube:button command="delete-folder" type="link" class="delete disabled" classAct="delete"
 				label="delete" title="delete" innerclass="inner" />
 			<roundcube:button command="purge" type="link" class="purge disabled" classAct="purge"
