@@ -7423,6 +7423,7 @@ function rcube_webmail()
     else {
       this.env.mailbox = null;
       this.show_contentframe(false);
+      this.subscription_list.select('');
       this.enable_command('delete-folder', 'purge', false);
     }
   };
@@ -7754,6 +7755,9 @@ function rcube_webmail()
       target = win;
       url += '&_framed=1';
     }
+
+    if (action == 'add')
+      this.subscription_select('');
 
     if (String(target.location.href).indexOf(url) >= 0 && !force)
       this.show_contentframe(true);

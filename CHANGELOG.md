@@ -12,6 +12,7 @@
 - Fix bug where a wrong SPECIAL-USE folder could have been detected, if there were more than one per-type (#9781)
 - Fix a default value and documentation of password_ldap_encodage option (#9658)
 - Remove mobile/floating Create button from the list in Settings > Folders (#9661)
+- Fix Delete and Empty buttons state while creating a folder (#9047)
 
 ## Release 1.6.10
 
