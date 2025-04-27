@@ -281,7 +281,7 @@ function rcube_treelist_widget(node, p) {
      * Select a tree node by it's ID
      */
     function select(id) {
-    // allow subscribes to prevent selection change
+        // allow subscribes to prevent selection change
         if (me.triggerEvent('beforeselect', indexbyid[id]) === false) {
             return;
         }
