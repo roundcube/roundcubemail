@@ -807,7 +807,12 @@ function rcube_elastic_ui() {
             },
             switch_iframe_color_mode = function () {
                 try {
-                    $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
+                    var $doc = $(this.contentWindow.document);
+                    var $html_elems = $doc.find('html');
+                    $html_elems.push($doc.find('iframe.framed-message-part').contents().find('html'));
+                    $html_elems.each(function () {
+                        $(this).toggleClass('dark-mode', color_mode == 'dark');
+                    });
                 } catch (e) { /* ignore */ }
             },
             switch_color_mode = function () {
