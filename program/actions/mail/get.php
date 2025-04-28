@@ -355,10 +355,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $rcmail->output->reset(true);
 
-        // load embed.css from skin folder (if exists)
-        $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
-        if ($embed_css = $rcmail->output->get_skin_file($embed_css)) {
-            $rcmail->output->include_css($embed_css);
+        $styles_path = $rcmail->output->asset_url($rcmail->output->get_skin_file('/styles/styles.min.css'));
+        if ($styles_path) {
+            $rcmail->output->include_css($styles_path);
         } else {  // set default styles for warning blocks inside the attachment part frame
             $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
                 '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
