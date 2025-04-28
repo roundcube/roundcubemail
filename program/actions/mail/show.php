@@ -709,6 +709,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     $out .= html::div(
                         [
                             'id' => $container_id,
+                            'class' => 'message-part-container',
                         ], [
                             self::message_loading_notice(),
                             html::iframe([
