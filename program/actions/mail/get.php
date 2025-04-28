@@ -217,14 +217,10 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             // Deliver plaintext with HTML-markup
             if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
                 $body = $attachment->print_body();
-                // Don't use rcmail_html_page here, because that always loads
-                // embed.css and blocks loading other css files (though calling
-                // reset() in write()). Also we don't need all the processing that it
-                // brings.
-                $styles_path = $rcmail->output->get_skin_file('/styles/styles.css');
+                $styles_path = $rcmail->output->asset_url($rcmail->output->get_skin_file('/styles/styles.min.css'));
                 $body = html::tag('html', [],
                     html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
-                    . html::tag('body', [], $body)
+                    . html::tag('body', ['class' => 'message-part'], $body)
                 );
                 $rcmail->output->sendExit($body);
             }
