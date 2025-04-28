@@ -218,9 +218,9 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
                 $body = $attachment->print_body();
                 $styles_path = $rcmail->output->asset_url($rcmail->output->get_skin_file('/styles/styles.min.css'));
-                $body = html::tag('html', [],
+                $body = html::tag('html', ['class' => 'message-part'],
                     html::tag('head', [], html::tag('link', ['rel' => 'stylesheet', 'href' => $styles_path]))
-                    . html::tag('body', ['class' => 'message-part'], $body)
+                    . html::tag('body', [], $body)
                 );
                 $rcmail->output->sendExit($body);
             }
@@ -379,6 +379,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
 
             $contents = substr_replace($contents, $inline_warning, $body_start, 0);
         }
+
+        rcube::write_log('DBG', ['contents' => $contents]);
+        $html_elem_start = strpos($contents, '<html');
+        $html_inject_pos = strpos($contents, '>', $html_elem_start);
+        $contents = substr_replace($contents, ' class="message-htmlpart"', $html_inject_pos, 0);
+        rcube::write_log('DBG', ['contents' => $contents]);
 
         $rcmail->output->write_blank_slate($contents);
         $rcmail->output->sendExit();
