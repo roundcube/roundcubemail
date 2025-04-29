@@ -714,7 +714,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                             self::message_loading_notice(),
                             html::iframe([
                                 'sandbox' => 'allow-same-origin',
-                                'class' => "framed-message-part",
+                                'class' => 'framed-message-part',
                                 // Don't set the `src` attribute, because we want to attach load-event-listeners onto
                                 // the iframe in app.js, which only works reliably if they are attached before the
                                 // loading starts.

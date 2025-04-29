@@ -325,10 +325,6 @@ body.task-error-login #layout {
 }
 
 .message-part-container {
-    padding-top: .5rem;
-    // Fixes absolute positioned mail message content
-    position: relative;
-
     &:not(:nth-child(2)) {
         border-top: 1px solid @color-messagepart-border;
         margin-top: .5rem;
@@ -341,7 +337,11 @@ body.task-error-login #layout {
 
 .message-part,
 .message-htmlpart {
-    div.rcmBody {
+    padding-top: .5rem;
+    // Fixes absolute positioned mail message content
+    position: relative;
+
+    body {
         // Remove margins that can be set by the mail message styles
         margin: 0 auto !important;
         // Fix floating table issue (#9804)
