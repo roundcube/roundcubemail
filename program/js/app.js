@@ -4009,7 +4009,7 @@ function rcube_webmail() {
         this.env.browser_capabilities.pgpmime = 1;
         var keyring = this.env.mailvelope_main_keyring ? undefined : this.env.user_id,
             fn = function (kr) {
-                this.afterAllContentIframesLoaded(() => {
+                ref.afterAllContentIframesLoaded(() => {
                     ref.mailvelope_keyring = kr;
                     ref.mailvelope_init(action, kr);
                 });
