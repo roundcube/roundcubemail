@@ -122,10 +122,7 @@ abstract class TestCase extends PHPUnitTestCase
         }
 
         // Purge screenshots from the last test run
-        $pattern = sprintf('failure-%s_%s-*',
-            str_replace('\\', '_', static::class),
-            method_exists($this, 'getName') ? $this->getName(false) : $this->name()
-        );
+        $pattern = sprintf('failure-%s_%s-*', str_replace('\\', '_', static::class), $this->name()); // @phpstan-ignore-line
 
         try {
             $files = Finder::create()->files()->in(Browser::$storeScreenshotsAt)->name($pattern);
@@ -137,10 +134,7 @@ abstract class TestCase extends PHPUnitTestCase
         }
 
         // Purge console logs from the last test run
-        $pattern = sprintf('%s_%s-*',
-            str_replace('\\', '_', static::class),
-            method_exists($this, 'getName') ? $this->getName(false) : $this->name()
-        );
+        $pattern = sprintf('%s_%s-*', str_replace('\\', '_', static::class), $this->name()); // @phpstan-ignore-line
 
         try {
             $files = Finder::create()->files()->in(Browser::$storeConsoleLogAt)->name($pattern);
