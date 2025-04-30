@@ -215,7 +215,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             }
 
             // Deliver plaintext with HTML-markup
-            if ($mimetype == 'text/plain' && empty($_GET['_download'])) {
+            if ($mimetype == 'text/plain' && empty($_GET['_download']) && empty($_REQUEST['_embed'])) {
                 $body = $attachment->print_body();
                 $stylesheet_tag = null;
                 $styles_path = $rcmail->output->get_skin_file('/styles/styles.css', $_dummy, null, true);
