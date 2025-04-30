@@ -249,7 +249,7 @@ function rcube_webmail() {
             parent.rcmail.unlock_frame();
         }
 
-        if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show' || this.env.action === 'print')) {
+        if (this.task === 'mail' && (this.env.action === 'preview' || this.env.action === 'show' || this.env.action === 'print' || this.env.action === 'get')) {
             this.handleContentIframes();
         }
 
