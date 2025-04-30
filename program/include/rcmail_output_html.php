@@ -2074,7 +2074,9 @@ class rcmail_output_html extends rcmail_output
         $head = $this->scripts['head_top'] ?? '';
         $head .= $this->scripts['head'] ?? '';
 
-        $page_header .= array_reduce((array) $head, $merge_scripts);
+        if (!empty($head)) {
+            $page_header .= array_reduce((array) $head, $merge_scripts);
+        }
         $page_header .= $this->header . "\n";
 
         if (!empty($this->script_files['head_bottom'])) {
