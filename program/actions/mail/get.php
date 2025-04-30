@@ -343,6 +343,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
 
         $attrib['src'] = $rcmail->url($url);
+        $attrib['data-src'] = $rcmail->url($url);
+        $attrib['class'] = 'framed-message-part';
         $attrib['sandbox'] = 'allow-same-origin';
 
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
@@ -359,19 +361,22 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $rcmail->output->reset(true);
 
-        $styles_path = $rcmail->output->get_skin_file('/styles/styles.css', $_dummy, null, true);
-        if ($styles_path) {
-            $rcmail->output->include_css($rcmail->output->asset_url($styles_path));
+        if (empty($_REQUEST['_embed'])) {
+            $css_path = $rcmail->output->get_skin_file('/styles/styles.css', $_dummy, null, true);
+        } else {
+            $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
+            if ($embed_path = $rcmail->output->get_skin_file($embed_css)) {
+                $css_path = $embed_path;
+            } else {  // set default styles for warning blocks inside the attachment part frame
+                $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
+                    '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
+                                            . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n"
+                    . '.rcmail-inline-buttons { margin-bottom:0 }'
+                ));
+            }
         }
-        $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
-        if ($embed_path = $rcmail->output->get_skin_file($embed_css)) {
-            $rcmail->output->include_css($rcmail->output->asset_url($embed_path));
-        } else {  // set default styles for warning blocks inside the attachment part frame
-            $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
-                '.rcmail-inline-message { font-family: sans-serif; border:2px solid #ffdf0e;'
-                                        . "background:#fef893; padding:0.6em 1em; margin-bottom:0.6em }\n"
-                . '.rcmail-inline-buttons { margin-bottom:0 }'
-            ));
+        if ($css_path) {
+            $rcmail->output->include_css($rcmail->output->asset_url($css_path));
         }
 
         if (empty($contents)) {
