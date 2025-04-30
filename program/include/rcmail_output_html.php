@@ -554,7 +554,7 @@ class rcmail_output_html extends rcmail_output
      * @param bool $all Reset all env variables (including internal)
      */
     #[Override]
-    public function reset($all = false)
+    public function reset($all = false, $include_jquery_ui = true)
     {
         $framed = $this->framed;
         $task = $this->env['task'] ?? '';
@@ -563,16 +563,18 @@ class rcmail_output_html extends rcmail_output
         // keep jQuery-UI files
         $css_files = $script_files = [];
 
-        foreach ($this->css_files as $file) {
-            if (str_starts_with($file, 'plugins/jqueryui')) {
-                $css_files[] = $file;
-            }
-        }
-
-        foreach ($this->script_files as $position => $files) {
-            foreach ($files as $file) {
+        if ($include_jquery_ui) {
+            foreach ($this->css_files as $file) {
                 if (str_starts_with($file, 'plugins/jqueryui')) {
-                    $script_files[$position][] = $file;
+                    $css_files[] = $file;
+                }
+            }
+
+            foreach ($this->script_files as $position => $files) {
+                foreach ($files as $file) {
+                    if (str_starts_with($file, 'plugins/jqueryui')) {
+                        $script_files[$position][] = $file;
+                    }
                 }
             }
         }
