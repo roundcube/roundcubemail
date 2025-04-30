@@ -359,7 +359,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
     protected function send_html($contents, $inline_warning = null): void
     {
         $rcmail = rcmail::get_instance();
-        $rcmail->output->reset(true);
+        $rcmail->output->reset(true, false);
 
         if (empty($_REQUEST['_embed'])) {
             $css_path = $rcmail->output->get_skin_file('/styles/styles.css', $_dummy, null, true);
