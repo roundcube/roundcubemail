@@ -27,3 +27,4 @@ $messages['internalerror'] = 'Could not save new password.';
 $messages['passwordshort'] = 'Password must be at least $length characters long.';
 $messages['passwordweak'] = 'Password must include at least one number and one punctuation character.';
 $messages['passwordforbidden'] = 'Password contains forbidden characters.';
+$messages['gandi_strengthrules'] = 'Password must contain between $minlen and $maxlen characters and contain at least $uppercase upper-case letter(s), $nums number(s), and $specialchars special character(s).';
