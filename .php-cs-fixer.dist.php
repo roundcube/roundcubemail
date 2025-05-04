@@ -94,6 +94,7 @@ return (new Config())
         'php_unit_test_case_static_method_calls' => false,
         'psr_autoloading' => false,
         'strict_comparison' => false,
+        'octal_notation' => false,
 
         // TODO
         'array_indentation' => false,
