@@ -838,7 +838,7 @@ class rcube_imap_generic
             $args = $this->tokenizeResponse($response, 4);
             $delimiter = $args[3];
 
-            if (strlen($delimiter) > 0) {
+            if ($delimiter !== '') {
                 return $this->prefs['delimiter'] = $delimiter;
             }
         }
@@ -1058,7 +1058,7 @@ class rcube_imap_generic
         // insert proxy protocol header, if enabled
         if (!empty($this->prefs['socket_options'])) {
             $proxy_protocol_header = rcube_utils::proxy_protocol_header($this->prefs['socket_options']);
-            if (strlen($proxy_protocol_header) > 0) {
+            if ($proxy_protocol_header !== '') {
                 fwrite($this->fp, $proxy_protocol_header);
             }
         }

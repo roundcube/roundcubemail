@@ -1344,7 +1344,7 @@ class rcube_utils
     {
         $a_needle = self::tokenize_string($needle, 1);
         $_haystack = implode(' ', self::tokenize_string($haystack, 1));
-        $valid = strlen($_haystack) > 0;
+        $valid = $_haystack !== '';
         $hits = 0;
 
         foreach ($a_needle as $w) {

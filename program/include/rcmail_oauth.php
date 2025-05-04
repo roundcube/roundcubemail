@@ -1157,7 +1157,7 @@ class rcmail_oauth
             $oidc_claims = (array) $oidc_claims;
             foreach ($oidc_claims as $oidc_claim) {
                 // use the first defined claim
-                if (isset($identity[$oidc_claim]) && is_string($identity[$oidc_claim]) && strlen($identity[$oidc_claim]) > 0) {
+                if (isset($identity[$oidc_claim]) && is_string($identity[$oidc_claim]) && $identity[$oidc_claim] !== '') {
                     $value = $identity[$oidc_claim];
                     // normalize and check well known keys
                     switch ($rc_key) {

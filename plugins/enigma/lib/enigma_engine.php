@@ -773,7 +773,7 @@ class enigma_engine
                     // modify filename
                     $_part->filename .= '.pgp';
                     // flag the part, it will be decrypted when needed
-                    unset($_part->need_decryption);
+                    $_part->need_decryption = null;
                 }
             }
         }

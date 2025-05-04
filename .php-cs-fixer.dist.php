@@ -20,8 +20,7 @@ return (new Config())
     ->setRules([
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,
-        '@PHP74Migration' => true,
-        '@PHP74Migration:risky' => true,
+        '@PHP81Migration' => true,
 
         // required by PSR-12
         'concat_space' => [
@@ -104,11 +103,8 @@ return (new Config())
         'no_blank_lines_after_phpdoc' => false,
         'no_break_comment' => false,
         'phpdoc_summary' => false,
-        'string_length_to_empty' => false,
 
         // TODO - risky
-        'no_unset_on_property' => false,
-        'random_api_migration' => false,
         'strict_param' => false,
     ])
     ->setFinder($finder)

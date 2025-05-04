@@ -1191,7 +1191,7 @@ class rcube_imap_cache
             $length = strlen($msg->body);
 
             if (!empty($msg->body_modified) || $size + $length > $this->threshold * 1024) {
-                unset($msg->body);
+                $msg->body = null;
             } else {
                 $size += $length;
             }
@@ -1204,7 +1204,7 @@ class rcube_imap_cache
             [$msg->ctype_primary, $msg->ctype_secondary] = explode('/', $msg->mimetype);
         }
 
-        unset($msg->replaces);
+        $msg->replaces = null;
 
         if (is_object($msg->structure)) {
             $this->message_object_prepare($msg->structure, $size);

@@ -99,7 +99,7 @@ class rcube_cache_db extends rcube_cache
         $data = null;
 
         if ($sql_arr = $this->db->fetch_assoc($sql_result)) {
-            if (strlen($sql_arr['data']) > 0) {
+            if ($sql_arr['data'] !== '') {
                 $data = $this->unserialize($sql_arr['data']);
             }
 

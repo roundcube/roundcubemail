@@ -454,7 +454,7 @@ class rcube_sieve_script
                                 $this->add_operator($action, $action_script, $exts);
                             }
                             $action_script .= ' ' . self::escape_string($action['name']);
-                            if ((is_string($action['value']) && strlen($action['value']) > 0) || (is_array($action['value']) && !empty($action['value']))) {
+                            if ((is_string($action['value']) && $action['value'] !== '') || (is_array($action['value']) && !empty($action['value']))) {
                                 $action_script .= ' ' . self::escape_string($action['value']);
                             }
 
