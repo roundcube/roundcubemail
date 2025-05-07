@@ -456,18 +456,7 @@ function rcube_webmail() {
 
                             // do not apply styles to an error page (with no image)
                             if (contents.find('img').length) {
-                                contents.find('img').css({
-                                    maxWidth: '100%',
-                                    maxHeight: '100%',
-                                    objectFit: 'contain',
-                                });
-                                contents.find('body').css({
-                                    height: '100%',
-                                    margin: 0,
-                                    display: 'grid',
-                                    placeItems: 'center',
-                                });
-                                contents.find('html').css({ height: '100%' });
+                                contents.find('html').addClass('image');
                             }
                         });
                     }
