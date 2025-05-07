@@ -367,7 +367,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             $css_path = $rcmail->output->get_skin_file('/styles/styles.css', $_dummy, null, true);
         } else {
             $embed_css = $rcmail->config->get('embed_css_location', '/embed.css');
-            if ($embed_path = $rcmail->output->get_skin_file($embed_css)) {
+            if ($embed_path = $rcmail->output->get_skin_file($embed_css, $_dummy, null, true)) {
                 $css_path = $embed_path;
             } else {  // set default styles for warning blocks inside the attachment part frame
                 $rcmail->output->add_header(html::tag('style', ['type' => 'text/css'],
