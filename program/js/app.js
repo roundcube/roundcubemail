@@ -10680,6 +10680,20 @@ function rcube_webmail() {
                         $(this.gui_objects.remoteobjectsmsg).show();
                         this.enable_command('load-remote', true);
                     }
+                    // Pull the warning out of the iframe (so it can become clickable)
+                    if (iframe.contentDocument.body.firstChild.classList.contains('rcmail-inline-warning')) {
+                        var elem = iframe.contentDocument.body.firstChild;
+                        iframe.parentElement.prepend(elem);
+                        elem.addEventListener('click', function () {
+                            // Inject the stylesheet after the browser created the temporary document around the content.
+                            var embedLink = iframe.contentDocument.querySelector('link').cloneNode();
+                            iframe.addEventListener('load', () => {
+                                iframe.contentDocument.querySelector('head').append(embedLink);
+                            });
+                            iframe.src = iframe.src.replace('_mimewarning', '_nocheck');
+                            $(elem).hide();
+                        });
+                    }
                     this.resize_preview_iframe(iframe);
                     resolve();
                 });
