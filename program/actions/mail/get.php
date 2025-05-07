@@ -337,7 +337,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         } else {
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url[str_starts_with($mimetype, 'text/') ? '_embed' : '_preload'] = 1;
+            $url['_mimewarning'] = 1;
             $url['_embed'] = 1;
             unset($url['_frame']);
         }
