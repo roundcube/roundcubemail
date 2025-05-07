@@ -180,6 +180,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         echo $content;
                     }
                     // html warning with a button to load the file anyway
+                    // TODO: Make this work with iframed content parts (the interactivity must happen outside of the iframe)
                     else {
                         $inline_warning = $this->make_inline_warning(
                             $rcmail->gettext([
@@ -235,6 +236,7 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 // #1487424: we need up to 10x more memory than the body
                 if (!rcube_utils::mem_check($attachment->size * 10)) {
                     $inline_warning = $this->make_inline_warning(
+                    // TODO: Make this work with iframed content parts (the interactivity must happen outside of the iframe)
                         $rcmail->gettext('messagetoobig'),
                         $rcmail->gettext('download'),
                         $rcmail->url(array_merge($_GET, ['_download' => 1]))
