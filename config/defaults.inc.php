@@ -93,10 +93,10 @@ $config['syslog_facility'] = \LOG_USER;
 
 // Activate this option if logs should be written to per-user directories.
 // Data will only be logged if a directory <log_dir>/<username>/ exists and is writable.
-$config['per_user_logging'] = false;
+$config['per_user_logging'] = true;
 
 // Log sent messages to <log_dir>/sendmail.log or to syslog
-$config['smtp_log'] = false;
+$config['smtp_log'] = true;
 
 // Log successful/failed logins to <log_dir>/userlogins.log or to syslog
 $config['log_logins'] = false;
@@ -105,16 +105,16 @@ $config['log_logins'] = false;
 $config['session_debug'] = false;
 
 // Log SQL queries to <log_dir>/sql.log or to syslog
-$config['sql_debug'] = false;
+$config['sql_debug'] = true;
 
 // Log IMAP conversation to <log_dir>/imap.log or to syslog
-$config['imap_debug'] = false;
+$config['imap_debug'] = true;
 
 // Log LDAP conversation to <log_dir>/ldap.log or to syslog
 $config['ldap_debug'] = false;
 
 // Log SMTP conversation to <log_dir>/smtp.log or to syslog
-$config['smtp_debug'] = false;
+$config['smtp_debug'] = true;
 
 // Log Memcache conversation to <log_dir>/memcache.log or to syslog
 $config['memcache_debug'] = false;
