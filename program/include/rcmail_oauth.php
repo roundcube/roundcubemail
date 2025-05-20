@@ -220,6 +220,8 @@ class rcmail_oauth
                 $response = $this->http_client->get($config_uri);
                 $data = json_decode($response->getBody(), true);
 
+                $this->log_debug('fetched OIDC config: %s', json_encode($data));
+
                 // sanity check
                 if (!isset($data['issuer'])) {
                     throw new RuntimeException('incorrect response from %s', $config_uri);
@@ -275,6 +277,8 @@ class rcmail_oauth
         // not in cache, fetch json web key set
         $response = $this->http_client->get($jwks_uri);
         $this->jwks = json_decode($response->getBody(), true);
+
+        $this->log_debug('fetched jwks: %s', json_encode($this->jwks));
 
         // sanity check
         if (!isset($this->jwks['keys'])) {
@@ -413,20 +417,23 @@ class rcmail_oauth
         $body = json_decode(static::base64url_decode($bodyb64), true);
         // $crypto = static::base64url_decode($cryptob64);
 
+        // jwks_uri defined, will check JWT signature
         if ($this->options['jwks_uri']) {
-            // jwks_uri defined, will check JWT signature
-
             $this->fetch_jwks();
-
-            $kid = $header['kid'];
-            $alg = $header['alg'];
-
             $jwk = null;
 
-            foreach ($this->jwks['keys'] as $current_jwk) {
-                if ($current_jwk['kid'] === $kid) {
-                    $jwk = $current_jwk;
-                    break;
+            // FIXME: As far as I understand JWT tokens may not include 'kid' claim (it's optional)
+            if (!isset($header['kid']) && count($this->jwks['keys']) == 1) {
+                $jwk = $this->jwks['keys'][0];
+            } else {
+                $kid = $header['kid'] ?? null;
+                $alg = $header['alg'];
+
+                foreach ($this->jwks['keys'] as $current_jwk) {
+                    if ($current_jwk['kid'] === $kid) {
+                        $jwk = $current_jwk;
+                        break;
+                    }
                 }
             }
 
@@ -434,7 +441,11 @@ class rcmail_oauth
                 throw new RuntimeException('JWS key to verify JWT not found');
             }
 
-            // TODO: check alg. matches
+            // check algorithm matches ('alg' is optional)
+            if (isset($jwk['alg']) && isset($header['alg']) && $jwk['alg'] != $header['alg']) {
+                throw new RuntimeException('JWS key verification failed. Wrong algorithm.');
+            }
+
             // TODO should check signature, note will use https://github.com/firebase/php-jwt later as it requires ^php7.4
         }
 
