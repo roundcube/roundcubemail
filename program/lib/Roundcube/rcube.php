@@ -1408,7 +1408,7 @@ class rcube
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
             ];
-        } elseif (is_object($arg) && is_a($arg, 'PEAR_Error')) {
+        } elseif ($arg instanceof PEAR_Error) {
             $info = $arg->getUserInfo();
             $arg = [
                 'code' => $arg->getCode(),
