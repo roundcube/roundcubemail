@@ -36,9 +36,9 @@ class rcmail_action_settings_upload extends rcmail_action
 
         // Validate URL input.
         if (!rcube_utils::is_simple_string($type)) {
-                rcmail::write_log('errors', 'The URL parameter "_from" contains disallowed characters and the request is thus rejected.');
-                $rcmail->output->command('display_message', 'Invalid input', 'error');
-                $rcmail->output->send('iframe');
+            rcmail::write_log('errors', 'The URL parameter "_from" contains disallowed characters and the request is thus rejected.');
+            $rcmail->output->command('display_message', 'Invalid input', 'error');
+            $rcmail->output->send('iframe');
         }
 
         // Plugins in Settings may use this file for some uploads (#5694)

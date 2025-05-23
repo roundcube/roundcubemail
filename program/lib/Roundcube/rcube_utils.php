@@ -293,7 +293,7 @@ class rcube_utils
      */
     public static function is_simple_string($input)
     {
-        return is_string($input) && !!preg_match('/^[\w.-]+$/i', $input);
+        return is_string($input) && (bool) preg_match('/^[\w.-]+$/i', $input);
     }
 
     /**
