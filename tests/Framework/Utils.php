@@ -846,6 +846,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             [['imaps://host.domain.tld:123', 143, 993], ['host.domain.tld', 'imaps', 123]],
             [['unix:///var/run/dovecot/imap', null, null], ['unix:///var/run/dovecot/imap', 'unix', -1]],
             [['ldapi:///var/run/ldap.sock', 123, 123], ['ldapi:///var/run/ldap.sock', 'ldapi', -1]],
+            [['ldapi://', 123, 123], ['ldapi://', 'ldapi', -1]],
         ];
     }
 

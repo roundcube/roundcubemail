@@ -310,7 +310,9 @@ class rcube_ldap extends rcube_addressbook
             // Parse host specification into the format expected by Net_LDAP3 (ldap_connect)
             list($host, $scheme, $port) = rcube_utils::parse_host_uri($host, 389, 636);
 
-            $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
+            if ($port > 0) {
+                $host = sprintf('%s://%s:%d', $scheme === 'ldaps' ? 'ldaps' : 'ldap', $host, $port);
+            }
 
             $this->ldap->config_set('use_tls', $scheme === 'tls');
 
