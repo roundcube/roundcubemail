@@ -684,7 +684,7 @@ function rcube_text_editor(config, id) {
 
         // put cursor before signature and scroll the window
         if (this.editor && position_element && position_element.length) {
-            this.editor.selection.setCursorLocation(position_element.get(0));
+            this.editor.selection.select(position_element.get(0), true);
             this.editor.getWin().scroll(0, position_element.offset().top);
         }
     };
