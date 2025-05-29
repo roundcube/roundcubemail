@@ -15,6 +15,7 @@
 - Fix Delete and Empty buttons state while creating a folder (#9047)
 - Fix connecting to LDAP using ldapi:// URI (#8990)
 - Fix cursor position on "below the quote" reply in HTML mode (#8700)
+- Fix bug where attachments with content type of `application/vnd.ms-tnef` were not parsed (#7119)
 
 ## Release 1.6.10
 
