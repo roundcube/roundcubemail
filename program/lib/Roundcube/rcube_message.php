@@ -960,7 +960,10 @@ class rcube_message
                     continue;
                 }
                 // part is Microsoft Outlook TNEF (winmail.dat)
-                elseif ($part_mimetype == 'application/ms-tnef' && $this->tnef_decode) {
+                // Note: It can be application/ms-tnef or application/vnd.ms-tnef
+                elseif ($primary_type == 'application' && strpos($secondary_type, 'ms-tnef') !== false
+                    && $this->tnef_decode
+                ) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);
 
                     foreach ($tnef_parts as $tpart) {
