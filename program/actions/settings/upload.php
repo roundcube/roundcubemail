@@ -32,6 +32,13 @@ class rcmail_action_settings_upload extends rcmail_action
         $from   = rcube_utils::get_input_string('_from', rcube_utils::INPUT_GET);
         $type   = preg_replace('/(add|edit)-/', '', $from);
 
+        // Validate URL input.
+        if (!rcube_utils::is_simple_string($type)) {
+            rcmail::write_log('errors', 'The URL parameter "_from" contains disallowed characters and the request is thus rejected.');
+            $rcmail->output->command('display_message', 'Invalid input', 'error');
+            $rcmail->output->send('iframe');
+        }
+
         // Plugins in Settings may use this file for some uploads (#5694)
         // Make sure it does not contain a dot, which is a special character
         // when using rcube_session::append() below
