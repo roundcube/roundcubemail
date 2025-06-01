@@ -64,6 +64,8 @@ class StringReplacerTest extends TestCase
             ['https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62',
                 '<a href="https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62">https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62</a>',
             ],
+            // #9538: unicode Fullwidth Left Parenthesis (U+FF08)
+            // ['http://www.domain.tld/abc（哇哇）', '<a href="http://www.domain.tld/abc">http://www.domain.tld/abc</a>（哇哇）'],
         ];
     }
 

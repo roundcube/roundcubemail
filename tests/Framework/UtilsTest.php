@@ -536,6 +536,25 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * rcube_utils::is_simple_string()
+     */
+    public function test_is_simple_string()
+    {
+        $this->assertTrue(\rcube_utils::is_simple_string('some-thing.123_'));
+        $this->assertFalse(\rcube_utils::is_simple_string(''));
+        $this->assertFalse(\rcube_utils::is_simple_string(' '));
+        $this->assertFalse(\rcube_utils::is_simple_string('some–thing'));
+        $this->assertFalse(\rcube_utils::is_simple_string('some=thing'));
+        $this->assertFalse(\rcube_utils::is_simple_string('some thing'));
+        $this->assertFalse(\rcube_utils::is_simple_string('some!thing'));
+        $this->assertFalse(\rcube_utils::is_simple_string('%20'));
+        $this->assertFalse(\rcube_utils::is_simple_string('\0000'));
+        $this->assertFalse(\rcube_utils::is_simple_string(1));
+        $this->assertFalse(\rcube_utils::is_simple_string(new \stdClass()));
+        $this->assertFalse(\rcube_utils::is_simple_string(null));
+    }
+
+    /**
      * rcube:utils::file2class()
      */
     public function test_file2class()
@@ -896,6 +915,7 @@ class UtilsTest extends TestCase
             [['imaps://host.domain.tld:123', 143, 993], ['host.domain.tld', 'imaps', 123]],
             [['unix:///var/run/dovecot/imap', null, null], ['unix:///var/run/dovecot/imap', 'unix', -1]],
             [['ldapi:///var/run/ldap.sock', 123, 123], ['ldapi:///var/run/ldap.sock', 'ldapi', -1]],
+            [['ldapi://', 123, 123], ['ldapi://', 'ldapi', -1]],
         ];
     }
 

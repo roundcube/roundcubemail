@@ -74,6 +74,9 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+
+## Release 1.6.11
+
 - Managesieve: Fix match-type selector (remove unsupported options) in delete header action (#9610)
 - Improve installer to fix confusion about disabling SMTP authentication (#9801)
 - Fix PHP warning in index.php (#9813)
@@ -85,6 +88,10 @@
 - Fix a default value and documentation of password_ldap_encodage option (#9658)
 - Remove mobile/floating Create button from the list in Settings > Folders (#9661)
 - Fix Delete and Empty buttons state while creating a folder (#9047)
+- Fix connecting to LDAP using ldapi:// URI (#8990)
+- Fix cursor position on "below the quote" reply in HTML mode (#8700)
+- Fix bug where attachments with content type of `application/vnd.ms-tnef` were not parsed (#7119)
+- Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v
 
 ## Release 1.6.10
 

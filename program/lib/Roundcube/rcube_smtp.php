@@ -247,11 +247,6 @@ class rcube_smtp
 
         // prepare list of recipients
         $recipients = $this->_parse_rfc822($recipients);
-        if (is_a($recipients, 'PEAR_Error')) {
-            $this->error = ['label' => 'smtprecipientserror'];
-            $this->reset();
-            return false;
-        }
 
         $exts = $this->conn->getServiceExtensions();
         $from_params = null;
