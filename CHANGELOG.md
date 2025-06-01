@@ -16,6 +16,7 @@
 - Fix connecting to LDAP using ldapi:// URI (#8990)
 - Fix cursor position on "below the quote" reply in HTML mode (#8700)
 - Fix bug where attachments with content type of `application/vnd.ms-tnef` were not parsed (#7119)
+- Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v
 
 ## Release 1.6.10
 
