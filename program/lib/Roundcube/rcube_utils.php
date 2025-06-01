@@ -771,7 +771,7 @@ class rcube_utils
      */
     public static function check_proxy_whitelist_ip()
     {
-        return in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
+        return self::isWhitelistedProxy($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
     /**
@@ -929,6 +929,81 @@ class rcube_utils
     }
 
     /**
+     * Checks if $ip is listed (exactly) or falls into any CIDR subnet in $whitelist.
+     * Supports IPv4 and IPv6.
+     *
+     * @param  string $ip
+     * @param  array  $whitelist  list of IPs or CIDR ranges, e.g. ['10.0.0.5','10.42.0.0/16']
+     * @return bool
+     */
+    private static function isWhitelistedProxy(string $ip, array $whitelist): bool
+    {
+        foreach ($whitelist as $entry) {
+            if (self::matchIpOrCidr($ip, $entry)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Match a single IPv4 or IPv6 address against an IP or CIDR subnet.
+     *
+     * @param  string $ip       IPv4 or IPv6 address
+     * @param  string $pattern  either a single IP or CIDR (e.g. '192.168.1.0/24')
+     * @return bool
+     */
+    private static function matchIpOrCidr(string $ip, string $pattern): bool
+    {
+        // if no prefix, do a straight compare (case‐insensitive)
+        if (strpos($pattern, '/') === false) {
+            return strcasecmp($ip, $pattern) === 0;
+        }
+
+        list($subnet, $prefix) = explode('/', $pattern, 2);
+        $prefix = (int) $prefix;
+
+        // convert to binary form (4 bytes for IPv4, 16 for IPv6)
+        $ipBin     = @inet_pton($ip);
+        $subnetBin = @inet_pton($subnet);
+        if ($ipBin === false || $subnetBin === false) {
+            return false;
+        }
+
+        // must be same address family
+        $len = strlen($ipBin);
+        if ($len !== strlen($subnetBin)) {
+            return false;
+        }
+
+        // prefix must be 0–(len*8)
+        $maxBits = $len * 8;
+        if ($prefix < 0 || $prefix > $maxBits) {
+            return false;
+        }
+
+        // build the mask: sequence of 0xFF bytes, then one partial byte, then 0x00 bytes
+        $mask = '';
+        $bitsRemaining = $prefix;
+        for ($i = 0; $i < $len; $i++) {
+            if ($bitsRemaining >= 8) {
+                $mask .= "\xFF";
+                $bitsRemaining -= 8;
+            }
+            elseif ($bitsRemaining > 0) {
+                $mask .= chr((0xFF << (8 - $bitsRemaining)) & 0xFF);
+                $bitsRemaining = 0;
+            }
+            else {
+                $mask .= "\x00";
+            }
+        }
+
+        // compare network bits
+        return (($ipBin & $mask) === ($subnetBin & $mask));
+    }
+
+    /**
      * Returns the real remote IP address
      *
      * @return string Remote IP address
@@ -938,11 +1013,11 @@ class rcube_utils
         // Check if any of the headers are set first to improve performance
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
             $proxy_whitelist = (array) rcube::get_instance()->config->get('proxy_whitelist', []);
-            if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
+            if (self::isWhitelistedProxy($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
                         $forwarded_ip = trim($forwarded_ip);
-                        if (!in_array($forwarded_ip, $proxy_whitelist)) {
+                        if (!self::isWhitelistedProxy($forwarded_ip, $proxy_whitelist)) {
                             return $forwarded_ip;
                         }
                     }
