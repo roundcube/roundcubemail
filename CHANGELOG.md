@@ -4,6 +4,7 @@
 
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
+- Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v
 
 ## Release 1.5.9
 
