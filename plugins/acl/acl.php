@@ -101,10 +101,10 @@ class acl extends rcube_plugin
                 }
 
                 if ($user) {
-                    $display = rcube_addressbook::compose_search_name($record);
-                    $user = ['name' => $user, 'display' => $display];
+                    $fields = rcube_addressbook::compose_search_fields($record);
+                    $user = ['name' => $user, 'fields' => $fields];
                     $users[] = $user;
-                    $keys[] = $display ?: $user['name'];
+                    $keys[] = $fields['name'] ?? $user['name'];
                 }
             }
 
@@ -118,7 +118,7 @@ class acl extends rcube_plugin
                     $group_id = is_array($record[$group_field]) ? $record[$group_field][0] : $record[$group_field];
 
                     if ($group) {
-                        $users[] = ['name' => ($prefix ?: '') . $group_id, 'display' => $group, 'type' => 'group'];
+                        $users[] = ['name' => ($prefix ?: '') . $group_id, 'fields' => ['name' => $group], 'type' => 'group'];
                         $keys[] = $group;
                     }
                 }
