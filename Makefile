@@ -86,6 +86,7 @@ npm-install:
 clean:
 	rm -rf roundcubemail-git
 	rm -rf roundcubemail-$(VERSION)*
+	rm -f /tmp/composer.phar /tmp/phpDocumentor.phar
 
 css-elastic: npm-install
 	cd skins/elastic && make css
