@@ -82,3 +82,4 @@ buildtools: /tmp/composer.phar
 clean:
 	rm -rf roundcubemail-git
 	rm -rf roundcubemail-$(VERSION)*
+	rm -f /tmp/composer.phar /tmp/phpDocumentor.phar
