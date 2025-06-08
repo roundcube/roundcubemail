@@ -45,10 +45,6 @@ Header set X-Robots-Tag "noindex, nofollow"
 # Only template - fill with your values
 #Header always set Public-Key-Pins "max-age=3600; report-uri=\"\"; pin-sha256=\"\"; pin-sha256=\"\"" env=HTTPS
 
-# X-Xss-Protection
-# This header is used to configure the built in reflective XSS protection found in Internet Explorer, Chrome and Safari (Webkit). 
-#Header set X-XSS-Protection "1; mode=block"
-
 # X-Frame-Options
 # The X-Frame-Options header (RFC), or XFO header, protects your visitors against clickjacking attacks
 # Already set by php code! Do not activate both options
