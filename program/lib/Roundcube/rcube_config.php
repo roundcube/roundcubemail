@@ -374,12 +374,7 @@ class rcube_config
      */
     public function get($name, $def = null)
     {
-        if (isset($this->prop[$name])) {
-            $result = $this->prop[$name];
-        } else {
-            $result = $def;
-        }
-
+        $result = $this->prop[$name] ?? $def;
         $result = $this->getenv_default('ROUNDCUBE_' . strtoupper($name), $result);
         $rcube = rcube::get_instance();
 
@@ -669,8 +664,8 @@ class rcube_config
             return $this->client_tz;
         }
 
-        // @TODO: remove this legacy timezone handling in the future
         if (isset($_SESSION['timezone'])) {
+            // @TODO: remove this legacy timezone handling in the future
             $props = $this->fix_legacy_props(['timezone' => $_SESSION['timezone']]);
         }
 
