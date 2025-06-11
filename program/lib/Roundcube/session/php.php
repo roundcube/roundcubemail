@@ -81,8 +81,10 @@ class rcube_session_php extends rcube_session
     #[Override]
     public function write_close()
     {
-        $_SESSION['__IP'] = $this->ip;
-        $_SESSION['__MTIME'] = time();
+        if (!isset($_SESSION['__MTIME']) || (time() - $_SESSION['__MTIME']) > ($this->lifetime / 10)) {
+            $_SESSION['__IP'] = $this->ip;
+            $_SESSION['__MTIME'] = time();
+        }
 
         parent::write_close();
     }
