@@ -6678,7 +6678,11 @@ function rcube_webmail() {
         this.http_request(this.env.task == 'mail' ? 'list-contacts' : 'list', url, lock);
 
         if (this.env.task != 'mail') {
-            this.update_state({ _source: src, _page: page && page > 1 ? page : null, _gid: group });
+            this.update_state({
+                _source: src,
+                _page: page && page > 1 ? page : null,
+                _gid: group ? group : null
+            });
         }
     };
 
