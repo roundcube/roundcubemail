@@ -7156,7 +7156,7 @@ function rcube_webmail() {
                 .text(prop.name);
 
         if (!this.env.contactgroups.length) {
-            this.env.contactgroups = {}
+            this.env.contactgroups = {};
         }
 
         this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
