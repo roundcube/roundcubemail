@@ -6681,7 +6681,7 @@ function rcube_webmail() {
             this.update_state({
                 _source: src,
                 _page: page && page > 1 ? page : null,
-                _gid: group ? group : null
+                _gid: group ? group : null,
             });
         }
     };
