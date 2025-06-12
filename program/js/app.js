@@ -7151,8 +7151,9 @@ function rcube_webmail() {
                 })
                 .text(prop.name);
 
-        if (!this.env.contactgroups.length)
+        if (!this.env.contactgroups.length) {
             this.env.contactgroups = {}
+        }
 
         this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
         this.treelist.insert({ id: key, html: link, classes: ['contactgroup'] }, prop.source, 'contactgroup');
