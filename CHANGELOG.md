@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Remove X-XSS-Protection example from .htaccess file (#9875)
+- Fix "Assign to group" action state after creation of a first group (#9889)
 
 ## Release 1.6.11
 

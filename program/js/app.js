@@ -6781,8 +6781,15 @@ function rcube_webmail()
         .click(function() { return ref.command('listgroup', prop, this); })
         .text(prop.name);
 
+    if (!this.env.contactgroups.length)
+      this.env.contactgroups = {}
+
     this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
     this.treelist.insert({ id:key, html:link, classes:['contactgroup'] }, prop.source, 'contactgroup');
+
+    // If there was a contact selected we have to clear the list because we have outdated
+    // some commands state (e.g. group-assign-selected) as well as groups list in the contact frame
+    this.contact_list.clear_selection();
 
     // make sure there is no cached address book or contact group selectors
     this.destroy_entity_selector('addressbook-selector');
