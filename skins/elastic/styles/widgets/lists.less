@@ -335,9 +335,32 @@ html.touch {
         &:extend(.font-icon-class);
         content: @fa-var-user;
         margin-left: .5rem;
+        line-height: normal;
     }
     &.group > i:before {
         content: @fa-var-users;
+    }
+}
+
+#rcmKSearchpane > ul > li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: .5em 0;
+
+    & > span.fields {
+        display: flex;
+        flex-flow: row wrap;
+        width: auto;
+        overflow: hidden;
+        margin: 0 .25em;
+
+        & > span.field {
+            flex: 0 0 100%;
+            font-size: 1rem;
+            line-height: normal;
+            .overflow-ellipsis();
+        }
     }
 }
 
