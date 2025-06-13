@@ -107,6 +107,9 @@ class rcmail_action_utils_error extends rcmail_action
 
         $HTTP_ERR_CODE = $ERROR_CODE < 600 ? $ERROR_CODE : 500;
 
+        // Set HTTP response code
+        http_response_code($HTTP_ERR_CODE);
+
         // Ajax request
         if ($rcmail->output && $rcmail->output->type == 'js') {
             $rcmail->output->sendExit('', ["HTTP/1.0 {$HTTP_ERR_CODE} {$error_title}"]);
