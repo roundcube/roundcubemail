@@ -104,7 +104,7 @@ if (strtolower($input) == 'y') {
         @unlink("{$target_dir}/composer.json-dist");
         copy(INSTALL_PATH . 'composer.json', "{$target_dir}/composer.json-dist");
     } else {
-        copy(INSTALL_PATH . 'composer.json' , "{$target_dir}/composer.json");
+        copy(INSTALL_PATH . 'composer.json', "{$target_dir}/composer.json");
         if (in_array('vendor', $dirs)) {
             @unlink("{$target_dir}/composer.lock");
             copy(INSTALL_PATH . 'composer.lock', "{$target_dir}/composer.lock");
