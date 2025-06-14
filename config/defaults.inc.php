@@ -1505,6 +1505,9 @@ $config['mdn_default'] = 0;
 // Delivery Status Notification checkbox default state
 $config['dsn_default'] = 0;
 
+// Keep formatting checkbox default state
+$config['keep_formatting_default'] = 0;
+
 // Place replies in the folder of the message being replied to
 $config['reply_same_folder'] = false;
 

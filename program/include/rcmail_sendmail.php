@@ -58,6 +58,7 @@ class rcmail_sendmail
      *                       message (object) - Message object to get some data from
      *                       error_handler (callback) - Error handler
      *                       dsn_enabled (bool) - Enable DSN
+     *                       keep_formatting_enabled (bool) - Enable keep formatting
      */
     public function __construct($data = [], $options = [])
     {
@@ -145,6 +146,7 @@ class rcmail_sendmail
         $dont_override = (array) $this->rcmail->config->get('dont_override');
         $mdn_enabled = in_array('mdn_default', $dont_override) ? $this->rcmail->config->get('mdn_default') : !empty($_POST['_mdn']);
         $dsn_enabled = in_array('dsn_default', $dont_override) ? $this->rcmail->config->get('dsn_default') : !empty($_POST['_dsn']);
+        $keep_formatting_enabled = in_array('keep_formatting_default', $dont_override) ? $this->rcmail->config->get('keep_formatting_default') : !empty($_POST['_keepformatting']);
         $subject = rcube_utils::get_input_string('_subject', rcube_utils::INPUT_POST, true, $charset);
         $from = rcube_utils::get_input_string('_from', rcube_utils::INPUT_POST, true, $charset);
         $replyto = rcube_utils::get_input_string('_replyto', rcube_utils::INPUT_POST, true, $charset);
@@ -198,6 +200,7 @@ class rcmail_sendmail
         $subject = trim(preg_replace('|\r?\n|', ' ', $subject));
 
         $this->options['dsn_enabled'] = $dsn_enabled;
+        $this->options['keep_formatting_enabled'] = $keep_formatting_enabled;
         $this->options['from'] = $from;
         $this->options['mailto'] = $mailto;
 
@@ -262,6 +265,10 @@ class rcmail_sendmail
 
             if ($dsn_enabled) {
                 $draft_info['dsn'] = 'on';
+            }
+
+            if ($keep_formatting_enabled) {
+                $draft_info['keep_formatting'] = 'on';
             }
 
             if (!empty($draft_info)) {
@@ -1426,8 +1433,14 @@ class rcmail_sendmail
 
         $checkbox = new html_checkbox($attrib);
 
+        if (!empty($_POST['_keepformatting']) || !empty($this->options['keep_formatting_enabled'])) {
+            $keep_farmatting_value = 1;
+        } else {
+            $keep_farmatting_value = $this->rcmail->config->get('keep_formatting_default');
+        }
+
         $out = $form_start ? "{$form_start}\n" : '';
-        $out .= $checkbox->show();
+        $out .= $checkbox->show($keep_farmatting_value);
         $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;

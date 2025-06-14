@@ -841,6 +841,20 @@ class rcmail_action_settings_index extends rcmail_action
                         ];
                     }
 
+                    if (!isset($no_override['keep_formatting_default'])) {
+                        if (!$current) {
+                            continue 2;
+                        }
+
+                        $field_id = 'rcmfd_keep_formatting_default';
+                        $input = new html_checkbox(['name' => '_keep_formatting_default', 'id' => $field_id, 'value' => 1]);
+
+                        $blocks['editor']['options']['keep_formatting_default'] = [
+                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('alwayskeepformatting'))),
+                            'content' => $input->show($config['keep_formatting_default'] ? 1 : 0),
+                        ];
+                    }
+
                     if (!isset($no_override['spellcheck_before_send']) && $config['enable_spellcheck']) {
                         if (!$current) {
                             continue 2;

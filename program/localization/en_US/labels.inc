@@ -613,6 +613,7 @@ $labels['automarkread'] = 'Mark messages as read';
 $labels['afternseconds'] = 'after $n seconds';
 $labels['reqmdn'] = 'Always request a return receipt';
 $labels['reqdsn'] = 'Always request a delivery status notification';
+$labels['alwayskeepformatting'] = 'Always keep original text formatting';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
