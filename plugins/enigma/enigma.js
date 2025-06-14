@@ -587,8 +587,13 @@ rcube_webmail.prototype.enigma_password_request = function (data) {
         myprompt = $('<div class="prompt">'),
         myprompt_content = $('<p class="message">')
             .appendTo(myprompt),
-        myprompt_input = $('<input>').attr({ type: 'password', size: 30, 'data-submit': 'true' })
-            .appendTo(myprompt);
+        myprompt_input = $('<input>').attr({ type: 'password', size: 30, 'data-submit': 'true' });
+
+    $('<div class="input-group">')
+        .append($('<span class="input-group-prepend">')
+            .append($('<i class="input-group-text icon key">')))
+        .append(myprompt_input)
+        .appendTo(myprompt);
 
     data.key = data.keyid;
     if (data.keyid.length > 8) {
