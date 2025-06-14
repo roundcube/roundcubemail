@@ -46,12 +46,14 @@
 				</div>
 			</div>
 			<roundcube:endif />
+			<roundcube:if condition="!in_array('keep_formatting_default', (array)config:dont_override)" />
 			<div class="form-group row form-check">
 				<label for="compose-keep-formatting" class="col-form-label col-6"><roundcube:label name="keepformatting" /></label>
 				<div class="col-6 form-check">
 					<roundcube:object name="keepFormattingCheckBox" id="compose-keep-formatting" noform="true" tabindex="2" class="form-check-input" />
 				</div>
 			</div>
+			<roundcube:endif />
 			<div class="form-group row">
 				<label for="compose-priority" class="col-form-label col-6"><roundcube:label name="priority" /></label>
 				<div class="col-6">
