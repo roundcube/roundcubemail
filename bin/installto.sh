@@ -136,10 +136,6 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    if (file_exists("{$target_dir}/installer")) {
-        $adds[] = "NOTICE: The 'installer' directory still exists. You should remove it after the upgrade.";
-    }
-
     if (!empty($adds)) {
         echo implode("\n", $adds) . "\n\n";
     }
