@@ -4,6 +4,7 @@
 
 - Remove X-XSS-Protection example from .htaccess file (#9875)
 - Fix "Assign to group" action state after creation of a first group (#9889)
+- Fix bug where contacts search would fail if `contactlist_fields` contained vcard fields (#9850)
 
 ## Release 1.6.11
 
