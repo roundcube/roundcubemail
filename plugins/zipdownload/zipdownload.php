@@ -315,6 +315,7 @@ class zipdownload extends rcube_plugin
         $zip = new ZipArchive();
         $zip->open($tmpfname, ZIPARCHIVE::OVERWRITE);
 
+        $last_key = array_key_last($messages);
         foreach ($messages as $key => $value) {
             list($uid, $mbox) = explode(':', $key, 2);
             $imap->set_folder($mbox);
@@ -327,7 +328,15 @@ class zipdownload extends rcube_plugin
                 $filter = stream_filter_append($tmpfp, 'mbox_filter');
                 $imap->get_raw_body($uid, $tmpfp);
                 stream_filter_remove($filter);
-                fwrite($tmpfp, "\r\n");
+
+                // Make sure the delimiter is a double \r\n
+                $fstat = fstat($tmpfp);
+                if (stream_get_contents($tmpfp, 2, $fstat['size'] - 2) != "\r\n") {
+                    fwrite($tmpfp, "\r\n");
+                }
+                if ($key != $last_key) {
+                    fwrite($tmpfp, "\r\n");
+                }
             }
             else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
