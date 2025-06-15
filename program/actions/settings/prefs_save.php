@@ -93,6 +93,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'force_7bit' => isset($_POST['_force_7bit']),
                     'mdn_default' => isset($_POST['_mdn_default']),
                     'dsn_default' => isset($_POST['_dsn_default']),
+                    'keep_formatting_default' => isset($_POST['_keep_formatting_default']),
                     'reply_same_folder' => isset($_POST['_reply_same_folder']),
                     'spellcheck_before_send' => isset($_POST['_spellcheck_before_send']),
                     'spellcheck_ignore_syms' => isset($_POST['_spellcheck_ignore_syms']),

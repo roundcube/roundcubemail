@@ -254,6 +254,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                     $options['dsn_enabled'] = true;
                 }
 
+                if (!empty($info['keep_formatting']) && $info['keep_formatting'] === 'on') {
+                    $options['keep_formatting_enabled'] = true;
+                }
+
                 if ($compose_mode == rcmail_sendmail::MODE_DRAFT) {
                     // get reply_uid/forward_uid to flag the original message when sending
                     if (!empty($info['type'])) {
