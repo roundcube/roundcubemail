@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Makefile: Make sure to use proper composer version (for PHP 5.5 support)
+
+## Release 1.5.10
+
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
 - Fix regression causing inline SVG images to be missing in mail preview (#9644)
 - Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v
