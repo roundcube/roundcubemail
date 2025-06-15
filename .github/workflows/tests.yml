@@ -31,6 +31,10 @@ jobs:
       - name: Setup problem matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
+      - name: Fix for PHP 5.5
+        run: sudo apt --fix-broken install
+        if: matrix.php <= 5.5
+
       - name: Install Aspell
         run: sudo apt-get -y install aspell aspell-en aspell-de
 
