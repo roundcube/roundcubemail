@@ -53,6 +53,7 @@
 - Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
+- Enigma: Add key icon to passphrase input (#9894)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
