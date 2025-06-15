@@ -224,8 +224,8 @@ a.removelink {
 p.warning,
 div.warning {
   padding: 1em;
-  background-color: #ef9398;
-  border: 2px solid #dc5757;
+  background-color: #ffff66;
+  border: 1px solid #ffc300;
 }
 
 h3.warning {
