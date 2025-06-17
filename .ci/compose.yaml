@@ -23,6 +23,8 @@ services:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
+      - 'browser_tests_vendor:/app/vendor'
+      - 'browser_tests_node:/app/node_modules'
       - '../tests/Browser/downloads:/downloads'
     environment:
       WEBDRIVER_CONNECT_URL: 'http://browserhost:4444'
@@ -32,7 +34,7 @@ services:
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
-    command: 
+    command:
       - .ci/run_browser_tests.sh
 
   tests:
@@ -75,3 +77,6 @@ services:
       - npx
       - eslint
       - .
+volumes:
+  browser_tests_vendor:
+  browser_tests_node:
