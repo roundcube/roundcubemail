@@ -1,0 +1,26 @@
+Return-Path: <dev@example.net>
+From: Someone <dev@example.net>
+To: Tom Tester <tom@example.net>
+Subject: Plaintext with markdown attachment
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="f275d1a45738d82706320777badbf339026bbe5fb27efb8c62458ad65ae13cef"
+Date: Fri, 12 June 2025 23:42:00 +0200
+Message-ID: <76fc626530d3253af13591c298d887acb801b440cdf3458da1882d667b8220aa@example.net>
+
+--f275d1a45738d82706320777badbf339026bbe5fb27efb8c62458ad65ae13cef
+Content-Type: text/plain; charset=US-ASCII;
+
+Please read the attached markdown file.
+
+--f275d1a45738d82706320777badbf339026bbe5fb27efb8c62458ad65ae13cef
+Content-Type: text/markdown
+Content-Disposition: attachment; filename="test.md"
+
+**Hello!**
+
+I'm _really_ happy that you're *reading* this!
+
+<img src='alskdjf' onerror='alert("vulnerable!")' />
+
+--f275d1a45738d82706320777badbf339026bbe5fb27efb8c62458ad65ae13cef--
