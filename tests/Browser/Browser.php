@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Browser;
 
+use Facebook\WebDriver\Chrome\ChromeDevToolsDriver;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\StaleElementReferenceException;
 use Facebook\WebDriver\Exception\TimeoutException;
@@ -348,5 +349,17 @@ class Browser extends \Laravel\Dusk\Browser
         $basedir = getenv('TESTRUNNER_DOWNLOADS_DIR') ?: TESTS_DIR . 'downloads';
         $basedir = rtrim($basedir, \DIRECTORY_SEPARATOR);
         return $basedir . \DIRECTORY_SEPARATOR . $filename;
+    }
+
+    public function printToPDF($driver) {
+        $devTools = new ChromeDevToolsDriver($driver);
+        $result = $devTools->execute(
+            'Page.printToPDF',
+                [
+                'printBackground' => true,
+                'scale' => 1,
+                ]
+        );
+        return base64_decode($result['data']);
     }
 }
