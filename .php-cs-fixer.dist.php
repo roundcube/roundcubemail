@@ -15,7 +15,7 @@ $finder = Finder::create()
     ->name('*.sh');
 
 return (new Config())
-    ->setParallelConfig(ParallelConfigFactory::detect())
+    // ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
@@ -87,10 +87,10 @@ return (new Config())
         'increment_style' => [
             'style' => 'post',
         ],
-        'php_unit_data_provider_name' => [
-            'prefix' => 'provide_',
-            'suffix' => '_cases',
-        ],
+        // 'php_unit_data_provider_name' => [
+        //     'prefix' => 'provide_',
+        //     'suffix' => '_cases',
+        // ],
         'php_unit_method_casing' => false,
         'php_unit_test_case_static_method_calls' => false,
         'psr_autoloading' => false,

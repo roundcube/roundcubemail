@@ -112,64 +112,14 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 $rcmail->request_security_check(rcube_utils::INPUT_GET);
             }
 
-            $extensions = rcube_mime::get_mime_extensions($mimetype);
-
             // compare file mimetype with the stated content-type headers and file extension to avoid malicious operations
             if (!empty($_REQUEST['_embed']) && empty($_REQUEST['_nocheck'])) {
-                $file_extension = strtolower(pathinfo($filename, \PATHINFO_EXTENSION));
-
-                // 1. compare filename suffix with expected suffix derived from mimetype
-                $valid = $file_extension && in_array($file_extension, (array) $extensions)
-                    || empty($extensions)
-                    || !empty($_REQUEST['_mimeclass']);
-
-                // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
-                if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
-                    $tmp_body = $attachment->body(2048);
-
-                    // detect message part mimetype
-                    $real_mimetype = rcube_mime::file_content_type($tmp_body, $filename, $mimetype, true, true);
-                    [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
-
-                    // accept text/plain with any extension
-                    if ($real_mimetype == 'text/plain' && self::mimetype_compare($real_mimetype, $mimetype)) {
-                        $valid_extension = true;
-                    }
-                    // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
-                    elseif ($real_ctype_primary == 'text' && str_starts_with($mimetype, $real_ctype_primary)) {
-                        $real_mimetype = $mimetype;
-                        $valid_extension = true;
-                    }
-                    // ignore filename extension if mimeclass matches (#1489029)
-                    elseif (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
-                        $valid_extension = true;
-                    } else {
-                        // get valid file extensions
-                        $extensions = rcube_mime::get_mime_extensions($real_mimetype);
-                        $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
-                    }
-
-                    if (
-                        // fix mimetype for files wrongly declared as octet-stream
-                        ($mimetype == 'application/octet-stream' && $valid_extension)
-                        // force detected mimetype for images (#8158)
-                        || str_starts_with($real_mimetype, 'image/')
-                    ) {
-                        $mimetype = $real_mimetype;
-                    }
-
-                    // "fix" real mimetype the same way the original is before comparison
-                    $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
-
-                    $valid = $valid_extension && self::mimetype_compare($real_mimetype, $mimetype);
-                } else {
-                    $real_mimetype = $mimetype;
-                }
+                [$valid, $mimetype] = self::check_mimetype_against_content_type_and_filename($attachment, $mimetype);
 
                 // show warning if validity checks failed
                 if (!$valid) {
                     // send blocked.gif for expected images
-                    if (empty($_REQUEST['_mimewarning']) && str_starts_with($mimetype, 'image/')) {
+                    if (str_starts_with($mimetype, 'image/')) {
                         // Do not cache. Failure might be the result of a misconfiguration,
                         // thus real content should be returned once fixed.
                         $content = self::get_resource_content('blocked.gif');
@@ -179,23 +129,6 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                         header('Content-Length: ' . strlen($content));
                         echo $content;
                     }
-                    // html warning with a button to load the file anyway
-                    // TODO: Make this work with iframed content parts (the interactivity must happen outside of the iframe)
-                    else {
-                        $inline_warning = $this->make_inline_warning(
-                            $rcmail->gettext([
-                                'name' => 'attachmentvalidationerror',
-                                'vars' => [
-                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
-                                    'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
-                                ],
-                            ]),
-                            $rcmail->gettext('showanyway'),
-                            $rcmail->url(array_merge($_GET, ['_nocheck' => 1]))
-                        );
-                        $this->send_html('', $inline_warning);
-                    }
-
                     $rcmail->output->sendExit();
                 }
             }
@@ -283,6 +216,63 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail->output->sendExit();
     }
 
+    protected static function check_mimetype_against_content_type_and_filename($attachment, $mimetype): array {
+        $extensions = rcube_mime::get_mime_extensions($mimetype);
+
+        $file_extension = strtolower(pathinfo(self::$attachment->filename, \PATHINFO_EXTENSION));
+
+        // 1. compare filename suffix with expected suffix derived from mimetype
+        $valid = $file_extension && in_array($file_extension, (array) $extensions)
+            || empty($extensions)
+            || !empty($_REQUEST['_mimeclass']);
+
+        // 2. detect the real mimetype of the attachment part and compare it with the stated mimetype and filename extension
+        if ($valid || !$file_extension || $mimetype == 'application/octet-stream' || stripos($mimetype, 'text/') === 0) {
+            $tmp_body = $attachment->body(2048);
+
+            // detect message part mimetype
+            $real_mimetype = rcube_mime::file_content_type($tmp_body, self::$attachment->filename, $mimetype, true, true);
+            [$real_ctype_primary, $real_ctype_secondary] = explode('/', $real_mimetype);
+
+            // accept text/plain with any extension
+            if ($real_mimetype == 'text/plain' && self::mimetype_compare($real_mimetype, $mimetype)) {
+                $valid_extension = true;
+            }
+            // ignore differences in text/* mimetypes. Filetype detection isn't very reliable here
+            elseif ($real_ctype_primary == 'text' && str_starts_with($mimetype, $real_ctype_primary)) {
+                $real_mimetype = $mimetype;
+                $valid_extension = true;
+            }
+            // ignore filename extension if mimeclass matches (#1489029)
+            elseif (!empty($_REQUEST['_mimeclass']) && $real_ctype_primary == $_REQUEST['_mimeclass']) {
+                $valid_extension = true;
+            } else {
+                // get valid file extensions
+                $extensions = rcube_mime::get_mime_extensions($real_mimetype);
+                $valid_extension = !$file_extension || empty($extensions) || in_array($file_extension, (array) $extensions);
+            }
+
+            if (
+                // fix mimetype for files wrongly declared as octet-stream
+                ($mimetype == 'application/octet-stream' && $valid_extension)
+                // force detected mimetype for images (#8158)
+                || str_starts_with($real_mimetype, 'image/')
+            ) {
+                $mimetype = $real_mimetype;
+            }
+
+            // "fix" real mimetype the same way the original is before comparison
+            $real_mimetype = rcube_mime::fix_mimetype($real_mimetype);
+
+            $valid = $valid_extension && self::mimetype_compare($real_mimetype, $mimetype);
+        } else {
+            $real_mimetype = $mimetype;
+        }
+
+        return [$valid, $mimetype, $real_mimetype, $extensions];
+    }
+
+
     /**
      * Compares two mimetype strings with making sure that
      * e.g. image/bmp and image/x-ms-bmp are treated as equal.
@@ -326,6 +316,26 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
     public static function message_part_frame($attrib)
     {
         $rcmail = rcmail::get_instance();
+        $mimetype = self::$attachment->mimetype;
+        $file_extension = strtolower(pathinfo(self::$attachment->filename, \PATHINFO_EXTENSION));
+        [$valid, $mimetype, $real_mimetype, $extensions] = self::check_mimetype_against_content_type_and_filename(self::$attachment, $mimetype);
+
+        if (!$valid) {
+            $inline_warning = self::make_inline_warning(
+                $rcmail->gettext([
+                    'name' => 'attachmentvalidationerror',
+                    'vars' => [
+                        'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
+                        'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
+                    ],
+                ]),
+                $rcmail->gettext('showanyway'),
+                $rcmail->url(array_merge($_GET, ['_nocheck' => 1]))
+            );
+        }
+
+
+        $rcmail = rcmail::get_instance();
 
         if ($rcmail->output->get_env('is_message')) {
             $url = [
@@ -335,31 +345,37 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                 'mbox' => $rcmail->output->get_env('mailbox'),
             ];
         } else {
+            // What's is the mimetype assignment from/for?
             $mimetype = $rcmail->output->get_env('mimetype');
             $url = $_GET;
-            $url['_mimewarning'] = 1;
+            $url['_nocheck'] = 1;
             $url['_embed'] = 1;
             unset($url['_frame']);
         }
 
         $url['_framed'] = 1; // For proper X-Frame-Options:deny handling
 
-        $attrib['src'] = $rcmail->url($url);
         $attrib['data-src'] = $rcmail->url($url);
-        $attrib['class'] = 'framed-message-part';
-        $attrib['sandbox'] = 'allow-same-origin';
+        $attrib['class'] = 'framed-message-part attachment-view';
+        // 'allow-modals' is necessary to allow printing button in attachment view.
+        $attrib['sandbox'] = 'allow-same-origin allow-modals';
 
         $rcmail->output->add_gui_object('messagepartframe', $attrib['id']);
 
-        return html::iframe($attrib);
+        if ($valid) {
+            $prefix = self::message_loading_notice();
+        } else {
+            $prefix = $inline_warning;
+        }
+
+        return html::div([], [ $prefix, html::iframe($attrib) ]);
     }
 
     /**
      * @param $contents       string Content to send as HTTP body
      * @param $inline_warning string Something to inject into the beginning of the content
      */
-    protected function send_html($contents, $inline_warning = null): void
-    {
+    protected function send_html($contents, $inline_warning = null): void {
         $rcmail = rcmail::get_instance();
         $rcmail->output->reset(true, false);
 
@@ -411,13 +427,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
      *
      * @return string HTML code as string
      */
-    protected function make_inline_warning($text, $button_label = null, $button_url = null): string
+    protected static function make_inline_warning($text, $button_label = null, $button_url = null): string
     {
         $text = html::span(null, $text);
 
         if ($button_label) {
-            $onclick = "location.href = '{$button_url}'";
-            $button = html::tag('button', ['onclick' => $onclick], rcube::Q($button_label));
+            $button = html::tag('button', [], rcube::Q($button_label));
             $text .= html::p(['class' => 'rcmail-inline-buttons'], $button);
         }
 

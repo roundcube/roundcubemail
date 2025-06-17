@@ -26,6 +26,7 @@ RUN apt-get update \
 		hunspell-en-us \
 		git \
 		locales \
+		rsync \
  && apt-get clean
 
 # Some tests require en_US.UTF-8 as locale.
@@ -47,7 +48,13 @@ RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# COPY --chmod=755 entrypoint.sh /
+# ENTRYPOINT [ "/entrypoint.sh" ]
+
 # Create working directory
 WORKDIR /app
+# WORKDIR /work
 
 VOLUME /app
+
+# CMD [ "bash" ]

@@ -10645,11 +10645,28 @@ function rcube_webmail() {
     };
 
     this.resize_preview_iframe = function (iframe) {
+        var wantedHeight;
+        var wantedWidth;
         // Reset the forced height to avoid growing it bigger and bigger (due to
         // our adding of 20 pixels, and 8 extra pixels of unknown origin, which
         // are always added.
         iframe.style.height = '';
-        var wantedHeight = iframe.contentDocument.firstChild.scrollHeight;
+        if (iframe.classList.contains('force-centered-image')) {
+            var imageEl = iframe.contentDocument.body.firstChild;
+            childHeight = imageEl.scrollHeight;
+            if (childHeight < iframe.parentElement.scrollHeight) {
+                // Force the iframe's width and height so the image is centered horizontally and vertically.
+                wantedHeight = childHeight;
+            } else {
+                imageEl.style.height = '100%';
+            }
+            childWidth = imageEl.scrollWidth;
+            if (childWidth < iframe.parentElement.scrollWidth) {
+                wantedWidth = childWidth;
+            }
+        } else {
+            wantedHeight = iframe.contentDocument.firstChild.scrollHeight;
+        }
         // If the height is too low, the rendering probably hasn't completed,
         // and we try again after a short moment.
         if (wantedHeight < 10) {
@@ -10658,6 +10675,10 @@ function rcube_webmail() {
         }
         // Add a few pixels to avoid problems with wrapped lines.
         iframe.style.height = wantedHeight + 20 + 'px';
+        if (wantedWidth) {
+            iframe.style.width = wantedWidth + 'px';
+        }
+        // TODO: What is this? A left-over artefact?
         iframe.resizePreviewIframeTimer = null;
     };
 
@@ -10673,32 +10694,35 @@ function rcube_webmail() {
                 // images etc.
                 iframe.addEventListener('DOMContentLoaded', () => this.resize_preview_iframe(iframe));
                 iframe.addEventListener('load', () => {
+                    var iframeBody = iframe.contentDocument.body;
                     // Hide "Loading data" message.
                     $(iframe).siblings('.loading').hide();
                     // Show remote objects notice
-                    if (iframe.contentDocument.body.dataset.extlinks === 'true') {
+                    if (iframeBody.dataset.extlinks === 'true') {
                         $(this.gui_objects.remoteobjectsmsg).show();
                         this.enable_command('load-remote', true);
                     }
-                    // Pull the warning out of the iframe (so it can become clickable)
-                    if (iframe.contentDocument.body.firstChild.classList.contains('rcmail-inline-warning')) {
-                        var elem = iframe.contentDocument.body.firstChild;
-                        iframe.parentElement.prepend(elem);
-                        elem.addEventListener('click', function () {
-                            // Inject the stylesheet after the browser created the temporary document around the content.
-                            var embedLink = iframe.contentDocument.querySelector('link').cloneNode();
-                            iframe.addEventListener('load', () => {
-                                iframe.contentDocument.querySelector('head').append(embedLink);
-                            });
-                            iframe.src = iframe.src.replace('_mimewarning', '_nocheck');
-                            $(elem).hide();
-                        });
+                    // Enforce some styling enhancement on the HTML document that browsers create around the iframed attachment.
+                    if (iframe.classList.contains('attachment-view')) {
+                        var children = iframeBody.children;
+                        if (children.length === 1 && children[0].tagName === 'IMG') {
+                            iframe.classList.add('force-centered-image');
+                        }
                     }
                     this.resize_preview_iframe(iframe);
                     resolve();
                 });
-                // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
-                iframe.setAttribute('src', iframe.dataset.src);
+                // Make the warning clickable, if it's present.
+                rcmail_inline_warning = iframe.parentElement.querySelector('.rcmail-inline-warning');
+                if (rcmail_inline_warning) {
+                    rcmail_inline_warning.addEventListener('click', function () {
+                        iframe.setAttribute('src', iframe.dataset.src);
+                        $(rcmail_inline_warning).hide();
+                    });
+                } else {
+                    // Only now set the 'src' attribute, after the event handlers, else they don't work reliably!
+                    iframe.setAttribute('src', iframe.dataset.src);
+                }
                 // Also run on window resizes, because the changed text flow could need more space.
                 window.addEventListener('resize', () => this.resize_preview_iframe(iframe));
             });

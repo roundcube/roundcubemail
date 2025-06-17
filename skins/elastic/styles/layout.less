@@ -181,6 +181,17 @@ body {
         }
     }
 
+    .iframe-wrapper:has(iframe.attachment-view.force-centered-image) {
+        display: grid;
+        place-items: center;
+        object-fit: contain;
+        height: auto;
+
+        iframe.attachment-view.force-centered-image {
+            overflow: overlay;
+        }
+    }
+
     &.only > .scroller {
         overflow: auto;
     }
