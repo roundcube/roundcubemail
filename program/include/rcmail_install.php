@@ -1032,6 +1032,21 @@ class rcmail_install
     }
 
     /**
+     * Content of the logon warning about enabled installer
+     */
+    public static function logonWarning()
+    {
+        return html::div(
+            ['id' => 'login-addon', 'style' => 'background:#ffff66; border:1px solid #ffc300; padding:0.5em; margin:2em auto; width:50em'],
+            '<h2>The Installer is still accessible</h2>'
+            . '<p>The install script of your Roundcube installation is still available to everyone!</p>'
+            . '<p>Please <b>remove</b> the <tt>public_html/installer.php</tt> file from the Roundcube directory because'
+            . ' it may expose sensitive configuration data like server passwords and encryption keys'
+            . ' to the public. Make sure you cannot access <a href="installer.php">the script</a> from your browser.</p>'
+        );
+    }
+
+    /**
      * Check if vendor/autoload.php was created by Roundcube and left untouched
      *
      * @param string $target_dir The target installation dir

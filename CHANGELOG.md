@@ -14,6 +14,7 @@
 - Mouse-over menu on messages list (#7141)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
 - Added an option for a default mail search scope (#9077, #7556)
+- Added an option for default "Keep formatting" state, option can be hidden via `dont_override` (#8987, #9703)
 - Added option to define font list and font-size list for HTML editor - available_fonts/available_font_sizes (#5700)
 - IMAP: Support for HAproxy protocol header in IMAP connections (#8625)
 - Change 'smtp_log' option default value to False
@@ -53,6 +54,7 @@
 - Additional_Message_Headers: Added %u, %d and %l variables (#8746, #8732)
 - ACL: Set default of 'acl_specials' option to ['anyone'] (#8911)
 - Enigma: Support Kolab's Web Of Anti-Trust feature (#8626)
+- Enigma: Add key icon to passphrase input (#9894)
 - Managesieve: Support :encodeurl (RFC 5435) (#8917)
 - Managesieve: Add List-ID to the list of headers for creating new sieve-filters (#8307)
 - Managesieve: Support an array in managesieve_host option (#9447)
@@ -74,6 +76,9 @@
 - Fix attachment name decoding when 'charset' parameter exists in the headers (#9376)
 - Fix deprecated (in PHP 8.4) use of session_set_save_handler() (#9060)
 - Fix potential HTTP protocol version mismatch (#8982)
+- Fix "Assign to group" action state after creation of a first group (#9889)
+- Fix bug where contacts search would fail if `contactlist_fields` contained vcard fields (#9850)
+- Fix bug where an mbox export file could include inconsistent message delimiters (#9879)
 
 ## Release 1.6.11
 

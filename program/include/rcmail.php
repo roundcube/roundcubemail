@@ -824,7 +824,7 @@ class rcmail extends rcube
             $_SESSION['login_time'] = time();
 
             $timezone = rcube_utils::get_input_string('_timezone', rcube_utils::INPUT_GPC);
-            if ($timezone && $timezone != '_default_') {
+            if ($timezone && $timezone != '_default_' && preg_match('|^[a-z0-9/_+-]+$|i', $timezone)) {
                 $_SESSION['timezone'] = $timezone;
             }
 

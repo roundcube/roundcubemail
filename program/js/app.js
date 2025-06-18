@@ -1659,16 +1659,22 @@ function rcube_webmail() {
     };
 
     // return a localized string
-    this.get_label = function (name, domain) {
-        if (domain && this.labels[domain + '.' + name]) {
-            return this.labels[domain + '.' + name];
+    this.get_label = function (label, domain, variables = null) {
+        if (domain && this.labels[domain + '.' + label]) {
+            label = this.labels[domain + '.' + label];
+        }
+        else if (this.labels[label]) {
+            label = this.labels[label];
         }
 
-        if (this.labels[name]) {
-            return this.labels[name];
+        // set variable value in localized string
+        if (variables && Object.keys(variables).length) {
+            for (const [key, value] of Object.entries(variables)) {
+                label = label.replaceAll(`$${key}`, value);
+            }
         }
 
-        return name;
+        return label;
     };
 
     // alias for convenience reasons
@@ -6672,7 +6678,11 @@ function rcube_webmail() {
         this.http_request(this.env.task == 'mail' ? 'list-contacts' : 'list', url, lock);
 
         if (this.env.task != 'mail') {
-            this.update_state({ _source: src, _page: page && page > 1 ? page : null, _gid: group });
+            this.update_state({
+                _source: src,
+                _page: page && page > 1 ? page : null,
+                _gid: group ? group : null,
+            });
         }
     };
 
@@ -7145,8 +7155,16 @@ function rcube_webmail() {
                 })
                 .text(prop.name);
 
+        if (!this.env.contactgroups.length) {
+            this.env.contactgroups = {};
+        }
+
         this.env.contactfolders[key] = this.env.contactgroups[key] = prop;
         this.treelist.insert({ id: key, html: link, classes: ['contactgroup'] }, prop.source, 'contactgroup');
+
+        // If there was a contact selected we have to clear the list because we have outdated
+        // some commands state (e.g. group-assign-selected) as well as groups list in the contact frame
+        this.contact_list.clear_selection();
 
         // make sure there is no cached address book or contact group selectors
         this.destroy_entity_selector('addressbook-selector');

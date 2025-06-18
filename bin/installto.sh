@@ -77,23 +77,47 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    $files = ['config/defaults.inc.php', 'composer.json-dist', 'jsdeps.json', 'index.php',
-        'CHANGELOG.md', 'README.md', 'UPGRADING', 'LICENSE', 'INSTALL',
-        'public_html/index.php', 'public_html/installer.php', 'public_html/static.php'];
+    $files = [
+        'config/defaults.inc.php',
+        'jsdeps.json',
+        'index.php',
+        'CHANGELOG.md',
+        'README.md',
+        'UPGRADING',
+        'LICENSE',
+        'INSTALL',
+        'public_html/index.php',
+        'public_html/installer.php',
+        'public_html/static.php',
+    ];
 
     foreach ($files as $file) {
-        $source_file = $file === 'composer.json-dist' ? 'composer.json' : $file;
-        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$source_file} {$target_dir}/{$file}";
+        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$file} {$target_dir}/{$file}";
 
         if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
             rcube::raise_error("Failed to execute command: {$command}", false, true);
         }
     }
 
+    // Copy composer.json/composer.lock files
+    if (file_exists("{$target_dir}/composer.json")) {
+        @unlink("{$target_dir}/composer.json-dist");
+        copy(INSTALL_PATH . 'composer.json', "{$target_dir}/composer.json-dist");
+    } else {
+        copy(INSTALL_PATH . 'composer.json', "{$target_dir}/composer.json");
+        if (in_array('vendor', $dirs)) {
+            @unlink("{$target_dir}/composer.lock");
+            copy(INSTALL_PATH . 'composer.lock', "{$target_dir}/composer.lock");
+        }
+    }
+
     // Copy .htaccess or .user.ini if needed
     foreach (['public_html/.htaccess', 'public_html/.user.ini'] as $file) {
         if (file_exists(INSTALL_PATH . $file)) {
-            if (!file_exists("{$target_dir}/{$file}") || file_get_contents(INSTALL_PATH . $file) != file_get_contents("{$target_dir}/{$file}")) {
+            if (!file_exists("{$target_dir}/{$file}")
+                || is_link("{$target_dir}/{$file}")
+                || file_get_contents(INSTALL_PATH . $file) != file_get_contents("{$target_dir}/{$file}")
+            ) {
                 if (copy(INSTALL_PATH . $file, "{$target_dir}/{$file}.new")) {
                     echo "{$file}.new\n";
                     $adds[] = "NOTICE: New {$file} file saved as {$file}.new.";
@@ -102,7 +126,17 @@ if (strtolower($input) == 'y') {
         }
     }
 
-    // remove old (<1.0) .htaccess file
+    // Remove old links (<1.7)
+    foreach (['plugins', 'skins', 'program/js', 'program/resources', 'program'] as $file) {
+        $file = "{$target_dir}/public_html/{$file}";
+        if (is_link($file)) {
+            unlink($file);
+        } elseif (is_dir($file)) {
+            rmdir($file);
+        }
+    }
+
+    // Remove old (<1.0) .htaccess file
     @unlink("{$target_dir}/program/.htaccess");
     echo "done.\n\n";
 
@@ -134,10 +168,6 @@ if (strtolower($input) == 'y') {
             system("cd {$target_dir} && bin/install-jsdeps.sh");
             echo "done.\n\n";
         }
-    }
-
-    if (file_exists("{$target_dir}/installer")) {
-        $adds[] = "NOTICE: The 'installer' directory still exists. You should remove it after the upgrade.";
     }
 
     if (!empty($adds)) {

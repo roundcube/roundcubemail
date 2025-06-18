@@ -187,7 +187,7 @@ KNOWN ISSUES
 Installations with uw-imap server should set imap_disabled_caps = array('ESEARCH')
 in main configuration file. ESEARCH implementation in this server is broken (#1489184).
 
-PHP >= 5.6 validates the ssl certificates by default. It means that
+PHP validates the ssl certificates by default. It means that
 if IMAP/SMTP certificates are self-signed or use wrong host name you'll get
 connection errors. A solution in such cases is to set imap_conn_options,
 smtp_conn_options and managesieve_conn_options in a way described in config/defaults.inc.php.
@@ -199,12 +199,3 @@ SELINUX. Here's some sample commands for SELINUX:
     $ semanage fcontext -a -t httpd_sys_rw_content_t "/path_to_roundcube/logs(/.*)?"
     $ semanage fcontext -a -t httpd_sys_rw_content_t "/path_to_roundcube/temp(/.*)?"
     $ restorecon -Rv /path_to_roundcube/
-
-Microsoft IIS Server by default does not support WOFF fonts used in Elastic skin. It might be
-needed to add following MIME Types definitions (via web.config or IIS Manager):
-
-    .woff   application/font-woff
-    .woff2  application/font-woff2
-
-When installing on Windows be aware we're using symbolic links which may need an additional
-attention. See https://github.com/roundcube/roundcubemail/issues/7151.
