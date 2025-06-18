@@ -6,7 +6,7 @@
  * Add it to the plugins list in config.inc.php and set
  * path to a virtuser table file to resolve user names and e-mail
  * addresses
- * $rcmail['virtuser_file'] = '';
+ * $config['virtuser_file'] = '';
  *
  * @license GNU GPLv3+
  * @author Aleksander Machniak
