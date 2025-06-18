@@ -359,7 +359,7 @@ class rcube_message
      * a real part not an attachment (or its part)
      *
      * @param bool                    $check_convertible Enables checking for text/enriched or markdown parts, too
-     * @param rcube_message_part|null &$ref     Reference to the part if found
+     * @param rcube_message_part|null &$ref              Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
@@ -477,7 +477,7 @@ class rcube_message
     /**
      * Return the first HTML part of this message
      *
-     * @param rcube_message_part &$part    Reference to the part if found
+     * @param rcube_message_part &$part             Reference to the part if found
      * @param bool               $check_convertible Enables checking for text/enriched or markdown parts, too
      *
      * @return string|null HTML message part content
