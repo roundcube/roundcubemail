@@ -1,0 +1,23 @@
+From: Someone <dev@example.net>
+To: Tom Tester <tom@example.net>
+Subject: Markdown
+MIME-Version: 1.0
+Date: Fri, 12 June 2025 23:42:00 +0200
+Message-ID: <e40d23f5d4b928f1536699b0723fa4a84ef3467d76ecbcdc361e8c394c6675a3@example.net>
+X-Comment: We can't test with a message that contains "text/markdown" as primary Content-Type,
+ because our testing IMAP server greenmail then sends the body base64-encoded, even though that's
+ not specified in the message, which breaks the tests. In manual tests with Dovecot the rendering
+ of this message is identical to one with "text/markdown" as primary Content-Type.
+Content-Type: multipart/mixed; boundary=laisj0r9uqwaosijflaskdjflakj
+
+--laisj0r9uqwaosijflaskdjflakj
+Content-Type: text/markdown
+Content-Transfer-Encoding: 7bit
+
+**Hello!**
+
+I'm _really_ happy that you're *reading* this!
+
+<img src='alskdjf' onerror='alert("vulnerable!")' />
+
+--laisj0r9uqwaosijflaskdjflakj--

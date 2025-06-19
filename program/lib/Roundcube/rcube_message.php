@@ -358,16 +358,16 @@ class rcube_message
      * Determine if the message contains a HTML part. This must to be
      * a real part not an attachment (or its part)
      *
-     * @param bool                    $enriched Enables checking for text/enriched parts too
-     * @param rcube_message_part|null &$ref     Reference to the part if found
+     * @param bool                    $check_convertible Enables checking for text/enriched or markdown parts, too
+     * @param rcube_message_part|null &$ref              Reference to the part if found
      *
      * @return bool True if a HTML is available, False if not
      */
-    public function has_html_part($enriched = false, &$ref = null)
+    public function has_html_part($check_convertible = false, &$ref = null)
     {
         // check all message parts
         foreach ($this->mime_parts as $part) {
-            if ($part->mimetype == 'text/html' || ($enriched && $part->mimetype == 'text/enriched')) {
+            if ($part->mimetype == 'text/html' || ($check_convertible && ($part->mimetype == 'text/enriched' || $part->mimetype === 'text/markdown' || $part->mimetype === 'text/x-markdown'))) {
                 // Skip if part is an attachment, don't use is_attachment() here
                 if ($part->filename) {
                     continue;
@@ -477,18 +477,20 @@ class rcube_message
     /**
      * Return the first HTML part of this message
      *
-     * @param rcube_message_part &$part    Reference to the part if found
-     * @param bool               $enriched Enables checking for text/enriched parts too
+     * @param rcube_message_part &$part             Reference to the part if found
+     * @param bool               $check_convertible Enables checking for text/enriched or markdown parts, too
      *
      * @return string|null HTML message part content
      */
-    public function first_html_part(&$part = null, $enriched = false)
+    public function first_html_part(&$part = null, $check_convertible = false)
     {
-        if ($this->has_html_part($enriched, $part)) {
+        if ($this->has_html_part($check_convertible, $part)) {
             $body = $this->get_part_body($part->mime_id, true);
 
             if ($part->mimetype == 'text/enriched') {
                 $body = rcube_enriched::to_html($body);
+            } elseif ($part->mimetype == 'text/markdown' || $part->mimetype == 'text/x-markdown') {
+                $body = rcube_markdown::to_html($body);
             }
 
             return $body;
@@ -759,7 +761,7 @@ class rcube_message
         // print body if message doesn't have multiple parts
         if ($message_ctype_primary == 'text' && !$recursive) {
             // parts with unsupported type add to attachments list
-            if (!in_array($message_ctype_secondary, ['plain', 'html', 'enriched'])) {
+            if (!in_array($message_ctype_secondary, ['plain', 'html', 'enriched', 'markdown', 'x-markdown'])) {
                 $this->add_attachment($structure);
                 return;
             }
@@ -807,6 +809,8 @@ class rcube_message
                     $this->got_html_part = true;
                 } elseif ($sub_mimetype == 'text/enriched' && !isset($enriched_part)) {
                     $enriched_part = $p;
+                } elseif (($sub_mimetype === 'text/markdown' || $sub_mimetype === 'text/x-markdown') && !isset($markdown_part)) {
+                    $markdown_part = $p;
                 } else {
                     // add unsupported/unrecognized parts to attachments list
                     $this->add_attachment($sub_part);
@@ -831,6 +835,8 @@ class rcube_message
                 $print_part = $structure->parts[$html_part];
             } elseif (isset($enriched_part)) {
                 $print_part = $structure->parts[$enriched_part];
+            } elseif (isset($markdown_part)) {
+                $print_part = $structure->parts[$markdown_part];
             } elseif (isset($plain_part)) {
                 $print_part = $structure->parts[$plain_part];
             }
@@ -919,7 +925,7 @@ class rcube_message
                     $this->parse_structure($mail_part, true);
                 }
                 // part text/[plain|html] or delivery status
-                elseif ((($part_mimetype == 'text/plain' || $part_mimetype == 'text/html') && $mail_part->disposition != 'attachment')
+                elseif ((in_array($part_mimetype, ['text/plain', 'text/html', 'text/markdown', 'text/x-markdown']) && $mail_part->disposition != 'attachment')
                     || in_array($part_mimetype, ['message/delivery-status', 'text/rfc822-headers', 'message/disposition-notification'])
                 ) {
                     // Allow plugins to handle also this part

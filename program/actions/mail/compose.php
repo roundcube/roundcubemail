@@ -735,6 +735,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $body = self::prepare_html_body($body);
             } elseif ($part->ctype_secondary == 'enriched') {
                 $body = rcube_enriched::to_html($body);
+            } elseif ($part->ctype_secondary === 'markdown' || $part->ctype_secondary === 'x-markdown') {
+                $body = rcube_markdown::to_html($body);
             } else {
                 // try to remove the signature
                 if ($strip_signature) {
@@ -747,6 +749,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         } else {
             if ($part->ctype_secondary == 'enriched') {
                 $body = rcube_enriched::to_html($body);
+                $part->ctype_secondary = 'html';
+            } elseif ($part->ctype_secondary === 'markdown' || $part->ctype_secondary === 'x-markdown') {
+                $body = rcube_markdown::to_html($body);
                 $part->ctype_secondary = 'html';
             }
 
