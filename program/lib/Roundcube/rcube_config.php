@@ -384,7 +384,7 @@ class rcube_config
             }
         } elseif ($name == 'client_mimetypes') {
             if (!$result && !$def) {
-                $result = 'text/plain,text/html'
+                $result = 'text/plain,text/html,text/markdown,text/x-markdown'
                     . ',image/jpeg,image/gif,image/png,image/bmp,image/tiff,image/webp'
                     . ',application/x-javascript,application/pdf,application/x-shockwave-flash';
             }
