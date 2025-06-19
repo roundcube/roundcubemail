@@ -882,7 +882,7 @@ class enigma_engine
         // @TODO: Handle big bodies using (temp) files
 
         // Get rid of possible non-ascii characters (#5962)
-        $sig_body = preg_replace('/[^\x00-\x7F]/', '', $sig_body);
+        $sig_body = preg_replace('/[^\x00-\x7F]/', '', (string) $sig_body);
 
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
