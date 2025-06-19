@@ -10,6 +10,7 @@
 - Renamed composer.json.dist to composer.json (#9279)
 - Make public_html/ entry-point mandatory, all static resources are served via static.php (#9294, #8851)
 - Removed support for MS SQL Server and Oracle (#7854)
+- Added text/markdown mail rendering (#8873)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Mouse-over menu on messages list (#7141)
 - Advanced mail search syntax with more possibilities (without UI) (#8502)
@@ -69,6 +70,7 @@
 - Password: Use Guzzle HTTP Client in the `domainfactory` driver
 - Password: Use Guzzle HTTP Client in the `cpanel` driver
 - Password: Check that a user email is part of password in the `zxcvbn` checker (#9404)
+- Virtuser_file: Support opensmtpd file format (#9898)
 - Zipdownload: Change "Download..." menu label into "Export..." (#9713)
 - Fix bug in handling rcmail::format_date()'s $convert argument (#9666)
 - Fix use of Bootstrap's `box-sizing` inside a HTML message content (#9727)
