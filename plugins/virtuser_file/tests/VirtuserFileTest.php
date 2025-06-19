@@ -17,4 +17,38 @@ class VirtuserFileTest extends TestCase
         $this->assertInstanceOf('virtuser_file', $plugin);
         $this->assertInstanceOf('rcube_plugin', $plugin);
     }
+
+    /**
+     * Test email lookup
+     */
+    public function test_virtuals()
+    {
+        $rcube = \rcube::get_instance();
+        $rcube->config->set('virtuser_file', realpath(__DIR__ . '/src/virtuals'));
+        $plugin = new \virtuser_file($rcube->plugins);
+        $plugin->init();
+
+        $email = $plugin->user2email(['user' => 'alias-2']);
+        $user = $plugin->email2user(['email' => 'email2@domain.com']);
+
+        $this->assertSame('email2@domain.com', $email['email'][0]);
+        $this->assertSame('alias-2', $user['user']);
+    }
+
+    /**
+     * Test opensmtpd format
+     */
+    public function test_opensmtpd()
+    {
+        $rcube = \rcube::get_instance();
+        $rcube->config->set('virtuser_file', realpath(__DIR__ . '/src/opensmtpd'));
+        $plugin = new \virtuser_file($rcube->plugins);
+        $plugin->init();
+
+        $email = $plugin->user2email(['user' => 'alias-2']);
+        $user = $plugin->email2user(['email' => 'email2@domain.com']);
+
+        $this->assertSame('email2@domain.com', $email['email'][0]);
+        $this->assertSame('alias-2', $user['user']);
+    }
 }
