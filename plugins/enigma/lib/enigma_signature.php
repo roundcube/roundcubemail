@@ -44,7 +44,9 @@ class enigma_signature
             return $this->name;
         }
 
-        if ($this->fingerprint && ($key = $engine->get_key($this->fingerprint))) {
+        $key = $this->fingerprint ? $engine->get_key($this->fingerprint) : null;
+
+        if ($key) {
             $from = $message->headers->from;
             $charset = $message->headers->charset;
 
