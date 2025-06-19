@@ -853,10 +853,10 @@ class enigma_engine
     /**
      * PGP signature verification.
      *
-     * @param mixed &$msg_body Message body
-     * @param mixed $sig_body  Signature body (for MIME messages)
+     * @param string  &$msg_body Message body
+     * @param ?string $sig_body  Signature body (for MIME messages)
      *
-     * @return mixed enigma_signature or enigma_error
+     * @return enigma_signature|enigma_error
      */
     private function pgp_verify(&$msg_body, $sig_body = null)
     {
@@ -868,7 +868,7 @@ class enigma_engine
         }
 
         // Get rid of possible non-ascii characters (#5962)
-        $sig_body = preg_replace('/[^\x00-\x7F]/', '', $sig_body);
+        $sig_body = preg_replace('/[^\x00-\x7F]/', '', (string) $sig_body);
 
         $sig = $this->pgp_driver->verify($msg_body, $sig_body);
 
@@ -882,10 +882,10 @@ class enigma_engine
     /**
      * PGP message decryption.
      *
-     * @param mixed            &$msg_body  Message body
-     * @param enigma_signature &$signature Signature verification result
+     * @param ?string           &$msg_body  Message body
+     * @param ?enigma_signature &$signature Signature verification result
      *
-     * @return mixed True or enigma_error
+     * @return true|enigma_error
      */
     private function pgp_decrypt(&$msg_body, &$signature = null)
     {
@@ -918,11 +918,11 @@ class enigma_engine
     /**
      * PGP message signing
      *
-     * @param mixed      &$msg_body Message body
+     * @param string     &$msg_body Message body
      * @param enigma_key $key       The key (with passphrase)
-     * @param int        $mode      Signing mode
+     * @param ?int       $mode      Signing mode
      *
-     * @return mixed True or enigma_error
+     * @return true|enigma_error
      */
     private function pgp_sign(&$msg_body, $key, $mode = null)
     {
@@ -945,12 +945,12 @@ class enigma_engine
     /**
      * PGP message encrypting
      *
-     * @param mixed  &$msg_body Message body
-     * @param array  $keys      Keys (array of enigma_key objects)
-     * @param string $sign_key  Optional signing Key ID
-     * @param string $sign_pass Optional signing Key password
+     * @param string  &$msg_body Message body
+     * @param array   $keys      Keys (array of enigma_key objects)
+     * @param ?string $sign_key  Optional signing Key ID
+     * @param ?string $sign_pass Optional signing Key password
      *
-     * @return mixed True or enigma_error
+     * @return true|enigma_error
      */
     private function pgp_encrypt(&$msg_body, $keys, $sign_key = null, $sign_pass = null)
     {
@@ -973,7 +973,7 @@ class enigma_engine
     /**
      * PGP keys listing.
      *
-     * @param mixed $pattern Key ID/Name pattern
+     * @param string $pattern Key ID/Name pattern
      *
      * @return mixed Array of keys or enigma_error
      */
@@ -1042,9 +1042,9 @@ class enigma_engine
     /**
      * PGP key details.
      *
-     * @param mixed $keyid Key ID
+     * @param string $keyid Key ID
      *
-     * @return mixed enigma_key or enigma_error
+     * @return enigma_key|enigma_error
      */
     public function get_key($keyid)
     {
@@ -1082,7 +1082,7 @@ class enigma_engine
      *
      * @param array $data Key pair parameters
      *
-     * @return mixed enigma_key or enigma_error
+     * @return enigma_key|enigma_error
      */
     public function generate_key($data)
     {
