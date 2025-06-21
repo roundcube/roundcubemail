@@ -239,12 +239,25 @@ class rcmail_action_mail_index extends rcmail_action
             $pagetitle = $rcmail->gettext('searchresult');
         } else {
             $mbox_name = $rcmail->output->get_env('mailbox') ?: $rcmail->storage->get_folder();
-            $delimiter = $rcmail->storage->get_hierarchy_delimiter();
-            $pagetitle = self::localize_foldername($mbox_name, true);
-            $pagetitle = str_replace($delimiter, " \xC2\xBB ", $pagetitle);
+            $pagetitle = self::pretty_folderpath($mbox_name);
         }
 
         $rcmail->output->set_pagetitle($pagetitle);
+    }
+
+    /**
+     * Pretty folder path
+     */
+    public static function pretty_folderpath($mbox_name, $delimiter = null)
+    {
+        if (empty($delimiter)) {
+            $delimiter = rcmail::get_instance()->storage->get_hierarchy_delimiter();
+        }
+
+        $folderpath = self::localize_foldername($mbox_name, true);
+        $folderpath = str_replace($delimiter, " \xC2\xBB ", $folderpath);
+
+        return $folderpath;
     }
 
     /**
@@ -555,8 +568,7 @@ class rcmail_action_mail_index extends rcmail_action
                 } elseif ($col == 'folder') {
                     if (!isset($last_folder) || !isset($last_folder_name) || $last_folder !== $header->folder) {
                         $last_folder = $header->folder;
-                        $last_folder_name = self::localize_foldername($last_folder, true);
-                        $last_folder_name = str_replace($delimiter, " \xC2\xBB ", $last_folder_name);
+                        $last_folder_name = self::pretty_folderpath($last_folder, $delimiter);
                     }
 
                     $cont = rcube::SQ($last_folder_name);
