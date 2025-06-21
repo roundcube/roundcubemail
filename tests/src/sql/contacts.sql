@@ -3,6 +3,7 @@ DELETE FROM contactgroups;
 DELETE FROM contactgroupmembers;
 DELETE FROM collected_addresses;
 INSERT INTO collected_addresses (user_id, name, email, type) VALUES (1, 'test', 'test@collected.eu', 1);
+INSERT INTO collected_addresses (user_id, name, email, type) VALUES (1, 'target collected', 'target@collected.com', 1);
 INSERT INTO contactgroups (user_id, name) VALUES (1, 'test-group');
 INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vcard, words)
     VALUES (1, '2019-12-31 12:23:33.523071-05', 0, 'John Doe', 'johndoe@example.org', 'John', 'Doe', 'BEGIN:VCARD
@@ -47,3 +48,10 @@ N:Snow;Jon;;;
 FN:Jon ż Snow
 EMAIL;TYPE=INTERNET;TYPE=HOME:j.snow@game.com
 END:VCARD', ' jon snow j.snow@game.com');
+INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vcard, words)
+    VALUES (1, '2019-12-31 12:24:10.213475-05', 0, 'Target Personal', 'target@personal.com', 'Target', 'Personal', 'BEGIN:VCARD
+VERSION:3.0
+N:Personal;Target;;;
+FN:Target Personal
+EMAIL;TYPE=INTERNET;TYPE=HOME:target@personal.com
+END:VCARD', ' target personal target@personal.com');
