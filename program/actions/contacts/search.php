@@ -78,7 +78,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         else {
             $search = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
             $fields = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
-            $scope = strlen($_GET['_scope']) ? rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET) : null;
+            $scope = isset($_GET['_scope']) && strlen($_GET['_scope']) ? rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET) : null;
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
