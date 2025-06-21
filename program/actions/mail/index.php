@@ -248,8 +248,10 @@ class rcmail_action_mail_index extends rcmail_action
     /**
      * Pretty folder path
      */
-    public static function pretty_folderpath($mbox_name, $delimiter = null)
+    public static function pretty_folderpath($mbox_name)
     {
+        static $delimiter;
+
         if (empty($delimiter)) {
             $delimiter = rcmail::get_instance()->storage->get_hierarchy_delimiter();
         }
@@ -460,7 +462,6 @@ class rcmail_action_mail_index extends rcmail_action
             $head_replace = true;
         }
 
-        $delimiter = $rcmail->storage->get_hierarchy_delimiter();
         $search_set = $rcmail->storage->get_search_set();
         $multifolder = $search_set && !empty($search_set[1]->multi);
 
@@ -568,7 +569,7 @@ class rcmail_action_mail_index extends rcmail_action
                 } elseif ($col == 'folder') {
                     if (!isset($last_folder) || !isset($last_folder_name) || $last_folder !== $header->folder) {
                         $last_folder = $header->folder;
-                        $last_folder_name = self::pretty_folderpath($last_folder, $delimiter);
+                        $last_folder_name = self::pretty_folderpath($last_folder);
                     }
 
                     $cont = rcube::SQ($last_folder_name);
