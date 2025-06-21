@@ -51,7 +51,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         if ($sid && ($search = $rcmail->user->get_search($sid))) {
             $fields = $search['data']['fields'];
             // scope param added in 1.7, existence check for backwards compatibility
-            $scope = isset($search['data']['scope']) ? $search['data']['scope'] : null;
+            $scope = $search['data']['scope'] ?? null;
             $search = $search['data']['search'];
         }
         // get fields/values from advanced search form
@@ -265,14 +265,14 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $coltypes['_scope'] = [
             'id' => 'scope',
             'type' => 'select',
-            'category'=> 'main',
+            'category' => 'main',
             'label' => $rcmail->gettext('searchscope'),
             'options' => [
                 'base' => $rcmail->gettext('currentaddressbook'),
-                'all' => $rcmail->gettext('alladdressbooks')
+                'all' => $rcmail->gettext('alladdressbooks'),
             ],
             'value' => 'all',
-            'skip-empty' => true
+            'skip-empty' => true,
         ];
 
         // build form fields list
