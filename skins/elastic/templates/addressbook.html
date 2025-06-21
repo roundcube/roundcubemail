@@ -42,6 +42,15 @@
 				<li><label><input type="checkbox" name="s_mods[]" value="email" /><roundcube:label name="email" /></label></li>
 				<li><label><input type="checkbox" name="s_mods[]" value="*" /><roundcube:label name="allfields" /></label></li>
 			</ul>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label for="s_scope" class="input-group-text"><roundcube:label name="searchscope" /></label>
+				</div>
+				<select name="s_scope" id="s_scope" class="custom-select">
+					<option value="base"><roundcube:label name="currentaddressbook" /></option>
+					<option value="all"><roundcube:label name="alladdressbooks" /></option>
+				</select>
+			</div>
 		</div>
 		<div class="formbuttons">
 			<button type="button" class="btn btn-primary icon search" onclick="return rcmail.command('search')"><roundcube:label name="search" /></button>
