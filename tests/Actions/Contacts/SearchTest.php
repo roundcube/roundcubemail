@@ -61,6 +61,7 @@ class SearchTest extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.list_contacts_clear();') === false);
     }
 
     /**
@@ -91,6 +92,7 @@ class SearchTest extends ActionTestCase
         $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') !== false);
         $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.list_contacts_clear();') !== false);
     }
 
     /**
