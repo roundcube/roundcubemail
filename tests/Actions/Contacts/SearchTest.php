@@ -71,12 +71,4 @@ class SearchTest extends ActionTestCase
         // TODO: Search using saved search, or using the form
         $this->markTestIncomplete();
     }
-
-    /**
-     * Test contact_search_form() method
-     */
-    public function test_contact_search_form()
-    {
-        $this->markTestIncomplete();
-    }
 }
