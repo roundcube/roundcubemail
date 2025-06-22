@@ -68,7 +68,28 @@ class SearchTest extends ActionTestCase
      */
     public function test_run_search()
     {
-        // TODO: Search using saved search, or using the form
-        $this->markTestIncomplete();
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
+
+        $this->assertTrue($action->checks());
+
+        self::initDB('contacts');
+
+        $_POST = ['_adv' => '1', '_search_organization' => 'acme'];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
+        $this->assertSame('search', $result['action']);
+        $this->assertSame(1, $result['env']['pagecount']);
+        $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
+        $this->assertTrue(strpos($result['exec'], 'this.add_contact_row') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') !== false);
+        $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
     }
 }
