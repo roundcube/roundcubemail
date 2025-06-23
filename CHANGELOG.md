@@ -10,6 +10,7 @@
 - Renamed composer.json.dist to composer.json (#9279)
 - Make public_html/ entry-point mandatory, all static resources are served via static.php (#9294, #8851)
 - Removed support for MS SQL Server and Oracle (#7854)
+- Added more strict code quality/style validation
 - Added text/markdown mail rendering (#8873)
 - Store uploads metadata in a separate sql database table instead of a session (#8415)
 - Mouse-over menu on messages list (#7141)
@@ -98,7 +99,7 @@
 - Fix connecting to LDAP using ldapi:// URI (#8990)
 - Fix cursor position on "below the quote" reply in HTML mode (#8700)
 - Fix bug where attachments with content type of `application/vnd.ms-tnef` were not parsed (#7119)
-- Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v
+- Fix Post-Auth RCE via PHP Object Deserialization reported by firs0v [CVE-2025-49113]
 
 ## Release 1.6.10
 
