@@ -9,8 +9,9 @@ INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vc
 VERSION:3.0
 N:Doe;John;;;
 FN:John Doe
+ORG:Acme
 EMAIL;TYPE=INTERNET;TYPE=HOME:johndoe@example.org
-END:VCARD', ' john do johndo@example.org');
+END:VCARD', ' john do acme johndo@example.org');
 INSERT INTO contacts (user_id, changed, del, name, email, firstname, surname, vcard, words)
     VALUES (1, '2019-12-31 12:24:10.213475-05', 0, 'Jane Stalone', 'j.stalone@microsoft.com', 'Jane', 'Stalone', 'BEGIN:VCARD
 VERSION:3.0
