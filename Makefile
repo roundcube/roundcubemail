@@ -61,7 +61,7 @@ verify:
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
-roundcubemail-git: buildtools
+roundcubemail-git: buildtools plugin-markmirror-prepare-for-release
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic && make css)
@@ -112,3 +112,17 @@ downloads-json-data:
 	@echo "\nRun this command in the directory of your cloned copy of 'https://github.com/roundcube/roundcube.github.com/'\nto generate the data for the file 'releases.json':\n./_bin/generate-downloads-json-data.php $(PWD) $(VERSION)\n"
 
 release: edit-changelog git-tag all sign verify downloads-json-data git-tag-push
+
+plugins-build: plugin-markmirror-build
+
+plugin-markmirror-build: plugin-markmirror-clean
+	cd plugins/markmirror && \
+		npm clean-install && \
+		npm run build && \
+		rm -rf node_module
+
+plugin-markmirror-clean:
+	cd plugins/markmirror && npm run clean
+
+plugin-markmirror-prepare-for-release: plugin-markmirror-build
+	(cd roundcubemail-git/plugins/markmirror; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)
