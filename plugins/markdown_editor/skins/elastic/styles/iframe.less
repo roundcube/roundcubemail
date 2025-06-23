@@ -1,0 +1,22 @@
+@import (reference) "../../../../../skins/elastic/styles/colors";
+
+// These are the same styles we send in outgoing HTML messages.
+body {
+    color: @color-font;
+}
+
+html.dark-mode body {
+    color: @color-dark-font;
+}
+
+blockquote {
+    padding: 0 0.4em;
+    border-left: #1010ff 2px solid;
+    margin: 0;
+}
+
+pre, div.pre {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+}

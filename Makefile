@@ -61,7 +61,7 @@ verify:
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
-roundcubemail-git: buildtools
+roundcubemail-git: buildtools plugin-markdown_editor-prepare-for-release
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic && make css)
@@ -119,4 +119,18 @@ composer-update: /tmp/composer.phar
 install-jsdeps: npm-install
 	./bin/install-jsdeps.sh
 
-build: composer-update install-jsdeps css-elastic
+build: composer-update install-jsdeps css-elastic plugins-build
+
+plugins-build: plugin-markdown_editor-build
+
+plugin-markdown_editor-build: plugin-markdown_editor-clean
+	cd plugins/markdown_editor && \
+		npm clean-install && \
+		npm run build && \
+		rm -rf node_module
+
+plugin-markdown_editor-clean:
+	cd plugins/markdown_editor && npm run clean
+
+plugin-markdown_editor-prepare-for-release: plugin-markdown_editor-build
+	(cd roundcubemail-git/plugins/markdown_editor; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)
