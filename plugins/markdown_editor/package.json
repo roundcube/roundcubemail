@@ -1,0 +1,29 @@
+{
+    "type": "module",
+    "dependencies": {
+        "@codemirror/commands": "^6.8.1",
+        "@codemirror/lang-markdown": "^6.3.3",
+        "@codemirror/language": "^6.11.2",
+        "@codemirror/state": "^6.5.2",
+        "@codemirror/view": "^6.38.1",
+        "@fsegurai/codemirror-theme-material-dark": "^6.2.2",
+        "@fsegurai/codemirror-theme-material-light": "^6.2.2",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "codemirror-markdown-commands": "^0.1.0",
+        "less": "^4.4.1",
+        "less-plugin-clean-css": "^1.6.0",
+        "markdown-it": "^14.1.0",
+        "rollup": "^4.45.1"
+    },
+    "devDependencies": {
+        "rollup-plugin-bundle-stats": "^4.21.3"
+    },
+    "scripts": {
+        "build": "npm run build-js && npm run build-css",
+        "build-js": "rollup -c",
+        "build-css": "cd skins/elastic/styles && lessc --verbose --clean-css='--s1' markdown_editor.less markdown_editor.min.css && lessc --verbose --clean-css='--s1' iframe.less iframe.min.css",
+        "watch-js": "rollup -c -w",
+        "clean": "rm -rf node_modules markdown_editor.min.js skins/elastic/styles/{markdown_editor,iframe}.min.css"
+    }
+}
