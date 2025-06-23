@@ -101,7 +101,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         $map = rcube_utils::get_input_value('_map', rcube_utils::INPUT_GPC);
                         $map = array_filter($map);
 
-                        $csv->set_map($map);
+                        $csv->set_map($map, array_keys(self::list_fields($with_groups)));
                         $csv->import($file_content, false, $skip_head);
 
                         unlink($filepath);
@@ -109,7 +109,6 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                         // save uploaded file for the real import in the next step
                         $temp_csv = rcube_utils::temp_filename('csvimpt');
                         if (move_uploaded_file($filepath, $temp_csv) && file_exists($temp_csv)) {
-                            $fields = $csv->get_fields();
                             $last_map = $map;
                             $map = $csv->import($file_content, true);
 
@@ -145,7 +144,6 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                     'replace' => $replace,
                     'target' => $target,
                     'with_groups' => $with_groups,
-                    'fields' => !empty($fields) ? $fields : [],
                 ];
 
                 // Stored separately due to nested array limitations in session
@@ -385,16 +383,11 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
         $params = $_SESSION['contactcsvimport']['params'];
 
-        // hide groups field from list when group import disabled
-        if (empty($params['with_groups'])) {
-            unset($params['fields']['groups']);
-        }
+        $available_fields = self::list_fields(!empty($params['with_groups']));
 
         $fieldlist = new html_select(['name' => '_map[]']);
         $fieldlist->add($rcmail->gettext('fieldnotmapped'), '');
-        foreach ($params['fields'] as $id => $name) {
-            $fieldlist->add($name, $id);
-        }
+        $fieldlist->add(array_values($available_fields), array_keys($available_fields));
 
         $field_table = new html_table(['cols' => 2] + $attrib);
 
@@ -498,5 +491,52 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         }
 
         return $group_id;
+    }
+
+    /**
+     * Returns the list of contact fields available for import
+     */
+    public static function list_fields($groups)
+    {
+        $rcmail = rcmail::get_instance();
+        $available_fields = [];
+
+        foreach (self::$CONTACT_COLTYPES as $id => $field) {
+            if ($id == 'photo') {
+                // skip photo field because there are no photos in CSV files
+                continue;
+            }
+
+            if (!empty($field['subtypes'])) {
+                $subtype_names = array_map('rcmail_action_contacts_index::get_type_label', $field['subtypes']);
+
+                for ($i = 0; $i < count($field['subtypes']); $i++) {
+                    if (!empty($field['childs'])) {
+                        foreach ($field['childs'] as $cid => $child) {
+                            $available_fields[$cid . ':' . $field['subtypes'][$i]] = $child['label'] . ' - ' . $subtype_names[$i];
+                        }
+                    } else {
+                        $available_fields[$id . ':' . $field['subtypes'][$i]] = $field['label'] . ' - ' . $subtype_names[$i];
+                    }
+                }
+            } else {
+                $available_fields[$id] = $field['label'];
+            }
+        }
+
+        if ($groups) {
+            // allow importing of group assignments
+            $available_fields['groups'] = $rcmail->gettext('groups');
+        }
+
+        // add separate birthday date parts fields for thunderbird imports
+        $available_fields['birthday-d'] = $rcmail->gettext('birth_day');
+        $available_fields['birthday-m'] = $rcmail->gettext('birth_month');
+        $available_fields['birthday-y'] = $rcmail->gettext('birth_year');
+
+        // sort by label for easy use
+        asort($available_fields, \SORT_LOCALE_STRING);
+
+        return $available_fields;
     }
 }
