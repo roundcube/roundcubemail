@@ -7816,7 +7816,8 @@ function rcube_webmail() {
                 // on the list when dragging starts (and stops), this is slow, but
                 // I didn't find a method to check droptarget on over event
                 accept: function (node) {
-                    if (!node.is('.mailbox')) {
+                    // Break on .is-being-sorted to enable sorting.
+                    if (!node.is('.mailbox') || node.is('.is-being-sorted')) {
                         return false;
                     }
 
@@ -7834,8 +7835,49 @@ function rcube_webmail() {
                         dest = ref.folder_id2name(this.id);
 
                     ref.subscription_move_folder(source, dest);
+                    ref.make_folder_lists_sortable();
                 },
             });
+
+        this.make_folder_lists_sortable();
+    };
+
+    this.make_folder_lists_sortable = () => {
+        var sortableHandle = $('<div>').addClass('sortable-handle');
+        // Destroy and re-create all sortable lists because this gets called in scenarios, in which new lists might
+        // exist (e.g. if a folder was moved into another one that previously didn't have child-folders).
+        $('ul.ui-sortable').sortable('destroy');
+        // (Re-)Add handle icons to every sortable folder.
+        $('.sortable-handle').remove();
+        $('li.mailbox:not(.protected) > .custom-switch', this.subscription_list.container).prepend(sortableHandle);
+        // (Re-)create the sorting.
+        $(this.subscription_list.container).parent().find('ul').each((_i, el) => {
+            $(el).sortable({
+                axis: 'y',
+                containment: 'parent',
+                items: '> li.mailbox:not(.protected)',
+                handle: '.sortable-handle',
+                update: () => this.save_reordered_folder_list(),
+                // Add/remove a marker to disable dropping on other elements during sorting (see accept() of droppable).
+                start: (_ev, ui) => ui.item.addClass('is-being-sorted'),
+                stop: (_ev, ui) => ui.item.removeClass('is-being-sorted'),
+            });
+        });
+    };
+
+    this.save_reordered_folder_list = () => {
+        const mainList = ref.subscription_list.container.sortable('toArray');
+        const subLists = ref.subscription_list.container.find('.ui-sortable').map((i, elem) => ({
+            parentId: elem.parentElement.id,
+            elems: $(elem).sortable('toArray'),
+        })).toArray();
+        // Sort sub-lists after their their parent element, so the sorting for the settings page doesn't get confused
+        // (which will hook child-folders onto wrong parents if we don't do this).
+        subLists.forEach((subList) => {
+            mainList.splice(mainList.indexOf(subList.parentId) + 1, 0, ...subList.elems);
+        });
+        params = mainList.map((e) => e.replace(/^rcmli/, 'folderorder[]=')).join('&');
+        this.http_post('folder-reorder', params, this.display_message('', 'loading'));
     };
 
     this.folder_id2name = function (id) {
@@ -7891,7 +7933,7 @@ function rcube_webmail() {
     };
 
     // Add folder row to the table and initialize it
-    this.add_folder_row = function (id, name, display_name, is_protected, subscribed, class_name, refrow, subfolders) {
+    this.add_folder_row = function (id, name, display_name, is_protected, subscribed, class_name, refrow, subfolders, insert_before_elem) {
         if (!this.gui_objects.subscriptionlist) {
             return false;
         }
@@ -8029,7 +8071,11 @@ function rcube_webmail() {
                 }
             }
 
-            if (parent && n == parent) {
+            if (insert_before_elem && $(insert_before_elem).parents('li')[0] === parent) {
+                // In this case we theoretically could have skipped the sorting above, but trying to do that resulted in
+                // strange side effects, so I kept the code in.
+                $(insert_before_elem).before(row);
+            } else if (parent && n == parent) {
                 $('ul', parent).first().append(row);
             } else {
                 while (p = $(n).parent().parent().get(0)) {
@@ -8069,6 +8115,8 @@ function rcube_webmail() {
         if (!refrow) {
             this.triggerEvent('clonerow', { row: row, id: id });
         }
+
+        this.make_folder_lists_sortable();
 
         return row;
     };
@@ -8118,6 +8166,12 @@ function rcube_webmail() {
             delete ref.env.subscriptionrows[fname];
         });
 
+        if (this.env.folder_ordered_manually) {
+            // We need to store this information now, because it's not available anymore after removing the row from
+            // the DOM.
+            next_sibling = row.nextElementSibling;
+        }
+
         // get row off the list
         row = $(row).detach();
 
@@ -8129,7 +8183,11 @@ function rcube_webmail() {
         }
 
         // move the existing table row
-        this.add_folder_row(id, name, display_name, is_protected, subscribed, class_name, row, subfolders);
+        this.add_folder_row(id, name, display_name, is_protected, subscribed, class_name, row, subfolders, next_sibling);
+
+        if (this.env.folder_ordered_manually) {
+            this.save_reordered_folder_list();
+        }
     };
 
     // remove the table row of a specific mailbox from the table
