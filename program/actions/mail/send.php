@@ -35,7 +35,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail->output->framed = true;
 
         $COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GPC);
-        $COMPOSE = &$_SESSION['compose_data_' . $COMPOSE_ID];
+        $COMPOSE    = rcmail_action_mail_compose::get_compose_data($COMPOSE_ID);
 
         // Sanity checks
         if (!isset($COMPOSE['id'])) {
@@ -253,6 +253,8 @@ class rcmail_action_mail_send extends rcmail_action
             }
 
             if ($saved) {
+                rcmail_action_mail_compose::set_compose_data($COMPOSE_ID, $COMPOSE);
+                
                 $plugin = $rcmail->plugins->exec_hook('message_draftsaved', [
                     'msgid' => $message_id,
                     'uid' => $saved,
@@ -296,7 +298,7 @@ class rcmail_action_mail_send extends rcmail_action
                 $save_error = true;
             } else {
                 $rcmail->delete_uploaded_files($COMPOSE_ID);
-                $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
+                rcmail_action_mail_compose::remove_compose_data($COMPOSE_ID);
                 $_SESSION['last_compose_session'] = $COMPOSE_ID;
 
                 $rcmail->output->command('remove_compose_data', $COMPOSE_ID);
