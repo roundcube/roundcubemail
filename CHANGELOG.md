@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Don't force specific error_reporting setting
 - Fix compatibility with PHP 8.5 regarding array_first()
 - Remove X-XSS-Protection example from .htaccess file (#9875)
 - Fix "Assign to group" action state after creation of a first group (#9889)
