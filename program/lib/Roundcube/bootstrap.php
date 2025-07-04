@@ -298,19 +298,21 @@ function array_keys_recursive($array)
     return $keys;
 }
 
-/**
- * Get first element from an array
- *
- * @param array $array Input array
- *
- * @return mixed First element if found, Null otherwise
- */
-function array_first($array)
-{
-    if (is_array($array)) {
-        reset($array);
-        foreach ($array as $element) {
-            return $element;
+if (!function_exists('array_first')) {
+    /**
+     * Get first element from an array
+     *
+     * @param array $array Input array
+     *
+     * @return mixed First element if found, Null otherwise
+     */
+    function array_first($array)
+    {
+        if (is_array($array)) {
+            reset($array);
+            foreach ($array as $element) {
+                return $element;
+            }
         }
     }
 }
