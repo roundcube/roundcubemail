@@ -2574,7 +2574,9 @@ class rcube_imap_generic
                         $result[$id]->envelope = $value;
                     }
                     else if ($name == 'BODYSTRUCTURE' || ($name == 'BODY' && count($value) > 2)) {
-                        if (!is_array($value[0]) && (strtolower($value[0]) == 'message' && strtolower($value[1]) == 'rfc822')) {
+                        if (is_string($value[0]) && is_string($value[1])
+                            && strtolower($value[0]) == 'message' && strtolower($value[1]) == 'rfc822'
+                        ) {
                             $value = [$value];
                         }
                         $result[$id]->bodystructure = $value;
