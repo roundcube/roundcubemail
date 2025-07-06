@@ -635,7 +635,6 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
         $safe_mode = self::$MESSAGE->is_safe || !empty($_GET['_safe']);
         $out = '';
-        $part_no = 0;
 
         $header_attrib = [];
         foreach ($attrib as $attr => $value) {
@@ -692,32 +691,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         self::message_error();
                     }
 
-                    $plugin = $rcmail->plugins->exec_hook('message_body_prefix',
-                        ['part' => $part, 'prefix' => '', 'message' => self::$MESSAGE]);
-
-                    // Set attributes of the part container
-                    $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
-                    $container_id = $container_class . (++$part_no);
-                    $container_attrib = ['class' => $container_class, 'id' => $container_id];
-
-                    $body_args = [
-                        'safe' => $safe_mode,
-                        'plain' => !$rcmail->config->get('prefer_html'),
-                        'css_prefix' => 'v' . $part_no,
-                        'body_class' => 'rcmBody',
-                        'container_id' => $container_id,
-                        'container_attrib' => $container_attrib,
-                    ];
-
-                    // Parse the part content for display
-                    $body = self::print_body($body, $part, $body_args);
-
-                    // check if the message body is PGP encrypted
-                    if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
-                        $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
-                    }
-
-                    $out .= html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
+                    // Process the part content for display
+                    $out .= self::prepare_part_body($body, $part, $body_args = []);
                 }
             }
         } else {
@@ -887,5 +862,41 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $rcmail->output->set_env('mdn_request', true);
             }
         }
+    }
+
+    /**
+     * Prepare message part content for display
+     */
+    protected static function prepare_part_body($body, $part, &$body_args = [])
+    {
+        static $part_no;
+
+        $rcmail = rcmail::get_instance();
+
+        $plugin = $rcmail->plugins->exec_hook('message_body_prefix',
+            ['part' => $part, 'prefix' => '', 'message' => self::$MESSAGE]);
+
+        // Set attributes of the part container
+        $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+        $container_id = $container_class . (++$part_no);
+        $container_attrib = ['class' => $container_class, 'id' => $container_id];
+
+        $body_args = [
+            'safe' => self::$MESSAGE->is_safe || !empty($_GET['_safe']),
+            'plain' => !$rcmail->config->get('prefer_html'),
+            'css_prefix' => 'v' . $part_no,
+            'container_id' => $container_id,
+            'container_attrib' => $container_attrib,
+        ];
+
+        // Parse the part content for display
+        $body = self::print_body($body, $part, $body_args);
+
+        // check if the message body is PGP encrypted
+        if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+            $rcmail->output->set_env('is_pgp_content', '#' . $body_args['container_id']);
+        }
+
+        return html::div($body_args['container_attrib'], $plugin['prefix'] . $body);
     }
 }

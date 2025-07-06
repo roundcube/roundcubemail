@@ -989,12 +989,9 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     {
         static $part_no;
 
-        // Set attributes of the part container
-        $container_id = self::$COMPOSE['mode'] . 'body' . (++$part_no);
-
         $wash_params += [
             'safe' => self::$MESSAGE->is_safe,
-            'css_prefix' => 'v' . $part_no,
+            'css_prefix' => 'v' . (++$part_no),
             'add_comments' => false,
         ];
 
@@ -1003,8 +1000,6 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $body = preg_replace('/<p>\xC2\xA0<\/p>/', '<p><br /></p>', $body);
             // remove <body> tags (not their content)
             $wash_params['ignore_elements'] = ['body'];
-        } else {
-            $wash_params['container_id'] = $container_id;
         }
 
         // Make the HTML content safe and clean

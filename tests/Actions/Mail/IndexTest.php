@@ -328,8 +328,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/htmlbody.txt');
         $part->replaces = ['ex1.jpg' => 'part_1.2.jpg', 'ex2.jpg' => 'part_1.2.jpg'];
 
@@ -364,8 +362,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_xss()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/htmlxss.txt');
         $params = ['container_id' => 'foo', 'safe' => true];
         $html = \rcmail_action_mail_index::print_body($part->body, $part, $params);
@@ -383,8 +379,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_xss2()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/BID-26800.txt');
         $params = ['container_id' => 'dabody', 'safe' => true];
         $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
@@ -398,8 +392,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_xss3()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         // #1488850
         $html = '<p><a href="data:text/html,&lt;script&gt;alert(document.cookie)&lt;/script&gt;">Firefox</a>'
             . '<a href="vbscript:alert(document.cookie)">Internet Explorer</a></p>';
@@ -448,16 +440,16 @@ class IndexTest extends ActionTestCase
      */
     public function test_wash_html_body_style()
     {
-        $html = '<body background="http://test.com/image" bgcolor="#fff" style="font-size: 11px" text="#000"><p>test</p></body>';
+        $html = '<body id="aaa" background="http://test.com/image" bgcolor="#fff" style="font-size: 11px" text="#000"><p>test</p></body>';
         $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div id="aaa" style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
 
         $params['safe'] = true;
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div id="aaa" style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
     }
 
     /**
@@ -468,8 +460,6 @@ class IndexTest extends ActionTestCase
     #[Group('mbstring')]
     public function test_washtml_utf8()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/invalidchars.html');
         $washed = \rcmail_action_mail_index::print_body($part->body, $part);
 
@@ -481,8 +471,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_meta_insertion()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $meta = '<meta charset="' . RCUBE_CHARSET . '" />';
         $args = [
             'inline_html' => false,
@@ -521,8 +509,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_plaintext()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = new \rcube_message_part();
         $part->ctype_primary = 'text';
         $part->ctype_secondary = 'plain';
@@ -551,8 +537,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_mailto()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/mailto.txt');
         $params = ['container_id' => 'foo', 'safe' => false];
 
@@ -570,8 +554,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_comments()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $part = $this->get_html_part('src/htmlcom.txt');
         $washed = \rcmail_action_mail_index::print_body($part->body, $part, ['safe' => true]);
 
@@ -586,8 +568,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_links()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         // disable relative links
         $html = '<a href="/">test</a>';
         $body = \rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
@@ -609,8 +589,6 @@ class IndexTest extends ActionTestCase
      */
     public function test_html_link_xss()
     {
-        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
-
         $html = '<a style="x:><img src=x onerror=alert(1)//">test</a>';
         $body = \rcmail_action_mail_index::print_body($html, $this->get_html_part(), ['safe' => false, 'plain' => false]);
 

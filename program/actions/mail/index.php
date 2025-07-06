@@ -949,7 +949,6 @@ class rcmail_action_mail_index extends rcmail_action
             'css_prefix' => $p['css_prefix'],
             // internal configuration
             'container_id' => $p['container_id'],
-            'body_class' => $p['body_class'] ?? '',
         ];
 
         if (empty($p['inline_html'])) {
@@ -974,14 +973,6 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (!empty($p['inline_html'])) {
             $washer->add_callback('body', 'rcmail_action_mail_index::washtml_callback');
-
-            if ($wash_opts['body_class']) {
-                self::$wash_html_body_attrs['class'] = $wash_opts['body_class'];
-            }
-
-            if ($wash_opts['container_id']) {
-                self::$wash_html_body_attrs['id'] = $wash_opts['container_id'];
-            }
         }
 
         if (empty($p['skip_washer_form_callback'])) {
@@ -1149,9 +1140,7 @@ class rcmail_action_mail_index extends rcmail_action
                 if (strlen($out)) {
                     $css_prefix = $washtml->get_config('css_prefix');
                     $is_safe = $washtml->get_config('allow_remote');
-                    $body_class = $washtml->get_config('body_class') ?: '';
                     $cont_id = $washtml->get_config('container_id') ?: '';
-                    $cont_id = trim($cont_id . ($body_class ? " div.{$body_class}" : ''));
 
                     $out = rcube_utils::mod_css_styles($out, $cont_id, $is_safe, $css_prefix);
 
