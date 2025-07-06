@@ -882,7 +882,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $container_attrib = ['class' => $container_class, 'id' => $container_id];
 
         $body_args = [
-            'safe' => self::$MESSAGE->is_safe || !empty($_GET['_safe']),
+            'safe' => (self::$MESSAGE && self::$MESSAGE->is_safe) || !empty($_GET['_safe']),
             'plain' => !$rcmail->config->get('prefer_html'),
             'css_prefix' => 'v' . $part_no,
             'container_id' => $container_id,
