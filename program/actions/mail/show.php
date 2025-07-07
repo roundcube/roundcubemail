@@ -692,7 +692,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     }
 
                     // Process the part content for display
-                    $out .= self::prepare_part_body($body, $part, $body_args = []);
+                    $out .= self::prepare_part_body($body, $part);
                 }
             }
         } else {
@@ -867,7 +867,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
     /**
      * Prepare message part content for display
      */
-    protected static function prepare_part_body($body, $part, &$body_args = [])
+    protected static function prepare_part_body($body, $part)
     {
         static $part_no;
 
