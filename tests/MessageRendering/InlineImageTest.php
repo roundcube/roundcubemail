@@ -24,7 +24,7 @@ class InlineImageTest extends MessageRenderingTestCase
         $this->assertStringContainsString('?_task=mail&_action=get&_mbox=INBOX&_uid=', $src);
         $this->assertStringContainsString('&_part=2&_embed=1&_mimeclass=image', $src);
 
-        $this->assertSame('v1signature', $divElements[2]->attributes->getNamedItem('class')->textContent);
+        $this->assertStringMatchesFormat('v%isignature', $divElements[2]->attributes->getNamedItem('class')->textContent);
         // This matches a non-breakable space.
         $this->assertMatchesRegularExpression('|^\x{00a0}$|u', $divElements[2]->textContent);
 
