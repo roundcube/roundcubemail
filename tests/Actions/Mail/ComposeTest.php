@@ -27,7 +27,7 @@ class ComposeTest extends ActionTestCase
         $action = new \rcmail_action_mail_compose();
 
         $html = <<<'EOF'
-            <html lang="en">
+            <html>
                 <head>
                     <style>
                         @media (min-width: 600px) {
@@ -53,7 +53,7 @@ class ComposeTest extends ActionTestCase
 
         $this->assertCount(1, $xpath->query('//div'));
         $this->assertSame('v1bod', $xpath->query('//div')->item(0)->getAttribute('id'));
-        $this->assertSame('v1body_class_name', $xpath->query('//div')->item(0)->getAttribute('class'));
+        $this->assertSame('rcmBody v1body_class_name', $xpath->query('//div')->item(0)->getAttribute('class'));
         $this->assertCount(1, $xpath->query('//div/p'));
     }
 

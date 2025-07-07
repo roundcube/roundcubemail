@@ -240,7 +240,7 @@ class UtilsTest extends TestCase
         $this->assertSame('/* evil! */', $mod);
 
         $mod = \rcube_utils::mod_css_styles("body.main2cols { background-image: url('../images/leftcol.png'); }", 'rcmbody');
-        $this->assertSame('#rcmbody.main2cols {}', $mod);
+        $this->assertSame('#rcmbody .main2cols {}', $mod);
 
         $mod = \rcube_utils::mod_css_styles('p { left:expression(document.body.offsetWidth-20); }', 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);

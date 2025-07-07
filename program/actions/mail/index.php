@@ -949,6 +949,7 @@ class rcmail_action_mail_index extends rcmail_action
             'css_prefix' => $p['css_prefix'],
             // internal configuration
             'container_id' => $p['container_id'],
+            'body_class' => $p['body_class'] ?? 'rcmBody',
         ];
 
         if (empty($p['inline_html'])) {
@@ -973,6 +974,7 @@ class rcmail_action_mail_index extends rcmail_action
 
         if (!empty($p['inline_html'])) {
             $washer->add_callback('body', 'rcmail_action_mail_index::washtml_callback');
+            self::$wash_html_body_attrs['class'] = $wash_opts['body_class'];
         }
 
         if (empty($p['skip_washer_form_callback'])) {
@@ -1140,9 +1142,10 @@ class rcmail_action_mail_index extends rcmail_action
                 if (strlen($out)) {
                     $css_prefix = $washtml->get_config('css_prefix');
                     $is_safe = $washtml->get_config('allow_remote');
+                    $body_class = $washtml->get_config('body_class');
                     $cont_id = $washtml->get_config('container_id') ?: '';
 
-                    $out = rcube_utils::mod_css_styles($out, $cont_id, $is_safe, $css_prefix);
+                    $out = rcube_utils::mod_css_styles($out, $cont_id, $is_safe, $css_prefix, $body_class);
 
                     $out = html::tag('style', ['type' => 'text/css'], $out);
                 }
@@ -1172,9 +1175,18 @@ class rcmail_action_mail_index extends rcmail_action
                                 $style['background-image'] = "url({$value})";
                             }
                             break;
+                        case 'class':
+                            if (!empty($value)) {
+                                $attrs['class'] = trim(($attrs['class'] ?? '') . ' ' . $value);
+                            }
+                            break;
                         default:
                             $attrs[$attr_name] = $value;
                     }
+                }
+
+                if (isset($attrs['class']) && empty($attrs['class'])) {
+                    unset($attrs['class']);
                 }
 
                 if (!empty($style)) {
@@ -1271,14 +1283,13 @@ class rcmail_action_mail_index extends rcmail_action
 
             if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
                 $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
-                $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
-                $attrib['href'] = $rcmail->url([
-                    'task' => 'utils',
-                    'action' => 'modcss',
-                    'u' => $tempurl,
-                    'c' => $washtml->get_config('container_id'),
-                    'p' => $washtml->get_config('css_prefix'),
-                ]);
+                $_SESSION['modcssurls'][$tempurl] = [
+                    'url' => $attrib['href'],
+                    'container_id' => $washtml->get_config('container_id'),
+                    'css_prefix' => $washtml->get_config('css_prefix'),
+                    'body_class' => $washtml->get_config('body_class'),
+                ];
+                $attrib['href'] = $rcmail->url(['task' => 'utils', 'action' => 'modcss', 'u' => $tempurl]);
                 $content = null;
             } elseif (preg_match('/^mailto:(.+)/i', $attrib['href'], $mailto)) {
                 $url_parts = explode('?', html_entity_decode($mailto[1], \ENT_QUOTES, 'UTF-8'), 2);

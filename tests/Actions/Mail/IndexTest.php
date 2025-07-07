@@ -409,7 +409,7 @@ class IndexTest extends ActionTestCase
         $part = $this->get_html_part();
         $part->body = '<body title="bgcolor=foo" name="bar style=animation-name:progress-bar-stripes onanimationstart=alert(origin) foo=bar">Foo</body>';
 
-        $params = ['safe' => true, 'add_comments' => false];
+        $params = ['safe' => true, 'add_comments' => false, 'body_class' => ''];
         $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
 
         $this->assertSame(str_replace('body', 'div', $part->body), $washed);
@@ -440,16 +440,16 @@ class IndexTest extends ActionTestCase
      */
     public function test_wash_html_body_style()
     {
-        $html = '<body id="aaa" background="http://test.com/image" bgcolor="#fff" style="font-size: 11px" text="#000"><p>test</p></body>';
-        $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
+        $html = '<body background="http://test.com/image" bgcolor="#fff" style="font-size: 11px" text="#000"><p>test</p></body>';
+        $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false, 'body_class' => ''];
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="aaa" style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div style="font-size: 11px; background-image: url(static.php/program/resources/blocked.gif); background-color: #fff; color: #000"><p>test</p></div>', $washed);
 
         $params['safe'] = true;
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
-        $this->assertSame('<div id="aaa" style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+        $this->assertSame('<div style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
     }
 
     /**

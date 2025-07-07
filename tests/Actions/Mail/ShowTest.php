@@ -26,9 +26,11 @@ class ShowTest extends ActionTestCase
      */
     public function test_prepare_part_body()
     {
+        $action = new \rcmail_action_mail_show();
+
         // HTML sample (from #9911) focusing on body attributes and styles
         $html = <<<'EOF'
-            <html lang="en">
+            <html>
                 <head>
                     <style>
                         @media (min-width: 600px) {
@@ -41,8 +43,6 @@ class ShowTest extends ActionTestCase
                 </body>
             </html>
             EOF;
-
-        $action = new \rcmail_action_mail_show();
 
         $body = invokeMethod($action, 'prepare_part_body', [$html, $this->get_html_part()]);
         $xpath = self::parseHtml($body);
@@ -60,7 +60,7 @@ class ShowTest extends ActionTestCase
 
         $this->assertCount(1, $xpath->query('/html/div/div'));
         $this->assertSame('v1bod', $xpath->query('/html/div/div')->item(0)->getAttribute('id'));
-        $this->assertSame('v1body_class_name', $xpath->query('/html/div/div')->item(0)->getAttribute('class'));
+        $this->assertSame('rcmBody v1body_class_name', $xpath->query('/html/div/div')->item(0)->getAttribute('class'));
         $this->assertSame('Test', $xpath->query('/html/div/div/p')->item(0)->textContent);
 
         // Invoking the method again (for the next part) use a different ID/prefix
@@ -79,7 +79,32 @@ class ShowTest extends ActionTestCase
 
         $this->assertCount(1, $xpath->query('/html/div/div'));
         $this->assertSame('v2bod', $xpath->query('/html/div/div')->item(0)->getAttribute('id'));
-        $this->assertSame('v2body_class_name', $xpath->query('/html/div/div')->item(0)->getAttribute('class'));
+        $this->assertSame('rcmBody v2body_class_name', $xpath->query('/html/div/div')->item(0)->getAttribute('class'));
+
+        // Another HTML sample
+        $html = <<<'EOF'
+            <html>
+                <style>
+                    body, body > p { color: red; }
+                    .bt p, body.bt { color: unset; }
+                </style>
+                <body class="bt">
+                    <p>Test</p>
+                </body>
+            </html>
+            EOF;
+
+        $body = invokeMethod($action, 'prepare_part_body', [$html, $this->get_html_part()]);
+        $xpath = self::parseHtml($body);
+
+        $this->assertSame('message-htmlpart3', $xpath->query('/html/div')->item(0)->getAttribute('id'));
+        $this->assertSame(
+            '#message-htmlpart3 .rcmBody, #message-htmlpart3 .rcmBody > p { color: red; } '
+            . '#message-htmlpart3 .v3bt p, #message-htmlpart3 .rcmBody.v3bt { color: unset; }',
+            trim(preg_replace('/(\s{2,}|\n)/', ' ', $xpath->query('/html/div/style')->item(0)->textContent))
+        );
+        $this->assertSame('', $xpath->query('/html/div/div')->item(0)->getAttribute('id'));
+        $this->assertSame('rcmBody v3bt', $xpath->query('/html/div/div')->item(0)->getAttribute('class'));
     }
 
     /**
