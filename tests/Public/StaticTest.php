@@ -11,21 +11,9 @@ use Roundcube\Tests\ServerTestCase;
 class StaticTest extends ServerTestCase
 {
     /**
-     * Dataset for testExistingResources()
-     */
-    public static function provideExistingResources(): iterable
-    {
-        return [
-            ['program/resources/blank.gif', 'image/gif'],
-            ['skins/elastic/images/logo.svg?s=1234567', 'image/svg+xml'],
-            ['plugins/acl/acl.js', 'text/javascript'],
-        ];
-    }
-
-    /**
      * Test valid resources
      */
-    #[DataProvider('provideExistingResources')]
+    #[DataProvider('provide_ExistingResources_cases')]
     public function testExistingResources($path, $ctype): void
     {
         $response = $this->request('GET', 'static.php/' . $path);
@@ -42,9 +30,33 @@ class StaticTest extends ServerTestCase
     }
 
     /**
+     * Dataset for testExistingResources()
+     */
+    public static function provide_ExistingResources_cases(): iterable
+    {
+        return [
+            ['program/resources/blank.gif', 'image/gif'],
+            ['skins/elastic/images/logo.svg?s=1234567', 'image/svg+xml'],
+            ['plugins/acl/acl.js', 'text/javascript'],
+        ];
+    }
+
+    /**
+     * Test forbidden resources
+     */
+    #[DataProvider('provide_ForbiddenResources_cases')]
+    public function testForbiddenResources($path): void
+    {
+        $response = $this->request('GET', 'static.php/' . $path);
+
+        $this->assertSame(404, $response->getStatusCode());
+        $this->assertSame('', (string) $response->getBody());
+    }
+
+    /**
      * Dataset for testForbiddenResources()
      */
-    public static function provideForbiddenResources(): iterable
+    public static function provide_ForbiddenResources_cases(): iterable
     {
         return [
             [''],
@@ -58,18 +70,6 @@ class StaticTest extends ServerTestCase
             ['public_html/.htaccess'],
             ['vendor/friendsofphp/php-cs-fixer/logo.png'],
         ];
-    }
-
-    /**
-     * Test forbidden resources
-     */
-    #[DataProvider('provideForbiddenResources')]
-    public function testForbiddenResources($path): void
-    {
-        $response = $this->request('GET', 'static.php/' . $path);
-
-        $this->assertSame(404, $response->getStatusCode());
-        $this->assertSame('', (string) $response->getBody());
     }
 
     /**
