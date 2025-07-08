@@ -37,7 +37,8 @@ class rcmail_action_utils_modcss extends rcmail_action
             $rcmail->output->sendExitError(403, 'Unauthorized request');
         }
 
-        $realurl = $_SESSION['modcssurls'][$url];
+        $data = $_SESSION['modcssurls'][$url];
+        $realurl = $data['url'] ?? '';
 
         // don't allow any other connections than http(s)
         if (!preg_match('~^https?://~i', $realurl, $matches)) {
@@ -59,16 +60,13 @@ class rcmail_action_utils_modcss extends rcmail_action
             rcube::raise_error($e, true, false);
         }
 
-        $cid = rcube_utils::get_input_string('_c', rcube_utils::INPUT_GET);
-        $prefix = rcube_utils::get_input_string('_p', rcube_utils::INPUT_GET);
+        if ($source !== false && $ctype && preg_match('~^text/(css|plain)~i', $ctype)) {
+            $container_id = $data['container_id'] ?? '';
+            $css_prefix = $data['css_prefix'] ?? '';
+            $body_class = $data['body_class'] ?? '';
 
-        $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
-        $css_prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
-        $ctype_regexp = '~^text/(css|plain)~i';
-
-        if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
             $rcmail->output->sendExit(
-                rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
+                rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix, $body_class),
                 ['Content-Type: text/css']
             );
         }
