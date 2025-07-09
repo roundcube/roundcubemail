@@ -89,5 +89,8 @@ clean:
 	rm -rf roundcubemail-$(VERSION)*
 	rm -f /tmp/composer.phar /tmp/phpDocumentor.phar
 
+clean-untracked-minified:
+	git status -s | awk '/^\?\? .*.min.(js|css)/ { print $$2 }' | xargs rm -v
+
 css-elastic: npm-install
 	cd skins/elastic && make css
