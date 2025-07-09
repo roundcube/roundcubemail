@@ -9,6 +9,7 @@ VERSION=1.7-git
 SEDI=sed -i
 PHP_VERSION=8.1
 
+PATH := $(PATH):$(PWD)/node_modules/.bin
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
     SEDI=sed -i ''
@@ -87,6 +88,9 @@ clean:
 	rm -rf roundcubemail-git
 	rm -rf roundcubemail-$(VERSION)*
 	rm -f /tmp/composer.phar /tmp/phpDocumentor.phar
+
+clean-untracked-minified:
+	git status -s | awk '/^\?\? .*.min.(js|css)/ { print $$2 }' | xargs rm -v
 
 css-elastic: npm-install
 	cd skins/elastic && make css
