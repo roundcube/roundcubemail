@@ -9,6 +9,7 @@ VERSION=1.7-git
 SEDI=sed -i
 PHP_VERSION=8.1
 
+PATH := $(PATH):$(PWD)/node_modules/.bin
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
     SEDI=sed -i ''
