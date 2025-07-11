@@ -44,8 +44,8 @@ class ExportTest extends ActionTestCase
 
         $this->assertContains('Content-Type: text/vcard; charset=UTF-8', $output->headers);
         $this->assertContains('Content-Disposition: attachment; filename="contacts.vcf"', $output->headers);
-        $this->assertSame(6, substr_count($vcf, 'BEGIN:VCARD'));
-        $this->assertSame(6, substr_count($vcf, 'END:VCARD'));
+        $this->assertSame(7, substr_count($vcf, 'BEGIN:VCARD'));
+        $this->assertSame(7, substr_count($vcf, 'END:VCARD'));
         $this->assertSame(1, substr_count($vcf, 'FN:Jane Stalone'));
     }
 
