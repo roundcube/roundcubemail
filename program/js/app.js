@@ -263,7 +263,7 @@ function rcube_webmail() {
         switch (this.task) {
             case 'mail':
                 // enable mail commands
-                this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'import-messages', true);
+                this.enable_command('list', 'checkmail', 'add-contact', 'search', 'reset-search', 'collapse-folder', 'create-folder-dialog', 'import-messages', true);
 
                 if (this.gui_objects.messagelist) {
                     // setup message list cols
@@ -4711,6 +4711,24 @@ function rcube_webmail() {
         return false;
     };
 
+    // TODO:
+    // - prevent to clear selection and message iframe content
+    // - Fix/remove duplicate buttons
+    // - I18n
+    this.create_folder_dialog = function () {
+        selectedFolder = this.treelist.get_selection() ?? '';
+        url = this.url('add-folder', { _task: 'settings', _path: selectedFolder, _framed: 1 }),
+        dialog = $('<iframe>').attr('src', url),
+        dialog = this.simple_dialog(dialog, 'create_folder',
+            function () {
+                return false;
+            },
+            {
+                button: '',
+                height: 300,
+            });
+    };
+
     // Mark all messages as read in:
     //   - selected folder (mode=cur)
     //   - selected folder and its subfolders (mode=sub)
@@ -7807,6 +7825,11 @@ function rcube_webmail() {
     };
 
     this.subscription_select = function (id) {
+        // TODO: This is a hack, solve this properly
+        if (this.gui_objects.folderlist) {
+            return;
+        }
+
         var folder;
 
         if (id && id != '*' && (folder = this.env.subscriptionrows[id])) {
@@ -7854,9 +7877,69 @@ function rcube_webmail() {
         }
     };
 
+    this.add_folder_row_to_folderlist = function (id, name, display_name) {
+        console.info(arguments);
+
+        list_element = $(this.gui_objects.mailboxlist),
+        row = $($('li', list_element).get(1)).clone(true);
+        // set ID, reset css class
+        row.attr({ id: 'rcmli' + this.html_identifier_encode(id), class: 'mailbox' });
+        // set folder name
+        $('a', row).first()
+            .text(display_name)
+            .removeAttr('title')
+            .attr('onclick', `return rcmail.command('list', '${name}' , this, event)`);
+
+        // Find possible parent element and its sub-list.
+        if (pos = id.lastIndexOf(this.env.delimiter)) {
+            if (parentFolderId = id.substring(0, pos)) {
+                if (parentElem = this.treelist.get_item(parentFolderId, true)) {
+                    // Create sub-list if it doesn't exist yet.
+                    if (parentElem.querySelector('ul') === null) {
+                        parentElem.append($('<ul>').css('display', 'none')[0]);
+                    }
+                    parentList = parentElem.querySelector('ul');
+                }
+            }
+        }
+
+        rowElem = row.get(0);
+        // Append to parent folder or main folder list.
+        (parentList ?? rcmail.gui_objects.folderlist).append(rowElem);
+
+        // update list widget
+        this.treelist.reset(true, true);
+
+        // Append to list of mailboxes (so the "Move to" popup knows about the new folder).
+        this.env.mailboxes[id] = {id: id, name: display_name, virtual: false, level: (id.split('.').length - 1)};
+        if (parentFolderId) {
+            if (sibling = rowElem.previousElementSibling) {
+                insertAfter = this.folder_id2name(sibling.id);
+            } else {
+                insertAfter = parentFolderId;
+            }
+            this.env.mailboxes_list.splice(this.env.mailboxes_list.indexOf(insertAfter) + 1, 0, id);
+        } else {
+            this.env.mailboxes_list.push(id);
+        }
+
+        // Expand parent element.
+        if (parentElem) {
+            this.treelist.expand(this.folder_id2name(parentElem.id));
+        }
+
+        row.show();
+        if (rowElem.scrollIntoView) {
+            rowElem.scrollIntoView(false);
+        }
+    };
+
     // Add folder row to the table and initialize it
     this.add_folder_row = function (id, name, display_name, is_protected, subscribed, class_name, refrow, subfolders) {
         if (!this.gui_objects.subscriptionlist) {
+            if (this.gui_objects.folderlist) {
+                return this.add_folder_row_to_folderlist(id, name, display_name);
+            }
             return false;
         }
 
