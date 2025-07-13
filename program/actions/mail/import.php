@@ -54,7 +54,7 @@ class rcmail_action_mail_import extends rcmail_action
                         if (empty($filepath)) {
                             continue;
                         }
-                    } elseif (!in_array($mtype_primary, ['text', 'message'])) {
+                    } elseif (!in_array($mtype_primary, ['text', 'message']) && $ctype != 'application/mbox') {
                         continue;
                     }
 
