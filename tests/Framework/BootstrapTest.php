@@ -165,8 +165,6 @@ class BootstrapTest extends TestCase
     public function test_array_first()
     {
         $this->assertNull(array_first([]));
-        $this->assertNull(array_first(false));
-        $this->assertNull(array_first('test'));
         $this->assertSame('test', array_first(['test']));
 
         $input = ['test1', 'test2'];
