@@ -54,7 +54,7 @@ class rcmail_action_mail_import extends rcmail_action
                             continue;
                         }
                     }
-                    else if (!in_array($mtype_primary, ['text', 'message'])) {
+                    else if (!in_array($mtype_primary, ['text', 'message']) && $ctype != 'application/mbox') {
                         continue;
                     }
 
