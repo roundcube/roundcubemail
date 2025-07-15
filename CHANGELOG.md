@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+
+## Release 1.7-beta
+
 - Set minimum required PHP version to 8.1 (#9599)
 - Update to jQuery 3.7.1
 - Drop dependency on JsTimeZoneDetect (#8965)
