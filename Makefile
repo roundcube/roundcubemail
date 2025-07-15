@@ -90,3 +90,21 @@ clean:
 
 css-elastic: npm-install
 	cd skins/elastic && make css
+
+git-tag:
+	git tag --sign -m "Release version $(VERSION)" $(VERSION)
+
+git-tag-push:
+	@read -p 'Push the git tag "$(VERSION)" to origin? [yN] ' ;\
+   	if test "$$REPLY" = 'y'; then \
+        echo git push origin tag $(VERSION) ;\
+    fi; \
+
+edit-changelog:
+	$(EDITOR) CHANGELOG.md
+	git commit -m "Version $(VERSION)" CHANGELOG.md
+
+downloads-json-data:
+	@echo "\nRun this command in the directory of your cloned copy of 'https://github.com/roundcube/roundcube.github.com/'\nto generate the data for the file 'releases.json':\n./_bin/generate-downloads-json-data.php $(PWD) $(VERSION)\n"
+
+release: edit-changelog git-tag all sign verify downloads-json-data git-tag-push
