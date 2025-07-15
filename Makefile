@@ -90,3 +90,22 @@ clean:
 
 css-elastic: npm-install
 	cd skins/elastic && make css
+
+git-tag:
+	git tag --sign -m "Release version $(VERSION)" $(VERSION)
+
+git-tag-push:
+	@read -p 'Push the git tag "$(VERSION)" to origin? [yN] ' ;\
+   	if test "$$REPLY" = 'y'; then \
+        echo git push origin tag $(VERSION) ;\
+    fi; \
+
+edit-changelog:
+	$(EDITOR) CHANGELOG.md
+	git commit -m "Version $(VERSION)" CHANGELOG.md
+
+downloads-json-data:
+	@echo "\n\nUse this data to modify the file 'releases.json' in 'https://github.com/roundcube/roundcube.github.com/':\n"
+	@./.ci/generate-downloads-json-data.php $(VERSION)
+
+release: edit-changelog git-tag all sign verify downloads-json-data git-tag-push
