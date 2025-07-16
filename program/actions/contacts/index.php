@@ -816,7 +816,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($attrib['deleteicon'])) {
             $del_button = html::img([
-                'src' => $rcmail->output->get_skin_file($attrib['deleteicon']),
+                'src' => $rcmail->output->asset_url($attrib['deleteicon'], true),
                 'alt' => $rcmail->gettext('delete'),
             ]);
         } else {
