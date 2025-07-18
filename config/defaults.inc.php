@@ -335,7 +335,7 @@ $config['smtp_conn_options'] = null;
 // Enable OAuth2 by defining a provider. Use 'generic' here
 // if enabled you can activate the Backchannel Logout specifying:
 // https://<your roundcube instance>/index.php/login/backchannel to your Identity provider
-// if you are using the backchannel, you mmust activate `oauth_cache`
+// if you are using the backchannel, you must activate `oauth_cache`
 $config['oauth_provider'] = null;
 
 // Provider name to be displayed on the login button
