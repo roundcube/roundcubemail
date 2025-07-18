@@ -7773,33 +7773,101 @@ function rcube_webmail() {
                 if (p.query) {
                     ref.subscription_select();
                 }
-            })
-            .draggable({ cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control' })
-            .droppable({
-                // @todo: find better way, accept callback is executed for every folder
-                // on the list when dragging starts (and stops), this is slow, but
-                // I didn't find a method to check droptarget on over event
-                accept: function (node) {
-                    if (!node.is('.mailbox')) {
-                        return false;
-                    }
-
-                    var source_folder = ref.folder_id2name(node.attr('id')),
-                        dest_folder = ref.folder_id2name(this.id),
-                        source = ref.env.subscriptionrows[source_folder],
-                        dest = ref.env.subscriptionrows[dest_folder];
-
-                    return source && !source[2]
-                        && dest_folder != source_folder.replace(ref.last_sub_rx, '')
-                        && !dest_folder.startsWith(source_folder + ref.env.delimiter);
-                },
-                drop: function (e, ui) {
-                    var source = ref.folder_id2name(ui.draggable.attr('id')),
-                        dest = ref.folder_id2name(this.id);
-
-                    ref.subscription_move_folder(source, dest);
-                },
             });
+
+        const mainFolderList = this.gui_objects.subscriptionlist;
+        $folderLists = $('ul', mainFolderList.parentElement);
+        // Add a sub-list including a dummy for each element that doesn't have any children yet, so we can add
+        // children to it.
+        $('li', $folderLists).each((_i, elem) => {
+            $elem = $(elem);
+            if ($elem.children('ul').length === 0) {
+                ul = $('<ul>');
+                ul.append($('<li>').addClass('dummy'));
+                $elem.append(ul);
+            }
+        });
+        $folderLists = $('ul', mainFolderList.parentElement);
+        $folderLists.sortable({
+            cancel: 'li.mailbox.root, li.mailbox.inbox, li.mailbox.drafts, li.mailbox.sent, li.mailbox.trash, input, div.treetoggle, .custom-control',
+            helper: 'clone',
+            connectWith: `#${mainFolderList.id}, #${mainFolderList.id} ul`,
+            forcePlaceholderSize: true,
+            placeholder: 'placeholder',
+            over: (event, ui) => {
+                $('> li.dummy', event.target).hide();
+                $('.hover', $folderLists).removeClass('hover');
+                if (event.target !== mainFolderList) {
+                    event.target.parentElement.classList.add('hover');
+                }
+            },
+            out: (event, ui) => {
+                if ($('> li:not(.dummy)', event.target).length === 0) {
+                    $('> li.dummy', event.target).show();
+                }
+                $('.hover', $folderLists).removeClass('hover');
+            },
+            receive: (event, ui) => {
+                console.info({ event });
+                console.info({ ui });
+                const folderId = ui.item.attr('id');
+                const folderName = ref.folder_id2name(folderId);
+                const folderAttribs = ref.env.subscriptionrows[folderName];
+
+                let destName;
+                if (event.target === mainFolderList) {
+                    destName = '*';
+                } else {
+                    const destId = event.target.parentElement.id;
+                    destName = ref.folder_id2name(destId);
+                }
+
+                console.info({ folderId });
+                console.info({ folderName });
+                console.info({ destName });
+
+                if (!(
+                    folderAttribs && !folderAttribs[2]
+                    && destName != folderName.replace(ref.last_sub_rx, '')
+                    && !destName.startsWith(folderName + ref.env.delimiter)
+                )) {
+                    ui.sender.sortable('cancel');
+                }
+
+                // TODO: revert change if the dialog is cancelled
+                // TODO: make folding sign disappear if folder hasn't got any (real) children anymore
+                // TODO: make folding sign appear if folder newly has got (real) children
+                // TODO: handle response from server
+
+                ref.subscription_move_folder(folderName, destName);
+            },
+        });
+
+            // .droppable({
+            //     // @todo: find better way, accept callback is executed for every folder
+            //     // on the list when dragging starts (and stops), this is slow, but
+            //     // I didn't find a method to check droptarget on over event
+            //     accept: function (node) {
+            //         if (!node.is('.mailbox')) {
+            //             return false;
+            //         }
+
+            //         var source_folder = ref.folder_id2name(node.attr('id')),
+            //             dest_folder = ref.folder_id2name(this.id),
+            //             source = ref.env.subscriptionrows[source_folder],
+            //             dest = ref.env.subscriptionrows[dest_folder];
+
+            //         return source && !source[2]
+            //             && dest_folder != source_folder.replace(ref.last_sub_rx, '')
+            //             && !dest_folder.startsWith(source_folder + ref.env.delimiter);
+            //     },
+            //     drop: function (e, ui) {
+            //         var source = ref.folder_id2name(ui.draggable.attr('id')),
+            //             dest = ref.folder_id2name(this.id);
+
+            //         ref.subscription_move_folder(source, dest);
+            //     },
+            // });
     };
 
     this.folder_id2name = function (id) {
