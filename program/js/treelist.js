@@ -47,6 +47,7 @@ function rcube_treelist_widget(node, p) {
         keyboard: true,
         tabexit: true,
         parent_focus: false,
+        sortable: false,
         check_droptarget: function (node) {
             return !node.virtual;
         },
@@ -157,6 +158,14 @@ function rcube_treelist_widget(node, p) {
         .on('mousedown', 'a', function (e) {
             var link = $(e.target), node = indexbyid[dom2id(link.closest('li'))];
             if (node && node.virtual && !link.attr('href')) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            // Prevent protected folders from being dragged/sorted.
+            // We can't use the options of $.sortable() for that (then sub-folders of protected folders couldn't be
+            // dragged, either), thus we implement it here.
+            if ($(e.target).parent().is('li.mailbox.protected')) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
@@ -804,6 +813,16 @@ function rcube_treelist_widget(node, p) {
                 }
 
                 li.attr('aria-expanded', node.collapsed ? 'false' : 'true');
+            } else if (p.sortable) {
+                li.children('div.treetoggle').remove();
+                // Add an empty sublist if none exists yet, so items can be pulled into it when sorting.
+                if (li.children('ul').length === 0) {
+                    const ul = $('<ul>').appendTo(li)
+                        .attr('role', 'group');
+                    if (node.childlistclass) {
+                        ul.attr('class', node.childlistclass);
+                    }
+                }
             }
             if (li.hasClass('selected')) {
                 li.attr('aria-selected', 'true');

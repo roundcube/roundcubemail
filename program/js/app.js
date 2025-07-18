@@ -7793,6 +7793,7 @@ function rcube_webmail() {
             id_encode: this.html_identifier_encode,
             id_decode: this.html_identifier_decode,
             searchbox: '#foldersearch',
+            sortable: true,
         });
 
         this.subscription_list
@@ -7809,59 +7810,74 @@ function rcube_webmail() {
                 if (p.query) {
                     ref.subscription_select();
                 }
-            })
-            .draggable({ cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control' })
-            .droppable({
-                // @todo: find better way, accept callback is executed for every folder
-                // on the list when dragging starts (and stops), this is slow, but
-                // I didn't find a method to check droptarget on over event
-                accept: function (node) {
-                    // Break on .is-being-sorted to enable sorting.
-                    if (!node.is('.mailbox') || node.is('.is-being-sorted')) {
-                        return false;
-                    }
-
-                    var source_folder = ref.folder_id2name(node.attr('id')),
-                        dest_folder = ref.folder_id2name(this.id),
-                        source = ref.env.subscriptionrows[source_folder],
-                        dest = ref.env.subscriptionrows[dest_folder];
-
-                    return source && !source[2]
-                        && dest_folder != source_folder.replace(ref.last_sub_rx, '')
-                        && !dest_folder.startsWith(source_folder + ref.env.delimiter);
-                },
-                drop: function (e, ui) {
-                    var source = ref.folder_id2name(ui.draggable.attr('id')),
-                        dest = ref.folder_id2name(this.id);
-
-                    ref.subscription_move_folder(source, dest);
-                    ref.make_folder_lists_sortable();
-                },
             });
 
         this.make_folder_lists_sortable();
     };
 
+    // TODO: In the receive callback, can we wait for the confirmation dialog without introducing async/await and Promises?
+    // TODO: figure out if the item was moved between protected folders, which is not allowed.
+    // TODO: save only if the list is different than at start
+    // TODO: Fix the styling (padding)
     this.make_folder_lists_sortable = () => {
-        var sortableHandle = $('<div>').addClass('sortable-handle');
-        // Destroy and re-create all sortable lists because this gets called in scenarios, in which new lists might
-        // exist (e.g. if a folder was moved into another one that previously didn't have child-folders).
-        $('ul.ui-sortable').sortable('destroy');
-        // (Re-)Add handle icons to every sortable folder.
-        $('.sortable-handle').remove();
-        $('li.mailbox:not(.protected) > .custom-switch', this.subscription_list.container).prepend(sortableHandle);
-        // (Re-)create the sorting.
-        $(this.subscription_list.container).parent().find('ul').each((_i, el) => {
-            $(el).sortable({
-                axis: 'y',
-                containment: 'parent',
-                items: '> li.mailbox:not(.protected)',
-                handle: '.sortable-handle',
-                update: () => this.save_reordered_folder_list(),
-                // Add/remove a marker to disable dropping on other elements during sorting (see accept() of droppable).
-                start: (_ev, ui) => ui.item.addClass('is-being-sorted'),
-                stop: (_ev, ui) => ui.item.removeClass('is-being-sorted'),
-            });
+        const mainFolderList = this.gui_objects.subscriptionlist;
+        $folderLists = $('ul', mainFolderList.parentElement);
+        $folderLists.sortable({
+            axis: 'y',
+            // We can't use `li.mailbox.protected` here because that would disable moving elements out of protected
+            // folders. jQuery UI uses `closest()` with this selector, which makes it impossible to keep main list items
+            // and sub-list items apart. We disable sorting protected items via a `mousedown` event in treelist.js.
+            cancel: 'input, div.treetoggle, .custom-control',
+            helper: 'clone', // a clone doesn't have the borders, which looks nicer.
+            items: '> li.mailbox', // handle only the directly descending items, not those of sub-lists (they get they own instance of $.sortable()
+            connectWith: `#${mainFolderList.id}, #${mainFolderList.id} ul`,
+            forcePlaceholderSize: true, // Make the placeholder displace the neighboring elements.
+            placeholder: 'placeholder', // Class name for the placeholder
+            over: (event, ui) => {
+                // Highlight the list that the dragged element is hovering over.
+                $('.hover', $folderLists).removeClass('hover');
+                if (event.target !== mainFolderList) {
+                    $(event.target).closest('li').addClass('hover');
+                }
+            },
+            receive: async (event, ui) => {
+                $('.hover', $folderLists).removeClass('hover');
+                const folderId = ui.item.attr('id');
+                const folderName = ref.folder_id2name(folderId);
+                const folderAttribs = ref.env.subscriptionrows[folderName];
+
+                let destName;
+                if (event.target === mainFolderList) {
+                    destName = '*';
+                } else {
+                    const destId = event.target.parentElement.id;
+                    destName = ref.folder_id2name(destId);
+                }
+
+                if (!(
+                    folderAttribs && !folderAttribs[2]
+                    && destName != folderName.replace(ref.last_sub_rx, '')
+                    && !destName.startsWith(folderName + ref.env.delimiter)
+                )) {
+                    ui.sender.sortable('cancel');
+                }
+
+                const result = await ref.subscription_move_folder(folderName, destName);
+                if (!result) {
+                    ui.sender.sortable('cancel');
+                }
+            },
+            stop: (event, ui) => {
+                $('.hover', $folderLists).removeClass('hover');
+                // Save the order if the item was moved only within its list. In case it was moved into a (different)
+                // sub-list, the order-saving function gets called from the server's response after the relevant folder
+                // rows have been re-rendered, and we can save one HTTP request. We don't skip the other function call
+                // because in this moment here we don't know yet if the confirmation dialog about moving the folder will
+                // be confirmed or cancelled.
+                if (ui.item[0].parentElement === event.target) {
+                    ref.save_reordered_folder_list();
+                }
+            },
         });
     };
 

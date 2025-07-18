@@ -157,11 +157,15 @@ ul.listing {
         list-style: none;
 
         ul {
-            border-top: 1px solid @color-list-border;
+            min-height: 1.5rem;
             padding-left: 1.5em;
 
             li:last-child {
                 border-bottom: none;
+            }
+
+            li:first-child {
+                border-top: 1px solid @color-list-border;
             }
         }
 
@@ -1104,16 +1108,25 @@ html.touch {
     li.mailbox a {
         padding-right: 2.5rem;
     }
-}
 
-.sortable-handle {
-    display: inline-block;
-
-    &::before {
-        font-family: 'Icons';
-        font-style: normal;
-        .font-icon-solid(@fa-var-arrows-alt-v);
-        padding-right: 0.2rem;
+    ul {
+      list-style-type: none;
+      display: block;
+      min-height: 1rem;
+      margin: 0;
+      padding: 0 0 0 1rem;
     }
 
+    .placeholder {
+        border: dashed thin #ccc;
+        min-height: 1.5rem;
+    }
+
+    .hover {
+        background-color: lightyellow;
+
+        .placeholder {
+            margin-left: 3em;
+        }
+    }
 }
