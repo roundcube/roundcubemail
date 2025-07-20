@@ -912,9 +912,9 @@ class rcube
         // This distinction is for PHP 7.3 which throws a warning when
         // we use $tag argument with non-AEAD cipher method here
         if (!preg_match('/-(gcm|ccm|poly1305)$/i', $method)) {
-            $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv);
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv);
         } else {
-            $cipher = openssl_encrypt($clear, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
+            $cipher = openssl_encrypt($clear, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
         }
 
         if ($cipher === false) {
@@ -972,7 +972,7 @@ class rcube
         }
 
         $cipher = substr($cipher, $iv_size);
-        $clear = openssl_decrypt($cipher, $method, $ckey, \OPENSSL_RAW_DATA, $iv, $tag);
+        $clear = openssl_decrypt($cipher, $method, $ckey, OPENSSL_RAW_DATA, $iv, $tag);
 
         return $clear;
     }
