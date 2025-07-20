@@ -104,7 +104,7 @@ return (new Config())
 
         // TODO remove after https://github.com/roundcube/roundcubemail/pull/9481
         'Custom/fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => static function (string $fqcn): bool {
-            $pluginsRegex = implode('|', array_map(static fn ($v) => preg_quote($v, '~'), scandir(__DIR__ . '/plugins')));
+            $pluginsRegex = 'filesystem_attachments|password|new_user_identity|identicon|example_addressbook|enigma';
 
             return !preg_match('~^(rc|html|' . $pluginsRegex . ')[^\\\]*$~', $fqcn);
         }],
