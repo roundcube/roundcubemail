@@ -74,7 +74,7 @@ class XMail
     public function send($msg)
     {
         socket_write($this->socket, $msg);
-        if (substr(socket_read($this->socket, 512, PHP_BINARY_READ), 0, 1) != '+') {
+        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ), 0, 1) != '+') {
             return false;
         }
 
@@ -83,7 +83,7 @@ class XMail
 
     public function connect()
     {
-        $this->socket = socket_create(AF_INET, SOCK_STREAM, 0);
+        $this->socket = socket_create(\AF_INET, \SOCK_STREAM, 0);
         if (!$this->socket) {
             return false;
         }
@@ -94,7 +94,7 @@ class XMail
             return false;
         }
 
-        if (substr(socket_read($this->socket, 512, PHP_BINARY_READ), 0, 1) != '+') {
+        if (substr(socket_read($this->socket, 512, \PHP_BINARY_READ), 0, 1) != '+') {
             socket_close($this->socket);
             return false;
         }
