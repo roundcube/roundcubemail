@@ -15,5 +15,7 @@
 */
 
 $labels['help'] = 'Alîkarî';
-$labels['about'] = 'Dervar';
+$labels['about'] = 'Derbar';
 $labels['license'] = 'Lîsans';
+$labels['csrfinfo'] = 'Derbarê CSRF û çawa em te diparêzin fêr bibe';
+$labels['arialabelhelpcontent'] = 'Naverokê alîkariyê';

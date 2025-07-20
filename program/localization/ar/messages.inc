@@ -109,7 +109,6 @@ $messages['contactaddedtogroup'] = 'تمت إضافة المراسلين إلى 
 $messages['contactremovedfromgroup'] = 'تمت إزالة المراسلين من هذه المجموعةبنجاح';
 $messages['importwait'] = 'جاري الاستيراد، رجاء انتظر...';
 $messages['importconfirm'] = '<b>تم استيراد $inserted مراسلين بنجاح، وتجاهل$skipped موجودين مسبقاً</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>تم تجاهل $skipped عناصر موجودة</b>';
 $messages['opnotpermitted'] = 'العملية ممنوعة!';
 $messages['httpreceivedencrypterror'] = 'حدث خطأ جسيم في التهيئة. رجاءً اتصال بمدير الخادم حالاً. <b>لا يمكن إرسال بريدك.</b>';
 $messages['smtpconnerror'] = 'خطأ SMTP ($code): تعذر الاتصال بالخادم';

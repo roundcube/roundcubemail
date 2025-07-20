@@ -27,6 +27,9 @@ $messages['connecterror'] = 'Novega gesla ni bilo mogoče shraniti. Prišlo je d
 $messages['internalerror'] = 'Novega gesla ni bilo mogoče shraniti.';
 $messages['passwordshort'] = 'Geslo mora vsebovati vsaj $length znakov';
 $messages['passwordweak'] = 'Geslo mora vključevati vsaj eno številko in ločilo.';
+$messages['passwordtooweak'] = 'Geslo je prešibko.';
+$messages['passwordnoseq'] = 'Geslo ne sme biti zaporedje, kot je 123456 ali QWERTY.';
+$messages['passwordnocommon'] = 'Geslo ne sme biti pogosta beseda ali ime.';
 $messages['passwordforbidden'] = 'Geslo vsebuje neveljavne znake.';
 $messages['firstloginchange'] = 'To je vaša prva prijava. Spremenite začetno geslo.';
 $messages['disablednotice'] = 'Sistem se trenutno posodablja, zato sprememba gesla v tem trenutku ni mogoča. Postopek bo mogoče opraviti v kratkem. Za nevšečnosti se opravičujemo.';
@@ -35,3 +38,6 @@ $messages['samepasswd'] = 'Novo geslo se mora razlikovati od prejšnjega.';
 $messages['passwdexpirewarning'] = 'Opozorilo! Vaše geslo bo kmalu poteklo, spremenite ga pred $expirationdatetime.';
 $messages['passwdexpired'] = 'Vaše geslo je poteklo, spremenite ga!';
 $messages['passwdconstraintviolation'] = 'Geslo ne ustreza zahtevam. Verjetno je prešibko.';
+$messages['pwned_mustnotbedisclosed'] = 'Geslo ne sme biti <a href="$href" target="_blank">splošno znano</a>.';
+$messages['pwned_isdisclosed'] = 'To geslo je splošno znano.';
+$messages['pwned_fetcherror'] = 'Preverjanje moči gesla ni uspelo.';

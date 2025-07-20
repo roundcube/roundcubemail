@@ -140,7 +140,6 @@ $messages['nogroupassignmentschanged'] = 'Eingin bólka tilluting broytt.';
 $messages['importwait'] = 'Flytur inn, vinarliga bíða...';
 $messages['importformaterror'] = 'Innflyting riggaði ikki! Tann uppsendi fílurin var ikki gyldigur dátu fílur.';
 $messages['importconfirm'] = '<b>$inserted Persónar innfluttir</b>';
-$messages['importconfirmskipped'] = '<b>Leyp um $skipped innsetanir</b>';
 $messages['importmessagesuccess'] = 'Innflutt $nr boð.';
 $messages['importmessageerror'] = 'Innflyting bar ikki til! Tann uppsendi fílurin er ikki gyldigur boð ella postkassa fílur';
 $messages['opnotpermitted'] = 'Ger ikki loyvd!';

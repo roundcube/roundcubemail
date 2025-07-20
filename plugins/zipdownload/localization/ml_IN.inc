@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'എല്ലാ അറ്റാച്ച്മെന്റുകളും ഡൗൺലോഡ് ചെയ്യുക';
-$labels['download'] = 'ഡൗൺലോഡ്...';
 $labels['downloadmbox'] = 'എംബോക്സ് രീതി (.zip)';
 $labels['downloadmaildir'] = 'മെയിൽഡിർ രീതി (.zip)';
 $labels['downloademl'] = 'സ്രോതസ്സ് (.eml)';
+$labels['download'] = 'ഡൗൺലോഡ്...';

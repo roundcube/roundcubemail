@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Barcha ilovalarni ko‘chirib olish';
-$labels['download'] = 'Ko‘chirish...';
 $labels['downloadmbox'] = 'Mbox formati (.zip)';
 $labels['downloadmaildir'] = 'Maildir formati (.zip)';
 $labels['downloademl'] = 'Manba (.eml)';
+$labels['download'] = 'Ko‘chirish...';

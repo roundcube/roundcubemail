@@ -17,4 +17,8 @@
 $labels['addvcardmsg'] = 'Dodaj vCard med Stike.';
 $labels['vcardsavefailed'] = 'Stika vCard ni bilo mogoče shraniti.';
 $labels['attachvcard'] = 'Pripni vCard';
+$labels['vcardattached'] = 'Pripeta je datoteka vCard.';
 $labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Posreduj vCard';
+$labels['contactsattached'] = 'Temu sporočilu je pripetih $num stikov.';
+$labels['importedsuccessfully'] = 'Stiki so bili uspešno uvoženi v imenik.';

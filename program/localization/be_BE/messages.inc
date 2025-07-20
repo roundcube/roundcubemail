@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Усе прызначэнні груп
 $messages['importwait'] = 'Імпартаванне...';
 $messages['importformaterror'] = 'Не атрымалася імпартаваць! Запампаваны файл не змяшчае прыдатных даных.';
 $messages['importconfirm'] = '<b>Паспяхова імпартаваны(а) $inserted кантакт(аў)</b>';
-$messages['importconfirmskipped'] = '<b>Прапушчана $skipped існых запісаў</b>';
 $messages['importmessagesuccess'] = 'Паспяхова імпартавана $nr лістоў';
 $messages['importmessageerror'] = 'Не атрымалася імпартаваць! Загружаны файл не ёсць прыдатным лістом альбо файлам паштовай скрыні';
 $messages['opnotpermitted'] = 'Аперацыя забароненая!';

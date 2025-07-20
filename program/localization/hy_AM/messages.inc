@@ -103,7 +103,6 @@ $messages['contactaddedtogroup'] = 'Անձինք բարեհաջող ավելաց
 $messages['contactremovedfromgroup'] = 'Անձինք բարեհաջող հանվեցին խմբից։';
 $messages['importwait'] = 'Ներկրումն ընթացքի մեջ է...';
 $messages['importconfirm'] = '$inserted նոր ներկրված հասցեներ, $skipped արդեն առկա հասցեներ՝ <p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Բաց թողնվեց $skipped առկա գրառում</b>';
 $messages['opnotpermitted'] = 'Գործողությունը անթույլատրելի է։';
 $messages['httpreceivedencrypterror'] = 'Համակարգի լարքի սխալ։ Դիմեք համակարգը սպասարկող անձնակազմին։ <b>Ձեր նամակը ուղարկված չէ։</b>';
 $messages['smtpconnerror'] = 'SMTP սխալ ($code)` Սերվերի հետ կապը ձախողվեց։';

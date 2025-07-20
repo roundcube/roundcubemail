@@ -146,7 +146,6 @@ $messages['nogroupassignmentschanged'] = 'Gruppide ülesandeid ei muudetud';
 $messages['importwait'] = 'Impordin, palun oota...';
 $messages['importformaterror'] = 'Import nurjus! Laaditud fail ei sisalda sobilikke andmeid.';
 $messages['importconfirm'] = '<b>Edukalt imporditud $inserted kontakti, $skipped olemasolevat sissekannet vahele jäetud</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b> $skipped olemasolevat kirjet jäeti vahele</b>';
 $messages['importmessagesuccess'] = '$nr kirja edukalt imporditud';
 $messages['importmessageerror'] = 'Import nurjus! Laaditud fail ei ole kirja ega postkasti fail';
 $messages['opnotpermitted'] = 'Tegevus pole lubatud!';

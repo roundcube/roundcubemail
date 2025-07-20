@@ -263,7 +263,6 @@ $labels['keylength'] = 'Бит';
 $labels['keyexpired'] = 'С истёкщим сроком';
 $labels['keyrevoked'] = 'Отозван';
 $labels['bccinstead'] = 'Использовать BCC';
-$labels['addheader'] = 'Добавить получателя (заголовок)';
 $labels['insert'] = 'Вставить';
 $labels['insertcontact'] = 'Вставить контакт(ы)';
 $labels['recipient'] = 'Получатель';

@@ -14,16 +14,16 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
 */
 
-$labels['changepasswd']  = 'Şîfreyê biguherîne';
-$labels['curpasswd']  = 'Şîfreya niha:';
-$labels['newpasswd']  = 'Şîfreya nû:';
-$labels['confpasswd']  = 'Şîfreya nû bipejirîne:';
-$messages['nopassword'] = 'Şîfreya nû binivîse.';
-$messages['nocurpassword'] = 'Şîfreya niha binivîse.';
-$messages['passwordincorrect'] = 'Şîfreya niha xelet e.';
-$messages['passwordinconsistency'] = 'Şîfre hevdu nagirin, dîsa biceribîne.';
-$messages['crypterror'] = 'Şîfreya nû nehat tomarkirin. Fonksiyona şîfrekirinê hat jibîrkirin.';
-$messages['connecterror'] = 'Şîfreya nû nehat tomarkirin. Çewtiya girêdanê.';
+$labels['changepasswd']  = 'Borinpeyvê biguherîne';
+$labels['curpasswd']  = 'Borinpeyva heyî';
+$labels['newpasswd']  = 'Borinpeyva nû:';
+$labels['confpasswd']  = 'Borinpeyva nû bipejirîne:';
+$messages['nopassword'] = 'Borînpeyva nû binivîse.';
+$messages['nocurpassword'] = 'Borînpeyva heyî binivîse.';
+$messages['passwordincorrect'] = 'Borînpeyva heyî şaş e.';
+$messages['passwordinconsistency'] = 'Borînpeyv li hev nayên, dîsa binêre.';
+$messages['crypterror'] = 'Borînpeyva nû nehat tomarkirin. Fonksiyona şîfrekirinê hat kêm e.';
+$messages['connecterror'] = 'Borînpeyva nû nehat tomarkirin. Şaşetiya girêdanê.';
 $messages['internalerror'] = 'Şîfre nehat tomarkirin.';
 $messages['passwordshort'] = 'Divê şîfre ji $length karakteran kêmtir nebe.';
 $messages['passwordweak'] = 'Divê di şîfreyê de herî kêm hejmarek û karakterekî xalbendiyê hebe.';

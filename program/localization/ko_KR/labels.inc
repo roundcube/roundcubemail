@@ -268,7 +268,6 @@ $labels['keylength'] = '비트';
 $labels['keyexpired'] = '만료됨';
 $labels['keyrevoked'] = '해지됨';
 $labels['bccinstead'] = 'Bcc 사용';
-$labels['addheader'] = '받는 사람 추가 (헤더)';
 $labels['insert'] = '삽입';
 $labels['insertcontact'] = '연락처 삽입';
 $labels['recipient'] = '받는 사람';

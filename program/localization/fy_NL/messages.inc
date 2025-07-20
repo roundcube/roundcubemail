@@ -140,7 +140,6 @@ $messages['nogroupassignmentschanged'] = 'Gjin groep opdrachten feroare.';
 $messages['importwait'] = 'Ymportearjen, in amerijke...';
 $messages['importformaterror'] = 'Ymport mislearre! It opladen bestân is net in jildich ymport data bestân.';
 $messages['importconfirm'] = '<b>Mei sukses ymportearre $inserted kontakten</b>';
-$messages['importconfirmskipped'] = '<b>Oerslein $skipped besteande weardes</b>';
 $messages['importmessagesuccess'] = 'Mei sukses $nr berjochten ymportearre';
 $messages['importmessageerror'] = 'Ymport mislearre! It opladen bestân is net in jildich berjocht of postfek bestân';
 $messages['opnotpermitted'] = 'Operaasje net tastien!';

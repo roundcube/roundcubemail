@@ -268,7 +268,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Expirate';
 $labels['keyrevoked'] = 'Revocate';
 $labels['bccinstead'] = 'Usar "Copia occultate"';
-$labels['addheader'] = 'Adder destinatario (capite)';
 $labels['insert'] = 'Inserer';
 $labels['insertcontact'] = 'Inserer contacto(s)';
 $labels['recipient'] = 'Destinatario';

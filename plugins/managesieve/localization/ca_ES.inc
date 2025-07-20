@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'el primer caràcter en minúscula';
 $labels['varupperfirst'] = 'el primer caràcter en majúscula';
 $labels['varquotewildcard'] = 'engloba els caràcters especials amb cometes';
 $labels['varlength'] = 'llargada';
+$labels['varencodeurl'] = 'percent-codificat (per URLs)';
 $labels['notify'] = 'Envia notificació';
 $labels['notifytarget'] = 'Objectiu de la notificació:';
 $labels['notifymessage'] = 'Missatge de notificació (opcional):';

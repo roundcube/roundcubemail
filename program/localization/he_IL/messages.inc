@@ -160,7 +160,6 @@ $messages['nogroupassignmentschanged'] = 'לא השתנו הגדרות קבוצ�
 $messages['importwait'] = 'ייבוא, נא להמתין..';
 $messages['importformaterror'] = 'היבוא נכשל ! הקובץ שהועלה אינו מתאים.';
 $messages['importconfirm'] = '<b>יובאו $inserted אנשי קשר, $skipped היו קיימים </b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>  דילוג של $skipped נתונים קיימים <b>';
 $messages['importmessagesuccess'] = 'יובאו בהצלחה $nr הודעות ';
 $messages['importmessageerror'] = 'היבוא נכשל ! הקובץ שהועלה אינו הודעה או קובץ הודעות במבנה מתאים';
 $messages['opnotpermitted'] = 'פעולה אסורה!';

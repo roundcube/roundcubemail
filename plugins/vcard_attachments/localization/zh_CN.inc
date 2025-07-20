@@ -20,3 +20,5 @@ $labels['attachvcard'] = '附加 vCard';
 $labels['vcardattached'] = '已附加 vCard 文件';
 $labels['vcard'] = 'vCard';
 $labels['forwardvcard'] = '转发 ';
+$labels['contactsattached'] = '此消息附有 $num 个联系人。';
+$labels['importedsuccessfully'] = '联系人已成功导入至地址簿。';

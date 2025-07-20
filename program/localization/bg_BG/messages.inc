@@ -160,7 +160,6 @@ $messages['nogroupassignmentschanged'] = 'Няма променени групо
 $messages['importwait'] = 'Импортиране, моля изчакайте...';
 $messages['importformaterror'] = 'Неуспешен импорт! Данните в каченият файл не са във валиден формат.';
 $messages['importconfirm'] = '<b>Успешно са импортирани $inserted контакта, вече съществуващите $skipped контакта са пропуснати</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Пропуснати са $skipped съществуващи записи</b>';
 $messages['importmessagesuccess'] = 'Успешно импортирани $nr писма';
 $messages['importmessageerror'] = 'Неуспешен импорт! Каченият файл не е валиден файл на писма или пощенска кутия';
 $messages['opnotpermitted'] = 'Непозволена операция!';

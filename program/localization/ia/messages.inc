@@ -160,7 +160,6 @@ $messages['nogroupassignmentschanged'] = 'Nulle assignation de gruppo ha essite 
 $messages['importwait'] = 'Importation in curso, un momento…';
 $messages['importformaterror'] = 'Importation fallite. Le file incargate non es un file de datos de importation valide.';
 $messages['importconfirm'] = '<b>$inserted contactos ha essite importate</b>';
-$messages['importconfirmskipped'] = '<b>$skipped entratas existente ha essite saltate</b>';
 $messages['importmessagesuccess'] = '$nr messages ha essite importate';
 $messages['importmessageerror'] = 'Importation fallite. Le file incargate non es un file de cassa postal o message valide.';
 $messages['opnotpermitted'] = 'Operation non permittite.';

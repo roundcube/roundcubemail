@@ -160,7 +160,6 @@ $messages['nogroupassignmentschanged'] = 'Nenhuma atribuição do grupo foi alte
 $messages['importwait'] = 'Importando, aguarde por favor...';
 $messages['importformaterror'] = 'Falha na importação! O arquivo enviado não está em um formato válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contatos</b>';
-$messages['importconfirmskipped'] = '<b>Ignorado(s) $skipped registro(s) já existente(s)</b>';
 $messages['importmessagesuccess'] = 'Importação de $nr mensagens com sucesso';
 $messages['importmessageerror'] = 'Falha na importação! O arquivo enviado não é uma mensagem ou caixa postal válida';
 $messages['opnotpermitted'] = 'Operação não permitida!';

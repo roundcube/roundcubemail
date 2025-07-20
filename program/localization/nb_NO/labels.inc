@@ -263,7 +263,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Utløpt';
 $labels['keyrevoked'] = 'Tilbakekalt';
 $labels['bccinstead'] = 'Bruk blindkopi';
-$labels['addheader'] = 'Legg til mottaker (hode)';
 $labels['insert'] = 'Sett inn';
 $labels['insertcontact'] = 'Sett inn kontakt(er)';
 $labels['recipient'] = 'Mottaker';

@@ -263,7 +263,6 @@ $labels['keylength'] = 'סיביות';
 $labels['keyexpired'] = 'פג תוקף';
 $labels['keyrevoked'] = 'נשלל';
 $labels['bccinstead'] = 'שימוש במכותבים נסתרים';
-$labels['addheader'] = 'הוספת נמען (כותרת)';
 $labels['insert'] = 'הוספה בין ערכים';
 $labels['insertcontact'] = 'פה יש להוסיף איש קשר';
 $labels['recipient'] = 'הנמען';

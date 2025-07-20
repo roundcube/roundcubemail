@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Бүх хавсралтыг татах';
-$labels['download'] = 'Татаж авах...';
 $labels['downloadmbox'] = 'Хайрцагны формат (.zip)';
 $labels['downloadmaildir'] = 'Мэйлийн хавтасны формат (.zip)';
 $labels['downloademl'] = 'Эх код (.eml)';
+$labels['download'] = 'Татаж авах...';

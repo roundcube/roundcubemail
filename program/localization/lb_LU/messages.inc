@@ -127,7 +127,6 @@ $messages['nogroupassignmentschanged'] = 'Keng Gruppen-Zouuerdnung geännert.';
 $messages['importwait'] = 'Import leeft, ee Moment w.e.gl...';
 $messages['importformaterror'] = 'Import feelgeschloen! Den eropgeluedene Fichier ass kee gëltegen Date-Fichier.';
 $messages['importconfirm'] = '<b>$inserted Kontakter erfollegräich importéiert</b>';
-$messages['importconfirmskipped'] = '<b>$skipped existéierend Anträg iwwersprongen</b>';
 $messages['importmessagesuccess'] = 'Erfollegräich $nr Messagen importéiert';
 $messages['importmessageerror'] = 'Import feelgeschloen! Den eropgeluedene Fichier ass kee gëltege Message oder kee Mailbox-Fichier.';
 $messages['opnotpermitted'] = 'Operatioun net zougelooss!';

@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Não foi alterada nenhuma atribuição
 $messages['importwait'] = 'A importar, por favor aguarde...';
 $messages['importformaterror'] = 'A importação falhou! O ficheiro enviado não é um ficheiro de dados válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contactos</b>';
-$messages['importconfirmskipped'] = '<b>Ignoradas $skipped entradas já existentes</b>';
 $messages['importmessagesuccess'] = 'Foram importadas com sucesso $nr mensagens';
 $messages['importmessageerror'] = 'A importação falhou! O ficheiro carregado não é um arquivo de caixa de correio ou ficheiro de mensagem válido.';
 $messages['opnotpermitted'] = 'Operação não permitida!';

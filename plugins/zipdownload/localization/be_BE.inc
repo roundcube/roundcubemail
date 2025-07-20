@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Спампаваць усе далучэнні';
-$labels['download'] = 'Сцягнуць...';
 $labels['downloadmbox'] = 'Фармат mbox (.zip)';
 $labels['downloadmaildir'] = 'Фармат maildir (.zip)';
 $labels['downloademl'] = 'Выточны файл (.eml)';
+$labels['download'] = 'Сцягнуць...';

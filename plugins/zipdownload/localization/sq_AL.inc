@@ -15,8 +15,10 @@
 */
 
 $labels['downloadall'] = 'Shkarkoji krejt bashkëngjitjet';
-$labels['download'] = 'Shkarkoni…';
+$labels['export'] = 'Eksportoni…';
 $labels['downloadmbox'] = 'Në format Mbox (.zip)';
 $labels['downloadmaildir'] = 'Në format Maildir (.zip)';
 $labels['downloademl'] = 'Burim (.eml)';
 $labels['sizelimiterror'] = 'Madhësia gjithsej e mesazheve të përzgjedhur e tejkalon kufirin ($size)';
+$labels['exportmenu'] = 'Menu Mundësish Eksportimi Mesazhesh';
+$labels['download'] = 'Shkarkoni…';

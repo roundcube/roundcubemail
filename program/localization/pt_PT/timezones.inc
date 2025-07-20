@@ -15,7 +15,7 @@
 */
 
 $labels['tz:utc'] = 'UTC';
-$labels['tz:africa'] = 'Africa';
+$labels['tz:africa'] = 'África';
 $labels['tz:africa:abidjan'] = 'Abidjan';
 $labels['tz:africa:accra'] = 'Accra';
 $labels['tz:africa:addis_ababa'] = 'Addis Ababa';

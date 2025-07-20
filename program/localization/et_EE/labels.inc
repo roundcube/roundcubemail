@@ -260,7 +260,6 @@ $labels['keylength'] = 'Bitte';
 $labels['keyexpired'] = 'Aegunud';
 $labels['keyrevoked'] = 'Tühistatud';
 $labels['bccinstead'] = 'Kasuta Pimekoopiat';
-$labels['addheader'] = 'Lisa saaja (päis)';
 $labels['insert'] = 'Lisa';
 $labels['insertcontact'] = 'Lisa kontakt(id)';
 $labels['recipient'] = 'Saaja';

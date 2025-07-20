@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'Scarica tutti gli allegati';
-$labels['download'] = 'Scarica...';
 $labels['downloadmbox'] = 'Formato mbox (.zip)';
 $labels['downloadmaildir'] = 'Formato maildir (.zip)';
 $labels['downloademl'] = 'Sorgente (.eml)';
 $labels['sizelimiterror'] = 'La dimensione totale dei messaggi selezionati supera il limite ($size)';
+$labels['download'] = 'Scarica...';

@@ -263,7 +263,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Abgelaufen';
 $labels['keyrevoked'] = 'Widerrufen';
 $labels['bccinstead'] = 'Bcc verwenden';
-$labels['addheader'] = 'Empfänger hinzufügen (Kopfzeile)';
 $labels['insert'] = 'Hinzufügen';
 $labels['insertcontact'] = 'Kontakt(e) einfügen';
 $labels['recipient'] = 'Empfänger';

@@ -107,7 +107,6 @@ $messages['nogroupassignmentschanged'] = 'Endra ikkje gruppetilordningane.';
 $messages['importwait'] = 'Importerer, vent …';
 $messages['importformaterror'] = 'Importering feila. Den opplasta fila er i feil format.';
 $messages['importconfirm'] = '<b>Importerte $inserted kontaktar</b>';
-$messages['importconfirmskipped'] = '<b>Hoppa over $skipped oppføringar som fanst frå før</b>';
 $messages['opnotpermitted'] = 'Ulovleg operasjon.';
 $messages['httpreceivedencrypterror'] = 'En uopprettelig feil oppstod knytta til innstillingane. Kontakt systemansvarleg umiddelbart. <b>Meldinga kunne ikkje sendast.</b>';
 $messages['smtpconnerror'] = 'SMTP-feil ($code): Tilkopling til tenar feila.';

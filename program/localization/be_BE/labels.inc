@@ -263,7 +263,6 @@ $labels['keylength'] = 'Біты';
 $labels['keyexpired'] = 'Састарэлы';
 $labels['keyrevoked'] = 'Адкліканы';
 $labels['bccinstead'] = 'Выкарыстоўваць схаваную копію';
-$labels['addheader'] = 'Дадаць атрымальніка (загаловак)';
 $labels['insert'] = 'Уставіць';
 $labels['insertcontact'] = 'Уставіць кантакт(ы)';
 $labels['recipient'] = 'Атрымальнік';

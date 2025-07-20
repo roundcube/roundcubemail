@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Ryhmämäärityksiä ei muutettu.';
 $messages['importwait'] = 'Tuodaan, odota...';
 $messages['importformaterror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole kelvollinen tuontitiedosto.';
 $messages['importconfirm'] = '<b>$inserted yhteystietoa tuotu onnistuneesti</b>';
-$messages['importconfirmskipped'] = '<b>Ohitettu $skipped  olemassa olevaa merkintää</b>';
 $messages['importmessagesuccess'] = '$nr viestiä tuotiin onnistuneesti';
 $messages['importmessageerror'] = 'Tuonti epäonnistui! Lähetetty tiedosto ei ole kelvollinen viesti tai mailbox-tiedosto';
 $messages['opnotpermitted'] = 'Toiminto ei ole sallittu!';

@@ -155,7 +155,6 @@ $messages['nogroupassignmentschanged'] = '群組資料沒有異動';
 $messages['importwait'] = '匯入中，請稍候...';
 $messages['importformaterror'] = '匯入失敗！不支援上載的檔案格式。';
 $messages['importconfirm'] = '<b>成功匯入 $inserted 個聯絡人</b>';
-$messages['importconfirmskipped'] = '<b>略過 $skipped 個已存在的項目</b>';
 $messages['importmessagesuccess'] = '成功匯入 $nr 封郵件';
 $messages['importmessageerror'] = '匯入失敗！上載的檔案不是有效的郵件或 mailbox 檔案。';
 $messages['opnotpermitted'] = '不允許此操作！';

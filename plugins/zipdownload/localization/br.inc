@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Pellgargañ an holl stagadennoù';
-$labels['download'] = 'Pellgargañ…';
 $labels['downloadmbox'] = 'Mentrezh Mbox (.zip)';
 $labels['downloadmaildir'] = 'Mentrezh Maildir (.zip)';
 $labels['downloademl'] = 'Tarzh (.eml)';
+$labels['download'] = 'Pellgargañ…';

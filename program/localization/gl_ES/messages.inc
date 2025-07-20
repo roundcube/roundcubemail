@@ -14,7 +14,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
-$messages['errortitle']  = 'Algo sucedeu!';
+$messages['errortitle']  = 'Ocurreu un erro!';
 $messages['loginfailed']  = 'Erro ao iniciar sesión.';
 $messages['cookiesdisabled'] = 'O teu navegador non acepta cookies.';
 $messages['sessionerror'] = 'A túa sesión non é válida ou expirou.';
@@ -160,7 +160,9 @@ $messages['nogroupassignmentschanged'] = 'Non cambiou ningunha asignación de gr
 $messages['importwait'] = 'Importando, por favor agarda...';
 $messages['importformaterror'] = 'Erro de importación! O arquivo cargado non é un arquivo de importación válido.';
 $messages['importconfirm'] = '<b>$inserted contactos importados correctamente</b>';
-$messages['importconfirmskipped'] = '<b>$skipped entradas existentes omitidas</b>';
+$messages['importconfirmskipped'] = '$skipped entradas existentes omitidas';
+$messages['importconfirminvalid'] = '$skipped entradas non válidas omitidas';
+$messages['importconfirmerrors'] = 'Non se importaron $errors entradas válidas';
 $messages['importmessagesuccess'] = '$nr mensaxes importadas correctamente';
 $messages['importmessageerror'] = 'Erro de importación! O arquivo cargado non é un arquivo de correo nin unha mensaxe válida';
 $messages['opnotpermitted'] = 'Operación non permitida!';
@@ -230,3 +232,5 @@ $messages['listusebutton'] = 'Usa o botón Crear para engadir un novo rexistro.'
 $messages['keypaircreatesuccess'] = 'Novo par de claves creado para $identity.';
 $messages['emptyattachment'] = 'Este anexo parece estar baleiro.<br>Por favor, consúltao coa persoa que o enviou.';
 $messages['oauthloginfailed'] = 'Erro ao iniciar sesión OAuth. Por favor, inténtao de novo.';
+$messages['oauthinvalidrequest'] = 'A petición de autorización foi inválida ou incompleta. ';
+$messages['oauthaccessdenied'] = 'O servidor de autorización ou o usuario denegaron a solicitude';

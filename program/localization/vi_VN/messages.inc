@@ -130,7 +130,6 @@ $messages['nogroupassignmentschanged'] = 'Không quy nhóm nào đả được t
 $messages['importwait'] = 'Đang nhập, xin chờ...';
 $messages['importformaterror'] = 'Nhập dữ liệu lỗi. Tệp tin vừa tải lên không phải tệp dữ liệu chính xác.';
 $messages['importconfirm'] = 'Đã nhập $inserted liên hệ đã chèn vào thành công.';
-$messages['importconfirmskipped'] = 'Đã bỏ qua được $skipped mục tồn tại.';
 $messages['importmessagesuccess'] = 'Đã nhập thành công $nr thư.';
 $messages['importmessageerror'] = 'Nhập dữ liệu bị lỗi. Tệp tin vừa tải lên không có định dạng chính xác của tệp cấu hình hòm thư hoặc một thư đơn lẻ.';
 $messages['opnotpermitted'] = 'Thao tác không được cho phép!';

@@ -16,3 +16,9 @@
 
 $labels['addvcardmsg'] = 'Додати vCard до контактів';
 $labels['vcardsavefailed'] = 'Не вдалось зберегти vCard';
+$labels['attachvcard'] = 'Прикріпити vCard';
+$labels['vcardattached'] = 'прикріплено файл vCard.';
+$labels['vcard'] = 'vCard';
+$labels['forwardvcard'] = 'Переслати vCard';
+$labels['contactsattached'] = 'До цього листа прикріплено $num контактів.';
+$labels['importedsuccessfully'] = 'Контакт(и) успішно імпортовано до адресної книги.';

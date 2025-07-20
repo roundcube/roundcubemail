@@ -152,7 +152,6 @@ $messages['nogroupassignmentschanged'] = 'Nema promjene u zadacima grupa.';
 $messages['importwait'] = 'Uvoz, molim pričekajte...';
 $messages['importformaterror'] = 'Uvoz nije uspio! Postavljena datoteka nije ispravnog formata za uvoz.';
 $messages['importconfirm'] = '<b>Uspješno uvezeno $inserted kontakta</b>';
-$messages['importconfirmskipped'] = '<b>Preskočeno $skipped postojećih unosa</b>';
 $messages['importmessagesuccess'] = 'Uspješno uvezeno $nr poruka';
 $messages['importmessageerror'] = 'Uvoz neuspješan! Datoteka nije u formatu poruke ili sandučića';
 $messages['opnotpermitted'] = 'Operacija nije dozvoljena!';

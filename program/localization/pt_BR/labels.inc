@@ -268,7 +268,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Expirado';
 $labels['keyrevoked'] = 'Revogado';
 $labels['bccinstead'] = 'Usar Cco';
-$labels['addheader'] = 'Adicionar destinatário (cabeçalho)';
 $labels['insert'] = 'Inserir';
 $labels['insertcontact'] = 'Inserir contato(s)';
 $labels['recipient'] = 'Destinatário';

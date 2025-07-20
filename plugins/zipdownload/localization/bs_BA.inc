@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Preuzmi sve priloge';
-$labels['download'] = 'Preuzmi...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
 $labels['downloademl'] = 'Izvorno (.eml)';
+$labels['download'] = 'Preuzmi...';

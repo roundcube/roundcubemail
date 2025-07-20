@@ -15,6 +15,8 @@
 */
 
 $labels['userinfo'] = 'Podatki o uporabniku';
+$labels['infoforuser'] = 'Informacije o $user';
 $labels['created'] = 'Ustvarjen';
 $labels['lastlogin'] = 'Zadnja prijava';
 $labels['defaultidentity'] = 'Privzeta identiteta';
+$labels['userid'] = 'ID';

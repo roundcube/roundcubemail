@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Laadi alla kõik manused';
-$labels['download'] = 'lae arvutisse';
 $labels['downloadmbox'] = 'Mbox vorming (.zip)';
 $labels['downloadmaildir'] = 'Maildir vorming (.zip)';
 $labels['downloademl'] = 'Lähtetekst (.eml)';
+$labels['download'] = 'lae arvutisse';

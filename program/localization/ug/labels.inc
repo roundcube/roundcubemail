@@ -263,7 +263,6 @@ $labels['keylength'] = 'بىتلار';
 $labels['keyexpired'] = 'ۋاقتى ئۆتكەن';
 $labels['keyrevoked'] = 'قايتۇرۋالغان';
 $labels['bccinstead'] = 'ب چ چىنى ئىشلىتىش';
-$labels['addheader'] = 'تاپشۇرۋالغۇچى قېتىش (باشلانما)';
 $labels['insert'] = 'كىرگۈزۈش';
 $labels['insertcontact'] = 'تۇنۇش(لار) قېتىش';
 $labels['recipient'] = 'تاپشۇرۋالغۇچى';

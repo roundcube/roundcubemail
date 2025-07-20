@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'Изтегляне на всички прикачени файлове';
-$labels['download'] = 'Изтегляне...';
 $labels['downloadmbox'] = 'Mbox формат (.zip)';
 $labels['downloadmaildir'] = 'Maildir формат (.zip)';
 $labels['downloademl'] = 'Изходен код (.eml)';
 $labels['sizelimiterror'] = 'Общият размер на избраните писма надхвърля лимита от ($size)';
+$labels['download'] = 'Изтегляне...';

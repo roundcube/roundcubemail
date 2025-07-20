@@ -262,7 +262,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Verlopen';
 $labels['keyrevoked'] = 'Ingetrokken';
 $labels['bccinstead'] = 'Bcc gebruiken';
-$labels['addheader'] = 'Ontvanger toevoegen (header)';
 $labels['insert'] = 'Invoegen';
 $labels['insertcontact'] = 'Contact(en) invoegen';
 $labels['recipient'] = 'Ontvanger';

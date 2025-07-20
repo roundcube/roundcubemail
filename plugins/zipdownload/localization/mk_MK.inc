@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Симни ги сите прикачувања ';
-$labels['download'] = 'Симни...';
 $labels['downloadmbox'] = 'Mbox формат(.zip)';
 $labels['downloadmaildir'] = 'Maildir формат(.zip)';
 $labels['downloademl'] = 'Извор(.eml)';
+$labels['download'] = 'Симни...';

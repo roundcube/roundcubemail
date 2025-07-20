@@ -135,7 +135,6 @@ $messages['nogroupassignmentschanged'] = 'N\'eo bet kemmet deverkadur strollad e
 $messages['importwait'] = 'Oc\'h enporzhiañ, gortozit...';
 $messages['importformaterror'] = 'C\'hwitadenn war an enporzhiañ! N\'eo ket ur restr roadennoù enporzhiañ talvoudek an hini a zo bet pellgaset.';
 $messages['importconfirm'] = '<b>Enporzhiet eo bet $inserted a zarempredoù gant berzh</b>';
-$messages['importconfirmskipped'] = '<b>Tremenet eo bet $skipped elfennoù a oa outo endeo</b>';
 $messages['importmessagesuccess'] = 'Enporzhiet $nr a gemennadennoù gant berzh';
 $messages['importmessageerror'] = 'C\'hwitadenn war an enporzhiañ! Ar restr pellgaset n\'eo ket ur restr kemennadenn talvoudek peur restr boest lizhiri';
 $messages['opnotpermitted'] = 'N\'eo ket aotreet ar gwezhiadur!';

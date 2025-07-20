@@ -261,7 +261,6 @@ $labels['keylength'] = '位元';
 $labels['keyexpired'] = '已過期';
 $labels['keyrevoked'] = '已撤銷';
 $labels['bccinstead'] = '使用「密件副本」';
-$labels['addheader'] = '加入收件者 (標頭)';
 $labels['insert'] = '插入';
 $labels['insertcontact'] = '插入聯絡人';
 $labels['recipient'] = '收件者';

@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'تنزيل كل المرفقات';
-$labels['download'] = 'التنزيل جار …';
 $labels['downloadmbox'] = 'نسق Mbox (.zip)';
 $labels['downloadmaildir'] = 'نسق Maildir (.zip)';
 $labels['downloademl'] = 'المصدر (.eml)';
+$labels['download'] = 'التنزيل جار …';

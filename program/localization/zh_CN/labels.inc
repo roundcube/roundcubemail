@@ -254,7 +254,6 @@ $labels['keylength'] = '位';
 $labels['keyexpired'] = '已过期';
 $labels['keyrevoked'] = '已废除';
 $labels['bccinstead'] = '使用密送';
-$labels['addheader'] = '添加收件人 (信头)';
 $labels['insert'] = '插入';
 $labels['recipient'] = '收件人';
 $labels['recipientedit'] = '编辑收件人';

@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'Íosluchtaigh gach ceangaltán';
-$labels['download'] = 'Íosluchtaigh...';
 $labels['downloadmbox'] = 'Formáid Mbox (.zip)';
 $labels['downloadmaildir'] = 'Formáid maildir (.zip)';
 $labels['downloademl'] = 'Foinse (.eml)';
 $labels['sizelimiterror'] = 'Sáraíonn méid iomlán na dteachtaireachtaí roghnaithe an teorainn ($size)';
+$labels['download'] = 'Íosluchtaigh...';
