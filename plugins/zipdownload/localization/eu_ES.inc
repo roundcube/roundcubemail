@@ -15,8 +15,10 @@
 */
 
 $labels['downloadall'] = 'Deskargatu eranskin guztiak';
-$labels['download'] = 'Deskargatu...';
+$labels['export'] = 'Esportatu...';
 $labels['downloadmbox'] = 'Mbox formatua (.zip)';
 $labels['downloadmaildir'] = 'Maildir formatua (.zip)';
 $labels['downloademl'] = 'Iturburua (.eml)';
 $labels['sizelimiterror'] = 'Hautatutako  mezuen tamainak muga ($size) gainditu du.';
+$labels['exportmenu'] = 'Mezuen esportaziorako aukeren menua';
+$labels['download'] = 'Deskargatu...';

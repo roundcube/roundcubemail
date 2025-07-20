@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Nessun assegnamento del gruppo è stat
 $messages['importwait'] = 'Importazione in corso, attendere...';
 $messages['importformaterror'] = 'Importazione non riuscita! Il file caricato non è un file valido per l\'importazione.';
 $messages['importconfirm'] = '<b>$inserted contatti importati con successo</b>';
-$messages['importconfirmskipped'] = '<b>$skipped ignorati perché esistono già</b>';
 $messages['importmessagesuccess'] = 'Importati correttamente $nr messaggi';
 $messages['importmessageerror'] = 'Importazione non riuscita! Il file caricato non è un messaggio o una casella postale valida.';
 $messages['opnotpermitted'] = 'Operazione non consentita!';

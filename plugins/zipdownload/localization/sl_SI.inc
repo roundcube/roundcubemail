@@ -15,7 +15,8 @@
 */
 
 $labels['downloadall'] = 'Prenesi vse priponke';
-$labels['download'] = 'Prenesi...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
 $labels['downloademl'] = 'Vir (.eml)';
+$labels['sizelimiterror'] = 'Skupna velikost izbranih sporočil presega omejitev ($size)';
+$labels['download'] = 'Prenesi...';

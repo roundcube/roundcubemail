@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = '下载全部附件';
-$labels['download'] = '下载...';
 $labels['downloadmbox'] = 'Mbox 格式 (.zip)';
 $labels['downloadmaildir'] = 'Maildir 格式 (.zip)';
 $labels['downloademl'] = '源代码 (.eml)';
 $labels['sizelimiterror'] = '选中消息的总大小超过了限制 ($size)';
+$labels['download'] = '下载...';

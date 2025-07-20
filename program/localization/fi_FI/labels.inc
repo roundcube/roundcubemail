@@ -268,7 +268,6 @@ $labels['keylength'] = 'Bittiä';
 $labels['keyexpired'] = 'Vanhentunut';
 $labels['keyrevoked'] = 'Kumottu';
 $labels['bccinstead'] = 'Käytä Piilokopiota';
-$labels['addheader'] = 'LIsää vastaanottaja (header)';
 $labels['insert'] = 'Lisää';
 $labels['insertcontact'] = 'Lisää yhteystieto(ja)';
 $labels['recipient'] = 'Vastaanottaja';

@@ -124,7 +124,6 @@ $messages['nogroupassignmentschanged'] = 'No se han cambiado las asignaciones de
 $messages['importwait'] = 'Importando, por favor espera...';
 $messages['importformaterror'] = '¡Ha fallado la importación! El archivo subido no tiene un formato válido.';
 $messages['importconfirm'] = '<b>Se han importado $inserted contactos exitosamente</b>';
-$messages['importconfirmskipped'] = '<b>Salteadas $skipped entradas existentes</b>';
 $messages['importmessagesuccess'] = 'Importados $nr mensajes exitosamente.';
 $messages['importmessageerror'] = '¡Ha fallado la importación! El archivo subido no tiene un formato válido.';
 $messages['opnotpermitted'] = '¡Operación no permitida!';

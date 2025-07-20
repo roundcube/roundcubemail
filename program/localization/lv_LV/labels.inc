@@ -14,17 +14,13 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
 
-$labels = [];
 
-// login page
 $labels['welcome'] = 'Esiet laipni lūgti $product';
 $labels['username'] = 'Lietotājvārds';
 $labels['password'] = 'Parole';
 $labels['server'] = 'Serveris';
 $labels['login'] = 'Autorizēties';
 $labels['oauthlogin'] = 'Autorizēties ar $provider';
-
-// taskbar
 $labels['menu'] = 'Izvēlne';
 $labels['logout'] = 'Iziet';
 $labels['mail'] = 'E-pasts';
@@ -32,16 +28,12 @@ $labels['settings'] = 'Iestatījumi';
 $labels['addressbook'] = 'Adrešu grāmata';
 $labels['darkmode'] = 'Tumšais režīms';
 $labels['lightmode'] = 'Gaišais režīms';
-
-// mailbox names
 $labels['inbox'] = 'Ienākošās';
 $labels['drafts'] = 'Uzmetumi';
 $labels['sent'] = 'Nosūtītās';
 $labels['trash'] = 'Papīrgrozs';
 $labels['junk'] = 'Mēstules';
 $labels['show_real_foldernames'] = 'Sistēmas mapēm rādīt īstos nosaukumus';
-
-// message listing
 $labels['subject'] = 'Temats';
 $labels['from'] = 'No';
 $labels['sender'] = 'Sūtītājs';
@@ -57,28 +49,22 @@ $labels['organization'] = 'Uzņēmums';
 $labels['readstatus'] = 'Izlasīšanas statuss';
 $labels['listoptions'] = 'Vēstuļu saraksta attēlošanas iestatījumi...';
 $labels['listoptionstitle'] = 'Saraksta parametri';
-
 $labels['mailboxlist'] = 'Mapes';
 $labels['messagesfromto'] = 'Vēstules $from līdz $to no $count';
 $labels['threadsfromto'] = 'Vijumi $from līdz $to no $count';
 $labels['messagenrof'] = '$nr. vēstule no $count';
 $labels['fromtoshort'] = '$from – $to no $count';
-
 $labels['copy'] = 'Kopēt';
 $labels['move'] = 'Pārvietot';
 $labels['moveto'] = 'Pārvietot uz...';
 $labels['copyto'] = 'Kopēt uz ...';
-$labels['download'] = 'Lejupielādēt';
+$labels['download'] = 'lejupielādēt';
 $labels['open'] = 'Atvērt';
 $labels['showattachment'] = 'Rādīt';
 $labels['showanyway'] = 'Vienalga rādīt';
-
 $labels['filename'] = 'Faila nosaukums';
 $labels['filesize'] = 'Faila izmērs';
-
 $labels['addtoaddressbook'] = 'Pievienot adrešu grāmatai';
-
-// weekdays short
 $labels['sun'] = 'Sv';
 $labels['mon'] = 'P';
 $labels['tue'] = 'O';
@@ -86,8 +72,6 @@ $labels['wed'] = 'T';
 $labels['thu'] = 'C';
 $labels['fri'] = 'P';
 $labels['sat'] = 'Se';
-
-// weekdays long
 $labels['sunday'] = 'Svētdiena';
 $labels['monday'] = 'Pirmdiena';
 $labels['tuesday'] = 'Otrdiena';
@@ -95,8 +79,6 @@ $labels['wednesday'] = 'Trešdiena';
 $labels['thursday'] = 'Ceturtdiena';
 $labels['friday'] = 'Piektdiena';
 $labels['saturday'] = 'Sestdiena';
-
-// months short
 $labels['jan'] = 'Jan';
 $labels['feb'] = 'Feb';
 $labels['mar'] = 'Mar';
@@ -109,8 +91,6 @@ $labels['sep'] = 'Sep';
 $labels['oct'] = 'Okt';
 $labels['nov'] = 'Nov';
 $labels['dec'] = 'Dec';
-
-// months long
 $labels['longjan'] = 'Janvāris';
 $labels['longfeb'] = 'Februāris';
 $labels['longmar'] = 'Marts';
@@ -123,10 +103,7 @@ $labels['longsep'] = 'Septembris';
 $labels['longoct'] = 'Oktobris';
 $labels['longnov'] = 'Novembris';
 $labels['longdec'] = 'Decembris';
-
 $labels['today'] = 'Šodien';
-
-// toolbar buttons
 $labels['refresh'] = 'Atjaunot';
 $labels['checkmail'] = 'Pārbaudīt e-pastu';
 $labels['compose'] = 'Rakstīt vēstuli';
@@ -143,7 +120,7 @@ $labels['forwardmessage'] = 'Pārsūtīt vēstuli';
 $labels['bouncemsg'] = 'Sūtīt atkārtoti (bounce)';
 $labels['bounce'] = 'Sūtīt atkārtoti';
 $labels['deletemessage'] = 'Dzēst vēstuli';
-$labels['undeletemessage'] = 'Atsaukt vēstules dzēšanu';
+$labels['undeletemessage'] = 'Atjaunot vēstuli';
 $labels['movemessagetotrash'] = 'Pārvietot vēstuli uz papīrgrozu';
 $labels['printmessage'] = 'Izdrukāt šo vēstuli';
 $labels['previousmessage'] = 'Parādīt iepriekšējo vēstuli';
@@ -158,11 +135,11 @@ $labels['markread'] = 'kā lasītas';
 $labels['markunread'] = 'kā nelasītas';
 $labels['markflagged'] = 'kā atzīmētas';
 $labels['markunflagged'] = 'kā neatzīmētas';
-$labels['markundeleted'] = 'As not deleted';
-$labels['markasread'] = 'Atzīmēt kā lasītas';
-$labels['markasunread'] = 'Atzīmēt kā nelasītas';
-$labels['markasflagged'] = 'Atzīmēt kā atzīmētas';
-$labels['markasunflagged'] = 'Atzīmēt kā neatzīmētas';
+$labels['markundeleted'] = 'Tā kā nav izdzēstas';
+$labels['markasread'] = 'Atzīmēt kā lasītu';
+$labels['markasunread'] = 'Atzīmēt kā nelasītu';
+$labels['markasflagged'] = 'Atzīmēt kā marķētu';
+$labels['markasunflagged'] = 'Atzīmēt kā nemarķētu';
 $labels['moreactions'] = 'Papildus darbības...';
 $labels['markallread'] = 'Atzīmēt visus kā izlasītus';
 $labels['folders-cur'] = 'Tikai atzīmēto mapi';
@@ -170,11 +147,10 @@ $labels['folders-sub'] = 'Atzīmēt mapi un tās apakšmapes';
 $labels['folders-all'] = 'Visas mapes';
 $labels['more'] = 'Vairāk';
 $labels['back'] = 'Atpakaļ';
-$labels['options'] = 'Iestatījumi';
+$labels['options'] = 'Opcijas';
 $labels['composeoptions'] = 'Rakstīšanas iestatījumi';
 $labels['optionsandattachments'] = 'Opcijas un pielikumi';
 $labels['actions'] = 'Darbību saraksts';
-
 $labels['first'] = 'Pirmā';
 $labels['last'] = 'Pēdējā';
 $labels['previous'] = 'Iepriekšējā';
@@ -203,7 +179,6 @@ $labels['expand-unread'] = 'Izvērst neizlasītās';
 $labels['collapse-all'] = 'Sakļaut visas';
 $labels['threaded'] = 'Rādīt vijumus';
 $labels['showunread'] = 'Parādīt neizlasītās vēstules';
-
 $labels['autoexpand_threads'] = 'Izvērst vēstuļu vijumus';
 $labels['do_expand'] = 'visus vijumus';
 $labels['expand_only_unread'] = 'tikai ar neizlasītām vēstulēm';
@@ -227,14 +202,12 @@ $labels['layoutlist'] = 'Saraksts';
 $labels['layoutwidescreendesc'] = 'Platekrāna (3 kolonnu skats)';
 $labels['layoutdesktopdesc'] = 'Datorskats (plats skats ar e-pasta priekšskatījumu apakšā)';
 $labels['layoutlistdesc'] = 'Saraksts (bez e-pasta prieksškatīšanas)';
-
 $labels['folderactions'] = 'Darbības ar mapēm...';
 $labels['compact'] = 'Saspiest';
 $labels['empty'] = 'Iztukšot';
 $labels['importmessages'] = 'Importēt vēstules';
 $labels['mailimportdesc'] = 'Jūs varat augšupielādēt e-pastu izmantojot <a href="https://en.wikipedia.org/wiki/Email#Message_format">MIME</a> vai <a href="https://en.wikipedia.org/wiki/Mbox">Mbox</a> formāta failus.';
 $labels['mailimportzip'] = 'Vairāki faili var tikt sakompresēti zip arhīvos.';
-
 $labels['quota'] = 'Kvota';
 $labels['unknown'] = 'nezināms';
 $labels['unlimited'] = 'neierobežots';
@@ -246,7 +219,6 @@ $labels['quotamessage'] = 'Vēstuļu skaits';
 $labels['shortheaderdate'] = 'Datums $date';
 $labels['shortheaderto'] = 'Adresāts $to datumā $date';
 $labels['shortheaderfrom'] = 'No $from datumā $date';
-
 $labels['quicksearch'] = 'Ārtā meklēšana';
 $labels['searchplaceholder'] = 'Meklēt...';
 $labels['resetsearch'] = 'Atstatīt meklēšanu';
@@ -265,13 +237,10 @@ $labels['searchinterval-1Y'] = 'vecākas par gadu';
 $labels['searchinterval1W'] = 'nedēļu vecas';
 $labels['searchinterval1M'] = 'mēnesi vecas';
 $labels['searchinterval1Y'] = 'gadu vecas';
-
 $labels['openinextwin'] = 'Atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
 $labels['changeformattext'] = 'Rādīt kā neformatētu tekstu';
 $labels['changeformathtml'] = 'Rādīt kā HTML formatētu';
-
-// message compose
 $labels['editasnew'] = 'Rediģēt kā jaunu';
 $labels['send'] = 'Sūtīt';
 $labels['sendmessage'] = 'Sūtīt vēstuli';
@@ -281,7 +250,7 @@ $labels['charset'] = 'Rakstzīmju kopa';
 $labels['editortype'] = 'Redaktora tips';
 $labels['returnreceipt'] = 'Saņemšanas apstiprinājums';
 $labels['dsn'] = 'Piegādes atskaite';
-$labels['keepformatting'] = 'Paturēt noformējumu';
+$labels['keepformatting'] = 'Saglabāt formatēšanu';
 $labels['mailreplyintro'] = '$sender @ $date rakstīja:';
 $labels['originalmessage'] = 'Sākotnējā vēstule';
 $labels['selectimage'] = 'Atzīmēt attēlu';
@@ -299,22 +268,19 @@ $labels['keylength'] = 'Biti';
 $labels['keyexpired'] = 'Beidzies termiņš';
 $labels['keyrevoked'] = 'Atsaukta';
 $labels['bccinstead'] = 'Lietot Bcc';
-$labels['addheader'] = 'Pievienot adresātu (galvenē)';
+$labels['addheader'] = 'Pievienot lauku (Cc, Bcc, ...)';
 $labels['insert'] = 'Ievietot';
 $labels['insertcontact'] = 'Pievienot kontaktu(s)';
 $labels['recipient'] = 'Saņēmējs';
 $labels['recipientedit'] = 'Rediģēt saņēmēju';
-
 $labels['editidents'] = 'Rediģēt identitātes';
 $labels['spellcheck'] = 'Izrunāt';
 $labels['checkspelling'] = 'Pārbaudīt pareizrakstību';
 $labels['resumeediting'] = 'Turpināt rediģēšanu';
 $labels['revertto'] = 'Atgriezt uz';
-
 $labels['restore'] = 'Atjaunot';
 $labels['restoremessage'] = 'Atjaunot vēstuli?';
 $labels['ignore'] = 'Ignorēt';
-
 $labels['responses'] = 'Atbildes';
 $labels['insertresponse'] = 'Ievietot atbildi';
 $labels['manageresponses'] = 'Pārvaldīt atbildes';
@@ -324,7 +290,6 @@ $labels['editresponse'] = 'Rediģēt atbildi';
 $labels['editresponses'] = 'Rediģēt atbildes';
 $labels['responsename'] = 'Vārds';
 $labels['responsetext'] = 'Atbildes teksts';
-
 $labels['attach'] = 'Pievienot';
 $labels['attachments'] = 'Pielikumi';
 $labels['upload'] = 'Augšupielādēt';
@@ -333,13 +298,11 @@ $labels['close'] = 'Aizvērt';
 $labels['messageoptions'] = 'Vēstuļu iestatījumi...';
 $labels['togglecomposeoptions'] = 'Parādīt rakstīšanas iestatījumus';
 $labels['attachmentrename'] = 'Pārsaukt pielikumu';
-
 $labels['low'] = 'Zema';
 $labels['lowest'] = 'Zemākā';
 $labels['normal'] = 'Normāla';
 $labels['high'] = 'Augsta';
 $labels['highest'] = 'Augstākā';
-
 $labels['nosubject'] = '(bez tēmas)';
 $labels['showimages'] = 'Rādīt attēlus';
 $labels['allow'] = 'Atļaut';
@@ -353,26 +316,21 @@ $labels['headers'] = 'Galvene';
 $labels['allheaders'] = 'Visas galvenes';
 $labels['togglemoreheaders'] = 'Rādīt galvenes papildus informāciju';
 $labels['togglefullheaders'] = 'Slēpt galvenes papildus informāciju';
-
 $labels['htmltoggle'] = 'HTML';
 $labels['plaintoggle'] = 'Vienkāršs teksts';
 $labels['savesentmessagein'] = 'Saglabāt nosūtīto vēstuli mapē';
 $labels['dontsave'] = 'nesaglabāt';
 $labels['maxuploadsize'] = 'Maksimālais atļautais faila izmērs ir $size';
-
 $labels['addcc'] = 'Pievienot Cc';
 $labels['addbcc'] = 'Pievienot Bcc';
 $labels['addreplyto'] = 'Pievienot Atbildēt-Uz';
 $labels['addfollowupto'] = 'Pievienot Followup-To';
-
-//mdn
 $labels['sendreceipt'] = 'Vai nosūtīt izlasīšanas paziņojumu?';
 $labels['mdnrequest'] = 'Šīs vēstules sūtītājs vēlas redzēt vēstules saņemšanas apstiprinājumu. Vai Jūs vēlaties nosūtīt šo apstiprinājumu?';
 $labels['receiptread'] = 'Saņemšanas apstiprinājums';
 $labels['yourmessage'] = 'Šis ir Jūsu nosūtītās vēstules saņemšanas apstiprinājums';
 $labels['receiptnote'] = 'Piezīme: Šis apsiprinājums nozīmē tikai to, ka vēstule tika parādīta uz saņēmāja datora. Tas nenozīmē, ka saņēmējs ir izlasījis vai sapratis vēstules saturu.';
 $labels['sendalwaysto'] = 'Vienmēr sūtīt uz $email';
-
 $labels['zoomin'] = 'Pietuvināt';
 $labels['zoomout'] = 'Attālināt';
 $labels['rotate'] = 'Pagriezt';
@@ -381,8 +339,6 @@ $labels['decreaseimage'] = 'Samazināt attēla izmēru';
 $labels['rotateimage'] = 'Pagriezt attēlu';
 $labels['showtools'] = 'Rādīt attēla rīkus';
 $labels['hidetools'] = 'Paslēpt attēla rīkus';
-
-// address book
 $labels['name'] = 'Uzrādītais vārds';
 $labels['firstname'] = 'Vārds';
 $labels['surname'] = 'Uzvārds';
@@ -409,7 +365,7 @@ $labels['instantmessenger'] = 'IM';
 $labels['notes'] = 'Piezīmes';
 $labels['male'] = 'vīrietis';
 $labels['female'] = 'sieviete';
-$labels['nonbinary'] = 'ne-binārs';
+$labels['nonbinary'] = 'nebinārs';
 $labels['othergender'] = 'cits';
 $labels['manager'] = 'Menedžeris';
 $labels['assistant'] = 'Asistents';
@@ -422,7 +378,6 @@ $labels['advanced'] = 'Paplašinātie iestatījumi';
 $labels['other'] = 'Cits';
 $labels['printcontact'] = 'Drukāt kontaktu';
 $labels['qrcode'] = 'QR kods';
-
 $labels['typehome'] = 'Mājas';
 $labels['typework'] = 'Darbs';
 $labels['typeother'] = 'Cits';
@@ -437,7 +392,6 @@ $labels['typeassistant'] = 'Asistents';
 $labels['typehomepage'] = 'Mājaslapa';
 $labels['typeblog'] = 'Blogs';
 $labels['typeprofile'] = 'Profils';
-
 $labels['addfield'] = 'Pievienot lauku...';
 $labels['addcontact'] = 'Pievienot kontaktu';
 $labels['editcontact'] = 'Rediģēt kontaktu';
@@ -447,7 +401,6 @@ $labels['contactnameandorg'] = 'Vārds un organizācija';
 $labels['personalinfo'] = 'Personīgā informācija';
 $labels['personal'] = 'Personīgās';
 $labels['contactphoto'] = 'Kontakta attēls';
-
 $labels['edit'] = 'Rediģēt';
 $labels['cancel'] = 'Atcelt';
 $labels['save'] = 'Saglabāt';
@@ -462,7 +415,6 @@ $labels['uploadphoto'] = 'Augšupielādēt fotogrāfiju';
 $labels['choosefile'] = 'Norādīt failu...';
 $labels['choosefiles'] = 'Norādīt failus...';
 $labels['browse'] = 'Pārlūkot';
-
 $labels['newcontact'] = 'Izveidot jaunu kontaktu';
 $labels['deletecontact'] = 'Dzēst atzīmētos kontaktus';
 $labels['composeto'] = 'Rakstīt vēstuli';
@@ -480,20 +432,16 @@ $labels['groupassign'] = 'Pievienot grupai...';
 $labels['groupremove'] = 'Dzēst no grupas...';
 $labels['groupremoveselected'] = 'Dzēst atzīmētos kontaktus no grupas';
 $labels['uponelevel'] = 'Vienu līmeni uz augšu';
-
 $labels['previouspage'] = 'Parādīt iepriekšējo lapu';
 $labels['firstpage'] = 'Parādīt pirmo lapu';
 $labels['nextpage'] = 'Parādīt nākamo lapu';
 $labels['lastpage'] = 'Parādīt pēdējo lapu';
-
 $labels['group'] = 'Grupa';
 $labels['groups'] = 'Grupas';
 $labels['listgroup'] = 'Rādīt grupas kontaktus';
 $labels['personaladrbook'] = 'Personīgās adreses';
-
 $labels['searchsave'] = 'Saglabāt meklēšanas pieprasījumu';
 $labels['searchdelete'] = 'Dzēst saglabāto meklēšanas pieprasījumu';
-
 $labels['import'] = 'Importēt';
 $labels['importcontacts'] = 'Importēt kontaktus';
 $labels['importfromfile'] = 'Importēt no faila';
@@ -507,21 +455,17 @@ $labels['importmapdesc'] = 'Pirms turpināt CSV (komatiem atdalītu) datu import
 $labels['fieldnotmapped'] = 'Lauks nav kartēts (neimportēt)';
 $labels['skipheader'] = 'Neimportēt pirmo rindu (galvenes)';
 $labels['done'] = 'Pabeigts';
-
-// settings
 $labels['settingsfor'] = 'Iestatījumi';
 $labels['about'] = 'Par';
 $labels['preferences'] = 'Iestatījumi';
 $labels['userpreferences'] = 'Lietotāja iestatījumi';
 $labels['editpreferences'] = 'Rediģēt iestatījumus';
-
 $labels['identities'] = 'Identitātes';
 $labels['manageidentities'] = 'Rediģēt identitātes';
 $labels['newidentity'] = 'Izveidot jaunu identitāti';
 $labels['addidentity'] = 'Pievienot identitāti';
 $labels['editidentity'] = 'Rediģēt identitāti';
 $labels['identityencryption'] = 'Šifrēšana';
-
 $labels['preferhtml'] = 'Rādīt HTML formatētās vēstules';
 $labels['defaultcharset'] = 'Noklusētā rakstzīmju kopa';
 $labels['htmlmessage'] = 'HTML formatēta vēstule';
@@ -631,6 +575,8 @@ $labels['spellcheckignoresyms'] = 'Ignorēt vārdus, kuri satur simbolus';
 $labels['spellcheckignorenums'] = 'Ignorēt vārdus, kuri satur skaitļus';
 $labels['spellcheckignorecaps'] = 'Ignorēt vārdus, kuri rakstīti ar lielajiem burtiem';
 $labels['addtodict'] = 'Pievienot vārdnīcai';
+$labels['editoroptions'] = 'Redaktora iestatījumi';
+$labels['enableautolink'] = 'Automātiski konvertēt korektus URL uz hipersaitēm';
 $labels['mailtoprotohandler'] = 'Atverot mailto: saites, lietot šo e-pasta programmu';
 $labels['standardwindows'] = 'Izlēcošie logi kā parasti logi';
 $labels['forwardmode'] = 'Vēstuļu pārsūtīšana';
@@ -640,8 +586,7 @@ $labels['replyallmode'] = '[Atbildēt visiem] pogas noklusētā darbība';
 $labels['replyalldefault'] = 'atbildēt visiem';
 $labels['replyalllist'] = 'atbildēt tikai sarakstei (ja tāda tiek atrasta)';
 $labels['allmessages'] = 'visām vēstulēm';
-$labels['olderxdays'] = 'vecāks par $x dienām';
-
+$labels['olderxdays'] = 'vecākas par $x dienām';
 $labels['folder'] = 'Mapi';
 $labels['folders'] = 'Mapes';
 $labels['foldername'] = 'Mapes nosaukums';
@@ -671,22 +616,20 @@ $labels['namespace.shared'] = 'Koplietota';
 $labels['dualuselabel'] = 'Drīkst saturēt tikai';
 $labels['dualusemail'] = 'vēstules';
 $labels['dualusefolder'] = 'mapes';
-
 $labels['generate'] = 'Ģenerēt';
 $labels['encryptioncreatekey'] = 'Izveidot jaunu atslēgu pāri';
 $labels['openmailvelopesettings'] = 'Parādīt "Mailvelope" iestatījumus';
-$labels['encryptionprivkeysinmailvelope'] = 'Jums ir $nr privātās atslēgas, kuras sakrīt ar tām, kuras glabājas Mailvelope "keyring":';
-$labels['encryptionnoprivkeysinmailvelope'] = 'Šī sūtītāja identitātei PGP privātā atslēga nav saglabāta Jūsu Mailvelope paplašinājumā. Vēlaties tādu izveidot, lai ieslēgtu šifrētu saziņu??';
+$labels['encryptionprivkeysinmailvelope'] = 'Jūsu Mailvelope keyringā ir saglabātas $nr atbilstošas privātās atslēgas:';
+$labels['encryptionnoprivkeysinmailvelope'] = 'Šai sūtītāja identitātei vēl nav saglabāta PGP privātā atslēga jūsu Mailvelope paplašinājumā. Vai vēlaties izveidot jaunu, lai ieslēgtu šifrētu saziņu?';
 $labels['encryption'] = 'Šifrēšana';
 $labels['mailvelopeoptions'] = 'Mailvelope opcijas';
 $labels['mailvelopemainkeyring'] = 'Izmantojiet Mailvelope galveno "keyring"';
 $labels['mailvelopenotfound'] = 'Mailvelope paplašinājums Jūsu interneta pārlūkā nav iespējots/uzinstalēts.';
-
+$labels['mailvelopeenable'] = 'Ieslēgt';
 $labels['sortby'] = 'Kārtot pēc';
 $labels['sortasc'] = 'Kārtot augošā secībā';
 $labels['sortdesc'] = 'Kārtot dilstošā secībā';
 $labels['undo'] = 'Atsaukt';
-
 $labels['installedplugins'] = 'Uzstādītie spraudņi';
 $labels['plugin'] = 'Spraudnis';
 $labels['version'] = 'Versija';
@@ -695,22 +638,17 @@ $labels['destination'] = 'Galamērķis';
 $labels['license'] = 'Licence';
 $labels['skinauthor'] = 'no $author';
 $labels['support'] = 'Atbalsts';
-$labels['savedsearches'] = 'Saglabātie meklējumi';
-
+$labels['savedsearches'] = 'Saglabātie mekkējumi';
 $labels['dateformatY'] = 'YYYY';
 $labels['dateformaty'] = 'YY';
 $labels['dateformatm'] = 'MM';
 $labels['dateformatd'] = 'DD';
 $labels['dateformatj'] = 'D';
 $labels['dateformatn'] = 'M';
-
-// units
 $labels['B'] = 'B';
 $labels['KB'] = 'kB';
 $labels['MB'] = 'MB';
 $labels['GB'] = 'GB';
-
-// character sets
 $labels['unicode'] = 'Unikods';
 $labels['english'] = 'Angļu';
 $labels['westerneuropean'] = 'Rietumeiropas';
@@ -729,8 +667,6 @@ $labels['vietnamese'] = 'Vjetnamiešu';
 $labels['japanese'] = 'Japāņu';
 $labels['korean'] = 'Korejiešu';
 $labels['chinese'] = 'Ķīniešu';
-
-// accessibility (voice-only) headings and descriptions
 $labels['arialabeltopnav'] = 'Loga kontorle';
 $labels['arialabeltasknav'] = 'Programmas uzdevumi';
 $labels['arialabeltoolbar'] = 'Programmas rīkjosla';
@@ -778,7 +714,6 @@ $labels['arialabelsearchterms'] = 'Meklēšanas termini';
 $labels['arialabeldropactionmenu'] = '"Velc un Noliec" darbības izvēlne';
 $labels['arialabelheadersmenu'] = 'Adresāta (galvenē) pievienošanas izvēlne';
 $labels['arialabelimagetools'] = 'Attēla rīki';
-
 $labels['helplistnavigation'] = 'Parādīt klaviatūras īsos taustiņus';
 $labels['helplistkeyboardnavigation'] = "Bultiņas augšup/lejup: Mainīt rindas izsgaismošanu/atzīmēšanu.
 Garais taustiņš: Atzīmēt izgaismoto rindu.

@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Tải tất cả tệp tin đính kèm';
-$labels['download'] = 'Tải xuống...';
 $labels['downloadmbox'] = 'Định dạng mbox (.zip)';
 $labels['downloadmaildir'] = 'Định dạng Maildir (.zip)';
 $labels['downloademl'] = 'Mã nguồn (.eml)';
+$labels['download'] = 'Tải xuống...';

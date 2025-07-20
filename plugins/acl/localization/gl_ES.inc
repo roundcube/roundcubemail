@@ -92,6 +92,6 @@ $messages['createsuccess'] = 'Permisos de acceso engadidos correctamente';
 $messages['updateerror'] = 'Non é posible actualizar os permisos de acceso';
 $messages['deleteerror'] = 'Non é posible eliminar os permisos de acceso';
 $messages['createerror'] = 'Non é posible engadir os permisos de acceso';
-$messages['deleteconfirm'] = 'Seguro/a que queres eliminar os permisos de acceso dos usuarios seleccionados?';
+$messages['deleteconfirm'] = 'Seguro/a que queres eliminar os permisos de acceso do(s) usuario(s) seleccionado(s)?';
 $messages['norights'] = 'Non se especificaron permisos!';
 $messages['nouser'] = 'Non se especificou o nome de usuario!';

@@ -261,7 +261,6 @@ $labels['keylength'] = 'Bitów';
 $labels['keyexpired'] = 'Przedawniony';
 $labels['keyrevoked'] = 'Unieważniony';
 $labels['bccinstead'] = 'Użyj Bcc';
-$labels['addheader'] = 'Dodaj odbiorcę (nagłówek)';
 $labels['insert'] = 'Wstaw';
 $labels['insertcontact'] = 'Wstaw kontakt(y)';
 $labels['recipient'] = 'Odbiorca';

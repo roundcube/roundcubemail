@@ -140,7 +140,6 @@ $messages['nogroupassignmentschanged'] = 'Atribuirile la grupuri nu au fost modi
 $messages['importwait'] = 'Datele sunt importate, vă rugăm să aşteptaţi...';
 $messages['importformaterror'] = 'Importul a eșuat! Fișierul încărcat nu este un fișier valid pentru import de date.';
 $messages['importconfirm'] = '<b>$inserted contacte au fost importate cu succes, $skipped intrări au fost ignorate deoarece ele există deja: $names</b>';
-$messages['importconfirmskipped'] = '<b>Am sărit peste $skipped înregistrări</b>';
 $messages['importmessagesuccess'] = 'Am importat cu succes $nr mesaje.';
 $messages['importmessageerror'] = 'Importarea a esuat. Fisierul incarca nu este un mesaj valid pentru email.';
 $messages['opnotpermitted'] = 'Operaţiunea nu este permisă!';

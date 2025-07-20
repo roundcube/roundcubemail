@@ -15,8 +15,10 @@
 */
 
 $labels['downloadall'] = 'Lawrlwytho\'r holl atodiadau';
-$labels['download'] = 'Lawrlwytho...';
+$labels['export'] = 'Allforio...';
 $labels['downloadmbox'] = 'Fformat mbox (.zip)';
 $labels['downloadmaildir'] = 'Fformat maildir (.zip)';
 $labels['downloademl'] = 'Ffynhonnell (.eml)';
 $labels['sizelimiterror'] = 'Cyfanswm maint yr holl negeseuon sy\'n fwy na\'r cyfyngiad ($size)';
+$labels['exportmenu'] = 'Bwydlen Dewisiadau Allforio Neges';
+$labels['download'] = 'Lawrlwytho...';

@@ -121,7 +121,6 @@ $messages['nogroupassignmentschanged'] = 'Qruplar arası bölgü dəyişməyib.'
 $messages['importwait'] = 'İdxal gedir, lütfən gözləyin...';
 $messages['importformaterror'] = 'İdxal xətası. Yüklənilən fayl naməlum məlumat formatına malikdir.';
 $messages['importconfirm'] = '<b>$inserted ünvanlar müvəffəqiyyətlə idxal edildi, mövcud $skipped buraxılıb</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Buraxılmış $skipped mövcud daxillər</b>';
 $messages['importmessagesuccess'] = '$nr məktublar uğurla idxal edildi';
 $messages['importmessageerror'] = 'İdxal alınmadı! Yüklənilmiş fayl düzgün məktub və ya poçt faylı deyil';
 $messages['opnotpermitted'] = 'Əməliyyat qadağandır!';

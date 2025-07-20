@@ -140,7 +140,6 @@ $messages['nogroupassignmentschanged'] = 'Guruhlar bo‘yicha taqsimlash o‘zga
 $messages['importwait'] = 'Import qilinmoqda, iltimos kuting...';
 $messages['importformaterror'] = 'Import amalga oshmadi. Yuklanayotgan fayl no’malum ma’lumotlar formatiga ega.';
 $messages['importconfirm'] = '<b> $inserted kontaktlar import qilindi</b>';
-$messages['importconfirmskipped'] = '<b> $skipped  mavjud yozuvlar o‘tkazib yuborildi</b>';
 $messages['importmessagesuccess'] = '$nr ta xat import qilindi.';
 $messages['importmessageerror'] = 'Import muvaffaqqiyatsiz amalga oshdi. Yuklanayotgan fayl xat fayli yoki pochta qutisi fayli emas.';
 $messages['opnotpermitted'] = 'Harakat ta’qiqlangan!';

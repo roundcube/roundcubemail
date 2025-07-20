@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Descargar tolos axuntos';
-$labels['download'] = 'Descargar...';
 $labels['downloadmbox'] = 'Formatu Mbox (.zip)';
 $labels['downloadmaildir'] = 'Formatu Maildir (.zip)';
 $labels['downloademl'] = 'Fonte (.eml)';
+$labels['download'] = 'Descargar...';

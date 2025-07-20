@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Ingen gruppetilordninger ble endret.';
 $messages['importwait'] = 'Importerer, vennligst vent...';
 $messages['importformaterror'] = 'Import feilet! Den opplastede filen er i feil format.';
 $messages['importconfirm'] = '<b>Importerte $inserted kontakter</b>';
-$messages['importconfirmskipped'] = '<b>Hoppet over $skipped eksisterende oppføringer</b>';
 $messages['importmessagesuccess'] = 'Kopierte $nr meldinger';
 $messages['importmessageerror'] = 'Importeringen var mislykket! Den opplastede filen er ikke en gyldig melding, eller er ikke kompatibel med meldingssystemet.';
 $messages['opnotpermitted'] = 'Handling ikke tillatt!';

@@ -13,7 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
-$messages['missingattachment'] = "Pièce jointe manquante ?";
+$messages['missingattachment'] = "Manque-t-il un fichier joint ?";
 $messages['forgotattachment'] = "Avez-vous oublié de joindre un fichier ?";
-$messages['reminderoption'] = "Rappel sur les pièces jointes oubliées";
-$messages['keywords'] = "pièce jointe,fichier joint,fichier,joindre,joins,joint,attaché,inclus,ci-inclus,CV, lettre d’accompagnement, PJ, P.J";
+$messages['reminderoption'] = "Rappel sur les fichiers joints oubliés";
+$messages['keywords'] = "fichier joint,pièce jointe,fichier,joindre,joins,joint,attaché,inclus,ci-inclus,CV, lettre d’accompagnement, PJ, P.J";

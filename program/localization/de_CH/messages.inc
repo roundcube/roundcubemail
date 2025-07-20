@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Es wurde keine Gruppenzuweisung verän
 $messages['importwait'] = 'Daten werden importiert, bitte warten...';
 $messages['importformaterror'] = 'Import fehlgeschlagen! Die hochgeladene Datei enthält keines der unterstützten Datenformate.';
 $messages['importconfirm'] = '<b>Es wurden $inserted Adressen erfolgreich importiert</b>';
-$messages['importconfirmskipped'] = '<b>$skipped bestehende Einträge wurden übersprungen</b>';
 $messages['importmessagesuccess'] = '$nr Nachricht(n) erfolgreich importiert';
 $messages['importmessageerror'] = 'Import fehlgeschlagen! Die hochgeladene Datei ist keine E-Mail-Nachricht oder Mailbox-Datei.';
 $messages['opnotpermitted'] = 'Operation nicht erlaubt!';

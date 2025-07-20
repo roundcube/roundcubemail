@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Alle taheaksels ynlade';
-$labels['download'] = 'Ynlade...';
 $labels['downloadmbox'] = 'Mbox formaat (.zip)';
 $labels['downloadmaildir'] = 'Maildir formaat (.zip)';
 $labels['downloademl'] = 'Boarne (.eml)';
+$labels['download'] = 'Ynlade...';

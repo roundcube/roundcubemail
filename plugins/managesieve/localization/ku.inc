@@ -15,6 +15,7 @@
 */
 
 
+$labels['actions'] = 'Çalakî';
 $labels['filterany'] = 'hemû peyam';
 $labels['filtercontains'] = 'dihewîne';
 $labels['filternotcontains'] = 'nahebîne';
@@ -48,6 +49,7 @@ $labels['flagread'] = 'Xwendî';
 $labels['flagdeleted'] = 'Jêbirî';
 $labels['flaganswered'] = 'Nebersivandî';
 $labels['flagflagged'] = 'Bialakirî';
+$labels['flagdraft'] = 'Reşnivîs';
 $labels['varlength'] = 'Dirêjahî';
 $labels['notify'] = 'Agahiyê bişîne';
 $labels['notifyimportance'] = 'Girîng:';

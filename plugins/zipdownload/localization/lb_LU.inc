@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'All d\'Unhäng eroflueden';
-$labels['download'] = 'Eroflueden...';
 $labels['downloadmbox'] = 'Mbox-Format (.zip)';
 $labels['downloadmaildir'] = 'Maildir-Format (.zip)';
 $labels['downloademl'] = 'Source (.eml)';
+$labels['download'] = 'Eroflueden...';

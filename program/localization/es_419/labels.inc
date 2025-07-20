@@ -261,7 +261,6 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Vencida';
 $labels['keyrevoked'] = 'Revocada';
 $labels['bccinstead'] = 'Usar Bcc';
-$labels['addheader'] = 'Añadir destinatario (encabezado)';
 $labels['insert'] = 'Insertar';
 $labels['insertcontact'] = 'Insertar contacto(s)';
 $labels['recipient'] = 'Destinatario';

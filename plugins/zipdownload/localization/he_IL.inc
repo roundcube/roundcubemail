@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'להוריד את כל הצרופות';
-$labels['download'] = 'מוריד כעת...';
 $labels['downloadmbox'] = 'פורמט Mbox  &rlm;(zip.)';
 $labels['downloadmaildir'] = 'פורמט Maildir  &rlm;(zip.)';
 $labels['downloademl'] = 'מקור (eml.)';
 $labels['sizelimiterror'] = 'הגודל הכולל של ההודעות שנבחרו עולה על הכמות שהוגדרה בסך ($size)';
+$labels['download'] = 'מוריד כעת...';

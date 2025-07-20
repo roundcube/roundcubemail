@@ -160,7 +160,6 @@ $messages['nogroupassignmentschanged'] = 'Tidak ada perubahan tugas grup.';
 $messages['importwait'] = 'Sedang mengimpor, harap menunggu...';
 $messages['importformaterror'] = 'Proses import gagal. File yang di upload bukan file import yang valid.';
 $messages['importconfirm'] = '<b>Berhasil mengimpor $inserted kontak</b>';
-$messages['importconfirmskipped'] = '<b>$skipped entri yang sudah ada dilewatkan</b>';
 $messages['importmessagesuccess'] = 'Berhasil mengimport $nr pesan';
 $messages['importmessageerror'] = 'Gagal mengimport! File yang di upload buka pesan yang valid atau file mailbox';
 $messages['opnotpermitted'] = 'Operasi tidak diperbolehkan!';

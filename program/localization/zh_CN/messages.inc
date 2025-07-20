@@ -145,7 +145,6 @@ $messages['nogroupassignmentschanged'] = '群组资料没有变更。';
 $messages['importwait'] = '正在导入，请稍后...';
 $messages['importformaterror'] = '导入失败！文件无效。';
 $messages['importconfirm'] = '<b>成功导入 $inserted 联系人</b>';
-$messages['importconfirmskipped'] = '<b>跳过已存在的 $skipped 项目</b>';
 $messages['importmessagesuccess'] = '成功导入 $nr 条信息';
 $messages['importmessageerror'] = '导入失败！文件无效';
 $messages['opnotpermitted'] = '不允许的操作!';

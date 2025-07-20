@@ -60,6 +60,7 @@ $messages['errormoving'] = 'შეტყობინების გადატ
 $messages['errorcopying'] = 'შეტყობინების კოპირება შეუძლებელია.';
 $messages['errordeleting'] = 'შეტყობინების წაშლა შეუძლებელია';
 $messages['errormarking'] = 'შეტყობინების მონიშვნა შეუძლებელია';
+$messages['alerttitle'] = 'ყურადღება';
 $messages['deletecontactconfirm']  = 'ნამდვილად გსურთ მონიშნული კონტაქტების წაშლა?';
 $messages['deletegroupconfirm']  = 'ნამდვილად გსურთ მონიშნული ჯგუფის წაშლა?';
 $messages['deletemessagesconfirm'] = 'ნამდვილად გსურთ მონიშნული შეტყობინებების წაშლა?';

@@ -228,7 +228,6 @@ $labels['keylength'] = 'Bearta';
 $labels['keyexpired'] = 'Éagtha';
 $labels['keyrevoked'] = 'Aisghairmthe';
 $labels['bccinstead'] = 'Bain feidhm as Bcc';
-$labels['addheader'] = 'Cuir faighteoir leis (ceanntásc)';
 $labels['insert'] = 'Ionsáigh';
 $labels['recipient'] = 'Faighteoir';
 $labels['spellcheck'] = 'Litrigh';

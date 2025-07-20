@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'بارلىق قىستۇرمىلارنى چۈشۈرۈش';
-$labels['download'] = 'چۈشۈرۈش...';
 $labels['downloadmbox'] = 'خەت ساندۇقى فورماتى (.zip)';
 $labels['downloadmaildir'] = 'خەت مۇندەرىجىسى فورماتى (.زىپ)';
 $labels['downloademl'] = 'مەنبە (eml.)';
 $labels['sizelimiterror'] = 'تاللانغان خەتلەرنىڭ جەمئىي چوڭلۇقى چەكتىن (size$) ئېشىپ كەتتى';
+$labels['download'] = 'چۈشۈرۈش...';

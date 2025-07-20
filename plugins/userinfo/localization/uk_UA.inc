@@ -15,6 +15,7 @@
 */
 
 $labels['userinfo'] = 'Інформація';
+$labels['infoforuser'] = 'Інформація для $user';
 $labels['created'] = 'Створено';
 $labels['lastlogin'] = 'Останнє входження';
 $labels['defaultidentity'] = 'Типовий профіль';

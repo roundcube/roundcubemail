@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Nie zmieniono żadnych powiązań z gr
 $messages['importwait'] = 'Importowanie, proszę czekać...';
 $messages['importformaterror'] = 'Import nieudany! Użyty plik nie jest poprawnym plikiem importu danych.';
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów.</b>';
-$messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów.</b>';
 $messages['importmessagesuccess'] = 'Pomyślnie zaimportowano następującą liczbę wiadomości: $nr';
 $messages['importmessageerror'] = 'Import nieudany! Wgrywany plik nie jest poprawną wiadomością lub plikiem skrzynki pocztowej';
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';

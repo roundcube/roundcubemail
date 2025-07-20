@@ -267,7 +267,6 @@ $labels['keylength'] = 'Bitar';
 $labels['keyexpired'] = 'Utgången';
 $labels['keyrevoked'] = 'Upphävd';
 $labels['bccinstead'] = 'Använd Dold kopia';
-$labels['addheader'] = 'Lägg till mottagare (meddelandeinfo)';
 $labels['insert'] = 'Infoga';
 $labels['insertcontact'] = 'Infoga kontakt(er)';
 $labels['recipient'] = 'Mottagare';

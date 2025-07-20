@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Ninguna asiganción de grupo fue modif
 $messages['importwait'] = 'Importando, aguarde por favor...';
 $messages['importformaterror'] = 'Importación fallida! El archivo subido no es un archivo de importación de datos válido.';
 $messages['importconfirm'] = '<b>Se importaron $inserted contactos correctamente. $skipped ya existentes fueron ignorados</b>:<p><em>$names</em></p>';
-$messages['importconfirmskipped'] = '<b>Se ignoraron $skipped entradas ya existentes</b>';
 $messages['importmessagesuccess'] = '$nr mensajes importados exitosamente';
 $messages['importmessageerror'] = 'Importación fallida! El archivo subido no es un mensaje o archivo mailbox válido';
 $messages['opnotpermitted'] = 'Operación no permitida!';

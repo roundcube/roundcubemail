@@ -153,7 +153,6 @@ $messages['nogroupassignmentschanged'] = 'Нису измењена задуже
 $messages['importwait'] = 'Увозим, сачекајте...';
 $messages['importformaterror'] = 'Увоз није успео! Отпремљени фајл није исправан фајл увоза података.';
 $messages['importconfirm'] = '<b>Успешно увезено контаката: $inserted</b>';
-$messages['importconfirmskipped'] = '<b>Прескочено постојећих уноса: $skipped</b>';
 $messages['importmessagesuccess'] = 'Успешно увезено $nr порука';
 $messages['importmessageerror'] = 'Увоз није успео! Отпремљени фајл није исправан фајл поруке или сандучета';
 $messages['opnotpermitted'] = 'Радња није дозвољена!';

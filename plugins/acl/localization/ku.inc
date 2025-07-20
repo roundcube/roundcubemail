@@ -15,11 +15,11 @@
 */
 
 $labels['sharing'] = 'Parvekirin';
-$labels['myrights'] = 'Mafên Têketinê';
+$labels['myrights'] = 'Mafên gihiştinê';
 $labels['username'] = 'Bikarhêner:';
-$labels['advanced'] = 'Moda pêşketî';
-$labels['add'] = 'Tev bike';
-$labels['newuser'] = 'Têketinek zêde bike';
+$labels['advanced'] = 'Awayî pêşketî';
+$labels['add'] = 'Tevlî bike';
+$labels['newuser'] = 'Têketinek tevlî bike';
 $labels['editperms'] = 'Destûrdayînan Sererast Bike';
 $labels['actions'] = 'Digihîje tevgerên çê..';
 $labels['anyone'] = 'Hemû bikarhêner (her kes)';

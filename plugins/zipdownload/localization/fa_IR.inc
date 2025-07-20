@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'بارگیری همه پیوست‌ها';
-$labels['download'] = 'بارگیری';
 $labels['downloadmbox'] = 'قالب Mbox (.zip)';
 $labels['downloadmaildir'] = 'قالب Maildir (.zip)';
 $labels['downloademl'] = 'منبع (.eml)';
+$labels['download'] = 'بارگیری';

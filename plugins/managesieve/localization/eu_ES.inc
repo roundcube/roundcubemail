@@ -134,6 +134,7 @@ $labels['varlowerfirst'] = 'lehenengo karakterea minuskulan';
 $labels['varupperfirst'] = 'lehenengo karakterea maiuskulan';
 $labels['varquotewildcard'] = 'aipatu karaktere bereziak';
 $labels['varlength'] = 'luzera';
+$labels['varencodeurl'] = 'kodetutako ehunekoa (URLtarako)';
 $labels['notify'] = 'Bidali jakinarazpena';
 $labels['notifytarget'] = 'Jakinarazpenaren xedea:';
 $labels['notifymessage'] = 'Jakinarazpenaren mezua (aukerakoa):';

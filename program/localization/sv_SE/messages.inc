@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Ingen grupptillhörighet ändrades.';
 $messages['importwait'] = 'Importerar, var god vänta...';
 $messages['importformaterror'] = 'Importen misslyckades! Filen har inte korrekt dataformat.';
 $messages['importconfirm'] = '<b>Lyckad import av $inserted kontakter</b>';
-$messages['importconfirmskipped'] = '<b>Hoppade över $skipped befintliga poster</b>';
 $messages['importmessagesuccess'] = '$nr meddelanden har importerats';
 $messages['importmessageerror'] = 'Importen misslyckades! Filen är inte ett giltigt meddelande eller en brevlåda';
 $messages['opnotpermitted'] = 'Otillåten operation!';

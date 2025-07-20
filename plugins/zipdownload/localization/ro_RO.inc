@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Descarcă toate atașamentele';
-$labels['download'] = 'Descarcă...';
 $labels['downloadmbox'] = 'Format Mbox (.zip)';
 $labels['downloadmaildir'] = 'Format Maildir (.zip)';
 $labels['downloademl'] = 'Sursă (.eml)';
+$labels['download'] = 'Descarcă...';

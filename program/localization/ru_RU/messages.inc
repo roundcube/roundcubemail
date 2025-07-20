@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'Распределение по гру
 $messages['importwait'] = 'Импортирование, пожалуйста, подождите...';
 $messages['importformaterror'] = 'Ошибка импорта! Загруженный файл имеет неизвестный  формат данных.';
 $messages['importconfirm'] = '<b>Успешно импортировано $inserted контактов</b>';
-$messages['importconfirmskipped'] = '<b>Пропущено $skipped существующих записей</b>';
 $messages['importmessagesuccess'] = '$nr сообщений успешно импортировано.';
 $messages['importmessageerror'] = 'Сбой импорта! Загруженный файл не является файлом сообщения или почтового ящика';
 $messages['opnotpermitted'] = 'Действие запрещено!';

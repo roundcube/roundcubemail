@@ -159,7 +159,6 @@ $messages['nogroupassignmentschanged'] = 'ھېچقانداق توپ تاپشۇر
 $messages['importwait'] = 'كىرگۈزىۋاتىدۇ، بىردەم ساقلاڭ...';
 $messages['importformaterror'] = 'كىرگۈزۈش مەغلۇپ بولدى! چىقىرىلغان ھۆججەتنىڭ تىپى ئىناۋەتلىك ئەمەس.';
 $messages['importconfirm'] = '<b>inserted$ تۇنۇشلار مۇۋاپىقىيەتلىك كىرگۈزۈلدى </b>';
-$messages['importconfirmskipped'] = '<b> مەۋجۇت skipped$ قۇر ئۆتكۈزۈلدى </b>';
 $messages['importmessagesuccess'] = 'nr$ خەتلەر مۇۋاپىقىيەتلىك كىرگۈزۈلدى';
 $messages['importmessageerror'] = 'كىرگۈزۈش مەغلۇپ بولدى! چىقىرىلغان ھۆججەت ئىناۋەتلىك ئېلىخەت ياكى خەت ھۆججىتى ئەمەس.';
 $messages['opnotpermitted'] = 'مەشخۇلاتقا ئىجازەت بېرىلمىدى!';

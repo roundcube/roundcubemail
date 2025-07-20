@@ -16,4 +16,4 @@
 $messages['missingattachment'] = "Bijlage ontbreekt?";
 $messages['forgotattachment'] = "Bent u vergeten het bestand bij te voegen?";
 $messages['reminderoption'] = "Herinner mij aan vergeten bijlagen";
-$messages['keywords'] = "attachment,bestand,bijgaand,bijgaande,brief,bijgevoegd,bijgesloten,CV,document,bijgesloten";
+$messages['keywords'] = "attachment,bestand,bijgaand,bijgaande,brief,bijgevoegd,bijgesloten,CV,document,bijgesloten,bijlage";

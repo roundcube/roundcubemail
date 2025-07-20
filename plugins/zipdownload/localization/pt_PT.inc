@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'Transferir todos os anexos';
-$labels['download'] = 'Transferir...';
 $labels['downloadmbox'] = 'Formato Mbox (.zip)';
 $labels['downloadmaildir'] = 'Formato Maildir (.zip)';
 $labels['downloademl'] = 'Original (.eml)';
 $labels['sizelimiterror'] = 'O tamanho total das mensagens seleccionadas excede o limite de ($size)';
+$labels['download'] = 'Transferir...';

@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Unduh semua lampiran';
-$labels['download'] = 'Unduh...';
 $labels['downloadmbox'] = 'Format Mbox (.zip)';
 $labels['downloadmaildir'] = 'Format Maildir (.zip)';
 $labels['downloademl'] = 'Sumber (.eml)';
+$labels['download'] = 'Unduh...';

@@ -15,7 +15,7 @@
 */
 
 $labels['downloadall'] = 'Hemû pêvekan daxîne';
-$labels['download'] = 'Daxîne...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
 $labels['downloademl'] = 'Çavkanî (.eml)';
+$labels['download'] = 'Daxîne...';

@@ -15,8 +15,10 @@
 */
 
 $labels['downloadall'] = 'Tüm ek dosyaları indir';
-$labels['download'] = 'İndir...';
+$labels['export'] = 'Dışa aktar...';
 $labels['downloadmbox'] = 'Mbox biçimi (.zip)';
 $labels['downloadmaildir'] = 'Maildir biçimi (.zip)';
 $labels['downloademl'] = 'Kaynak (.eml)';
 $labels['sizelimiterror'] = 'Seçilmiş iletilerin toplam boyutu belirtilen sınırı aşıyor ($size)';
+$labels['exportmenu'] = 'İleti dışa aktarma seçenekleri menüsü';
+$labels['download'] = 'İndir...';

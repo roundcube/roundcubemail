@@ -15,8 +15,8 @@
 */
 
 $labels['downloadall'] = 'Λήψη όλων των συνημμένων';
-$labels['download'] = 'Λήψη...';
 $labels['downloadmbox'] = 'Μορφή mbox (.zip)';
 $labels['downloadmaildir'] = 'Μορφή maildir (.zip)';
 $labels['downloademl'] = 'Πηγή (.eml)';
 $labels['sizelimiterror'] = 'Το συνολικό μέγαθος των επιλεγμένων μηνυμάτων υπερβαίνει το όριο ($size)';
+$labels['download'] = 'Λήψη...';

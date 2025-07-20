@@ -268,7 +268,6 @@ $labels['keylength'] = 'Бита';
 $labels['keyexpired'] = 'Изтекъл';
 $labels['keyrevoked'] = 'Отменен';
 $labels['bccinstead'] = 'Използвай Скрито копие до';
-$labels['addheader'] = 'Добави получател (заглавен блок)';
 $labels['insert'] = 'Вмъкване';
 $labels['insertcontact'] = 'Вмъкване на контакт(и)';
 $labels['recipient'] = 'Получател';

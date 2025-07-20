@@ -14,4 +14,10 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-archive/
 */
 
+$labels['buttontext'] = 'არქივი';
+$labels['archived'] = 'წარმატებით დაარქივდა';
+$labels['archivefolder'] = 'არქივი';
+$labels['settingstitle'] = 'არქივი';
+$labels['archivetypefolder'] = 'საწყისი საქაღალდე';
+$labels['archivetypesender'] = 'გამგზავნის ელფოსტა';
 $labels['unkownsender'] = 'უცნობი';

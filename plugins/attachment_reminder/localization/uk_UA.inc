@@ -13,6 +13,7 @@
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-attachment_reminder/
 */
 
+$messages['missingattachment'] = "Відсутнє вкладення?";
 $messages['forgotattachment'] = "Ви забули прикріпити файл?";
 $messages['reminderoption'] = "Нагадати про забуте вкладення";
 $messages['keywords'] = "вкладення,файл,прикріпити,прикріплений,прикріплюю,вкладено,CV,супровідний лист";

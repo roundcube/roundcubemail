@@ -155,7 +155,6 @@ $messages['nogroupassignmentschanged'] = 'Geen groepstoewijzingen aangepast.';
 $messages['importwait'] = 'Importeren, even geduld...';
 $messages['importformaterror'] = 'Importeren mislukt! Het geüploade bestand is geen geldig importbestand.';
 $messages['importconfirm'] = '<b>$inserted contactpersonen succesvol geïmporteerd</b>';
-$messages['importconfirmskipped'] = '<b>$skipped bestaande contactpersonen overgeslagen</b>';
 $messages['importmessagesuccess'] = '$nr berichten succesvol geïmporteerd';
 $messages['importmessageerror'] = 'Importeren mislukt! Het verstuurde bestand is geen geldig bericht of mailboxbestand';
 $messages['opnotpermitted'] = 'Deze bewerking is niet toegestaan!';
