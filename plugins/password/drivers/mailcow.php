@@ -66,7 +66,7 @@ class rcube_mailcow_password
             }
 
             return PASSWORD_ERROR;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $e->getMessage();
         }
 

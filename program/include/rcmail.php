@@ -75,7 +75,7 @@ class rcmail extends rcube
      *
      * @return rcmail The one and only instance
      */
-    #[Override]
+    #[\Override]
     public static function get_instance($mode = 0, $env = '')
     {
         if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
@@ -194,7 +194,7 @@ class rcmail extends rcube
      *
      * @param rcube_user $user Current user instance
      */
-    #[Override]
+    #[\Override]
     public function set_user($user)
     {
         parent::set_user($user);
@@ -635,7 +635,7 @@ class rcmail extends rcube
     /**
      * Create session object and start the session.
      */
-    #[Override]
+    #[\Override]
     public function session_init()
     {
         parent::session_init();
@@ -1011,8 +1011,8 @@ class rcmail extends rcube
         if ($logout_purge && !empty($trash_mbox)) {
             $getMessages = static function ($folder) use ($logout_purge, $storage) {
                 if (is_numeric($logout_purge)) {
-                    $now = new DateTime('now');
-                    $interval = new DateInterval('P' . intval($logout_purge) . 'D');
+                    $now = new \DateTime('now');
+                    $interval = new \DateInterval('P' . intval($logout_purge) . 'D');
 
                     return $storage->search_once($folder, 'BEFORE ' . $now->sub($interval)->format('j-M-Y'));
                 }
@@ -1065,7 +1065,7 @@ class rcmail extends rcube
      *
      * @return string Valid application URL
      */
-    #[Override]
+    #[\Override]
     public function url($p, $absolute = false, $full = false, $secure = false)
     {
         if (!is_array($p)) {
@@ -1166,7 +1166,7 @@ class rcmail extends rcube
     /**
      * Function to be executed in script shutdown
      */
-    #[Override]
+    #[\Override]
     public function shutdown()
     {
         parent::shutdown();
@@ -1478,10 +1478,10 @@ class rcmail extends rcube
     {
         // get user's timezone
         try {
-            $tz = new DateTimeZone($this->config->get('timezone'));
-            $date = new DateTime('now', $tz);
-        } catch (Exception $e) {
-            $date = new DateTime();
+            $tz = new \DateTimeZone($this->config->get('timezone'));
+            $date = new \DateTime('now', $tz);
+        } catch (\Exception $e) {
+            $date = new \DateTime();
         }
 
         return $date->format('r');
@@ -1583,15 +1583,15 @@ class rcmail extends rcube
      * Convert the given date to a human readable form
      * This uses the date formatting properties from config
      *
-     * @param string|int|DateTime|DateTimeImmutable $date    Date representation
-     * @param string                                $format  Date format to use
-     * @param bool                                  $convert Enables date conversion according to user timezone
+     * @param string|int|\DateTime|\DateTimeImmutable $date    Date representation
+     * @param string                                  $format  Date format to use
+     * @param bool                                    $convert Enables date conversion according to user timezone
      *
      * @return string Formatted date string
      */
     public function format_date($date, $format = null, $convert = true)
     {
-        if (!$date instanceof DateTimeInterface) {
+        if (!$date instanceof \DateTimeInterface) {
             if (!empty($date)) {
                 $timestamp = rcube_utils::strtotime($date);
             }
@@ -1601,8 +1601,8 @@ class rcmail extends rcube
             }
 
             try {
-                $date = new DateTime('@' . $timestamp);
-            } catch (Exception $e) {
+                $date = new \DateTime('@' . $timestamp);
+            } catch (\Exception $e) {
                 return '';
             }
         }
@@ -1611,10 +1611,10 @@ class rcmail extends rcube
             try {
                 // convert to the right timezone
                 $stz = date_default_timezone_get();
-                $tz = new DateTimeZone($this->config->get('timezone'));
+                $tz = new \DateTimeZone($this->config->get('timezone'));
                 $date = clone $date; // don't modify the original object
                 $date->setTimezone($tz);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
             }
         }
@@ -1665,7 +1665,7 @@ class rcmail extends rcube
             elseif ($format[$i] == 'F') {
                 $out .= $this->gettext('long' . strtolower($date->format('M')));
             } elseif ($format[$i] == 'x') {
-                $out .= IntlDateFormatter::formatObject($date, [IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]);
+                $out .= \IntlDateFormatter::formatObject($date, [\IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT]);
             } else {
                 $out .= $date->format($format[$i]);
             }

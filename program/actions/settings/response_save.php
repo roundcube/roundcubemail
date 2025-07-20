@@ -26,7 +26,7 @@ class rcmail_action_settings_response_save extends rcmail_action_settings_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

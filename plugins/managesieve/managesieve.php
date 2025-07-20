@@ -40,7 +40,7 @@ class managesieve extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcube::get_instance();
@@ -99,8 +99,8 @@ class managesieve extends rcube_plugin
             // All the specifiers may be included in $config['time_format']
             // However not all are easily parseable in the JS world, especially
             // when it comes to Timezone abbreviation
-            $tz = new DateTimeZone($this->rc->config->get('timezone'));
-            $dt = new DateTime('now', $tz);
+            $tz = new \DateTimeZone($this->rc->config->get('timezone'));
+            $dt = new \DateTime('now', $tz);
 
             $this->rc->output->set_env('server_timezone_info', [
                 'e' => $dt->format('e'),

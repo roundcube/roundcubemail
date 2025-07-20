@@ -18,7 +18,7 @@ class help extends rcube_plugin
     // we've got no ajax handlers
     public $noajax = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->load_config();

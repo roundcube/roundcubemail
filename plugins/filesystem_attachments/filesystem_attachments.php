@@ -29,7 +29,7 @@ class filesystem_attachments extends rcube_plugin
     public $task = '?(?!login).*';
     public $initialized = false;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         // Find filesystem_attachments-based plugins, we can use only one
