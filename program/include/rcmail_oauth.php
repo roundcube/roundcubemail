@@ -161,6 +161,7 @@ class rcmail_oauth
                 'language' => ['locale'],
             ]),
             'scope' => $this->rcmail->config->get('oauth_scope', ''),
+            'scope_identity'  => $this->rcmail->config->get('oauth_scope_identity', ''),
             'timeout' => $this->rcmail->config->get('oauth_timeout', 10),
             'verify_peer' => $this->rcmail->config->get('oauth_verify_peer', true),
             'auth_parameters' => $this->rcmail->config->get('oauth_auth_parameters', []),
@@ -641,6 +642,13 @@ class rcmail_oauth
 
             // request user identity (email)
             if (empty($username)) {
+                if($this->options['scope_identity']) {
+                    $this->mask_auth_data($data);
+                    $refresh_response = $this->refresh_access_token($data, $this->options['scope_identity']);
+                    $data = $refresh_response['token'];
+                    $authorization = $refresh_response['authorization'];
+                }
+
                 $fetched_identity = $this->fetch_userinfo($authorization);
 
                 $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
@@ -654,6 +662,13 @@ class rcmail_oauth
                             break;
                         }
                     }
+                }
+
+                // Restore scope for general mail functions
+                if($this->options['scope_identity']) {
+                    $refresh_response = $this->refresh_access_token($data, $this->options['scope']);
+                    $data = $refresh_response['token'];
+                    $authorization = $refresh_response['authorization'];
                 }
             }
 
@@ -720,11 +735,14 @@ class rcmail_oauth
      * If successful, this will update the `oauth_token` entry in
      * session data.
      *
+     * @param array $token
+     * @param string $change_scope Optional, changes scope if specified
+     *
      * @return array|false Updated authorization data
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-6
      */
-    public function refresh_access_token(array $token)
+    public function refresh_access_token(array $token, $change_scope = null)
     {
         $oauth_token_uri = $this->options['token_uri'];
         $oauth_client_id = $this->options['client_id'];
@@ -740,6 +758,10 @@ class rcmail_oauth
                 'client_id' => $oauth_client_id,
                 'client_secret' => $oauth_client_secret,
             ];
+
+            if($change_scope) {
+                $form['scope'] = $change_scope;
+            }
 
             if ($this->options['pkce']) {
                 $form['code_verifier'] = $this->rcmail->decrypt($_SESSION['oauth_code_verifier']);

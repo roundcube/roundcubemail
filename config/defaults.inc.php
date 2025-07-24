@@ -384,6 +384,9 @@ $config['oauth_verify_peer'] = true;
 // Mandatory: OAuth scopes to request (space-separated string)
 $config['oauth_scope'] = null;
 
+// Optional: OAuth scopes specific to identity request (space-separated string)
+$config['oauth_scope_identity'] = null;
+
 // Optional: additional query parameters to send with login request (hash array)
 $config['oauth_auth_parameters'] = [];
 
@@ -455,6 +458,7 @@ $config['oauth_password_claim'] = null;
 // $config['oauth_identity_uri'] = "https://graph.microsoft.com/v1.0/me";
 // $config['oauth_identity_fields'] = ['email', 'userPrincipalName'];
 // $config['oauth_scope'] = "https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send User.Read offline_access";
+// $config['oauth_scope_identity'] = "https://graph.microsoft.com/IMAP.AccessAsUser.All SMTP.Send offline_access User.Read";
 // $config['oauth_auth_parameters'] = ['nonce' => mt_rand()];
 
 // ----------------------------------
