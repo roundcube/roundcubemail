@@ -7844,6 +7844,12 @@ function rcube_webmail() {
         this.http_post('folder-reorder', params, this.display_message('', 'loading'));
     };
 
+    this.debounce = function (id, callback, delay) {
+        ref.debounceTimers ??= {};
+        clearTimeout(ref.debounceTimers[id]);
+        ref.debounceTimers[id] = setTimeout(() => callback(), delay);
+    };
+
     this.folder_id2name = function (id) {
         return id ? ref.html_identifier_decode(id.replace(/^rcmli/, '')) : null;
     };
