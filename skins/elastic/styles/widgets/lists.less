@@ -151,10 +151,13 @@ ul.listing {
     }
 
     li {
-        .overflow-ellipsis();
         white-space: nowrap;
         position: relative;
         list-style: none;
+
+        a {
+            .overflow-ellipsis();
+        }
 
         ul {
             min-height: 1.5rem;
