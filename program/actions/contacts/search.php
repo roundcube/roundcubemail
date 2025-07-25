@@ -45,10 +45,13 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $adv = isset($_POST['_adv']);
         $sid = rcube_utils::get_input_string('_sid', rcube_utils::INPUT_GET);
         $search = null;
+        $scope = null;
 
         // get search criteria from saved search
         if ($sid && ($search = $rcmail->user->get_search($sid))) {
             $fields = $search['data']['fields'];
+            // scope param added in 1.7, existence check for backwards compatibility
+            $scope = $search['data']['scope'] ?? null;
             $search = $search['data']['search'];
         }
         // get fields/values from advanced search form
@@ -56,9 +59,13 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             $fields = [];
             foreach (array_keys($_POST) as $key) {
                 $s = trim(rcube_utils::get_input_string($key, rcube_utils::INPUT_POST, true));
-                if (strlen($s) && preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
-                    $search[] = $s;
-                    $fields[] = $m[1];
+                if (strlen($s)) {
+                    if (preg_match('/^_search_([a-zA-Z0-9_-]+)$/', $key, $m)) {
+                        $search[] = $s;
+                        $fields[] = $m[1];
+                    } elseif ($key == '_scope') {
+                        $scope = $s;
+                    }
                 }
             }
 
@@ -71,6 +78,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         else {
             $search = trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true));
             $fields = rcube_utils::get_input_string('_headers', rcube_utils::INPUT_GET);
+            $scope = isset($_GET['_scope']) && strlen($_GET['_scope']) ? rcube_utils::get_input_string('_scope', rcube_utils::INPUT_GET) : null;
 
             if (empty($fields)) {
                 $fields = array_keys(self::$SEARCH_MODS_DEFAULT);
@@ -104,6 +112,10 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $records = [];
 
         foreach ($sources as $s) {
+            if (isset($scope) && $scope !== $s['id']) {
+                continue;
+            }
+
             $source = $rcmail->get_address_book($s['id']);
 
             // check if search fields are supported....
@@ -167,7 +179,7 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
 
         // save search settings in session
         $_SESSION['contact_search'][$search_request] = $search_set;
-        $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$fields, $search]];
+        $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$fields, $search], 'scope' => $scope];
         $_SESSION['page'] = 1;
 
         if ($adv) {
@@ -249,6 +261,20 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
             }
         }
 
+        // add search scope field
+        $coltypes['_scope'] = [
+            'id' => 'scope',
+            'type' => 'select',
+            'category' => 'main',
+            'label' => $rcmail->gettext('searchscope'),
+            'options' => [
+                'base' => $rcmail->gettext('currentaddressbook'),
+                'all' => $rcmail->gettext('alladdressbooks'),
+            ],
+            'value' => 'all',
+            'skip-empty' => true,
+        ];
+
         // build form fields list
         foreach ($coltypes as $col => $colprop) {
             if (!isset($colprop['type'])) {
@@ -266,11 +292,12 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
                     $colprop['size'] = $i_size;
                 }
 
-                $colprop['id'] = '_search_' . $col;
+                $fname = !empty($colprop['id']) ? $colprop['id'] : 'search_' . $col;
+                $colprop['id'] = !empty($colprop['id']) ? '_' . $colprop['id'] : '_search_' . $col;
 
                 $content = html::div('row',
                     html::label(['class' => 'contactfieldlabel label', 'for' => $colprop['id']], rcube::Q($label))
-                    . html::div('contactfieldcontent', rcube_output::get_edit_field('search_' . $col, '', $colprop, $ftype))
+                    . html::div('contactfieldcontent', rcube_output::get_edit_field($fname, $colprop['value'] ?? '', $colprop, $ftype))
                 );
 
                 $form[$category]['content'][] = $content;
