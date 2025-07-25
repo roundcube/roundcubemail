@@ -7906,12 +7906,29 @@ function rcube_webmail() {
                 newname = to === '' || to === '*' ? basename : to + this.env.delimiter + basename;
 
             if (newname != from) {
-                this.confirm_dialog(this.get_label('movefolderconfirm'), 'move', function () {
-                    ref.http_post('rename-folder', { _folder_oldname: from, _folder_newname: newname },
-                        ref.set_busy(true, 'foldermoving'));
-                }, { button_class: 'save move' });
+                return new Promise((resolve, _reject) => {
+                    this.confirm_dialog(
+                        this.get_label('movefolderconfirm'),
+                        'move',
+                        function () {
+                            ref.http_post('rename-folder',
+                                {
+                                    _folder_oldname: from,
+                                    _folder_newname: newname,
+                                },
+                                ref.set_busy(true, 'foldermoving')
+                            );
+                            resolve(true);
+                        },
+                        {
+                            button_class: 'save move',
+                            cancel_func: (e, ref) => resolve(false),
+                        }
+                    );
+                });
             }
         }
+        return Promise.resolve(true);
     };
 
     // tell server to create and subscribe a new mailbox
