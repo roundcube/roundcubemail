@@ -79,7 +79,7 @@ class rcube_domainfactory_password
                     return ['code' => PASSWORD_ERROR, 'message' => $error_message];
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }

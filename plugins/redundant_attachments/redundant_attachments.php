@@ -98,7 +98,7 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Save a newly uploaded attachment
      */
-    #[Override]
+    #[\Override]
     public function upload($args)
     {
         $args = parent::upload($args);
@@ -125,7 +125,7 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Save an attachment from a non-upload source (draft or forward)
      */
-    #[Override]
+    #[\Override]
     public function save($args)
     {
         $args = parent::save($args);
@@ -157,7 +157,7 @@ class redundant_attachments extends filesystem_attachments
      * Remove an attachment from storage
      * This is triggered by the remove attachment button on the compose screen
      */
-    #[Override]
+    #[\Override]
     public function remove($args)
     {
         parent::remove($args);
@@ -182,7 +182,7 @@ class redundant_attachments extends filesystem_attachments
      * For this plugin, $this->get() will check the file and
      * return it's contents
      */
-    #[Override]
+    #[\Override]
     public function display($args)
     {
         return $this->get($args);
@@ -192,7 +192,7 @@ class redundant_attachments extends filesystem_attachments
      * When displaying or sending the attachment the file contents are fetched
      * using this method. This is also called by the attachment_display hook.
      */
-    #[Override]
+    #[\Override]
     public function get($args)
     {
         // attempt to get file from local file system
@@ -223,7 +223,7 @@ class redundant_attachments extends filesystem_attachments
     /**
      * Delete all temp files associated with this user
      */
-    #[Override]
+    #[\Override]
     public function cleanup($args)
     {
         $this->_load_drivers();

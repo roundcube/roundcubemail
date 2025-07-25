@@ -30,7 +30,7 @@ class rcube_vpopmaild_password
     public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
-        $vpopmaild = new Net_Socket();
+        $vpopmaild = new \Net_Socket();
         $host = $rcmail->config->get('password_vpopmaild_host');
         $port = $rcmail->config->get('password_vpopmaild_port');
 

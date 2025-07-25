@@ -54,7 +54,7 @@ class rcube_cache_db extends rcube_cache
     /**
      * Remove cache records older than ttl
      */
-    #[Override]
+    #[\Override]
     public function expunge()
     {
         if ($this->ttl) {
@@ -70,7 +70,7 @@ class rcube_cache_db extends rcube_cache
     /**
      * Remove expired records of all caches
      */
-    #[Override]
+    #[\Override]
     public static function gc()
     {
         $rcube = rcube::get_instance();
@@ -87,7 +87,7 @@ class rcube_cache_db extends rcube_cache
      *
      * @return mixed Cached value
      */
-    #[Override]
+    #[\Override]
     protected function read_record($key)
     {
         $sql_result = $this->db->query(
@@ -116,13 +116,13 @@ class rcube_cache_db extends rcube_cache
     /**
      * Writes single cache record into DB.
      *
-     * @param string    $key  Cache key name
-     * @param mixed     $data Serialized cache data
-     * @param ?DateTime $ts   Timestamp
+     * @param string     $key  Cache key name
+     * @param mixed      $data Serialized cache data
+     * @param ?\DateTime $ts   Timestamp
      *
      * @return bool True on success, False on failure
      */
-    #[Override]
+    #[\Override]
     protected function store_record($key, $data, $ts = null)
     {
         $value = $this->serialize($data);
@@ -170,7 +170,7 @@ class rcube_cache_db extends rcube_cache
      * @param bool   $prefix_mode Enable it to clear all keys starting
      *                            with prefix specified in $key
      */
-    #[Override]
+    #[\Override]
     protected function remove_record($key = null, $prefix_mode = false)
     {
         // Remove all keys (in specified cache)
@@ -202,7 +202,7 @@ class rcube_cache_db extends rcube_cache
     /**
      * Serializes data for storing
      */
-    #[Override]
+    #[\Override]
     protected function serialize($data)
     {
         return $this->db->encode($data, $this->packed);
@@ -211,7 +211,7 @@ class rcube_cache_db extends rcube_cache
     /**
      * Unserializes serialized data
      */
-    #[Override]
+    #[\Override]
     protected function unserialize($data)
     {
         return $this->db->decode($data, $this->packed);
@@ -220,7 +220,7 @@ class rcube_cache_db extends rcube_cache
     /**
      * Determine the maximum size for cache data to be written
      */
-    #[Override]
+    #[\Override]
     protected function max_packet_size()
     {
         if ($this->max_packet < 0) {

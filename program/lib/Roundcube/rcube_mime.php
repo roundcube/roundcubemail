@@ -731,9 +731,9 @@ class rcube_mime
             // null as a 2nd argument should be the same as no argument
             // this however is not true on all systems/versions
             if ($mime_magic) {
-                $finfo = new finfo(\FILEINFO_MIME, $mime_magic);
+                $finfo = new \finfo(\FILEINFO_MIME, $mime_magic);
             } else {
-                $finfo = new finfo(\FILEINFO_MIME);
+                $finfo = new \finfo(\FILEINFO_MIME);
             }
 
             if ($is_stream) {

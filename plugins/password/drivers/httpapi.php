@@ -90,7 +90,7 @@ class rcube_httpapi_password
 
             $response_code = $response->getStatusCode();
             $result = $response->getBody();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error('Password plugin: ' . $e->getMessage(), true);
 
             return PASSWORD_CONNECT_ERROR;

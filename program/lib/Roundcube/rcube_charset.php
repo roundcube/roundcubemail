@@ -298,7 +298,7 @@ class rcube_charset
 
         try {
             $out = mb_convert_encoding($str, $to, $from);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $out = false;
         }
 
@@ -326,12 +326,12 @@ class rcube_charset
             // If iconv reports an illegal character in input it means that input string
             // has been truncated. It's reported as E_NOTICE.
             // PHP8 will also throw E_WARNING on unsupported encoding.
-            $error_handler = static function () { throw new Exception(); };
+            $error_handler = static function () { throw new \Exception(); };
             set_error_handler($error_handler, \E_NOTICE | \E_WARNING);
 
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
-            } catch (Throwable $e) {
+            } catch (\Throwable $e) {
                 $out = false;
             }
 

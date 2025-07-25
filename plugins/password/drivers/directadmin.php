@@ -75,7 +75,7 @@ class rcube_directadmin_password
             $body = preg_replace_callback('/&#([0-9]{2})/', static function ($val) { return chr($val[1]); }, $body);
 
             $response = Query::parse($body);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_ERROR;
         }

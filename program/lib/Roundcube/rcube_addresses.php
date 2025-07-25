@@ -55,7 +55,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return string
      */
-    #[Override]
+    #[\Override]
     public function get_name()
     {
         if ($this->type == self::TYPE_RECIPIENT) {
@@ -78,7 +78,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return rcube_result_set Indexed list of contact records, each a hash array
      */
-    #[Override]
+    #[\Override]
     public function list_records($cols = null, $subset = 0, $nocount = false)
     {
         if ($nocount || $this->list_page <= 1) {
@@ -138,7 +138,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return rcube_result_set Contact records and 'count' value
      */
-    #[Override]
+    #[\Override]
     public function search($fields, $value, $mode = 0, $select = true, $nocount = false, $required = [])
     {
         if (!is_array($required) && !empty($required)) {
@@ -218,7 +218,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int Contacts count
      */
-    #[Override]
+    #[\Override]
     protected function _count()
     {
         // count contacts for this user
@@ -246,7 +246,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return rcube_result_set|array|null Result object with all record fields
      */
-    #[Override]
+    #[\Override]
     public function get_record($id, $assoc = false)
     {
         // return cached result
@@ -281,7 +281,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return bool true if input is valid, False if not
      */
-    #[Override]
+    #[\Override]
     public function validate(&$save_data, $autofix = false)
     {
         $email = array_filter($this->get_col_values('email', $save_data, true));
@@ -313,7 +313,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return mixed The created record ID on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function insert($save_data, $check = false)
     {
         if ($check) {
@@ -346,7 +346,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return bool True on success, False on error
      */
-    #[Override]
+    #[\Override]
     public function update($id, $save_cols)
     {
         return false;
@@ -360,7 +360,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int|false Number of removed records
      */
-    #[Override]
+    #[\Override]
     public function delete($ids, $force = true)
     {
         if (!is_array($ids)) {
@@ -388,7 +388,7 @@ class rcube_addresses extends rcube_contacts
      *
      * @return int Number of removed records
      */
-    #[Override]
+    #[\Override]
     public function delete_all($with_groups = false)
     {
         $this->db->query('DELETE FROM ' . $this->db->table_name($this->db_name, true)

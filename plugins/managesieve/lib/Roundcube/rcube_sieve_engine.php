@@ -3468,7 +3468,7 @@ class rcube_sieve_engine
 
         // Then we convert it back to RFC2822 format
         if (empty($this->errors['actions'][$i][$field]) && !empty($from)) {
-            $this->form['actions'][$i][$field] = Mail_mimePart::encodeHeader(
+            $this->form['actions'][$i][$field] = \Mail_mimePart::encodeHeader(
                 'From', implode(', ', $from), RCUBE_CHARSET, 'base64', '');
 
             return true;

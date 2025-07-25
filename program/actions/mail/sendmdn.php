@@ -26,7 +26,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -85,7 +85,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             $recipient = array_first(rcube_mime::decode_address_list($message->headers->mdn_to, 1, true, $charset));
             $mailto = $recipient['mailto'];
 
-            $compose = new Mail_mime("\r\n");
+            $compose = new \Mail_mime("\r\n");
 
             $compose->setParam('text_encoding', 'quoted-printable');
             $compose->setParam('html_encoding', 'quoted-printable');

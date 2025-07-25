@@ -40,7 +40,7 @@ class rcube_xmail_password
         $rcmail = rcmail::get_instance();
         [$user, $domain] = explode('@', $_SESSION['username']);
 
-        $xmail = new XMail();
+        $xmail = new \XMail();
 
         $xmail->hostname = $rcmail->config->get('xmail_host');
         $xmail->username = $rcmail->config->get('xmail_user');

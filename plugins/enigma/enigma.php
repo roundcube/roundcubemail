@@ -30,7 +30,7 @@ class enigma extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();
