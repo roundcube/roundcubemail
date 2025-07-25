@@ -176,9 +176,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
 
     function test_parse_dsn()
     {
-        $dsn = "mysql://USERNAME:PASSWORD@HOST:3306/DATABASE";
-
-        $result = rcube_db::parse_dsn($dsn);
+        $result = \rcube_db::parse_dsn('mysql://USERNAME:PASSWORD@HOST:3306/DATABASE');
 
         $this->assertSame('mysql', $result['phptype']);
         $this->assertSame('USERNAME', $result['username']);
@@ -187,9 +185,7 @@ class Framework_DB extends PHPUnit\Framework\TestCase
         $this->assertSame('HOST', $result['hostspec']);
         $this->assertSame('DATABASE', $result['database']);
 
-        $dsn = "pgsql:///DATABASE";
-
-        $result = rcube_db::parse_dsn($dsn);
+        $result = \rcube_db::parse_dsn('pgsql:///DATABASE');
 
         $this->assertSame('pgsql', $result['phptype']);
         $this->assertTrue(!array_key_exists('username', $result));
@@ -197,6 +193,33 @@ class Framework_DB extends PHPUnit\Framework\TestCase
         $this->assertTrue(!array_key_exists('port', $result));
         $this->assertTrue(!array_key_exists('hostspec', $result));
         $this->assertSame('DATABASE', $result['database']);
+
+        $result = \rcube_db::parse_dsn('mysql://user:pass@[fd00:3::11]:3306/roundcubemail');
+
+        $this->assertSame('mysql', $result['phptype']);
+        $this->assertSame('user', $result['username']);
+        $this->assertSame('pass', $result['password']);
+        $this->assertSame('[fd00:3::11]', $result['hostspec']);
+        $this->assertSame('3306', $result['port']);
+        $this->assertSame('roundcubemail', $result['database']);
+
+        $result = \rcube_db::parse_dsn('mysql://user:pass@[::1]/roundcubemail');
+
+        $this->assertSame('mysql', $result['phptype']);
+        $this->assertSame('user', $result['username']);
+        $this->assertSame('pass', $result['password']);
+        $this->assertSame('[::1]', $result['hostspec']);
+        $this->assertTrue(!array_key_exists('port', $result));
+        $this->assertSame('roundcubemail', $result['database']);
+
+        $result = \rcube_db::parse_dsn('mysql://192.168.0.1:1234/roundcubemail');
+
+        $this->assertSame('mysql', $result['phptype']);
+        $this->assertSame('192.168.0.1', $result['hostspec']);
+        $this->assertSame('1234', $result['port']);
+        $this->assertTrue(!array_key_exists('username', $result));
+        $this->assertTrue(!array_key_exists('password', $result));
+        $this->assertSame('roundcubemail', $result['database']);
     }
 
     /**

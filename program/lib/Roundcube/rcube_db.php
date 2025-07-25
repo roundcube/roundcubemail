@@ -1310,9 +1310,18 @@ class rcube_db
         // process the different protocol options
         $parsed['protocol'] = !empty($proto) ? $proto : 'tcp';
         $proto_opts = rawurldecode($proto_opts);
-        if (strpos($proto_opts, ':') !== false) {
+
+        // Support IPv6 in the host spec.
+        if (preg_match('/(\[[a-f0-9:]+\])/i', $proto_opts, $matches)) {
+            $proto_opts = str_replace($matches[1], '', $proto_opts);
+            if (($pos = strpos($proto_opts, ':')) !== false) {
+                $parsed['port'] = substr($proto_opts, $pos + 1);
+            }
+            $proto_opts = $matches[1];
+        } elseif (strpos($proto_opts, ':') !== false) {
             list($proto_opts, $parsed['port']) = explode(':', $proto_opts);
         }
+
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
             $parsed['hostspec'] = $proto_opts;
         }
