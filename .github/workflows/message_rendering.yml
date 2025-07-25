@@ -2,6 +2,9 @@ name: Message Rendering
 
 on:
   push:
+    branches:
+      - main
+      - release-*
   pull_request:
 
 permissions:
@@ -34,4 +37,3 @@ jobs:
         with:
           name: Logs
           path: logs/errors.log
-
