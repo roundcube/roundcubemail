@@ -8812,6 +8812,8 @@ function rcube_webmail() {
             });
         }
 
+        options.close = close_func;
+
         return this.show_popup_dialog(content, title, buttons, options);
     };
 
