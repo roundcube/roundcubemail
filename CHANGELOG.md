@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Support IPv6 in database DSN (#9937)
 
 ## Release 1.7-beta
 
