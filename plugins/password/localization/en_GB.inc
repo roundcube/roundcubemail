@@ -40,4 +40,12 @@ $messages['passwdexpired'] = 'Your password has expired, you have to change it n
 $messages['passwdconstraintviolation'] = 'Password constraint violation. Password probably too weak.';
 $messages['pwned_mustnotbedisclosed'] = 'Password must not be <a href="$href" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'This password is commonly known.';
+$messages['passwdqc_minlength'] = 'The minimum password length is $N4 characters.';
+$messages['passwdqc_maxlength'] = 'The maximum password length is $max characters.';
+$messages['passwdqc_4classes'] = 'A password with $N4 to $N3 characters must have at least 4 character classes.';
+$messages['passwdqc_3classes'] = 'A password with $N3 to $N1 characters must have at least 3 character classes.';
+$messages['passwdqc_2classes'] = 'A password with $N1 to $N0 characters must have at least 2 character classes.';
+$messages['passwdqc_1classes'] = 'A password longer than $N0 characters doesn\'t have character class restrictions.';
+$messages['passwdqc_passphrase'] = 'You may use a passphrase of at least $passphrase words and $N2 characters without any other restriction.';
+$messages['passwdqc_firstupper_lastdigit'] = 'An uppercase at the beggining or a digit at the end of a password don\'t count towards their respective classes.';
 $messages['pwned_fetcherror'] = 'Failed to verify the password strength.';
