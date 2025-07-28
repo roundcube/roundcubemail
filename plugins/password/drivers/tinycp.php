@@ -41,10 +41,10 @@ class rcube_tinycp_password
 
         if ($tinycp_host && $tinycp_port && $tinycp_user && $tinycp_pass) {
             try {
-                $tcp = new TinyCPConnector($tinycp_host, $tinycp_port); // @phpstan-ignore-line
+                $tcp = new \TinyCPConnector($tinycp_host, $tinycp_port); // @phpstan-ignore-line
                 $tcp->Auth($tinycp_user, $tinycp_pass); // @phpstan-ignore-line
                 $tcp->mail___mailserver___email_pass_change2($username, $newpass); // @phpstan-ignore-line
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $error_message = $e->getMessage();
             }
         } else {

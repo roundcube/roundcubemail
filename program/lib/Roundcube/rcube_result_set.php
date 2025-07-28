@@ -23,7 +23,7 @@
  * Representing an address directory result set.
  * Implements Iterator and can thus be used in foreach() loops.
  */
-class rcube_result_set implements Iterator, ArrayAccess
+class rcube_result_set implements \Iterator, \ArrayAccess
 {
     /**
      * @var int The number of total records. Note that when only a subset of records is requested,
@@ -84,7 +84,7 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     // Implement PHP ArrayAccess interface
 
-    #[Override]
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -95,20 +95,20 @@ class rcube_result_set implements Iterator, ArrayAccess
         }
     }
 
-    #[Override]
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return isset($this->records[$offset]);
     }
 
-    #[Override]
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->records[$offset]);
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->records[$offset];
@@ -116,34 +116,34 @@ class rcube_result_set implements Iterator, ArrayAccess
 
     // PHP 5 Iterator interface
 
-    #[Override]
+    #[\Override]
     public function rewind(): void
     {
         $this->current = 0;
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->records[$this->current] ?? null;
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->current;
     }
 
-    #[Override]
-    #[ReturnTypeWillChange]
+    #[\Override]
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->current++;
     }
 
-    #[Override]
+    #[\Override]
     public function valid(): bool
     {
         return isset($this->records[$this->current]);

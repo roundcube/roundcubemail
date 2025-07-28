@@ -3,6 +3,7 @@
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
+use PhpCsFixerCustom\CustomFullyQualifiedStrictTypesFixer;
 
 $finder = Finder::create()
     ->in([__DIR__])
@@ -14,9 +15,14 @@ $finder = Finder::create()
     ->name('*.php.dist')
     ->name('*.sh');
 
+require_once __DIR__ . '/.php-cs-fixer-fully_qualified_strict_types.php';
+
 return (new Config())
     ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
+    ->registerCustomFixers([
+        new CustomFullyQualifiedStrictTypesFixer(),
+    ])
     ->setRules([
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,
@@ -95,6 +101,13 @@ return (new Config())
         'psr_autoloading' => false,
         'strict_comparison' => false,
         'octal_notation' => false,
+
+        // TODO remove after https://github.com/roundcube/roundcubemail/pull/9481
+        'Custom/fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => static function (string $fqcn): bool {
+            $pluginsRegex = 'filesystem_attachments|password|new_user_identity|identicon|example_addressbook|enigma';
+
+            return !preg_match('~^(rc|html|' . $pluginsRegex . ')[^\\\]*$~', $fqcn);
+        }],
 
         // TODO
         'array_indentation' => false,

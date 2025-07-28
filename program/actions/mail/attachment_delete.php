@@ -27,7 +27,7 @@ class rcmail_action_mail_attachment_delete extends rcmail_action_mail_attachment
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         self::init();

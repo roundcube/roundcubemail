@@ -44,13 +44,13 @@ class rcube
     /** @var ?rcube_db SQL database handler */
     public $db;
 
-    /** @var Memcache|false|null Memcache cache handler */
+    /** @var \Memcache|false|null Memcache cache handler */
     public $memcache;
 
-    /** @var Memcached|false|null Memcached cache handler */
+    /** @var \Memcached|false|null Memcached cache handler */
     public $memcached;
 
-    /** @var Redis|false|null Redis cache handler */
+    /** @var \Redis|false|null Redis cache handler */
     public $redis;
 
     /** @var ?rcube_session Session handler */
@@ -172,7 +172,7 @@ class rcube
     /**
      * Get global handle for memcache access
      *
-     * @return Memcache|false The memcache engine
+     * @return \Memcache|false The memcache engine
      */
     public function get_memcache()
     {
@@ -186,7 +186,7 @@ class rcube
     /**
      * Get global handle for memcached access
      *
-     * @return Memcached|false The memcached engine
+     * @return \Memcached|false The memcached engine
      */
     public function get_memcached()
     {
@@ -200,7 +200,7 @@ class rcube
     /**
      * Get global handle for redis access
      *
-     * @return Redis|false The redis engine
+     * @return \Redis|false The redis engine
      */
     public function get_redis()
     {
@@ -1389,26 +1389,26 @@ class rcube
     /**
      * Throw system error, with optional logging and script termination.
      *
-     * @param int|array|Throwable|string|PEAR_Error $arg       Error object, int, string or named parameters array:
-     *                                                         - code:    Error code (required)
-     *                                                         - type:    Error type: php, db, imap, etc.
-     *                                                         - message: Error message
-     *                                                         - file:    File where error occurred
-     *                                                         - line:    Line where error occurred
-     * @param bool                                  $log       True to log the error
-     * @param bool                                  $terminate Terminate script execution
+     * @param int|array|\Throwable|string|\PEAR_Error $arg       Error object, int, string or named parameters array:
+     *                                                           - code:    Error code (required)
+     *                                                           - type:    Error type: php, db, imap, etc.
+     *                                                           - message: Error message
+     *                                                           - file:    File where error occurred
+     *                                                           - line:    Line where error occurred
+     * @param bool                                    $log       True to log the error
+     * @param bool                                    $terminate Terminate script execution
      */
     public static function raise_error($arg, $log = false, $terminate = false)
     {
         // handle PHP exceptions and errors
-        if ($arg instanceof Throwable) {
+        if ($arg instanceof \Throwable) {
             $arg = [
                 'code' => $arg->getCode(),
                 'line' => $arg->getLine(),
                 'file' => $arg->getFile(),
                 'message' => $arg->getMessage(),
             ];
-        } elseif ($arg instanceof PEAR_Error) {
+        } elseif ($arg instanceof \PEAR_Error) {
             $info = $arg->getUserInfo();
             $arg = [
                 'code' => $arg->getCode(),
@@ -1471,7 +1471,7 @@ class rcube
         // terminate script
         if ($terminate) {
             if (defined('ROUNDCUBE_TEST_MODE')) {
-                throw new Exception('Error raised');
+                throw new \Exception('Error raised');
             }
 
             exit(1);
@@ -1747,7 +1747,7 @@ class rcube
     /**
      * Send the given message using the configured method.
      *
-     * @param Mail_mime    $message    Reference to Mail_mime object
+     * @param \Mail_mime   $message    Reference to Mail_mime object
      * @param string       $from       Sender address string
      * @param array|string $mailto     Either a comma-separated list of recipients (RFC822 compliant),
      *                                 or an array of recipients, each RFC822 valid

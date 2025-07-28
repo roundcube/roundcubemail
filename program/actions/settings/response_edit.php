@@ -27,7 +27,7 @@ class rcmail_action_settings_response_edit extends rcmail_action_settings_respon
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

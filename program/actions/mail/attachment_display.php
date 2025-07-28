@@ -26,7 +26,7 @@ class rcmail_action_mail_attachment_display extends rcmail_action_mail_attachmen
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         self::init();

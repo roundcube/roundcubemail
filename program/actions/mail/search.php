@@ -27,7 +27,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -192,8 +192,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             $search = 'SINCE';
         }
 
-        $date = new DateTime('now');
-        $interval = new DateInterval('P' . $interval);
+        $date = new \DateTime('now');
+        $interval = new \DateInterval('P' . $interval);
 
         $date->sub($interval);
 
@@ -387,7 +387,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
                         return $search_interval;
                     }
                 } elseif (preg_match('|^([0-9]{4})[-/]([0-9]{1,2})[-/]([0-9]{1,2})$|i', $value, $m)) {
-                    $dt = new DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
+                    $dt = new \DateTime(sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]) . 'T00:00:00Z');
                     return strtoupper($option) . ' ' . $dt->format('j-M-Y');
                 }
 

@@ -47,7 +47,7 @@ class markasjunk extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->register_action('plugin.markasjunk.junk', [$this, 'mark_message']);

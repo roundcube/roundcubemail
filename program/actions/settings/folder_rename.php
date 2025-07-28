@@ -27,7 +27,7 @@ class rcmail_action_settings_folder_rename extends rcmail_action_settings_folder
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

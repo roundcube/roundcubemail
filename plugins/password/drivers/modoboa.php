@@ -59,7 +59,7 @@ class rcube_modoboa_password
         try {
             $response = $client->get($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
@@ -88,7 +88,7 @@ class rcube_modoboa_password
         try {
             $response = $client->put($url, $options);
             $response = $response->getBody()->getContents();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error on {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;
         }
