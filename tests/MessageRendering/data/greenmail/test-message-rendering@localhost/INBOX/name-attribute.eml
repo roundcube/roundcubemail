@@ -1,0 +1,11 @@
+From: <someone@example.net>
+To: <someoneelse@bbb.cc>
+Date: Wed, 1 Aug 2024 12:00:00 +0000
+Subject: Name attribute
+Message-Id: <20176e2b981a7231e77134de8bc3b02d3652aaac1f5b8dece087c550f4816a60@example.net>
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div name=3D"unchanged"><a href=3D"/something" name=3D"test">lala</a><img s=
+rc=3D"/something" name=3D"imgtest" /></div><form action=3D"/bla"><input typ=
+e=3D"submit" name=3D"inputtest" /></form>
