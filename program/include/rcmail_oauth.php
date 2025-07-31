@@ -645,11 +645,11 @@ class rcmail_oauth
                 if($this->options['scope_identity']) {
                     $this->mask_auth_data($data);
                     $refresh_response = $this->refresh_access_token($data, $this->options['scope_identity']);
-                    $data = $refresh_response['token'];
-                    $authorization = $refresh_response['authorization'];
+                    $data_ident = $refresh_response['token'];
+                    $authorization_ident = $refresh_response['authorization'];
                 }
 
-                $fetched_identity = $this->fetch_userinfo($authorization);
+                $fetched_identity = $this->fetch_userinfo($authorization_ident);
 
                 $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
 
@@ -662,13 +662,6 @@ class rcmail_oauth
                             break;
                         }
                     }
-                }
-
-                // Restore scope for general mail functions
-                if($this->options['scope_identity']) {
-                    $refresh_response = $this->refresh_access_token($data, $this->options['scope']);
-                    $data = $refresh_response['token'];
-                    $authorization = $refresh_response['authorization'];
                 }
             }
 
