@@ -257,8 +257,20 @@ html.dark-mode {
 
     .listing li ul,
     .listing tbody td,
-    .listing li {
+    .listing li,
+    .listing li ul li:first-child {
         border-color: @color-dark-list-border;
+    }
+
+    #subscription-table {
+        .placeholder {
+            /* color-dark-list-border is a little too dark here, so we use the input border color */
+            border-color: @color-dark-input-border;
+        }
+
+        .hover {
+            background-color: @color-dark-list-droptarget-background;
+        }
     }
 
     .listing li.selected,
