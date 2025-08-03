@@ -358,6 +358,16 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test parse_css_block()
+     *
+     * @dataProvider provide_parse_css_block_cases
+     */
+    function test_parse_css_block($input, $output)
+    {
+        $this->assertSame($output, rcube_utils::parse_css_block($input));
+    }
+
+    /**
      * Test-Cases for parse_css_block() test
      */
     function data_parse_css_block()
@@ -422,6 +432,10 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             [
                 'font-family:"新細明體","serif";color:red',
                 [['font-family', '"新細明體","serif"'], ['color', 'red']]
+            ],
+            [
+                'text-align: center; ;      background-color: #C83232; color: #ffffff; ;  display: inline-block;',
+                [['text-align', 'center'], ['background-color', '#C83232'], ['color', '#ffffff'], ['display', 'inline-block']],
             ],
         ];
     }

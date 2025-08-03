@@ -9,6 +9,7 @@
 - Fix "Assign to group" action state after creation of a first group (#9889)
 - Fix bug where contacts search would fail if `contactlist_fields` contained vcard fields (#9850)
 - Fix bug where an mbox export file could include inconsistent message delimiters (#9879)
+- Fix parsing of inline styles that aren't well-formatted (#9948)
 
 ## Release 1.6.11
 
