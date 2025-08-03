@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Support IPv6 in database DSN (#9937)
+- Fix parsing of inline styles that aren't well-formatted (#9948)
 
 ## Release 1.7-beta
 

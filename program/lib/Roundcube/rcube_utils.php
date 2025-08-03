@@ -635,6 +635,8 @@ class rcube_utils
 
             $value_length = $i - $colon_pos - ($s ? 1 : 0);
             $value = trim(substr($style, $colon_pos + 1, $value_length));
+            // Remove "orfaned" semicolons (#9948)
+            $name = ltrim($name, "; \t\r\n");
 
             if (strlen($name) && !preg_match('/[^a-z-]/', $name) && strlen($value) && $value !== ';') {
                 $result[] = [$name, $value];
