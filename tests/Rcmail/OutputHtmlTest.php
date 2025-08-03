@@ -457,5 +457,14 @@ class OutputHtmlTest extends TestCase
             . '<a class="mail" id="rcmbtn100" role="button" href="/?_task=mail" onclick="return rcmail.command(\'switch-task\',\'mail\',this,event)"><span class="inner">Mail</span></a></body>';
         $result = $fix_paths->invokeArgs($output, [$input]);
         $this->assertSame($expected, $result);
+
+        $input = '<body><a href="https://ezample.com/test.php">link 1</a>'
+            . '<a href="/example/">link 2</a>'
+            . '<a href="/example/test.html">link 3</a></body>';
+        $expected = '<body><a href="https://ezample.com/test.php">link 1</a>'
+            . '<a href="/example/">link 2</a>'
+            . '<a href="/example/test.html">link 3</a></body>';
+        $result = $fix_paths->invokeArgs($output, [$input]);
+        $this->assertSame($expected, $result);
     }
 }
