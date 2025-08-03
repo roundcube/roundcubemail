@@ -370,10 +370,10 @@ class UtilsTest extends TestCase
     /**
      * Test parse_css_block()
      *
-     * @dataProvider provide_explode_style_cases
+     * @dataProvider provide_parse_css_block_cases
      */
-    #[DataProvider('provide_explode_style_cases')]
-    public function test_explode_style($input, $output)
+    #[DataProvider('provide_parse_css_block_cases')]
+    public function test_parse_css_block($input, $output)
     {
         $this->assertSame($output, \rcube_utils::parse_css_block($input));
     }
@@ -381,7 +381,7 @@ class UtilsTest extends TestCase
     /**
      * Test-Cases for parse_css_block() test
      */
-    public static function provide_explode_style_cases(): iterable
+    public static function provide_parse_css_block_cases(): iterable
     {
         return [
             [
@@ -443,6 +443,10 @@ class UtilsTest extends TestCase
             [
                 'font-family:"新細明體","serif";color:red',
                 [['font-family', '"新細明體","serif"'], ['color', 'red']],
+            ],
+            [
+                'text-align: center; ;      background-color: #C83232; color: #ffffff; ;  display: inline-block;',
+                [['text-align', 'center'], ['background-color', '#C83232'], ['color', '#ffffff'], ['display', 'inline-block']],
             ],
         ];
     }
