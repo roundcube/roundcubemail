@@ -311,50 +311,61 @@ class rcube_result_multifolder
     }
 
     /**
-     * Serialization __sleep handler
+     * Serialization handler
      *
-     * @return array Names of all object properties that should be serialized
+     * @return array An associative array of key/value pairs that represent the serialized form of the object
      */
-    public function __sleep()
+    public function __serialize(): array
     {
-        $this->sdata = ['incomplete' => [], 'error' => []];
+        $result = [];
+        foreach (['index', 'folders', 'sorting', 'order'] as $key) {
+            $result[$key] = $this->{$key};
+        }
+
+        $result['sdata'] = ['incomplete' => [], 'error' => []];
 
         foreach ($this->sets as $set) {
             if ($set->incomplete) {
-                $this->sdata['incomplete'][] = $set->get_parameters('MAILBOX');
+                $result['sdata']['incomplete'][] = $set->get_parameters('MAILBOX');
             } elseif ($set->is_error()) {
-                $this->sdata['error'][] = $set->get_parameters('MAILBOX');
+                $result['sdata']['error'][] = $set->get_parameters('MAILBOX');
             }
         }
 
-        return ['sdata', 'index', 'folders', 'sorting', 'order'];
+        return $result;
     }
 
     /**
-     * Serialization __wakeup handler
+     * Un-serialization handler
+     *
+     * @param array $data An associative array of key/value pairs that represent the serialized form of the object
      */
-    public function __wakeup()
+    public function __unserialize(array $data): void
     {
+        foreach (['index', 'folders', 'sorting', 'order'] as $key) {
+            $this->{$key} = $data[$key];
+        }
+
         $this->meta = ['count' => count($this->index)];
-        $this->incomplete = count($this->sdata['incomplete']) > 0;
+        $this->incomplete = count($data['sdata']['incomplete']) > 0;
 
         // restore result sets from saved index
-        $data = [];
+        $folder_data = [];
         foreach ($this->index as $item) {
             [$uid, $folder] = explode('-', $item, 2);
-            $data[$folder] = ($data[$folder] ?? '') . ' ' . $uid;
+            $folder_data[$folder] = ($folder_data[$folder] ?? '') . ' ' . $uid;
         }
 
         foreach ($this->folders as $folder) {
-            if (in_array($folder, $this->sdata['error'])) {
+            if (in_array($folder, $data['sdata']['error'])) {
                 $data_str = null;
             } else {
-                $data_str = '* SORT' . ($data[$folder] ?? '');
+                $data_str = '* SORT' . ($folder_data[$folder] ?? '');
             }
 
             $set = new rcube_result_index($folder, $data_str, strtoupper($this->order));
 
-            if (in_array($folder, $this->sdata['incomplete'])) {
+            if (in_array($folder, $data['sdata']['incomplete'])) {
                 $set->incomplete = true;
             }
 
