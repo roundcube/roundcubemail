@@ -172,9 +172,6 @@ class identicon_engine
         imagepng($image, null, 6, \PNG_ALL_FILTERS);
         $this->binary = ob_get_contents();
         ob_end_clean();
-
-        // cleanup
-        imagedestroy($image);
     }
 
     /**
