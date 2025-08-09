@@ -68,7 +68,6 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
     $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $method = $reflection->getMethod($method);
-    $method->setAccessible(true);
 
     return $method->invokeArgs($object, $parameters);
 }
@@ -87,7 +86,6 @@ function getProperty($object, $name, $class = null)
     $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $property = $reflection->getProperty($name);
-    $property->setAccessible(true);
 
     return $property->getValue($object);
 }
@@ -105,7 +103,6 @@ function setProperty($object, $name, $value, $class = null): void
     $reflection = new \ReflectionClass($class ?: get_class($object));
 
     $property = $reflection->getProperty($name);
-    $property->setAccessible(true);
 
     $property->setValue($object, $value);
 }

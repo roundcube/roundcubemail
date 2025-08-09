@@ -224,7 +224,6 @@ class ImapGenericTest extends TestCase
     public function runDecodeContent($expected, $encoded, $mode, $size = null, $formatted = false)
     {
         $method = new \ReflectionMethod('rcube_imap_generic', 'decodeContent');
-        $method->setAccessible(true);
 
         // Make sure the method works with any chunk size
         for ($x = 1; $x <= strlen($encoded); $x++) {
