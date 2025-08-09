@@ -72,7 +72,6 @@ class DBPgsqlTest extends TestCase
         ];
 
         $method = new \ReflectionMethod('rcube_db_pgsql', 'fix_table_names');
-        $method->setAccessible(true);
 
         foreach ($script as $idx => $query) {
             $res = $method->invoke($db, $query);
