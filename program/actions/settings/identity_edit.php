@@ -61,6 +61,10 @@ class rcmail_action_settings_identity_edit extends rcmail_action
             if ($IDENTITIES_LEVEL == 1) {
                 self::$record['email'] = $rcmail->get_user_email();
             }
+
+            // default html editor setting
+            self::$record['html_signature'] = $rcmail->config->get('htmleditor');
+            self::$record['signature'] = '';
         }
 
         $rcmail->output->add_handler('identityform', [$this, 'identity_form']);
@@ -132,7 +136,8 @@ class rcmail_action_settings_identity_edit extends rcmail_action
         ];
 
         // Enable TinyMCE editor
-        if (!empty(self::$record['html_signature'])) {
+        $html_editor = intval(self::$record['html_signature']);
+        if ($html_editor == 1 || $html_editor == 4) {
             $form['signature']['content']['signature']['class'] = 'mce_editor';
             $form['signature']['content']['signature']['is_escaped'] = true;
 
