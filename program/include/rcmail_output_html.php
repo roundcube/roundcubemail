@@ -994,8 +994,8 @@ class rcmail_output_html extends rcmail_output
     {
         $regexp = [
             '%(?P<name>src|background|data-src-[a-z]+)=(?P<opener>["\']?)(?P<file>[a-z0-9/_.?=-]+)(?P<closer>["\'\s>])%i',
-            // use dedicated pattern for href attribute to avoid <a>'s (#9941)
-            '%(?P<prefix><(?!a\s)[^>]*)(?P<name>href)=(?P<opener>["\']?)(?P<file>[a-z0-9/_.?=-]+)(?P<closer>["\'\s>])%i',
+            // fix href attributes in <link>'s only (#9941)
+            '%(?P<prefix><link[^>]*)(?P<name>href)=(?P<opener>["\']?)(?P<file>[a-z0-9/_.?=-]+)(?P<closer>["\'\s>])%i',
         ];
 
         return preg_replace_callback($regexp, [$this, 'file_callback'], $output);
