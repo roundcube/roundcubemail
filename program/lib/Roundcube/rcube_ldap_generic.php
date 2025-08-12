@@ -23,7 +23,7 @@
 /**
  * Model class to access an LDAP directories
  */
-class rcube_ldap_generic extends Net_LDAP3
+class rcube_ldap_generic extends \Net_LDAP3
 {
     /** private properties */
     protected $cache;
@@ -45,7 +45,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Establish a connection to the LDAP server
      */
-    #[Override]
+    #[\Override]
     public function connect($host = null)
     {
         // Net_LDAP3 does not support IDNA yet
@@ -146,7 +146,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_mod_replace()
      *
-     * @see ldap_mod_replace()
+     * @see \ldap_mod_replace()
      */
     public function mod_replace($dn, $entry)
     {
@@ -164,7 +164,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_mod_add()
      *
-     * @see ldap_mod_add()
+     * @see \ldap_mod_add()
      */
     public function mod_add($dn, $entry)
     {
@@ -182,7 +182,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_mod_del()
      *
-     * @see ldap_mod_del()
+     * @see \ldap_mod_del()
      */
     public function mod_del($dn, $entry)
     {
@@ -200,7 +200,7 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_rename()
      *
-     * @see ldap_rename()
+     * @see \ldap_rename()
      */
     public function rename($dn, $newrdn, $newparent = null, $deleteoldrdn = true)
     {
@@ -218,8 +218,8 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_list() + ldap_get_entries()
      *
-     * @see ldap_list()
-     * @see ldap_get_entries()
+     * @see \ldap_list()
+     * @see \ldap_get_entries()
      */
     public function list_entries($dn, $filter, $attributes = ['dn'])
     {
@@ -248,8 +248,8 @@ class rcube_ldap_generic extends Net_LDAP3
     /**
      * Wrapper for ldap_read() + ldap_get_entries()
      *
-     * @see ldap_read()
-     * @see ldap_get_entries()
+     * @see \ldap_read()
+     * @see \ldap_get_entries()
      */
     public function read_entries($dn, $filter, $attributes = null)
     {
@@ -277,7 +277,7 @@ class rcube_ldap_generic extends Net_LDAP3
      *
      * @return array Hash array with attributes as keys
      */
-    #[Override]
+    #[\Override]
     public static function normalize_entry($entry, $flat = false)
     {
         if (!isset($entry['count'])) {

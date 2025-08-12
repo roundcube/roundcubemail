@@ -10,7 +10,7 @@ class userinfo extends rcube_plugin
     public $noajax = true;
     public $noframe = true;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_texts('localization/', ['userinfo']);

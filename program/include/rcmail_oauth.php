@@ -224,7 +224,7 @@ class rcmail_oauth
 
                 // sanity check
                 if (!isset($data['issuer'])) {
-                    throw new RuntimeException('incorrect response from %s', $config_uri);
+                    throw new \RuntimeException('incorrect response from %s', $config_uri);
                 }
 
                 // cache answer
@@ -246,7 +246,7 @@ class rcmail_oauth
                     rcube::raise_error("OAuth server does not support this PKCE method (oauth_pkce='{$this->options['pkce']}')", true);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error("Error fetching {$config_uri} : {$e->getMessage()}", true);
         }
     }
@@ -438,12 +438,12 @@ class rcmail_oauth
             }
 
             if ($jwk === null) {
-                throw new RuntimeException('JWS key to verify JWT not found');
+                throw new \RuntimeException('JWS key to verify JWT not found');
             }
 
             // check algorithm matches ('alg' is optional)
             if (isset($jwk['alg']) && isset($header['alg']) && $jwk['alg'] != $header['alg']) {
-                throw new RuntimeException('JWS key verification failed. Wrong algorithm.');
+                throw new \RuntimeException('JWS key verification failed. Wrong algorithm.');
             }
 
             // TODO should check signature, note will use https://github.com/firebase/php-jwt later as it requires ^php7.4
@@ -451,21 +451,21 @@ class rcmail_oauth
 
         // FIXME depends on body type: ID, Logout, Bearer, Refresh,
         if (isset($body['azp']) && $body['azp'] !== $this->options['client_id']) {
-            throw new RuntimeException('Failed to validate JWT: invalid azp value');
+            throw new \RuntimeException('Failed to validate JWT: invalid azp value');
         } elseif (isset($body['aud']) && !in_array($this->options['client_id'], (array) $body['aud'])) {
-            throw new RuntimeException('Failed to validate JWT: invalid aud value');
+            throw new \RuntimeException('Failed to validate JWT: invalid aud value');
         } elseif (!isset($body['azp']) && !isset($body['aud'])) {
-            throw new RuntimeException('Failed to validate JWT: missing aud/azp value');
+            throw new \RuntimeException('Failed to validate JWT: missing aud/azp value');
         }
 
         // if defined in parameters, check that issuer match
         if (isset($this->options['issuer']) && $body['iss'] !== $this->options['issuer']) {
-            throw new RuntimeException('Failed to validate JWT: issuer mismatch');
+            throw new \RuntimeException('Failed to validate JWT: issuer mismatch');
         }
 
         // check that token is not an outdated message
         if (isset($body['exp']) && (time() > $body['exp'])) {
-            throw new RuntimeException('Failed to validate JWT: expired message');
+            throw new \RuntimeException('Failed to validate JWT: expired message');
         }
 
         $this->log_debug('jwt: %s', json_encode($body));
@@ -598,12 +598,12 @@ class rcmail_oauth
         try {
             // sanity check
             if (empty($oauth_token_uri) || empty($oauth_client_id) || empty($oauth_client_secret)) {
-                throw new RuntimeException("Missing required OAuth config options 'oauth_token_uri', 'oauth_client_id', 'oauth_client_secret'");
+                throw new \RuntimeException("Missing required OAuth config options 'oauth_token_uri', 'oauth_client_id', 'oauth_client_secret'");
             }
 
             // validate state parameter against $_SESSION['oauth_state']
             if (!isset($_SESSION['oauth_state']) || ($_SESSION['oauth_state'] !== $state)) {
-                throw new RuntimeException('state parameter mismatch');
+                throw new \RuntimeException('state parameter mismatch');
             }
 
             $this->rcmail->session->remove('oauth_state');
@@ -662,7 +662,7 @@ class rcmail_oauth
             // Backends with no XOAUTH2/OAUTHBEARER support
             if ($pass_claim = $this->options['password_claim']) {
                 if (empty($identity[$pass_claim])) {
-                    throw new Exception("Password claim ({$pass_claim}) not found");
+                    throw new \Exception("Password claim ({$pass_claim}) not found");
                 }
                 $authorization = $identity[$pass_claim];
                 unset($identity[$pass_claim]);
@@ -704,7 +704,7 @@ class rcmail_oauth
             $formatter = new MessageFormatter();
 
             rcube::raise_error($this->last_error . '; ' . $formatter->format($e->getRequest(), $e->getResponse()), true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
             $this->no_redirect = true;
 
@@ -781,7 +781,7 @@ class rcmail_oauth
             if ($e->getCode() >= 400 && $e->getCode() < 500) {
                 $this->rcmail->kill_session();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->last_error = 'OAuth refresh token request failed: ' . $e->getMessage();
             rcube::raise_error($this->last_error, true);
         }
@@ -854,7 +854,7 @@ class rcmail_oauth
 
         // sanity check, check that payload correctly contains access_token
         if (!isset($data['access_token'])) {
-            throw new RuntimeException('access_token missing in answer, error from server');
+            throw new \RuntimeException('access_token missing in answer, error from server');
         }
 
         // refresh_token is optional
@@ -876,7 +876,7 @@ class rcmail_oauth
             // Ensure that the identity have the same 'nonce', but not on token refresh (per the OIDC spec.)
             if ($grant_type != 'refresh_token' || isset($identity['nonce'])) {
                 if (!isset($identity['nonce']) || $identity['nonce'] !== $_SESSION['oauth_nonce']) {
-                    throw new RuntimeException("identity's nonce mismatch");
+                    throw new \RuntimeException("identity's nonce mismatch");
                 }
             }
         }

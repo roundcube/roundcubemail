@@ -659,9 +659,9 @@ class rcmail_install
         } elseif ($expected === '-VALID-') {
             if ($var == 'date.timezone') {
                 try {
-                    $tz = new DateTimeZone($status);
+                    $tz = new \DateTimeZone($status);
                     $this->pass($var);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");
                 }
             } else {
@@ -934,7 +934,7 @@ class rcmail_install
         if (class_exists('ZipArchive', false)) {
             echo "Extracting {$zipfile} into {$destdir}\n";
 
-            $zip = new ZipArchive();
+            $zip = new \ZipArchive();
 
             if ($zip->open($zipfile) === true) {
                 if ($flat) {

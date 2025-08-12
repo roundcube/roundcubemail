@@ -370,7 +370,7 @@ class html
             . '<body><div ' . rtrim($str, '/ ') . ' /></body>'
             . '</html>';
 
-        $document = new DOMDocument('1.0', RCUBE_CHARSET);
+        $document = new \DOMDocument('1.0', RCUBE_CHARSET);
         @$document->loadHTML($html);
 
         if ($node = $document->getElementsByTagName('div')->item(0)) {
@@ -431,7 +431,7 @@ class html_inputfield extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = null, $attrib = null)
     {
         // overwrite object attributes
@@ -497,7 +497,7 @@ class html_hiddenfield extends html
      *
      * @return string Final HTML code
      */
-    #[Override]
+    #[\Override]
     public function show()
     {
         $out = '';
@@ -525,7 +525,7 @@ class html_checkbox extends html_inputfield
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -564,7 +564,7 @@ class html_button extends html_inputfield
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($content = '', $attrib = null)
     {
         // overwrite object attributes
@@ -595,7 +595,7 @@ class html_textarea extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($value = '', $attrib = null)
     {
         // overwrite object attributes
@@ -661,7 +661,7 @@ class html_select extends html
      *
      * @return string HTML output
      */
-    #[Override]
+    #[\Override]
     public function show($select = [], $attrib = null)
     {
         // overwrite object attributes
@@ -737,12 +737,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell = new \stdClass();
         $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (!isset($this->rows[$this->rowindex])) {
-            $this->rows[$this->rowindex] = new stdClass();
+            $this->rows[$this->rowindex] = new \stdClass();
             $this->rows[$this->rowindex]->attrib = [];
         }
 
@@ -766,12 +766,12 @@ class html_table extends html
             $attr = ['class' => $attr];
         }
 
-        $cell = new stdClass();
+        $cell = new \stdClass();
         $cell->attrib = $attr;
         $cell->content = $cont;
 
         if (empty($this->header)) {
-            $this->header = new stdClass();
+            $this->header = new \stdClass();
             $this->header->attrib = [];
         }
 
@@ -814,7 +814,7 @@ class html_table extends html
     {
         $this->rowindex++;
         $this->colindex = 0;
-        $this->rows[$this->rowindex] = new stdClass();
+        $this->rows[$this->rowindex] = new \stdClass();
         $this->rows[$this->rowindex]->attrib = $attr;
         $this->rows[$this->rowindex]->cells = [];
     }
@@ -831,7 +831,7 @@ class html_table extends html
         }
 
         if (empty($this->header)) {
-            $this->header = new stdClass();
+            $this->header = new \stdClass();
         }
 
         $this->header->attrib = $attr;
@@ -855,7 +855,7 @@ class html_table extends html
 
         // make sure row object exists (#1489094)
         if (empty($this->rows[$index])) {
-            $this->rows[$index] = new stdClass();
+            $this->rows[$index] = new \stdClass();
         }
 
         $this->rows[$index]->attrib = $attr;
@@ -884,7 +884,7 @@ class html_table extends html
      *
      * @return string The final table HTML code
      */
-    #[Override]
+    #[\Override]
     public function show($attrib = null)
     {
         if (is_array($attrib)) {

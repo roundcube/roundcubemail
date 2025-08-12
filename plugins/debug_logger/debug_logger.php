@@ -63,12 +63,12 @@ class debug_logger extends rcube_plugin
 {
     protected $runlog;
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         require_once __DIR__ . '/runlog/runlog.php';
 
-        $this->runlog = new runlog();
+        $this->runlog = new \runlog();
 
         if (!rcmail::get_instance()->config->get('log_dir')) {
             rcmail::get_instance()->config->set('log_dir', INSTALL_PATH . 'logs');

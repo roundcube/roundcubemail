@@ -29,7 +29,7 @@ class subscriptions_option extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $dont_override = rcmail::get_instance()->config->get('dont_override', []);

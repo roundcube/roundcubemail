@@ -26,7 +26,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

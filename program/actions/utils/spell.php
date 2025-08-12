@@ -27,7 +27,7 @@ class rcmail_action_utils_spell extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         // read input

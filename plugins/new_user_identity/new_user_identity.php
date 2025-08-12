@@ -20,7 +20,7 @@ class new_user_identity extends rcube_plugin
     /**
      * Plugin initialization. API hooks binding.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();

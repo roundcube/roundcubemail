@@ -22,7 +22,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     protected static $COMPOSE_ID;
     protected static $COMPOSE;
 
-    /** @var rcube_message|stdClass|null Mail message */
+    /** @var rcube_message|\stdClass|null Mail message */
     protected static $MESSAGE;
     protected static $MESSAGE_BODY;
     protected static $CID_MAP = [];
@@ -34,7 +34,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -294,7 +294,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 self::$COMPOSE['references'] = self::$MESSAGE->headers->references;
             }
         } else {
-            self::$MESSAGE = new stdClass();
+            self::$MESSAGE = new \stdClass();
 
             // apply mailto: URL parameters
             if (!empty(self::$COMPOSE['param']['in-reply-to'])) {

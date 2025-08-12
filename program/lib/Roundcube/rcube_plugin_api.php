@@ -382,9 +382,9 @@ class rcube_plugin_api
         if (empty($info)) {
             $package = INSTALL_PATH . "/plugins/{$plugin_name}/package.xml";
             if (is_readable($package) && ($file = file_get_contents($package))) {
-                $doc = new DOMDocument();
+                $doc = new \DOMDocument();
                 $doc->loadXML($file);
-                $xpath = new DOMXPath($doc);
+                $xpath = new \DOMXPath($doc);
                 $xpath->registerNamespace('rc', 'http://pear.php.net/dtd/package-2.0');
 
                 // XPaths of plugin metadata elements
