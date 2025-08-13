@@ -989,22 +989,17 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
     {
         static $part_no;
 
-        // Set attributes of the part container
-        $container_id = self::$COMPOSE['mode'] . 'body' . (++$part_no);
-
         $wash_params += [
-            'safe' => self::$MESSAGE->is_safe,
-            'css_prefix' => 'v' . $part_no,
+            'safe' => self::$MESSAGE && self::$MESSAGE->is_safe,
+            'css_prefix' => 'v' . (++$part_no),
             'add_comments' => false,
         ];
 
-        if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
+        if (self::$COMPOSE && self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
             // convert TinyMCE's empty-line sequence (#1490463)
             $body = preg_replace('/<p>\xC2\xA0<\/p>/', '<p><br /></p>', $body);
             // remove <body> tags (not their content)
             $wash_params['ignore_elements'] = ['body'];
-        } else {
-            $wash_params['container_id'] = $container_id;
         }
 
         // Make the HTML content safe and clean

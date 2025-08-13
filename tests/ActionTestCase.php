@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests;
 
+use Masterminds\HTML5;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -266,6 +267,15 @@ class ActionTestCase extends TestCase
                 \rcube::raise_error($error, false, true);
             }
         }
+    }
+
+    /**
+     * Parse HTML output into DOMXPath object
+     */
+    protected static function parseHtml($html)
+    {
+        $html5 = new HTML5(['disable_html_ns' => true]);
+        return new \DOMXPath($html5->loadHTML($html));
     }
 
     /**

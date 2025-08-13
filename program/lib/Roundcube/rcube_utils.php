@@ -422,10 +422,11 @@ class rcube_utils
      * @param string $container_id Container ID to use as prefix
      * @param bool   $allow_remote Allow remote content
      * @param string $prefix       Prefix to be added to id/class identifier
+     * @param string $body_class   Optional class name for the used-to-be-body element
      *
      * @return string Modified CSS source
      */
-    public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
+    public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '', $body_class = '')
     {
         $source = self::xss_entity_decode($source);
 
@@ -485,7 +486,7 @@ class rcube_utils
             // for cases like @media { body { position: fixed; } } (#5811)
             $excl = '(?!' . substr($replacements->pattern, 1, -1) . ')';
             $regexp = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
-            $callback = static function ($matches) use ($container_id, $prefix) {
+            $callback = static function ($matches) use ($container_id, $prefix, $body_class) {
                 $replace = $matches[2];
 
                 if (stripos($replace, ':root') === 0) {
@@ -497,6 +498,9 @@ class rcube_utils
                 }
 
                 if ($container_id) {
+                    // replace body definition because we stripped off the <body> tag
+                    $replace = preg_replace('/^\s*body/i', $body_class ? ".{$body_class}" : '', $replace);
+
                     $replace = "#{$container_id} " . $replace;
                 }
 
@@ -507,12 +511,6 @@ class rcube_utils
             };
 
             $source = preg_replace_callback($regexp, $callback, $source);
-        }
-
-        // replace body definition because we also stripped off the <body> tag
-        if ($container_id) {
-            $regexp = '/#' . preg_quote($container_id, '/') . '\s+body/i';
-            $source = preg_replace($regexp, "#{$container_id}", $source);
         }
 
         // put block contents back in

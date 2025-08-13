@@ -49,7 +49,7 @@ class ModcssTest extends ActionTestCase
         $this->assertNull($output->getOutput());
 
         // Valid url pointing to non-existing resource
-        $_SESSION['modcssurls'][$key] = $url;
+        $_SESSION['modcssurls'][$key] = ['url' => $url];
 
         HttpClientMock::setResponses([
             [404],
@@ -64,9 +64,11 @@ class ModcssTest extends ActionTestCase
 
         // Valid url pointing to an existing resource
         $url = 'https://raw.githubusercontent.com/roundcube/roundcubemail/master/program/resources/tinymce/content.css';
-        $_SESSION['modcssurls'][$key] = $url;
-        $_GET['_p'] = 'prefix';
-        $_GET['_c'] = 'cid';
+        $_SESSION['modcssurls'][$key] = [
+            'url' => $url,
+            'css_prefix' => 'prefix',
+            'container_id' => 'cid',
+        ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
