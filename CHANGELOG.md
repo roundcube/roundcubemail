@@ -4,6 +4,7 @@
 
 - Support IPv6 in database DSN (#9937)
 - Use `htmleditor` setting also for indentity signature (#9954)
+- Fix regression in handling of non-unicode characters in a plain text message (#9953)
 - Fix parsing of inline styles that aren't well-formatted (#9948)
 
 ## Release 1.7-beta
