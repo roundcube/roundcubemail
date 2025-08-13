@@ -46,6 +46,10 @@ class StringReplacerTest extends TestCase
             ['www.domain.tld', '<a href="http://www.domain.tld">www.domain.tld</a>'],
             ['WWW.DOMAIN.TLD', '<a href="http://WWW.DOMAIN.TLD">WWW.DOMAIN.TLD</a>'],
             ['[http://link.com]', '[<a href="http://link.com">http://link.com</a>]'],
+            ['http://link.com.', '<a href="http://link.com">http://link.com</a>.'],
+            ["http://link.com\ttest", "<a href=\"http://link.com\">http://link.com</a>\ttest"],
+            ['http://link.com:test', '<a href="http://link.com">http://link.com</a>:test'],
+            ['http://link.com#test End', '<a href="http://link.com#test">http://link.com#test</a> End'],
             ['http://link.com?a[]=1', '<a href="http://link.com?a[]=1">http://link.com?a[]=1</a>'],
             ['http://link.com?a[]', '<a href="http://link.com?a[]">http://link.com?a[]</a>'],
             ['(http://link.com)', '(<a href="http://link.com">http://link.com</a>)'],
@@ -64,6 +68,12 @@ class StringReplacerTest extends TestCase
             ['https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62',
                 '<a href="https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62">https://www.google.com/maps/place/New+York,+État+de+New+York/@40.7056308,-73.9780035,11z/data=!3m1!4b1!4m2!3m1!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62</a>',
             ],
+            ['https://192.168.56.1.', '<a href="https://192.168.56.1">https://192.168.56.1</a>.'],
+            ['http://192.168.56.1/.', '<a href="http://192.168.56.1/">http://192.168.56.1/</a>.'],
+            ['ftp://1.1.1.101/test.', '<a href="ftp://1.1.1.101/test">ftp://1.1.1.101/test</a>.'],
+            ['http://[::1]:8000/test.', '<a href="http://[::1]:8000/test">http://[::1]:8000/test</a>.'],
+            // Non-unicode characters should be supported
+            ['http://link.com ' . chr(206) . 'a', '<a href="http://link.com">http://link.com</a> ' . chr(206) . 'a'],
             // #9538: unicode Fullwidth Left Parenthesis (U+FF08)
             // ['http://www.domain.tld/abc（哇哇）', '<a href="http://www.domain.tld/abc">http://www.domain.tld/abc</a>（哇哇）'],
         ];

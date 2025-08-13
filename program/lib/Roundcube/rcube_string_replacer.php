@@ -47,24 +47,22 @@ class rcube_string_replacer
 
         // Simplified domain expression for UTF8 characters handling
         // Support unicode/punycode in top-level domain part
-        $utf_domain = '[^?&@"\'\/()<>\s\r\t\n]+\.?([^\x00-\x2f\x3b-\x40\x5b-\x60\x7b-\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
+        $utf_domain = '[^?&@"\'\/()<>\s\r\t\n#:,]+\.?([^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]{2,}|xn--[a-zA-Z0-9]{2,})';
 
-        // Path regexp based on WHATWG URL spec. (with some modifications)
-        $url1 = '.:;,';
-        $url2 = 'a-zA-Z0-9!$&#%\'\(\)\*+\/=?@_~\[\]{}|\x{00A0}-\x{D7FF}\x{F000}-\x{FDCF}\x{FDF0}-\x{10FFFD}-';
+        $ip_address = '([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|\[[a-f0-9A-F:]+\]';
 
         // Supported link prefixes
-        $link_prefix = "([\\w]+:\\/\\/|{$this->noword}[Ww][Ww][Ww]\\.|^[Ww][Ww][Ww]\\.)";
+        $link_prefix = "[\\w]+:\\/\\/|{$this->noword}[Ww][Ww][Ww]\\.|^[Ww][Ww][Ww]\\.";
 
         $this->options = $options;
         $this->linkref_index = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
-        $this->link_pattern = "/{$link_prefix}({$utf_domain}([{$url1}]*[{$url2}]+)*)/u";
+        $this->link_pattern = "/({$link_prefix})(({$ip_address}(:[0-9]{1,5})?|{$utf_domain})([\\/?#]\\S*[^\\s.:;,]+)*[\\/?#]?)/";
         $this->mailto_pattern = '/('
             . '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*' // local-part
-            . "@{$utf_domain}"                                        // domain-part
-            . "(\\?[{$url1}{$url2}]+)?"                               // e.g. ?subject=test...
-            . ')/u';
+            . '@' . $utf_domain                                       // domain-part
+            . '(\?\S+)?'                                              // e.g. ?subject=test...
+            . ')/';
     }
 
     /**
@@ -98,8 +96,7 @@ class rcube_string_replacer
      *
      * @param array $matches Matches result from preg_replace_callback
      *
-     * @return string return valid link for recognized schemes, otherwise
-     *                return the unmodified URL
+     * @return string A valid link for recognized schemes, otherwise the unmodified URL
      */
     protected function link_callback($matches)
     {
