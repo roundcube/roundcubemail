@@ -713,7 +713,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                     $body = self::print_body($body, $part, $body_args);
 
                     // check if the message body is PGP encrypted
-                    if (strpos($body, '-----BEGIN PGP MESSAGE-----') !== false) {
+                    if (str_contains($body, '-----BEGIN PGP MESSAGE-----')) {
                         $rcmail->output->set_env('is_pgp_content', '#' . $container_id);
                     }
 

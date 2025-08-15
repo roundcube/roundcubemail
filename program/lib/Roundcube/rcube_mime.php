@@ -435,7 +435,7 @@ class rcube_mime
                 continue;
             }
             // separator, add to result array
-            elseif (strpos($separator, $str[$i]) !== false) {
+            elseif (str_contains($separator, $str[$i])) {
                 if ($out) {
                     $result[] = $out;
                 }

@@ -216,7 +216,7 @@ if ($RCI->configured) {
                 foreach ($composer_data['repositories'] as $k => $_repo) {
                     if ($rkey == repo_key($_repo)) {
                         // switch to https://
-                        if (isset($_repo['url']) && strpos($_repo['url'], 'http://') === 0) {
+                        if (isset($_repo['url']) && str_starts_with($_repo['url'], 'http://')) {
                             $composer_data['repositories'][$k]['url'] = 'https:' . substr($_repo['url'], 5);
                         }
 
@@ -225,7 +225,7 @@ if ($RCI->configured) {
                     }
 
                     // remove old repos
-                    if (isset($_repo['url']) && strpos($_repo['url'], 'git://git.kolab.org') === 0) {
+                    if (isset($_repo['url']) && str_starts_with($_repo['url'], 'git://git.kolab.org')) {
                         unset($composer_data['repositories'][$k]);
                     } elseif (
                         $_repo['type'] == 'package'

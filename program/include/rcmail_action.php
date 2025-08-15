@@ -1163,7 +1163,7 @@ abstract class rcmail_action
         foreach ($arrFolders as $folder) {
             $title = null;
             $folder_class = self::folder_classname($folder['id'], $folder['class'] ?? null);
-            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
+            $is_collapsed = str_contains($collapsed, '&' . rawurlencode($folder['id']) . '&');
             $unread = 0;
             $realname = $folder['realname'] ?? $realnames;
 

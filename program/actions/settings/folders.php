@@ -197,7 +197,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
                 }
             }
 
-            $is_collapsed = strpos($collapsed, '&' . rawurlencode($folder['id']) . '&') !== false;
+            $is_collapsed = str_contains($collapsed, '&' . rawurlencode($folder['id']) . '&');
             $folder_id = rcube_utils::html_identifier($folder['id'], true);
 
             if ($folder_class = self::folder_classname($folder['id'])) {

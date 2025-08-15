@@ -1581,7 +1581,7 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['autovalues'] as $lf => $templ) {
             if (empty($attrs[$lf])) {
-                if (strpos($templ, '(') !== false) {
+                if (str_contains($templ, '(')) {
                     // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
                     $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
                     $res = false;
@@ -1668,7 +1668,7 @@ class rcube_ldap extends rcube_addressbook
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 } elseif (in_array($col, ['street', 'zipcode', 'locality', 'country', 'region'])) {
                     $out['address' . ($subtype ? ':' : '') . $subtype][$i][$col] = $value;
-                } elseif ($col == 'address' && strpos($value, '$') !== false) {
+                } elseif ($col == 'address' && str_contains($value, '$')) {
                     // address data is represented as string separated with $
                     [$out[$rf][$i]['street'], $out[$rf][$i]['locality'], $out[$rf][$i]['zipcode'], $out[$rf][$i]['country']] = explode('$', $value);
                 } elseif ($entry['count'] > 1) {

@@ -35,9 +35,9 @@ class FolderPurgeTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.show_folder("Test",null,true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') === false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Message(s) moved successfully.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.show_folder("Test",null,true);'));
+        $this->assertTrue(!str_contains($result['exec'], 'this.set_quota'));
     }
 
     /**
@@ -65,9 +65,9 @@ class FolderPurgeTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
         $this->assertSame(0, $result['env']['messagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.show_folder("Trash",null,true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Folder successfully emptied.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.show_folder("Trash",null,true);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_quota'));
     }
 
     /**
@@ -92,6 +92,6 @@ class FolderPurgeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-purge', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);'));
     }
 }

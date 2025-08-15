@@ -625,7 +625,7 @@ class rcube_imap_generic
                 // check response
                 $challenge = substr($line, 2);
                 $challenge = base64_decode($challenge);
-                if (strpos($challenge, 'rspauth=') === false) {
+                if (!str_contains($challenge, 'rspauth=')) {
                     return $this->setError(self::ERROR_BAD,
                         'Unexpected response from server to DIGEST-MD5 response');
                 }
@@ -2577,7 +2577,7 @@ class rcube_imap_generic
                     }
 
                     foreach ($lines as $str) {
-                        if (strpos($str, ':') === false) {
+                        if (!str_contains($str, ':')) {
                             continue;
                         }
 
@@ -4098,7 +4098,7 @@ class rcube_imap_generic
             }
 
             // see if it's already been compressed
-            if (strpos($messages, ':') !== false) {
+            if (str_contains($messages, ':')) {
                 return preg_match('/[^0-9:,*]/', $messages) ? 'INVALID' : $messages;
             }
 

@@ -30,6 +30,6 @@ class PrefsEditTest extends ActionTestCase
         $this->assertSame('settingsedit', $output->template);
         $this->assertSame('Preferences', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        $this->assertTrue(str_contains($result, "rcmail.gui_object('editform', 'form')"));
     }
 }

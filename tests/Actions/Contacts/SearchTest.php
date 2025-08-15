@@ -55,13 +55,13 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(strpos($result['exec'], 'this.add_contact_row') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.list_contacts_clear();') === false);
+        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.unselect_directory();'));
+        $this->assertTrue(str_contains($result['exec'], 'this.enable_command("search-create",true);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
+        $this->assertTrue(!str_contains($result['exec'], 'this.list_contacts_clear();'));
     }
 
     /**
@@ -86,13 +86,13 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(strpos($result['exec'], 'this.add_contact_row') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.list_contacts_clear();') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.unselect_directory();'));
+        $this->assertTrue(str_contains($result['exec'], 'this.enable_command("search-create",true);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
+        $this->assertTrue(str_contains($result['exec'], 'this.list_contacts_clear();'));
     }
 
     /**
@@ -124,11 +124,11 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(strpos($result['exec'], 'this.add_contact_row') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.unselect_directory();') === false);
-        $this->assertTrue(strpos($result['exec'], 'this.enable_command("search-create",true);') === false);
-        $this->assertTrue(strpos($result['exec'], 'this.update_group_commands()') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(!str_contains($result['exec'], 'this.unselect_directory();'));
+        $this->assertTrue(!str_contains($result['exec'], 'this.enable_command("search-create",true);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
     }
 }

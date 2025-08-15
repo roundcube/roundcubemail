@@ -73,8 +73,8 @@ class Group_DelmembersTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully removed contacts from this group.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_group_contacts({"source":"0","gid":"' . $gid . '"});') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully removed contacts from this group.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.remove_group_contacts({"source":"0","gid":"' . $gid . '"});'));
 
         $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ? AND `contact_id` = ?', $gid, $cid);
         $result = $db->fetch_assoc($query);

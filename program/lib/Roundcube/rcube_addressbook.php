@@ -782,7 +782,7 @@ abstract class rcube_addressbook
 
                         // If name(s) are undefined compose_list_name() may return an email address
                         // here we prevent from returning the same name and email
-                        if ($name === $email && strpos($result, '{email}') !== false) {
+                        if ($name === $email && str_contains($result, '{email}')) {
                             $value = '';
                         }
 
@@ -872,7 +872,7 @@ abstract class rcube_addressbook
             } elseif ($mode & self::SEARCH_PREFIX) {
                 $got = ($search == substr($val, 0, strlen($search)));
             } else {
-                $got = (strpos($val, $search) !== false);
+                $got = str_contains($val, $search);
             }
 
             if ($got) {

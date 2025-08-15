@@ -27,7 +27,7 @@ class ManagesieveVacationTest extends ActionTestCase
 
         $this->assertSame('H:i', $output->get_env('time_format'));
         $this->assertTrue(str_starts_with($result, '<form id="form"'));
-        $this->assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-vacation">') !== false);
+        $this->assertTrue(str_contains($result, '<input type="hidden" name="_action" value="plugin.managesieve-vacation">'));
     }
 
     public function test_build_regexp_tests()

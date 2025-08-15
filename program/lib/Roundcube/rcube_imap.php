@@ -660,7 +660,7 @@ class rcube_imap extends rcube_storage
         $vendors = ['cyrus', 'dovecot', 'uw-imap', 'gimap', 'hmail', 'greenmail'];
 
         foreach ($vendors as $v) {
-            if (strpos($ident, $v) !== false) {
+            if (str_contains($ident, $v)) {
                 $vendor = $v;
                 break;
             }
@@ -2379,7 +2379,7 @@ class rcube_imap extends rcube_storage
         // convert charset (if text or message part)
         if ($body && preg_match('/^(text|message)$/', $o_part->ctype_primary)) {
             // Remove NULL characters if any (#1486189)
-            if ($formatted && strpos($body, "\x00") !== false) {
+            if ($formatted && str_contains($body, "\x00")) {
                 $body = str_replace("\x00", '', $body);
             }
 
@@ -3331,7 +3331,7 @@ class rcube_imap extends rcube_storage
         $delm = $this->get_hierarchy_delimiter();
 
         // get list of subscribed folders
-        if ((strpos($folder, '%') === false) && (strpos($folder, '*') === false)) {
+        if ((!str_contains($folder, '%')) && (!str_contains($folder, '*'))) {
             $a_subscribed = $this->list_folders_subscribed($folder . $delm, '*');
             $subscribed = $this->folder_exists($folder, true);
         } else {
@@ -3386,7 +3386,7 @@ class rcube_imap extends rcube_storage
 
         // get list of sub-folders or all folders
         // if folder name contains special characters
-        $path = strpos($folder, '*') === false && strpos($folder, '%') === false ? ($folder . $delm) : '';
+        $path = !str_contains($folder, '*') && !str_contains($folder, '%') ? ($folder . $delm) : '';
         $sub_mboxes = $this->list_folders($path, '*');
 
         // According to RFC3501 deleting a \Noselect folder
@@ -4395,7 +4395,7 @@ class rcube_imap extends rcube_storage
         foreach ($a_folders as $folder) {
             // for better performance skip encoding conversion
             // if the string does not look like UTF7-IMAP
-            $folders[$folder] = strpos($folder, '&') === false ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
+            $folders[$folder] = !str_contains($folder, '&') ? $folder : rcube_charset::convert($folder, 'UTF7-IMAP');
         }
 
         // sort folders

@@ -39,7 +39,7 @@ class UtilsTest extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, '0 records deleted') !== false);
+        $this->assertTrue(str_contains($output, '0 records deleted'));
     }
 
     /**
@@ -54,7 +54,7 @@ class UtilsTest extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, 'Indexing contacts for user') === 0);
+        $this->assertTrue(str_starts_with($output, 'Indexing contacts for user'));
     }
 
     /**
@@ -71,8 +71,8 @@ class UtilsTest extends ActionTestCase
         $output = ob_get_contents();
         ob_end_clean();
 
-        $this->assertTrue(strpos($output, 'Updating prefs for user 1') !== false);
-        $this->assertTrue(strpos($output, 'saved') !== false);
+        $this->assertTrue(str_contains($output, 'Updating prefs for user 1'));
+        $this->assertTrue(str_contains($output, 'saved'));
 
         $query = $db->query('SELECT preferences FROM `users` WHERE `user_id` = 1');
         $result = $db->fetch_assoc($query);

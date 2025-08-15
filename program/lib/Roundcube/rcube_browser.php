@@ -72,15 +72,15 @@ class rcube_browser
         $this->unix = strpos($HTTP_USER_AGENT, 'unix') != false;
 
         // Engine detection
-        $this->webkit = strpos($HTTP_USER_AGENT, 'applewebkit') !== false;
-        $this->opera = strpos($HTTP_USER_AGENT, 'opera') !== false || ($this->webkit && strpos($HTTP_USER_AGENT, 'opr/') !== false);
-        $this->edge = strpos($HTTP_USER_AGENT, 'edge/') !== false;
-        $this->ie = !$this->opera && !$this->edge && (strpos($HTTP_USER_AGENT, 'compatible; msie') !== false || strpos($HTTP_USER_AGENT, 'trident/') !== false);
-        $this->chrome = !$this->opera && !$this->edge && strpos($HTTP_USER_AGENT, 'chrome') !== false;
+        $this->webkit = str_contains($HTTP_USER_AGENT, 'applewebkit');
+        $this->opera = str_contains($HTTP_USER_AGENT, 'opera') || ($this->webkit && str_contains($HTTP_USER_AGENT, 'opr/'));
+        $this->edge = str_contains($HTTP_USER_AGENT, 'edge/');
+        $this->ie = !$this->opera && !$this->edge && (str_contains($HTTP_USER_AGENT, 'compatible; msie') || str_contains($HTTP_USER_AGENT, 'trident/'));
+        $this->chrome = !$this->opera && !$this->edge && str_contains($HTTP_USER_AGENT, 'chrome');
         $this->safari = !$this->opera && !$this->chrome && !$this->edge
-                        && ($this->webkit || strpos($HTTP_USER_AGENT, 'safari') !== false);
+                        && ($this->webkit || str_contains($HTTP_USER_AGENT, 'safari'));
         $this->mz = !$this->ie && !$this->edge && !$this->safari && !$this->chrome && !$this->opera
-                        && strpos($HTTP_USER_AGENT, 'mozilla') !== false;
+                        && str_contains($HTTP_USER_AGENT, 'mozilla');
 
         // Version detection
         if ($this->edge && preg_match('/edge\/([0-9.]+)/', $HTTP_USER_AGENT, $regs)) {

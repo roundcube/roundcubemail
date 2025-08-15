@@ -29,8 +29,8 @@ class ErrorTest extends ActionTestCase
 
         $this->assertSame('error', $output->template);
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, '<h3 class="error-title">SERVER ERROR!</h3>') !== false);
-        $this->assertTrue(strpos($result, '<div class="error-text">Error No. [500]</div>') !== false);
+        $this->assertTrue(str_contains($result, '<h3 class="error-title">SERVER ERROR!</h3>'));
+        $this->assertTrue(str_contains($result, '<div class="error-text">Error No. [500]</div>'));
 
         // TODO: Test error text for all error types
     }

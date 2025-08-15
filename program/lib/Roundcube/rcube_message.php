@@ -331,7 +331,7 @@ class rcube_message
         $body = preg_replace('/[\t\r\0\x0B]+\n/', "\n", $body);
 
         // remove NULL characters if any (#1486189)
-        if (strpos($body, "\x00") !== false) {
+        if (str_contains($body, "\x00")) {
             $body = str_replace("\x00", '', $body);
         }
 
@@ -600,7 +600,7 @@ class rcube_message
             // TODO: match Content-Location more strictly. E.g. "image.jpg" is a
             // valid value here, too, which can easily be matched wrongly
             // currently.
-            if (strpos($html_content, $content_identifier) !== false) {
+            if (str_contains($html_content, $content_identifier)) {
                 $referenced_content_identifiers[] = preg_replace('/^cid:/', '', $content_identifier);
             }
         }
@@ -691,7 +691,7 @@ class rcube_message
             if (!isset($structure->headers['subject']) && !isset($structure->headers['from'])) {
                 $part_body = $this->get_part_body($structure->mime_id, false, 32768);
 
-                if (strpos($part_body, "\r\n\r\n") !== false) {
+                if (str_contains($part_body, "\r\n\r\n")) {
                     [$headers] = explode("\r\n\r\n", $part_body, 2);
                 }
 
@@ -967,7 +967,7 @@ class rcube_message
                 }
                 // part is Microsoft Outlook TNEF (winmail.dat)
                 // Note: It can be application/ms-tnef or application/vnd.ms-tnef
-                elseif ($primary_type == 'application' && strpos($secondary_type, 'ms-tnef') !== false
+                elseif ($primary_type == 'application' && str_contains($secondary_type, 'ms-tnef')
                     && $this->tnef_decode
                 ) {
                     $tnef_parts = (array) $this->tnef_decode($mail_part);

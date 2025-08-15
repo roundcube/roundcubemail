@@ -152,7 +152,7 @@ class enigma_ui
         foreach ($data as $keyid => $username) {
             $key = $this->enigma->engine->get_key($keyid);
             if ($key && $key->is_private()) {
-                if ($key->name && strpos($username, $keyid) !== false) {
+                if ($key->name && str_contains($username, $keyid)) {
                     $data[$keyid] = $key->name;
                 }
 

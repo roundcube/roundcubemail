@@ -436,7 +436,7 @@ class rcube_smtp
                 $from = $addresses[0] ?? '';
 
                 // Reject envelope From: addresses with spaces.
-                if (strpos($from, ' ') !== false) {
+                if (str_contains($from, ' ')) {
                     return false;
                 }
 

@@ -500,19 +500,19 @@ class IndexTest extends ActionTestCase
 
         $body = 'Test1<br>Test2';
         $washed = \rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (3)');
+        $this->assertTrue(str_starts_with($washed, "<html><head>{$meta}</head>"), 'Meta tag insertion (3)');
 
         $body = '<html>Test1<br>Test2';
         $washed = \rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (4)');
+        $this->assertTrue(str_starts_with($washed, "<html><head>{$meta}</head>"), 'Meta tag insertion (4)');
 
         $body = '<html><head></head>Test1<br>Test2';
         $washed = \rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (5)');
+        $this->assertTrue(str_starts_with($washed, "<html><head>{$meta}</head>"), 'Meta tag insertion (5)');
 
         $body = '<html><head></head><body>Test1<br>Test2<meta charset="utf-8"></body>';
         $washed = \rcmail_action_mail_index::wash_html($body, $args);
-        $this->assertTrue(strpos($washed, "<html><head>{$meta}</head>") === 0, 'Meta tag insertion (6)');
+        $this->assertTrue(str_starts_with($washed, "<html><head>{$meta}</head>"), 'Meta tag insertion (6)');
         $this->assertTrue(strpos($washed, 'Test2</body>') > 0, 'Meta tag insertion (7)');
     }
 

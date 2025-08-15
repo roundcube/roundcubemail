@@ -426,7 +426,7 @@ class OutputHtmlTest extends TestCase
 
         $result = $output->charset_selector([]);
 
-        $this->assertTrue(strpos($result, '<select name="_charset">') === 0);
-        $this->assertTrue(strpos($result, '<option value="UTF-8" selected="selected">UTF-8 (Unicode)</option>') !== false);
+        $this->assertTrue(str_starts_with($result, '<select name="_charset">'));
+        $this->assertTrue(str_contains($result, '<option value="UTF-8" selected="selected">UTF-8 (Unicode)</option>'));
     }
 }

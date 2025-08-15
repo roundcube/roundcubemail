@@ -51,7 +51,7 @@ class FolderEditTest extends ActionTestCase
         $this->assertSame('folderedit', $output->template);
         $this->assertSame('', $output->getProperty('pagetitle')); // TODO: It should have some title
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, 'Folder properties') !== false);
+        $this->assertTrue(str_contains($result, 'Folder properties'));
     }
 
     /**

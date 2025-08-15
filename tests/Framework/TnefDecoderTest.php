@@ -60,18 +60,18 @@ class TnefDecoderTest extends TestCase
         $text = \rcube_tnef_decoder::rtf2text($body);
 
         $this->assertMatchesRegularExpression('/^[a-zA-Z1-6!&<,> \n\r\.]+$/', $text);
-        $this->assertTrue(strpos($text, 'Alex Skolnick') !== false);
-        $this->assertTrue(strpos($text, 'Heading 1') !== false);
-        $this->assertTrue(strpos($text, 'Heading 2') !== false);
-        $this->assertTrue(strpos($text, 'Heading 3') !== false);
-        $this->assertTrue(strpos($text, 'Heading 4') !== false);
-        $this->assertTrue(strpos($text, 'Heading 5') !== false);
-        $this->assertTrue(strpos($text, 'Heading 6') !== false);
-        $this->assertTrue(strpos($text, 'This is the first normal paragraph!') !== false);
-        $this->assertTrue(strpos($text, 'This is a chunk of normal text.') !== false);
-        $this->assertTrue(strpos($text, 'This is a chunk of normal text with specials, &, <, and >.') !== false);
-        $this->assertTrue(strpos($text, 'This is a second paragraph.') !== false);
-        $this->assertTrue(strpos($text, 'This is text with embedded  bold,  italic, and  underline styles.') !== false);
-        $this->assertTrue(strpos($text, 'Here is the  anchor style. And here is the  Image style.') !== false);
+        $this->assertTrue(str_contains($text, 'Alex Skolnick'));
+        $this->assertTrue(str_contains($text, 'Heading 1'));
+        $this->assertTrue(str_contains($text, 'Heading 2'));
+        $this->assertTrue(str_contains($text, 'Heading 3'));
+        $this->assertTrue(str_contains($text, 'Heading 4'));
+        $this->assertTrue(str_contains($text, 'Heading 5'));
+        $this->assertTrue(str_contains($text, 'Heading 6'));
+        $this->assertTrue(str_contains($text, 'This is the first normal paragraph!'));
+        $this->assertTrue(str_contains($text, 'This is a chunk of normal text.'));
+        $this->assertTrue(str_contains($text, 'This is a chunk of normal text with specials, &, <, and >.'));
+        $this->assertTrue(str_contains($text, 'This is a second paragraph.'));
+        $this->assertTrue(str_contains($text, 'This is text with embedded  bold,  italic, and  underline styles.'));
+        $this->assertTrue(str_contains($text, 'Here is the  anchor style. And here is the  Image style.'));
     }
 }

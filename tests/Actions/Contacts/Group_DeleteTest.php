@@ -69,8 +69,8 @@ class Group_DeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-delete', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Group deleted successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_group_item({"source":"0","id":"' . $gid . '"});') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Group deleted successfully.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.remove_group_item({"source":"0","id":"' . $gid . '"});'));
 
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `del` = 1', $gid);
         $result = $db->fetch_assoc($query);

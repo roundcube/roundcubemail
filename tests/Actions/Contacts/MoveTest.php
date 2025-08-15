@@ -37,8 +37,8 @@ class MoveTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('move', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully moved 1 contacts.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("No contacts found.");') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully moved 1 contacts.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("No contacts found.");'));
 
         $query = $db->query('SELECT * FROM `contacts` WHERE `email` = ?', 'test@collected.eu');
         $result = $db->fetch_assoc($query);

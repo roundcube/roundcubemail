@@ -1148,7 +1148,7 @@ class rcube_db
         // or null characters in serialized string (#1489142)
         if ($serialized) {
             // Keep backward compatibility where base64 wasn't used
-            if (strpos(substr($input, 0, 16), ':') !== false) {
+            if (str_contains(substr($input, 0, 16), ':')) {
                 return self::decode(@unserialize($input));
             }
 
@@ -1266,10 +1266,10 @@ class rcube_db
         }
         // $dsn => protocol+hostspec/database (old format)
         else {
-            if (strpos($dsn, '+') !== false) {
+            if (str_contains($dsn, '+')) {
                 [$proto, $dsn] = explode('+', $dsn, 2);
             }
-            if (strpos($dsn, '/') !== false) {
+            if (str_contains($dsn, '/')) {
                 [$proto_opts, $dsn] = explode('/', $dsn, 2);
             } else {
                 $proto_opts = $dsn;
@@ -1288,7 +1288,7 @@ class rcube_db
                 $parsed['port'] = substr($proto_opts, $pos + 1);
             }
             $proto_opts = $matches[1];
-        } elseif (strpos($proto_opts, ':') !== false) {
+        } elseif (str_contains($proto_opts, ':')) {
             [$proto_opts, $parsed['port']] = explode(':', $proto_opts);
         }
 
@@ -1309,7 +1309,7 @@ class rcube_db
                 $parsed['database'] = rawurldecode(substr($dsn, 0, $pos));
                 $dsn = substr($dsn, $pos + 1);
 
-                if (strpos($dsn, '&') !== false) {
+                if (str_contains($dsn, '&')) {
                     $opts = explode('&', $dsn);
                 } else { // database?param1=value1
                     $opts = [$dsn];
@@ -1333,7 +1333,7 @@ class rcube_db
             if (!empty($parsed['phptype']) && !empty($parsed['database'])
                 && stripos($parsed['phptype'], 'sqlite') === 0
                 && $parsed['database'][0] != '/'
-                && strpos($parsed['database'], ':') === false
+                && !str_contains($parsed['database'], ':')
             ) {
                 $parsed['database'] = INSTALL_PATH . $parsed['database'];
             }

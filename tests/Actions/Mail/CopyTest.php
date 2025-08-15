@@ -48,9 +48,9 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Message(s) copied successfully.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_unread_count("Trash",30,false,"");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota(') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Message(s) copied successfully.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_unread_count("Trash",30,false,"");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_quota('));
     }
 
     /**

@@ -214,10 +214,10 @@ class SendmailTest extends ActionTestCase
         $sendmail->options['message'] = $message;
 
         $result = $sendmail->headers_output(['part' => 'to']);
-        $this->assertTrue(strpos($result, '<textarea name="_to" spellcheck="false"></textarea>') !== false);
+        $this->assertTrue(str_contains($result, '<textarea name="_to" spellcheck="false"></textarea>'));
 
         $result = $sendmail->headers_output(['part' => 'from']);
-        $this->assertTrue(strpos($result, '<input name="_from" class="from_address" type="text">') !== false);
+        $this->assertTrue(str_contains($result, '<input name="_from" class="from_address" type="text">'));
 
         // TODO: Test part=from with identities
         $this->markTestIncomplete();
@@ -247,7 +247,7 @@ class SendmailTest extends ActionTestCase
 
         $result = $sendmail->compose_subject([]);
 
-        $this->assertTrue(strpos($result, '<input name="_subject" spellcheck="true" value="test" type="text">') !== false);
+        $this->assertTrue(str_contains($result, '<input name="_subject" spellcheck="true" value="test" type="text">'));
     }
 
     /**
@@ -261,7 +261,7 @@ class SendmailTest extends ActionTestCase
 
         $result = $sendmail->mdn_checkbox([]);
 
-        $this->assertTrue(strpos($result, '<input id="receipt" name="_mdn" value="1" type="checkbox">') !== false);
+        $this->assertTrue(str_contains($result, '<input id="receipt" name="_mdn" value="1" type="checkbox">'));
     }
 
     /**
@@ -275,7 +275,7 @@ class SendmailTest extends ActionTestCase
 
         $result = $sendmail->dsn_checkbox([]);
 
-        $this->assertTrue(strpos($result, '<input id="dsn" name="_dsn" value="1" type="checkbox">') !== false);
+        $this->assertTrue(str_contains($result, '<input id="dsn" name="_dsn" value="1" type="checkbox">'));
     }
 
     /**
@@ -297,7 +297,7 @@ class SendmailTest extends ActionTestCase
             . '<option value="1">Highest</option>'
             . '</select>';
 
-        $this->assertTrue(strpos($result, $expected) !== false);
+        $this->assertTrue(str_contains($result, $expected));
     }
 
     /**

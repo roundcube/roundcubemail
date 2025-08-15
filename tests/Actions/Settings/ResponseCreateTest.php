@@ -31,6 +31,6 @@ class ResponseCreateTest extends ActionTestCase
         $this->assertSame('Add response', $output->getProperty('pagetitle'));
         $this->assertFalse($output->get_env('readonly'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        $this->assertTrue(str_contains($result, "rcmail.gui_object('editform', 'form')"));
     }
 }
