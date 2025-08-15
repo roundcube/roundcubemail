@@ -18,7 +18,7 @@ Roundcube Webmail is a browser-based multilingual IMAP client with an
 application-like user interface. It provides full functionality you expect
 from an email client, including MIME support, address book, folder management,
 message searching and spell checking. Roundcube Webmail is written in PHP and
-requires the MariaDB, MySQL, PostgreSQL or SQLite database. With its plugin API it 
+requires the MariaDB, MySQL, PostgreSQL or SQLite database. With its plugin API it
 is easily extendable and the user interface is fully customizable using skins.
 
 The code designed to run on a webserver is mainly written in PHP and Javascript.
@@ -36,10 +36,10 @@ file](RELEASE_MANAGEMENT.md).
 INSTALLATION
 ------------
 For detailed instructions on how to install Roundcube webmail on your server,
-please refer to the INSTALL document in the same directory as this document.
+please refer to the [INSTALL.md](INSTALL.md) document in the same directory as this document.
 
 If you're updating an older version of Roundcube please follow the steps
-described in the UPGRADING file.
+described in the [UPGRADING.md](UPGRADING.md) file.
 
 
 BROWSER SUPPORT
