@@ -51,7 +51,7 @@ class enigma_signature
             $charset = $message->headers->charset;
 
             // Get From: header from the parent part, if it's a forwarded message
-            if ($part_id && strpos($part_id, '.') !== false) {
+            if ($part_id && str_contains($part_id, '.')) {
                 $level = explode('.', $part_id);
                 $parts = $message->mime_parts();
 

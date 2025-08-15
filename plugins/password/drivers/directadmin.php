@@ -39,7 +39,7 @@ class rcube_directadmin_password
         $da_host = $rcmail->config->get('password_directadmin_host');
         $da_port = $rcmail->config->get('password_directadmin_port');
 
-        if (strpos($da_user, '@') === false) {
+        if (!str_contains($da_user, '@')) {
             return ['code' => PASSWORD_ERROR, 'message' => 'Change the SYSTEM user password through control panel!'];
         }
 
@@ -50,7 +50,7 @@ class rcube_directadmin_password
             $da_port = 2222;
         }
 
-        if (strpos($da_host, '://') === false) {
+        if (!str_contains($da_host, '://')) {
             $da_host = 'https://' . $da_host;
         }
 

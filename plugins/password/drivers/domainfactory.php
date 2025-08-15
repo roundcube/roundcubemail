@@ -64,12 +64,12 @@ class rcube_domainfactory_password
             $response = $response->getBody()->getContents();
 
             // has the password been changed?
-            if (strpos($response, 'Einstellungen erfolgreich') !== false) {
+            if (str_contains($response, 'Einstellungen erfolgreich')) {
                 return PASSWORD_SUCCESS;
             }
 
             // show error message(s) if possible
-            if (strpos($response, '<div class="d-msg-text">') !== false) {
+            if (str_contains($response, '<div class="d-msg-text">')) {
                 if (preg_match_all('#<div class="d-msg-text">(.*?)</div>#s', $response, $errors)) {
                     $error_message = '';
                     foreach ($errors[1] as $error) {

@@ -604,7 +604,7 @@ class rcube_washtml
                                     );
                                 }
                             }
-                        } elseif ($tagName == 'textarea' && strpos($content, '<') !== false) {
+                        } elseif ($tagName == 'textarea' && str_contains($content, '<')) {
                             $content = htmlspecialchars($content, \ENT_QUOTES | \ENT_SUBSTITUTE, $this->config['charset']);
                         }
 

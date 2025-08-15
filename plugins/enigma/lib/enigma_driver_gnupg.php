@@ -178,7 +178,7 @@ class enigma_driver_gnupg extends enigma_driver
             // Handle MDC warning as an exception, this is the default for gpg 2.3.
             if (method_exists($this->gpg, 'getWarnings')) {
                 foreach ($this->gpg->getWarnings() as $warning_msg) {
-                    if (strpos($warning_msg, 'not integrity protected') !== false) {
+                    if (str_contains($warning_msg, 'not integrity protected')) {
                         return new enigma_error(enigma_error::NOMDC, ucfirst($warning_msg));
                     }
                 }

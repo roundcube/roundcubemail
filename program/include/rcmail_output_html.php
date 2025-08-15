@@ -312,7 +312,7 @@ class rcmail_output_html extends rcmail_output
     {
         // Sanity check to prevent from path traversal vulnerability (#1490620)
         // @phpstan-ignore-next-line
-        if (!is_string($skin) || strpos($skin, '/') !== false || strpos($skin, '\\') !== false) {
+        if (!is_string($skin) || str_contains($skin, '/') || str_contains($skin, '\\')) {
             rcube::raise_error('Invalid skin name', true);
             return false;
         }
@@ -492,7 +492,7 @@ class rcmail_output_html extends rcmail_output
     #[\Override]
     public function command($cmd, ...$args)
     {
-        if (strpos($cmd, 'plugin.') !== false) {
+        if (str_contains($cmd, 'plugin.')) {
             $this->js_commands[] = ['triggerEvent', $cmd, $args[0]];
         } else {
             array_unshift($args, $cmd);
@@ -760,7 +760,7 @@ class rcmail_output_html extends rcmail_output
         $path = false;
         foreach ($this->skin_paths as $skin_path) {
             // when requesting a plugin template ignore global skin path(s)
-            if ($plugin && strpos($skin_path, $this->app->plugins->url) === false) {
+            if ($plugin && !str_contains($skin_path, $this->app->plugins->url)) {
                 continue;
             }
 
@@ -1074,7 +1074,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function resource_location($location)
     {
-        if (strpos($location, '://') === false) {
+        if (!str_contains($location, '://')) {
             $location = ltrim($location, '/');
             $prefix = '';
 

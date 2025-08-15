@@ -28,6 +28,6 @@ class IdentityCreateTest extends ActionTestCase
         $this->assertSame('identityedit', $output->template);
         $this->assertSame('Add identity', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
+        $this->assertTrue(str_contains($result, "rcmail.gui_object('editform', 'form')"));
     }
 }

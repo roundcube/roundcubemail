@@ -40,9 +40,9 @@ class ManagesieveEngineTest extends ActionTestCase
 
         $this->assertFalse($output->get_env('rule_disabled'));
         $this->assertTrue(str_starts_with($result, '<form name="filterform"'));
-        $this->assertTrue(strpos($result, '<input type="hidden" name="_action" value="plugin.managesieve-save">') !== false);
-        $this->assertTrue(strpos($result, '<div id="rules">') !== false);
-        $this->assertTrue(strpos($result, '<div id="actions">') !== false);
+        $this->assertTrue(str_contains($result, '<input type="hidden" name="_action" value="plugin.managesieve-save">'));
+        $this->assertTrue(str_contains($result, '<div id="rules">'));
+        $this->assertTrue(str_contains($result, '<div id="actions">'));
 
         // TODO: Test it for real
     }

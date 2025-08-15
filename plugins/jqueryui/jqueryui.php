@@ -152,7 +152,7 @@ class jqueryui extends rcube_plugin
     protected static function asset_exists($path, $minified = true)
     {
         $rcube = rcmail::get_instance();
-        $path = (strpos($path, 'plugins/') !== false ? '/' : '/plugins/jqueryui/') . $path;
+        $path = (str_contains($path, 'plugins/') ? '/' : '/plugins/jqueryui/') . $path;
 
         return $rcube->find_asset($path, $minified) !== null;
     }

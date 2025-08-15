@@ -306,7 +306,7 @@ class WashtmlTest extends TestCase
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
+        $this->assertTrue(str_contains($washed, $exp), 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
         $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
@@ -314,7 +314,7 @@ class WashtmlTest extends TestCase
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Style quotes XSS issue (#1490227)');
+        $this->assertTrue(str_contains($washed, $exp), 'Style quotes XSS issue (#1490227)');
     }
 
     /**
@@ -575,7 +575,7 @@ class WashtmlTest extends TestCase
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, 'Position:fixed (#5264)');
+        $this->assertTrue(str_contains($washed, $exp), 'Position:fixed (#5264)');
     }
 
     /**
@@ -783,7 +783,7 @@ class WashtmlTest extends TestCase
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, '<script>') === false, 'CDATA content');
+        $this->assertTrue(!str_contains($washed, '<script>'), 'CDATA content');
     }
 
     /**

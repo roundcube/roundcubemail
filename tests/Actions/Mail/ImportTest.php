@@ -55,12 +55,12 @@ class ImportTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'Successfully imported 1 messages') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.command("list")') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'Successfully imported 1 messages'));
+        $this->assertTrue(str_contains($result['exec'], 'this.command("list")'));
 
         $args = $storage->methodCalls[1]['args'];
         $this->assertSame('Test', $args[0]);
-        $this->assertTrue(strpos($args[1], 'From: "Thomas B." <thomas@roundcube.net>') === 0);
+        $this->assertTrue(str_starts_with($args[1], 'From: "Thomas B." <thomas@roundcube.net>'));
 
         // Upload a MBOX file
         $_FILES['_file'] = [
@@ -83,22 +83,22 @@ class ImportTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'Successfully imported 3 messages') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.command("list")') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'Successfully imported 3 messages'));
+        $this->assertTrue(str_contains($result['exec'], 'this.command("list")'));
 
         $args = $storage->methodCalls[1]['args'];
         $this->assertSame('Test', $args[0]);
-        $this->assertTrue(strpos($args[1], 'From: test@rc.net') === 0);
+        $this->assertTrue(str_starts_with($args[1], 'From: test@rc.net'));
         $this->assertStringContainsString('1234', $args[1]);
 
         $args = $storage->methodCalls[2]['args'];
         $this->assertSame('Test', $args[0]);
-        $this->assertTrue(strpos($args[1], 'From: test1@rc.net') === 0);
-        $this->assertTrue(strpos($args[1], "\nFrom me") !== false);
+        $this->assertTrue(str_starts_with($args[1], 'From: test1@rc.net'));
+        $this->assertTrue(str_contains($args[1], "\nFrom me"));
 
         $args = $storage->methodCalls[3]['args'];
         $this->assertSame('Test', $args[0]);
-        $this->assertTrue(strpos($args[1], 'From: test2@rc.net') === 0);
+        $this->assertTrue(str_starts_with($args[1], 'From: test2@rc.net'));
         $this->assertStringContainsString('XXXX', $args[1]);
 
         // TODO: Test error handling

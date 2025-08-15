@@ -244,7 +244,7 @@ function extract_zipfile($package, $srcfile)
             $src_file = $sourcedir . '/' . $src;
 
             // make sure the destination's parent directory exists
-            if (strpos($dest, '/') !== false) {
+            if (str_contains($dest, '/')) {
                 $parentdir = dirname($dest_file);
                 if (!is_dir($parentdir)) {
                     mkdir($parentdir, 0775, true);

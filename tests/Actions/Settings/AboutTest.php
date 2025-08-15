@@ -28,6 +28,6 @@ class AboutTest extends ActionTestCase
         $this->assertSame('about', $output->template);
         $this->assertSame('About', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, 'This program is free software') !== false);
+        $this->assertTrue(str_contains($result, 'This program is free software'));
     }
 }

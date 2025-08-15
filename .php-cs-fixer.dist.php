@@ -82,6 +82,8 @@ return (new Config())
             'annotations' => ['author', 'copyright', 'throws'],
         ],
 
+        'modernize_strpos' => true,
+
         // fn => without curly brackets is less readable,
         // also prevent bounding of unwanted variables for GC
         'use_arrow_functions' => false,

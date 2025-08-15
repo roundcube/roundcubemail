@@ -838,7 +838,7 @@ class rcmail_sendmail
 
         if ($file && realpath($file)) {
             // sanity check
-            if (!preg_match('/\.(php|ini|conf)$/', $file) && strpos($file, '/etc/') === false) {
+            if (!preg_match('/\.(php|ini|conf)$/', $file) && !str_contains($file, '/etc/')) {
                 $footer = file_get_contents($file);
                 if ($isHtml && !$html_footer) {
                     $t2h = new rcube_text2html($footer, false);
@@ -868,7 +868,7 @@ class rcmail_sendmail
         $parts = [];
 
         foreach ($data as $key => $val) {
-            $encode = $key == 'folder' || strpos($val, ';') !== false;
+            $encode = $key == 'folder' || str_contains($val, ';');
             $parts[] = $key . '=' . ($encode ? 'B::' . base64_encode($val) : $val);
         }
 

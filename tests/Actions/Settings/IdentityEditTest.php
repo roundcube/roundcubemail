@@ -37,8 +37,8 @@ class IdentityEditTest extends ActionTestCase
         $this->assertSame('Edit identity', $output->getProperty('pagetitle'));
         $this->assertSame($identity['identity_id'], $output->get_env('iid'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('editform', 'form')") !== false);
-        $this->assertTrue(strpos($result, 'test@example.com') !== false);
+        $this->assertTrue(str_contains($result, "rcmail.gui_object('editform', 'form')"));
+        $this->assertTrue(str_contains($result, 'test@example.com'));
 
         // TODO: Test error handling
     }
@@ -55,7 +55,7 @@ class IdentityEditTest extends ActionTestCase
 
         $result = $action->identity_form([]);
 
-        $this->assertTrue(strpos($result, '<form id="identityImageUpload"') !== false);
-        $this->assertTrue(strpos($result, '<legend>Settings</legend>') !== false);
+        $this->assertTrue(str_contains($result, '<form id="identityImageUpload"'));
+        $this->assertTrue(str_contains($result, '<legend>Settings</legend>'));
     }
 }

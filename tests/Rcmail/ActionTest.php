@@ -215,7 +215,7 @@ class ActionTest extends ActionTestCase
     public function test_get_resource_content()
     {
         $result = \rcmail_action::get_resource_content('blocked.gif');
-        $this->assertTrue(strpos($result, 'GIF89') === 0);
+        $this->assertTrue(str_starts_with($result, 'GIF89'));
     }
 
     /**

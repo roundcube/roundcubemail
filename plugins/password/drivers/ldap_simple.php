@@ -331,7 +331,7 @@ class rcube_ldap_simple_password
             return $host;
         }
 
-        if (strpos($host, '://') === false) {
+        if (!str_contains($host, '://')) {
             $host = ($port == 636 ? 'ldaps' : 'ldap') . '://' . $host;
         }
 

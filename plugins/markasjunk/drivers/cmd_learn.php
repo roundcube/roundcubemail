@@ -49,7 +49,7 @@ class markasjunk_cmd_learn
             return;
         }
 
-        if (strpos($command, '%h') !== false) {
+        if (str_contains($command, '%h')) {
             preg_match_all('/%h:([\w_-]+)/', $command, $header_names, \PREG_SET_ORDER);
             $header_names = array_column($header_names, 1);
         }
@@ -59,7 +59,7 @@ class markasjunk_cmd_learn
         $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
         $command = str_replace('%l', escapeshellarg($rcube->user->get_username('local')), $command);
         $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
-        if (strpos($command, '%i') !== false) {
+        if (str_contains($command, '%i')) {
             $identity = $rcube->user->get_identity();
             $command = str_replace('%i', escapeshellarg($identity['email']), $command);
         }
@@ -68,7 +68,7 @@ class markasjunk_cmd_learn
             // reset command for next message
             $tmp_command = $command;
 
-            if (strpos($tmp_command, '%s') !== false) {
+            if (str_contains($tmp_command, '%s')) {
                 $message = new rcube_message($uid);
                 $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
             }
@@ -98,7 +98,7 @@ class markasjunk_cmd_learn
                 }
             }
 
-            if (strpos($command, '%f') !== false) {
+            if (str_contains($command, '%f')) {
                 $tmpfname = tempnam($temp_dir, 'rcmSALearn');
                 file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
                 $tmp_command = str_replace('%f', escapeshellarg($tmpfname), $tmp_command);

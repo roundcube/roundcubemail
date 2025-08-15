@@ -35,7 +35,7 @@ class IndexTest extends ActionTestCase
     public function test_sections_list()
     {
         $result = \rcmail_action_settings_index::sections_list([]);
-        $this->assertTrue(strpos($result, '<table id="rcmsectionslist"') === 0);
+        $this->assertTrue(str_starts_with($result, '<table id="rcmsectionslist"'));
     }
 
     /**

@@ -36,8 +36,8 @@ class IdentityDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-identity', $result['action']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Successfully deleted.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.remove_identity("' . $iid . '")') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully deleted.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.remove_identity("' . $iid . '")'));
 
         $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $iid);
         $result = $db->fetch_assoc($query);

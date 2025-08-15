@@ -1674,7 +1674,7 @@ class rcmail extends rcube
         if (!empty($today)) {
             $label = $this->gettext('today');
             // replace $ character with "Today" label (#1486120)
-            if (strpos($out, '$') !== false) {
+            if (str_contains($out, '$')) {
                 $out = preg_replace('/\$/', $label, $out, 1);
             } else {
                 $out = $label . ' ' . $out;

@@ -80,7 +80,7 @@ function validateStaticFile(string $path): ?string
     $path = preg_replace('/[?&].*$/', '', $path);
 
     // Potential hack attempts, don't allow ".."
-    if (strpos($path, '..') !== false) {
+    if (str_contains($path, '..')) {
         return null;
     }
 

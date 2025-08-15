@@ -54,14 +54,14 @@ class rcube_sql_password
         }
 
         // new password - default hash method
-        if (strpos($sql, '%P') !== false) {
+        if (str_contains($sql, '%P')) {
             $password = password::hash_password($passwd);
 
             $sql = str_replace('%P', $db->quote($password), $sql);
         }
 
         // old password - default hash method
-        if (strpos($sql, '%O') !== false) {
+        if (str_contains($sql, '%O')) {
             $password = password::hash_password($curpass);
 
             $sql = str_replace('%O', $db->quote($password), $sql);

@@ -32,7 +32,7 @@ class ImportTest extends ActionTestCase
         $this->assertSame('contactimport', $output->template);
         $this->assertSame('Import contacts', $output->getProperty('pagetitle'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
-        $this->assertTrue(strpos($result, "rcmail.gui_object('importform', 'rcmImportForm');") !== false);
+        $this->assertTrue(str_contains($result, "rcmail.gui_object('importform', 'rcmImportForm');"));
     }
 
     /**

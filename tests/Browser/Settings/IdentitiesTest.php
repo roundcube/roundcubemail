@@ -268,7 +268,7 @@ class IdentitiesTest extends TestCase
 
             $this->assertTrue(trim($browser->value('#_bcc'), ', ') === 'bcc@domain.tld');
             $this->assertTrue(trim($browser->value('#_replyto'), ', ') === 'replyto@domain.tld');
-            $this->assertTrue(strpos($browser->value('#composebody'), 'My signature') !== false);
+            $this->assertTrue(str_contains($browser->value('#composebody'), 'My signature'));
 
             // TODO: Recipient input, HTML mode, identity change
 

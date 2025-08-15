@@ -46,7 +46,7 @@ class MailTest extends TestCase
                     $filename = 'Test HTML with local and remote image.eml';
                     $email = $browser->readDownloadedFile($filename);
                     $browser->removeDownloadedFile($filename);
-                    $this->assertTrue(strpos($email, 'Subject: Test HTML with local and remote image') !== false);
+                    $this->assertTrue(str_contains($email, 'Subject: Test HTML with local and remote image'));
                 });
 
             // Test More > Download > Mailbox format (two messages selected)

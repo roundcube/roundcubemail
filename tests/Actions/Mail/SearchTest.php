@@ -50,10 +50,10 @@ class SearchTest extends ActionTestCase
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertSame(0, $result['env']['exists']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("Search returned no matches.","notice",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Mailbox is empty","INBOX");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_quota') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Search returned no matches.","notice",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Mailbox is empty","INBOX");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_quota'));
     }
 
     /**
@@ -111,9 +111,9 @@ class SearchTest extends ActionTestCase
         $this->assertSame(1, $result['env']['messagecount']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertSame(1, $result['env']['exists']);
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 messages found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_rowcount("Messages 1 to 1 of 1","INBOX");') !== false);
-        $this->assertTrue(strpos($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 messages found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Messages 1 to 1 of 1","INBOX");'));
+        $this->assertTrue(str_contains($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");'));
     }
 
     /**

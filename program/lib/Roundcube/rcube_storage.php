@@ -863,7 +863,7 @@ abstract class rcube_storage
     {
         $delim = $this->get_hierarchy_delimiter();
 
-        if (strpos($folder, $delim) !== false) {
+        if (str_contains($folder, $delim)) {
             $char = $delim;
             return false;
         }
