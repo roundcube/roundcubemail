@@ -23,7 +23,7 @@ class identity_select extends rcube_plugin
 {
     public $task = 'mail';
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('identity_select', [$this, 'select']);

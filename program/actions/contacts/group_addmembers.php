@@ -27,7 +27,7 @@ class rcmail_action_contacts_group_addmembers extends rcmail_action_contacts_ind
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

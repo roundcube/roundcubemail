@@ -26,7 +26,7 @@ class rcmail_action_settings_upload_display extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         if (!empty($_GET['_file']) && preg_match('/^rcmfile(\w+)$/', $_GET['_file'], $regs)) {

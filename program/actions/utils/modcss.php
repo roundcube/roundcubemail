@@ -25,7 +25,7 @@ class rcmail_action_utils_modcss extends rcmail_action
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -55,7 +55,7 @@ class rcmail_action_utils_modcss extends rcmail_action
 
             $ctype = $response->getHeader('Content-Type');
             $ctype = !empty($ctype) ? $ctype[0] : '';
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
         }
 

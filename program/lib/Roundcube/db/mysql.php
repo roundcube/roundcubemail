@@ -41,7 +41,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return string ...$args Values to concatenate
      */
-    #[Override]
+    #[\Override]
     public function concat(...$args)
     {
         if (count($args) == 1 && is_array($args[0])) {
@@ -58,7 +58,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return string Connection string
      */
-    #[Override]
+    #[\Override]
     protected function dsn_string($dsn)
     {
         $params = [];
@@ -91,46 +91,46 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array Connection options
      */
-    #[Override]
+    #[\Override]
     protected function dsn_options($dsn)
     {
         $result = parent::dsn_options($dsn);
 
         if (!empty($dsn['key'])) {
-            $result[PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
+            $result[\PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
         }
 
         if (!empty($dsn['cipher'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
+            $result[\PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
         }
 
         if (!empty($dsn['cert'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
+            $result[\PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
         }
 
         if (!empty($dsn['capath'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
+            $result[\PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
         }
 
         if (!empty($dsn['ca'])) {
-            $result[PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
+            $result[\PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
         }
 
         if (isset($dsn['verify_server_cert'])) {
-            $result[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
+            $result[\PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
         }
 
         // Always return matching (not affected only) rows count
-        $result[PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+        $result[\PDO::MYSQL_ATTR_FOUND_ROWS] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
-        $result[PDO::ATTR_AUTOCOMMIT] = true;
+        $result[\PDO::ATTR_AUTOCOMMIT] = true;
 
         // Disable emulating of prepared statements
         if (isset($dsn['emulate_prepares'])) {
-            $result[PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
+            $result[\PDO::ATTR_EMULATE_PREPARES] = rcube_utils::get_boolean($dsn['emulate_prepares']);
         } else {
-            $result[PDO::ATTR_EMULATE_PREPARES] = false;
+            $result[\PDO::ATTR_EMULATE_PREPARES] = false;
         }
 
         return $result;
@@ -141,7 +141,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array List of all tables of the current database
      */
-    #[Override]
+    #[\Override]
     public function list_tables()
     {
         // get tables if not cached
@@ -150,7 +150,7 @@ class rcube_db_mysql extends rcube_db
                 . " WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'"
                 . ' ORDER BY TABLE_NAME', $this->db_dsnw_array['database']);
 
-            $this->tables = $q ? $q->fetchAll(PDO::FETCH_COLUMN, 0) : [];
+            $this->tables = $q ? $q->fetchAll(\PDO::FETCH_COLUMN, 0) : [];
         }
 
         return $this->tables;
@@ -163,7 +163,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return array List of table cols
      */
-    #[Override]
+    #[\Override]
     public function list_cols($table)
     {
         $q = $this->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS'
@@ -171,7 +171,7 @@ class rcube_db_mysql extends rcube_db
             $this->db_dsnw_array['database'], $table);
 
         if ($q) {
-            return $q->fetchAll(PDO::FETCH_COLUMN, 0);
+            return $q->fetchAll(\PDO::FETCH_COLUMN, 0);
         }
 
         return [];
@@ -185,7 +185,7 @@ class rcube_db_mysql extends rcube_db
      *
      * @return mixed Variable value or default
      */
-    #[Override]
+    #[\Override]
     public function get_variable($varname, $default = null)
     {
         if (!isset($this->variables)) {
@@ -226,11 +226,11 @@ class rcube_db_mysql extends rcube_db
      * @param array  $values  List of values to update (number of elements
      *                        should be the same as in $columns)
      *
-     * @return PDOStatement|bool Query handle or False on error
+     * @return \PDOStatement|bool Query handle or False on error
      *
      * @todo Multi-insert support
      */
-    #[Override]
+    #[\Override]
     public function insert_or_update($table, $keys, $columns, $values)
     {
         $columns = array_map(static function ($i) {

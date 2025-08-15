@@ -60,7 +60,7 @@ class rcube_miab_password
             if ($response->getStatusCode() == 200 && trim($result) === 'OK') {
                 return PASSWORD_SUCCESS;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $e->getMessage();
         }
 

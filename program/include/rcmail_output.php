@@ -92,7 +92,7 @@ abstract class rcmail_output extends rcube_output
     /**
      * Delete all stored env variables and commands
      */
-    #[Override]
+    #[\Override]
     public function reset()
     {
         parent::reset();

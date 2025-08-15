@@ -29,7 +29,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -155,7 +155,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
                 $rcmail->output->command('parent.import_state_set', 'error');
             } elseif (count($vcards) > 0) {
                 // import vcards
-                self::$stats = new stdClass();
+                self::$stats = new \stdClass();
                 self::$stats->names = [];
                 self::$stats->skipped_names = [];
                 self::$stats->invalid_names = [];

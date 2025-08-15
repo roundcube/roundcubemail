@@ -24,7 +24,7 @@ class identicon extends rcube_plugin
     /**
      * Plugin initialization.
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('contact_photo', [$this, 'contact_photo']);

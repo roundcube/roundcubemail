@@ -15,7 +15,7 @@ class squirrelmail_usercopy extends rcube_plugin
     private $identities_level = 0;
     private $abook = [];
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('user_create', [$this, 'create_user']);
