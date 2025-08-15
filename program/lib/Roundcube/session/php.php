@@ -29,37 +29,37 @@ class rcube_session_php extends rcube_session
      * Native php sessions don't need a save handler.
      * We do need to define abstract function implementations but they are not used.
      */
-    #[Override]
+    #[\Override]
     public function open($save_path, $session_name)
     {
         return true;
     }
 
-    #[Override]
+    #[\Override]
     public function close()
     {
         return true;
     }
 
-    #[Override]
+    #[\Override]
     public function destroy($key)
     {
         return true;
     }
 
-    #[Override]
+    #[\Override]
     public function read($key)
     {
         return '';
     }
 
-    #[Override]
+    #[\Override]
     protected function save($key, $vars)
     {
         return true;
     }
 
-    #[Override]
+    #[\Override]
     protected function update($key, $newvars, $oldvars)
     {
         return true;
@@ -78,7 +78,7 @@ class rcube_session_php extends rcube_session
     /**
      * Wrapper for session_write_close()
      */
-    #[Override]
+    #[\Override]
     public function write_close()
     {
         $_SESSION['__IP'] = $this->ip;
@@ -90,7 +90,7 @@ class rcube_session_php extends rcube_session
     /**
      * Wrapper for session_start()
      */
-    #[Override]
+    #[\Override]
     public function start()
     {
         parent::start();

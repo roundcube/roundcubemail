@@ -14,7 +14,7 @@ class example_addressbook extends rcube_plugin
     private $abook_id = 'static';
     private $abook_name = 'Static List';
 
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('addressbooks_list', [$this, 'address_sources']);

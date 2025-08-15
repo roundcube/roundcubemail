@@ -1118,8 +1118,8 @@ class rcube_utils
     /**
      * Improved equivalent to strtotime()
      *
-     * @param string       $date     Date string
-     * @param DateTimeZone $timezone Timezone to use for DateTime object
+     * @param string        $date     Date string
+     * @param \DateTimeZone $timezone Timezone to use for DateTime object
      *
      * @return int Unix timestamp
      */
@@ -1154,14 +1154,14 @@ class rcube_utils
     /**
      * Date parsing function that turns the given value into a DateTime object
      *
-     * @param DateTime|string $date     A date
-     * @param DateTimeZone    $timezone Timezone to use for DateTime object
+     * @param \DateTime|string $date     A date
+     * @param \DateTimeZone    $timezone Timezone to use for DateTime object
      *
-     * @return DateTime|false DateTime object or False on failure
+     * @return \DateTime|false DateTime object or False on failure
      */
     public static function anytodatetime($date, $timezone = null)
     {
-        if ($date instanceof DateTime) {
+        if ($date instanceof \DateTime) {
             return $date;
         }
 
@@ -1172,8 +1172,8 @@ class rcube_utils
         if (!empty($date)) {
             try {
                 $_date = preg_match('/^[0-9]+$/', $date) ? "@{$date}" : $date;
-                $dt = $timezone ? new DateTime($_date, $timezone) : new DateTime($_date);
-            } catch (Exception $e) {
+                $dt = $timezone ? new \DateTime($_date, $timezone) : new \DateTime($_date);
+            } catch (\Exception $e) {
                 // ignore
             }
         }
@@ -1181,11 +1181,11 @@ class rcube_utils
         // try our advanced strtotime() method
         if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
-                $dt = new DateTime('@' . $timestamp);
+                $dt = new \DateTime('@' . $timestamp);
                 if ($timezone) {
                     $dt->setTimezone($timezone);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
             }
         }
@@ -1678,10 +1678,10 @@ class rcube_utils
 
             try {
                 $date = date_create_from_format('U.u', $dt);
-                $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                $date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
                 return $date->format($format);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore, fallback to date()
             }
         }

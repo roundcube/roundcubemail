@@ -15,7 +15,7 @@ class reconnect extends rcube_plugin
     /**
      * Plugin initialization
      */
-    #[Override]
+    #[\Override]
     public function init()
     {
         $this->add_hook('storage_connect', [$this, 'storage_connect']);

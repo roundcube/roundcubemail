@@ -26,7 +26,7 @@ class rcmail_action_settings_folder_save extends rcmail_action_settings_folder_e
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         // WARNING: folder names in UI are encoded with RCUBE_CHARSET
