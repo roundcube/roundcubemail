@@ -48,10 +48,6 @@ class OutputHtmlTest extends TestCase
         $set_template = $reflection->getProperty('template_name');
         $get_template_logo = $reflection->getMethod('get_template_logo');
 
-        $set_skin->setAccessible(true);
-        $set_template->setAccessible(true);
-        $get_template_logo->setAccessible(true);
-
         $set_skin->setValue($output, 'elastic');
 
         $rcmail->config->set('skin_logo', 'img00');
