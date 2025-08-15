@@ -19,7 +19,6 @@ class OutputJsonTest extends ActionTestCase
 
         $reflection = new \ReflectionClass($output);
         $commands = $reflection->getProperty('commands');
-        $commands->setAccessible(true);
 
         $output->show_message('unknown');
 
