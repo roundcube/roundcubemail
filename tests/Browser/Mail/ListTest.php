@@ -104,8 +104,9 @@ class ListTest extends TestCase
                     $browser->clickMenuItem('select', null, false);
                 });
             } elseif ($browser->isTablet()) {
-                $browser->click('.toolbar-list-button');
-                $browser->click('#toolbar-list-menu a.select');
+                $browser->click('.toolbar-list-button')
+                    ->waitFor('#toolbar-list-menu a.select')
+                    ->click('#toolbar-list-menu a.select');
             } else {
                 $browser->click('#toolbar-list-menu a.select');
                 $browser->assertFocused('#toolbar-list-menu a.select');
