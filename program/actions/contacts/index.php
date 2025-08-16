@@ -201,7 +201,7 @@ class rcmail_action_contacts_index extends rcmail_action
             'size' => 40,
             'maxlength' => 128,
             'label' => 'instantmessenger',
-            'subtypes' => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype', 'other'],
+            'subtypes' => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype'],
             'category' => 'main',
         ],
         'notes' => [
