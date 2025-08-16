@@ -117,7 +117,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
 
             // save search settings in session
             $_SESSION['contact_search'][$search_request] = $search_set;
-            $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$afields, $search]];
+            $_SESSION['contact_search_params'] = ['id' => $search_request, 'data' => [$afields, $search], 'scope' => null];
 
             $rcmail->output->show_message('contactsearchsuccessful', 'confirmation', ['nr' => $result->count]);
 
