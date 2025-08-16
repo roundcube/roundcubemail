@@ -437,9 +437,6 @@ class OutputHtmlTest extends TestCase
         $set_skin = $reflection->getProperty('skin_name');
         $fix_paths = $reflection->getMethod('fix_paths');
 
-        $set_skin->setAccessible(true);
-        $fix_paths->setAccessible(true);
-
         $set_skin->setValue($output, 'elastic');
 
         $input = '<body><link rel="shortcut icon" href="/images/test.ico">'
