@@ -82,9 +82,9 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@personal.com') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@collected.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
 
         $_GET = ['_q' => 'target', '_scope' => '0'];
 
@@ -92,8 +92,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@personal.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
 
         $_GET = ['_q' => 'target', '_scope' => \rcube_addressbook::TYPE_RECIPIENT];
 
@@ -101,8 +101,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@collected.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
     }
 
     /**
@@ -151,9 +151,9 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@personal.com') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@collected.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
 
         $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => '0'];
 
@@ -161,8 +161,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@personal.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
 
         $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => (string) \rcube_addressbook::TYPE_RECIPIENT];
 
@@ -170,8 +170,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(strpos($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);') !== false);
-        $this->assertTrue(strpos($result['exec'], 'target@collected.com') !== false);
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
     }
 
     /**
