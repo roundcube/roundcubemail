@@ -1371,11 +1371,6 @@ class rcmail_action_mail_index extends rcmail_action
             $string = $part['string'];
             $valid = rcube_utils::check_email($mailto, false);
 
-            // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-            if (!$show_email && $valid && $name && $name != $mailto && preg_match('/@|＠|﹫/', $name)) {
-                $name = '';
-            }
-
             // IDNA ASCII to Unicode
             if ($name == $mailto) {
                 $name = rcube_utils::idn_to_utf8($name);
@@ -1403,15 +1398,26 @@ class rcmail_action_mail_index extends rcmail_action
                         'onclick' => sprintf("return %s.command('compose','%s',this)",
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ(format_email_recipient($mailto, $name))),
                     ];
+                    $prefix = '';
 
-                    if ($show_email && $name && $mailto) {
+                    if ($name && $name != $mailto && preg_match('/@|＠|﹫/', $name)) {
+                        // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
+                        $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
+                        $msg = $rcmail->gettext('senderphishingwarning');
+                        $prefix = html::span([
+                            'class' => 'sender-phishing-warning',
+                            'title' => $msg,
+                            'role' => 'img',
+                            'aria-label' => $msg,
+                        ], '');
+                    } elseif ($show_email && $name && $mailto) {
                         $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
                     } else {
                         $content = rcube::SQ($name ?: $mailto);
                         $attrs['title'] = $mailto;
                     }
 
-                    $address = html::a($attrs, $content);
+                    $address = $prefix . html::a($attrs, $content);
                 } else {
                     $address = html::span(['title' => $mailto, 'class' => 'rcmContactAddress'],
                         rcube::SQ($name ?: $mailto));

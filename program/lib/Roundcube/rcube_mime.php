@@ -318,6 +318,8 @@ class rcube_mime
         $str = preg_replace('/\r?\n(\s|\t)?/', ' ', $str);
 
         // extract list items, remove comments
+        // We don't support groups in address-lists, thus we also split on the semicolon here and check for a group-name
+        // later.
         $str = self::explode_header_string(',;', $str, true);
 
         // simplified regexp, supporting quoted local part
@@ -326,14 +328,24 @@ class rcube_mime
         $result = [];
 
         foreach ($str as $key => $val) {
+            $group_name = '';
             $name = '';
             $address = '';
             $val = trim($val);
 
-            // First token might be a group name, ignore it
-            $tokens = self::explode_header_string(' ', $val);
-            if (isset($tokens[0]) && $tokens[0][strlen($tokens[0]) - 1] == ':') {
-                $val = substr($val, strlen($tokens[0]));
+            // Check for group names and store them for later, if present.
+            $tokens = self::explode_header_string(':', $val, true);
+            switch (count($tokens)) {
+                case 1:
+                    // No colon, nothing to do.
+                    break;
+                case 2:
+                    $group_name = trim(self::unquote(trim($tokens[0])));
+                    $val = $tokens[1];
+                    break;
+                default:
+                    // All counts other than 1 or 2 hint to invalid input, better don't use it.
+                    $val = '';
             }
 
             if (preg_match('/(.*)<(' . $email_rx . ')$/', $val, $m)) {
@@ -358,15 +370,7 @@ class rcube_mime
 
             // unquote and/or decode name
             if ($name) {
-                // An unquoted name ending with colon is a address group name, ignore it
-                if ($name[strlen($name) - 1] == ':') {
-                    $name = '';
-                }
-
-                if (strlen($name) > 1 && $name[0] == '"' && $name[strlen($name) - 1] == '"') {
-                    $name = substr($name, 1, -1);
-                    $name = stripslashes($name);
-                }
+                $name = self::unquote($name);
 
                 if ($decode) {
                     $name = self::decode_header($name, $fallback);
@@ -377,7 +381,14 @@ class rcube_mime
                 }
             }
 
-            if (!$address && $name) {
+            // Add the previously stripped group name. This is not optimal handling, but the most appropriate one as
+            // long as we don't actually support groups in addresss-lists. This way users can at least see the group's
+            // display-name. And we don't strip text that might be relevant to spot abusive emails.
+            if ($group_name) {
+                $name = "{$group_name} {$name}";
+            }
+
+            if (!$address && $name && str_contains($name, '@')) {
                 $address = $name;
                 $name = '';
             }
@@ -966,5 +977,20 @@ class rcube_mime
         }
 
         return $type;
+    }
+
+    /**
+     * If double quotation marks appear at both ends of the input: strip them and strip back-slashes from it.
+     *
+     * @param string $input The input
+     *
+     * @return string The possibly changed string
+     */
+    public static function unquote(string $input): string
+    {
+        if (strlen($input) > 1 && $input[0] === '"' && $input[-1] === '"') {
+            $input = stripslashes(substr($input, 1, -1));
+        }
+        return $input;
     }
 }
