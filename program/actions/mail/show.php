@@ -437,6 +437,12 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $exclude_headers = !empty($attrib['exclude']) ? explode(',', $attrib['exclude']) : [];
         $output_headers = [];
 
+        // include folder path in headers if multifolder search
+        $search_set = $rcmail->storage->get_search_set();
+        if ($search_set && !empty($search_set[1]->multi)) {
+            $standard_headers[] = 'folder';
+        }
+
         $attr_max = $attrib['max'] ?? null;
         $attr_addicon = $attrib['addicon'] ?? null;
         $charset = !empty($headers['charset']) ? $headers['charset'] : null;
@@ -488,6 +494,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $ishtml = true;
             } elseif ($hkey == 'subject' && empty($value)) { // @phpstan-ignore-line
                 $header_value = $rcmail->gettext('nosubject');
+            } elseif ($hkey == 'folder') {
+                $mbox_name = $rcmail->storage->get_folder();
+                $header_value = self::pretty_folderpath($mbox_name);
             } else {
                 $value = is_array($value) ? implode(' ', $value) : $value;
                 $header_value = trim(rcube_mime::decode_header($value, $charset));
