@@ -425,4 +425,43 @@ class OutputHtmlTest extends TestCase
         $this->assertTrue(str_starts_with($result, '<select name="_charset">'));
         $this->assertTrue(str_contains($result, '<option value="UTF-8" selected="selected">UTF-8 (Unicode)</option>'));
     }
+
+    /**
+     * Test fix_paths()
+     */
+    public function test_fix_paths()
+    {
+        $rcmail = \rcube::get_instance();
+        $output = new \rcmail_output_html();
+        $reflection = new \ReflectionClass('rcmail_output_html');
+        $set_skin = $reflection->getProperty('skin_name');
+        $fix_paths = $reflection->getMethod('fix_paths');
+
+        $set_skin->setValue($output, 'elastic');
+
+        $input = '<body><link rel="shortcut icon" href="/images/test.ico">'
+            . '<link rel="stylesheet" href="/styles/test.css">'
+            . '<script src="program/js/test.js"></script></body>';
+        $expected = '<body><link rel="shortcut icon" href="static.php/skins/elastic/images/test.ico">'
+            . '<link rel="stylesheet" href="static.php/skins/elastic/styles/test.css">'
+            . '<script src="static.php/program/js/test.js"></script></body>';
+        $result = $fix_paths->invokeArgs($output, [$input]);
+        $this->assertSame($expected, $result);
+
+        $input = '<body><img src="/images/test.svg" data-src-alt="/images/test.svg" id="logo" alt="Logo">'
+            . '<a class="mail" id="rcmbtn100" role="button" href="/?_task=mail" onclick="return rcmail.command(\'switch-task\',\'mail\',this,event)"><span class="inner">Mail</span></a></body>';
+        $expected = '<body><img src="static.php/skins/elastic/images/test.svg" data-src-alt="static.php/skins/elastic/images/test.svg" id="logo" alt="Logo">'
+            . '<a class="mail" id="rcmbtn100" role="button" href="/?_task=mail" onclick="return rcmail.command(\'switch-task\',\'mail\',this,event)"><span class="inner">Mail</span></a></body>';
+        $result = $fix_paths->invokeArgs($output, [$input]);
+        $this->assertSame($expected, $result);
+
+        $input = '<body><a href="https://ezample.com/test.php">link 1</a>'
+            . '<a href="/example/">link 2</a>'
+            . '<a href="/example/test.html">link 3</a></body>';
+        $expected = '<body><a href="https://ezample.com/test.php">link 1</a>'
+            . '<a href="/example/">link 2</a>'
+            . '<a href="/example/test.html">link 3</a></body>';
+        $result = $fix_paths->invokeArgs($output, [$input]);
+        $this->assertSame($expected, $result);
+    }
 }
