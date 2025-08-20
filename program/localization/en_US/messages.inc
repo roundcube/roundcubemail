@@ -233,4 +233,3 @@ $messages['emptyattachment'] = 'This attachment appears to be empty.<br>Please, 
 $messages['oauthloginfailed'] = 'OAuth login failed. Please try again.';
 $messages['oauthinvalidrequest'] = 'Authorization request was invalid or incomplete.';
 $messages['oauthaccessdenied'] = 'Authorization server or the user denied the request.';
-$messages['senderphishingwarning'] = 'This sender name and address look forged, please be careful!';

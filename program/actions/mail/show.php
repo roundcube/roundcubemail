@@ -283,29 +283,6 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         return html::div($attrib, $msg . '&nbsp;' . html::span('boxbuttons', $buttons));
     }
 
-    /**
-     * Display a warning whenever a suspicious email address has been found in the message.
-     *
-     * @return string HTML content of the warning element
-     */
-    public static function suspicious_content_warning()
-    {
-        if (empty(self::$SUSPICIOUS_EMAIL)) {
-            return '';
-        }
-
-        $rcmail = rcmail::get_instance();
-
-        $attrib = [
-            'id' => 'suspicious-content-message',
-            'class' => 'notice',
-        ];
-
-        $msg = html::span(null, rcube::Q($rcmail->gettext('suspiciousemail')));
-
-        return html::div($attrib, $msg);
-    }
-
     public static function message_buttons()
     {
         $rcmail = rcmail::get_instance();
@@ -352,7 +329,6 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $content = [
             self::message_buttons(),
             self::remote_objects_msg(),
-            self::suspicious_content_warning(),
         ];
 
         $plugin = $rcmail->plugins->exec_hook('message_objects',

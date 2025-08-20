@@ -1380,10 +1380,11 @@ class rcmail_action_mail_index extends rcmail_action
             }
             $mailto = rcube_utils::idn_to_utf8($mailto);
 
-            // Homograph attack detection (#6891)
-            if ($spoofcheck && !self::$SUSPICIOUS_EMAIL) {
-                self::$SUSPICIOUS_EMAIL = rcube_spoofchecker::check($mailto);
-            }
+            // Homograph attack detection (#6891),
+            // and phishing email prevention (#1488981) (e.g. "valid@email.addr <phishing@email.addr>")
+            $show_fraud_warning = $spoofcheck
+                && !self::$PRINT_MODE // Don't show the warning in print mode, because there's no danger of interaction.
+                && (rcube_spoofchecker::check($mailto) || ($name && $name != $mailto && preg_match('/@|＠|﹫/', $name)));
 
             if (self::$PRINT_MODE) {
                 $address = '&lt;' . rcube::Q($mailto) . '&gt;';
@@ -1398,26 +1399,16 @@ class rcmail_action_mail_index extends rcmail_action
                         'onclick' => sprintf("return %s.command('compose','%s',this)",
                             rcmail_output::JS_OBJECT_NAME, rcube::JQ(format_email_recipient($mailto, $name))),
                     ];
-                    $prefix = '';
 
-                    if ($name && $name != $mailto && preg_match('/@|＠|﹫/', $name)) {
-                        // phishing email prevention (#1488981), e.g. "valid@email.addr <phishing@email.addr>"
-                        $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
-                        $msg = $rcmail->gettext('senderphishingwarning');
-                        $prefix = html::span([
-                            'class' => 'sender-phishing-warning',
-                            'title' => $msg,
-                            'role' => 'img',
-                            'aria-label' => $msg,
-                        ], '');
-                    } elseif ($show_email && $name && $mailto) {
+                    // In case of a fraud warning always show all details, regardless of the config.
+                    if ($show_fraud_warning || ($show_email && $name && $mailto)) {
                         $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
                     } else {
                         $content = rcube::SQ($name ?: $mailto);
                         $attrs['title'] = $mailto;
                     }
 
-                    $address = $prefix . html::a($attrs, $content);
+                    $address = html::a($attrs, $content);
                 } else {
                     $address = html::span(['title' => $mailto, 'class' => 'rcmContactAddress'],
                         rcube::SQ($name ?: $mailto));
@@ -1445,6 +1436,18 @@ class rcmail_action_mail_index extends rcmail_action
                 if ($mailto) {
                     $address = trim($address . ' ' . rcube::Q($name ? sprintf('<%s>', $mailto) : $mailto));
                 }
+            }
+
+            if ($show_fraud_warning) {
+                // $content = rcube::SQ(sprintf('%s <%s>', $name, $mailto));
+                $msg = $rcmail->gettext('suspiciousemail');
+                $prefix = html::span([
+                    'class' => 'suspicious-address-warning',
+                    'title' => $msg,
+                    'role' => 'img',
+                    'aria-label' => $msg,
+                ], '');
+                $address = $prefix . $address;
             }
 
             $address = html::span('adr', $address);
