@@ -1,0 +1,9 @@
+From: "Someone" <valid@example.net>:<attacker@example.org>
+To: test@Рaypal.com
+Subject: Email address spoofing attacks
+MIME-Version: 1.0
+Date: Fri, 12 June 2025 23:42:00 +0200
+Message-ID: <1176148a1ed73947311a08a3fc11264e64d8f775eae596e5fa660cfd1684a5e6@example.net>
+Content-Type: text/plain
+
+The content doesn't really matter.
