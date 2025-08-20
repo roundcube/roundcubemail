@@ -721,7 +721,16 @@ class WashtmlTest extends TestCase
 
         $html = '<meta content="something" name="description"><input name="myform" type="submit" /></form>';
         $washed = $washer->wash($html);
-        $this->assertStringContainsString('name="testmyform"', $washed);
+        $this->assertStringNotContainsString('name="description"', $washed);
+        $this->assertStringContainsString('input name="testmyform"', $washed);
+
+        $html = '<textarea name="something" />';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testsomething"', $washed);
+
+        $html = '<select name="something" />';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testsomething"', $washed);
     }
 
     /**
