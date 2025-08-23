@@ -1650,7 +1650,7 @@ class rcmail_output_html extends rcmail_output
                     $value = implode(', ', $value);
                 }
 
-                return html::quote($value);
+                return html::quote((string) $value);
             case 'form':
                 return $this->form_tag($attrib);
         }
