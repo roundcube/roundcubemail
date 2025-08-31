@@ -35,7 +35,6 @@ class OutputTest extends TestCase
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
         $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
 
-
         // Invalid content type
         $output->reset();
         $params = ['type' => 'invalid'];
