@@ -259,12 +259,14 @@ abstract class rcube_output
             $fallback_filename = preg_replace('/[^a-zA-Z0-9_.(),;@+ -]/', '_', $filename);
             $disposition .= "; filename=\"{$fallback_filename}\"";
 
-            $filename = rawurlencode($filename);
-            $charset = $this->charset;
-            if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
-                $charset = $params['charset'];
+            if ($fallback_filename != $filename) {
+                $filename = rawurlencode($filename);
+                $charset = $this->charset;
+                if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
+                    $charset = $params['charset'];
+                }
+                $disposition .= "; filename*={$charset}''{$filename}";
             }
-            $disposition .= "; filename*={$charset}''{$filename}";
         }
 
         $this->header("Content-Disposition: {$disposition}");
