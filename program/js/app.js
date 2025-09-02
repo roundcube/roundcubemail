@@ -5113,7 +5113,7 @@ function rcube_webmail() {
             ref.display_message('requesttimedout', 'error');
         }, this.env.request_timeout * 1000);
 
-        form.submit();
+        form.requestSubmit();
     };
 
     this.compose_recipient_select = function (list) {
