@@ -652,11 +652,11 @@ class rcube_plugin_api
      *
      * @param string $fn Path to script
      */
-    public function include_script($fn)
+    public function include_script($fn, $tag_attributes = [])
     {
         if (is_object($this->output) && $this->output->type == 'html') {
             $src = $this->resource_url($fn);
-            $this->output->include_script($src, 'head_bottom', false);
+            $this->output->include_script($src, 'head_bottom', false, $tag_attributes);
         }
     }
 
