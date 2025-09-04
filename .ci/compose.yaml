@@ -10,6 +10,7 @@ services:
     ports:
       # Allow to watch the remote controlled browser (comment out the
       # `--headless` argument in TestCase::driver() before).
+      # The password is 'secret'.
       - '127.0.0.1:7900:7900'
     volumes:
       - '/dev/shm:/dev/shm'
