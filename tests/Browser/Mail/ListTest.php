@@ -99,6 +99,7 @@ class ListTest extends TestCase
     public function testListSelection()
     {
         $this->browse(static function ($browser) {
+            $browser->refresh();
             if ($browser->isPhone()) {
                 $browser->with(new Toolbarmenu(), static function ($browser) {
                     $browser->clickMenuItem('select', null, false);
