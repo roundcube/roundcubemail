@@ -705,12 +705,32 @@ class WashtmlTest extends TestCase
         $this->assertStringContainsString('href="#testmy-id"', $washed);
         $this->assertStringContainsString('class="testmy-class1 testmy-class2"', $washed);
 
-        // Make sure the anchor name is prefixed too
+        // Make sure the name attribute is prefixed on different elements, too
         $html = '<p><a href="#a">test link</a></p><a name="a">test anchor</a>';
         $washed = $washer->wash($html);
-
         $this->assertStringContainsString('href="#testa"', $washed);
         $this->assertStringContainsString('name="testa"', $washed);
+
+        $html = '<img src="something" name="animage" />';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testanimage"', $washed);
+
+        $html = '<form action="something"><input name="myform" type="submit" /></form>';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testmyform"', $washed);
+
+        $html = '<meta content="something" name="description"><input name="myform" type="submit" /></form>';
+        $washed = $washer->wash($html);
+        $this->assertStringNotContainsString('name="description"', $washed);
+        $this->assertStringContainsString('input name="testmyform"', $washed);
+
+        $html = '<textarea name="something" />';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testsomething"', $washed);
+
+        $html = '<select name="something" />';
+        $washed = $washer->wash($html);
+        $this->assertStringContainsString('name="testsomething"', $washed);
     }
 
     /**
