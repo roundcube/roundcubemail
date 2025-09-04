@@ -55,13 +55,13 @@ services:
     command:
       - .ci/run_test_message_rendering.sh
 
-  codespell:
+  php-cs-fixer:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
     entrypoint: ./.ci/run_php-cs-fixer.sh
 
-  codestyle:
+  phpstan:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
