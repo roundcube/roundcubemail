@@ -59,19 +59,16 @@ services:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - vendor/bin/php-cs-fixer
-      - fix
-      - --dry-run
-      - --using-cache=no
-      - --diff
-      - --verbose
+    entrypoint: ./.ci/run_php-cs-fixer.sh
 
   codestyle:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - npx
-      - eslint
-      - .
+    entrypoint: ./.ci/run_phpstan.sh
+
+  eslint:
+    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    volumes:
+      - '..:/app'
+    entrypoint: ./.ci/run_eslint.sh
