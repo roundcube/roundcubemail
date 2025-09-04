@@ -32,8 +32,8 @@ services:
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
-    command: 
-      - .ci/run_browser_tests.sh
+    working_dir: /work
+    command: '/usr/local/bin/run-in-copy.sh .ci/run_browser_tests.sh'
 
   tests:
     depends_on:
@@ -41,8 +41,8 @@ services:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - .ci/run_tests.sh
+    working_dir: /work
+    command: '/usr/local/bin/run-in-copy.sh .ci/run_tests.sh'
 
   test_message_rendering:
     depends_on:
