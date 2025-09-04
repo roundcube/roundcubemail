@@ -992,7 +992,11 @@ class rcmail_output_html extends rcmail_output
      */
     protected function fix_paths($output)
     {
-        $regexp = '!(src|href|background|data-src-[a-z]+)=(["\']?)([a-z0-9/_.?=-]+)(["\'\s>])!i';
+        $regexp = [
+            '%(?P<name>src|background|data-src-[a-z]+)=(?P<opener>["\']?)(?P<file>[a-z0-9/_.?=-]+)(?P<closer>["\'\s>])%i',
+            // fix href attributes in <link>'s only (#9941)
+            '%(?P<prefix><link[^>]*)(?P<name>href)=(?P<opener>["\']?)(?P<file>[a-z0-9/_.?=-]+)(?P<closer>["\'\s>])%i',
+        ];
 
         return preg_replace_callback($regexp, [$this, 'file_callback'], $output);
     }
@@ -1004,7 +1008,7 @@ class rcmail_output_html extends rcmail_output
      */
     protected function file_callback($matches)
     {
-        $file = $matches[3];
+        $file = $matches['file'];
         $file = preg_replace('!^/this/!', '/', $file);
 
         // correct absolute paths
@@ -1020,7 +1024,7 @@ class rcmail_output_html extends rcmail_output
 
         $file = $this->resource_location($file);
 
-        return $matches[1] . '=' . $matches[2] . $file . $matches[4];
+        return ($matches['prefix'] ?? '') . $matches['name'] . '=' . $matches['opener'] . $file . $matches['closer'];
     }
 
     /**
