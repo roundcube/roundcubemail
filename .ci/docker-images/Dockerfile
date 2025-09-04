@@ -29,7 +29,8 @@ RUN apt-get update \
 		hunspell-en-us \
 		git \
 		locales \
- && apt-get clean
+		rsync \
+    && apt-get clean
 
 # Some tests require en_US.UTF-8 as locale.
 RUN sed -i 's/^# en_US.UTF-8 /en_US.UTF-8 /' /etc/locale.gen && locale-gen
@@ -51,6 +52,8 @@ RUN if php -r 'exit(version_compare(getenv("PHPVERSION"), "8.4", ">=") ? 0 : 1);
 	enchant
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+COPY --chmod=755 ./.ci/docker-images/run-in-copy.sh /usr/local/bin/run-in-copy.sh
 
 # Create working directory
 WORKDIR /app
