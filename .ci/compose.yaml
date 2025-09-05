@@ -10,6 +10,7 @@ services:
     ports:
       # Allow to watch the remote controlled browser (comment out the
       # `--headless` argument in TestCase::driver() before).
+      # The password is 'secret'.
       - '127.0.0.1:7900:7900'
     volumes:
       - '/dev/shm:/dev/shm'
@@ -32,8 +33,8 @@ services:
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
-    command: 
-      - .ci/run_browser_tests.sh
+    working_dir: /work
+    command: '/usr/local/bin/run-in-copy.sh .ci/run_browser_tests.sh'
 
   tests:
     depends_on:
@@ -41,8 +42,8 @@ services:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - .ci/run_tests.sh
+    working_dir: /work
+    command: '/usr/local/bin/run-in-copy.sh .ci/run_tests.sh'
 
   test_message_rendering:
     depends_on:
@@ -55,23 +56,20 @@ services:
     command:
       - .ci/run_test_message_rendering.sh
 
-  codespell:
+  php-cs-fixer:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - vendor/bin/php-cs-fixer
-      - fix
-      - --dry-run
-      - --using-cache=no
-      - --diff
-      - --verbose
+    entrypoint: ./.ci/run_php-cs-fixer.sh
 
-  codestyle:
+  phpstan:
     image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
     volumes:
       - '..:/app'
-    command:
-      - npx
-      - eslint
-      - .
+    entrypoint: ./.ci/run_phpstan.sh
+
+  eslint:
+    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    volumes:
+      - '..:/app'
+    entrypoint: ./.ci/run_eslint.sh
