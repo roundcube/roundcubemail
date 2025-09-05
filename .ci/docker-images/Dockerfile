@@ -2,6 +2,9 @@ ARG PHPVERSION=8.3
 FROM php:${PHPVERSION}-cli
 LABEL org.opencontainers.image.source="https://github.com/roundcube/roundcubemail"
 
+# To use it below we must repeat the ARG declaration
+ARG PHPVERSION
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -33,7 +36,9 @@ RUN sed -i 's/^# en_US.UTF-8 /en_US.UTF-8 /' /etc/locale.gen && locale-gen
 
 # TODO: Do we need the multiarch-args? What for?
 #RUN debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
-RUN docker-php-ext-configure gd --with-jpeg --with-freetype \
+# For PHP >= v8.4 pspell was moved to PECL, so we have to fetch and unpack it first. (We don't use `pecl install` just because it makes the rest of the script simpler.)
+RUN if php -r 'exit(version_compare(getenv("PHPVERSION"), "8.4", ">=") ? 0 : 1);'; then pecl bundle -d /usr/src/php/ext pspell; fi \
+ && docker-php-ext-configure gd --with-jpeg --with-freetype \
  #&& docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" \
  && docker-php-ext-configure ldap \
  && docker-php-ext-install \
