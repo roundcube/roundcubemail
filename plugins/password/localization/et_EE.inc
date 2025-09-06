@@ -1,9 +1,38 @@
 <?php
-$labels = array();
-$labels['changepasswd'] = 'Muuda parooli';
-$labels['curpasswd'] = 'Praegune salasõna:';
-$labels['newpasswd'] = 'Uus salasõna:';
-$labels['confpasswd'] = 'Kinnita uus salasõna:';
+
+/*
+ +-----------------------------------------------------------------------+
+ | Localization file of the Roundcube Webmail Password plugin            |
+ |                                                                       |
+ | Copyright (C) The Roundcube Dev Team                                  |
+ |                                                                       |
+ | Licensed under the GNU General Public License version 3 or            |
+ | any later version with exceptions for skins & plugins.                |
+ | See the README file for a full license statement.                     |
+ +-----------------------------------------------------------------------+
+
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-password/
+*/
+
+$labels['changepasswd']  = 'Muuda parooli';
+$labels['curpasswd']  = 'Vana parool:';
+$labels['newpasswd']  = 'Uus parool:';
+$labels['confpasswd']  = 'Uus parool uuesti:';
+$messages['nopassword'] = 'Palun sisesta uus parool.';
+$messages['nocurpassword'] = 'Palun sisesta vana parool.';
+$messages['passwordincorrect'] = 'Vana parool on vale.';
+$messages['passwordinconsistency'] = 'Paroolid ei kattu, palun proovi uuesti.';
+$messages['crypterror'] = 'Serveris ei ole parooli krüpteerimiseks vajalikku funktsiooni.';
+$messages['connecterror'] = 'Parooli salvestamine nurjus. Ühenduse tõrge.';
+$messages['internalerror'] = 'Uue parooli andmebaasi salvestamine nurjus.';
+$messages['passwordshort'] = 'Parool peab olema vähemalt $length märki pikk.';
+$messages['passwordweak'] = 'Parool peab sisaldama vähemalt üht numbrit ja märki.';
+$messages['passwordtooweak'] = 'Parool on liiga nõrk.';
+$messages['passwordforbidden'] = 'Parool sisaldab keelatud märki.';
+$messages['firstloginchange'] = 'See on sinu esimene sisselogimine, palun muuda oma parooli.';
+$messages['pwned_isdisclosed'] = 'Parool on liiga tavaline.';
+$messages['pwned_fetcherror'] = 'Parooli tugevuse kontrollimine ebaõnnestus.';
+
 $labels['hestia_err_policy_short'] = 'Parool liiga lühike (minimaalne pikkus: %min).';
 $labels['hestia_err_endpoint_invalid'] = 'Hestia lõpp-punkt ei ole konfigureeritud või on kehtetu.';
 $labels['hestia_err_identity'] = 'Ei saa analüüsida kasutajanime local@domain%hint.';
