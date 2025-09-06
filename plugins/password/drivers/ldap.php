@@ -7,7 +7,6 @@
  * This driver use the PEAR Net_LDAP2 class (https://pear.php.net/package/Net_LDAP2).
  *
  * @version 2.0
- *
  * @author Edouard MOREAU <edouard.moreau@ensma.fr>
  *
  * method hashPassword based on code from the phpLDAPadmin development team (http://phpldapadmin.sourceforge.net/).
@@ -34,14 +33,14 @@ class rcube_ldap_password
     public function save($curpass, $passwd)
     {
         $rcmail = rcmail::get_instance();
-
         require_once 'Net/LDAP2.php';
         require_once __DIR__ . '/ldap_simple.php';
 
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
             $userDN = rcube_ldap_simple_password::substitute_vars($userDN);
-        } else {
+        }
+        else {
             $userDN = $this->search_userdn($rcmail);
         }
 
@@ -64,45 +63,45 @@ class rcube_ldap_password
 
         // Configuration array
         $ldapConfig = [
-            'binddn' => $binddn,
-            'bindpw' => $bindpw,
-            'basedn' => $rcmail->config->get('password_ldap_basedn'),
-            'host' => $rcmail->config->get('password_ldap_host', 'localhost'),
-            'port' => $rcmail->config->get('password_ldap_port', '389'),
-            'starttls' => $rcmail->config->get('password_ldap_starttls'),
-            'version' => $rcmail->config->get('password_ldap_version', '3'),
+            'binddn'    => $binddn,
+            'bindpw'    => $bindpw,
+            'basedn'    => $rcmail->config->get('password_ldap_basedn'),
+            'host'      => $rcmail->config->get('password_ldap_host', 'localhost'),
+            'port'      => $rcmail->config->get('password_ldap_port', '389'),
+            'starttls'  => $rcmail->config->get('password_ldap_starttls'),
+            'version'   => $rcmail->config->get('password_ldap_version', '3'),
         ];
 
         // Connecting using the configuration array
-        $ldap = \Net_LDAP2::connect($ldapConfig);
+        $ldap = Net_LDAP2::connect($ldapConfig);
 
         // Checking for connection error
         if (is_a($ldap, 'PEAR_Error')) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $force = $rcmail->config->get('password_ldap_force_replace', true);
-        $pwattr = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
-        $lchattr = $rcmail->config->get('password_ldap_lchattr');
-        $smbpwattr = $rcmail->config->get('password_ldap_samba_pwattr');
-        $smblchattr = $rcmail->config->get('password_ldap_samba_lchattr');
-        $samba = $rcmail->config->get('password_ldap_samba');
-        $encodage = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
+        $force        = $rcmail->config->get('password_ldap_force_replace', true);
+        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
+        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
+        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
+        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
+        $samba        = $rcmail->config->get('password_ldap_samba');
+        $encodage     = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
 
         // Support multiple userPassword values where desired.
         // multiple encodings can be specified separated by '+' (e.g. "cram-md5+ssha")
-        $encodages = explode('+', $encodage);
+        $encodages    = explode('+', $encodage);
         $crypted_pass = [];
 
         foreach ($encodages as $enc) {
-            if ($enc) {
-                $crypted_pass[] = password::hash_password($passwd, $enc);
+            if ($cpw = password::hash_password($passwd, $enc)) {
+                $crypted_pass[] = $cpw;
             }
         }
 
         // Support password_ldap_samba option for backward compat.
         if ($samba && !$smbpwattr) {
-            $smbpwattr = 'sambaNTPassword';
+            $smbpwattr  = 'sambaNTPassword';
             $smblchattr = 'sambaPwdLastSet';
         }
 
@@ -112,24 +111,24 @@ class rcube_ldap_password
         }
 
         // Crypt new samba password
-        if ($smbpwattr) {
-            $samba_pass = password::hash_password($passwd, 'samba');
+        if ($smbpwattr && !($samba_pass = password::hash_password($passwd, 'samba'))) {
+            return PASSWORD_CRYPT_ERROR;
         }
 
         // Writing new crypted password to LDAP
         $userEntry = $ldap->getEntry($userDN);
-        if (\Net_LDAP2::isError($userEntry)) {
+        if (Net_LDAP2::isError($userEntry)) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        if (\Net_LDAP2::isError($userEntry->replace([$pwattr => $crypted_pass], $force))) {
+        if (!$userEntry->replace([$pwattr => $crypted_pass], $force)) {
             return PASSWORD_CONNECT_ERROR;
         }
 
         // Updating PasswordLastChange Attribute if desired
         if ($lchattr) {
             $current_day = (int) (time() / 86400);
-            if (\Net_LDAP2::isError($userEntry->replace([$lchattr => $current_day], $force))) {
+            if (!$userEntry->replace([$lchattr => $current_day], $force)) {
                 return PASSWORD_CONNECT_ERROR;
             }
         }
@@ -143,7 +142,7 @@ class rcube_ldap_password
             $userEntry->replace([$smblchattr => time()], $force);
         }
 
-        if (\Net_LDAP2::isError($userEntry->update())) {
+        if (Net_LDAP2::isError($userEntry->update())) {
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -156,17 +155,17 @@ class rcube_ldap_password
      * Use search_base and search_filter defined in config file.
      * Return the found DN.
      */
-    public function search_userdn($rcmail)
+    function search_userdn($rcmail)
     {
         $binddn = $rcmail->config->get('password_ldap_searchDN');
         $bindpw = $rcmail->config->get('password_ldap_searchPW');
 
         $ldapConfig = [
-            'basedn' => $rcmail->config->get('password_ldap_basedn'),
-            'host' => $rcmail->config->get('password_ldap_host', 'localhost'),
-            'port' => $rcmail->config->get('password_ldap_port', '389'),
-            'starttls' => $rcmail->config->get('password_ldap_starttls'),
-            'version' => $rcmail->config->get('password_ldap_version', '3'),
+            'basedn'    => $rcmail->config->get('password_ldap_basedn'),
+            'host'      => $rcmail->config->get('password_ldap_host', 'localhost'),
+            'port'      => $rcmail->config->get('password_ldap_port', '389'),
+            'starttls'  => $rcmail->config->get('password_ldap_starttls'),
+            'version'   => $rcmail->config->get('password_ldap_version', '3'),
         ];
 
         // allow anonymous searches
@@ -175,13 +174,13 @@ class rcube_ldap_password
             $ldapConfig['bindpw'] = $bindpw;
         }
 
-        $ldap = \Net_LDAP2::connect($ldapConfig);
+        $ldap = Net_LDAP2::connect($ldapConfig);
 
         if (is_a($ldap, 'PEAR_Error')) {
             return '';
         }
 
-        $base = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
+        $base   = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
         $filter = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = [
             'scope' => 'sub',

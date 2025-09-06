@@ -31,36 +31,23 @@ class rcube_cpanel_password
      * Changes the user's password. It is called by password.php.
      * See "Driver API" README and password.php for the interface details.
      *
-     * @param string $curpass  Current (old) password
-     * @param string $newpass  New password
-     * @param string $username Current username
+     * @param string $curpas  Current (old) password
+     * @param string $newpass New password
      *
      * @return int|array Error code or assoc array with 'code' and 'message', see
      *                   "Driver API" README and password.php
      */
-    public function save($curpass, $newpass, $username)
+    public function save($curpas, $newpass)
     {
-        $client = password::get_http_client();
-
-        $url = self::url();
-
-        $options = [
-            'auth' => [$username, $curpass],
-            'form_params' => [
-                'email' => password::username('%l'),
-                'password' => $newpass,
-            ],
-            'http_errors' => true,
+        $url     = self::url();
+        $user    = password::username();
+        $userpwd = "$user:$curpas";
+        $data    = [
+            'email'    => password::username('%l'),
+            'password' => $newpass
         ];
 
-        try {
-            $response = $client->post($url, $options);
-            $response = $response->getBody()->getContents();
-        } catch (\Exception $e) {
-            rcube::raise_error("Password plugin: Failed to post to {$url}: {$e->getMessage()}", true);
-
-            return PASSWORD_ERROR;
-        }
+        $response = $this->curl_auth_post($userpwd, $url, $data);
 
         return self::decode_response($response);
     }
@@ -72,13 +59,13 @@ class rcube_cpanel_password
      */
     public static function url()
     {
-        $config = rcmail::get_instance()->config;
+        $config       = rcmail::get_instance()->config;
         $storage_host = $_SESSION['storage_host'];
 
         $host = $config->get('password_cpanel_host', $storage_host);
         $port = $config->get('password_cpanel_port', 2096);
 
-        return "https://{$host}:{$port}/execute/Email/passwd_pop";
+        return "https://$host:$port/execute/Email/passwd_pop";
     }
 
     /**
@@ -104,11 +91,56 @@ class rcube_cpanel_password
 
         if ($result && !empty($result->errors) && is_array($result->errors)) {
             return [
-                'code' => PASSWORD_ERROR,
+                'code'    => PASSWORD_ERROR,
                 'message' => $result->errors[0],
             ];
         }
 
         return PASSWORD_ERROR;
+    }
+
+    /**
+     * Post data to the given URL using basic authentication.
+     *
+     * Example:
+     *
+     * <code>
+     * curl_auth_post('john:Secr3t', 'https://example.org', [
+     *     'param' => 'value',
+     *     'param' => 'value'
+     * ]);
+     * </code>
+     *
+     * @param string $userpwd  User name and password separated by a colon
+     *                         <code>:</code>
+     * @param string $url      The URL to post data to
+     * @param array  $postdata The data to post
+     *
+     * @return string|false The body of the reply, False on error
+     */
+    private function curl_auth_post($userpwd, $url, $postdata)
+    {
+        $ch = curl_init();
+        $postfields = http_build_query($postdata, '', '&');
+
+        // see http://php.net/manual/en/function.curl-setopt.php
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 131072);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+        curl_setopt($ch, CURLOPT_USERPWD, $userpwd);
+
+        $result = curl_exec($ch);
+        $error  = curl_error($ch);
+        curl_close($ch);
+
+        if ($result === false) {
+            rcube::raise_error("curl error: $error", true, false);
+        }
+
+        return $result;
     }
 }
