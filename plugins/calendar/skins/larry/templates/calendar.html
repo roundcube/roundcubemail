@@ -1,0 +1,537 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/this/iehacks.css" /><![endif]-->
+</head>
+<roundcube:if condition="env:extwin" /><body class="calendarmain extwin"><roundcube:else /><body class="calendarmain"><roundcube:endif />
+
+<roundcube:include file="/includes/header.html" />
+
+<h1 class="voice"><roundcube:label name="calendar.calendar" /></h1>
+
+<div id="mainscreen">
+	<div id="calendarsidebar">
+		<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+		<div id="calendartoolbar" class="toolbar" role="toolbar" aria-labelledby="aria-label-toolbar">
+			<roundcube:button command="addevent" type="link" class="button addevent disabled" classAct="button addevent" classSel="button addevent pressed" label="calendar.new_event" title="calendar.new_event" />
+			<roundcube:button command="print" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="calendar.print" title="calendar.printtitle" />
+			<roundcube:button command="events-import" type="link" class="button import disabled" classAct="button import" classSel="button import pressed" label="import" title="calendar.importevents" />
+			<roundcube:button command="export" type="link" class="button export disabled" classAct="button export" classSel="button export pressed" label="calendar.export" title="calendar.exporttitle" />
+			<roundcube:container name="toolbar" id="calendartoolbar" />
+		</div>
+
+		<h2 id="aria-label-minical" class="voice"><roundcube:label name="calendar.arialabelminical" /></h2>
+		<div id="datepicker" class="uibox" role="presentation"></div>
+
+		<div id="calendars" class="uibox listbox" style="visibility:hidden" role="navigation" aria-labelledby="aria-label-calendarlist">
+			<h2 class="boxtitle" id="aria-label-calendarlist"><roundcube:label name="calendar.calendars" />
+				<a href="#calendars" class="iconbutton search" title="<roundcube:label name='calendar.findcalendars' />" tabindex="0"><roundcube:label name='calendar.findcalendars' /></a>
+			</h2>
+			<div class="listsearchbox">
+				<div class="searchbox" role="search" aria-labelledby="aria-label-calsearchform" aria-controls="calendarslist">
+					<h3 id="aria-label-calsearchform" class="voice"><roundcube:label name="calendar.arialabelcalsearchform" /></h3>
+					<label for="calendarlistsearch" class="voice"><roundcube:label name="calendar.searchterms" /></label>
+					<input type="text" name="q" id="calendarlistsearch" placeholder="<roundcube:label name='calendar.findcalendars' />" />
+					<a class="iconbutton searchicon"></a>
+					<roundcube:button type="link" command="reset-listsearch" id="calendarlistsearch-reset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+				</div>
+			</div>
+			<div class="scroller withfooter">
+				<roundcube:object name="plugin.calendar_list" id="calendarslist" class="treelist listing" />
+			</div>
+			<div class="boxfooter">
+				<roundcube:button name="calendarcreatelink" id="calendarcreatemenulink" type="link" title="create" class="listbutton add" onclick="UI.show_popup('calendarcreatemenu', undefined, { above:true });return false" innerClass="inner" content="&#9881;" /><roundcube:button name="calendaroptionslink" id="calendaroptionsmenulink" type="link" title="moreactions" class="listbutton groupactions" onclick="UI.show_popup('calendaroptionsmenu', undefined, { above:true });return false" innerClass="inner" content="&#9881;" />				
+			</div>
+		</div>
+	</div>
+
+	<div id="quicksearchbar" class="searchbox" role="search" aria-labelledby="aria-label-searchform">
+		<h2 id="aria-label-searchform" class="voice"><roundcube:label name="calendar.arialabelsearchform" /></h2>
+		<label for="quicksearchbox" class="voice"><roundcube:label name="calendar.arialabelquicksearchbox" /></label>
+		<roundcube:object name="plugin.searchform" id="quicksearchbox" />
+		<a id="searchmenulink" class="iconbutton searchoptions" tabindex="-1"> </a>
+		<roundcube:button type="link" command="reset-search" id="searchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+	</div>
+
+	<h2 id="aria-label-calendarview" class="voice"><roundcube:label name="calendar.arialabelcalendarview" /></h2>
+	<div id="calendar" role="main" aria-labelledby="aria-label-calendarview">
+		<roundcube:object name="plugin.angenda_options" class="boxfooter" id="agendaoptions" />
+	</div>
+</div>
+
+<div id="calendarcreatemenu" class="popupmenu">
+	<ul class="toolbarmenu">
+		<roundcube:object name="plugin.calendar_create_menu" />
+	</ul>
+</div>
+<div id="timezonedisplay"><roundcube:var name="env:timezone" /></div>
+
+<roundcube:object name="message" id="messagestack" />
+
+<div id="calendaroptionsmenu" class="popupmenu" aria-hidden="true">
+	<h3 id="aria-label-calendaroptions" class="voice"><roundcube:label name="calendar.calendaractions" /></h3>
+	<ul id="calendaroptionsmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-calendaroptions">
+		<li role="menuitem"><roundcube:button type="link" command="calendar-edit" label="calendar.edit" classAct="active" /></li>
+		<li role="menuitem"><roundcube:button type="link" command="calendar-delete" label="delete" classAct="active" /></li>
+		<roundcube:if condition="env:calendar_driver == 'kolab'" />
+		<li role="menuitem"><roundcube:button type="link" command="calendar-remove" label="calendar.removelist" classAct="active" /></li>
+		<roundcube:endif />
+		<li role="menuitem"><roundcube:button type="link" command="calendar-showurl" label="calendar.showurl" classAct="active" /></li>
+		<roundcube:if condition="env:calendar_driver == 'kolab'" />
+		<li role="menuitem"><roundcube:button type="link" command="folders" task="settings" type="link" label="managefolders" classAct="active" /></li>
+		<roundcube:endif />
+	</ul>
+</div>
+
+<div id="eventshow" class="uidialog eventdialog" aria-hidden="true">
+	<h1 id="event-title">Event Title</h1>
+	<div class="event-section" id="event-location">Location</div>
+	<div class="event-section" id="event-date">From-To</div>
+	<div class="event-section" id="event-description">
+		<h5 class="label"><roundcube:label name="calendar.description" /></h5>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-section" id="event-url">
+		<h5 class="label"><roundcube:label name="calendar.url" /></h5>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-section" id="event-repeat">
+		<h5 class="label"><roundcube:label name="calendar.repeat" /></h5>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-section" id="event-alarm">
+		<h5 class="label"><roundcube:label name="calendar.alarms" /></h5>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-section event-attendees" id="event-attendees">
+		<h5 class="label"><roundcube:label name="calendar.tabattendees" /></h5>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-line" id="event-partstat">
+		<label><roundcube:label name="calendar.mystatus" /></label>
+		<span class="changersvp" role="button" tabindex="0" title="<roundcube:label name='calendar.changepartstat' />">
+			<span class="event-text"></span>
+			<a class="iconbutton edit"><roundcube:label name='calendar.changepartstat' /></a>
+		</span>
+	</div>
+	<div class="event-line" id="event-calendar">
+		<label><roundcube:label name="calendar.calendar" /></label>
+		<span class="event-text">Default</span>
+	</div>
+	<div class="event-line" id="event-category">
+		<label><roundcube:label name="calendar.category" /></label>
+		<span class="event-text"></span>
+	</div>
+	<div class="event-line" id="event-status">
+		<label><roundcube:label name="calendar.status" /></label>
+		<span class="event-text"></span>
+	</div>
+	<div class="event-line" id="event-free-busy">
+		<label><roundcube:label name="calendar.freebusy" /></label>
+		<span class="event-text"></span>
+	</div>
+	<div class="event-line" id="event-priority">
+		<label><roundcube:label name="calendar.priority" /></label>
+		<span class="event-text"></span>
+	</div>
+	<div class="event-line" id="event-sensitivity">
+		<label><roundcube:label name="calendar.sensitivity" /></label>
+		<span class="event-text"></span>
+	</div>
+	<div class="event-section" id="event-links">
+		<label><roundcube:label name="calendar.links" /></label>
+		<span class="event-text"></span>
+		<br style="clear:left">
+	</div>
+	<div class="event-section" id="event-attachments">
+		<label><roundcube:label name="attachments" /></label>
+		<div class="event-text"></div>
+	</div>
+	<div class="event-line" id="event-created-changed">
+		<label><roundcube:label name="calendar.created" /></label>
+		<span class="event-text event-created"></span>
+		<label><roundcube:label name="calendar.changed" /></label>
+		<span class="event-text event-changed"></span>
+	</div>
+	<div class="event-line" id="event-rsvp-comment">
+		<label><roundcube:label name="calendar.rsvpcomment" /></label>
+		<span class="event-text"></span>
+	</div>
+
+	<roundcube:object name="plugin.event_rsvp_buttons" id="event-rsvp" class="event-dialog-message" style="display:none" />
+</div>
+
+<div id="eventoptionsmenu" class="popupmenu" aria-hidden="true">
+	<h3 id="aria-label-eventoptions" class="voice"><roundcube:label name="calendar.eventoptions" /></h3>
+	<ul id="eventoptionsmenu-menu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-eventoptions">
+		<li role="menuitem"><roundcube:button type="link" command="event-download" label="download" classAct="active" /></li>
+		<li role="menuitem"><roundcube:button type="link" command="event-sendbymail" label="send" classAct="active" /></li>
+		<roundcube:if condition="env:calendar_driver == 'kolab' && config:kolab_bonnie_api" />
+		<li role="menuitem"><roundcube:button type="link" command="event-history" type="link" label="calendar.eventhistory" classAct="active" /></li>
+		<roundcube:endif />
+	</ul>
+</div>
+
+<div id="eventdiff" class="uidialog eventdialog" aria-hidden="true">
+	<h1 class="event-title">Event Title</h1>
+	<h1 class="event-title-new event-text-new"></h1>
+	<div class="event-section event-date"></div>
+	<div class="event-section event-location">
+		<h5 class="label"><roundcube:label name="calendar.location" /></h5>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+	<div class="event-section event-description">
+		<h5 class="label"><roundcube:label name="calendar.description" /></h5>
+		<div class="event-text-diff" style="white-space:pre-wrap"></div>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+	<div class="event-section event-url">
+		<h5 class="label"><roundcube:label name="calendar.url" /></h5>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+	<div class="event-section event-recurrence">
+		<h5 class="label"><roundcube:label name="calendar.repeat" /></h5>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+	<div class="event-section event-alarms">
+		<h5 class="label"><roundcube:label name="calendar.alarms" /><span class="index"></span></h5>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+	<div class="event-line event-start">
+		<label><roundcube:label name="calendar.start" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-end">
+		<label><roundcube:label name="calendar.end" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-attendees">
+		<label><roundcube:label name="calendar.tabattendees" /><span class="index"></span></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-calendar">
+		<label><roundcube:label name="calendar.calendar" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-categories">
+		<label><roundcube:label name="calendar.category" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-status">
+		<label><roundcube:label name="calendar.status" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-free_busy">
+		<label><roundcube:label name="calendar.freebusy" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-priority">
+		<label><roundcube:label name="calendar.priority" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-line event-sensitivity">
+		<label><roundcube:label name="calendar.sensitivity" /></label>
+		<span class="event-text-old"></span> &#8674;
+		<span class="event-text-new"></span>
+	</div>
+	<div class="event-section event-attachments">
+		<label><roundcube:label name="attachments" /><span class="index"></span></label>
+		<div class="event-text-old"></div>
+		<div class="event-text-new"></div>
+	</div>
+</div>
+
+<roundcube:include file="/templates/eventedit.html" />
+
+<div id="eventresourcesdialog" class="uidialog" aria-hidden="true">
+	<div id="resource-dialog-left">
+		<div id="resource-selection" class="uibox listbox" role="navigation" aria-labelledby="aria-label-resourceselection">
+			<h2 class="voice" id="aria-label-resourceselection"><roundcube:label name="calendar.arialabelresourceselection" /></h2>
+			<div id="resourcequicksearch">
+				<div class="searchbox" role="search" aria-labelledby="aria-label-resourcesearchform" aria-controls="resources-list">
+					<h3 id="aria-label-resourcesearchform" class="voice"><roundcube:label name="calendar.arialabelresourcesearchform" /></h3>
+					<label for="resourcesearchbox" class="voice"><roundcube:label name="calendar.searchterms" /></label>
+					<roundcube:object name="plugin.resources_searchform" id="resourcesearchbox" />
+					<a id="resourcesearchmenulink" class="iconbutton searchoptions"> </a>
+					<roundcube:button type="link" command="reset-resource-search" id="resourcesearchreset" class="iconbutton reset" title="resetsearch" label="resetsearch" />
+				</div>
+			</div>
+			<div class="scroller">
+				<roundcube:object name="plugin.resources_list" id="resources-list" class="listing treelist" />
+			</div>
+		</div>
+	</div>
+
+	<div id="resource-dialog-right">
+		<div id="resource-info" class="uibox contentbox" role="region" aria-labelledby="aria-label-resourcedetails">
+			<h2 class="boxtitle" id="aria-label-resourcedetails"><roundcube:label name="calendar.resourcedetails" /></h2>
+			<div class="scroller">
+				<roundcube:object name="plugin.resource_info" id="resource-details" class="propform" aria-live="polite" aria-relevant="text" aria-atomic="true" />
+			</div>
+		</div>
+
+		<div id="resource-availability" class="uibox contentbox" role="region" aria-labelledby="aria-label-resourceavailability">
+			<h2 class="boxtitle" id="aria-label-resourceavailability"><roundcube:label name="calendar.resourceavailability" /></h2>
+			<roundcube:object name="plugin.resource_calendar" id="resource-freebusy-calendar" />
+			<div class="boxpagenav">
+				<roundcube:button name="resource-cal-prev" id="resource-calendar-prev" type="link" class="icon prevpage" title="calendar.prevslot" label="calendar.prevweek" />
+				<roundcube:button name="resource-cal-next" id="resource-calendar-next" type="link" class="icon nextpage" title="calendar.nextslot" label="calendar.nextweek" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="eventfreebusy" class="uidialog" aria-hidden="true">
+	<roundcube:object name="plugin.attendees_freebusy_table" id="attendees-freebusy-table" cellpadding="0" />
+
+	<div class="schedule-options">
+		&nbsp;
+		<div class="schedule-buttons">
+			<button id="shedule-freebusy-prev" title="<roundcube:label name='previouspage' />">&#9668;</button><button id="shedule-freebusy-next" title="<roundcube:label name='nextpage' />">&#9658;</button>
+		</div>
+	</div>
+
+	<div style="float:left; width:28em">
+		<div class="form-section">
+			<label for="schedule-startdate"><roundcube:label name="calendar.start" /></label>
+			<input type="text" name="startdate" size="11" id="schedule-startdate" disabled="true" /> &nbsp;
+			<input type="text" name="starttime" size="6" id="schedule-starttime" disabled="true" />
+		</div>
+		<div class="form-section">
+			<label for="schedule-enddate"><roundcube:label name="calendar.end" /></label>
+			<input type="text" name="enddate" size="11" id="schedule-enddate" disabled="true" /> &nbsp;
+			<input type="text" name="endtime" size="6" id="schedule-endtime" disabled="true" />
+		</div>
+	</div>
+	<div style="float:left">
+		<div class="schedule-find-buttons">
+			<button id="shedule-find-prev">&#9668; <roundcube:label name="calendar.prevslot" /></button>
+			<button id="shedule-find-next"><roundcube:label name="calendar.nextslot" /> &#9658;</button>
+		</div>
+		<div class="schedule-options">
+			<label><input type="checkbox" id="schedule-freebusy-workinghours" value="1" /><roundcube:label name="calendar.onlyworkinghours" /></label>
+		</div>
+	</div>
+	<br style="clear:both;" />
+
+	<roundcube:include file="/templates/freebusylegend.html" />
+	<div class="attendees-list">
+		<span class="attendee organizer"><roundcube:label name="calendar.roleorganizer" /></span>
+		<span class="attendee req-participant"><roundcube:label name="calendar.rolerequired" /></span>
+		<span class="attendee opt-participant"><roundcube:label name="calendar.roleoptional" /></span>
+		<span class="attendee non-participant"><roundcube:label name="calendar.rolenonparticipant" /></span>
+		<span class="attendee chair"><roundcube:label name="calendar.rolechair" /></span>
+	</div>
+</div>
+
+<div id="eventhistory" class="uidialog" aria-hidden="true">
+    <roundcube:object name="plugin.object_changelog_table" id="event-changelog-table" class="records-table changelog-table" domain="calendar" />
+    <div class="compare-button"><input type="button" class="button" value="↳ <roundcube:label name='calendar.compare' />" /></div>
+</div>
+
+<div id="calendarform" class="uidialog" aria-hidden="true">
+	<roundcube:label name="loading" />
+</div>
+
+<div id="eventsimport" class="uidialog">
+	<roundcube:object name="plugin.events_import_form" id="events-import-form" uploadFieldSize="30" />
+</div>
+
+<div id="eventsexport" class="uidialog">
+	<roundcube:object name="plugin.events_export_form" id="events-export-form" />
+</div>
+
+<div id="calendarurlbox" class="uidialog">
+	<p><roundcube:label name="calendar.showurldescription" /></p>
+	<textarea id="calfeedurl" rows="2" readonly="readonly"></textarea>
+	<div id="calendarcaldavurl" style="display:none">
+		<p><roundcube:label name="calendar.caldavurldescription" html="yes" /></p>
+		<textarea id="caldavurl" rows="2" readonly="readonly"></textarea>
+	</div>
+</div>
+
+<roundcube:object name="plugin.calendar_css" />
+
+<script type="text/javascript">
+
+// UI startup
+var UI = new rcube_mail_ui();
+
+$(document).ready(function(e){
+	UI.init();
+
+	new calendarview_splitter({ id:'calsidebarsplitter', p1:'#calendarsidebar', p2:'#calendar',
+		orientation:'v', relative:true, start:280, min:260, size:12, offset:0 });
+
+	new rcube_splitter({ id:'calresourceviewsplitter', p1:'#resource-dialog-left', p2:'#resource-dialog-right',
+		orientation:'v', relative:true, start:380, min:220, size:10, offset:-3 }).init();
+
+	// animation to unfold list search box
+	$('#calendars .boxtitle a.search').click(function(e){
+		var title = $('#calendars .boxtitle'),
+			box = $('#calendars .listsearchbox'),
+			dir = box.is(':visible') ? -1 : 1;
+
+		if (!rcube_event.is_keyboard(e))
+			$(this).blur();
+
+		box.slideToggle({
+			duration: 160,
+			progress: function(animation, progress) {
+				if (dir < 0) progress = 1 - progress;
+				$('#calendars .scroller').css('top', (title.outerHeight() + 34 * progress) + 'px');
+			},
+			complete: function() {
+				box.toggleClass('expanded');
+				if (box.is(':visible')) {
+					box.find('input[type=text]').focus();
+				}
+				else {
+					$('#calendarlistsearch-reset').click();
+				}
+				// TODO: save state in localStorage
+			}
+		});
+
+		return false;
+	});
+
+});
+
+
+/**
+ * Extended rcube_splitter class that entirely collapses the calendar sidebar
+ */
+function calendarview_splitter(p)
+{
+	this.collapsed = false;
+	this.dragging = false;
+	this.threshold = 80;
+	this.lastpos = -1;
+	this._lastpos = -1;
+	this._min = p.min;
+
+	var me = this;
+	p.callback = function(e){
+		if (me.lastpos != me._lastpos) {
+			me.dragging = true;
+			setTimeout(function(){ me.dragging = false; }, 50);
+			me._lastpos = me.lastpos;
+		}
+	};
+
+	// extend base class
+	p.min = 20;
+	rcube_splitter.call(this, p);
+
+	// @override
+	this.resize = function()
+	{
+		if (this.pos < this.threshold) {
+			if (!this.collapsed)
+				this.collapse();
+		}
+		else if (this.pos < this._min && this.pos > this._min / 2) {
+			if (this.collapsed)
+				this.expand();
+		}
+		else if (this.pos >= this._min) {
+			this.p1.css('width', Math.floor(this.pos - this.p1pos.left - this.halfsize) + 'px');
+			this.p2.css('left', Math.ceil(this.pos + this.halfsize) + 'px');
+			this.handle.css('left', Math.round(this.pos - this.halfsize + this.offset + 3)+'px');
+			if (bw.ie) {
+				var new_width = parseInt(this.parent.outerWidth(), 10) - parseInt(this.p2.css('left'), 10) ;
+				this.p2.css('width', (new_width > 0 ? new_width : 0) + 'px');
+			}
+
+			this.p2.resize();
+			this.p1.resize();
+			this.lastpos = this.pos;
+
+			if (this._lastpos == -1)
+				this._lastpos = this.pos;
+
+			// also resize iframe covers
+			if (this.drag_active) {
+				$('iframe').each(function(i, elem) {
+					var pos = $(this).offset();
+					$('#iframe-splitter-fix-'+i).css({ top: pos.top+'px', left: pos.left+'px', width:elem.offsetWidth+'px', height: elem.offsetHeight+'px' });
+				});
+			}
+
+			if (typeof this.render == 'function')
+				this.render(this);
+		}
+	}
+
+	this.collapse = function(animated)
+	{
+		var me = this, time = 250;
+		if (animated) {
+			this.p1.animate({ left:'0px' }, time, function(){ $(this).hide(); });
+			this.p2.animate({ left:this.p.size + 'px' }, time, function(){ $(this).resize(); });
+			this.handle.animate({ left:'3px'}, time, function(){ $(this).addClass('sidebarclosed') });
+		}
+		else {
+			this.p1.css('left', 0).hide();
+			this.p2.css('left', this.p.size + 'px');
+			this.handle.css('left', '3px').addClass('sidebarclosed');
+			this.p2.resize();
+		}
+
+		// stop dragging
+		if (this.drag_active) {
+			this.drag_active = false;
+			$(document).unbind('.'+this.id);
+			$('div.iframe-splitter-fix').remove();
+		}
+
+		this.pos = 10;
+		this.collapsed = true;
+		this.set_cookie();
+	}
+
+	this.expand = function()
+	{
+		var me = this, time = 250;
+		this.handle.removeClass('sidebarclosed');
+		this.pos = this.lastpos > 0 ? this.lastpos : this._min;
+		this.p1pos.left = 10;
+		this.p1.show().animate({ left:'10px', width:(this.pos - this.p1pos.left - this.halfsize) + 'px' }, time);
+		this.p2.animate({ left:(this.pos + this.halfsize) + 'px' }, time, function(){ me.resize(); });
+		this.handle.animate({ left:(this.pos - this.halfsize + this.offset + 3) + 'px' }, time);
+
+		this.collapsed = false;
+		this.set_cookie();
+	}
+
+	this.init();
+
+	var me = this;
+	this.handle.bind('click', function(e){
+		if (!me.collapsed && !me.dragging)
+			me.collapse(true);
+		else if (!me.dragging)
+			me.expand();
+	});
+}
+
+</script>
+
+</body>
+</html>

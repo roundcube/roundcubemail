@@ -1,0 +1,90 @@
+/**
+ * Roundcube Taklist plugin CSS hacks for IE < 9
+ *
+ * Copyright (c) 2012, Kolab Systems AG <contact@kolabsys.com>
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ *
+ * $Id$
+ */
+
+#tasksview {
+	background: transparent;
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#33ffffff,endColorstr=#33ffffff);
+	zoom: 1;
+}
+
+#tasksview .buttonbar {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#dfdfdf', GradientType=0);
+}
+
+html.ie #taskselector li .count:after {
+	bottom: -4px;
+}
+
+#thelist .taskitem.dragging .taskhead {
+	filter: alpha(opacity=50);
+}
+
+#thelist .taskhead.complete {
+	filter: alpha(opacity=60);
+}
+
+#thelist .taskhead {
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#33666666,direction=180,strength=2);
+}
+
+/***  Special hacks for IE7 only  ***/
+
+html.ie7 #taskselector li .count {
+	position: relative;
+	top: 0px;
+	left: 5px;
+}
+
+html.ie7 #taskselector li.selected .count {
+	background: #d9ecf4;
+	color: #004458;
+}
+
+html.ie7 #taskselector li.selected.overdue .count {
+	background: #ff3800;
+	color: #fff;
+}
+
+html.ie7 .tagcloud li,
+html.ie7 #taskselector li {
+	float: left;
+}
+
+html.ie7 .taskitem {
+
+}
+
+html.ie7 .taskhead .title {
+	position: relative;
+	top: -3px;
+}
+
+html.ie7 .taskitem .childtoggle {
+	display: block;
+	/* workaround for text-indent which also offsets the background image */
+	text-indent: 0;
+	font-size: 0;
+	line-height: 0;
+	text-align: right;
+	text-decoration: none;
+}
+
+html.ie7 .taskhead .tags {
+	height: 18px;
+}
+
+html.ie7 .taskhead .tags .tag {
+	display: inline-block;
+	padding-bottom: 2px;
+}
+

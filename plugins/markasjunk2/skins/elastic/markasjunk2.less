@@ -1,0 +1,27 @@
+/**
+ * MarkAsJunk2 plugin styles
+ */
+
+@import (reference) "../../../../skins/elastic/styles/variables";
+
+.toolbar a.button.markasjunk2::before,
+.toolbarmenu li a.markasjunk2::before {
+  content: @fa-var-fire;
+}
+
+.toolbar a.button.markasnotjunk2::before,
+.toolbarmenu li a.markasnotjunk2::before {
+  content: @fa-var-inbox;
+}
+
+// Swipe plugin integration
+#swipe-action {
+  &.notjunk {
+    background-color: @color-success;
+    color: #fff;
+  }
+
+  > div > span.notjunk::before {
+    content: @fa-var-inbox;
+  }
+}

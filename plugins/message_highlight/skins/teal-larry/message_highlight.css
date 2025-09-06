@@ -1,0 +1,49 @@
+/* mail list */
+.rcmfd_mh_row td {
+  background-color: transparent !important;
+}
+
+.rcmfd_mh_row_dark td * {
+  color: #fff !important;
+}
+
+
+/* settings */
+.mh_preferences_row {
+  display: flex;
+  align-items: center;
+}
+
+.mh_preferences_row .ml-3 {
+  margin-left: 10px;
+}
+
+.mh_preferences_row .ml-5 {
+  margin-left: 15px;
+}
+
+
+/* icon */
+#sections-table #rcmrowmh_preferences td.section {
+	background-position: 6px -238px;
+}
+
+#sections-table #rcmrowmh_preferences.selected td.section {
+	background-position: 6px -262px;
+}
+
+/* remove some colorpicker elements */
+#mColorPickerTransparent, #mColorPickerSwatches, #mColorPickerImgGray {
+  display: none;
+}
+
+#mColorPickerFooter {
+  background-color: #ffffff !important;
+}
+
+
+#mColorPicker {
+  height: 83px !important;
+  padding: 2px !important;
+  background-color: #ffffff !important;
+}

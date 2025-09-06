@@ -1,0 +1,231 @@
+/**
+ * Autumn-Larry ContextMenu plugin styles
+ */
+
+.records-table tbody tr.contextRow td
+{
+  background-color: #c89723;
+}
+
+#mailboxlist li.contextRow,
+#directorylist li.contextRow,
+#savedsearchlist li.contextRow,
+#addresslist .contextRow,
+#contacts-table .contextRow
+{
+  background-color: #c89723;
+}
+
+div.contextmenu a
+{
+  position: relative;
+  outline: 0;
+  cursor: default;
+}
+
+div.contextmenu.rcmmainmenu ul.iconized li a span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 20px;
+}
+
+div.contextmenu ul li.submenu a span.icon
+{
+  padding-right: 18px;
+}
+
+div.contextmenu ul.iconized li.submenu a span.right-arrow
+{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 15px;
+  width: 18px;
+  background: url(images/contexticons.png) no-repeat right -194px;
+  opacity: 0.2;
+}
+
+div.contextmenu ul.iconized li.submenu a.active span.right-arrow
+{
+  opacity: 0.99;
+}
+
+div.contextmenu ul.iconized li a.reply span.icon
+{
+  background-position: 0 -122px;
+}
+
+div.contextmenu ul.iconized li a.reply-all span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -147px;
+}
+
+div.contextmenu ul.iconized li a.replyalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -147px;
+}
+
+div.contextmenu ul.iconized li a.replylistlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -464px;
+}
+
+div.contextmenu ul.iconized li a.forward span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -169px;
+}
+
+div.contextmenu ul.iconized li a.forwardlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -169px;
+}
+
+div.contextmenu ul.iconized li a.forwardattachmentlink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -445px;
+}
+
+div.contextmenu ul.iconized li a.delete span.icon
+{
+  background-position: 0 -96px;
+}
+
+div.contextmenu ul.iconized li a.markmessage span.icon
+{
+  background-position: 0 -670px;
+}
+
+div.contextmenu ul.iconized li a.more span.icon
+{
+  background-position: 0 -690px;
+}
+
+div.contextmenu ul.iconized li a.compose span.icon
+{
+  background-position: 0 -281px;
+}
+
+div.contextmenu ul.iconized li a.print span.icon
+{
+  background-position: 0 -710px;
+}
+
+div.contextmenu ul.iconized li a.removegroup span.icon
+{
+  background-position: 0 -347px;
+}
+
+div.contextmenu ul.iconized li a.cmd_mark-all-read span.icon
+{
+  background-position: 0 -26px;
+}
+
+div.contextmenu ul.iconized li a.cmd_expunge span.icon
+{
+  background-position: 0 -523px;
+}
+
+div.contextmenu ul.iconized li a.cmd_purge span.icon
+{
+  background-position: 0 -504px;
+}
+
+div.contextmenu ul.iconized li a.collapseall span.icon
+{
+  background-position: 0 -326px;
+}
+
+div.contextmenu ul.iconized li a.expandall span.icon
+{
+  background-position: 0 -305px;
+}
+
+div.contextmenu ul.iconized li a.openfolder span.icon
+{
+  background-position: 0 -484px;
+}
+
+div.contextmenu ul.iconized li a.addto span.icon,
+div.contextmenu ul.iconized li a.addcc span.icon,
+div.contextmenu ul.iconized li a.addbcc span.icon
+{
+  background-position: 0 -281px;
+}
+
+div.contextmenu ul.iconized li a.movecontact span.icon
+{
+  background-position: 0 -632px;
+}
+
+div.contextmenu ul.iconized li a.copycontact span.icon
+{
+  background-position: 0 -651px;
+}
+
+div.contextmenu ul.iconized li a.export span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -543px;
+}
+
+div.contextmenu ul.iconized li a.exportalllink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -568px;
+}
+
+div.contextmenu ul.iconized li a.exportsellink span.icon
+{
+  background: url(images/contexticons.png) no-repeat 0 -543px;
+}
+
+
+div.contextmenu ul.iconized li a.cmd_group-create span.icon,
+div.contextmenu ul.iconized li a.assigngroup span.icon
+{
+  background-position: 0 -613px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-rename span.icon
+{
+  background-position: 0 -591px;
+}
+
+div.contextmenu ul.iconized li a.cmd_group-delete span.icon
+{
+  background-position: 0 -96px;
+}
+
+div.contextmenu ul.iconized li a.cmd_search-delete span.icon
+{
+  background-position: 0 -96px;
+}
+
+/*** address book selector ***/
+
+#addressbook-selector,
+#addressgroup-selector
+{
+	z-index: 1000;
+}
+
+#addressbook-selector li a span,
+#addressgroup-selector li a span
+{
+  background: url(images/contexticons.png) no-repeat 0 20px;
+  display: block;
+  height: 17px;
+  min-height: 14px;
+  padding: 4px 4px 1px 28px;
+  overflow: hidden;
+  max-width: 120px;
+  text-overflow: ellipsis;
+}
+
+#addressbook-selector li a.addressbook span
+{
+	background-position: 0 -397px;
+}
+
+#addressbook-selector li a.contactgroup span,
+#addressgroup-selector li a.contactgroup span
+{
+	background-position: 0 -418px;
+}

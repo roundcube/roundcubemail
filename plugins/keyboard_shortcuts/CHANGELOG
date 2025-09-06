@@ -1,0 +1,30 @@
+CHANGELOG keyboard_shortcuts
+============================
+
+RELEASE 2.4.1
+
+- fix composer.json
+
+RELEASE 2.4
+
+- change how we detect focus
+- prevent other keyboard events from firing
+
+RELEASE 2.3
+
+- added extra check on input fields (fix by Rosali)
+- fixed Select All Visible keyboard shortcut (fix by Rodrigo Castillo)
+
+RELEASE 2.1
+
+- added Russian translation
+- bugfix: j/k keys were documented wrong
+
+RELEASE 2.0
+-----------
+
+- move to github
+- bugfix: dont fire when user is holding a meta key
+- bugfix: many browser can bind to both body and document, dont run both. $(document) should work everywhere
+- bug:fix we can be in any input element, make sure we dont interfere
+

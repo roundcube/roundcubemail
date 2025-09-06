@@ -1,0 +1,2 @@
+ALTER TABLE TABLE_PREFIXcarddav_addressbooks ALTER COLUMN username TYPE VARCHAR(255);
+ALTER TABLE TABLE_PREFIXcarddav_addressbooks ALTER COLUMN presetname TYPE VARCHAR(255);

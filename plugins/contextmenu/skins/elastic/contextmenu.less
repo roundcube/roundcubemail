@@ -1,0 +1,148 @@
+/**
+ * ContextMenu plugin styles
+ */
+
+@import (reference) "../../../../skins/elastic/styles/variables";
+@import (reference) "../../../../skins/elastic/styles/mixins";
+
+@color-contextmenu-source-background: #f9f9f9;
+@contextmenu-placeholder-icon: "\00a0";
+
+.listing tbody tr.context-source > td,
+.listing li.context-source {
+  background-color: @color-contextmenu-source-background;
+
+  // make sure only the target li background is set on nested lists
+  ul {
+    background-color: @color-layout-list-background;
+  }
+}
+
+// default content set here to prevent overriding Elastic icons
+.toolbar a.rcmbutton::before {
+  content: @contextmenu-placeholder-icon;
+}
+
+.contextmenu.popover {
+  max-width: none;
+}
+
+div.contextmenu ul.toolbar {
+  > li {
+    display: block;
+    border-bottom: 1px solid @color-list-border;
+
+    > a {
+      outline: 0;
+      cursor: default !important;
+      padding: 0 0.5em;
+      font-size: 0.875rem;
+    }
+
+    > a.button {
+      height: @listing-line-height;
+      line-height: @listing-line-height;
+      width: 100%;
+      min-width: 160px;
+      max-width: none;
+      text-align: left;
+      display: flex;
+
+      &:hover {
+        color: @color-toolbarmenu-hover;
+        background-color: @color-toolbarmenu-hover-background;
+      }
+    }
+  }
+
+  > li:last-child {
+    border-bottom: none;
+  }
+
+  a.rcmbutton {
+    &::before {
+      line-height: inherit;
+      margin: 0 0.25rem 0 0;
+      width: 1.18em;
+    }
+
+    &::after {
+      .font-icon-class;
+      content: @contextmenu-placeholder-icon;
+      padding: 0 0.5em;
+      font-size: 100%;
+    }
+
+    &.rcmsubbutton::after {
+      content: @fa-var-angle-right;
+    }
+
+    > span.icon {
+      flex-grow: 1;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.contextmenu_content {
+  display: block !important;
+  flex: 0 !important;
+  min-width: 0 !important;
+  width: 0;
+
+  #toolbar-menu {
+    display: block !important;
+  }
+}
+
+html.layout-small,
+html.layout-phone {
+  div.contextmenu {
+    top: 0 !important;
+  }
+}
+
+html.touch {
+  div.contextmenu {
+    ul.toolbar {
+      > li > a {
+        height: @listing-touch-line-height;
+        line-height: @listing-touch-line-height;
+      }
+
+      a.rcmbutton {
+        &::before,
+        &::after {
+          margin-right: 0.5rem;
+        }
+
+        > span.icon {
+          .overflow-ellipsis;
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}
+
+// additional icons
+
+div.contextmenu {
+  a {
+    &.cmd_plugin-contextmenu-collapseall::before {
+      .font-icon-regular(@fa-var-minus-square);
+    }
+
+    &.cmd_plugin-contextmenu-expandall::before {
+      .font-icon-regular(@fa-var-plus-square);
+    }
+
+    &.cmd_plugin-contextmenu-openfolder::before {
+      content: @fa-var-external-link-alt;
+    }
+
+    &.cmd_search-delete::before {
+      content: @fa-var-trash-alt !important;
+    }
+  }
+}

@@ -1,0 +1,89 @@
+<?php
+/**
+ * Localizations for the Kolab calendaring utilities plugin
+ *
+ * Copyright (C) 2014, Kolab Systems AG
+ *
+ * For translation see https://www.transifex.com/projects/p/kolab/resource/libcalendaring/
+ */
+$labels['until'] = 'tot';
+$labels['at'] = 'om';
+$labels['alarmemail'] = 'Verzend E-mail';
+$labels['alarmdisplay'] = 'Bericht weergeven';
+$labels['alarmdisplayoption'] = 'Bericht';
+$labels['alarmemailoption'] = 'E-mail';
+$labels['alarmat'] = 'op $datetime';
+$labels['trigger@'] = 'op datum';
+$labels['trigger-M'] = 'minuten voor';
+$labels['trigger-H'] = 'uren voor';
+$labels['trigger-D'] = 'dagen voor';
+$labels['trigger+M'] = 'minuten na';
+$labels['trigger+H'] = 'uren na';
+$labels['trigger+D'] = 'dagen na';
+$labels['triggerattime'] = 'at time';
+$labels['alarmtitle'] = 'Aankomende evenementen';
+$labels['repeatinmin'] = 'Herhaal over $min minuten';
+$labels['repeatinhr'] = 'Herhaal over 1 uur';
+$labels['repeatinhrs'] = 'Herhaal over $hrs uur';
+$labels['repeattomorrow'] = 'Herhaal morgen';
+$labels['repeatinweek'] = 'Herhaal over een week';
+$labels['showmore'] = 'Toon meer...';
+$labels['frequency'] = 'Herhaal';
+$labels['never'] = 'nooit';
+$labels['daily'] = 'dagelijks';
+$labels['weekly'] = 'wekelijks';
+$labels['monthly'] = 'maandelijks';
+$labels['yearly'] = 'jaarlijks';
+$labels['rdate'] = 'op datums';
+$labels['every'] = 'Elke';
+$labels['days'] = 'dag(en)';
+$labels['weeks'] = 'week / weken';
+$labels['months'] = 'maand(en)';
+$labels['years'] = 'ja(a)r(en) in:';
+$labels['bydays'] = 'Op';
+$labels['untildate'] = 'de';
+$labels['each'] = 'Elke';
+$labels['onevery'] = 'Op elke';
+$labels['onsamedate'] = 'Op dezelfde datum';
+$labels['forever'] = 'oneindig';
+$labels['recurrencend'] = 'tot';
+$labels['forntimes'] = 'voor $nr keer';
+$labels['first'] = 'eerste';
+$labels['second'] = 'tweede';
+$labels['third'] = 'derde';
+$labels['fourth'] = 'vierde';
+$labels['last'] = 'laatste';
+$labels['dayofmonth'] = 'Dag van de maand';
+$labels['addrdate'] = 'Voeg herhaal datum toe';
+$labels['itipinvitation'] = 'Uitnodiging voor';
+$labels['itipupdate'] = 'Update van';
+$labels['itipcancellation'] = 'Afgelast:';
+$labels['itipaccepted'] = 'Accepteer';
+$labels['itiptentative'] = 'Misschien';
+$labels['itipdeclined'] = 'Afwijzen';
+$labels['itipdelegated'] = 'Gedelegeerde';
+$labels['itipcomment'] = 'Uw antwoord';
+$labels['itipeditresponse'] = 'Voeg een antwoord tekst toe';
+$labels['itipsendercomment'] = 'Opmerking van verzender:';
+$labels['itipobjectnotfound'] = 'Het object waaraan in dit bericht wordt gerefereerd is niet gevonden in uw account.';
+$labels['itipsubjectaccepted'] = '"$title" is geaccepteerd door $name';
+$labels['itipsubjectcancel'] = 'Uw deelname aan "$title" is geannuleerd';
+$labels['itipnewattendee'] = 'Dit is een antwoord van een nieuwe deelnemer';
+$labels['updateattendeestatus'] = 'Update status van deelnemer';
+$labels['acceptinvitation'] = 'Accepteer je deze uitnodiging?';
+$labels['acceptattendee'] = 'Accepteer deelnemer';
+$labels['declineattendee'] = 'Afwijzen deelnemer';
+$labels['declineattendeeconfirm'] = 'Voeg een bericht toe voor de afgewezen deelnemer (optioneel):';
+$labels['youhaveaccepted'] = 'Je hebt de uitnodiging geaccepteerd';
+$labels['youhavedeclined'] = 'Je hebt deze uitnodiging afgewezen';
+$labels['youhavedelegated'] = 'U heeft deze uitnodiging gedelegeerd';
+$labels['attendeeaccepted'] = 'Deelnemer heeft geaccepteerd';
+$labels['attendeetentative'] = 'Deelnemer heeft voorwaardelijk geaccepteerd';
+$labels['attendeedeclined'] = 'Deelnemer heeft afgewezen ';
+$labels['attendeedelegated'] = 'Deelnemer heeft gedelegeerd aan ';
+$labels['importtocalendar'] = 'Bewaar in mijn kalender';
+$labels['removefromcalendar'] = 'Verwijder van mijn kalender';
+$labels['updatemycopy'] = 'Wijzig mijn kopie';
+$labels['deleteobjectconfirm'] = 'Wilt u echt dit object verwijderen?';
+$labels['declinedeleteconfirm'] = 'Wilt u tevens deze afgewezen object verwijderen uit uw kalender?';
+$labels['savingdata'] = 'Data wordt opgeslagen...';

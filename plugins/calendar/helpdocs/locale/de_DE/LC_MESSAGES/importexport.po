@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+# Ettore Atalan <atalanttore@googlemail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:47+0000\n"
+"Last-Translator: Torsten Grote <grote@kolabsys.com>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/kolab-documentation/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:9
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:11
+msgid ""
+"Event data is usually exchanged using the standard |iCal|_ format which is "
+"supported for import and export."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:16
+msgid "Importing Events"
+msgstr "Termine werden importiert"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:18
+msgid "This is how to add events from an |iCal|_ (.ics) file:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:20
+msgid "Click the *Import* toolbar button in the calendar view."
+msgstr "Klicken Sie in der Kalenderansicht auf die Werkzeugleistenschaltfläche *Import*."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:21
+msgid "Then select the file to import from your computer's hard drive."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:22
+msgid "Select the calendar to import the events to."
+msgstr "Wählen Sie den Kalender zum Importieren der Termine aus."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:23
+msgid "Select the threshold for old events to be imported."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:24
+msgid "Click *Import* and wait for the upload to finish."
+msgstr "Klicken Sie auf *Import* und warten Sie, bis das Hochladen abgeschlossen ist."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:26
+msgid ""
+"The calendar view will be refreshed to display the newly imported events. "
+"Verify that the according calendar is active if you don't see them."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:34
+msgid "Exporting Events"
+msgstr "Termine werden exportiert"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:36
+msgid ""
+"Events from your calendars can be exported and downloaded in the |iCal|_ "
+"format."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:38
+msgid "Click the *Export* toolbar button in the calendar view."
+msgstr "Klicken Sie in der Kalenderansicht auf die Werkzeugleistenschaltfläche *Export*."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:39
+msgid "Select the calendar where events should be exported from."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:40
+msgid ""
+"With the *Events from* selector you choose the time constraints for "
+"exporting."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/importexport.rst:41
+msgid "Click the *Export* button to start the export."
+msgstr "Klicken Sie auf die Schaltfläche *Export*, um den Export zu starten."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:42
+msgid ""
+"Choose where to save the exported .ics file if prompted, otherwise check the"
+" \"Downloads\" folder on your computer."
+msgstr ""

@@ -1,0 +1,30 @@
+.messagelist thead tr>.chbox
+{
+  width: 25px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#selectmenu ul
+{
+  margin: 0px;
+}
+
+#selectmenu ul li
+{
+  padding: 10px;
+  margin-left: -40px;
+  li-style-type: none;
+  display: block;
+  color: white;
+}
+
+#selectmenu ul li:hover
+{
+   background-color: #0186ba;
+}
+
+.records-table tbody .chbox
+{
+   text-overflow: clip;
+}

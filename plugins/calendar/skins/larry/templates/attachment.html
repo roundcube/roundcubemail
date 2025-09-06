@@ -1,0 +1,64 @@
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+<title><roundcube:object name="pagetitle" /></title>
+<roundcube:include file="/includes/links.html" />
+</head>
+<body class="extwin calendar attachmentwin">
+
+<div id="header">
+<div id="topline" role="banner" aria-labelledby="aria-label-topnav">
+	<div class="topleft">
+		<roundcube:container name="topline-left" id="topline-left" />
+	</div>
+	<roundcube:container name="topline-center" id="topline-center" />
+	<div class="topright">
+		<roundcube:container name="topline-right" id="topline-right" />
+		<roundcube:button name="close" type="link" label="close" class="closelink" onclick="self.close()" />
+	</div>
+</div>
+</div>
+
+<div id="mainscreen">
+
+<h1 class="voice"><roundcube:label name="attachment" />: <roundcube:var name="env:filename" /></h1>
+
+<h2 id="aria-label-toolbar" class="voice"><roundcube:label name="arialabeltoolbar" /></h2>
+<div id="attachmenttoolbar" class="toolbar fullwidth" role="toolbar" aria-labelledby="aria-label-toolbar">
+	<roundcube:button command="download-attachment" type="link" class="button download disabled" classAct="button download" classSel="button download pressed" label="download" title="download" />
+	<roundcube:button command="print-attachment" type="link" class="button print disabled" classAct="button print" classSel="button print pressed" label="print" title="print" />
+	<roundcube:container name="toolbar" id="messagetoolbar" />
+</div>
+
+<div id="mainscreencontent">
+
+	<div id="partheader" class="uibox listbox" role="contentinfo" aria-labelledby="aria-label-contentinfo">
+		<h2 class="boxtitle" id="aria-label-contentinfo"><roundcube:label name="properties" /></h2>
+		<div class="scroller">
+			<roundcube:object name="plugin.attachmentcontrols" class="listing" />
+		</div>
+	</div>
+
+	<div id="attachmentcontainer" class="uibox" role="main" aria-labelledby="aria-label-messagepart">
+		<h2 id="aria-label-messagepart" class="voice"><roundcube:label name="arialabelattachmentpreview" /></h2>
+		<div class="iframebox">
+		<roundcube:object name="plugin.attachmentframe" id="attachmentframe" frameborder="0" title="arialabelattachmentpreview" />
+		</div>
+	</div>
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	if (window.rcube_splitter) {
+		new rcube_splitter({ id:'mailpartsplitterv', p1:'#partheader', p2:'#attachmentcontainer',
+			orientation:'v', relative:true, start:226, min:150, size:12}).init();
+	}
+});
+
+</script>
+</body>
+</html>

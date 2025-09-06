@@ -1,0 +1,98 @@
+Roundcube Webmail MarkAsJunk2
+=============================
+
+Version 1.10.1 (2018-04-17, rc-1.1.11)
+=================================================
+ * Fix check_request() bypass in places using get_uids() [CVE-2018-9846]
+
+Version 1.10 (2017-01-02, rc-1.1)
+=================================================
+ * Add JS event markasjunk2-update to allow other plugins to influence the spam/ham options show
+ * Add init method to allow drivers to access markasjunk2-update JS event
+ * Replace config options markasjunk2_mb_toolbar and markasjunk2_cp_toolbar with new markasjunk2_toolbar option
+
+Version 1.9 (2015-01-06, rc-1.1)
+=================================================
+ * Use get_part_body add in 48ba4414b3
+ * Support multi-folder search results (66536974fe)
+ * Drop IE6 support
+
+Version 1.8.2 (2014-03-30, rc-1.0)
+=================================================
+ * Add amavis_blacklist driver (by Der-Jan)
+
+Version 1.8.1 (2014-01-01, rc-1.0)
+=================================================
+ * Improve sa_detach driver, make sure only original message is detached
+ * Correct skin folder structure for Roundcube packaging
+
+Version 1.8 (2013-12-01, rc-1.0)
+=================================================
+ * Use sauserprefs_userid config setting in sa_blacklist driver
+ * Use plugin API to set message flags (05da157)
+ * Update config file var names to match core
+ * Add support for global sql_debug option
+ * Improve handling of multiple marcos in cmd_learn driver
+
+Version 1.7 (2013-05-19, rc-1.0)
+=================================================
+ * add option to call markasjunk2 functions on message move
+ * rcmail_deliver_message() > deliver_message()
+ **** code branching/tagging no longer sync'd to roundcube versions ****
+
+Version 1.6 (2013-03-03, rc-0.9)
+=================================================
+ * merge PDO branch (de56ea1909)
+ * rename default skin to classic (c40419bdfe)
+ * add new edit_headers driver
+ * rcube_ui > rcube_utils (r6091)
+ * Update for Roundcube framework
+
+Version 1.5 (2012-06-19, rc-0.8)
+=================================================
+ * Fixed drivers namespace issues
+
+Version 1.4 (2012-01-21, rc-0.8)
+=================================================
+ * Improve spam/ham box configs
+
+Version 1.3 (2012-01-21, rc-0.8)
+=================================================
+ * Update after r5781
+ * Add inital support for Larry
+ * Remove the need to always move the message
+ * Remove the requirement to have a spam mailbox set
+ * Allow both buttons to be shown at once
+ * Execute driver before standard actions so standard actions can be overridden
+ * Move SA detach code to driver
+
+Version 1.2 (2010-07-02, rc-0.5)
+=================================================
+ * Imporve email_learn driver when not sending as attachemnt
+ * Use better command names
+ * Username parsing now in core (r3774)
+ * Respect display_next setting
+ * Fix mark as ham in message view
+ * Fix ham detachment, broken after c585116e7759c94d19fe6713af72cb5b45f7fde2,
+   also see RC ticket #1486584
+ * Update to r3393
+ * Better toolbar icons
+ * Update after r3261
+ * Another update after r3258
+ * Update after r3258
+
+Version 1.1 (2010-02-07, rc-0.4)
+=================================================
+ * Move toolbar config to config file
+ * CSS update after r3141
+ * Use explode() rather than split()
+ * Create driver based system for different learning methods
+ * Rename plugin to markasjunk2
+
+Version 1.0 (2009-10-31, rc-0.3)
+=================================================
+ * Use local_skin_path() (rev 3076)
+ * Added ability to mark ham as unread
+ * Added ability to flag/unflag spam/ham
+ * Added ability to trigger sa-learn
+ * Added config file to control new options

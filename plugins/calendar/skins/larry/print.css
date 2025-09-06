@@ -1,0 +1,229 @@
+/*** Printing styles for Calendar plugin ***/
+
+body {
+	margin: 0 0 1em 0;
+	color: #000;
+	background: #fff;
+}
+
+body, td, th, div, p, h3, select, input, textarea {
+	font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+}
+
+#calendar {
+	position: relative;
+	top: 0;
+	left: 0;
+	height: auto;
+	margin: 5em auto 0 auto;
+	overflow: visible;
+}
+
+#calendar .fc-header-right {
+	padding-right: 0;
+}
+
+#printconfig {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10000;
+	padding: 0.5em;
+	background: #ebebeb;
+	border-bottom: 1px solid #999;
+	box-shadow: 0 3px 4px #ccc;
+	-moz-box-shadow: 0 3px 4px #ccc;
+	-webkit-box-shadow: 0 3px 4px #ccc;
+}
+
+#printconfig .prop {
+	padding-right: 2em;
+}
+
+#message {
+	position: absolute;
+	top: 5.5em;
+	left: 1em;
+}
+
+#message div.loading {
+	color: #666;
+	font-style: italic;
+}
+
+#calendarlist {
+	list-style: none;
+	margin: 2em 0;
+	padding-left: 1em;
+}
+
+#calendarlist ul {
+	float: left;
+	list-style: none;
+	padding-left: 0;
+}
+
+#calendarlist li {
+	float: left;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 0;
+	font-weight: bold;
+}
+
+#calendarlist li div {
+	float: left;
+	padding-right: 3em;
+	padding-bottom: 1em;
+}
+
+#calendarlist input,
+#calendarlist .handle {
+	display: none;
+}
+
+#calendarlist li.x-invitations div {
+	color: #999;
+	font-style: italic;
+}
+
+.calwidth {
+	width: 700px;
+	margin: 0 auto;
+}
+
+.rightalign {
+	float: right;
+	padding-top: 0.3em;
+}
+
+@media print {
+	.noprint,
+	.fc-header-right span {
+		display: none;
+	}
+	
+	#calendar {
+		margin-top: 0;
+	}
+}
+
+/* fullcalendar style overrides */
+
+.fc-view {
+	overflow: visible;
+}
+
+.fc-event-skin,
+.fc-event-inner .fc-event-skin {
+	color: black;
+	background-color: #fff !important;
+}
+
+.fc-event-title {
+	font-weight: bold;
+}
+
+.fc-event-hori .fc-event-title {
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.fc-event-hori .fc-event-time {
+	white-space: nowrap;
+	font-weight: normal !important;
+	font-size: 10px;
+	padding-right: 0.6em;
+}
+
+.fc-grid .fc-event-time {
+	font-weight: normal !important;
+	padding-right: 0.3em;
+}
+
+.fc-event-cateories {
+	font-style: italic;
+}
+
+.fc-event-location {
+	font-size: 90%;
+}
+
+.fc-agenda-slots td div {
+	height: 1.4em;
+}
+
+.fc-widget-header,
+.fc-mon, .fc-tue, .fc-wed, .fc-thu, .fc-fri {
+	background-color: #fff;
+}
+
+.fc-widget-header, .fc-widget-content {
+	border-color: #ccc;
+}
+
+.fc-icon-alarms,
+.fc-icon-recurring {
+	display: inline-block;
+	width: 11px;
+	height: 11px;
+	background: url('images/eventicons.gif') 0 0 no-repeat;
+	margin-left: 3px;
+	line-height: 10px;
+}
+
+.fc-icon-alarms {
+	background-position: 0 -13px;
+}
+
+.fc-view-list, .fc-view-table {
+	border: 0;
+}
+
+.fc-view-list div.fc-list-header,
+.fc-view-table td.fc-list-header {
+	padding: 0.3em;
+	background: #fff;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #333;
+	border-color: #333;
+	border-style: solid;
+	border-width: 1px 0;
+	filter: none;
+}
+
+.fc-list-section .fc-event {
+	cursor: auto;
+}
+
+.fc-view-table tr.fc-event td,
+.fc-view-table tr.fc-event td.fc-event-handle {
+	border-color: #999;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.fc-view-table tr.fc-last td {
+	border: 0;
+}
+
+.fc-view-table tr.fc-event .fc-event-description {
+	padding-left: 2em;
+	padding-top: 0em;
+}
+
+.fc-event-vert .fc-event-description {
+	font-size: 90%;
+	font-style: italic;
+}
+
+.fc-view-month .fc-event-hori .fc-event-inner {
+	background: #fff !important;
+}
+
+.fc-view-table col.fc-event-location {
+	width: 20%;
+}

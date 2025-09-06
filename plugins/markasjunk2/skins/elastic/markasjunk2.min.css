@@ -1,0 +1,1 @@
+.toolbar a.button.markasjunk2::before,.toolbarmenu li a.markasjunk2::before{content:"\f06d"}.toolbar a.button.markasnotjunk2::before,.toolbarmenu li a.markasnotjunk2::before{content:"\f01c"}#swipe-action.notjunk{background-color:#41b849;color:#fff}#swipe-action>div>span.notjunk::before{content:"\f01c"}

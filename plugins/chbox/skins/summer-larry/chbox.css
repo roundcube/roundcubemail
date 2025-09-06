@@ -1,0 +1,32 @@
+/* Summer-Larry */
+.messagelist thead tr>.chbox
+{
+  width: 25px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#selectmenu ul
+{
+  border-radius: 4px 4px 4px 4px;
+  margin: 0px;
+}
+
+#selectmenu ul li
+{
+  padding: 5px 28px 5px 5px;
+  margin-left: -40px;
+  li-style-type: none;
+  display: block;
+  color: #f2eee6;
+  border-bottom: 1px solid #ccb159;
+}
+
+#selectmenu ul li:hover
+{
+	background: #c59e29;
+	background: -moz-linear-gradient(top, #c59e29 0%, #81570d 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c59e29), color-stop(100%,#81570d));
+	background: -ms-linear-gradient(top, #c59e29 0%, #81570d 100%);
+	background: linear-gradient(to bottom, #c59e29 0%, #81570d 100%);
+}

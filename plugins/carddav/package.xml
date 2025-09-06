@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+	<name>carddav</name>
+	<channel>www.benjamin-schieder.de</channel>
+	<summary>CardDAV plugin for Roundcube</summary>
+	<description>
+		Adds functionality to use, synchronize and manipulate CardDAV accounts with Roundcube.
+		Tested with davical, owncloud, MacOS Addressbook and others.
+	</description>
+	<lead>
+		<name>Benjamin Schieder</name>
+		<user>blindcoder</user>
+		<email>carddav@wegwerf.anderdonau.de</email>
+		<active>yes</active>
+	</lead>
+	<developer>
+		<name>Michael Stilkerich</name>
+		<user>mike2k</user>
+		<email>ms@mike2k.de</email>
+		<active>yes</active>
+	</developer>
+	<date>2018-10-01</date>
+	<version>
+		<release>3.0.3</release>
+	</version>
+	<stability>
+		<release>stable</release>
+	</stability>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+	<notes>-</notes>
+	<contents>
+		<dir baseinstalldir="/" name="/">
+			<file name="carddav_discovery.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="carddav_common.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="carddav_backend.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="carddav.php" role="php">
+				<tasks:replace from="@name@" to="name" type="package-info"/>
+				<tasks:replace from="@package_version@" to="version" type="package-info"/>
+			</file>
+			<file name="localization/cs_CZ.inc" role="data"></file>
+			<file name="localization/de_DE.inc" role="data"></file>
+			<file name="localization/en_US.inc" role="data"></file>
+			<file name="localization/es_ES.inc" role="data"></file>
+			<file name="localization/fr_FR.inc" role="data"></file>
+			<file name="localization/hu_HU.inc" role="data"></file>
+			<file name="localization/id_ID.inc" role="data"></file>
+			<file name="localization/it_IT.inc" role="data"></file>
+			<file name="localization/pl_PL.inc" role="data"></file>
+			<file name="localization/ru_RU.inc" role="data"></file>
+			<file name="localization/sv_SE.inc" role="data"></file>
+			<file name="localization/uk_UK.inc" role="data"></file>
+		</dir>
+		<!-- / -->
+	</contents>
+	<dependencies>
+		<required>
+			<php>
+				<min>5.6.18</min>
+			</php>
+		</required>
+	</dependencies>
+	<phprelease/>
+</package>
