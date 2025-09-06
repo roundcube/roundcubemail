@@ -1,0 +1,207 @@
+/*
+	Account Details Info CSS file
+	default CSS last updated in version 2009-09-26
+*/
+
+body.scroller {
+	overflow: auto;
+}
+
+div.settingsbox-account_details {
+	/* Expand the width of the box instead of breaking lines */
+	margin: 0 15px 15px 0;
+}
+
+div.settingsbox-account_details-custom {
+	/* Expand the width of the box instead of breaking lines */
+	position:absolute;
+    bottom:0;
+}
+
+div.settingsbox-account_details div.boxcontent {
+	padding: 1px;
+}
+
+div.settingsbox-account_details-custom div.boxcontent {
+	padding: 1px 1px;
+    bottom:0;
+}
+
+table.account_details {
+	margin: 0;
+	padding: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+
+table.account_details td {
+	width: auto;
+
+}
+
+
+table.account_details td.header {
+	font-weight: bold;
+	padding-top: 0px;
+	
+}
+
+table.account_details td.headerfirst {
+	font-weight: bold;
+	
+}
+
+table.account_details td.title {
+	padding-right: 10px;
+	
+}
+
+table.account_details td.categorynote {
+	font-style: italic;
+}
+
+span.fieldnote-parentheses {
+	/* style notes about field value - parentheses versions */
+}
+
+span.fieldnote-newline {
+	/* style notes about field value - newline versions */
+	display: block;
+	margin-top: 2px;
+}
+
+td.top_bold {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+td.top {
+	vertical-align: top;
+	padding-right: 10px;
+}
+
+td.bottom_bold {
+	font-weight: bold;
+	vertical-align: bottom;
+}
+
+
+td.paypal {
+    text-align: right;
+}
+
+table.account_details-list {
+	margin: 0;
+	padding: 0px 0 1px 0;
+	width: auto;
+	text-align: left;
+}
+
+
+table.account_details-list td {
+	padding: 0 25px 0px 0;
+/*	background: #eee; */
+
+}
+
+
+table.account_details-list td.header {
+	padding-top: px;
+	
+}
+
+table.account_details-list td.headerfirst {
+	
+}
+
+table.account_details-list td.title {
+	padding-right: 10px;
+	
+}
+
+table.account_details-list td.categorynote {
+	font-style: italic;
+}
+
+tutorial {
+	background-color: yellow;
+}
+
+input.account_details,
+textarea.account_details,
+select.account_details,
+button.account_details {
+	font-family: inherit;
+	font-size: inherit;
+	vertical-align: middle;
+}
+
+input.account_details[type="text"],
+input.account_details[type="password"],
+textarea.account_details {
+    -webkit-transition: all 0.90s ease-in-out;
+    -moz-transition: all 0.90s ease-in-out;
+    -ms-transition: all 0.90s ease-in-out;
+    -o-transition: all 0.90s ease-in-out;
+    margin: 1px 1px 2px 0px;
+	padding: 4px;
+	border: 1px solid #354616;
+	border-radius: 4px;
+	box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+	-webkit-box-shadow: inset 0 0 2px 1px rgba(0,0,0, 0.1);
+}
+
+input.account_details[type="text"]:focus,
+input.account_details[type="password"]:focus,
+input.button.account_details:focus,
+textarea.account_details:focus {
+	border-color: #354616;
+	box-shadow: 0 0 5px 2px rgba(53, 70, 22, 0.9);
+	-webkit-box-shadow: 0 0 5px 2px rgba(53, 70, 22, 0.9);
+	outline: none;
+}
+
+input.account_details[type="text"]:required,
+input.account_details[type="password"]:required {
+	border-color: #4787b1;
+}
+
+input.placeholder.account_details,
+textarea.placeholder.account_details {
+	color: #aaa;
+}
+
+#settings-sections .account_details a {
+	background-image: url(images/account_details.png);
+	background-repeat: no-repeat;
+	background-position: 7px -23px;
+}
+
+#settings-sections .account_details.selected a {
+	background-image: url(images/account_details.png);
+	background-repeat: no-repeat;
+	background-position: 7px 1px;
+}
+
+
+/*
+	
+
+input.account_details[type=text], textarea.account_details {
+  -webkit-transition: all 0.90s ease-in-out;
+  -moz-transition: all 0.90s ease-in-out;
+  -ms-transition: all 0.90s ease-in-out;
+  -o-transition: all 0.90s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 1px 1px 2px 0px;
+  border: 1px solid #DDDDDD;
+}
+ 
+input.account_details[type=text]:focus, textarea.account_details:focus {
+  box-shadow: 0 0 15px rgba(71, 135, 177, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 1px 1px 2px 0px;
+  border: 1px solid rgba(71, 135, 177, 1);
+}
+*/

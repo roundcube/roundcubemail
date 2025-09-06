@@ -1,0 +1,103 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/kolab-documentation/language/vi_VN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../en_US/_plugins/calendar/invitations.rst:8
+msgid "Handle Event Invitations"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:10
+msgid ""
+"In chapter :ref:`calendar-event-participants` we have learned how to invite "
+"other people to an event. This will send out invitation emails to all the "
+"participants with the event data attached. That allows one to directly "
+"accept or decline an event invitation."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:17
+msgid "Receive Event Invitations"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:19
+msgid ""
+"When the webmail system opens an invitation email with event data attached, "
+"it'll display a yellow box in the preview pane or the email view:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:25
+msgid "Accept/Decline Invitations"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:27
+msgid ""
+"Right in the box shown above, you can accept or decline the invitation by "
+"clicking the according button. This will send an automated response to the "
+"event organizer informing her about your decision and letting her update "
+"your participant status in her calendar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:31
+msgid ""
+"In case you accept, by either clicking *Accept* or *Maybe*, this will also "
+"copy the event into your personal calendar. The selector right next to the "
+"buttons lets you choose the right one."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:35
+msgid ""
+"The copy in your calendar now knows about the invitation and its original "
+"sender. If you now delete it from your calendar, you'll be asked whether "
+"this should send a declination message to the person who organizes the "
+"event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:39
+msgid ""
+"After acceping or declining, the email message containing the invitation can"
+" be deleted."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:43
+msgid "Process Invitation Replies"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:45
+msgid ""
+"As an organizer who has invited others to an event, you'll receive responses"
+" to the automatically sent invitations when the attendees either accept or "
+"decline them."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:48
+msgid ""
+"Such messages are also identified by the webmail system and again a yellow "
+"box appears in the message view:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:53
+msgid ""
+"By clicking the *Update the participant's status* button, the original event"
+" in your calendar will be updated with the RSVP status from the person who "
+"responded here."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/invitations.rst:56
+msgid ""
+"When you now look at the event details in the calendar view, the status "
+"icons next to each participant now displays the new status."
+msgstr ""

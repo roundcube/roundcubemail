@@ -1,0 +1,10 @@
+<roundcube:if condition="env:action == ''" />
+<div id="rcmfolder" class="popupmenu">
+    <h3 id="aria-label-rcmfolder" class="voice"><roundcube:label name="arialabelmailboxmenu" /></h3>
+    <ul id="rcmfoldermenu" class="toolbarmenu" role="menu" aria-labelledby="aria-label-rcmfolder">
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.collapseall" label="contextmenu.collapseall" classAct="active" class="collapseall" />
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.expandall" label="contextmenu.expandall" classAct="active" class="expandall" />
+        <roundcube:button type="link-menuitem" command="plugin.contextmenu.openfolder" label="openinextwin" classAct="active"  class="openfolder rcm-active" />
+    </ul>
+</div>
+<roundcube:endif />

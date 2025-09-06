@@ -1,0 +1,17 @@
+UPGRADING instructions
+======================
+
+To update database schema, depending on the driver you're using,
+please run in Roundcube bin/ directory:
+
+updatedb.sh --package=calendar-<driver> --version=<version> \
+  --dir=../plugins/calendar/drivers/<driver>/SQL
+
+[*] Replace <driver> with "database" or "kolab" (without quotes)
+[*] Replace <version> with Roundcube version e.g. 0.9.0
+[*] Roundcube should be upgraded before plugin upgrades
+
+Example:
+
+updatedb.sh --package=calendar-kolab --version=0.9.0 \
+  --dir=../plugins/calendar/drivers/kolab/SQL

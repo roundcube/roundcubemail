@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="AuthresStatus">
+
+    <description>A basic coding standard.</description>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <file>./</file>
+
+    <rule ref="PSR2" />
+
+</ruleset>

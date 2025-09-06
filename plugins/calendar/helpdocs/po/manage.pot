@@ -1,0 +1,250 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Roundcube Webmail Help 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../en_US/_plugins/calendar/manage.rst:7
+msgid "Manage Your Schedule"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:9
+msgid "All functions to maintain your events are accessible from the main calendar view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:13
+msgid "Add Events to a Calendar"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:18
+msgid "**Via toolbar**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:16
+msgid "Click the *New event* button in the toolbar to get an empty dialog where you enter the :ref:`event properties <calendar-edit-event>` such as summary, date/time, reminders, etc. Click *Save* to finally add it to the selected calendar."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:27
+msgid "**At a specific date/time**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:21
+msgid "Navigate the calendar view to the date you want to add an event for. Then mark the range of time (or dates in month view) with the mouse by pressing the button at the time the event should start and releasing it again at time it finishes. This will open the :ref:`event dialog <calendar-edit-event>` with the selected date/time range already filled in."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:26
+msgid "In order to create new all-day events, double-click the desired day in the calendar view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:33
+msgid "Edit and Reschedule Events"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:36
+msgid "The Event Dialog"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:38
+msgid "When clicking an event in the calendar view, a dialog showing its details is displayed. Clicking the *Edit* button in that dialog opens the form to edit all properties of the selected event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:41
+msgid "The edit form is divided into different section which can be switched using the tabs on top of the dialog:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:44
+msgid "**Summary**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:46
+msgid "This general section has text fields and selectors for various properties of an event. Here's a description of all the possible values:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:49
+msgid "``Summary``: The title of the event. This is what you will see in the calendar view."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:50
+msgid "``Location``: Where the event will be taking place."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:51
+msgid "``Description``: Any text that describes the event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:52
+msgid "``URL``: A link to more information about this event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:53
+msgid "``Start``: Date and time when the event starts."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:54
+msgid "``End``: Date and time when the event starts."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:55
+msgid "``all-day``: Check this if the event has no start/end time."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:56
+msgid "``Reminder``: Will pop up with an notification at a the specified time before the event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:57
+msgid "``Calendar``: The calendar the event is saved in. Change it to move an event from one calendar to another."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:58
+msgid "``Category``: The type of event. Categories can also be used for :ref:`coloring <settings-calendar>`."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:59
+msgid "``Show me as``: The representation in your free/busy scheduling calendar visible to others."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:60
+msgid "``Priority``: The priority value of the event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:61
+msgid "``Privacy``: Flag an event as \"private\" or \"confidential\" when sharing your calendar with others."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:63
+msgid "**Recurrence**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:65
+msgid "For periodically recurring event series, this tabs has the settings how an event is repeated over time."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:68
+msgid "``Repeat``: Start with selecting a repetition interval (e.g. monthly)"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:69
+msgid "``Every``: How often the frequency will be relevant. For example, for an event that takes place every other week choose Weekly and then 2. If you choose a frequency of weekly or monthly you can select which days of the week or month the event will occur."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:71
+msgid "``Until``: Determines the duration of the repetition. The recurrence can either run forever, for a number it times or until a specific date."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:73
+msgid "**Participants**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:75
+msgid "An important part of managing your schedule is to invite others to events and track their RSVP. In this part of the edit dialog you can manage the participants of an event. Read more about this further down in the :ref:`calendar-event-participants` section."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:79
+msgid "**Attachments**"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:81
+msgid "Sometimes a description text isn't enough to collect information for a specific event. Switch to this tab to attach files to the current event or to remove them again. Adding files works pretty much the same as :ref:`attaching them to email messages <mail-compose-attachments>`: first select a file from your local disk and click *Upload* in order to attach it."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:86
+msgid "Don't forget to finally save the changes by clicking *Save* in the event edit dialog. Even switching back and forth the tabs will not yet save the data."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:93
+msgid "Moving and Resizing with the Mouse"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:99
+msgid "If an existing event shall be rescheduled to another time or date, you'll find it handy to do that directly in the calendar view without opening the edit form. Simply grab the event block with the mouse and move it to the new date or time. Release the mouse button to complete."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:103
+msgid "In *Month* and *Day* view, the event blocks have a small handle at the bottom. Drag this with the mouse in order to resize the event meaning to adjust its duration."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:111
+msgid "Get Notifications"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:117
+msgid "While logged in to the webmail, event reminders will be displayed with pop-up boxes at the specified time before the event starts. You can specify if you want to see alarms for every calendar individually. Enable or disable reminders in :ref:`Calendar Settings <calendar-edit-properties>` from the :ref:`calendar-lists`."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:122
+msgid "Dismiss or Snooze Reminders"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:124
+msgid "When a reminder box pops up, you can either dismiss the notification for all events or each one individually. When dismissed, no further reminders will be displayed. Choose a time from the *Snooze* menu to get another reminder after the selected time."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:133
+msgid "Inviting Other People"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:135
+msgid "If you need to set up a meeting, and keep track of who's attending and who is not, the calendar can do this as well as you to automatically send invitations and read their responses."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:138
+msgid "When creating a new event, switch to the *Participants* tab. You're already listed as the organizer of the event."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:142
+msgid "Enter the name or email address of the person to invite. Contacts from the address book are suggested as you type. In order to send invitations, make sure the entered contact has an email address. Type it in the form ``Person Name <email@address.com>``."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:145
+msgid "Click *Add participant* to add the person to the list."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:146
+msgid "Select a *Role* (e.g. required or optional) for this person."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:147
+msgid "Repeat 1-3 for further participants."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:148
+msgid "Check the *Send invitations* box if the application should send out invitation emails."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:150
+msgid "Invitations will be sent out when you click *Save* and the event is created."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:158
+msgid "Find Availability"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:160
+msgid "Once all the participants are added to the list, you see the individual availability status for each one of them, given that this information is available. In case not everybody is free, click the *Find availability...* button to open the scheduling dialog. In that dialog, detailed availability information for all participants is displayed. Use the *Previous/Next Slot* buttons to find the next time slot where all required participants are available. Or drag the gray area representing the event duration with the mouse to manually select a free slot."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:166
+msgid "Click *Select* to copy the rescheduled date/time back into the event form and to close this dialog."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:170
+msgid "Receive Event Invitations"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/manage.rst:172
+msgid "How to process incoming event invitations is described in chapter :ref:`calendar-invitations`."
+msgstr ""
+

@@ -41,3 +41,31 @@ $messages['passwdconstraintviolation'] = 'Salasanan rajoitevirhe. Salasana on to
 $messages['pwned_mustnotbedisclosed'] = 'Salasana ei saa olla <a href="$href" target="_blank">yleisesti tunnettu</a>.';
 $messages['pwned_isdisclosed'] = 'Salasana on yleisesti tunnettu.';
 $messages['pwned_fetcherror'] = 'Salasanan vahvuutta ei voitu varmistaa.';
+
+$labels['hestia_err_policy_short'] = 'Salasana liian lyhyt (vähimmäispituus: %min).';
+$labels['hestia_err_endpoint_invalid'] = 'Hestia-päätepistettä ei ole määritetty tai se on virheellinen.';
+$labels['hestia_err_identity'] = 'Käyttäjätunnusta ei voida jäsentää muotoon local@domain%hint.';
+$labels['hestia_err_owner_unknown'] = 'Verkkotunnuksen %domainin omistajaa ei pystytä määrittämään.';
+$labels['hestia_err_unknown'] = 'Tuntematon virhe Hestia API:sta.';
+$labels['hestia_err_default'] = 'Hestia palautti virhekoodin %code.';
+$labels['hestia_err_1'] = 'Ei riittävästi perusteluja.';
+$labels['hestia_err_2'] = 'Virheellinen objekti tai argumentti.';
+$labels['hestia_err_3'] = 'Objektia ei ole olemassa (postilaatikkoa tai toimialuetta ei löydy).';
+$labels['hestia_err_4'] = 'Kohde on jo olemassa.';
+$labels['hestia_err_5'] = 'Kohde on jo keskeytetty.';
+$labels['hestia_err_6'] = 'Kohde ei ole jo keskeytetty.';
+$labels['hestia_err_7'] = 'Käytössä oleva kohde; ei voi muuttaa.';
+$labels['hestia_err_8'] = 'Pakettirajoitukset estävät toiminnan.';
+$labels['hestia_err_9'] = 'Väärä tai virheellinen salasana.';
+$labels['hestia_err_10'] = 'Hestia on evännyt luvan (API-tunnuksella ei ole oikeuksia tai IP ei ole sallittu).';
+$labels['hestia_err_11'] = 'Järjestelmäkäytäntö poistaa ominaisuuden käytöstä.';
+$labels['hestia_err_12'] = 'Analysointivirhe.';
+$labels['hestia_err_13'] = 'Levyvirhe.';
+$labels['hestia_err_14'] = 'Palvelimen kuormitus liian suuri.';
+$labels['hestia_err_15'] = 'Yhteysvirhe.';
+$labels['hestia_err_16'] = 'FTP-virhe.';
+$labels['hestia_err_17'] = 'Tietokantavirhe.';
+$labels['hestia_err_18'] = 'RRD-virhe.';
+$labels['hestia_err_19'] = 'Päivitysvirhe.';
+$labels['hestia_err_20'] = 'Uudelleenkäynnistysvirhe.';
+?>

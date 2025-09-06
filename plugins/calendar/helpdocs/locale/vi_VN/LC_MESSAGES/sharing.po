@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:34+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/kolab-documentation/language/vi_VN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi_VN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../en_US/_plugins/calendar/sharing.rst:11
+msgid "Sharing Calendars"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:13
+msgid ""
+"For collaboration, sharing calendars is an important feature. In the "
+":ref:`overview <calendar-lists>`, we have already learned how calendars "
+"others share with you appear in the calendars list. The following now "
+"explains how to make personal calendars accessible to fellow users."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:19
+msgid "Share a Calendar with others"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:21
+msgid ""
+"Sharing is controlled through the :ref:`Calendar Settings Dialog <calendar-"
+"edit-properties>`. Double-click a calendar in the list on the left and then "
+"select the *Sharing* tab at the top of the dialog box:"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:27
+msgid ""
+"The table displays who already has permission to see and modify the selected"
+" calendar. In order to share the calendar with a new user do"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:30
+msgid "Click the *Add entry* button (+) in the table footer"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:31
+msgid ""
+"Enter the username or choose one from the autocompletion menu that appears "
+"when you start typing. Instead of a specific user, permissons can be granted"
+" for all users or guests."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:33
+msgid "Select the access rights you want to grant for the user"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:34
+msgid "Click *Save* to add the permission"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:36
+msgid ""
+"Double-click an entry to edit the permissions for a particular user or "
+"group."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:38
+msgid ""
+"For removing existing permissions, select the according entry in the list "
+"and then choose *Delete* from the menu behind the gear icon in the footer of"
+" the list."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:43
+msgid "Subscribe to Shared Calendars"
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:45
+msgid ""
+"Calendars shared by others are not showing up right away in the list within "
+"the calendar view. Switch to :ref:`Settings > Folders <settings-folders>` to"
+" see all resources you can access. There's a shortcut to this: click *Manage"
+" folders* in the options menu behind the gear icon located the footer of the"
+" calendars list."
+msgstr ""
+
+#: ../../en_US/_plugins/calendar/sharing.rst:50
+msgid ""
+"In order to make a shared calendar appear in the calendars list, locate it "
+"in the folder manager and check the *Subscribed* mark in the list. Only "
+"subscribed calendars are visible in the calendar view."
+msgstr ""

@@ -1,0 +1,77 @@
+/* CSS hacks for IE 7 */
+
+#calendarsidebar,
+#calendarsidebartoggle {
+	height: expression((parseInt(this.parentNode.offsetHeight)-37)+'px');
+}
+
+#calendar {
+	width: expression((parseInt(this.parentNode.offsetWidth)-parseInt(document.getElementById('calendarsidebartoggle').offsetWidth)-parseInt(document.getElementById('calendarsidebartoggle').offsetLeft)-4)+'px');
+	height: expression((parseInt(this.parentNode.offsetHeight)-30)+'px');
+}
+
+#calendars {
+	height: expression((parseInt(this.parentNode.offsetHeight)-240)+'px');
+}
+
+#agendaoptions {
+	width: expression((parseInt(this.parentNode.offsetWidth)-12)+'px');
+}
+
+#calendartoolbar a.buttonPas {
+	filter: alpha(opacity=35);
+}
+
+#datepicker a.ui-priority-secondary {
+	filter: alpha(opacity=40);
+}
+
+.calendarmain .fc-day-content {
+	cursor: default;
+}
+
+.calendarmain .fc-view-table col.fc-event-date {
+	width: 8em;
+}
+
+.calendarmain .fc-view-table col.fc-event-time {
+	width: 9em;
+}
+
+.calendarmain .fc-header-title h2 {
+	font-size: 16px;
+}
+
+.calendarmain .fc-header-left {
+	width: 248px;
+}
+
+.calendarmain .fc-header-center {
+	width: auto;
+}
+
+.calendarmain .fc-header-right {
+	width: 144px;
+	white-space: nowrap;
+}
+
+.calendarmain .fc-event-temp .fc-event-bg {
+	display: none; /* nested opacity filters while dragging don't work */
+}
+
+#schedule-event-time {
+	filter: alpha(opacity=40);
+}
+
+#eventfreebusy .schedule-buttons,
+#edit-attendees-form #edit-attendee-schedule {
+	right: 0.6em;
+}
+
+#schedule-freebusy-times tr.times td.allday {
+	width: expression(Math.max(60, parseInt(this.offsetWidth))+'px');
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	width: expression((parseInt(this.parentNode.offsetWidth)-26)+'px');
+}

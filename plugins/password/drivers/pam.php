@@ -4,7 +4,6 @@
  * PAM Password Driver
  *
  * @version 2.0
- *
  * @author Aleksander Machniak
  *
  * Copyright (C) The Roundcube Dev Team
@@ -25,7 +24,7 @@
 
 class rcube_pam_password
 {
-    public function save($currpass, $newpass, $username)
+    function save($currpass, $newpass, $username)
     {
         $error = '';
 
@@ -34,11 +33,25 @@ class rcube_pam_password
                 if (pam_chpass($username, $currpass, $newpass)) {
                     return PASSWORD_SUCCESS;
                 }
-            } else {
-                rcube::raise_error("Password plugin: PAM authentication failed for user {$username}: {$error}", true);
             }
-        } else {
-            rcube::raise_error('Password plugin: PECL-PAM module not loaded', true);
+            else {
+                rcube::raise_error([
+                        'code' => 600,
+                        'file' => __FILE__,
+                        'line' => __LINE__,
+                        'message' => "Password plugin: PAM authentication failed for user $username: $error"
+                    ], true, false
+                );
+            }
+        }
+        else {
+            rcube::raise_error([
+                    'code' => 600,
+                    'file' => __FILE__,
+                    'line' => __LINE__,
+                    'message' => "Password plugin: PECL-PAM module not loaded"
+                ], true, false
+            );
         }
 
         return PASSWORD_ERROR;

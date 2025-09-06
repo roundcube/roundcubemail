@@ -1,0 +1,60 @@
+Check box email plugin for rounbcube
+
+Introduction
+----------------------------------------
+This is plugin for roundcube
+
+Install
+----------------------------------------
+
+Edit config/config.inc.php
+
+1- Add the plugin to roundcube $config['plugins'] array like:
+
+$config['plugins'] = array(
+    'chbox',
+    'archive',
+    'zipdownload',
+    'jqueryui',
+    'filters',
+    'userinfo',
+    'password',
+    'markasjunk2',
+    'hide_blockquote',
+    'contextmenu',
+    'globaladdressbook',
+    'newmail_notifier',
+    'vcard_attachments',
+);
+
+2- Add 'chbox' column to $config['list_cols'] array like:
+
+$config['list_cols'] = array('chbox','subject','status', 'from', 'date', 'size', 'flag', 'attachment','list_cols');
+
+----------------------------------------
+[CODE TESTING]
+Tested 24.05.2018 on Roundcube 1.1.12
+Tested 28.05.2018 on Roundcube 1.0.12
+Tested 28.05.2018 on Roundcube 1.2.7
+Tested 28.05.2018 on Roundcube 1.3.4
+Tested 24.07.2018 on Roundcube 1.3.6
+----------------------------------------
+[TEST SERVER CONFIGURATION]
+ubuntu 16.04 4.4.0-116-generic
+Apache/2.4.18 (Ubuntu)
+PHP 5.6.34-1+ubuntu16.04.1+deb.sury.org+1 (cli)
+mysql  Ver 14.14 Distrib 5.7.21, for Linux (x86_64) using  EditLine wrapper
+----------------------------------------
+[config.inc.php]
+$config['default_host'] = 'ssl://imap.yandex.ru';
+$config['imap_disabled_caps'] = array('BINARY');
+$config['default_port'] = 993;
+$config['smtp_server'] = 'ssl://smtp.yandex.ru';
+$config['smtp_port'] = 465;
+$config['plugins'] = array('filters','chbox');
+$config['htmleditor'] = 0;
+$config['smtp_user'] = '%u';
+$config['smtp_pass'] = '%p';
+$config['list_cols'] = array('chbox','subject','status', 'from', 'date', 'size', 'flag', 'attachment','list_cols');
+----------------------------------------
+If you want the plugin to work in other skins, please send skin sources

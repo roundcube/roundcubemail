@@ -1,0 +1,15 @@
+Library providing common functions for calendar-based plugins
+-------------------------------------------------------------
+
+Provides utility functions for calendar-related modules such as
+
+* alarms display and dismissal
+* attachment handling
+* iCal parsing and exporting
+
+iCal parsing and exporting is done with the help of the Sabretooth VObject
+library [1]. A copy of that library with all its dependencies is part of this
+package. In order to update it, execute ./get_sabre_vobject.sh within the
+lib/ directory.
+
+[1]: https://github.com/fruux/sabre-vobject

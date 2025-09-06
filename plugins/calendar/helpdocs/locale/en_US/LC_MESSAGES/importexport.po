@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, roundcube.net
+# This file is distributed under the same license as the Roundcube Webmail Help package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Kolab Documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-26 23:28+0100\n"
+"PO-Revision-Date: 2014-11-27 23:33+0000\n"
+"Last-Translator: Torsten Grote <grote@kolabsys.com>\n"
+"Language-Team: English (http://www.transifex.com/projects/p/kolab-documentation/language/en/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:9
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:11
+msgid ""
+"Event data is usually exchanged using the standard |iCal|_ format which is "
+"supported for import and export."
+msgstr "Event data is usually exchanged using the standard |iCal|_ format which is supported for import and export."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:16
+msgid "Importing Events"
+msgstr "Importing Events"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:18
+msgid "This is how to add events from an |iCal|_ (.ics) file:"
+msgstr "This is how to add events from an |iCal|_ (.ics) file:"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:20
+msgid "Click the *Import* toolbar button in the calendar view."
+msgstr "Click the *Import* toolbar button in the calendar view."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:21
+msgid "Then select the file to import from your computer's hard drive."
+msgstr "Then select the file to import from your computer's hard drive."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:22
+msgid "Select the calendar to import the events to."
+msgstr "Select the calendar to import the events to."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:23
+msgid "Select the threshold for old events to be imported."
+msgstr "Select the threshold for old events to be imported."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:24
+msgid "Click *Import* and wait for the upload to finish."
+msgstr "Click *Import* and wait for the upload to finish."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:26
+msgid ""
+"The calendar view will be refreshed to display the newly imported events. "
+"Verify that the according calendar is active if you don't see them."
+msgstr "The calendar view will be refreshed to display the newly imported events. Verify that the according calendar is active if you don't see them."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:34
+msgid "Exporting Events"
+msgstr "Exporting Events"
+
+#: ../../en_US/_plugins/calendar/importexport.rst:36
+msgid ""
+"Events from your calendars can be exported and downloaded in the |iCal|_ "
+"format."
+msgstr "Events from your calendars can be exported and downloaded in the |iCal|_ format."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:38
+msgid "Click the *Export* toolbar button in the calendar view."
+msgstr "Click the *Export* toolbar button in the calendar view."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:39
+msgid "Select the calendar where events should be exported from."
+msgstr "Select the calendar where events should be exported from."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:40
+msgid ""
+"With the *Events from* selector you choose the time constraints for "
+"exporting."
+msgstr "With the *Events from* selector you choose the time constraints for exporting."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:41
+msgid "Click the *Export* button to start the export."
+msgstr "Click the *Export* button to start the export."
+
+#: ../../en_US/_plugins/calendar/importexport.rst:42
+msgid ""
+"Choose where to save the exported .ics file if prompted, otherwise check the"
+" \"Downloads\" folder on your computer."
+msgstr "Choose where to save the exported .ics file if prompted, otherwise check the \"Downloads\" folder on your computer."

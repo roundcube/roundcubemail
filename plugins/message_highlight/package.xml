@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+   http://pear.php.net/dtd/tasks-1.0.xsd
+   http://pear.php.net/dtd/package-2.0
+   http://pear.php.net/dtd/package-2.0.xsd">
+	<name>message_highlight</name>
+	<lead>
+		<name>Cor Bosman</name>
+		<user>cor</user>
+		<email>cor@roundcu.be</email>
+		<active>yes</active>
+	</lead>
+	<uri>https://github.com/corbosman/message_highlight</uri>
+	<version>
+		<release>2.0</release>
+	</version>
+	<license uri="http://www.gnu.org/licenses/gpl-2.0.html">GNU GPLv2</license>
+</package>

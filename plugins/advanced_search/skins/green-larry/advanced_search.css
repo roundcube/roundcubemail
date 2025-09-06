@@ -1,0 +1,218 @@
+a.icon.advanced-search span.advanced-search {
+    background-image: url(images/icon-loupe.png) !important;
+    background-position: 0 !important;
+}
+
+a.button.advanced-search {
+    text-align: center;
+    font-size: 10px;
+    color: inherit;
+    min-width: 50px;
+    max-width: 75px;
+    height: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 28px 2px 0 2px;
+    text-shadow: 0px 1px 1px #eee;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -o-box-shadow: none;
+    background: url(../../../../skins/green-larry/images/buttons.png?v=abf1.36693) -100px 0 no-repeat transparent;
+    border: 0;
+    border-radius: 0;
+    background-position: center -970px;
+}
+
+.records-table tbody .aslabel_mbox td {
+    border-top: 1px solid inherit;
+    border-bottom: 1px solid inherit;
+    cursor: default;
+    font-weight: normal;
+    background-color: inherit;
+    color: inherit;
+    text-shadow: 0px 1px 1px inherit;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.records-table tbody .aslabel_mbox .aslabel_found {
+    top: 3px;
+    right: 6px;
+    min-width: 1.8em;
+    padding: 2px 4px;
+    background: inherit;
+    background: -moz-linear-gradient(top, inherit5 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+    box-shadow: inset 0 1px 1px 0 inherit;
+    -o-box-shadow: inset 0 1px 1px 0 inherit;
+    -webkit-box-shadow: inset 0 1px 1px 0 inherit;
+    -moz-box-shadow: inset 0 1px 1px 0 inherit;
+    border-radius: 9px;
+    color: inherit;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: none;
+    display: block;
+}
+
+#adsearch-popup button.add, #adsearch-popup button.delete{
+    display: inline-block;
+    margin: 0 2px;
+    padding: 2px 5px;
+    color: inherit;
+    text-shadow: 0px 1px 1px inherit;
+    border: 1px solid inherit;
+    border-radius: 4px;
+    background: #inherit;
+    background: -moz-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+    box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
+    -o-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
+    -webkit-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
+    -moz-box-shadow: 0 1px 1px 0 rgba(140, 140, 140, 0.3);
+    text-decoration: none;
+    outline: none;
+}
+
+#adv-search tbody tr {
+    padding: 4px 10px;
+    background: #eee;
+    border-bottom: 2px solid inherit;
+}
+
+#adv-search, #adv-search tr {
+    width: 100%;
+}
+
+td.adv-search-and-or {
+    width: 80px;
+    text-align: center;
+}
+
+#adsearch-popup .mainaction {
+    height: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+#rcavbox1, #rcavbox2 {
+    width: 30%;
+}
+
+#rcmrowadvancedsearch td.section {
+    background-position: 6px -1674px !important;
+}
+
+#rcmrowadvancedsearch.selected td.section {
+    background-position: 6px -1650px !important;
+}
+
+p.avsearchpref span {
+    min-width: 280px;
+    display: block;
+    max-width: 280px;
+    float: left;
+    vertical-align: middle;
+}
+
+p.avsearchpref img {
+    border-radius: 10px;
+}
+
+p.avsearchpref img.disabled {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+button.save_search {
+    color: inherit;
+    background-color: inherit;
+    border-radius: 4px;
+    height: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10px;
+}
+
+input.save_search {
+    padding: 0 10px 0 10px;
+    height: 20px;
+    background: inherit;
+    border: none;
+    font-weight: bold;
+    color: inherit;
+    text-shadow: none;
+    background: inherit;
+    background: -moz-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+}
+
+input.save_search:active {
+    background: inherit;
+    background: -moz-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+}
+
+input.delete_search {
+    padding: 0 10px 0 10px;
+    height: 19px;
+    background: inherit;
+    border: none;
+    font-weight: bold;
+    color: inherit;
+    text-shadow: none;
+    background: inherit;
+    background: -moz-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+}
+
+input.delete_search:active {
+    background: inherit;
+    background: -moz-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,inherit), color-stop(100%,inherit));
+    background: -o-linear-gradient(top, inherit 0%, inherit 100%);
+    background: -ms-linear-gradient(top, inherit 0%, inherit 100%);
+    background: linear-gradient(top, inherit 0%, inherit 100%);
+}
+
+
+.advanced_search_dialog .ui-dialog-title {
+    width: 100%;
+}
+
+.advanced_search_dialog .ui-dialog-title span.saved_searches {
+    border: 1px solid lightgray;
+    float: right;
+    display: block;
+    padding-right: 10px;
+    -moz-box-shadow: inset 0 0 5px inherit;
+    -webkit-box-shadow: inset 0 0 5px inherit;
+    box-shadow: inner 0 0 5px inherit;
+    padding-left: 10px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    border-radius: 4px;
+}
+
+#adsearch-popup input[name="filter-val"] {
+    margin-right: 4px;
+}

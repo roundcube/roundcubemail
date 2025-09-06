@@ -1,0 +1,6 @@
+#sections-table #rcmrowcd_preferences td.section {
+    background-position: 6px -766px;
+}
+#sections-table #rcmrowcd_preferences.selected td.section {
+    background-position: 6px -791px;
+}

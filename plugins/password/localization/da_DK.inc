@@ -41,3 +41,31 @@ $messages['passwdconstraintviolation'] = 'Password er i strid med reglerne. Det 
 $messages['pwned_mustnotbedisclosed'] = 'Adgangskoden må ikke være <a href="$href" target="_blank">almindeligt brugt</a>.';
 $messages['pwned_isdisclosed'] = 'Denne adgangskode er almindeligt brugt.';
 $messages['pwned_fetcherror'] = 'Kunne ikke bekræfte adgangskodens styrken.';
+
+$labels['hestia_err_policy_short'] = 'Adgangskoden er for kort (minimumslængde: %min).';
+$labels['hestia_err_endpoint_invalid'] = 'Hestia-slutpunktet er ikke konfigureret eller ugyldigt.';
+$labels['hestia_err_identity'] = 'Kan ikke analysere brugernavn i local@domain%hint.';
+$labels['hestia_err_owner_unknown'] = 'Det er ikke muligt at bestemme domæneejeren for %domain.';
+$labels['hestia_err_unknown'] = 'Ukendt fejl fra Hestia API.';
+$labels['hestia_err_default'] = 'Hestia returnerede fejlkoden %code.';
+$labels['hestia_err_1'] = 'Ikke nok argumenter.';
+$labels['hestia_err_2'] = 'Ugyldigt objekt eller argument.';
+$labels['hestia_err_3'] = 'Objektet findes ikke (postkasse eller domæne ikke fundet).';
+$labels['hestia_err_4'] = 'Objektet findes allerede.';
+$labels['hestia_err_5'] = 'Objektet er allerede suspenderet.';
+$labels['hestia_err_6'] = 'Objektet er allerede afbrudt.';
+$labels['hestia_err_7'] = 'Objekt i brug; kan ikke ændres.';
+$labels['hestia_err_8'] = 'Betjening blokeret af pakkebegrænsninger.';
+$labels['hestia_err_9'] = 'Forkert eller ugyldig adgangskode.';
+$labels['hestia_err_10'] = 'Tilladelse afvist af Hestia (API-identitet mangler rettigheder eller IP ikke tilladt).';
+$labels['hestia_err_11'] = 'Funktion deaktiveret af systempolitik.';
+$labels['hestia_err_12'] = 'Parsing-fejl.';
+$labels['hestia_err_13'] = 'Diskfejl.';
+$labels['hestia_err_14'] = 'Serverbelastningen er for høj.';
+$labels['hestia_err_15'] = 'Forbindelsesfejl.';
+$labels['hestia_err_16'] = 'FTP-fejl.';
+$labels['hestia_err_17'] = 'Databasefejl.';
+$labels['hestia_err_18'] = 'RRD-fejl.';
+$labels['hestia_err_19'] = 'Opdateringsfejl.';
+$labels['hestia_err_20'] = 'Fejl ved genstart.';
+?>

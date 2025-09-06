@@ -1,0 +1,1523 @@
+/**
+ * Roundcube Taklist plugin styles for skin "Violet-Larry"
+ *
+ * Copyright (C) 2012, Kolab Systems AG <contact@kolabsys.com>
+ * Screendesign by FLINT / Büro für Gestaltung, bueroflint.com
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+#taskbar a.button-tasklist span.button-inner {
+	background-image: url(images/buttons.png);
+	background-position: 0 0;
+}
+
+#taskbar a.button-tasklist:hover span.button-inner,
+#taskbar a.button-tasklist.button-selected span.button-inner {
+	background-position: 0 -26px;
+}
+
+ul.toolbarmenu li span.icon.taskadd,
+#attachmentmenu li a.tasklistlink span.icon.taskadd {
+	background-image: url(images/buttons.png);
+	background-position: -4px -90px;
+}
+
+#taskstoolbar a.button.export {
+	background-image: url(images/buttons.png);
+	background-position: center -179px;
+	min-width: 50px;
+	max-width: 70px;
+}
+
+#taskstoolbar a.button.import {
+	background-image: url(images/buttons.png);
+	background-position: center -139px;
+}
+
+#taskedit.uidialog,
+.tasklistview div.uidialog {
+	display: none;
+}
+
+.tasklistview #mainscreen {
+	min-width: 1000px !important;
+	min-height: 520px !important;
+}
+
+.tasklistview #header {
+	min-width: 1020px !important;
+}
+
+#sidebar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 240px;
+}
+
+.tasklistview #searchmenulink {
+	width: 15px;
+}
+
+#tagsbox {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	width: 100%;
+	height: 242px;
+}
+
+#tasklistsbox {
+	position: absolute;
+	top: 300px;
+	left: 0;
+	width: 100%;
+	bottom: 0px;
+}
+
+#tasklistsbox .boxtitle a.iconbutton.search {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 16px;
+	cursor: pointer;
+	background-position: -2px -317px;
+}
+
+#tasklistsbox .listsearchbox {
+	display: none;
+}
+
+#tasklistsbox .listsearchbox.expanded {
+	display: block;
+}
+
+#tasklistsbox .scroller {
+	top: 34px;
+}
+
+#tasklistsbox .listsearchbox.expanded + .scroller {
+	top: 68px;
+}
+
+
+#taskselector {
+	margin: -1px 40px 0 0;
+	padding: 0;
+}
+
+#taskselector li {
+	display: inline-block;
+	position: relative;
+	font-size: 90%;
+	padding-right: 0.3em;
+}
+
+.tagcloud li,
+#taskselector li a {
+	display: inline-block;
+	color: #3f1a67;
+	min-width: 3.5em;
+	padding: 0.2em 0.6em 0.2em 0.6em;
+	text-align: center;
+	text-decoration: none;
+	border: 1px solid #eee;
+	border-color: transparent;
+}
+
+.webkit .tagcloud li,
+.webkit #taskselector li a {
+	padding-bottom: 0.25em;
+}
+
+
+#taskselector li:first-child {
+	border-top: 0;
+	border-radius: 4px 4px 0 0;
+}
+
+#taskselector li:last-child {
+	border-bottom: 0;
+	border-radius: 0 0 4px 4px;
+}
+
+#taskselector li.overdue a {
+	color: #b72a2a;
+	font-weight: bold;
+}
+
+#taskselector li.inactive a {
+	color: #97b3bf;
+}
+
+.tagcloud li.selected,
+#taskselector li.selected a {
+	color: #fff;
+	background: #9145e2;
+	background: -moz-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9145e2), color-stop(100%,#3f1a67));
+	background: -o-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: -ms-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	box-shadow: inset 0 1px 1px 0 #9145e2;
+	-o-box-shadow: inset 0 1px 1px 0 #9145e2;
+	-webkit-box-shadow: inset 0 1px 1px 0 #9145e2;
+	-moz-box-shadow: inset 0 1px 1px 0 #9145e2;
+	border-color: #3f1a67;
+	border-radius: 10px;
+	text-shadow: none;
+}
+
+#taskselector li .count {
+	display: none;
+	position: absolute;
+	top: -18px;
+	right: 5px;
+	min-width: 1.8em;
+	padding: 2px 4px;
+	background: #3f1a67;
+	background: -moz-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9145e2), color-stop(100%,#3f1a67));
+	background: -o-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: -ms-linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	background: linear-gradient(top, #9145e2 0%, #3f1a67 100%);
+	box-shadow: 0 1px 2px 0 rgba(63,26,103,0.6);
+	color: #fff;
+	border-radius: 3px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 80%;
+	text-shadow: none;
+}
+
+#taskselector li .count:after {
+	content: "";
+	position: absolute;
+	bottom: -5px;
+	left: 50%;
+	margin-left: -5px;
+	border-style: solid;
+	border-width: 5px 5px 0;
+	border-color: #3f1a67 transparent;
+	/* reduce the damage in FF3.0 */
+	display: block; 
+	width: 0;
+}
+
+#taskselector li.overdue .count {
+	background: #ff3800;
+}
+
+#taskselector li.overdue .count:after {
+	border-color: #ff3800 transparent;
+}
+
+.tagcloud {
+	padding: 0;
+	margin: 6px;
+	list-style: none;
+}
+
+.tagcloud li {
+	display: inline-block;
+	color: #ebe8ef;
+	padding-right: 0.2em;
+	margin-right: 0.3em;
+	margin-bottom: 0.4em;
+	min-width: 1.2em;
+	cursor: pointer;
+}
+
+.tagcloud li.inactive {
+	color: #89b3be;
+	padding-right: 0.6em;
+	font-size: 80%;
+/*	display: none; */
+}
+
+.tagcloud li .count {
+	position: relative;
+	top: -1px;
+	margin-left: 5px;
+	padding: 0.15em 0.5em;
+	font-size: 80%;
+	font-weight: bold;
+	color: #59838e;
+	background: #c7e3ef;
+	box-shadow: inset 0 1px 1px 0 #b0ccd7;
+	-o-box-shadow: inset 0 1px 1px 0 #b0ccd7;
+	-webkit-box-shadow: inset 0 1px 1px 0 #b0ccd7;
+	-moz-box-shadow: inset 0 1px 1px 0 #b0ccd7;
+	border-color: #b0ccd7;
+	border-radius: 8px;
+}
+
+.tag-draghelper .tag .count,
+.tagcloud li.inactive .count {
+	display: none;
+}
+
+#tasklistsbox .treelist li {
+	margin: 0;
+	display: block;
+	position: relative;
+}
+
+#tasklistsbox .treelist li div.tasklist {
+	margin: 0;
+	height: 20px;
+	padding: 6px 8px 2px 6px;
+	position: relative;
+	white-space: nowrap;
+}
+
+#tasklistsbox .treelist li.virtual > div.tasklist {
+	height: 14px;
+}
+
+#tasklistsbox .treelist ul li > div.tasklist {
+	margin-left: 16px;
+}
+
+#tasklistsbox .treelist ul ul li > div.tasklist {
+	margin-left: 32px;
+}
+
+#tasklistsbox .treelist ul ul ul li > div.tasklist {
+	margin-left: 48px;
+}
+
+#tasklistsbox .treelist li label {
+	display: block;
+}
+
+#tasklistsbox .treelist li span.listname {
+	display: block;
+	position: absolute;
+	top: 7px;
+	left: 38px;
+	right: 40px;
+	cursor: default;
+	padding: 0px 30px 2px 2px;
+	color: #ebe8ef;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: url(images/sprites.png) right 20px no-repeat;
+}
+
+.quickview-active #tasklistsbox .treelist li input,
+.quickview-active #tasklistsbox .treelist li span.listname {
+	opacity: 0.35;
+}
+
+.quickview-active #tasklistsbox .treelist div.focusview span.listname {
+	opacity: 1.0;
+}
+
+#tasklistsbox .treelist div span.actions {
+	display: inline-block;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	padding: 5px 20px 0 6px;
+	min-width: 40px;
+	height: 19px;
+	text-align: right;
+}
+
+#tasklistsbox .treelist div:hover span.actions {
+	top: 1px;
+	right: 1px;
+	border: 1px solid #c6c6c6;
+	border-radius: 4px;
+	background: #f7f7f7;
+	background: -moz-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#e6e6e6));
+	background: -o-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: -ms-linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	background: linear-gradient(top, #f9f9f9 0%, #e6e6e6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e6e6e6', GradientType=0);
+}
+
+#tasklistsbox .treelist div a.remove,
+#tasklistsbox .treelist div a.quickview,
+#tasklistsbox .treelist div a.subscribed {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin-right: 4px;
+	background: url(images/sprites.png) -200px 0 no-repeat;
+	overflow: hidden;
+	text-indent: -5000px;
+	cursor: pointer;
+}
+
+#tasklistsbox .treelist div a.subscribed {
+	position: absolute;
+	top: 5px;
+	right: 4px;
+	margin: 0;
+}
+
+#tasklistsbox .treelist div a.subscribed:focus,
+#tasklistsbox .treelist div:hover a.subscribed {
+	background-position: -2px -215px;
+}
+
+#tasklistsbox .treelist div.subscribed a.subscribed {
+	background-position: -20px -215px;
+}
+
+#tasklistsbox .treelist div a.quickview:focus,
+#tasklistsbox .treelist div:hover a.quickview {
+	background-position: -20px -101px;
+	background-color: transparent !important;
+}
+
+#tasklistsbox .treelist div a.remove:focus,
+#tasklistsbox .treelist div:hover a.remove {
+	background-position: -2px -371px;
+	background-color: transparent !important;
+}
+
+#tasklistsbox .treelist div.focusview a.quickview {
+	background-position: -2px -101px;
+}
+
+#tasklistsbox .searchresults .treelist div a.remove,
+#tasklistsbox .searchresults .treelist div a.quickview {
+	display: none;
+}
+
+#tasklistsbox .treelist div a.remove:focus,
+#tasklistsbox .treelist div a.quickview:focus,
+#tasklistsbox .treelist div a.subscribed:focus {
+	border-radius: 3px;
+	outline: 2px solid rgba(30,150,192, 0.5);
+}
+
+#tasklistsbox .treelist li.selected > div > span.listname {
+	font-weight: bold;
+}
+
+#tasklistsbox .treelist .readonly > span.listname {
+	background-position: right -142px;
+}
+
+#tasklistsbox .treelist .user > span.listname {
+	background-position: right -160px;
+}
+
+#tasklistsbox .treelist .virtual > span.listname {
+	color: #aaa;
+	top: 4px;
+	left: 20px;
+	right: 5px;
+}
+
+#tasklistsbox .treelist.flat li span.calname {
+	left: 24px;
+	right: 22px;
+}
+
+#tasklistsbox .treelist li input {
+	position: absolute;
+	top: 5px;
+	left: 18px;
+}
+
+#tasklistsbox .treelist li .treetoggle {
+	top: 8px;
+}
+
+#tasklistsbox .treelist li.virtual > .treetoggle {
+	top: 6px;
+}
+
+#tasklistsbox .searchresults {
+	background: #b0ccd7;
+	margin-top: 8px;
+}
+
+#tasklistsbox .searchresults .boxtitle {
+	background: none;
+	padding: 2px 8px 2px 8px;
+}
+
+#tasklistsbox .searchresults .listing li {
+	background-color: #c7e3ef;
+}
+
+#mainview-right {
+	position: absolute;
+	top: 0;
+	left: 256px;
+	right: 0;
+	bottom: 0;
+}
+
+#taskstoolbar {
+	position: absolute;
+	top: -6px;
+	left: 0;
+	width: 100%;
+	height: 40px;
+	white-space: nowrap;
+}
+
+#taskstoolbar a.button.newtask {
+	background-image: url(images/buttons.png);
+	background-position: center -53px;
+}
+
+#quickaddbox {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 60%;
+	height: 32px;
+	white-space: nowrap;
+}
+
+#quickaddinput {
+	width: 85%;
+	margin: 0;
+	padding: 3px 8px;
+	height: 18px;
+	background: #f1f1f1;
+	background: rgba(255, 255, 255, 0.7);
+	border-color: #a3a3a3;
+	font-weight: bold;
+}
+
+#quickaddbox .button {
+	margin-left: 5px;
+	padding: 3px 10px;
+	font-weight: bold;
+}
+
+#tasksview {
+	position: absolute;
+	top: 42px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0, 0.2);
+	overflow: visible;
+}
+
+.quickview-active #tasksview {
+	background-image: url('images/focusview.png');
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#message.statusbar {
+	border-top: 1px solid #c3c3c3;
+}
+
+#tasksview .scroller {
+	position: absolute;
+	left: 0;
+	top: 35px;
+	width: 100%;
+	bottom: 0;
+	overflow: auto;
+}
+
+#tasksview .buttonbar {
+	color: #777;
+	background: #eee;
+	background: -moz-linear-gradient(top, #eee 0%, #dfdfdf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#dfdfdf));
+	background: -o-linear-gradient(top, #eee 0%, #dfdfdf 100%);
+	background: -ms-linear-gradient(top, #eee 0%, #dfdfdf 100%);
+	background: linear-gradient(top, #eee 0%, #dfdfdf 100%);
+	border-bottom: 1px solid #ccc;
+	position: relative;
+	line-height: 13px;
+	height: 20px;
+}
+
+#tasksview .buttonbar .buttonbar-right {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+}
+
+.buttonbar-right .listmenu {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.buttonbar-right a.iconbutton {
+	padding: 0;
+	background-image: url(images/sprites.png);
+	background-position: 0 -238px;
+}
+
+.buttonbar-right a.iconbutton.sorting {
+	background-position: -18px -347px;
+}
+
+#thelist {
+	padding: 0;
+	margin: 1em;
+	list-style: none;
+}
+
+#listmessagebox {
+	display: none;
+	font-size: 14px;
+	color: #ebe8ef;
+	margin: 1.5em;
+	text-shadow: none;
+	text-align:center;
+}
+
+.taskitem {
+	position: relative;
+	display: block;
+	margin-bottom: 3px;
+}
+
+.taskitem.dragging {
+	opacity: 0.5;
+}
+
+.taskitem .childtasks {
+	position: relative;
+	padding: 0;
+	margin: 3px 0 0 20px;
+	list-style: none;
+}
+
+.taskitem .childtoggle {
+	display: none;
+	position: absolute;
+	top: 4px;
+	left: -5px;
+	padding: 2px;
+	font-size: 10px;
+	color: #727272;
+	cursor: pointer;
+	
+	width: 14px;
+	height: 14px;
+	background: url(images/sprites.png) -2px -80px no-repeat;
+	text-indent: -1000px;
+	overflow: hidden;
+}
+
+.taskitem .childtoggle.collapsed {
+	background-position: -18px -81px;
+}
+
+.taskhead {
+	position: relative;
+	margin-left: 14px;
+	padding: 4px 5px 3px 5px;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	background: #fff;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0 1px 1px 0 rgba(50, 50, 50, 0.5);
+	box-shadow: 0 1px 1px 0 rgba(50, 50, 50, 0.5);
+	padding-right: 26em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: default;
+	outline: none;
+}
+
+.taskhead:focus,
+.taskhead.droptarget {
+	border-color: #4787b1;
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+}
+
+.taskhead .complete {
+	margin: -1px 1em 0 0;
+}
+
+.taskhead .title {
+	font-size: 12px;
+}
+
+.taskhead .flagged,
+.taskshow.status-flagged h2:after {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(images/sprites.png) 1000px -3px no-repeat;
+	margin: -3px 1em 0 0;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.taskhead .flagged:focus,
+.taskhead:hover .flagged {
+	background-position: -2px -3px;
+}
+
+.taskhead.flagged .flagged,
+.taskshow.status-flagged h2:after {
+	background-position: -2px -23px;
+}
+
+.taskhead .tags {
+	display: block;
+	position: absolute;
+	top: 3px;
+	right: 10em;
+	max-width: 14em;
+	height: 16px;
+	overflow: hidden;
+	padding-top: 1px;
+	text-align: right;
+}
+
+.tag-draghelper .tag,
+.taskhead .tags .tag {
+	font-size: 85%;
+	background: #d9ecf4;
+	border: 1px solid #c2dae5;
+	border-radius: 4px;
+	padding: 1px 7px;
+	margin-right: 3px;
+}
+
+.tag-draghelper li.tag {
+	list-style: none;
+	font-size: 100%;
+}
+
+.taskhead .date {
+	position: absolute;
+	top: 4px;
+	right: 30px;
+	text-align: right;
+	cursor: pointer;
+}
+
+.taskhead.nodate .date {
+	color: #ddd;
+}
+
+.taskhead.overdue .date {
+	color: #d00;
+}
+
+.taskhead.nodate:hover .date {
+	color: #999;
+}
+
+.taskhead .date input {
+	padding: 1px 2px;
+	border: 1px solid #ddd;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	outline: none;
+	text-align: right;
+	width: 6em;
+	font-size: 11px;
+}
+
+.taskhead .actions {
+	display: block;
+	position: absolute;
+	top: 3px;
+	right: 6px;
+	width: 18px;
+	height: 18px;
+	background: url(images/sprites.png) 1000px -80px no-repeat;
+	text-indent: -5000px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.taskhead .actions:focus,
+.taskhead:hover .actions {
+	background-position: 0 -80px;
+}
+
+.taskhead.complete {
+	opacity: 0.6;
+}
+
+.taskhead.complete .title {
+	text-decoration: line-through;
+}
+
+.taskhead .progressbar {
+	position: absolute;
+	bottom: 1px;
+	left: 6px;
+	right: 6px;
+	height: 2px;
+}
+
+.taskhead.complete .progressbar {
+	display: none;
+}
+
+.taskhead .progressvalue {
+	height: 1px;
+	background: rgba(1, 124, 180, 0.2);
+	border-top: 1px solid #219de6;
+}
+
+ul.toolbarmenu li span.add,
+ul.toolbarmenu li span.expand,
+ul.toolbarmenu li span.collapse,
+ul.toolbarmenu li span.history,
+ul.toolbarmenu.iconized .selected span.icon {
+	background-image: url(images/sprites.png);
+}
+
+ul.toolbarmenu li span.add {
+	background-position: 0 -302px;
+}
+
+ul.toolbarmenu li span.expand {
+	background-position: 0 -258px;
+}
+
+ul.toolbarmenu li span.collapse {
+	background-position: 0 -280px;
+}
+
+ul.toolbarmenu li span.delete {
+	background-position: 0 -1508px;
+}
+
+ul.toolbarmenu li span.history {
+	background-position: 0 -408px;
+}
+
+ul.toolbarmenu.iconized .selected span.icon {
+	background-position: 0 -324px;
+}
+
+ul.toolbarmenu .sortcol.by-auto a {
+	font-style: italic;
+}
+
+.taskitem-draghelper {
+/*
+	width: 32px;
+	height: 26px;
+*/
+	background: #444;
+	border: 1px solid #555;
+	border-radius: 4px;
+	box-shadow: 0 2px 6px 0 #333;
+	-moz-box-shadow: 0 2px 6px 0 #333;
+	-webkit-box-shadow: 0 2px 6px 0 #333;
+	-o-box-shadow: 0 2px 6px 0 #333;
+	z-index: 5000;
+	padding: 2px 10px;
+	font-size: 20px;
+	color: #ccc;
+	opacity: 0.92;
+	filter: alpha(opacity=90);
+	text-shadow: none;
+}
+
+#rootdroppable {
+	display: none;
+	position: absolute;
+	top: 2px;
+	left: 1em;
+	right: 1em;
+	height: 5px;
+	background: #ddd;
+	border-radius: 3px;
+}
+
+#rootdroppable.droptarget {
+	background: #4787b1;
+	box-shadow: 0 0 2px 1px rgba(71,135,177, 0.9);
+	-moz-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.9);
+	-o-box-shadow: 0 0 2px 1px rgba(71,135,177, 0.9);
+	
+}
+
+/*** task edit form ***/
+
+#taskedit,
+#taskshow,
+#taskdiff {
+	display: none;
+}
+
+#taskedit {
+	position: relative;
+	top: -1.5em;
+	padding: 0.5em 0.1em;
+	margin: 0 -0.2em;
+}
+
+.taskshow h2 {
+	margin-top: -0.5em;
+}
+
+#taskdiff h2 {
+	font-size: 18px;
+	margin: -0.3em 0 0.4em 0;
+}
+
+.taskshow.status-completed h2 {
+	text-decoration: line-through;
+}
+
+.taskshow.status-flagged h2:after {
+	content: " ";
+	position: relative;
+	margin-left: 0.6em;
+	top: 1px;
+	cursor: default;
+}
+
+.taskshow label {
+	color: #999;
+}
+
+.taskshow.status-cancelled {
+	background: url(images/badge_cancelled.png) top right no-repeat;
+}
+
+.task-parent-title {
+	position: relative;
+	top: -0.6em;
+}
+
+a.morelink {
+	font-size: 90%;
+	color: #0069a6;
+	text-decoration: none;
+	outline: none;
+}
+
+a.morelink:hover {
+	text-decoration: underline;
+}
+
+#taskedit .ui-tabs-panel {
+	min-height: 24em;
+}
+
+#taskeditform input.text,
+#taskeditform textarea {
+	width: 97%;
+}
+
+#taskeditform .buttons {
+	margin: 0.5em 0;
+}
+
+#taskedit .border-after {
+	padding-bottom: 0.8em;
+	margin-bottom: 0.8em;
+	border-bottom: 2px solid #fafafa;
+}
+
+#taskedit .edit-attendees-table {
+	width: 100%;
+	margin-top: 0.5em;
+}
+
+#taskedit .edit-attendees-table tbody td {
+	padding: 5px 7px 6px;
+}
+
+#taskedit .edit-attendees-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+#taskedit .edit-attendees-table th.role,
+#taskedit .edit-attendees-table td.role {
+	width: 9em;
+}
+
+#taskedit .edit-attendees-table th.availability,
+#taskedit .edit-attendees-table td.availability,
+#taskedit .edit-attendees-table th.confirmstate,
+#taskedit .edit-attendees-table td.confirmstate {
+	width: 6em;
+}
+
+#taskedit .edit-attendees-table th.options,
+#taskedit .edit-attendees-table td.options {
+	width: 24px;
+	padding: 2px 4px;
+	text-align: right;
+}
+
+#taskedit .edit-attendees-table th.invite,
+#taskedit .edit-attendees-table td.invite {
+	width: 50px;
+	padding: 2px;
+}
+
+#taskedit .edit-attendees-table th.invite label {
+	display: inline-block;
+	position: relative;
+	top: 4px;
+	width: 24px;
+	height: 18px;
+	min-width: 24px;
+	padding: 0;
+	overflow: hidden;
+	text-indent: -5000px;
+	white-space: nowrap;
+	background: url(images/sendinvitation.png) 1px 0 no-repeat;
+}
+
+#taskedit .edit-attendees-table th.name,
+#taskedit .edit-attendees-table td.name {
+	width: auto;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#taskedit .edit-attendees-table td.name .attendee-name {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 5px 7px 6px 4px;
+	margin: -5px -7px -6px;
+}
+
+#taskedit .edit-attendees-table td.name select {
+	width: 100%;
+}
+
+#taskedit .edit-attendees-table a.deletelink {
+	display: inline-block;
+	width: 17px;
+	height: 17px;
+	padding: 0;
+	overflow: hidden;
+	text-indent: 1000px;
+}
+
+#taskedit .edit-attendees-table a.expandlink {
+	position: absolute;
+	top: 4px;
+	right: 6px;
+	width: 16px;
+	height: 16px;
+}
+
+#edit-attendees-form {
+	position: relative;
+	margin-top: 15px;
+}
+
+#edit-attendees-form .attendees-invitebox {
+	text-align: right;
+	margin: 0;
+}
+
+#edit-attendees-form .attendees-invitebox label {
+	padding-right: 3px;
+}
+
+#taskedit-attachments {
+	margin: 0.6em 0;
+}
+
+#taskedit-attachments ul li {
+	display: block;
+	color: #333;
+	font-weight: bold;
+	padding: 3px 4px 3px 30px;
+	text-shadow: none;
+	text-decoration: none;
+	white-space: nowrap;
+	line-height: 20px;
+}
+
+#taskedit-attachments ul li a.file {
+	padding: 0;
+}
+
+#taskedit-attachments-form {
+	margin-top: 1em;
+	padding-top: 0.8em;
+	border-top: 2px solid #fafafa;
+}
+
+div.form-section {
+	position: relative;
+	margin-top: 0.2em;
+	margin-bottom: 0.5em;
+}
+
+.form-section label {
+	display: inline-block;
+	min-width: 7em;
+	padding-right: 0.5em;
+	margin-bottom: 0.3em;
+}
+
+.tasklistview div.form-section span.task-text + label {
+	margin-left: 2em;
+}
+
+label.block {
+	display: block;
+	margin-bottom: 0.3em;
+}
+
+.task-description {
+	margin-bottom: 1em;
+}
+
+.taskshow .task-text-old,
+.taskshow .task-text-new,
+.taskshow .task-text-diff {
+	padding: 2px;
+}
+
+.taskshow .task-text-diff del,
+.taskshow .task-text-diff ins {
+	text-decoration: none;
+	color: inherit;
+}
+
+.taskshow .task-text-old,
+.taskshow .task-text-diff del {
+	background-color: #fdd;
+	/* text-decoration: line-through; */
+}
+
+.taskshow .task-text-new,
+.taskshow .task-text-diff ins {
+	background-color: #dfd;
+}
+
+.tasklistview .taskshow label span.index {
+	vertical-align: inherit;
+	margin-left: 0.6em;
+}
+
+#taskedit-completeness-slider {
+	display: inline-block;
+	margin-left: 2em;
+	width: 30em;
+	height: 0.8em;
+	border: 1px solid #ccc;
+}
+
+#taskedit-tagline {
+	width: 97%;
+}
+
+#taskedit .droptarget {
+	background-image: url(../../../../skins/larry/images/filedrop.png) !important;
+	background-position: center bottom !important;
+	background-repeat: no-repeat !important;
+}
+
+#taskedit .droptarget.hover,
+#taskedit .droptarget.active {
+	border-color: #019bc6;
+	box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-moz-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-webkit-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+	-o-box-shadow: 0 0 3px 2px rgba(71,135,177, 0.5);
+}
+
+#taskedit .droptarget.hover {
+	background-color: #d9ecf4;
+	box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-moz-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-webkit-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+	-o-box-shadow: 0 0 5px 2px rgba(71,135,177, 0.9);
+}
+
+#task-links {
+	margin-top: 0;
+	margin-bottom: 0.2em;
+}
+
+#task-links label {
+	vertical-align: top;
+	margin-top: 0.3em;
+}
+
+#task-links .attachmentslist {
+	display: inline-block;
+}
+
+#task-links .attachmentslist li {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+#taskedit-links .attachmentslist li.message.eml,
+#task-links .attachmentslist li.message.eml {
+	background-image: url(images/sprites.png);
+	background-position: -2px -388px;
+}
+
+#taskedit-links .attachmentslist li.message a.messagelink,
+#task-links .attachmentslist li.message a.messagelink {
+	padding: 0 0 0 24px;
+}
+
+#taskedit-links .attachmentslist li.deleted a.messagelink,
+#taskedit-links .attachmentslist li.deleted a.messagelink:hover {
+	text-decoration: line-through;
+}
+
+#taskedit-links label {
+	float: left;
+	margin-top: 0.3em;
+}
+
+#taskedit-links .task-text {
+	margin-left: 8em;
+	min-height: 22px;
+}
+
+#taskedit-links .attachmentslist li a.delete {
+	top: 0;
+	background-position: -6px -378px;
+}
+
+#task-attachments .attachmentslist li {
+	float: left;
+	margin-right: 1em;
+}
+
+#task-attachments .attachmentslist li a {
+	outline: none;
+}
+
+.task-attendees span.attendee {
+	padding-right: 18px;
+	margin-right: 0.5em;
+	background: url(images/attendee-status.png) right 0 no-repeat;
+}
+
+.task-attendees span.attendee a.mailtolink {
+	text-decoration: none;
+	white-space: nowrap;
+	outline: none;
+}
+
+.task-attendees span.attendee a.mailtolink:hover {
+	text-decoration: underline;
+}
+
+.task-attendees span.completed {
+	background-position: right -20px;
+}
+
+.task-attendees span.declined {
+	background-position: right -40px;
+}
+
+.task-attendees span.tentative {
+	background-position: right -60px;
+}
+
+.task-attendees span.delegated {
+	background-position: right -180px;
+}
+
+.task-attendees span.in-process {
+	background-position: right -200px;
+}
+
+.task-attendees span.accepted {
+	background-position: right -220px;
+}
+
+.task-attendees span.organizer {
+	background-position: right 100px;
+}
+
+#all-task-attendees span.attendee {
+	display: block;
+	margin-bottom: 0.4em;
+	padding-bottom: 0.3em;
+	border-bottom: 1px solid #ddd;
+}
+
+.tasklistview .uidialog .tabbed {
+	min-width: 600px;
+}
+
+.tasklistview .uidialog .propform fieldset.ui-tabs-panel {
+	min-height: 290px;
+}
+
+.tasklistview .uidialog .propform #taskedit-tasklistame {
+	width: 20em;
+}
+
+.task-dialog-message {
+	margin-top: 0.5em;
+	padding: 0.8em;
+	border: 1px solid #ffdf0e;
+	background-color: #fef893;
+}
+
+.task-dialog-message .message,
+.task-update-confirm .message {
+	margin-bottom: 0.5em;
+}
+
+/* Invitation UI in mail */
+
+.messagelist tbody .attachment span.ical {
+	display: inline-block;
+	vertical-align: middle;
+	height: 18px;
+	width: 20px;
+	padding: 0;
+	background: url(images/ical-attachment.png) 2px 1px no-repeat;
+}
+
+div.tasklist-invitebox {
+	min-height: 20px;
+	margin: 5px 8px;
+	padding: 3px 6px 6px 34px;
+	border: 1px solid #ffdf0e;
+	background: url(images/tasklist.png) 6px 5px no-repeat #fef893;
+}
+
+div.tasklist-invitebox td {
+	padding: 2px;
+}
+
+div.tasklist-invitebox td.ititle {
+	font-weight: bold;
+	padding-right: 0.5em;
+}
+
+div.tasklist-invitebox td.label {
+	color: #666;
+	padding-right: 1em;
+}
+
+#task-rsvp .rsvp-buttons,
+#task-rsvp .itip-reply-controls,
+div.tasklist-invitebox .itip-buttons div {
+	margin-top: 0.5em;
+}
+
+#task-rsvp .itip-reply-controls a,
+#task-rsvp .itip-reply-controls label {
+	color: #333;
+}
+
+#task-rsvp input.button,
+div.tasklist-invitebox input.button {
+	font-weight: bold;
+	margin-right: 0.5em;
+}
+
+div.tasklist-invitebox .folder-select {
+	font-weight: 10px;
+	margin-left: 1em;
+}
+
+div.tasklist-invitebox .rsvp-status {
+	padding-left: 2px;
+}
+
+div.tasklist-invitebox .rsvp-status.loading {
+	color: #666;
+	padding: 1px 0 2px 24px;
+	background: url(images/loading_blue.gif) top left no-repeat;
+}
+
+div.tasklist-invitebox .rsvp-status.hint {
+	color: #666;
+	text-shadow: none;
+	font-style: italic;
+}
+
+#task-partstat .changersvp,
+.tasklistview .edit-attendees-table td.confirmstate span,
+div.tasklist-invitebox .rsvp-status.declined,
+div.tasklist-invitebox .rsvp-status.tentative,
+div.tasklist-invitebox .rsvp-status.accepted,
+div.tasklist-invitebox .rsvp-status.delegated,
+div.tasklist-invitebox .rsvp-status.in-process,
+div.tasklist-invitebox .rsvp-status.completed,
+div.tasklist-invitebox .rsvp-status.needs-action {
+	padding: 0 0 1px 22px;
+	background: url(images/attendee-status.png) 2px -20px no-repeat;
+}
+
+#task-partstat .changersvp.declined,
+div.tasklist-invitebox .rsvp-status.declined,
+.tasklistview .edit-attendees-table td.confirmstate span.declined {
+	background-position: 2px -40px;
+}
+
+#task-partstat .changersvp.tentative,
+div.tasklist-invitebox .rsvp-status.tentative,
+.tasklistview .edit-attendees-table td.confirmstate span.tentative {
+	background-position: 2px -60px;
+}
+
+#task-partstat .changersvp.delegated,
+div.tasklist-invitebox .rsvp-status.delegated,
+.tasklistview .edit-attendees-table td.confirmstate span.delegated {
+	background-position: 2px -180px;
+}
+
+#task-partstat .changersvp.needs-action,
+div.tasklist-invitebox .rsvp-status.needs-action,
+.tasklistview .edit-attendees-table td.confirmstate span.needs-action {
+	background-position: 2px 0;
+}
+
+#task-partstat .changersvp.in-process,
+div.tasklist-invitebox .rsvp-status.in-process,
+.tasklistview .edit-attendees-table td.confirmstate span.in-process {
+	background-position: 2px -200px;
+}
+
+#task-partstat .changersvp.accepted,
+div.tasklist-invitebox .rsvp-status.accepted,
+.tasklistview .edit-attendees-table td.confirmstate span.accepted {
+	background-position: 2px -220px;
+}
+
+div.messagetasklinks {
+	position: relative;
+	margin: 8px 8px;
+	padding: 4px 8px 4px 30px;
+	border: 1px solid #dfdfdf;
+	background: #fafafa;
+	border-radius: 4px;
+}
+
+div.messagetasklinks::before {
+	content: " ";
+	position: absolute;
+	top: 4px;
+	left: 8px;
+	width: 18px;
+	height: 18px;
+	background: url(images/buttons.png) -6px -115px no-repeat;
+}
+
+div.messagetasklinks ul.tasklist {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+div.messagetasklinks .messagetaskref {
+	display: block;
+	margin-bottom: 2px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+div.messagetasklinks a.messagetasklink {
+	position: relative;
+	display: inline-block;
+	color: #333;
+	font-weight: bold;
+	padding: 3px 0 2px 2px;
+	text-shadow: none;
+	text-decoration: none;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+div.messagetasklinks .messagetaskref.complete a.messagetasklink {
+	text-decoration: line-through;
+	text-shadow: none;
+	color: #666;
+}
+
+div.messagetasklinks .messagetaskref input.complete {
+	vertical-align: middle;
+}
+
+
+.tasklist.attachmentwin #attachmenttoolbar {
+	position: relative;
+	top: -6px;
+	height: 40px;
+}
+
+.tasklist.attachmentwin #attachmentcontainer {
+	position: absolute;
+	top: 0;
+	left: 232px;
+	right: 0;
+	bottom: 0;
+}
+
+.tasklist.attachmentwin #attachmentframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background-color: #fff;
+	border-radius: 4px;
+}
+
+.tasklist.attachmentwin #partheader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 220px;
+	bottom: 0;
+}
+
+.tasklist.attachmentwin #partheader table {
+	table-layout: fixed;
+	overflow: hidden;
+}
+
+.tasklist.attachmentwin #partheader table td {
+	color: #666;
+	padding: 4px 6px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.tasklist.attachmentwin #partheader table td.header {
+	font-weight: bold;
+}
+
+.tasklist.attachmentwin #partheader table td.title {
+	width: 60px;
+	padding-right: 0;
+}
+
+
+/** Special hacks for IE7 **/
+/** They need to be in this file to also affect the task-create dialog embedded in mail view **/
+
+html.ie7 #taskedit-completeness-slider {
+	display: inline;
+}

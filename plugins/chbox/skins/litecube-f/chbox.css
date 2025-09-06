@@ -1,0 +1,31 @@
+.messagelist thead tr>.chbox
+{
+  width: 25px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#messagelist tr td.chbox
+{
+  width: 20px;
+  padding: 0px 2px 1px 2px;
+  text-align: center;
+}
+
+#selectmenu ul
+{
+  margin: 0px;
+}
+
+#selectmenu ul li
+{
+  padding: 10px;
+  margin-left: -40px;
+  li-style-type: none;
+  display: block;
+}
+
+#selectmenu ul li:hover
+{
+   background-color: #C2E2F9;
+}

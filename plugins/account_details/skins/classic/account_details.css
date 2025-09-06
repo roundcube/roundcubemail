@@ -1,0 +1,22 @@
+#showusername
+{
+  position: absolute;
+  top: 65px;
+  left: 20px;
+}
+
+#showusername a
+{
+  font-size: 11px;
+  color: #666666;
+  padding-top: 2px;
+  padding-bottom: 2px;  
+  padding-left: 25px;
+  text-decoration: none;
+  background: url('images/user.png') 5px 1px no-repeat;
+}
+
+#showusername a:hover
+{
+  color: #333333;
+}

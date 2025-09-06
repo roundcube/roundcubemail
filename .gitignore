@@ -37,3 +37,9 @@ skins/elastic/styles/_variables.less
 
 # Ignore files used for local overriding.
 /tests/MessageRendering/.env
+
+*.swp
+*.sgh
+*.zip
+translate_locales.php
+config.inc.php

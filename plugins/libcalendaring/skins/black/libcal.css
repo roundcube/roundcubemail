@@ -1,0 +1,166 @@
+/**
+ * Roundcube libcalendaring plugin styles for skin "Larry"
+ *
+ * Copyright (c) 2012-2014, Kolab Systems AG <contact@kolabsys.com>
+ *
+ * The contents are subject to the Creative Commons Attribution-ShareAlike
+ * License. It is allowed to copy, distribute, transmit and to adapt the work
+ * by keeping credits to the original autors in the README file.
+ * See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+ */
+
+.alarm-item {
+	margin: 0.4em 0 1em 0;
+}
+
+.alarm-item .event-title {
+	font-size: 14px;
+	margin: 0.1em 0 0.3em 0;
+}
+
+.alarm-item div.event-section {
+	margin-top: 0.1em;
+	margin-bottom: 0.3em;
+}
+
+.alarm-item .alarm-actions {
+	margin-top: 0.4em;
+}
+
+.alarm-item div.alarm-actions a {
+	margin-right: 0.8em;
+	text-decoration: none;
+}
+
+a.alarm-action-snooze:after {
+	content: ' ▼';
+	font-size: 10px;
+	color: #666;
+}
+
+#alarm-snooze-dropdown {
+	z-index: 5000;
+}
+
+span.edit-alarm-set {
+	white-space: nowrap;
+}
+
+.ui-dialog.alarms .ui-dialog-title {
+	background-image: url(../../../../skins/larry/images/messages.png);
+	background-repeat: no-repeat;
+	background-position: 0 -91px;
+	padding-left: 24px;
+}
+
+.itip-reply-comment {
+	padding-left: 2px;
+}
+
+a.reply-comment-toggle {
+	display: inline-block;
+	color: #666;
+}
+
+label.noreply-toggle + a.reply-comment-toggle {
+	margin-left: 1em;
+}
+
+.itip-reply-comment textarea {
+	display: block;
+	width: 90%;
+	margin-top: 0.5em;
+}
+
+.itip-dialog-confirm-text {
+	margin-bottom: 1em;
+}
+
+.popup textarea.itip-comment {
+	width: 98%;
+}
+
+.edit-alarm-item {
+	position: relative;
+	padding-right: 30px;
+	margin-bottom: 0.2em;
+}
+
+.edit-alarm-buttons {
+	position: absolute;
+	top: 1px;
+	right: 0;
+}
+
+.edit-alarm-buttons a.iconbutton {
+	display: none;
+}
+
+.edit-alarm-item .edit-alarm-buttons a.delete-alarm,
+.edit-alarm-item.first .edit-alarm-buttons a.add-alarm {
+	display: inline-block;
+}
+
+.edit-alarm-item.first .edit-alarm-buttons a.delete-alarm {
+	display: none;
+}
+
+.recurrence-form {
+	display: none;
+}
+
+.recurrence-form label.weekday,
+.recurrence-form label.monthday {
+	min-width: 3em;
+}
+
+.recurrence-form label.month {
+	min-width: 5em;
+}
+
+#edit-recurrence-yearly-bymonthblock {
+	margin-left: 7.5em;
+}
+
+#edit-recurrence-rdates {
+	display: block;
+	list-style: none;
+	margin: 0 0 0.8em 0;
+	padding: 0;
+	max-height: 300px;
+	overflow: auto;
+}
+
+#edit-recurrence-rdates li {
+	display: block;
+	position: relative;
+	width: 12em;
+	padding: 4px 0 4px 0;
+}
+
+#edit-recurrence-rdates li a.delete {
+	position: absolute;
+	top: 2px;
+	right: 0;
+	width: 20px;
+	height: 18px;
+	background-position: -7px -337px;
+}
+
+#recurrence-form-until div.line {
+	margin-left: 7.5em;
+	margin-bottom: 0.3em;
+}
+
+#recurrence-form-until div.line.first {
+	margin-top: -1.4em;
+}
+
+.itip-dialog-form input.text {
+	width: 98%;
+}
+
+.itip-dialog-form label > input.checkbox {
+	margin-left: 0;
+	margin-right: 10px;
+}

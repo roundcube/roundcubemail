@@ -1,0 +1,14 @@
+0.2
+- added Listbox to select showing duration
+- added color to browser-conf-button
+
+0.3
+- updated to work with roundcube 0.8 and 0.9
+- added display of mailbox
+
+0.4
+- updated to work with Firefox and the new Notification API
+- fixed UTF-8 issues
+
+0.5 (thanks to nicolas-joubert!)
+- add ability to exclude some directories
