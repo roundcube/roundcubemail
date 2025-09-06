@@ -1,1 +1,6 @@
 home
+*.swp
+*.sgh
+*.zip
+translate_locales.php
+config.inc.php

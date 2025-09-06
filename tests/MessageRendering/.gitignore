@@ -9,3 +9,8 @@ src/maildir/.Junk
 src/maildir/.Sent
 src/maildir/.Trash
 .phpunit.result.cache
+*.swp
+*.sgh
+*.zip
+translate_locales.php
+config.inc.php
