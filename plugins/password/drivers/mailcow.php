@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Mailcow Password Driver
  *
  * @version 1.0
@@ -23,15 +23,15 @@
  * $config['password_driver'] = 'mailcow';
  * $config['password_mailcow_api_host'] = '';
  * $config['password_mailcow_api_token'] = '';
- */
+  */
 
 class rcube_mailcow_password
 {
-    public function save($curpass, $passwd, $username)
+    function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
 
-        $host = $rcmail->config->get('password_mailcow_api_host');
+        $host  = $rcmail->config->get('password_mailcow_api_host');
         $token = $rcmail->config->get('password_mailcow_api_token');
 
         try {
@@ -39,15 +39,15 @@ class rcube_mailcow_password
 
             $headers = [
                 'X-API-Key' => $token,
-                'accept' => 'application/json',
+                'accept'    => 'application/json'
             ];
 
             $cowdata = [
                 'attr' => [
-                    'password' => $passwd,
-                    'password2' => $passwd,
+                    'password'  => $passwd,
+                    'password2' => $passwd
                 ],
-                'items' => [$username],
+                'items' => [ $username ]
             ];
 
             if (!strpos($host, '://')) {
@@ -56,21 +56,27 @@ class rcube_mailcow_password
 
             $response = $client->post("{$host}/api/v1/edit/mailbox", [
                 'headers' => $headers,
-                'json' => $cowdata,
+                'json'    => $cowdata
             ]);
 
-            $cowreply = json_decode($response->getBody(), true);
+            $cowreply = json_decode($response->getBody(),true);
 
             if ($cowreply[0]['type'] == 'success') {
                 return PASSWORD_SUCCESS;
             }
 
             return PASSWORD_ERROR;
-        } catch (\Exception $e) {
+        }
+        catch (Exception $e) {
             $result = $e->getMessage();
         }
 
-        rcube::raise_error("Password plugin: Problem with Mailcow API: {$result}", true);
+        rcube::raise_error([
+                'code' => 600, 'file' => __FILE__, 'line' => __LINE__,
+                'message' => "Password plugin: Problem with Mailcow API: $result",
+            ],
+            true, false
+        );
 
         return PASSWORD_CONNECT_ERROR;
     }

@@ -6,7 +6,6 @@
  * Driver to change passwords via vpopmaild
  *
  * @version 2.0
- *
  * @author Johannes Hessellund
  *
  * Copyright (C) The Roundcube Dev Team
@@ -27,40 +26,40 @@
 
 class rcube_vpopmaild_password
 {
-    public function save($curpass, $passwd, $username)
+    function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
-        $vpopmaild = new \Net_Socket();
-        $host = $rcmail->config->get('password_vpopmaild_host');
-        $port = $rcmail->config->get('password_vpopmaild_port');
+        $rcmail    = rcmail::get_instance();
+        $vpopmaild = new Net_Socket();
+        $host      = $rcmail->config->get('password_vpopmaild_host');
+        $port      = $rcmail->config->get('password_vpopmaild_port');
 
         $result = $vpopmaild->connect($host, $port, null);
         if (is_a($result, 'PEAR_Error')) {
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->setTimeout($rcmail->config->get('password_vpopmaild_timeout'), 0);
+        $vpopmaild->setTimeout($rcmail->config->get('password_vpopmaild_timeout'),0);
 
         $result = $vpopmaild->readLine();
-        if (!preg_match('/^\+OK/', $result)) {
+        if(!preg_match('/^\+OK/', $result)) {
             $vpopmaild->disconnect();
             return PASSWORD_CONNECT_ERROR;
         }
 
-        $vpopmaild->writeLine('slogin ' . $username . ' ' . $curpass);
+        $vpopmaild->writeLine("slogin ". $username . " " . $curpass);
         $result = $vpopmaild->readLine();
 
-        if (!preg_match('/^\+OK/', $result)) {
-            $vpopmaild->writeLine('quit');
+        if(!preg_match('/^\+OK/', $result) ) {
+            $vpopmaild->writeLine("quit");
             $vpopmaild->disconnect();
             return PASSWORD_ERROR;
         }
 
-        $vpopmaild->writeLine('mod_user ' . $username);
-        $vpopmaild->writeLine('clear_text_password ' . $passwd);
-        $vpopmaild->writeLine('.');
+        $vpopmaild->writeLine("mod_user ". $username);
+        $vpopmaild->writeLine("clear_text_password ". $passwd);
+        $vpopmaild->writeLine(".");
         $result = $vpopmaild->readLine();
-        $vpopmaild->writeLine('quit');
+        $vpopmaild->writeLine("quit");
         $vpopmaild->disconnect();
 
         if (!preg_match('/^\+OK/', $result)) {

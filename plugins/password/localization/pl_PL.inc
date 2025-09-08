@@ -41,3 +41,31 @@ $messages['passwdconstraintviolation'] = 'Naruszenie ograniczeń hasła. Prawdop
 $messages['pwned_mustnotbedisclosed'] = 'Hasło nie może być <a href="$href" target="_blank">powszechnie znane</a>.';
 $messages['pwned_isdisclosed'] = 'To hasło jest powszechnie znane.';
 $messages['pwned_fetcherror'] = 'Nie udało się zweryfikować siły hasła.';
+
+$labels['hestia_err_policy_short'] = 'Hasło jest zbyt krótkie (minimalna długość: %min).';
+$labels['hestia_err_endpoint_invalid'] = 'Punkt końcowy Hestia nie jest skonfigurowany lub jest nieprawidłowy.';
+$labels['hestia_err_identity'] = 'Nie można przeanalizować nazwy użytkownika w local@domain%hint.';
+$labels['hestia_err_owner_unknown'] = 'Nie można określić właściciela domeny dla %domain.';
+$labels['hestia_err_unknown'] = 'Nieznany błąd interfejsu API Hestia.';
+$labels['hestia_err_default'] = 'Hestia zwróciła kod błędu %code.';
+$labels['hestia_err_1'] = 'Nie podano wystarczających argumentów.';
+$labels['hestia_err_2'] = 'Nieprawidłowy obiekt lub argument.';
+$labels['hestia_err_3'] = 'Obiekt nie istnieje (nie znaleziono skrzynki pocztowej lub domeny).';
+$labels['hestia_err_4'] = 'Obiekt już istnieje.';
+$labels['hestia_err_5'] = 'Obiekt jest już zawieszony.';
+$labels['hestia_err_6'] = 'Obiekt nie jest już zawieszony.';
+$labels['hestia_err_7'] = 'Obiekt w użyciu; nie można modyfikować.';
+$labels['hestia_err_8'] = 'Działanie zablokowane przez limity pakietów.';
+$labels['hestia_err_9'] = 'Błędne lub nieprawidłowe hasło.';
+$labels['hestia_err_10'] = 'Odmowa pozwolenia przez Hestia (tożsamość API nie ma uprawnień lub adres IP nie jest dozwolony).';
+$labels['hestia_err_11'] = 'Funkcja wyłączona przez zasady systemowe.';
+$labels['hestia_err_12'] = 'Błąd parsowania.';
+$labels['hestia_err_13'] = 'Błąd dysku.';
+$labels['hestia_err_14'] = 'Zbyt duże obciążenie serwera.';
+$labels['hestia_err_15'] = 'Błąd połączenia.';
+$labels['hestia_err_16'] = 'Błąd FTP.';
+$labels['hestia_err_17'] = 'Błąd bazy danych.';
+$labels['hestia_err_18'] = 'Błąd RRD.';
+$labels['hestia_err_19'] = 'Błąd aktualizacji.';
+$labels['hestia_err_20'] = 'Błąd ponownego uruchomienia.';
+?>

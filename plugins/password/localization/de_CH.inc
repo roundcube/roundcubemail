@@ -41,3 +41,31 @@ $messages['passwdconstraintviolation'] = 'Passwortrichtlinien nicht erfüllt. Da
 $messages['pwned_mustnotbedisclosed'] = 'Das Passwort darf nicht <a href="$href" target="_blank">allgemein bekannt sein</a>.';
 $messages['pwned_isdisclosed'] = 'Dieses Passwort ist allgemein bekannt.';
 $messages['pwned_fetcherror'] = 'Die Überprüfung der Passwortstärke ist fehlgeschlagen.';
+
+$labels['hestia_err_policy_short'] = 'Passwort zu kurz (Mindestlänge: %min).';
+$labels['hestia_err_endpoint_invalid'] = 'Der Hestia-Endpunkt ist nicht konfiguriert oder ungültig.';
+$labels['hestia_err_identity'] = 'Kann den Benutzernamen nicht in local@domain%hint parsen.';
+$labels['hestia_err_owner_unknown'] = 'Der Eigentümer der Domäne %domain kann nicht ermittelt werden.';
+$labels['hestia_err_unknown'] = 'Unbekannter Fehler von Hestia API.';
+$labels['hestia_err_default'] = 'Hestia hat den Fehlercode %code zurückgegeben.';
+$labels['hestia_err_1'] = 'Es wurden nicht genügend Argumente geliefert.';
+$labels['hestia_err_2'] = 'Ungültiges Objekt oder Argument.';
+$labels['hestia_err_3'] = 'Das Objekt existiert nicht (Postfach oder Domäne nicht gefunden).';
+$labels['hestia_err_4'] = 'Das Objekt existiert bereits.';
+$labels['hestia_err_5'] = 'Das Objekt ist bereits ausgesetzt.';
+$labels['hestia_err_6'] = 'Das Objekt ist bereits unsuspendiert.';
+$labels['hestia_err_7'] = 'Objekt in Gebrauch; kann nicht geändert werden.';
+$labels['hestia_err_8'] = 'Der Betrieb ist durch Paketgrenzen blockiert.';
+$labels['hestia_err_9'] = 'Falsches oder ungültiges Passwort.';
+$labels['hestia_err_10'] = 'Erlaubnis von Hestia verweigert (API-Identität hat keine Rechte oder IP nicht erlaubt).';
+$labels['hestia_err_11'] = 'Funktion durch Systemrichtlinie deaktiviert.';
+$labels['hestia_err_12'] = 'Parsing-Fehler.';
+$labels['hestia_err_13'] = 'Festplattenfehler.';
+$labels['hestia_err_14'] = 'Die Serverlast ist zu hoch.';
+$labels['hestia_err_15'] = 'Verbindungsfehler.';
+$labels['hestia_err_16'] = 'FTP-Fehler.';
+$labels['hestia_err_17'] = 'Datenbank-Fehler.';
+$labels['hestia_err_18'] = 'RRD-Fehler.';
+$labels['hestia_err_19'] = 'Aktualisierungsfehler.';
+$labels['hestia_err_20'] = 'Fehler beim Neustart.';
+?>

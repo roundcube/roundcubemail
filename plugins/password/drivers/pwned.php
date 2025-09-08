@@ -35,7 +35,6 @@
  * https://www.troyhunt.com/ive-just-launched-pwned-passwords-version-2/#cloudflareprivacyandkanonymity
  *
  * @version 1.0
- *
  * @author Christoph Langguth
  *
  * Copyright (C) The Roundcube Dev Team
@@ -57,22 +56,22 @@
 class rcube_pwned_password
 {
     // API URL. Note: the trailing slash is mandatory.
-    public const API_URL = 'https://api.pwnedpasswords.com/range/';
+    const API_URL = 'https://api.pwnedpasswords.com/range/';
 
     // See https://www.troyhunt.com/enhancing-pwned-passwords-privacy-with-padding/
-    public const ENHANCED_PRIVACY = 1;
+    const ENHANCED_PRIVACY_CURL = 1;
 
     // Score constants, these directly correspond to the score that is returned.
-    public const SCORE_LISTED = 1;
-    public const SCORE_ERROR = 2;
-    public const SCORE_NOT_LISTED = 3;
+    const SCORE_LISTED = 1;
+    const SCORE_ERROR = 2;
+    const SCORE_NOT_LISTED = 3;
 
     /**
      * Rule description.
      *
-     * @return array human-readable description of the check rule
+     * @return array human-readable description of the check rule.
      */
-    public function strength_rules()
+    function strength_rules()
     {
         $rc = rcmail::get_instance();
         $href = 'https://haveibeenpwned.com/Passwords';
@@ -91,16 +90,17 @@ class rcube_pwned_password
      *
      * @return array password score (1 to 3) and (optional) reason message
      */
-    public function check_strength($passwd)
+    function check_strength($passwd)
     {
-        $score = $this->check_pwned($passwd);
+        $score   = $this->check_pwned($passwd);
         $message = null;
 
         if ($score !== self::SCORE_NOT_LISTED) {
             $rc = rcmail::get_instance();
             if ($score === self::SCORE_LISTED) {
                 $message = $rc->gettext('password.pwned_isdisclosed');
-            } else {
+            }
+            else {
                 $message = $rc->gettext('password.pwned_fetcherror');
             }
         }
@@ -113,55 +113,91 @@ class rcube_pwned_password
      *
      * @param string $passwd
      *
-     * @return int score, one of the SCORE_* constants (between 1 and 3)
+     * @return int score, one of the SCORE_* constants (between 1 and 3).
      */
-    public function check_pwned($passwd)
+    function check_pwned($passwd)
     {
         // initialize with error score
         $result = self::SCORE_ERROR;
 
-        [$prefix, $suffix] = $this->hash_split($passwd);
+        if (!$this->can_retrieve()) {
+            // Log the fact that we cannot check because of configuration error.
+            rcube::raise_error("Need curl or allow_url_fopen to check password strength with 'pwned'", true, true);
+        }
+        else {
+            list($prefix, $suffix) = $this->hash_split($passwd);
 
-        $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
+            $suffixes = $this->retrieve_suffixes(self::API_URL . $prefix);
 
-        if ($suffixes) {
-            $result = $this->check_suffix_in_list($suffix, $suffixes);
+            if ($suffixes) {
+                $result = $this->check_suffix_in_list($suffix, $suffixes);
+            }
         }
 
         return $result;
     }
 
-    public function hash_split($passwd)
+    function hash_split($passwd)
     {
-        $hash = strtolower(sha1($passwd));
+        $hash   = strtolower(sha1($passwd));
         $prefix = substr($hash, 0, 5);
         $suffix = substr($hash, 5);
 
         return [$prefix, $suffix];
     }
 
-    public function retrieve_suffixes($url)
+    function can_retrieve()
     {
-        $client = password::get_http_client();
-        $options = ['http_errors' => true, 'headers' => []];
-
-        // @phpstan-ignore-next-line
-        if (self::ENHANCED_PRIVACY == 1) {
-            $options['headers']['Add-Padding'] = 'true';
-        }
-
-        try {
-            $response = $client->get($url, $options);
-
-            return $response->getBody();
-        } catch (\Exception $e) {
-            rcube::raise_error("Password plugin: Error fetching {$url} : {$e->getMessage()}", true);
-        }
-
-        return null;
+        return $this->can_curl() || $this->can_fopen();
     }
 
-    public function check_suffix_in_list($candidate, $list)
+    function can_curl()
+    {
+        return function_exists('curl_init');
+    }
+
+    function can_fopen()
+    {
+        return ini_get('allow_url_fopen');
+    }
+
+    function retrieve_suffixes($url)
+    {
+        if ($this->can_curl()) {
+            return $this->retrieve_curl($url);
+        }
+        else {
+            return $this->retrieve_fopen($url);
+        }
+    }
+
+    function retrieve_curl($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if (self::ENHANCED_PRIVACY_CURL == 1) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Add-Padding: true']);
+        }
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return $output;
+    }
+
+    function retrieve_fopen($url)
+    {
+        $output = '';
+        $ch = fopen($url, 'r');
+        while (!feof($ch)) {
+            $output .= fgets($ch);
+        }
+        fclose($ch);
+
+        return $output;
+    }
+
+    function check_suffix_in_list($candidate, $list)
     {
         // initialize to error in case there are no lines at all
         $result = self::SCORE_ERROR;
@@ -178,7 +214,8 @@ class rcube_pwned_password
 
                 // valid line, not matching the current password
                 $result = self::SCORE_NOT_LISTED;
-            } else {
+            }
+            else {
                 // invalid line
                 return self::SCORE_ERROR;
             }

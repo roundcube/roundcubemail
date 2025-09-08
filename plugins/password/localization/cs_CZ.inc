@@ -41,3 +41,31 @@ $messages['passwdconstraintviolation'] = ' Nesplnění nutných pravidel pro hes
 $messages['pwned_mustnotbedisclosed'] = 'Heslo nesmí být <a href="$href" target="_blank">běžně užívané</a>.';
 $messages['pwned_isdisclosed'] = 'Heslo je běžně užívané.';
 $messages['pwned_fetcherror'] = 'Síla hesla se nedá ověřit.';
+
+$labels['hestia_err_policy_short'] = 'Příliš krátké heslo (minimální délka: %min).';
+$labels['hestia_err_endpoint_invalid'] = 'Koncový bod Hestia není nakonfigurován nebo je neplatný.';
+$labels['hestia_err_identity'] = 'Nelze analyzovat uživatelské jméno do local@domain%hint.';
+$labels['hestia_err_owner_unknown'] = 'Nelze určit vlastníka domény pro %doménu.';
+$labels['hestia_err_unknown'] = 'Neznámá chyba z rozhraní Hestia API.';
+$labels['hestia_err_default'] = 'Hestia vrátila chybový kód %code.';
+$labels['hestia_err_1'] = 'Nebyl poskytnut dostatek argumentů.';
+$labels['hestia_err_2'] = 'Neplatný objekt nebo argument.';
+$labels['hestia_err_3'] = 'Objekt neexistuje (schránka nebo doména nebyla nalezena).';
+$labels['hestia_err_4'] = 'Objekt již existuje.';
+$labels['hestia_err_5'] = 'Objekt je již pozastaven.';
+$labels['hestia_err_6'] = 'Objekt již není zavěšený.';
+$labels['hestia_err_7'] = 'Objekt v používání; nelze upravovat.';
+$labels['hestia_err_8'] = 'Operace je blokována omezeními balíčků.';
+$labels['hestia_err_9'] = 'Špatné nebo neplatné heslo.';
+$labels['hestia_err_10'] = 'Oprávnění zamítnuto společností Hestia (identita API nemá práva nebo IP není povolena).';
+$labels['hestia_err_11'] = 'Funkce zakázaná zásadami systému.';
+$labels['hestia_err_12'] = 'Chyba při parsování.';
+$labels['hestia_err_13'] = 'Chyba disku.';
+$labels['hestia_err_14'] = 'Příliš vysoké zatížení serveru.';
+$labels['hestia_err_15'] = 'Chyba připojení.';
+$labels['hestia_err_16'] = 'Chyba FTP.';
+$labels['hestia_err_17'] = 'Chyba databáze.';
+$labels['hestia_err_18'] = 'Chyba RRD.';
+$labels['hestia_err_19'] = 'Chyba aktualizace.';
+$labels['hestia_err_20'] = 'Chyba při restartování.';
+?>
