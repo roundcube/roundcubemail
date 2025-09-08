@@ -721,10 +721,17 @@ class rcube_utils
      *
      * @return string Decoded string
      */
-    public static function xss_entity_decode($content)
+    public static function xss_entity_decode(string $content): string
     {
         $callback = static function ($matches) {
-            return chr(hexdec($matches[1]));
+            $bytevalue = hexdec((string) $matches[1]);
+            // chr() only covers values between 0 and 255. The following 4 lines are from the former default behaviour
+            // to ensure that, which is now deprecated, so we now explicitly do the shifting here.
+            while ($bytevalue < 0) {
+                $bytevalue += 256;
+            }
+            $bytevalue %= 256;
+            return chr($bytevalue);
         };
 
         $out = html_entity_decode(html_entity_decode($content));
