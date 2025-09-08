@@ -308,9 +308,9 @@ abstract class rcube_plugin
      *
      * @param string $fn File path; absolute or relative to the plugin directory
      */
-    public function include_script($fn)
+    public function include_script($fn, $tag_attributes = [])
     {
-        $this->api->include_script($this->resource_url($fn));
+        $this->api->include_script($this->resource_url($fn), $tag_attributes);
     }
 
     /**

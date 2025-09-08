@@ -61,7 +61,7 @@ verify:
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
-roundcubemail-git: buildtools
+roundcubemail-git: buildtools plugin-markmirror-prepare-for-release
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic && make css)
@@ -94,3 +94,17 @@ clean-untracked-minified:
 
 css-elastic: npm-install
 	cd skins/elastic && make css
+
+plugins-build: plugin-markmirror-build
+
+plugin-markmirror-build: plugin-markmirror-clean
+	cd plugins/markmirror && \
+		npm clean-install && \
+		npm run build && \
+		rm -rf node_module
+
+plugin-markmirror-clean:
+	cd plugins/markmirror && npm run clean
+
+plugin-markmirror-prepare-for-release: plugin-markmirror-build
+	(cd roundcubemail-git/plugins/markmirror; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)
