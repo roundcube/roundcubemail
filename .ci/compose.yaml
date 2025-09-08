@@ -21,7 +21,7 @@ services:
       - mailhost
       - browserhost
     hostname: 'testrunner'
-    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
     volumes:
       - '..:/app'
       - '../tests/Browser/downloads:/downloads'
@@ -33,13 +33,16 @@ services:
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
+      COMPOSER_ARGS: $COMPOSER_ARGS
     working_dir: /work
     command: '/usr/local/bin/run-in-copy.sh .ci/run_browser_tests.sh'
 
   tests:
     depends_on:
       - mailhost
-    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
+    environment:
+      COMPOSER_ARGS: $COMPOSER_ARGS
     volumes:
       - '..:/app'
     working_dir: /work
@@ -48,8 +51,9 @@ services:
   test_message_rendering:
     depends_on:
       - mailhost
-    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
     environment:
+      COMPOSER_ARGS: $COMPOSER_ARGS
       RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
     volumes:
       - '..:/app'
@@ -57,13 +61,17 @@ services:
       - .ci/run_test_message_rendering.sh
 
   codespell:
-    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
+    environment:
+      COMPOSER_ARGS: $COMPOSER_ARGS
     volumes:
       - '..:/app'
     entrypoint: ./.ci/run_php-cs-fixer.sh
 
   codestyle:
-    image: ghcr.io/roundcube/roundcubemail-testrunner:php8.3
+    image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
+    environment:
+      COMPOSER_ARGS: $COMPOSER_ARGS
     volumes:
       - '..:/app'
     entrypoint: ./.ci/run_phpstan.sh
