@@ -11,4 +11,4 @@ case "$1" in
 		;;
 esac
 
-exec docker build --build-arg "PHPVERSION=$phpversion" -f "$(realpath $(dirname $0)/Dockerfile)" -t "ghcr.io/pabzm/roundcubemail-testrunner:php$phpversion" "$(realpath $(dirname $0)/../../..)"
+exec docker build --build-arg "PHPVERSION=$phpversion" -f "$(realpath $(dirname $0)/Dockerfile)" -t "localhost/roundcubemail-testrunner:php$phpversion" "$(realpath $(dirname $0)/../../..)"
