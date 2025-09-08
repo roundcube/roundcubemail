@@ -811,11 +811,11 @@ class rcube
     /**
      * Check the given string and return a valid language code
      *
-     * @param string $lang Language code
+     * @param string|null $lang Language code
      *
      * @return string Valid language code
      */
-    protected function language_prop($lang)
+    protected function language_prop(?string $lang): string
     {
         static $rcube_languages, $rcube_language_aliases;
 
@@ -834,7 +834,7 @@ class rcube
         }
 
         // check if we have an alias for that language
-        if (!isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang])) {
+        if (isset($lang) && !isset($rcube_languages[$lang]) && isset($rcube_language_aliases[$lang])) {
             $lang = $rcube_language_aliases[$lang];
         }
         // try the first two chars
@@ -851,7 +851,7 @@ class rcube
             }
         }
 
-        if (!isset($rcube_languages[$lang]) || !is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
+        if (!isset($lang) || !isset($rcube_languages[$lang]) || !is_dir(RCUBE_LOCALIZATION_DIR . $lang)) {
             $lang = 'en_US';
         }
 
