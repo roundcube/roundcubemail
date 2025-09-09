@@ -32,13 +32,13 @@
 
 class rcube_dbmail_password
 {
-    public function save($currpass, $newpass, $username)
+    function save($currpass, $newpass, $username)
     {
-        $curdir = RCUBE_PLUGINS_DIR . 'password/helpers';
+        $curdir   = RCUBE_PLUGINS_DIR . 'password/helpers';
         $username = escapeshellarg($username);
         $password = escapeshellarg($newpass);
-        $args = rcmail::get_instance()->config->get('password_dbmail_args', '');
-        $command = "{$curdir}/chgdbmailusers -c {$username} -w {$password} {$args}";
+        $args     = rcmail::get_instance()->config->get('password_dbmail_args', '');
+        $command  = "$curdir/chgdbmailusers -c $username -w $password $args";
 
         exec($command, $output, $return_value);
 
@@ -46,7 +46,13 @@ class rcube_dbmail_password
             return PASSWORD_SUCCESS;
         }
 
-        rcube::raise_error("Password plugin: Unable to execute {$curdir}/chgdbmailusers", true);
+        rcube::raise_error([
+                'code' => 600,
+                'file' => __FILE__,
+                'line' => __LINE__,
+                'message' => "Password plugin: Unable to execute $curdir/chgdbmailusers"
+            ], true, false
+        );
 
         return PASSWORD_ERROR;
     }
