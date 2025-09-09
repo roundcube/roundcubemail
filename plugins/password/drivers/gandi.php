@@ -40,7 +40,7 @@ class rcube_gandi_password
     // constants
     private const PASSWORD_ALGO = 'sha512-crypt';
     private const GANDI_API_URL = 'https://api.gandi.net/v5';
-    private const GANDI_API_SUCCESS_MSG = 'The email mailbox is being updated.';
+    private const GANDI_API_SUCCESS_MSG = 'Mailbox updated.';
     private const GANDI_PASS_MIN_LENGTH = 8;
     private const GANDI_PASS_MAX_LENGTH = 200;
     private const GANDI_PASS_AMOUNT_UCASE = 1;
