@@ -50,7 +50,6 @@ inherits the browser support from there. This currently includes:
 - Chrome: (Current - 1) and Current
 - Edge: (Current - 1) and Current
 - Firefox: (Current - 1) and Current, ESR
-- Internet Explorer: 11+
 - Safari: (Current - 1) and Current
 - Opera: Current
 
