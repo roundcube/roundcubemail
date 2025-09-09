@@ -326,7 +326,7 @@ class rcube_washtml
                         $out = $value;
                     }
                 } elseif ($this->_css_prefix !== null
-                    && (in_array($key, ['id', 'class', 'for']) || ($key == 'name' && $node->nodeName == 'a'))
+                    && (in_array($key, ['id', 'class', 'for']) || ($key == 'name' && in_array($node->nodeName, ['a', 'img', 'input', 'form', 'select', 'textarea'])))
                 ) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 } elseif ($key == 'xmlns' && !strpos($value, '://')) {
