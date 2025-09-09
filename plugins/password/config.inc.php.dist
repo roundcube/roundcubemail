@@ -519,3 +519,43 @@ $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 // ----------------------
 $config['password_mailcow_api_host'] = 'localhost';
 $config['password_mailcow_api_token'] = '';
+// Hestia driver options (generic; change placeholders)
+$config['password_hestia'] = [
+    // Hestia API endpoint (must end with /api/)
+    'endpoint' => 'https://panel.domain.com:8083/api/',
+
+    // Authentication method
+    'auth' => [
+        // Choose ONE method:
+        'type' => 'password',     // 'password' | 'hash' | 'accesskey'
+
+        // If type = 'password'
+        'user' => 'admin',
+        'pass' => 'CHANGEME',
+
+        // If type = 'hash'
+        // 'user' => 'admin',
+        // 'hash' => 'CHANGEME',
+
+        // If type = 'accesskey'
+        // 'access_key' => 'CHANGEME',
+        // 'secret_key' => 'CHANGEME',
+    ],
+
+    // Username format: Roundcube login is email-like user@domain
+    'username_is_email' => true,
+
+    // HTTP/TLS
+    'timeout'     => 10,
+    'verify_peer' => true,
+    'verify_host' => true,
+
+    // Optional: local policy guard
+    'min_length'  => 8,
+
+    // Debug (logs to logs/password). Set to false for production.
+    'debug'       => false,
+
+    // Optional: bypass owner lookup entirely
+    // 'force_owner' => 'ownername',
+];
