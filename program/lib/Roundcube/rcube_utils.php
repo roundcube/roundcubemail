@@ -721,10 +721,10 @@ class rcube_utils
      *
      * @return string Decoded string
      */
-    public static function xss_entity_decode($content)
+    public static function xss_entity_decode(string $content): string
     {
         $callback = static function ($matches) {
-            return chr(hexdec($matches[1]));
+            return strval(mb_chr(hexdec((string) $matches[1])));
         };
 
         $out = html_entity_decode(html_entity_decode($content));

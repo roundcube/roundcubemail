@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.1", "8.2", "8.3", "8.4"]
+        php: ["8.1", "8.2", "8.3", "8.4", "8.5"]
 
     name: Linux / PHP ${{ matrix.php }}
 
@@ -38,6 +38,15 @@ jobs:
         run: sudo apt-get -y install aspell aspell-en aspell-de hunspell-en-us
 
       - name: Execute tests
+        if: ${{ matrix.php != '8.5' }}
+        run: .ci/run_tests.sh
+
+      # Pass in a composer arg to make composer not complain about PHP version constrains with v8.5-rc until all
+      # dependency packages have released a version that supports v8.5.
+      - name: Execute tests
+        if: ${{ matrix.php == '8.5' }}
+        env:
+          COMPOSER_ARGS: "--ignore-platform-reqs"
         run: .ci/run_tests.sh
 
       - name: Upload artifacts
@@ -54,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.1", "8.2", "8.3", "8.4"]
+        php: ["8.1", "8.2", "8.3", "8.4", "8.5"]
 
     name: Windows / PHP ${{ matrix.php }}
 
@@ -71,6 +80,15 @@ jobs:
           coverage: none
 
       - name: Execute tests
+        if: ${{ matrix.php != '8.5' }}
+        run: bash -ex .ci/run_tests.sh
+
+      # Pass in a composer arg to make composer not complain about PHP version constrains with v8.5-rc until all
+      # dependency packages have released a version that supports v8.5.
+      - name: Execute tests
+        if: ${{ matrix.php == '8.5' }}
+        env:
+          COMPOSER_ARGS: "--ignore-platform-reqs"
         run: bash -ex .ci/run_tests.sh
 
       - name: Upload artifacts

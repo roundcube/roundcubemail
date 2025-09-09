@@ -5,7 +5,7 @@ if ! test -f config/config-test.inc.php; then
 fi
 
 # Install dependencies, prefer highest.
-composer update --prefer-dist --no-interaction --no-progress
+composer update $COMPOSER_ARGS --prefer-dist --no-interaction --no-progress
 
 # Execute tests.
 vendor/bin/phpunit -c ./tests/MessageRendering/phpunit.xml --fail-on-warning --fail-on-risky
