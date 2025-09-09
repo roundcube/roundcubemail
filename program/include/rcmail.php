@@ -325,7 +325,7 @@ class rcmail extends rcube
         }
 
         // use existing instance
-        if ($id && isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
+        if ($id !== null && isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
             $contacts = $this->address_books[$id];
         } elseif ($id && !empty($ldap_config[$id])) {
             $domain = $this->config->mail_domain($_SESSION['storage_host']);
