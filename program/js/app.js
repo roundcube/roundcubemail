@@ -2530,7 +2530,7 @@ function rcube_webmail() {
                     html = '<span class="' + flags.attachmentClass + '" title="' + label + '"></span>';
                 } else if (flags.ctype == 'multipart/report') {
                     html = '<span class="report"></span>';
-                } else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime') {
+                } else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime' || flags.ctype == 'application/x-pkcs7-mime') {
                     html = '<span class="encrypted"></span>';
                 } else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(m|signed)/.test(flags.ctype))) {
                     html = '<span class="attachment" title="' + label + '"></span>';
