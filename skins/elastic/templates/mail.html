@@ -114,6 +114,8 @@
 	<div class="header" role="toolbar" aria-labelledby="aria-label-toolbar">
 		<a class="button icon back-list-button" href="#back"><span class="inner"><roundcube:label name="back" /></span></a>
 		<span class="header-title"></span>
+		<roundcube:button command="delete" type="link" class="button icon toolbar-button delete"
+                        label="delete" title="deletemessage" innerclass="inner" data-hidden="large" />
 		<roundcube:include file="includes/mail-menu.html" />
 	</div>
 	<h2 id="aria-label-mailpreviewframe" class="voice"><roundcube:label name="arialabelmailpreviewframe" /></h2>
