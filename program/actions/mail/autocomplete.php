@@ -83,18 +83,14 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     'source' => $abook_id,
                                 ];
 
-                                $display = rcube_addressbook::compose_search_name($record, $email, $name);
-
-                                if ($display && $display != $contact['name']) {
-                                    $contact['display'] = $display;
-                                }
+                                $contact['fields'] = rcube_addressbook::compose_search_fields($record, $email, $name);
 
                                 // groups with defined email address will not be expanded to its members' addresses
                                 if ($contact['type'] == 'group') {
                                     $contact['email'] = $email;
                                 }
 
-                                $name = !empty($contact['display']) ? $contact['display'] : $name;
+                                $name = !empty($contact['fields']['name']) ? $contact['fields']['name'] : $name;
                                 $contacts[$index] = $contact;
                                 $sort_keys[$index] = sprintf('%s %03d', $name, $idx++);
 
@@ -130,6 +126,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                     $contacts[$index] = [
                                         'name' => $index,
                                         'email' => $email,
+                                        'fields' => ['name' => $index, 'email' => $email],
                                         'type' => 'group',
                                         'id' => $group['ID'],
                                         'source' => $abook_id,
@@ -147,6 +144,7 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                 $sort_keys[$group['name']] = $group['name'];
                                 $contacts[$group['name']] = [
                                     'name' => $group['name'] . ' (' . intval($result->count) . ')',
+                                    'fields' => ['name' => $group['name'] . ' (' . intval($result->count) . ')'],
                                     'type' => 'group',
                                     'id' => $group['ID'],
                                     'source' => $abook_id,
