@@ -9,7 +9,7 @@ class rcmail_action_settings_folder_reorder extends rcmail_action_settings_folde
      *
      * @param array $args Arguments from the previous step(s)
      */
-    #[Override]
+    #[\Override]
     public function run($args = [])
     {
         $rcmail = rcmail::get_instance();

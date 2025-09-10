@@ -8203,6 +8203,8 @@ function rcube_webmail() {
             // We need to store this information now, because it's not available anymore after removing the row from
             // the DOM.
             next_sibling = row.nextElementSibling;
+        } else {
+            next_sibling = null;
         }
 
         // get row off the list
