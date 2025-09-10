@@ -7816,7 +7816,6 @@ function rcube_webmail() {
     };
 
     // TODO: In the receive callback, can we wait for the confirmation dialog without introducing async/await and Promises?
-    // TODO: figure out if the item was moved between protected folders, which is not allowed.
     // TODO: save only if the list is different than at start
     // TODO: Fix the styling (padding)
     this.make_folder_lists_sortable = () => {
@@ -7833,6 +7832,15 @@ function rcube_webmail() {
             connectWith: `#${mainFolderList.id}, #${mainFolderList.id} ul`,
             forcePlaceholderSize: true, // Make the placeholder displace the neighboring elements.
             placeholder: 'placeholder', // Class name for the placeholder
+            change: (event, ui) => {
+                // Prevent sortable folders being sorted in between (technically: before) protected folders. There is no
+                // technical reason for this, we just want it from a UX perspective.
+                if (ui.placeholder.next().is('.protected')) {
+                    ui.placeholder.hide();
+                } else {
+                    ui.placeholder.show();
+                }
+            },
             over: (event, ui) => {
                 // Highlight the list that the dragged element is hovering over.
                 $('.hover', $folderLists).removeClass('hover');
@@ -7869,6 +7877,10 @@ function rcube_webmail() {
             },
             stop: (event, ui) => {
                 $('.hover', $folderLists).removeClass('hover');
+                if (ui.item.next().is('.protected')) {
+                    ui.item.parent().sortable('cancel');
+                    return false;
+                }
                 // Save the order if the item was moved only within its list. In case it was moved into a (different)
                 // sub-list, the order-saving function gets called from the server's response after the relevant folder
                 // rows have been re-rendered, and we can save one HTTP request. We don't skip the other function call
