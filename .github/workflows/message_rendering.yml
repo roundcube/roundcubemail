@@ -14,8 +14,10 @@ jobs:
 
     strategy:
       fail-fast: false
+      matrix:
+        php: ["8.3", "8.4", "8.5"]
 
-    name: Linux / PHP 8.3
+    name: Linux / PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
@@ -26,6 +28,14 @@ jobs:
       # services are started before the repo is cloned). And instead of
       # re-building what our compose-file contains we can just use it.
       - name: Run tests via docker compose
+        if: ${{ matrix.php != '8.5' }}
+        run: docker compose -f .ci/compose.yaml run test_message_rendering
+
+      - name: Run tests via docker compose
+        if: ${{ matrix.php == '8.5' }}
+        env:
+          ROUNDCUBEMAIL_IMAGE_MESSAGE_RENDERING: ghcr.io/roundcube/roundcubemail:php8.5-rc
+          COMPOSE_ARGS: '--ignore-platform-reqs'
         run: docker compose -f .ci/compose.yaml run test_message_rendering
 
       - name: Upload artifacts
@@ -34,4 +44,3 @@ jobs:
         with:
           name: Logs
           path: logs/errors.log
-

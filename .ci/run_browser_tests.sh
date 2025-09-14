@@ -23,14 +23,14 @@ if ! test -f config/config-test.inc.php; then
 fi
 
 # Install dependencies for to remote control the browser.
-composer require -n "nesbot/carbon:^2.62.1" --no-update
-composer require -n "laravel/dusk:^7.9" --no-update
+composer require $COMPOSER_ARGS -n "nesbot/carbon:^2.62.1" --no-update
+composer require $COMPOSER_ARGS -n "laravel/dusk:^7.9" --no-update
 
 if $(echo $PHP_VERSION | grep -q '^8.3'); then
 	# Downgrade dependencies (for PHP 8.3 only)
-	composer update --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
+	composer update $COMPOSER_ARGS --prefer-dist --prefer-stable --prefer-lowest --no-interaction --no-progress --optimize-autoloader
 else
-	composer update --prefer-dist --no-interaction --no-progress
+	composer update $COMPOSER_ARGS --prefer-dist --no-interaction --no-progress
 fi
 
 # Install development tools.
