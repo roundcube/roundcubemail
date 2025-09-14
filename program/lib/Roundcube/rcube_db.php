@@ -907,7 +907,11 @@ class rcube_db
                 'integer' => \PDO::PARAM_INT,
             ];
 
-            $type = $map[$type] ?? \PDO::PARAM_STR;
+            if (isset($type) && isset($map[$type])) {
+                $type = $map[$type];
+            } else {
+                $type = \PDO::PARAM_STR;
+            }
 
             return strtr($this->dbh->quote($input, $type),
                 // escape ? and `

@@ -5,7 +5,7 @@
     "require": {
         "php": ">=8.1 <8.5",
         "bacon/bacon-qr-code": "^3.0.0",
-        "guzzlehttp/guzzle": "^7.9.2",
+        "guzzlehttp/guzzle": "^7.10.0",
         "guzzlehttp/promises": "^2.0",
         "league/commonmark": "^2.7",
         "masterminds/html5": "~2.9.0",
@@ -21,12 +21,12 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.13",
         "ergebnis/phpunit-slow-test-detector": "^2.11",
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.8",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
-        "phpunit/phpunit": "^10.5.45 || ^11.0",
+        "phpunit/phpunit": "^10.5.47 || ^11.0",
         "roundcube/acl": "*",
         "roundcube/additional_message_headers": "*",
         "roundcube/archive": "*",

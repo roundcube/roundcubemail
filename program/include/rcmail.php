@@ -300,15 +300,15 @@ class rcmail extends rcube
     /**
      * Return instance of the internal address book class
      *
-     * @param string $id        Address book identifier. It accepts also special values:
-     *                          - rcube_addressbook::TYPE_CONTACT (or 'sql') for the SQL addressbook
-     *                          - rcube_addressbook::TYPE_DEFAULT for the default addressbook
-     * @param bool   $writeable True if the address book needs to be writeable
-     * @param bool   $fallback  Fallback to the first existing source, if the configured default wasn't found
+     * @param int|string $id        Address book identifier. It accepts also special values:
+     *                              - rcube_addressbook::TYPE_CONTACT (or 'sql') for the SQL addressbook
+     *                              - rcube_addressbook::TYPE_DEFAULT for the default addressbook
+     * @param bool       $writeable True if the address book needs to be writeable
+     * @param bool       $fallback  Fallback to the first existing source, if the configured default wasn't found
      *
      * @return rcube_addressbook|null Address book object
      */
-    public function get_address_book($id, $writeable = false, $fallback = true)
+    public function get_address_book(int|string $id, bool $writeable = false, bool $fallback = true): ?rcube_addressbook
     {
         $contacts = null;
         $ldap_config = (array) $this->config->get('ldap_public');
@@ -325,7 +325,7 @@ class rcmail extends rcube
         }
 
         // use existing instance
-        if (isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
+        if ($id !== null && isset($this->address_books[$id]) && ($this->address_books[$id] instanceof rcube_addressbook)) {
             $contacts = $this->address_books[$id];
         } elseif ($id && !empty($ldap_config[$id])) {
             $domain = $this->config->mail_domain($_SESSION['storage_host']);
