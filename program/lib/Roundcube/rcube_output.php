@@ -256,15 +256,15 @@ abstract class rcube_output
         // @phpstan-ignore-next-line
         if (is_string($filename) && $filename !== '' && strlen($filename) <= 1024) {
             // For non-ascii characters we'll use RFC2231 syntax
-            if (!preg_match('/[^a-zA-Z0-9_.:,?;@+ -]/', $filename)) {
-                $disposition .= "; filename=\"{$filename}\"";
-            } else {
+            $fallback_filename = preg_replace('/[^a-zA-Z0-9_.(),;@+ -]/', '_', $filename);
+            $disposition .= "; filename=\"{$fallback_filename}\"";
+
+            if ($fallback_filename != $filename) {
                 $filename = rawurlencode($filename);
                 $charset = $this->charset;
                 if (!empty($params['charset']) && rcube_charset::is_valid($params['charset'])) {
                     $charset = $params['charset'];
                 }
-
                 $disposition .= "; filename*={$charset}''{$filename}";
             }
         }

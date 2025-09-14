@@ -26,6 +26,15 @@ class OutputTest extends TestCase
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
         $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
 
+        // Test handling of filename*
+        $output->reset();
+        $output->download_headers('test ? test');
+
+        $this->assertCount(3, $output->headers);
+        $this->assertContains('Content-Disposition: attachment; filename="test _ test"; filename*=' . RCUBE_CHARSET . "''" . rawurlencode('test ? test'), $output->headers);
+        $this->assertContains('Content-Type: application/octet-stream', $output->headers);
+        $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
+
         // Invalid content type
         $output->reset();
         $params = ['type' => 'invalid'];
