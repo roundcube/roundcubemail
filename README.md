@@ -29,17 +29,17 @@ and requires a set of external libraries (see composer.json and jsdeps.json file
 RELEASES
 --------
 
-Roundcubemail follows the semantic versioning rules for releases. For more details please read [the RELEASE_MANAGEMENT
-file](RELEASE_MANAGEMENT.md).
+Roundcubemail follows the semantic versioning rules for releases. For more details please read
+[the RELEASE_MANAGEMENT file](docs/RELEASE_MANAGEMENT.md).
 
 
 INSTALLATION
 ------------
 For detailed instructions on how to install Roundcube webmail on your server,
-please refer to the [INSTALL.md](INSTALL.md) document in the same directory as this document.
+please refer to the [INSTALL.md](docs/INSTALL.md) document in the same directory as this document.
 
 If you're updating an older version of Roundcube please follow the steps
-described in the [UPGRADING.md](UPGRADING.md) file.
+described in the [UPGRADING.md](docs/UPGRADING.md) file.
 
 
 BROWSER SUPPORT

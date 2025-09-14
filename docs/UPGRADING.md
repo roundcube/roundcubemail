@@ -64,7 +64,7 @@ it on a unix system, you need to do the following operations by hand:
    update javascript dependencies by executing `./bin/install-jsdeps.sh` script.
    - If you use git sources, install developer tools using `npm install`.
    - If you use git sources, compile css files for the Elastic skin as described
-   in the [skins/elastic/README.md](skins/elastic/README.md) file.
+   in the [skins/elastic/README.md](../skins/elastic/README.md) file.
 5. Run `./bin/update.sh` from the commandline OR
    open `http://url-to-roundcube/installer.php` in a browser and choose "3 Test config".
    To enable the latter one, you have to temporary set `enable_installer`

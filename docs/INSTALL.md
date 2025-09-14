@@ -46,7 +46,7 @@ INSTALLATION
    - Install Javascript dependencies by executing `./bin/install-jsdeps.sh` script.
    - Install some developer tools by executing `npm install`.
    - If you use git sources, compile css files for the Elastic skin as described
-    in the [skins/elastic/README.md](skins/elastic/README.md) file.
+    in the [skins/elastic/README.md](../skins/elastic/README.md) file.
 3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - `/temp`
