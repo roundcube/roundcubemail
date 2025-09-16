@@ -35,3 +35,5 @@ $labels['toolbar_button_unordered_list'] = 'Unordered list';
 $labels['toolbar_button_ordered_list'] = 'Ordered list';
 $labels['toolbar_button_link'] = 'Link';
 $labels['toolbar_button_image'] = 'Image';
+$labels['toolbar_button_undo'] = 'Undo';
+$labels['toolbar_button_redo'] = 'Redo';
