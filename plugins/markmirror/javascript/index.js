@@ -15,7 +15,9 @@ import ToolbarButton from './toolbar-button';
 import ToolbarPlugin from './toolbar-plugin';
 import { imageDataUri } from './image-data-uri';
 
-// TODO: Better icons for 'redo' and 'undo' buttons. In Font Awesome v5 Free the good icons are not included.
+// TODO:
+// * Better icons for 'redo' and 'undo' buttons. In Font Awesome v5 Free the good icons are not included.
+// * Replace SVG markdown element with markdown icon from Font Awesome after upgrading to a version that includes it.
 
 class Index {
     #defaultTextarea;
