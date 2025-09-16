@@ -81,7 +81,7 @@ class Index {
         }
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = rcmail.assets_path('plugins/markmirror/iframe.min.css');
+        link.href = rcmail.assets_path(rcmail.env.markmirror_iframe_css_path);
         iframeDoc.head.append(link);
         return iframe;
     }

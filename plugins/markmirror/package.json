@@ -22,8 +22,8 @@
     "scripts": {
         "build": "npm run build-js && npm run build-css",
         "build-js": "rollup -c",
-        "build-css": "lessc --verbose --clean-css='--s1' markmirror.less markmirror.min.css && lessc --verbose --clean-css='--s1' iframe.less iframe.min.css",
+        "build-css": "cd skins/elastic/styles && lessc --verbose --clean-css='--s1' markmirror.less markmirror.min.css && lessc --verbose --clean-css='--s1' iframe.less iframe.min.css",
         "watch-js": "rollup -c -w",
-        "clean": "rm -rf node_modules markmirror.min.js markmirror.min.css iframe.min.css"
+        "clean": "rm -rf node_modules markmirror.min.js skins/elastic/styles/{markmirror,iframe}.min.css"
     }
 }

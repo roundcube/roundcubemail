@@ -30,7 +30,8 @@ class markmirror extends rcube_plugin
 
         // Load the editor files.
         $this->include_script('markmirror.js', ['type' => 'module']);
-        $this->include_stylesheet('markmirror.css');
+        $this->include_stylesheet($this->local_skin_path() . '/styles/markmirror.min.css');
+        $rcmail->output->set_env('markmirror_iframe_css_path', $this->url($this->local_skin_path() . '/styles/iframe.min.css'));
         $this->add_texts('localization', true);
         return $args;
     }
