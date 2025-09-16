@@ -1,5 +1,5 @@
 node_modules
 /bundle-stats.html
-/iframe.*css
+/skins/elastic/styles/markmirror.*css
+/skins/elastic/styles/iframe.*css
 /markmirror.*js
-/markmirror.*css
