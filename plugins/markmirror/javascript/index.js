@@ -183,6 +183,7 @@ class Index {
                     ]),
                     contentChangedNotifier,
                     toolbarExtension,
+                    EditorView.lineWrapping,
                 ],
             }),
         });
