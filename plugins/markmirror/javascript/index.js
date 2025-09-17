@@ -225,6 +225,7 @@ class Index {
             }
         });
 
+        rcmail.editor.spellcheck_stop();
         this.#hide(this.#defaultTextarea, this.#toolbar);
     }
 
