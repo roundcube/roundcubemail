@@ -84,5 +84,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
         with:
-          name: screenshots
+          name: screenshots-php${{ matrix.php }}
           path: tests/Browser/screenshots
