@@ -23,7 +23,6 @@ $labels['toolbar_button_preview'] = 'Preview HTML as it would be sent';
 $labels['toolbar_button_bold'] = 'Bold';
 $labels['toolbar_button_italic'] = 'Italic';
 $labels['toolbar_button_strike'] = 'Strike through';
-$labels['toolbar_button_underline'] = 'Underline';
 $labels['toolbar_button_h1'] = 'Heading level 1';
 $labels['toolbar_button_h2'] = 'Heading level 2';
 $labels['toolbar_button_h3'] = 'Heading level 3';

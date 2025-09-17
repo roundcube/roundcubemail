@@ -133,7 +133,6 @@ class Index {
             new ToolbarButton('bold', '\uF032', Commands.bold),
             new ToolbarButton('italic', '\uF033', Commands.italic),
             new ToolbarButton('strike', '\uF0CC', Commands.strike),
-            new ToolbarButton('underline', '\uF0CD', Commands.underline),
             new ToolbarButton('separator', '|'),
             new ToolbarButton('h1', '\uF1DC1', Commands.h1),
             new ToolbarButton('h2', '\uF1DC2', Commands.h2),
