@@ -70,7 +70,6 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
 	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile package.json package-lock.json node_modules)
 	(cd roundcubemail-git; rm -f .eslintrc.js .php-cs-fixer.dist.php phpstan.neon.dist)
-    (cd roundcubemail-git; find docs/* ! -name UPGRADING.md ! -name SECURITY.md ! -name LICENSE.md ! -name INSTALL.md | xargs rm -f)
 	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
