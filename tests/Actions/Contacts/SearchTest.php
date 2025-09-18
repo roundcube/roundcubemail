@@ -65,6 +65,47 @@ class SearchTest extends ActionTestCase
     }
 
     /**
+     * Test search scope
+     */
+    public function test_run_quick_search_scope()
+    {
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
+
+        $this->assertTrue($action->checks());
+
+        self::initDB('contacts');
+
+        $_GET = ['_q' => 'target'];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+
+        $_GET = ['_q' => 'target', '_scope' => '0'];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+
+        $_GET = ['_q' => 'target', '_scope' => \rcube_addressbook::TYPE_RECIPIENT];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+    }
+
+    /**
      * Test search request
      */
     public function test_run_search()
@@ -93,6 +134,44 @@ class SearchTest extends ActionTestCase
         $this->assertTrue(str_contains($result['exec'], 'this.enable_command("search-create",true);'));
         $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
         $this->assertTrue(str_contains($result['exec'], 'this.list_contacts_clear();'));
+    }
+
+    public function test_run_search_scope()
+    {
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
+
+        $this->assertTrue($action->checks());
+
+        self::initDB('contacts');
+
+        $_POST = ['_adv' => '1', '_search_email' => 'target'];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+
+        $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => '0'];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+
+        $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => (string) \rcube_addressbook::TYPE_RECIPIENT];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
+        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
     }
 
     /**
