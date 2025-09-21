@@ -58,7 +58,7 @@ if (strtolower($input) == 'y') {
     echo 'Copying files to target location...';
 
     $adds = [];
-    $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program'];
+    $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'docs'];
 
     if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("{$target_dir}/composer.json") || rcmail_install::vendor_dir_untouched($target_dir))) {
         $dirs[] = 'vendor';
@@ -83,9 +83,6 @@ if (strtolower($input) == 'y') {
         'index.php',
         'CHANGELOG.md',
         'README.md',
-        'UPGRADING',
-        'LICENSE',
-        'INSTALL',
         'public_html/index.php',
         'public_html/installer.php',
         'public_html/static.php',
