@@ -892,7 +892,7 @@ class rcube_message
             }
         }
         // this is an S/MIME encrypted message -> create a plaintext body with the according message
-        elseif ($mimetype == 'application/pkcs7-mime') {
+        elseif ($mimetype == 'application/pkcs7-mime' || $mimetype == 'application/x-pkcs7-mime') {
             $p = new rcube_message_part();
             $p->type = 'content';
             $p->ctype_primary = 'text';
