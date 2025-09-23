@@ -23,8 +23,7 @@ class markmirror extends rcube_plugin
 
     public function load_editor(array $args): array
     {
-        $headers = $args['message']->headers;
-        $start_markmirror = isset($headers) && $headers->get('x-edited-by-markmirror') === 'yes';
+        $start_markmirror = isset($args['message']->headers) && $args['message']->headers->get('x-edited-by-markmirror') === 'yes';
         $rcmail = rcube::get_instance();
         $rcmail->output->set_env('start_markmirror', $start_markmirror);
 
