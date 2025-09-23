@@ -44,6 +44,7 @@ class ComposeTest extends TestCase
             // Test the preview iframe.
             $browser->keys('#markmirror-container .cm-content', 'Hello, World!');
             $browser->click('#markmirror-container .codemirror-toolbar .toolbar-button-h1');
+            $browser->waitFor('#markmirror-container .cm-content .cm-line:first-child span:nth-child(2)');
             $browser->assertSeeIn('#markmirror-container .cm-content .cm-line:first-child span:nth-child(1)', '#');
             $browser->assertSeeIn('#markmirror-container .cm-content .cm-line:first-child span:nth-child(2)', ' Hello, World!');
             $browser->click('#markmirror-container .codemirror-toolbar .toolbar-button-preview');
