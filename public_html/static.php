@@ -19,8 +19,8 @@
 */
 
 /**
- * @const array Supported file types/extensions. If file type is not on the list
- *              it will have to be served by custom code in your plugin.
+ * @var array Supported file types/extensions. If file type is not on the list
+ *            it will have to be served by custom code in your plugin.
  */
 const SUPPORTED_TYPES = [
     'avif' => 'image/avif',
@@ -45,7 +45,7 @@ const SUPPORTED_TYPES = [
 ];
 
 /**
- * @const array Path prefixes to look for the requested files
+ * @var array Path prefixes to look for the requested files
  */
 const ALLOWED_PATHS = [
     'installer/',

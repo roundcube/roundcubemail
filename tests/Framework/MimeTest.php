@@ -398,6 +398,12 @@ class MimeTest extends TestCase
         $content = file_get_contents($file);
         $this->assertSame('image/gif', \rcube_mime::file_content_type($content, 'blocked.gif', 'application/octet-stream', true, true));
         $this->assertSame('image/gif', \rcube_mime::file_content_type($content, 'blocked.gif', 'application/octet-stream', true, false));
+
+        // Test pdf file
+        $file = INSTALL_PATH . 'program/resources/dummy.pdf';
+        $content = file_get_contents($file);
+        $this->assertSame('application/pdf', \rcube_mime::file_content_type($content, '', 'application/octet-stream', true, true));
+        $this->assertSame('application/pdf', \rcube_mime::file_content_type($file, '', 'application/octet-stream', false, true));
     }
 
     /**
