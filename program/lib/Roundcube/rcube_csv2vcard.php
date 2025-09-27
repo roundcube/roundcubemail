@@ -122,7 +122,7 @@ class rcube_csv2vcard
             $map = self::read_localization_file(RCUBE_LOCALIZATION_DIR . $lang . '/csv2vcard.inc');
 
             if (!empty($map)) {
-                $this->label_map = array_merge_recursive($this->label_map, $map);
+                $this->label_map = array_merge($this->label_map, $map);
             }
         }
     }
@@ -234,13 +234,9 @@ class rcube_csv2vcard
             $contents = $this->parse_line($lines[1]);
         }
 
-        $size = count($elements);
-
         // check labels
-        for ($i = 0; $i < $size; $i++) {
-            if ($field = self::search_map($elements[$i], $this->label_map)) {
-                $this->map[$i] = $field;
-            }
+        for ($i = 0; $i < count($elements); $i++) {
+            $this->map[$i] = $this->label_map[$elements[$i]] ?? null;
         }
 
         if (!empty($contents)) {
@@ -355,47 +351,20 @@ class rcube_csv2vcard
      * Load localization file
      *
      * @param string $file  File location
-     * @param array  $texts Additional texts to merge with
      *
      * @return array Localization csv2vcard map
      */
-    protected static function read_localization_file($file, $texts = [])
+    protected static function read_localization_file($file)
     {
-        if (is_file($file) && is_readable($file)) {
-            $map = [];
+        $map = [];
 
+        if (is_file($file) && is_readable($file)) {
             // use buffering to handle empty lines/spaces after closing PHP tag
             ob_start();
             require $file;
             ob_end_clean();
-
-            // @phpstan-ignore-next-line
-            if (!empty($map)) {
-                $texts = array_merge_recursive($texts, $map);
-            }
         }
 
-        return $texts;
-    }
-
-    /**
-     * Search csv2vcard mapping array
-     *
-     * @param string $needle Field name to search for
-     * @param array  $map    Field map to be searched
-     *
-     * @return string|null vcard field id
-     */
-    protected static function search_map($needle, $map)
-    {
-        $result = null;
-        foreach ($map as $key => $headings) {
-            if (array_search($needle, $headings) !== false) {
-                $result = $key;
-                break;
-            }
-        }
-
-        return $result;
+        return $map;
     }
 }
