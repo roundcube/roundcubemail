@@ -350,7 +350,7 @@ class rcube_csv2vcard
     /**
      * Load localization file
      *
-     * @param string $file  File location
+     * @param string $file File location
      *
      * @return array Localization csv2vcard map
      */
