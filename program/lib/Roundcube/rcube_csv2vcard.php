@@ -236,7 +236,9 @@ class rcube_csv2vcard
 
         // check labels
         for ($i = 0; $i < count($elements); $i++) {
-            $this->map[$i] = $this->label_map[$elements[$i]] ?? null;
+            if ($field = $this->label_map[$elements[$i]] ?? null) {
+                $this->map[$i] = $field;
+            }
         }
 
         if (!empty($contents)) {
