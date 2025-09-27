@@ -747,10 +747,10 @@ class rcube_mime
                 $finfo = new \finfo(\FILEINFO_MIME);
             }
 
-            if ($is_stream) {
-                $mime_type = $finfo->buffer($path, \FILEINFO_MIME_TYPE);
-            } else {
-                $mime_type = $finfo->file($path, \FILEINFO_MIME_TYPE);
+            if ($finfo) {
+                $func      = $is_stream ? 'finfo_buffer' : 'finfo_file';
+                $mime_type = $func($finfo, $path, FILEINFO_MIME_TYPE);
+                finfo_close($finfo);
             }
         }
 
