@@ -28,7 +28,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see https://www.gnu.org/licenses/.
  *
- * The driver needs Modoboa core 1.10.6 or later
+ * The driver needs Modoboa core 2.0.0 or later
  *
  * You need to define these variables in plugin/password/config.inc.php
  *
