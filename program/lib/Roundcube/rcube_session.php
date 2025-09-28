@@ -29,7 +29,7 @@ abstract class rcube_session implements \SessionHandlerInterface
     protected $key;
     protected $ip;
     protected $cookie;
-    protected $changed;
+    protected $expires_at;
     protected $start;
     protected $vars;
     protected $now;

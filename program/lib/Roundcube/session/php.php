@@ -97,6 +97,6 @@ class rcube_session_php extends rcube_session
 
         $this->key = session_id();
         $this->ip = $_SESSION['__IP'] ?? null;
-        $this->changed = $_SESSION['__MTIME'] ?? null;
+        $this->expires_at = time() + $this->lifetime;
     }
 }

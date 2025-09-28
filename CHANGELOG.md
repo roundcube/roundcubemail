@@ -16,6 +16,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Password: Removed the (insecure) virtualmin driver (#8007)
 - Fix jqueryui plugin's minicolors.css issue with custom skins (#9967)
 - Fix `skin_logo` with a relative URL (#10030)
+- Replace session attribute `changed` by `expires_at` to allow for variable session lengths per-user.
 
 ## Release 1.7-beta2
 

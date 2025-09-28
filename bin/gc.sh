@@ -25,13 +25,12 @@ require INSTALL_PATH . 'program/include/clisetup.php';
 $rcmail = rcube::get_instance();
 
 $session_driver = $rcmail->config->get('session_storage', 'db');
-$session_lifetime = $rcmail->config->get('session_lifetime', 0) * 60 * 2;
 
 // Clean expired SQL sessions
-if ($session_driver == 'db' && $session_lifetime) {
+if ($session_driver == 'db') {
     $db = $rcmail->get_dbh();
     $db->query('DELETE FROM ' . $db->table_name('session')
-        . ' WHERE changed < ' . $db->now(-$session_lifetime));
+        . ' WHERE expires_at < ' . $db->now());
 }
 
 // Clean caches and temp directory
