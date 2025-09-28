@@ -123,8 +123,19 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
         $RCMAIL->session->remove('temp');
         $RCMAIL->session->regenerate_id(false);
 
-        // send auth cookie if necessary
-        $RCMAIL->session->set_auth_cookie();
+        $extended_session_lifetime = rcube_utils::get_input_string('_extended_session_lifetime', rcube_utils::INPUT_POST);
+        $extended_session_lifetime_days = $RCMAIL->config->get('extended_session_lifetime_days', 0);
+
+        if ($extended_session_lifetime === 'on' && is_int($extended_session_lifetime_days) && $extended_session_lifetime_days > 0) {
+            // Make sure the value is in the range 1..365.
+            $days = min(max(1, $extended_session_lifetime_days), 365);
+            $RCMAIL->session->set_lifetime($days * 24 * 60 * 60);
+            $_SESSION['extended_session_lifetime'] = $days * 24 * 60 * 60;
+            $RCMAIL->session->set_auth_cookie();
+        } else {
+            // send auth cookie if necessary
+            $RCMAIL->session->set_auth_cookie();
+        }
 
         // log successful login
         $RCMAIL->log_login();
