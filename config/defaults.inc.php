@@ -646,6 +646,15 @@ $config['display_product_info'] = 1;
 // Session lifetime in minutes
 $config['session_lifetime'] = 10;
 
+// Allow users to extend their session lifetime to up to X days by checking a
+// checkbox at the login. Practically this means that a login will survive
+// network changes, browser restarts (unless they delete cookies), etc, for up
+// to X days without activity.
+// Warning: This reduces the effectiveness of Roundcube's session highjacking
+// mitigation, since a stolen session cookie will be valid for much longer than
+// without this option.
+$config['session_lifetime_extension_days'] = 1;
+
 // Session domain: .example.org
 $config['session_domain'] = '';
 
