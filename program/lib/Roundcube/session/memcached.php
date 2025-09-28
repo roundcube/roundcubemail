@@ -113,7 +113,7 @@ class rcube_session_memcached extends rcube_session
     public function read($key)
     {
         if ($arr = $this->memcache->get($key)) {
-            $this->changed = $arr['changed'];
+            $this->expires_at = $arr['expires_at'];
             $this->ip = $arr['ip'];
             $this->vars = $arr['vars'];
             $this->key = $key;
@@ -141,7 +141,7 @@ class rcube_session_memcached extends rcube_session
             return true;
         }
 
-        $data = ['changed' => time(), 'ip' => $this->ip, 'vars' => $vars];
+        $data = ['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $vars];
         $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
         if ($this->debug) {
@@ -165,8 +165,8 @@ class rcube_session_memcached extends rcube_session
     {
         $ts = microtime(true);
 
-        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data = ['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars];
+        if ($newvars !== $oldvars || $this->expires_at - $ts > $this->lifetime / 3) {
+            $data = ['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $newvars];
             $result = $this->memcache->set($key, $data, $this->lifetime + 60);
 
             if ($this->debug) {
