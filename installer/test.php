@@ -202,7 +202,7 @@ if ($DB) {
     // write test
     $insert_id = md5(uniqid());
     $db_write = $DB->query('INSERT INTO ' . $DB->quote_identifier($RCI->config['db_prefix'] . 'session')
-        . ' (`sess_id`, `changed`, `ip`, `vars`) VALUES (?, ' . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
+        . ' (`sess_id`, `expires_at`, `ip`, `vars`) VALUES (?, ' . $DB->now() . ", '127.0.0.1', 'foo')", $insert_id);
 
     if ($db_write) {
         $RCI->pass('DB Write');
