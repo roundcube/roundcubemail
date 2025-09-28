@@ -707,6 +707,11 @@ abstract class rcube_session implements \SessionHandlerInterface
             $this->log('IP check failed for ' . $this->key . '; expected ' . $this->ip . '; got ' . rcube_utils::remote_addr());
         }
 
+        // Use the lifetime from the session so the cookie-name matching succeeds.
+        if ($_SESSION['extended_session_lifetime']) {
+            $this->set_lifetime($_SESSION['extended_session_lifetime']);
+        }
+
         if ($result && $this->mkcookie($this->now) != $this->cookie) {
             $this->log('Session auth check failed for ' . $this->key . '; timeslot = ' . date('Y-m-d H:i:s', $this->now));
             $result = false;
@@ -725,6 +730,10 @@ abstract class rcube_session implements \SessionHandlerInterface
         if (!$result) {
             $this->log('Session authentication failed for ' . $this->key
                 . '; invalid auth cookie sent; timeslot = ' . date('Y-m-d H:i:s', $prev));
+        } else {
+            // Re-set the auth- and session-id-cookie, because in case of an extended session lifetime they can have an
+            // expiry date in the browser, which we need to extend.
+            $this->set_auth_cookie();
         }
 
         return $result;
@@ -736,7 +745,15 @@ abstract class rcube_session implements \SessionHandlerInterface
     public function set_auth_cookie()
     {
         $this->cookie = $this->mkcookie($this->now);
-        rcube_utils::setcookie($this->cookiename, $this->cookie, 0);
+        if (isset($_SESSION['extended_session_lifetime']) && is_int($_SESSION['extended_session_lifetime'])) {
+            $cookie_expiry = time() + $_SESSION['extended_session_lifetime'];
+            // Set the sessid-cookie (again) to force/renew its expiration date.
+            // TODO: Is this method the best place for this line?
+            rcube_utils::setcookie(ini_get('session.name'), session_id(), $cookie_expiry);
+        } else {
+            $cookie_expiry = 0;
+        }
+        rcube_utils::setcookie($this->cookiename, $this->cookie, $cookie_expiry);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 
