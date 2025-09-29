@@ -64,7 +64,7 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install Aspell
-        run: sudo apt-get -y install aspell aspell-en aspell-de
+        run: sudo apt-get -y update && sudo apt-get -y install --no-install-recommends aspell aspell-en aspell-de
 
       - name: Execute tests
         if: ${{ matrix.php != '8.5' }}
