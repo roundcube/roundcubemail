@@ -11,6 +11,7 @@ on:
 
 jobs:
   build_and_push:
+    if: github.repository == 'roundcube/roundcubemail'
     strategy:
       fail-fast: false
       # Set up a matrix so we can add more versions to build with in the future.
