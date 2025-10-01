@@ -4,6 +4,9 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+
+## Release 1.7-beta2
+
 - Support PHP v8.5(-pre) without deprecation warnings.
 - Support IPv6 in database DSN (#9937)
 - Use `htmleditor` setting also for indentity signature (#9954)
