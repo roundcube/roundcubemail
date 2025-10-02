@@ -1160,6 +1160,10 @@ function rcube_elastic_ui() {
                     icon_name = input.data('icon'),
                     icon = $('<i>').attr('class', 'input-group-text icon ' + input.attr('name').replace('_', ''));
 
+                if (input.hasClass('no-prettify')) {
+                    return;
+                }
+
                 if (icon_name) {
                     icon.addClass(icon_name);
                 }
