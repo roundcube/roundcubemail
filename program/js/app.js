@@ -2409,6 +2409,7 @@ function rcube_webmail() {
             size: cols.size,
             date: cols.date,
             flags: flags.extra_flags, // flags from plugins
+            folder: cols.folder,
         });
 
         var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = '', expando = '',
@@ -2595,6 +2596,10 @@ function rcube_webmail() {
         domrow.className = row.className;
         if (row.style) {
             $.extend(domrow.style, row.style);
+        }
+
+        if (this.is_multifolder_listing()) {
+            domrow.title = rcmail.get_label('infolder').replace('$folder', message.folder);
         }
 
         $.each(this.env.widescreen_list_template, function () {
