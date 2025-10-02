@@ -9,6 +9,10 @@ on:
     # Rebuild automatically each monday early morning.
     - cron: "42 5 * * 1"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build_and_push:
     if: github.repository == 'roundcube/roundcubemail'
