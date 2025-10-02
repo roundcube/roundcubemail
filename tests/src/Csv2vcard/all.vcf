@@ -1,0 +1,48 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Display Name
+N:Last Name;First Name;Middle Name;Prefix;Suffix
+NICKNAME:Nickname
+ORG:Company
+X-DEPARTMENT:Department
+TITLE:Job Title
+EMAIL;TYPE=home:home@example.com
+EMAIL;TYPE=work:work@example.com
+EMAIL:other@example.com
+TEL;TYPE=home:100
+TEL;TYPE=home2:200
+TEL;TYPE=work:300
+TEL;TYPE=work2:400
+TEL;TYPE=cell:500
+TEL;TYPE=main:600
+TEL;TYPE=homefax:700
+TEL;TYPE=workfax:800
+TEL;TYPE=car:900
+TEL;TYPE=pager:111
+TEL;TYPE=video:222
+TEL;TYPE=assistant:333
+TEL:444
+X-GENDER:female
+BDAY;VALUE=date:1991-01-20
+X-MAIDENNAME:Maiden Name
+X-ANNIVERSARY;VALUE=date:1992-02-20
+X-MANAGER:Manager
+X-ASSISTANT:Assistant
+X-SPOUSE:Spouse
+NOTE:Notes
+X-AIM:aim
+X-ICQ:icq
+X-JABBER:jabber
+X-MSN:msn
+X-SKYPE-USERNAME:skype
+X-YAHOO:yahoo
+URL;TYPE=blog:https://blog
+URL;TYPE=homepage:https://home
+URL:https://other
+URL;TYPE=profile:https://profile
+URL;TYPE=work:https://work
+CATEGORIES:test
+ADR;TYPE=home:;;Home Street;Home City;Home State;Home Zip;Home Country
+ADR;TYPE=work:;;Work Street;Work City;Work State;Work Zip;Work Country
+ADR:;;Other Street;Other City;Other State;Other Zip;Other Country
+END:VCARD
