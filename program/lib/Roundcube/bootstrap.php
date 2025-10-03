@@ -283,29 +283,6 @@ function array_keys_recursive($array)
     return $keys;
 }
 
-// Function added in PHP 8.5
-if (!function_exists('array_first')) {
-    /**
-     * Get first element from an array
-     *
-     * @param array $array Input array
-     *
-     * @return mixed First element if found, Null otherwise
-     */
-    function array_first($array)
-    {
-        // @phpstan-ignore-next-line
-        if (is_array($array) && !empty($array)) {
-            reset($array);
-            foreach ($array as $element) {
-                return $element;
-            }
-        }
-
-        return null;
-    }
-}
-
 /**
  * Remove all non-ascii and non-word chars except ., -, _
  *

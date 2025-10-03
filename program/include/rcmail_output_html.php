@@ -340,8 +340,7 @@ class rcmail_output_html extends rcmail_output
         $meta = $this->get_skin_info($skin_name);
 
         $meta['path'] = $skin_path;
-        $path_elements = explode('/', $skin_path);
-        $skin_id = end($path_elements);
+        $skin_id = array_last(explode('/', $skin_path));
 
         if (empty($meta['name'])) {
             $meta['name'] = $skin_id;
