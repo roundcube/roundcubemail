@@ -354,7 +354,7 @@ class rcmail extends rcube
         // This can happen when user deleted the addressbook (e.g. Kolab folder)
         if ($fallback && !$contacts && (!$id || $default)) {
             $source = $this->get_address_sources($writeable, !$default);
-            $source = reset($source);
+            $source = array_first($source);
 
             if (!empty($source)) {
                 // Note: No fallback here to prevent from an infinite loop

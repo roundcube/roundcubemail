@@ -1138,7 +1138,7 @@ class rcube_imap_cache
      *
      * @param array $sql_arr Message row data
      *
-     * @return rcube_message_header Message object
+     * @return ?rcube_message_header Message object
      */
     private function build_message($sql_arr)
     {
