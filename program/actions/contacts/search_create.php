@@ -47,6 +47,7 @@ class rcmail_action_contacts_search_create extends rcmail_action
                 'data' => [
                     'fields' => $params['data'][0],
                     'search' => $params['data'][1],
+                    'scope' => $params['scope'],
                 ],
             ];
 
