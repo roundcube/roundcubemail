@@ -49,6 +49,7 @@ class Search_CreateTest extends ActionTestCase
         $_SESSION['contact_search_params'] = [
             'id' => 'fakeid',
             'data' => ['*', 'bush'],
+            'scope' => null,
         ];
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
