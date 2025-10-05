@@ -406,7 +406,7 @@ class MimeTest extends TestCase
         $this->assertSame('application/pdf', \rcube_mime::file_content_type($file, '', 'application/octet-stream', false, true));
 
         // Test jpg file
-        $file = INSTALL_PATH . 'program/resources/blank.jpg';
+        $file = TESTS_DIR . 'src/logo.jpg';
         $content = file_get_contents($file);
         $this->assertSame('image/jpeg', \rcube_mime::file_content_type($content, '', 'application/octet-stream', true, true));
         $this->assertSame('image/jpeg', \rcube_mime::file_content_type($file, '', 'application/octet-stream', false, true));
