@@ -263,7 +263,7 @@ $labels['searchinterval-1Y'] = 'older than a year';
 $labels['searchinterval1W'] = 'younger than a week';
 $labels['searchinterval1M'] = 'younger than a month';
 $labels['searchinterval1Y'] = 'younger than a year';
-$labels['infolder'] = 'In folder: $folder';
+$labels['infolder'] = 'Folder: $folder';
 
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
