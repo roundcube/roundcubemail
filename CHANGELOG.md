@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Add scope parameter to contact search (#9863)
 
 ## Release 1.7-beta2
 
