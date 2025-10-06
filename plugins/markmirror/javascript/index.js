@@ -13,7 +13,6 @@ import { materialLight } from '@fsegurai/codemirror-theme-material-light';
 import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
 import ToolbarButton from './toolbar-button';
 import ToolbarPlugin from './toolbar-plugin';
-import { imageDataUri } from './image-data-uri';
 
 // TODO:
 // * Better icons for 'redo' and 'undo' buttons. In Font Awesome v5 Free the good icons are not included.
@@ -144,7 +143,6 @@ class Index {
             new ToolbarButton('unordered_list', '\uF0CA', Commands.ul),
             new ToolbarButton('separator', '|'),
             new ToolbarButton('link', '\uF0C1', Commands.link),
-            new ToolbarButton('image', '\uF03E', imageDataUri),
             new ToolbarButton('separator', '|'),
             new ToolbarButton('undo', '\uF04A', (view) => undo(view)),
             new ToolbarButton('redo', '\uF04E', (view) => redo(view)),
