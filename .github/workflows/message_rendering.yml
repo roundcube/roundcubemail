@@ -35,7 +35,7 @@ jobs:
         if: ${{ matrix.php == '8.5' }}
         env:
           ROUNDCUBEMAIL_IMAGE_MESSAGE_RENDERING: ghcr.io/roundcube/roundcubemail:php8.5-rc
-          COMPOSE_ARGS: '--ignore-platform-reqs'
+          COMPOSER_ARGS: '--ignore-platform-reqs'
         run: docker compose -f .ci/compose.yaml run test_message_rendering
 
       - name: Upload artifacts
