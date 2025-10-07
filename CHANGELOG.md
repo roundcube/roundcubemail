@@ -5,6 +5,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 ## Unreleased
 
 - Add scope parameter to contact search (#9863)
+- Add tooltip with folder name to widescreen list of multi-folder listing (#9989, #7950)
 
 ## Release 1.7-beta2
 
