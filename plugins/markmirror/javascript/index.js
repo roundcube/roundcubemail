@@ -326,6 +326,7 @@ class Index {
             const doc = this.#domParser.parseFromString(this.#editorContentAsHTML, 'text/html');
             this.#previewIframe.contentDocument.body = doc.body;
             this.#disableToolbarButtons();
+            this.#previewIframe.style.height = this.#view.scrollDOM.scrollHeight + 'px';
             this.#hide(this.#view.contentDOM);
             this.#show(this.#previewIframe);
             previewButtonElem.classList.add('active');
