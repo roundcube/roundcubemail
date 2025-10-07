@@ -5837,6 +5837,8 @@ function rcube_webmail() {
                 this.clear_message_list();
             } else if (this.contact_list) {
                 this.list_contacts_clear();
+                // use env.last_source as env.source is overwritten by search action
+                url._scope = this.env.search_scope == 'base' ? this.env.last_source : null;
             }
 
             if (this.env.source) {
@@ -7494,6 +7496,9 @@ function rcube_webmail() {
                     if (this.name.match(/^_search/) && this.value != '') {
                         form[this.name] = this.value;
                         valid = true;
+                    } else if (this.name == '_scope' && this.value == 'base') {
+                        // use env.last_source as env.source is overwritten by search action
+                        form[this.name] = ref.env.last_source;
                     }
                 });
 

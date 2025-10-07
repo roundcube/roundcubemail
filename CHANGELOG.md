@@ -1,11 +1,29 @@
 # Changelog Roundcube Webmail
 
+This file includes only changes we consider noteworthy for users, admins and plugin authors. For a full view please look at the git history.
+
 ## Unreleased
 
+- Add scope parameter to contact search (#9863)
+
+## Release 1.7-beta2
+
+- Support PHP v8.5(-pre) without deprecation warnings.
 - Support IPv6 in database DSN (#9937)
 - Use `htmleditor` setting also for indentity signature (#9954)
 - Fix regression in handling of non-unicode characters in a plain text message (#9953)
 - Fix parsing of inline styles that aren't well-formatted (#9948)
+- Support early MIME types for S/MIME encrypted messages (#9973)
+- Only apply fix_path for href attrib in <link>s (#9943)
+- Show homograph-warning-icon before email address, unify warning wording (#9945)
+- Show full details with warning icon in case of phishing suspicion (#9945)
+- Prepend group-names to display-name (#9945)
+- Wash the `name` attribute also on more elements (#9949)
+- Sanitize filename on download (#9960)
+- Drop Internet Explorer from supported browsers (#9963)
+- Enforce leading backslash for non-namespaced non-Roundcube uses (#9935)
+- Use asset_url() instead of get_skin_file() for deleteicon on contact edit form (#9933)
+- Several changes to the test tooling.
 
 ## Release 1.7-beta
 

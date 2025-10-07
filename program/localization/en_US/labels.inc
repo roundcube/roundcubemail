@@ -265,6 +265,8 @@ $labels['searchinterval1M'] = 'younger than a month';
 $labels['searchinterval1Y'] = 'younger than a year';
 $labels['infolder'] = 'Folder: $folder';
 
+$labels['currentaddressbook'] = 'Current address book';
+$labels['alladdressbooks'] = 'All address books';
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
