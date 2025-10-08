@@ -157,8 +157,8 @@ class Index {
             new ToolbarButton('separator', '|'),
             new ToolbarButton('link', '\uF0C1', Commands.link),
             new ToolbarButton('separator', '|'),
-            new ToolbarButton('undo', '\uF04A', (view) => undo(view)),
-            new ToolbarButton('redo', '\uF04E', (view) => redo(view)),
+            new ToolbarButton('undo', '\uF0E2', (view) => undo(view)),
+            new ToolbarButton('redo', '\uF01E', (view) => redo(view)),
         ];
         const toolbarItems = [
             new ToolbarButton('quit', '\uF00D', (view) => this.stopMarkmirror()),
