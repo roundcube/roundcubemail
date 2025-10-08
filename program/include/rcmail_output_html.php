@@ -1807,11 +1807,6 @@ class rcmail_output_html extends rcmail_output
             $attrib['aria-disabled'] = 'true';
         }
 
-        // set title to alt attribute for IE browsers
-        if ($this->browser->ie && empty($attrib['title']) && !empty($attrib['alt'])) {
-            $attrib['title'] = $attrib['alt'];
-        }
-
         // add empty alt attribute for XHTML compatibility
         if (!isset($attrib['alt'])) {
             $attrib['alt'] = '';
