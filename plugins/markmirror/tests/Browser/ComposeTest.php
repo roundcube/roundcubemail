@@ -25,13 +25,13 @@ class ComposeTest extends TestCase
             $browser->assertVisible('#markmirror-container .codemirror-toolbar .toolbar-button-blockquote');
             $browser->assertVisible('#markmirror-container .codemirror-toolbar .toolbar-button-help');
             $browser->assertVisible('#markmirror-container .codemirror-toolbar .toolbar-button-preview');
-            $browser->assertElementsCount('#markmirror-container .codemirror-toolbar .clickable', 17);
+            $browser->assertElementsCount('#markmirror-container .codemirror-toolbar .clickable', 16);
             $browser->assertElementsCount('#markmirror-container .codemirror-toolbar .clickable.disabled', 0);
 
             // Test that clicking the preview button disables all but two toolbar buttons.
             $browser->click('#markmirror-container .codemirror-toolbar .toolbar-button-preview');
             $browser->assertVisible('#markmirror-container .codemirror-toolbar .toolbar-button-bold.disabled');
-            $browser->assertElementsCount('#markmirror-container .codemirror-toolbar .clickable.disabled', 14);
+            $browser->assertElementsCount('#markmirror-container .codemirror-toolbar .clickable.disabled', 13);
             $browser->assertVisible('#markmirror-container #markmirror-preview');
             $browser->assertMissing('#markmirror-container .cm-content');
 
