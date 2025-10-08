@@ -278,6 +278,16 @@ class Index {
                     insert: this.#defaultTextarea.value,
                 },
             });
+            const cursorPosition = this.#defaultTextarea.selectionEnd;
+            if (cursorPosition !== undefined) {
+                this.#view.dispatch({
+                    selection: {
+                        anchor: cursorPosition,
+                    },
+                    scrollIntoView: true,
+                });
+            }
+            this.#view.focus();
         }, 100);
     }
 
