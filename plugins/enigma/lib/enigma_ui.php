@@ -1104,7 +1104,6 @@ class enigma_ui
         if ($count = count($this->status_messages)) {
             $attach_scripts = true;
             if ($count == 2 && $this->status_messages[0]['class'] == $this->status_messages[1]['class']) {
-                // @phpstan-ignore-next-line
                 $p['content'] = html::div($this->status_messages[0], $this->status_messages[0]['msg'] . ' ' . $this->status_messages[1]['msg']) . $p['content'];
             } else {
                 foreach ($this->status_messages as $msg) {
