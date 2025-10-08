@@ -31,7 +31,6 @@
  2.1.5.  DirectAdmin Control Panel (directadmin)
  2.1.6.  cPanel
  2.1.7.  XIMSS/Communigate (ximms)
- 2.1.8.  Virtualmin (virtualmin)
  2.1.9.  hMailServer (hmail)
  2.1.10. PAM (pam)
  2.1.11. Chpasswd (chpasswd)
@@ -221,14 +220,6 @@
 
  You can specify which host and port to connect to via 'password_ximss_host'
  and 'password_ximss_port'. See config.inc.php.dist file for more info.
-
-
- 2.1.8. Virtualmin (virtualmin)
- ------------------------------
-
- As in sasl driver this one allows to change password using shell
- utility called "virtualmin". See helpers/chgvirtualminpasswd.c for
- installation instructions. Requires virtualmin >= 4.09.
 
 
  2.1.9. hMailServer (hmail)
