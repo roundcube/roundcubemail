@@ -886,6 +886,10 @@ class rcmail_sendmail
     {
         $info = [];
 
+        if (empty(trim($str))) {
+            return $info;
+        }
+
         foreach (preg_split('/;\s+/', $str) as $part) {
             [$key, $val] = explode('=', $part, 2);
             if (str_starts_with($val, 'B::')) {
