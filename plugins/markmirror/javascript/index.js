@@ -39,6 +39,9 @@ class Index {
 
     #container;
 
+    // Use a map with fixed callbacks so we can remove the event-listeners later, too.
+    #eventListeners = new Map();
+
     constructor() {
         this.#defaultTextarea = rcmail.gui_objects.messageform.querySelector('#composebody');
         this.#toolbar = document.querySelector('.editor-toolbar');
@@ -49,6 +52,11 @@ class Index {
             breaks: true,
         });
         this.#editorTheme = new Compartment();
+
+        // Reload from plain text textarea if text was inserted or changed through buttons.
+        this.#eventListeners.set('change_identity', () => this.#reloadContentFromDefaultTextarea());
+        // Reload content from the textarea after a quick-response was inserted.
+        this.#eventListeners.set('insert_response', () => this.#reloadContentFromDefaultTextarea());
     }
 
     get #wantedTheme() {
@@ -204,9 +212,9 @@ class Index {
         markdownField.value = '1';
         this.#view.dom.append(markdownField);
 
-        // Reload from plain text textarea if text was inserted or changed through buttons.
-        rcmail.addEventListener('change_identity', () => this.#reloadContentFromDefaultTextarea());
-        rcmail.addEventListener('insert_response', () => this.#reloadContentFromDefaultTextarea());
+        this.#eventListeners.forEach((callback, eventName) => {
+            rcmail.addEventListener(eventName, callback);
+        });
 
         // Disable the spellchecker
         rcmail.enable_command('spellcheck', false);
@@ -230,6 +238,9 @@ class Index {
     stopMarkmirror() {
         this.#defaultTextarea.value = this.#editorContent;
         this.#view.destroy();
+        this.#eventListeners.forEach((callback, eventName) => {
+            rcmail.removeEventListener(eventName, callback);
+        });
         this.#stopDarkModeWatcher();
         this.#hide(this.#previewIframe);
         this.#show(this.#defaultTextarea, this.#toolbar);
