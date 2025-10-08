@@ -106,6 +106,8 @@ class Index {
         markmirrorButton.addEventListener('click', (ev) => {
             ev.preventDefault();
             this.startMarkmirror();
+            // Force saving to mark this content as edited by markmirror.
+            rcmail.submit_messageform(true);
         });
         markmirrorButton.title = rcmail.get_label('markmirror.editor_button_title');
         const readonly = this.#defaultTextarea.hasAttribute('readonly') || this.#defaultTextarea.hasAttribute('disabled');
@@ -236,9 +238,6 @@ class Index {
 
         rcmail.editor.spellcheck_stop();
         this.#hide(this.#defaultTextarea, this.#toolbar);
-
-        // Force saving to mark this content as edited by markmirror.
-        rcmail.submit_messageform(true);
     }
 
     stopMarkmirror() {
