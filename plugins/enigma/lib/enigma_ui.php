@@ -955,7 +955,6 @@ class enigma_ui
             && !empty($engine->decryptions[$found])
         ) {
             $status = $engine->decryptions[$found];
-            $attach_scripts = true;
 
             // show the message only once
             unset($engine->decryptions[$found]);
