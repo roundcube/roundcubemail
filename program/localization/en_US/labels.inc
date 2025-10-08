@@ -508,6 +508,9 @@ $labels['importmapdesc'] = 'Confirm the field mapping information below is corre
 $labels['fieldnotmapped'] = 'Field not mapped (do not import)';
 $labels['skipheader'] = 'Do not import first line (headers)';
 $labels['done'] = 'Done';
+$labels['birth_day'] = 'Birth Day';
+$labels['birth_month'] = 'Birth Month';
+$labels['birth_year'] = 'Birth Year';
 
 // settings
 $labels['settingsfor'] = 'Settings for';
