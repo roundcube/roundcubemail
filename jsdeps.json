@@ -90,11 +90,11 @@
     {
       "lib": "less",
       "name": "LessJS",
-      "version": "4.1.3",
+      "version": "4.4.2",
       "url": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.min.js",
       "api_url": "https://api.github.com/repos/less/less.js/contents/dist/less.min.js?ref=v$v",
       "dest": "skins/elastic/deps/less.min.js",
-      "sha1": "e2418d0acfc3234b39c426be9f7a018b3903f070",
+      "sha1": "a2f2b4e8132a8fa29bf3ff93f4cf6094b5c60cb6",
       "license": "Apache-2.0",
       "source": "https://raw.githubusercontent.com/less/less.js/v$v/dist/less.js"
     }
