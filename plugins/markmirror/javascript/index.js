@@ -55,6 +55,9 @@ class Index {
 
         // Reload from plain text textarea if text was inserted or changed through buttons.
         this.#eventListeners.set('change_identity', () => this.#reloadContentFromDefaultTextarea());
+        // If a quick-response is to be inserted, put the textarea cursor at the position where our cursor is, so the
+        // response text is actually inserted at the right position.
+        this.#eventListeners.set('requestsettings/response-get', () => this.#setTextareaCursorPosition());
         // Reload content from the textarea after a quick-response was inserted.
         this.#eventListeners.set('insert_response', () => this.#reloadContentFromDefaultTextarea());
     }
@@ -267,6 +270,10 @@ class Index {
 
         // Start observing the target node for configured mutations
         this.mutationObserver.observe(document.firstElementChild, { attributes: true, childList: false, subtree: false });
+    }
+
+    #setTextareaCursorPosition() {
+        this.#defaultTextarea.selectionEnd = this.#view.state.selection.main.head;
     }
 
     #reloadContentFromDefaultTextarea() {
