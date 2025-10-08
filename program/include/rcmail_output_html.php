@@ -2349,6 +2349,20 @@ class rcmail_output_html extends rcmail_output
             'buttons' => [],
         ];
 
+        $extended_session_lifetime_days = $this->config->get('extended_session_lifetime_days', 0);
+        if (is_int($extended_session_lifetime_days) && $extended_session_lifetime_days > 0) {
+            $extended_session_lifetime_hidden_field = new html_hiddenfield(['name' => '_extended_session_lifetime', 'value' => '0']);
+            $form_content['hidden']['extended_session_lifetime'] = $extended_session_lifetime_hidden_field->show();
+
+            // Make sure the value is in the range 1..365.
+            $extended_session_lifetime_days = min(max(1, $extended_session_lifetime_days), 365);
+            $extended_session_lifetime_text = str_replace('#', $extended_session_lifetime_days, $this->app->gettext('extended_session_lifetime_switch_text'));
+            $extended_session_lifetime_checkbox = new html_checkbox(['name' => '_extended_session_lifetime', 'id' => '_extended_session_lifetime', 'title' => $extended_session_lifetime_text, 'class' => 'no-prettify']);
+            $form_content['inputs']['extended_session_lifetime'] = [
+                'content' => html::label(['for' => '_extended_session_lifetime'], [$extended_session_lifetime_checkbox->show(), $extended_session_lifetime_text]),
+            ];
+        }
+
         if (is_array($default_host) && count($default_host) > 1) {
             $input_host = new html_select(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select']);
 
