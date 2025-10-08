@@ -236,6 +236,9 @@ class Index {
 
         rcmail.editor.spellcheck_stop();
         this.#hide(this.#defaultTextarea, this.#toolbar);
+
+        // Force saving to mark this content as edited by markmirror.
+        rcmail.submit_messageform(true);
     }
 
     stopMarkmirror() {
@@ -249,6 +252,8 @@ class Index {
         this.#show(this.#defaultTextarea, this.#toolbar);
         // Re-enable the spellchecker
         rcmail.enable_command('spellcheck', true);
+        // Force saving to mark this content as *not* edited by markmirror.
+        rcmail.submit_messageform(true);
     }
 
     #stopDarkModeWatcher() {
