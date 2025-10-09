@@ -18,7 +18,7 @@ class markdown_editor extends rcube_plugin
 
         if (isset($args['message']->headers)) {
             $draft_info = rcmail_sendmail::draftinfo_decode($args['message']->headers->get('x-draft-info'));
-            $start_markdown_editor = $draft_info['edit_in_markdown_editor'] === 'yes';
+            $start_markdown_editor = $draft_info['markdown_editor'] === 'yes';
         }
 
         $rcmail = rcube::get_instance();
@@ -35,9 +35,9 @@ class markdown_editor extends rcube_plugin
 
     public function save_markdown_editor_usage($args)
     {
-        if (isset($_POST['_edited_by_markdown_editor']) && $_POST['_edited_by_markdown_editor'] === '1') {
+        if (isset($_POST['_markdown_editor']) && $_POST['_markdown_editor'] === '1') {
             $draft_info = rcmail_sendmail::draftinfo_decode($args['message']->headers()['X-Draft-Info']);
-            $draft_info['edit_in_markdown_editor'] = 'yes';
+            $draft_info['markdown_editor'] = 'yes';
             $args['message']->headers(['X-Draft-Info' => rcmail_sendmail::draftinfo_encode($draft_info)], true);
         }
 

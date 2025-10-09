@@ -213,7 +213,7 @@ class Index {
         // Add a new field to mark the content as markdown (pun intended).
         const markdownField = document.createElement('input');
         markdownField.type = 'hidden';
-        markdownField.name = '_edited_by_markdown_editor';
+        markdownField.name = '_markdown_editor';
         markdownField.value = '1';
         this.#view.dom.append(markdownField);
 
@@ -232,7 +232,7 @@ class Index {
             if (!is_draft) {
                 this.#defaultTextarea.value = this.#editorContentAsHTML;
                 this.#defaultTextarea.form._is_html.value = '1';
-                this.#defaultTextarea.form._edited_by_markdown_editor.value = '0';
+                this.#defaultTextarea.form._markdown_editor.value = '0';
             }
         });
 
