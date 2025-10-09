@@ -153,7 +153,7 @@ class Text2HtmlTest extends TestCase
         $html = $t2h->get_html();
 
         $expected = "<div class=\"pre\"><br>\n[&lt;script&gt;evil&lt;/script&gt;] "
-            . "<a rel=\"noreferrer\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
+            . "<a rel=\"noreferrer noopener\" target=\"_blank\" href=\"https://google.com\">https://google.com</a><br>\n"
             . '</div>';
 
         $this->assertSame($expected, $html);
@@ -175,7 +175,7 @@ class Text2HtmlTest extends TestCase
 
         $t2h = new \rcube_text2html($input);
         $html = $t2h->get_html();
-        $html = preg_replace('/ (rel|target)="(noreferrer|_blank)"/', '', $html);
+        $html = preg_replace('/ (rel|target)="(noreferrer noopener|_blank)"/', '', $html);
 
         $this->assertSame($expected, $html);
     }
