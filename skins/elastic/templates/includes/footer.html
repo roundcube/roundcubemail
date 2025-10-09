@@ -1,7 +1,7 @@
 <roundcube:if condition="!env:framed || env:extwin" />
 </div>
 <roundcube:if condition="config:support_url" />
-<a href="<roundcube:var name='config:support_url' />" target="_blank" id="supportlink" class="hidden"><roundcube:label name="support" /></a>
+<a href="<roundcube:var name='config:support_url' />" target="_blank" rel="noopener" id="supportlink" class="hidden"><roundcube:label name="support" /></a>
 <roundcube:endif />
 <roundcube:endif />
 

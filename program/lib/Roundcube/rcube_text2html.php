@@ -139,7 +139,7 @@ class rcube_text2html
     protected function converter($text)
     {
         // make links and email-addresses clickable
-        $attribs = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank']];
+        $attribs = ['link_attribs' => ['rel' => 'noreferrer', 'target' => '_blank', 'rel' => 'noopener']];
         $replacer = new $this->config['replacer']($attribs);
 
         if ($this->config['flowed']) {
