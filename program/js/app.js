@@ -4425,7 +4425,13 @@ function rcube_webmail() {
 
             li.append($('<label>').addClass('keyid').text(ref.get_label('keyid')));
             li.append($('<a>').text(keyrec.keyid.substr(-8).toUpperCase())
-                .attr({ href: keyrec.info, target: '_blank', tabindex: '-1' }));
+                .attr({
+                    href: keyrec.info,
+                    target: '_blank',
+                    rel: 'noopener',
+                    tabindex: '-1',
+                })
+            );
 
             li.append($('<label>').addClass('keylen').text(ref.get_label('keylength')));
             li.append($('<span>').text(keyrec.keylen));

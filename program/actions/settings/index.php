@@ -1513,7 +1513,7 @@ class rcmail_action_settings_index extends rcmail_action
                             'content' => html::div(
                                 ['style' => 'display:none', 'class' => 'boxwarning', 'id' => 'mailvelope-warning'],
                                 str_replace(
-                                    'Mailvelope', '<a href="https://www.mailvelope.com" target="_blank">Mailvelope</a>',
+                                    'Mailvelope', '<a href="https://www.mailvelope.com" target="_blank" rel="noopener">Mailvelope</a>',
                                     rcube::Q($rcmail->gettext('mailvelopenotfound'))
                                 )
                                 . html::script([], "if (!parent.mailvelope) \$('#mailvelope-warning').show()")

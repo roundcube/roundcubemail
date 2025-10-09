@@ -162,7 +162,7 @@ class help extends rcube_plugin
             && $rcmail->request_status == rcube::REQUEST_ERROR_URL
             && ($url = $rcmail->config->get('help_csrf_info'))
         ) {
-            $args['text'] .= '<p>' . html::a(['href' => $url, 'target' => '_blank'], $this->gettext('csrfinfo')) . '</p>';
+            $args['text'] .= '<p>' . html::a(['href' => $url, 'target' => '_blank', 'rel' => 'noopener'], $this->gettext('csrfinfo')) . '</p>';
         }
 
         return $args;
