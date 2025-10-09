@@ -27,7 +27,7 @@ class markdown_editor extends rcube_plugin
         // Load the editor files.
         $this->include_script('markdown_editor.min.js', ['type' => 'module']);
         $this->include_stylesheet($this->local_skin_path() . '/styles/markdown_editor.min.css');
-        $rcmail->output->set_env('markdown_editor', $this->url($this->local_skin_path() . '/styles/iframe.min.css'));
+        $rcmail->output->set_env('markdown_editor_iframe_css_path', $this->url($this->local_skin_path() . '/styles/iframe.min.css'));
         $this->add_texts('localization', true);
 
         return $args;
