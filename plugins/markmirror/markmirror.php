@@ -2,22 +2,14 @@
 
 class markmirror extends rcube_plugin
 {
-    public $task = 'mail|settings';
+    public $task = 'mail';
     protected $rcmail;
 
     #[\Override]
     public function init()
     {
-        $this->rcmail = rcmail::get_instance();
-        $task = $this->rcmail->task;
-        $action = $this->rcmail->action;
-        // $section = trim(rcube_utils::get_input_string('_section', rcube_utils::INPUT_GP));
-
-        if ($task == 'mail' && $action == 'compose') {
-            $this->add_hook('message_compose_body', [$this, 'load_editor']);
-        } elseif ($task == 'mail' && $action === 'send') {
-            $this->add_hook('message_ready', [$this, 'save_markdown_editor_usage']);
-        }
+        $this->add_hook('message_compose_body', [$this, 'load_editor']);
+        $this->add_hook('message_ready', [$this, 'save_markdown_editor_usage']);
     }
 
     public function load_editor(array $args): array
