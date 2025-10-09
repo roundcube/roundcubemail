@@ -3,7 +3,7 @@ export default class ToolbarButton extends HTMLElement {
         super();
         this.name = name;
         this.className = `fa-icon toolbar-button-${name}`;
-        this.title = rcmail.get_label(`markmirror.toolbar_button_${name}`),
+        this.title = rcmail.get_label(`markdown_editor.toolbar_button_${name}`),
         this.command = command;
         this.append(content);
     }

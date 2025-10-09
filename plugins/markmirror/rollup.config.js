@@ -7,7 +7,7 @@ export default {
     input: 'javascript/index.js',
     output: [
         {
-            file: 'markmirror.min.js',
+            file: 'markdown_editor.min.js',
             format: 'es',
             plugins: [terser()],
             // Un-comment to generate bundle-stats.html

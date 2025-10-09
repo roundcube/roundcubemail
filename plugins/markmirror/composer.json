@@ -1,5 +1,5 @@
 {
-    "name": "roundcube/markmirror",
+    "name": "roundcube/markdown_editor",
     "type": "roundcube-plugin",
     "description": ".",
     "license": "GPL-3.0-or-later",
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "classmap": [
-            "markmirror.php"
+            "markdown_editor.php"
         ]
     }
 }

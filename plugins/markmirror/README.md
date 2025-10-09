@@ -1,7 +1,7 @@
-Markmirror
-==========
+MarkdownEditor
+==============
 
-A markdown editor.
+A markdown editor (duh!).
 
 This adds another email composing editor to Roundcubemail, which converts its content to HTML before sending.
 
@@ -15,6 +15,6 @@ Installation
 
 Run `npm clean-install && npm run build` to produce the minified Javascript and CSS files required to run.
 
-To enable this editor, add `'markmirror'` to the list of plugins in your `config.inc.php`.
+To enable this editor, add `'markdown_editor'` to the list of plugins in your `config.inc.php`.
 
 There is no configuration.

@@ -45,7 +45,7 @@ class Index {
     constructor() {
         this.#defaultTextarea = rcmail.gui_objects.messageform.querySelector('#composebody');
         this.#toolbar = document.querySelector('.editor-toolbar');
-        this.#toolbar.append(this.#makeMarkmirrorButton());
+        this.#toolbar.append(this.#makeMarkdownEditorButton());
 
         this.#markdownIt = markdownit({
             // Turn '\n' into  '<br>' (required to preserve e.g. email signatures)
@@ -82,7 +82,7 @@ class Index {
         // We're using an iframe to isolate the preview content from any styles of the main document. Those wouldn't be
         // sent with the email, so the preview shouldn't be using them, either.
         const iframe = document.createElement('iframe');
-        iframe.id = 'markmirror-preview';
+        iframe.id = 'markdown-editor-preview';
         this.#hide(iframe);
         elementToAppendTo.append(iframe);
         // Handle dark-mode by injecting minimal CSS and a class (must be done after connecting the iframe-element to
@@ -93,26 +93,26 @@ class Index {
         }
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = rcmail.assets_path(rcmail.env.markmirror_iframe_css_path);
+        link.href = rcmail.assets_path(rcmail.env.markdown_editor_iframe_css_path);
         iframeDoc.head.append(link);
         return iframe;
     }
 
-    #makeMarkmirrorButton() {
-        const markmirrorButton = document.createElement('a');
-        markmirrorButton.className = 'markmirror-start-button';
-        markmirrorButton.tabIndex = '-2';
-        markmirrorButton.href = '#';
-        markmirrorButton.addEventListener('click', (ev) => {
+    #makeMarkdownEditorButton() {
+        const markdownEditorButton = document.createElement('a');
+        markdownEditorButton.className = 'markdown-editor-start-button';
+        markdownEditorButton.tabIndex = '-2';
+        markdownEditorButton.href = '#';
+        markdownEditorButton.addEventListener('click', (ev) => {
             ev.preventDefault();
-            this.startMarkmirror();
-            // Force saving to mark this content as edited by markmirror.
+            this.startMarkdownEditor();
+            // Force saving to mark this content as edited by markdown_editor.
             rcmail.submit_messageform(true);
         });
-        markmirrorButton.title = rcmail.get_label('markmirror.editor_button_title');
+        markdownEditorButton.title = rcmail.get_label('markdown_editor.editor_button_title');
         const readonly = this.#defaultTextarea.hasAttribute('readonly') || this.#defaultTextarea.hasAttribute('disabled');
         if (readonly) {
-            markmirrorButton.setAttribute('disabled', 'disabled');
+            markdownEditorButton.setAttribute('disabled', 'disabled');
         }
 
         // Use an inline SVG element so we can style it with CSS.
@@ -126,14 +126,14 @@ class Index {
         const svgPath2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         svgPath2.setAttribute('d', 'M67.93,221.91v-154h45.29l45.29,56.61L203.8,67.93h45.29v154H203.8V133.6l-45.29,56.61L113.22,133.6v88.31Zm283.06,0-67.94-74.72h45.29V67.93h45.29v79.26h45.29Z');
         svg.append(svgTitle, svgPath1, svgPath2);
-        markmirrorButton.append(svg);
+        markdownEditorButton.append(svg);
 
-        return markmirrorButton;
+        return markdownEditorButton;
     }
 
     #makeContainer() {
         const container = document.createElement('div');
-        container.id = 'markmirror-container';
+        container.id = 'markdown-editor-container';
         return container;
     }
 
@@ -161,7 +161,7 @@ class Index {
             new ToolbarButton('redo', '\uF01E', (view) => redo(view)),
         ];
         const toolbarItems = [
-            new ToolbarButton('quit', '\uF00D', (view) => this.stopMarkmirror()),
+            new ToolbarButton('quit', '\uF00D', (view) => this.stopMarkdownEditor()),
             new ToolbarButton('separator', '|'),
             ...this.#textEditingToolbarButtons,
             new ToolbarButton('space', ''),
@@ -199,7 +199,7 @@ class Index {
         });
     }
 
-    startMarkmirror() {
+    startMarkdownEditor() {
         if (!this.#container) {
             this.#container = this.#makeContainer();
             document.querySelector('#composebodycontainer').append(this.#container);
@@ -213,7 +213,7 @@ class Index {
         // Add a new field to mark the content as markdown (pun intended).
         const markdownField = document.createElement('input');
         markdownField.type = 'hidden';
-        markdownField.name = '_edited_by_markmirror';
+        markdownField.name = '_edited_by_markdown_editor';
         markdownField.value = '1';
         this.#view.dom.append(markdownField);
 
@@ -232,7 +232,7 @@ class Index {
             if (!is_draft) {
                 this.#defaultTextarea.value = this.#editorContentAsHTML;
                 this.#defaultTextarea.form._is_html.value = '1';
-                this.#defaultTextarea.form._edited_by_markmirror.value = '0';
+                this.#defaultTextarea.form._edited_by_markdown_editor.value = '0';
             }
         });
 
@@ -240,7 +240,7 @@ class Index {
         this.#hide(this.#defaultTextarea, this.#toolbar);
     }
 
-    stopMarkmirror() {
+    stopMarkdownEditor() {
         this.#defaultTextarea.value = this.#editorContent;
         this.#view.destroy();
         this.#eventListeners.forEach((callback, eventName) => {
@@ -251,7 +251,7 @@ class Index {
         this.#show(this.#defaultTextarea, this.#toolbar);
         // Re-enable the spellchecker
         rcmail.enable_command('spellcheck', true);
-        // Force saving to mark this content as *not* edited by markmirror.
+        // Force saving to mark this content as *not* edited by markdown_editor.
         rcmail.submit_messageform(true);
     }
 
@@ -372,8 +372,8 @@ class Index {
 }
 
 rcmail.addEventListener('init', () => {
-    window.markmirror = new Index();
-    if (rcmail.env.start_markmirror === true) {
-        window.markmirror.startMarkmirror();
+    window.markdown_editor = new Index();
+    if (rcmail.env.start_markdown_editor === true) {
+        window.markdown_editor.startMarkdownEditor();
     }
 });

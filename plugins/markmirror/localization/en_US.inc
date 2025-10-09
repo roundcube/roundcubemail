@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Markmirror plugin          |
+ | Localization file of the Roundcube Webmail MarkdownEditor plugin          |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -11,7 +11,7 @@
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
 
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markmirror/
+ For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markdown_editor/
 */
 
 $labels = [];

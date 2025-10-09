@@ -34,7 +34,7 @@ $config['plugins'] = [
     'archive',
     'attachment_reminder',
     'markasjunk',
-    'markmirror',
+    'markdown_editor',
     'zipdownload',
 ];
 
