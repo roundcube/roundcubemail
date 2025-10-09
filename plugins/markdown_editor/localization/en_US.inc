@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail MarkdownEditor plugin          |
+ | Localization file of the Roundcube Webmail MarkdownEditor plugin      |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
