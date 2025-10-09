@@ -194,6 +194,7 @@ class rcmail_action_contacts_show extends rcmail_action_contacts_index
         return html::a([
                 'href' => $prefix . $url,
                 'target' => '_blank',
+                'rel' => 'noopener',
                 'class' => 'url',
             ],
             rcube::Q($url)

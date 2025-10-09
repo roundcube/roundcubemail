@@ -73,8 +73,8 @@ abstract class rcmail_output extends rcube_output
         $meta = INSTALL_PATH . "skins/{$skin}/meta.json";
         if (is_readable($meta) && ($json = json_decode(file_get_contents($meta), true))) {
             $data = $json;
-            $data['author_link'] = !empty($json['url']) ? html::a(['href' => $json['url'], 'target' => '_blank'], rcube::Q($json['author'])) : rcube::Q($json['author']);
-            $data['license_link'] = !empty($json['license-url']) ? html::a(['href' => $json['license-url'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($json['license'])) : rcube::Q($json['license']);
+            $data['author_link'] = !empty($json['url']) ? html::a(['href' => $json['url'], 'target' => '_blank', 'rel' => 'noopener'], rcube::Q($json['author'])) : rcube::Q($json['author']);
+            $data['license_link'] = !empty($json['license-url']) ? html::a(['href' => $json['license-url'], 'target' => '_blank', 'rel' => 'noopener', 'tabindex' => '-1'], rcube::Q($json['license'])) : rcube::Q($json['license']);
         }
 
         $composer = INSTALL_PATH . "/skins/{$skin}/composer.json";

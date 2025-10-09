@@ -1324,6 +1324,7 @@ class rcmail_action_mail_index extends rcmail_action
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
+                $attrib['rel'] = 'noopener';
             }
 
             // Better security by adding rel="noreferrer" (#1484686)
