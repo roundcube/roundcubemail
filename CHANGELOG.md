@@ -4,6 +4,8 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Move autocomplete list rendering to client-side (#9832)
+- Remove `contact_search_name` option in favor of `contactlist_name_template` (#9832)
 - Add scope parameter to contact search (#9863)
 - Add tooltip with folder name to widescreen list of multi-folder listing (#9989, #7950)
 - Add ability to chose from all available contact fields on CSV import (#9419)
