@@ -807,7 +807,7 @@ abstract class rcube_addressbook
 
                     // If name(s) are undefined compose_list_name() may return an email address
                     // here we prevent from returning the same name and email
-                    if ($name === $email && in_array('email', $result) !== false) {
+                    if ($name === $email && in_array('email', $fields) !== false) {
                         $value = '';
                     }
 
