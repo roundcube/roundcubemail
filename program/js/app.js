@@ -6345,10 +6345,11 @@ function rcube_webmail() {
         if (results && (len = results.length)) {
             for (i = 0; i < len && maxlen > 0; i++) {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
+                fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { name: text };
                 type = typeof results[i] === 'object' ? results[i].type : '';
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
-                    .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('(' + RegExp.escape(value) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
+                    .html(this.ksearch_results_display(fields, value))
                     .addClass(type || '')
                     .appendTo(ul)
                     .mouseover(function () {
@@ -6382,6 +6383,24 @@ function rcube_webmail() {
         if (this.ksearch_data.id == reqid) {
             this.ksearch_data.num--;
         }
+    };
+
+    this.ksearch_results_display = function (fields, search_term) {
+        line = "<i class='icon'></i>{name} &lt;{email}&gt;";
+
+        $.each(fields, function (key, data) {
+            line = line.replace('{' + key + '}', data ? ref.ksearch_results_highlight(data, search_term) : '');
+        });
+        line = line.replace(/\{[a-z]+\}/ug, '');
+        line = line.replace(/\s*&lt;&gt;/ug, '');
+        line = line.replace(/\s+/ug, ' ');
+        line = line.trim();
+
+        return line;
+    };
+
+    this.ksearch_results_highlight = function (haystack, needle) {
+        return this.quote_html(haystack.replace(new RegExp('(' + RegExp.escape(needle) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
     };
 
     // Getter for input value
