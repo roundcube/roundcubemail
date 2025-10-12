@@ -2215,7 +2215,7 @@ class rcube_sieve_engine
             'onchange' => "action_type_select({$id})",
         ]);
         if (in_array('fileinto', $this->exts)) {
-            $select_action->add($this->plugin->gettext('messagemoveto'), 'fileinto', ['data-priority' => -1]);
+            $select_action->add($this->plugin->gettext('messagemoveto'), 'fileinto');
         }
         if (in_array('fileinto', $this->exts) && in_array('copy', $this->exts)) {
             $select_action->add($this->plugin->gettext('messagecopyto'), 'fileinto_copy');
@@ -2251,7 +2251,7 @@ class rcube_sieve_engine
             $select_action->add($this->plugin->gettext('notify'), 'notify');
         }
         $select_action->add($this->plugin->gettext('messagekeep'), 'keep');
-        $select_action->add($this->plugin->gettext('rulestop'), 'stop', ['data-priority' => -2]);
+        $select_action->add($this->plugin->gettext('rulestop'), 'stop');
 
         $select_type = $action['type'];
         if (in_array($action['type'], ['fileinto', 'redirect']) && !empty($action['copy'])) {

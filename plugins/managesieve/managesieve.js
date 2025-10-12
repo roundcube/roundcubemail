@@ -536,7 +536,7 @@ rcube_webmail.prototype.managesieve_save = function () {
         var action_priority_last = 0;
         $('#actions select[id^=action_type].error').removeClass('error is-invalid');
         $('#actions select[id^=action_type] option:selected').each(function (idx, elem) {
-            var priority = $(elem).data('priority') ? parseInt($(elem).data('priority'), 10) : 0;
+            var priority = rcmail.managesieve_action_priority($(elem).val());
 
             if (priority > action_priority_last) {
                 action_priority_errors.current = idx;
@@ -557,6 +557,17 @@ rcube_webmail.prototype.managesieve_save = function () {
         this.gui_objects.sieveform.submit();
     } else if (this.gui_objects.sievesetrawform) {
         this.gui_objects.sievesetrawform.submit();
+    }
+};
+
+rcube_webmail.prototype.managesieve_action_priority = function (val) {
+    switch (val) {
+        case 'fileinto':
+            return -1;
+        case 'stop':
+            return -2;
+        default:
+            return 0;
     }
 };
 
