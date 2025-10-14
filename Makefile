@@ -126,3 +126,11 @@ plugin-markdown_editor-clean:
 
 plugin-markdown_editor-prepare-for-release: plugin-markdown_editor-build
 	(cd roundcubemail-git/plugins/markdown_editor; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)
+
+composer-update: /tmp/composer.phar
+	php /tmp/composer.phar update --no-dev
+
+install-jsdeps: npm-install
+	./bin/install-jsdeps.sh
+
+build: composer-update install-jsdeps plugins-build css-elastic
