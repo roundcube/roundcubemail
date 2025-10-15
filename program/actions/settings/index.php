@@ -1806,7 +1806,7 @@ class rcmail_action_settings_index extends rcmail_action
             'charset' => RCUBE_CHARSET,
             'html_elements' => ['body', 'link'],
             'ignore_elements' => ['body'],
-            'html_attribs' => ['rel', 'type'],
+            'html_attribs' => ['rel', 'type', 'target'],
             'add_comments' => false,
         ];
 
