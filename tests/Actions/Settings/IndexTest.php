@@ -111,5 +111,9 @@ class IndexTest extends ActionTestCase
         $result = \rcmail_action_settings_index::wash_html('<p>test</p>');
 
         $this->assertSame('<p>test</p>', $result);
+
+        $resultLink = \rcmail_action_settings_index::wash_html('<a href="#" target="_blank">test</a>');
+
+        $this->assertSame('<a href="#" target="_blank">test</a>', $resultLink);
     }
 }
