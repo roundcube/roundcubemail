@@ -112,8 +112,8 @@ class IndexTest extends ActionTestCase
 
         $this->assertSame('<p>test</p>', $result);
 
-        $resultLink = \rcmail_action_settings_index::wash_html('<a href="#" target="_blank">test</a>');
+        $resultLink = \rcmail_action_settings_index::wash_html('<a href="https://roundcube.net" target="_blank">test</a>');
 
-        $this->assertSame('<a href="#" target="_blank">test</a>', $resultLink);
+        $this->assertSame('<a href="https://roundcube.net" target="_blank">test</a>', $resultLink);
     }
 }
