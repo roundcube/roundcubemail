@@ -72,6 +72,11 @@ file_filter = plugins/password/localization/<lang>.inc
 source_file = plugins/password/localization/en_US.inc
 source_lang = en_US
 
+[o:roundcube:p:roundcube-webmail:r:plugin-persisted-login]
+file_filter = plugins/persisted_login/localization/<lang>.inc
+source_file = plugins/persisted_login/localization/en_US.inc
+source_lang = en_US
+
 [o:roundcube:p:roundcube-webmail:r:plugin-subscriptions_option]
 file_filter = plugins/subscriptions_option/localization/<lang>.inc
 source_file = plugins/subscriptions_option/localization/en_US.inc
@@ -96,4 +101,3 @@ source_lang = en_US
 file_filter = program/localization/<lang>/timezones.inc
 source_file = program/localization/en_US/timezones.inc
 source_lang = en_US
-
