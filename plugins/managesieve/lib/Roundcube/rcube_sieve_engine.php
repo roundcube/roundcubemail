@@ -1649,7 +1649,8 @@ class rcube_sieve_engine
 
         $this->rc->output->add_label(
             'managesieve.ruledeleteconfirm',
-            'managesieve.actiondeleteconfirm'
+            'managesieve.actiondeleteconfirm',
+            'managesieve.saving.actionordererror'
         );
         $this->rc->output->set_env('rule_disabled', !empty($scr['disabled']));
         $this->rc->output->add_gui_object('sieveform', 'filterform');
