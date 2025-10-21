@@ -1,7 +1,7 @@
 {
     "name": "roundcube/markdown_editor",
     "type": "roundcube-plugin",
-    "description": ".",
+    "description": "An editor to compose emails in Markdown syntax, which gets converted into HTML before sending.",
     "license": "GPL-3.0-or-later",
     "version": "0.1",
     "authors": [
