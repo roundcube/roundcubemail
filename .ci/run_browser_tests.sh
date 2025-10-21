@@ -1,5 +1,10 @@
 #!/bin/bash -ex
 
+if test "$PWD" = '/work'; then
+    rm -r tests/Browser/screenshots
+    ln -s /app/tests/Browser/screenshots tests/Browser/screenshots
+fi
+
 # The script is intended for use locally, as well as in the CI.
 # It runs the browser-tests ("E2E" in the CI).
 # It expects a running IMAP server (connection configured in
@@ -41,6 +46,9 @@ bin/install-jsdeps.sh
 
 # Compile Elastic's styles
 make css-elastic
+
+# Build JS and CSS for plugins
+make plugins-build
 
 # Use minified javascript files
 bin/jsshrink.sh

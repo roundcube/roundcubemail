@@ -5113,7 +5113,7 @@ function rcube_webmail() {
             ref.display_message('requesttimedout', 'error');
         }, this.env.request_timeout * 1000);
 
-        form.submit();
+        form.requestSubmit();
     };
 
     this.compose_recipient_select = function (list) {
@@ -5363,6 +5363,7 @@ function rcube_webmail() {
             var lock = this.display_message('', 'loading');
             this.http_get('settings/response-get', { _id: response, _is_html: this.editor.is_html() ? 1 : 0 }, lock);
         }
+        this.triggerEvent('insert_response');
     };
 
     // Updates spellchecker buttons on state change

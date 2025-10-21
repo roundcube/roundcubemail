@@ -1,0 +1,142 @@
+@import (reference) "../../../../../skins/elastic/styles/colors";
+@import (reference) "../../../../../skins/elastic/styles/mixins";
+
+#composebodycontainer.html-editor .editor-toolbar .mce-i-html {
+    float: left;
+    margin-left: 6px;
+}
+
+.markdown-editor-start-button {
+    display: block;
+    float: left;
+    margin: 2px 0px 2px 0px;
+    border-radius: .25rem;
+    color: @color-toolbar-button;
+
+    &:hover {
+        border-color: #e2e4e7;
+        background-color: #dee0e2; // from TinyMCE
+    }
+
+    svg {
+        display: block;
+        width: 24px;
+        margin: 0.5rem 0.4rem;
+        fill: @color-toolbar-button;
+    }
+}
+
+#markdown-editor-container {
+    .cm-editor {
+        min-height: 45vh;
+        height: auto;
+        resize: vertical;
+        border: solid thin @color-input-border;
+        border-radius: .25rem;
+    }
+
+    .cm-editor:has(.cm-content:focus) {
+        border-color: @color-main;
+        box-shadow: 0 0 0 .2rem @color-input-border-focus-shadow;
+    }
+
+    .cm-content {
+        padding: 4px;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .codemirror-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        min-height: 2.47rem;
+        background-color: #eee;
+        padding: 0.4rem 0.2rem;
+        border-bottom: solid thin @color-input-border;
+
+        .fa-icon {
+            &:extend(.font-icon-class);
+            cursor: default;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            height: 1.5rem;
+            width: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fa-icon.toolbar-button-space {
+            /* Make this element take all left-over space */
+            flex: 1;
+        }
+
+        .fa-icon.toolbar-button-separator {
+            color: lightgrey;
+            margin: 0;
+            width: 1rem;
+        }
+
+        .fa-icon.clickable {
+            &:hover {
+                cursor: pointer;
+                border-color: #e2e4e7;
+                background-color: #dee0e2; // from TinyMCE
+            }
+
+            &.active {
+                color: @color-main;
+            }
+
+            &.disabled,
+            &.disabled:hover {
+                opacity: .5;
+                background-color: inherit;
+                cursor: default;
+            }
+        }
+    }
+
+    #markdown-editor-preview {
+        height: 45vh;
+        width: 100%;
+        border: none;
+    }
+}
+
+html.dark-mode {
+    .markdown-editor-start-button {
+        color: @color-dark-font;
+
+        svg {
+            fill: @color-dark-font;
+        }
+
+        &:hover,
+        &:focus {
+            background-color: @color-dark-input-addon-background-focus;
+        }
+    }
+
+    #markdown-editor-container .codemirror-toolbar {
+        background-color: @color-dark-input-addon-background;
+
+        .fa-icon {
+            color: @color-dark-font;
+
+            &.clickable:hover {
+                background-color: @color-dark-input-addon-background-focus;
+            }
+
+            &.disabled,
+            &.disabled:hover {
+                background-color: inherit;
+            }
+        }
+    }
+
+    #markdown-preview {
+        color: @color-dark-font;
+    }
+}
