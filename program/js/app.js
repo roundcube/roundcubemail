@@ -629,6 +629,7 @@ function rcube_webmail() {
                     this.enable_command('save', 'folder-size', true);
                     parent.rcmail.env.exists = this.env.messagecount;
                     parent.rcmail.enable_command('purge', this.env.messagecount);
+                    ref.handle_folder_sorting_icons();
                 } else if (this.env.action == 'responses') {
                     this.enable_command('add', true);
                 }
@@ -7910,6 +7911,66 @@ function rcube_webmail() {
 
     this.folder_id2name = function (id) {
         return id ? ref.html_identifier_decode(id.replace(/^rcmli/, '')) : null;
+    };
+
+    this.handle_folder_sorting_icons = function () {
+        const folder_li = window.parent.rcmail.get_folder_li(ref.env.folder, null, true);
+        const upIcon = $('#move-folder-up');
+        const downIcon = $('#move-folder-down');
+        const prevElem = folder_li.previousElementSibling;
+        const nextElem = folder_li.nextElementSibling;
+
+        upIcon.off('click');
+        if (prevElem === null || prevElem.classList.contains('protected')) {
+            upIcon.attr('disabled', 'disabled').addClass('disabled');
+        } else {
+            upIcon.attr('disabled', null).removeClass('disabled');
+            upIcon.on('click', () => {
+                ref.move_folder_up(ref.env.folder)
+                ref.handle_folder_sorting_icons();
+            });
+        }
+
+        downIcon.off('click');
+        if (nextElem === null || nextElem.classList.contains('protected')) {
+            downIcon.attr('disabled', 'disabled').addClass('disabled');
+        } else {
+            downIcon.attr('disabled', null).removeClass('disabled');
+            downIcon.on('click', () => {
+                ref.move_folder_down(ref.env.folder)
+                ref.handle_folder_sorting_icons();
+            });
+        }
+    };
+
+    this.move_folder_up = function (name) {
+        if (ref.is_framed()) {
+            return window.parent.rcmail.move_folder_up(name);
+        }
+        const elem = ref.get_folder_li(name, null, true)
+        if (!elem || elem.classList.contains('protected')) {
+            return;
+        }
+        const prevSibling = elem.previousElementSibling;
+        if (prevSibling && !prevSibling.classList.contains('protected')) {
+            prevSibling.before(elem);
+        }
+        ref.save_reordered_folder_list();
+    };
+
+    this.move_folder_down = function (name) {
+        if (ref.is_framed()) {
+            return window.parent.rcmail.move_folder_down(name);
+        }
+        const elem = ref.get_folder_li(name, null, true)
+        if (!elem || elem.classList.contains('protected')) {
+            return;
+        }
+        const nextSibling = elem.nextElementSibling;
+        if (nextSibling) {
+            nextSibling.after(elem);
+        }
+        ref.save_reordered_folder_list();
     };
 
     this.subscription_select = function (id) {
