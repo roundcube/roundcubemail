@@ -7913,6 +7913,13 @@ function rcube_webmail() {
         return id ? ref.html_identifier_decode(id.replace(/^rcmli/, '')) : null;
     };
 
+    this.folder_name2id = function (name) {
+        if (!name) {
+            return null;
+        }
+        return 'rcmli' + ref.html_identifier_encode(name);
+    };
+
     this.handle_folder_sorting_icons = function () {
         const folder_li = window.parent.rcmail.get_folder_li(ref.env.folder, null, true);
         const upIcon = $('#move-folder-up');
@@ -8068,7 +8075,7 @@ function rcube_webmail() {
         }
 
         // set ID, reset css class
-        row.attr({ id: 'rcmli' + this.html_identifier_encode(id), class: class_name });
+        row.attr({ id: this.folder_name2id(id), class: class_name });
 
         if (!refrow || !refrow.length) {
             // remove old data, subfolders and toggle
@@ -8264,7 +8271,7 @@ function rcube_webmail() {
                 folder = ref.env.subscriptionrows[fname],
                 newid = id + fname.slice(prefix_len_id);
 
-            this.id = 'rcmli' + ref.html_identifier_encode(newid);
+            this.id = this.folder_name2id(newid);
             $('input[name="_subscribed[]"]', this).first().val(newid);
             folder[0] = name + folder[0].slice(prefix_len_name);
 
