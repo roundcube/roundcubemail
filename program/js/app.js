@@ -8969,7 +8969,7 @@ function rcube_webmail() {
             prefix = 'rcmli';
         }
 
-        if (this.gui_objects.folderlist) {
+        if (this.gui_objects.folderlist || this.gui_objects.subscriptionlist) {
             name = this.html_identifier(name, encode);
             return document.getElementById(prefix + name);
         }
