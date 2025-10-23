@@ -37,12 +37,12 @@ CREATE TABLE users (
 
 CREATE TABLE "session" (
     sess_id varchar(128) DEFAULT '' PRIMARY KEY,
-    changed timestamp with time zone DEFAULT now() NOT NULL,
+    expires_at timestamp with time zone DEFAULT now() NOT NULL,
     ip varchar(41) NOT NULL,
     vars text NOT NULL
 );
 
-CREATE INDEX session_changed_idx ON session (changed);
+CREATE INDEX session_expires_at_idx ON session (expires_at);
 
 
 --
@@ -390,4 +390,4 @@ CREATE TABLE "system" (
     value text
 );
 
-INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2022100100');
+INSERT INTO "system" (name, value) VALUES ('roundcube-version', '2022092300');
