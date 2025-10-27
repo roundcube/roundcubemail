@@ -112,3 +112,11 @@ downloads-json-data:
 	@echo "\nRun this command in the directory of your cloned copy of 'https://github.com/roundcube/roundcube.github.com/'\nto generate the data for the file 'releases.json':\n./_bin/generate-downloads-json-data.php $(PWD) $(VERSION)\n"
 
 release: edit-changelog git-tag all sign verify downloads-json-data git-tag-push
+
+composer-update: /tmp/composer.phar
+	php /tmp/composer.phar update --no-dev
+
+install-jsdeps: npm-install
+	./bin/install-jsdeps.sh
+
+build: composer-update install-jsdeps css-elastic
