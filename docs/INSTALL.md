@@ -35,18 +35,13 @@ INSTALLATION
 1. Decompress and put this folder somewhere inside your server's filesystem.
   Note: Make sure files have proper owner/group for your setup. If you use
   tar command `--no-same-owner` option might be helpful.
-2. In case you don't use the so-called "complete" release package,
-  you have to install PHP and javascript dependencies.
-   - Install PHP dependencies using composer:
-      - get composer from [getcomposer.org][getcomposer]
-      - if you want to use LDAP address books, enable the LDAP libraries in your
-      composer.json file by moving the items from "suggest" to the "require"
-      section (remove the explanation texts after the version!).
-      - run `php composer.phar update --no-dev`
-   - Install Javascript dependencies by executing `./bin/install-jsdeps.sh` script.
-   - Install some developer tools by executing `npm install`.
-   - If you use git sources, compile css files for the Elastic skin as described
-    in the [skins/elastic/README.md](../skins/elastic/README.md) file.
+2. In case you don't use the so-called "complete" release package, you have to
+   install PHP- and JavaScript-dependencies, as well as build some files by
+   running `make -B build`.
+   - If you want to use LDAP address books, enable the LDAP libraries in your
+     composer.json file by moving the items from "suggest" to the "require"
+     section (remove the explanation texts after the version!), and afterwards
+     run `make -B composer-update`.
 3. Make sure that the following directories (and the files within)
    are writable by the webserver
    - `/temp`
