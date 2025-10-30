@@ -811,7 +811,7 @@ class rcmail_install
         $hint = rcube::Q($message);
 
         if ($url) {
-            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank">' . rcube::Q($url) . '</a>';
+            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank" rel="noopener">' . rcube::Q($url) . '</a>';
         }
 
         if ($hint) {

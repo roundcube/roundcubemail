@@ -535,12 +535,12 @@ class IndexTest extends ActionTestCase
             'Mailto links with onclick'
         );
         $this->assertMatchesRegularExpression(
-            '#<a rel="noreferrer" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#',
+            '#<a rel="noreferrer noopener" target="_blank" href="http://www.apple.com/legal/privacy">http://www.apple.com/legal/privacy</a>#',
             $html,
             'Links with target=_blank'
         );
         $this->assertMatchesRegularExpression(
-            '#\[<a rel="noreferrer" target="_blank" href="http://example.com/\?tx\[a\]=5">http://example.com/\?tx\[a\]=5</a>\]#',
+            '#\[<a rel="noreferrer noopener" target="_blank" href="http://example.com/\?tx\[a\]=5">http://example.com/\?tx\[a\]=5</a>\]#',
             $html,
             'Links with square brackets'
         );
