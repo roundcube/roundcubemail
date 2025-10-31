@@ -68,17 +68,7 @@ jobs:
         run: sudo apt-get -y update && sudo apt-get -y install --no-install-recommends aspell aspell-en aspell-de
 
       - name: Execute tests
-        if: ${{ matrix.php != '8.5' }}
         run: .ci/run_browser_tests.sh
-
-      # Pass in a composer arg to make composer not complain about PHP version constrains with v8.5-rc until all
-      # dependency packages have released a version that supports v8.5.
-      - name: Execute tests
-        if: ${{ matrix.php == '8.5' }}
-        env:
-          COMPOSER_ARGS: "--ignore-platform-reqs"
-        run: .ci/run_browser_tests.sh
-
 
       - name: Upload screenshots as artifacts
         # Upload screenshot if the test suite failed.
