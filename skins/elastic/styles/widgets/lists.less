@@ -618,6 +618,40 @@ ul.treelist {
     &.menu a:before {
         margin-left: .5em;
     }
+
+    // Styles for the sortable list of folders in the settings.
+    &.ui-sortable {
+        // Using an ID here to overwrite the styles from other rules, which also use this ID as selector.
+        &#subscription-table ul {
+            // Make the sub-list overlay its parent element so an item that is visually hovering over the parent element is actually hovering over the sub-list and thus gets sorted into it.
+            margin-top: -2rem;
+            padding-top: 2rem;
+            padding-bottom: 0;
+        }
+
+        // Give the list items a little bit more space at top to counter the increased space required by the sub-lists at the bottom.
+        li {
+            padding-top: 0.5rem;
+        }
+
+        li div.treetoggle {
+            top: 0.5rem;
+        }
+
+        .custom-control-label {
+            top: 0.5rem;
+        }
+
+        li ul li:first-child {
+            margin-top: 0.5rem;
+        }
+
+        // To counter the counter, give the first sub-list layer a small padding at the bottom to even out the increased margins/paddings at the top of the elements.
+        &#subscription-table > li > ul {
+            padding-bottom: 0.5rem;
+        }
+
+    }
 }
 
 

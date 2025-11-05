@@ -7818,7 +7818,6 @@ function rcube_webmail() {
 
     // TODO: In the receive callback, can we wait for the confirmation dialog without introducing async/await and Promises?
     // TODO: save only if the list is different than at start
-    // TODO: Fix the styling (padding)
     this.make_folder_lists_sortable = () => {
         const mainFolderList = this.gui_objects.subscriptionlist;
         $folderLists = $('ul', mainFolderList.parentElement);
