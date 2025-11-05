@@ -2363,7 +2363,7 @@ class rcmail_output_html extends rcmail_output
             // Make sure the value is in the range 1..365.
             $extended_session_lifetime_days = min(max(1, $extended_session_lifetime_days), 365);
             $extended_session_lifetime_text = str_replace('#', $extended_session_lifetime_days, $this->app->gettext('extended_session_lifetime_switch_text'));
-            $extended_session_lifetime_checkbox = new html_checkbox(['name' => '_extended_session_lifetime', 'id' => '_extended_session_lifetime', 'title' => $extended_session_lifetime_text, 'class' => 'no-prettify']);
+            $extended_session_lifetime_checkbox = new html_checkbox(['name' => '_extended_session_lifetime', 'id' => '_extended_session_lifetime', 'title' => $extended_session_lifetime_text]);
             $form_content['inputs']['extended_session_lifetime'] = [
                 'content' => html::label(['for' => '_extended_session_lifetime'], [$extended_session_lifetime_checkbox->show(), $extended_session_lifetime_text]),
             ];
