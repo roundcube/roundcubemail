@@ -7931,7 +7931,7 @@ function rcube_webmail() {
         } else {
             upIcon.attr('disabled', null).removeClass('disabled');
             upIcon.on('click', () => {
-                ref.move_folder_up(ref.env.folder)
+                ref.move_folder_up(ref.env.folder);
                 ref.handle_folder_sorting_icons();
             });
         }
@@ -7942,7 +7942,7 @@ function rcube_webmail() {
         } else {
             downIcon.attr('disabled', null).removeClass('disabled');
             downIcon.on('click', () => {
-                ref.move_folder_down(ref.env.folder)
+                ref.move_folder_down(ref.env.folder);
                 ref.handle_folder_sorting_icons();
             });
         }
@@ -7952,7 +7952,7 @@ function rcube_webmail() {
         if (ref.is_framed()) {
             return window.parent.rcmail.move_folder_up(name);
         }
-        const elem = ref.get_folder_li(name, null, true)
+        const elem = ref.get_folder_li(name, null, true);
         if (!elem || elem.classList.contains('protected')) {
             return;
         }
@@ -7967,7 +7967,7 @@ function rcube_webmail() {
         if (ref.is_framed()) {
             return window.parent.rcmail.move_folder_down(name);
         }
-        const elem = ref.get_folder_li(name, null, true)
+        const elem = ref.get_folder_li(name, null, true);
         if (!elem || elem.classList.contains('protected')) {
             return;
         }
