@@ -742,18 +742,22 @@ abstract class rcube_session implements \SessionHandlerInterface
     /**
      * Set session authentication cookie
      */
-    public function set_auth_cookie()
+    public function set_auth_cookie(bool $extended_session_lifetime = false): void
     {
-        $this->cookie = $this->mkcookie($this->now);
-        if (isset($_SESSION['extended_session_lifetime']) && is_int($_SESSION['extended_session_lifetime'])) {
-            $cookie_expiry = time() + $_SESSION['extended_session_lifetime'];
-            // Set the sessid-cookie (again) to force/renew its expiration date.
-            // TODO: Is this method the best place for this line?
-            rcube_utils::setcookie(ini_get('session.name'), session_id(), $cookie_expiry);
-        } else {
-            $cookie_expiry = 0;
+        if ($extended_session_lifetime === true) {
+            $extended_session_lifetime_days = $this->config->get('extended_session_lifetime_days', 0);
+            if (is_int($extended_session_lifetime_days) && $extended_session_lifetime_days > 0) {
+                // Make sure the value is in the range 1..365.
+                $days = min(max(1, $extended_session_lifetime_days), 365);
+                $this->set_lifetime($days * 24 * 60 * 60);
+                $_SESSION['extended_session_lifetime'] = $days * 24 * 60 * 60;
+                $cookie_expiry = time() + $_SESSION['extended_session_lifetime'];
+                // Set the sessid-cookie (again) to force/renew its expiration date.
+                rcube_utils::setcookie(ini_get('session.name'), session_id(), $cookie_expiry);
+            }
         }
-        rcube_utils::setcookie($this->cookiename, $this->cookie, $cookie_expiry);
+        $this->cookie = $this->mkcookie($this->now);
+        rcube_utils::setcookie($this->cookiename, $this->cookie, $cookie_expiry ?? 0);
         $_COOKIE[$this->cookiename] = $this->cookie;
     }
 
