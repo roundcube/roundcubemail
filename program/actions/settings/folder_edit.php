@@ -157,11 +157,14 @@ class rcmail_action_settings_folder_edit extends rcmail_action_settings_folders
                 'value' => $select->show($selected),
             ];
 
-            $up = new html_button(['id' => 'move-folder-up', 'class' => 'move-folder-up'])->show($rcmail->gettext('reorder_folder_up'));
-            $down = new html_button(['id' => 'move-folder-down', 'class' => 'move-folder-down'])->show($rcmail->gettext('reorder_folder_down'));
+            $upBtn = new html_button(['id' => 'move-folder-up', 'class' => 'move-folder-up']);
+            $downBtn = new html_button(['id' => 'move-folder-down', 'class' => 'move-folder-down']);
             $form['props']['fieldsets']['location']['content']['order'] = [
                 'label' => $rcmail->gettext('reorder_folder'),
-                'value' => html::div([], [$up, $down]),
+                'value' => html::div([], [
+                    $upBtn->show($rcmail->gettext('reorder_folder_up')),
+                    $downBtn->show($rcmail->gettext('reorder_folder_down')),
+                ]),
             ];
         }
 
