@@ -34,6 +34,7 @@ class rcube_config
     private $userprefs = [];
     private $immutable = [];
     private $client_tz;
+    private $extended_session_lifetime_days;
 
     /**
      * Renamed options
@@ -925,5 +926,19 @@ class rcube_config
         ];
 
         return $deprecated_timezones[$tzname] ?? $tzname;
+    }
+
+    public function extended_session_lifetime_days(): int
+    {
+        if ($this->extended_session_lifetime_days === null) {
+            $config_value = $this->get('extended_session_lifetime_days', 0);
+            if (is_int($config_value) && $config_value > 0) {
+                // Make sure the value is in the range 1..365.
+                $this->extended_session_lifetime_days = min(max(1, $config_value), 365);
+            } else {
+                $this->extended_session_lifetime_days = 0;
+            }
+        }
+        return $this->extended_session_lifetime_days;
     }
 }
