@@ -38,6 +38,12 @@ class LoginTest extends TestCase
             $browser->assertVisible('#rcmloginsubmit');
             $browser->assertSee($this->app->config->get('product_name'));
 
+            // Check for element and text from the persisted_login plugin.
+            // The checkbox is hidden and replaced by a toggle switch via CSS, thus we check for presence, not for
+            // visibility.
+            $browser->assertPresent('input#_persisted_login');
+            $browser->assertSee('Persist login for 7 days');
+
             // Support link
             if ($url = $this->app->config->get('support_url')) {
                 $browser->assertSeeLink('Get support');
