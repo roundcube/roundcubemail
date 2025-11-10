@@ -2355,15 +2355,15 @@ class rcmail_output_html extends rcmail_output
             'buttons' => [],
         ];
 
-        if ($this->config->extended_session_lifetime_days() > 0) {
-            $extended_session_lifetime_hidden_field = new html_hiddenfield(['name' => '_extended_session_lifetime', 'value' => '0']);
-            $form_content['hidden']['extended_session_lifetime'] = $extended_session_lifetime_hidden_field->show();
+        if ($this->config->session_lifetime_extension_days() > 0) {
+            $session_lifetime_extension_hidden_field = new html_hiddenfield(['name' => '_session_lifetime_extension', 'value' => '0']);
+            $form_content['hidden']['session_lifetime_extension'] = $session_lifetime_extension_hidden_field->show();
 
             // Make sure the value is in the range 1..365.
-            $extended_session_lifetime_text = str_replace('#', $this->config->extended_session_lifetime_days(), $this->app->gettext('extended_session_lifetime_switch_text'));
-            $extended_session_lifetime_checkbox = new html_checkbox(['name' => '_extended_session_lifetime', 'id' => '_extended_session_lifetime', 'title' => $extended_session_lifetime_text]);
-            $form_content['inputs']['extended_session_lifetime'] = [
-                'content' => html::label(['for' => '_extended_session_lifetime'], [$extended_session_lifetime_checkbox->show(), $extended_session_lifetime_text]),
+            $session_lifetime_extension_text = str_replace('#', $this->config->session_lifetime_extension_days(), $this->app->gettext('session_lifetime_extension_switch_text'));
+            $session_lifetime_extension_checkbox = new html_checkbox(['name' => '_session_lifetime_extension', 'id' => '_session_lifetime_extension', 'title' => $session_lifetime_extension_text]);
+            $form_content['inputs']['session_lifetime_extension'] = [
+                'content' => html::label(['for' => '_session_lifetime_extension'], [$session_lifetime_extension_checkbox->show(), $session_lifetime_extension_text]),
             ];
         }
 

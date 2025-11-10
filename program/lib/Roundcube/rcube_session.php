@@ -708,8 +708,8 @@ abstract class rcube_session implements \SessionHandlerInterface
         }
 
         // Use the lifetime from the session so the cookie-name matching succeeds.
-        if ($_SESSION['extended_session_lifetime']) {
-            $this->set_lifetime($_SESSION['extended_session_lifetime']);
+        if ($_SESSION['session_lifetime_extension']) {
+            $this->set_lifetime($_SESSION['session_lifetime_extension']);
         }
 
         if ($result && $this->mkcookie($this->now) != $this->cookie) {
@@ -742,14 +742,14 @@ abstract class rcube_session implements \SessionHandlerInterface
     /**
      * Set session authentication cookie
      */
-    public function set_auth_cookie(bool $extended_session_lifetime = false): void
+    public function set_auth_cookie(bool $session_lifetime_extension = false): void
     {
-        if ($extended_session_lifetime === true) {
+        if ($session_lifetime_extension === true) {
 
-            if ($this->config->extended_session_lifetime_days() > 0) {
-                $lifetime_seconds = $this->config->extended_session_lifetime_days() * 24 * 60 * 60;
+            if ($this->config->session_lifetime_extension_days() > 0) {
+                $lifetime_seconds = $this->config->session_lifetime_extension_days() * 24 * 60 * 60;
                 $this->set_lifetime($lifetime_seconds);
-                $_SESSION['extended_session_lifetime'] = $lifetime_seconds;
+                $_SESSION['session_lifetime_extension'] = $lifetime_seconds;
                 $cookie_expiry = time() + $lifetime_seconds;
                 // Set the sessid-cookie (again) to force/renew its expiration date.
                 rcube_utils::setcookie(ini_get('session.name'), session_id(), $cookie_expiry);
