@@ -745,7 +745,6 @@ abstract class rcube_session implements \SessionHandlerInterface
     public function set_auth_cookie(bool $session_lifetime_extension = false): void
     {
         if ($session_lifetime_extension === true) {
-
             if ($this->config->session_lifetime_extension_days() > 0) {
                 $lifetime_seconds = $this->config->session_lifetime_extension_days() * 24 * 60 * 60;
                 $this->set_lifetime($lifetime_seconds);
