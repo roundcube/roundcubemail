@@ -363,6 +363,16 @@ class rcmail_oauth
     }
 
     /**
+     * Getter for OAuth options
+     *
+     * @return array OAuth configuration options
+     */
+    public function get_options()
+    {
+        return $this->options;
+    }
+
+    /**
      * Callback for `loginform_content` hook
      *
      * Append Oauth button on login page if defined (this is a hook)
