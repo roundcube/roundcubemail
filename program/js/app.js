@@ -8269,7 +8269,7 @@ function rcube_webmail() {
                 folder = ref.env.subscriptionrows[fname],
                 newid = id + fname.slice(prefix_len_id);
 
-            this.id = this.folder_name2id(newid);
+            this.id = ref.folder_name2id(newid);
             $('input[name="_subscribed[]"]', this).first().val(newid);
             folder[0] = name + folder[0].slice(prefix_len_name);
 
