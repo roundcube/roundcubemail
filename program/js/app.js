@@ -7884,6 +7884,8 @@ function rcube_webmail() {
                     ui.item.parent().sortable('cancel');
                     return false;
                 }
+            },
+            update: (event, ui) => {
                 // Save the order if the item was moved only within its list. In case it was moved into a (different)
                 // sub-list, the order-saving function gets called from the server's response after the relevant folder
                 // rows have been re-rendered, and we can save one HTTP request. We don't skip the other function call
