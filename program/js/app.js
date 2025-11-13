@@ -772,6 +772,10 @@ function rcube_webmail() {
 
         // catch document (and iframe) mouse clicks
         var body_mouseup = function (e) {
+            // Stop dragging in sortable list if the mouseup event happens over an iframe.
+            if (ref.gui_objects.subscriptionlist && e.target.ownerDocument !== ref.gui_objects.subscriptionlist.ownerDocument) {
+                $(ref.gui_objects.subscriptionlist).trigger('mouseup');
+            }
             return ref.doc_mouse_up(e);
         };
         $(document.body)
