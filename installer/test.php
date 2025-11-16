@@ -25,6 +25,7 @@ $DB = null;
 
 ?>
 
+<div class="card">
 <h3>Check config file</h3>
 <?php
 
@@ -80,9 +81,10 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
         echo '</ul>';
     }
 
-    echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
-    echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
-    echo '</p>';
+    echo '<div class="suggestion">';
+    echo '<p>OK, lazy people can download the updated config file here: ';
+    echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php');
+    echo '</p></div>';
 
     if (!empty($messages['dependencies'])) {
         echo '<h3 class="warning">Dependency check failed</h3>';
@@ -97,7 +99,9 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Check if directories are writable</h3>
 <p>Roundcube may need to write/save files into these directories</p>
 <?php
@@ -119,11 +123,13 @@ foreach ($dirs as $dir) {
 }
 
 if (empty($pass)) {
-    echo '<p class="hint">Use <tt>chmod</tt> or <tt>chown</tt> to grant write privileges to the webserver</p>';
+    echo '<p class="hint">Use <code>chmod</code> or <code>chown</code> to grant write privileges to the webserver</p>';
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Check DB config</h3>
 <?php
 
@@ -153,12 +159,13 @@ if ($RCI->configured) {
 if ($DB && !empty($_POST['initdb'])) {
     if (!$RCI->init_db($DB)) {
         $DB = null;
-        echo '<p class="warning">Please try to initialize the database manually as described in the INSTALL guide.
-            Make sure that the configured database exists and that the user as write privileges</p>';
+        echo '<div class="warning">';
+        echo '<p>Please try to initialize the database manually as described in the INSTALL guide. Make sure that the configured database exists and that the user has write privileges.</p>';
+        echo '</div>';
     }
 } elseif ($DB && !empty($_POST['updatedb'])) {
     if (!$RCI->update_db($_POST['version'])) {
-        echo '<p class="warning">Database schema update failed.</p>';
+        echo '<div class="warning"><p>Database schema update failed.</p></div>';
     }
 }
 
@@ -168,7 +175,7 @@ if ($DB) {
     if ($DB->is_error()) {
         $RCI->fail('DB Schema', 'Database not initialized');
         echo '<form action="?_step=3" method="post">'
-            . '<p><input type="submit" name="initdb" value="Initialize database" /></p>'
+            . '<p><input type="submit" name="initdb" class="btn btn-primary" value="Initialize database" /></p>'
             . '</form>';
 
         $DB = null;
@@ -180,9 +187,9 @@ if ($DB) {
         $select->add('0.9 or newer', '');
 
         echo '<form action="?_step=3" method="post">'
-            . '<p class="suggestion">You should run the update queries to get the schema fixed.'
+            . '<div class="suggestion"><p>You should run the update queries to get the schema fixed.'
             . '<br/><br/>Version to update from: ' . $select->show('')
-            . '&nbsp;<input type="submit" name="updatedb" value="Update" /></p>'
+            . '&nbsp;<input type="submit" name="updatedb" class="btn btn-primary" value="Update" /></p></div>'
             . '</form>';
 
         $DB = null;
@@ -220,7 +227,9 @@ if ($DB) {
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Test filetype detection</h3>
 
 <?php
@@ -228,10 +237,10 @@ if ($DB) {
 if ($errors = $RCI->check_mime_detection()) {
     $RCI->fail('Fileinfo/mime_content_type configuration');
     if (!empty($RCI->config['mime_magic'])) {
-        echo '<p class="hint">Try setting the <tt>mime_magic</tt> config option to <tt>null</tt>.</p>';
+        echo '<p class="hint">Try setting the <code>mime_magic</code> config option to <code>null</code>.</p>';
     } else {
         echo '<p class="hint">Check the <a href="https://www.php.net/manual/en/function.finfo-open.php">Fileinfo functions</a> of your PHP installation.<br/>';
-        echo 'The path to the magic.mime file can be set using the <tt>mime_magic</tt> config option in Roundcube.</p>';
+        echo 'The path to the magic.mime file can be set using the <code>mime_magic</code> config option in Roundcube.</p>';
     }
 } else {
     $RCI->pass('Fileinfo/mime_content_type configuration');
@@ -240,12 +249,17 @@ if ($errors = $RCI->check_mime_detection()) {
 
 if ($errors = $RCI->check_mime_extensions()) {
     $RCI->fail('Mimetype to file extension mapping');
-    echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <tt>mime_types</tt> config option.<br/>';
+    echo '<p class="hint">Please set a valid path to your webserver\'s mime.types file to the <code>mime_types</code> config option.<br/>';
     echo 'If you can\'t find such a file, download it from <a href="https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types">svn.apache.org</a>.</p>';
 } else {
     $RCI->pass('Mimetype to file extension mapping');
     echo '<br/>';
 }
+?>
+</div>
+
+<div class="card">
+<?php
 
 $smtp_hosts = $RCI->get_hostlist('smtp_host');
 if (!empty($smtp_hosts)) {
@@ -277,7 +291,6 @@ if ($pass == '%p') {
 
 <h3>Test SMTP config</h3>
 
-<p>
 <table>
 <tbody>
   <tr>
@@ -294,7 +307,6 @@ if ($pass == '%p') {
   </tr>
 </tbody>
 </table>
-</p>
 
 <?php
 
@@ -302,7 +314,7 @@ $from_field = new html_inputfield(['name' => '_from', 'id' => 'sendmailfrom']);
 $to_field = new html_inputfield(['name' => '_to', 'id' => 'sendmailto']);
 
 if (isset($_POST['sendmail'])) {
-    echo '<p>Trying to send email...<br />';
+    echo '<div class="notice"><p>Trying to send email...</p>';
 
     $smtp_host = trim($_POST['_smtp_host']);
 
@@ -346,7 +358,7 @@ if (isset($_POST['sendmail'])) {
         $RCI->fail('SMTP send', 'Invalid sender or recipient');
     }
 
-    echo '</p>';
+    echo '</div>';
 }
 
 ?>
@@ -364,10 +376,12 @@ if (isset($_POST['sendmail'])) {
 </tbody>
 </table>
 
-<p><input type="submit" name="sendmail" value="Send test mail" /></p>
+<p><input type="submit" name="sendmail" class="btn btn-primary" value="Send test mail" /></p>
 
 </form>
+</div>
 
+<div class="card">
 <form action="?_step=3" method="post">
 
 <h3>Test IMAP config</h3>
@@ -440,20 +454,12 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 
 ?>
 
-<p><input type="submit" name="imaptest" value="Check login" /></p>
+<p><input type="submit" name="imaptest" class="btn btn-primary" value="Check login" /></p>
 
 </form>
+</div>
 
-<hr />
-
-<p class="warning">
-
-After completing the installation and the final tests please <b>remove</b> the
-installer.php file from the document root of the webserver or make sure that
-<tt>enable_installer</tt> option in <tt>config.inc.php</tt> is disabled.<br />
-<br />
-
-The installer may expose sensitive configuration data like server passwords and encryption keys
-to the public. Make sure you cannot access it from your browser.
-
-</p>
+<div class="warning">
+<p><strong>Important:</strong> After completing the installation and the final tests please <strong>remove</strong> the <code>installer.php</code> file from the document root of the webserver or make sure that <code>enable_installer</code> option in <code>config.inc.php</code> is disabled.</p>
+<p>The installer may expose sensitive configuration data like server passwords and encryption keys to the public. Make sure you cannot access it from your browser.</p>
+</div>

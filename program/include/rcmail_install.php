@@ -758,8 +758,9 @@ class rcmail_install
      */
     public function pass($name, $message = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="success">OK</span>';
+        echo '<div class="check-item"><span class="check-name">' . rcube::Q($name);
         $this->_showhint($message);
+        echo '</span><span class="success">OK</span></div>';
     }
 
     /**
@@ -776,8 +777,9 @@ class rcmail_install
             $this->failures++;
         }
 
-        echo rcube::Q($name) . ':&nbsp; <span class="fail">NOT OK</span>';
+        echo '<div class="check-item"><span class="check-name">' . rcube::Q($name) . '';
         $this->_showhint($message, $url);
+        echo '</span><span class="fail">NOT OK</span></div>';
     }
 
     /**
@@ -789,8 +791,9 @@ class rcmail_install
      */
     public function optfail($name, $message = '', $url = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="na">NOT OK</span>';
+        echo '<div class="check-item"><span class="check-name">' . rcube::Q($name);
         $this->_showhint($message, $url);
+        echo '</span><span class="na">NOT OK</span></div>';
     }
 
     /**
@@ -802,8 +805,9 @@ class rcmail_install
      */
     public function na($name, $message = '', $url = '')
     {
-        echo rcube::Q($name) . ':&nbsp; <span class="na">NOT AVAILABLE</span>';
-        $this->_showhint($message, $url);
+        echo '<div class="check-item"><span class="check-name">' . rcube::Q($name) . '</span><span>';
+        $this->_showhint_right($message, $url);
+        echo '<span class="na">NOT AVAILABLE</span></span></div>';
     }
 
     private function _showhint($message, $url = '')
@@ -815,7 +819,20 @@ class rcmail_install
         }
 
         if ($hint) {
-            echo '<span class="indent">(' . $hint . ')</span>';
+            echo ' <span class="check-hint">(' . $hint . ')</span>';
+        }
+    }
+
+    private function _showhint_right($message, $url = '')
+    {
+        $hint = rcube::Q($message);
+
+        if ($url) {
+            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank" rel="noopener">' . rcube::Q($url) . '</a>';
+        }
+
+        if ($hint) {
+            echo '<span class="check-hint-right">(' . $hint . ')</span>';
         }
     }
 

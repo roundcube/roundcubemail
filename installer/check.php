@@ -105,6 +105,7 @@ $source_urls = [
 echo '<input type="hidden" name="_step" value="' . ($RCI->configured ? 3 : 2) . '" />';
 ?>
 
+<div class="card">
 <h3>Checking PHP version</h3>
 <?php
 
@@ -115,7 +116,9 @@ if (version_compare(\PHP_VERSION, MIN_PHP_VERSION, '>=')) {
     $RCI->fail('Version', 'PHP Version ' . MIN_PHP_VERSION . ' or greater is required ' . \PHP_VERSION . ' detected');
 }
 ?>
+</div>
 
+<div class="card">
 <h3>Checking PHP extensions</h3>
 <p class="hint">The following modules/extensions are <em>required</em> to run Roundcube:</p>
 <?php
@@ -152,7 +155,9 @@ foreach ($optional_php_exts as $name => $ext) {
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Checking available databases</h3>
 <p class="hint">Check which of the supported extensions are installed. At least one of them is required.</p>
 
@@ -176,7 +181,9 @@ if (empty($found_db_driver)) {
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Check for required 3rd party libs</h3>
 <p class="hint">This also checks if the include path is set correctly.</p>
 
@@ -201,7 +208,9 @@ foreach ($optional_libs as $classname => $vendor) {
 }
 
 ?>
+</div>
 
+<div class="card">
 <h3>Checking php.ini/.htaccess settings</h3>
 <p class="hint">The following settings are <em>required</em> to run Roundcube:</p>
 
@@ -222,15 +231,18 @@ foreach ($optional_checks as $var => $val) {
     echo '<br />';
 }
 ?>
+</div>
 
 <?php
 
 if ($RCI->failures) {
-    echo '<p class="warning">Sorry but your webserver does not meet the requirements for Roundcube!<br />
-            Please install the missing modules or fix the php.ini settings according to the above check results.<br />
-            Hint: only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
+    echo '<div class="warning">';
+    echo '<p><strong>Sorry but your webserver does not meet the requirements for Roundcube!</strong></p>';
+    echo '<p>Please install the missing modules or fix the php.ini settings according to the above check results.</p>';
+    echo '<p><strong>Hint:</strong> only checks showing <span class="fail">NOT OK</span> need to be fixed.</p>';
+    echo '</div>';
 }
-echo '<p><br /><input type="submit" value="NEXT" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
+echo '<p><input type="submit" class="btn btn-primary" value="NEXT" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
 
 ?>
 
