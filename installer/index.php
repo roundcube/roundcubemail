@@ -186,8 +186,7 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
     ?>
 </div>
 <div id="footer">
-  Installer Copyright &copy; by the Roundcube Dev Team – Published under the GNU Public License;&nbsp;
-  Icons by <a href="http://famfamfam.com">famfamfam</a>
+  Installer Copyright &copy; by the Roundcube Dev Team – Published under the GNU Public License
 </div>
 </body>
 </html>
