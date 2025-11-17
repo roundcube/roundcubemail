@@ -697,6 +697,12 @@ class rcmail_oauth
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
             }
 
+            // Preserve the originally requested URL through session kill (stored by unauthenticated hook)
+            if (!empty($_SESSION['oauth_redirect_uri'])) {
+                $this->login_phase['redirect_uri'] = $_SESSION['oauth_redirect_uri'];
+                $this->log_debug('preserving redirect URI for post-login: %s', $_SESSION['oauth_redirect_uri']);
+            }
+
             return true;
         } catch (RequestException $e) {
             $this->last_error = 'OAuth token request failed: ' . $e->getMessage();
@@ -1138,9 +1144,28 @@ class rcmail_oauth
         $this->log_debug('login successful for OIDC sub=%s with username=%s which is rcube-id=%s',
             $this->login_phase['token']['identity']['sub'], $this->login_phase['username'], $this->rcmail->user->ID);
 
+        // Restore the originally requested URL if it was preserved through login_phase
+        if (!empty($this->login_phase['redirect_uri'])) {
+            $this->log_debug('restoring original request URI for post-auth redirect: %s', $this->login_phase['redirect_uri']);
+
+            $parsed_url = parse_url($this->login_phase['redirect_uri']);
+            if (!empty($parsed_url['query'])) {
+                // Prevent redirect loops by removing _task=login
+                $query_string = preg_replace('/([&?])_task=login(&|$)/', '$1', $parsed_url['query']);
+                $query_string = trim($query_string, '&?');
+
+                if (!empty($query_string)) {
+                    // Parse query string into array (handles array parameters like _files[])
+                    parse_str($query_string, $options);
+                    $this->log_debug('returning redirect parameters via hook: %s', json_encode($options));
+                }
+            }
+        }
+
         // login phase is terminated
         $this->login_phase = null;
 
+        $this->log_debug('login_after hook returning: %s', is_array($options) ? json_encode($options) : $options);
         return $options;
     }
 
@@ -1320,6 +1345,16 @@ class rcmail_oauth
      */
     public function unauthenticated($options)
     {
+        // Store the originally requested URL for post-authentication redirect
+        // We use session storage instead of state parameter to avoid sending internal URLs to the IdP
+        if (!empty($_SERVER['REQUEST_URI']) && !$this->rcmail->output->ajax_call) {
+            // Only store if it's not a login or oauth action (prevents redirect loops)
+            if (!preg_match('/(task=login|\/login\/oauth|action=oauth)/', $_SERVER['REQUEST_URI'])) {
+                $_SESSION['oauth_redirect_uri'] = $_SERVER['REQUEST_URI'];
+                $this->log_debug('storing original request URI in unauthenticated hook: %s', $_SERVER['REQUEST_URI']);
+            }
+        }
+
         if (
             $this->options['login_redirect']
             && !$this->rcmail->output->ajax_call

@@ -1093,8 +1093,17 @@ class rcmail extends rcube
         foreach (array_merge($pre, $p) as $key => $val) {
             if ($val !== '' && $val !== null) {
                 $par = $key[0] == '_' ? $key : ('_' . $key);
-                $url .= $delm . urlencode($par) . '=' . urlencode($val);
-                $delm = '&';
+
+                // Handle array values
+                if (is_array($val)) {
+                    foreach ($val as $array_val) {
+                        $url .= $delm . urlencode($par) . '[]=' . urlencode($array_val);
+                        $delm = '&';
+                    }
+                } else {
+                    $url .= $delm . urlencode($par) . '=' . urlencode($val);
+                    $delm = '&';
+                }
             }
         }
 

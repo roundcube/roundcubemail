@@ -403,4 +403,191 @@ class OauthTest extends ActionTestCase
         // FIXME
         $this->markTestIncomplete();
     }
+
+    /**
+     * Test unauthenticated() hook stores original request URI
+     */
+    public function test_unauthenticated_stores_request_uri()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Simulate a request to compose window
+        $_SERVER['REQUEST_URI'] = '/index.php?_task=mail&_action=compose&_extwin=1';
+
+        // Call the unauthenticated hook
+        $oauth->unauthenticated([]);
+
+        // Verify the URI was stored in session
+        $this->assertSame('/index.php?_task=mail&_action=compose&_extwin=1', $_SESSION['oauth_redirect_uri']);
+    }
+
+    /**
+     * Test unauthenticated() hook with array parameters
+     */
+    public function test_unauthenticated_stores_request_uri_with_array_params()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Simulate a request with array parameters
+        $_SERVER['REQUEST_URI'] = '/index.php?_task=mail&_action=compose&_extwin=1&_files[]=file1.txt&_files[]=file2.txt';
+
+        // Call the unauthenticated hook
+        $oauth->unauthenticated([]);
+
+        // Verify the full URI with array params was stored
+        $this->assertSame(
+            '/index.php?_task=mail&_action=compose&_extwin=1&_files[]=file1.txt&_files[]=file2.txt',
+            $_SESSION['oauth_redirect_uri']
+        );
+    }
+
+    /**
+     * Test request_access_token() preserves redirect URI from session
+     */
+    public function test_request_access_token_preserves_redirect_uri()
+    {
+        $payload = [
+            'token_type' => 'Bearer',
+            'access_token' => 'FAKE-ACCESS-TOKEN',
+            'expires_in' => 300,
+            'refresh_token' => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in' => 1800,
+            'id_token' => $this->generate_fake_id_token(),
+            'not-before-policy' => 0,
+            'session_state' => 'fake-session',
+            'scope' => 'openid profile email',
+        ];
+
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($payload)],
+        ]);
+
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        $_SESSION['oauth_state'] = 'random-state';
+        $_SESSION['oauth_nonce'] = 'fake-nonce';
+        $_SESSION['oauth_redirect_uri'] = '/index.php?_task=mail&_action=compose&_extwin=1';
+
+        $response = $oauth->request_access_token('fake-code', 'random-state');
+
+        $this->assertTrue($response);
+
+        // Verify redirect_uri was preserved in login_phase
+        $login_phase = getProperty($oauth, 'login_phase');
+        $this->assertSame('/index.php?_task=mail&_action=compose&_extwin=1', $login_phase['redirect_uri']);
+    }
+
+    /**
+     * Test login_after() hook restores original URL parameters
+     */
+    public function test_login_after_restores_url_parameters()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Simulate preserved redirect URI in login_phase
+        setProperty($oauth, 'login_phase', [
+            'redirect_uri' => '/index.php?_task=mail&_action=compose&_extwin=1',
+        ]);
+
+        $result = $oauth->login_after(['_task' => 'mail']);
+
+        // Verify the hook returned the correct parameters
+        $this->assertArrayHasKey('_action', $result);
+        $this->assertSame('compose', $result['_action']);
+        $this->assertArrayHasKey('_extwin', $result);
+        $this->assertSame('1', $result['_extwin']);
+        $this->assertSame('mail', $result['_task']);
+    }
+
+    /**
+     * Test login_after() hook with array parameters
+     */
+    public function test_login_after_restores_array_parameters()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Simulate preserved redirect URI with array parameters
+        setProperty($oauth, 'login_phase', [
+            'redirect_uri' => '/index.php?_task=mail&_action=compose&_extwin=1&_files[]=file1.txt&_files[]=file2.txt',
+        ]);
+
+        $result = $oauth->login_after(['_task' => 'mail']);
+
+        // Verify array parameters are properly restored
+        $this->assertArrayHasKey('_files', $result);
+        $this->assertIsArray($result['_files']);
+        $this->assertCount(2, $result['_files']);
+        $this->assertSame('file1.txt', $result['_files'][0]);
+        $this->assertSame('file2.txt', $result['_files'][1]);
+    }
+
+    /**
+     * Test login_after() hook filters out _task=login to prevent loops
+     */
+    public function test_login_after_filters_login_task()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Simulate redirect URI with _task=login (should be filtered)
+        setProperty($oauth, 'login_phase', [
+            'redirect_uri' => '/index.php?_task=login&_action=oauth',
+        ]);
+
+        $result = $oauth->login_after(['_task' => 'mail']);
+
+        // Verify _task=login was filtered out
+        $this->assertArrayNotHasKey('_action', $result);
+        $this->assertSame('mail', $result['_task']);
+    }
+
+    /**
+     * Test login_after() hook without stored redirect URI
+     */
+    public function test_login_after_without_redirect_uri()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // No redirect_uri in login_phase
+        setProperty($oauth, 'login_phase', []);
+
+        $result = $oauth->login_after(['_task' => 'mail']);
+
+        // Should return the input unchanged
+        $this->assertSame(['_task' => 'mail'], $result);
+    }
+
+    /**
+     * Integration test: Verify no redirect loop when accessing login page
+     */
+    public function test_oauth_redirect_flow_prevents_login_loop()
+    {
+        $oauth = new \rcmail_oauth($this->config);
+        $oauth->init();
+
+        // Step 1: User somehow ends up with a login URL stored (shouldn't happen, but test it)
+        $_SERVER['REQUEST_URI'] = '/index.php?_task=login&_action=oauth';
+
+        // Step 2: unauthenticated hook should NOT store login URLs
+        $oauth->unauthenticated([]);
+        $this->assertFalse(isset($_SESSION['oauth_redirect_uri']));
+
+        // Alternative: If a login URL somehow got stored, it should be filtered in login_after
+        setProperty($oauth, 'login_phase', [
+            'redirect_uri' => '/index.php?_task=login&_action=oauth',
+        ]);
+
+        $result = $oauth->login_after(['_task' => 'mail']);
+
+        // Should not have the OAuth action (filtered out)
+        $this->assertArrayNotHasKey('_action', $result);
+        // Should default to mail task
+        $this->assertSame('mail', $result['_task']);
+    }
 }
