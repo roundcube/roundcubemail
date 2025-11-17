@@ -1359,7 +1359,7 @@ class rcmail_oauth
             $this->options['login_redirect']
             && !$this->rcmail->output->ajax_call
             && !$this->no_redirect
-            && empty($options['error'])
+            && (empty($options['error']) || $options['error'] === 'sessionerror')
             && $options['http_code'] === 200
         ) {
             $this->login_redirect();
