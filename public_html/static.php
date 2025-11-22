@@ -104,6 +104,11 @@ function validateStaticFile(string $path): ?string
         }
     }
 
+    // Allow images in the root folder (#10030)
+    if (!$found && !str_contains($path, \DIRECTORY_SEPARATOR) && str_starts_with(SUPPORTED_TYPES[strtolower($ext)], 'image/')) {
+        $found = true;
+    }
+
     if (!$found) {
         return null;
     }
