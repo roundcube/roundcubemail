@@ -9,9 +9,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Add scope parameter to contact search (#9863)
 - Add tooltip with folder name to widescreen list of multi-folder listing (#9989, #7950)
 - Add ability to chose from all available contact fields on CSV import (#9419)
+- Add a new plugin called `markdown_editor` that provides an alternative editor to compose emails using Markdown syntax
 - Password: Removed the (insecure) virtualmin driver (#8007)
 - Fix jqueryui plugin's minicolors.css issue with custom skins (#9967)
-- Add a new plugin called `markdown_editor` that provides an alternative editor to compose emails with in Markdown syntax, which gets converted into HTML before sending.
+- Fix `skin_logo` with a relative URL (#10030)
 
 ## Release 1.7-beta2
 
