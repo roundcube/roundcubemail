@@ -58,7 +58,7 @@ abstract class rcube_storage
     /** @var int Current page */
     protected $list_page = 1;
 
-    /** @var bool Enabled/Disable threading mode */
+    /** @var bool|string Enabled/Disable threading mode */
     protected $threading = false;
 
     /** @var rcube_result_index|rcube_result_multifolder|rcube_result_thread|null Search result set */
@@ -288,7 +288,7 @@ abstract class rcube_storage
      *
      * @param bool $enable True to enable threading
      *
-     * @return mixed Threading algorithm or False if THREAD is not supported
+     * @return string|false Threading algorithm or False if THREAD is not supported
      */
     public function set_threading($enable = false)
     {
@@ -298,7 +298,9 @@ abstract class rcube_storage
             $methods = ['REFS', 'REFERENCES', 'ORDEREDSUBJECT'];
             $methods = array_intersect($methods, $caps);
 
-            $this->threading = array_first($methods);
+            if (!empty($methods)) {
+                $this->threading = array_first($methods);
+            }
         }
 
         return $this->threading;
@@ -307,7 +309,7 @@ abstract class rcube_storage
     /**
      * Get current threading flag.
      *
-     * @return mixed Threading algorithm or False if THREAD is not supported or disabled
+     * @return string|false Threading algorithm or False if THREAD is not supported or disabled
      */
     public function get_threading()
     {
