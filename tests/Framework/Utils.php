@@ -358,16 +358,6 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test parse_css_block()
-     *
-     * @dataProvider provide_parse_css_block_cases
-     */
-    function test_parse_css_block($input, $output)
-    {
-        $this->assertSame($output, rcube_utils::parse_css_block($input));
-    }
-
-    /**
      * Test-Cases for parse_css_block() test
      */
     function data_parse_css_block()
@@ -445,7 +435,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
      *
      * @dataProvider data_parse_css_block
      */
-    function test_explode_style($input, $output)
+    function test_parse_css_block($input, $output)
     {
         $this->assertSame($output, rcube_utils::parse_css_block($input));
     }
