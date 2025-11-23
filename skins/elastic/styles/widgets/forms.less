@@ -312,6 +312,20 @@ input.smart-upload {
             }
         }
     }
+
+    .move-folder-up:before {
+        &:extend(.font-icon-class);
+        content: @fa-var-arrow-up;
+    }
+
+    .move-folder-down {
+        margin-left: 1rem;
+        &:before {
+            &:extend(.font-icon-class);
+            content: @fa-var-arrow-down;
+        }
+    }
+
 }
 
 @media screen and (max-width: @screen-width-bs-phone) {

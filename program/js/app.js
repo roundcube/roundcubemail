@@ -629,6 +629,7 @@ function rcube_webmail() {
                     this.enable_command('save', 'folder-size', true);
                     parent.rcmail.env.exists = this.env.messagecount;
                     parent.rcmail.enable_command('purge', this.env.messagecount);
+                    ref.handle_folder_sorting_icons();
                 } else if (this.env.action == 'responses') {
                     this.enable_command('add', true);
                 }
@@ -7793,6 +7794,7 @@ function rcube_webmail() {
             id_encode: this.html_identifier_encode,
             id_decode: this.html_identifier_decode,
             searchbox: '#foldersearch',
+            sortable: true,
         });
 
         this.subscription_list
@@ -7809,37 +7811,171 @@ function rcube_webmail() {
                 if (p.query) {
                     ref.subscription_select();
                 }
-            })
-            .draggable({ cancel: 'li.mailbox.root,input,div.treetoggle,.custom-control' })
-            .droppable({
-                // @todo: find better way, accept callback is executed for every folder
-                // on the list when dragging starts (and stops), this is slow, but
-                // I didn't find a method to check droptarget on over event
-                accept: function (node) {
-                    if (!node.is('.mailbox')) {
-                        return false;
-                    }
-
-                    var source_folder = ref.folder_id2name(node.attr('id')),
-                        dest_folder = ref.folder_id2name(this.id),
-                        source = ref.env.subscriptionrows[source_folder],
-                        dest = ref.env.subscriptionrows[dest_folder];
-
-                    return source && !source[2]
-                        && dest_folder != source_folder.replace(ref.last_sub_rx, '')
-                        && !dest_folder.startsWith(source_folder + ref.env.delimiter);
-                },
-                drop: function (e, ui) {
-                    var source = ref.folder_id2name(ui.draggable.attr('id')),
-                        dest = ref.folder_id2name(this.id);
-
-                    ref.subscription_move_folder(source, dest);
-                },
             });
+
+        this.make_folder_lists_sortable();
+    };
+
+    // TODO: In the receive callback, can we wait for the confirmation dialog without introducing async/await and Promises?
+    this.make_folder_lists_sortable = () => {
+        const mainFolderList = this.gui_objects.subscriptionlist;
+        $folderLists = $('ul', mainFolderList.parentElement);
+        $folderLists.sortable({
+            axis: 'y',
+            // We can't use `li.mailbox.protected` here because that would disable moving elements out of protected
+            // folders. jQuery UI uses `closest()` with this selector, which makes it impossible to keep main list items
+            // and sub-list items apart. We disable sorting protected items via a `mousedown` event in treelist.js.
+            cancel: 'input, div.treetoggle, .custom-control',
+            helper: 'clone', // a clone doesn't have the borders, which looks nicer.
+            items: '> li.mailbox', // handle only the directly descending items, not those of sub-lists (they get they own instance of $.sortable()
+            connectWith: `#${mainFolderList.id}, #${mainFolderList.id} ul`,
+            forcePlaceholderSize: true, // Make the placeholder displace the neighboring elements.
+            placeholder: 'placeholder', // Class name for the placeholder
+            change: (event, ui) => {
+                // Prevent sortable folders being sorted in between (technically: before) protected folders. There is no
+                // technical reason for this, we just want it from a UX perspective.
+                if (ui.placeholder.next().is('.protected')) {
+                    ui.placeholder.hide();
+                } else {
+                    ui.placeholder.show();
+                }
+            },
+            over: (event, ui) => {
+                // Highlight the list that the dragged element is hovering over.
+                $('.hover', $folderLists).removeClass('hover');
+                if (event.target !== mainFolderList) {
+                    $(event.target).closest('li').addClass('hover');
+                }
+            },
+            receive: async (event, ui) => {
+                $('.hover', $folderLists).removeClass('hover');
+                const folderId = ui.item.attr('id');
+                const folderName = ref.folder_id2name(folderId);
+                const folderAttribs = ref.env.subscriptionrows[folderName];
+
+                let destName;
+                if (event.target === mainFolderList) {
+                    destName = '*';
+                } else {
+                    const destId = event.target.parentElement.id;
+                    destName = ref.folder_id2name(destId);
+                }
+
+                if (!(
+                    folderAttribs && !folderAttribs[2]
+                    && destName != folderName.replace(ref.last_sub_rx, '')
+                    && !destName.startsWith(folderName + ref.env.delimiter)
+                )) {
+                    ui.sender.sortable('cancel');
+                }
+
+                const result = await ref.subscription_move_folder(folderName, destName);
+                if (!result) {
+                    ui.sender.sortable('cancel');
+                }
+            },
+            stop: (event, ui) => {
+                $('.hover', $folderLists).removeClass('hover');
+                if (ui.item.next().is('.protected')) {
+                    ui.item.parent().sortable('cancel');
+                    return false;
+                }
+                // Save the order if the item was moved only within its list. In case it was moved into a (different)
+                // sub-list, the order-saving function gets called from the server's response after the relevant folder
+                // rows have been re-rendered, and we can save one HTTP request. We don't skip the other function call
+                // because in this moment here we don't know yet if the confirmation dialog about moving the folder will
+                // be confirmed or cancelled.
+                if (ui.item[0].parentElement === event.target) {
+                    ref.save_reordered_folder_list();
+                }
+            },
+        });
+    };
+
+    this.save_reordered_folder_list = () => {
+        const mainList = ref.subscription_list.container.sortable('toArray');
+        const subLists = ref.subscription_list.container.find('.ui-sortable').map((i, elem) => ({
+            parentId: elem.parentElement.id,
+            elems: $(elem).sortable('toArray'),
+        })).toArray();
+        // Sort sub-lists after their their parent element, so the sorting for the settings page doesn't get confused
+        // (which will hook child-folders onto wrong parents if we don't do this).
+        subLists.forEach((subList) => {
+            mainList.splice(mainList.indexOf(subList.parentId) + 1, 0, ...subList.elems);
+        });
+        params = mainList.map((e) => e.replace(/^rcmli/, 'folderorder[]=')).join('&');
+        this.http_post('folder-reorder', params, this.display_message('', 'loading'));
     };
 
     this.folder_id2name = function (id) {
         return id ? ref.html_identifier_decode(id.replace(/^rcmli/, '')) : null;
+    };
+
+    this.folder_name2id = function (name) {
+        if (!name) {
+            return null;
+        }
+        return 'rcmli' + ref.html_identifier_encode(name);
+    };
+
+    this.handle_folder_sorting_icons = function () {
+        const folder_li = window.parent.rcmail.get_folder_li(ref.env.folder, null, true);
+        const upIcon = $('#move-folder-up');
+        const downIcon = $('#move-folder-down');
+        const prevElem = folder_li.previousElementSibling;
+        const nextElem = folder_li.nextElementSibling;
+
+        upIcon.off('click');
+        if (prevElem === null || prevElem.classList.contains('protected')) {
+            upIcon.attr('disabled', 'disabled').addClass('disabled');
+        } else {
+            upIcon.attr('disabled', null).removeClass('disabled');
+            upIcon.on('click', () => {
+                ref.move_folder_up(ref.env.folder);
+                ref.handle_folder_sorting_icons();
+            });
+        }
+
+        downIcon.off('click');
+        if (nextElem === null || nextElem.classList.contains('protected')) {
+            downIcon.attr('disabled', 'disabled').addClass('disabled');
+        } else {
+            downIcon.attr('disabled', null).removeClass('disabled');
+            downIcon.on('click', () => {
+                ref.move_folder_down(ref.env.folder);
+                ref.handle_folder_sorting_icons();
+            });
+        }
+    };
+
+    this.move_folder_up = function (name) {
+        if (ref.is_framed()) {
+            return window.parent.rcmail.move_folder_up(name);
+        }
+        const elem = ref.get_folder_li(name, null, true);
+        if (!elem || elem.classList.contains('protected')) {
+            return;
+        }
+        const prevSibling = elem.previousElementSibling;
+        if (prevSibling && !prevSibling.classList.contains('protected')) {
+            prevSibling.before(elem);
+        }
+        ref.save_reordered_folder_list();
+    };
+
+    this.move_folder_down = function (name) {
+        if (ref.is_framed()) {
+            return window.parent.rcmail.move_folder_down(name);
+        }
+        const elem = ref.get_folder_li(name, null, true);
+        if (!elem || elem.classList.contains('protected')) {
+            return;
+        }
+        const nextSibling = elem.nextElementSibling;
+        if (nextSibling) {
+            nextSibling.after(elem);
+        }
+        ref.save_reordered_folder_list();
     };
 
     this.subscription_select = function (id) {
@@ -7864,12 +8000,29 @@ function rcube_webmail() {
                 newname = to === '' || to === '*' ? basename : to + this.env.delimiter + basename;
 
             if (newname != from) {
-                this.confirm_dialog(this.get_label('movefolderconfirm'), 'move', function () {
-                    ref.http_post('rename-folder', { _folder_oldname: from, _folder_newname: newname },
-                        ref.set_busy(true, 'foldermoving'));
-                }, { button_class: 'save move' });
+                return new Promise((resolve, _reject) => {
+                    this.confirm_dialog(
+                        this.get_label('movefolderconfirm'),
+                        'move',
+                        function () {
+                            ref.http_post('rename-folder',
+                                {
+                                    _folder_oldname: from,
+                                    _folder_newname: newname,
+                                },
+                                ref.set_busy(true, 'foldermoving')
+                            );
+                            resolve(true);
+                        },
+                        {
+                            button_class: 'save move',
+                            cancel_func: (e, ref) => resolve(false),
+                        }
+                    );
+                });
             }
         }
+        return Promise.resolve(true);
     };
 
     // tell server to create and subscribe a new mailbox
@@ -7891,7 +8044,7 @@ function rcube_webmail() {
     };
 
     // Add folder row to the table and initialize it
-    this.add_folder_row = function (id, name, display_name, is_protected, subscribed, class_name, refrow, subfolders) {
+    this.add_folder_row = function (id, name, display_name, is_protected, subscribed, class_name, refrow, subfolders, insert_before_elem) {
         if (!this.gui_objects.subscriptionlist) {
             return false;
         }
@@ -7920,7 +8073,7 @@ function rcube_webmail() {
         }
 
         // set ID, reset css class
-        row.attr({ id: 'rcmli' + this.html_identifier_encode(id), class: class_name });
+        row.attr({ id: this.folder_name2id(id), class: class_name });
 
         if (!refrow || !refrow.length) {
             // remove old data, subfolders and toggle
@@ -8029,7 +8182,11 @@ function rcube_webmail() {
                 }
             }
 
-            if (parent && n == parent) {
+            if (insert_before_elem && $(insert_before_elem).parents('li')[0] === parent) {
+                // In this case we theoretically could have skipped the sorting above, but trying to do that resulted in
+                // strange side effects, so I kept the code in.
+                $(insert_before_elem).before(row);
+            } else if (parent && n == parent) {
                 $('ul', parent).first().append(row);
             } else {
                 while (p = $(n).parent().parent().get(0)) {
@@ -8069,6 +8226,8 @@ function rcube_webmail() {
         if (!refrow) {
             this.triggerEvent('clonerow', { row: row, id: id });
         }
+
+        this.make_folder_lists_sortable();
 
         return row;
     };
@@ -8110,13 +8269,21 @@ function rcube_webmail() {
                 folder = ref.env.subscriptionrows[fname],
                 newid = id + fname.slice(prefix_len_id);
 
-            this.id = 'rcmli' + ref.html_identifier_encode(newid);
+            this.id = this.folder_name2id(newid);
             $('input[name="_subscribed[]"]', this).first().val(newid);
             folder[0] = name + folder[0].slice(prefix_len_name);
 
             subfolders[newid] = folder;
             delete ref.env.subscriptionrows[fname];
         });
+
+        if (this.env.folder_ordered_manually) {
+            // We need to store this information now, because it's not available anymore after removing the row from
+            // the DOM.
+            next_sibling = row.nextElementSibling;
+        } else {
+            next_sibling = null;
+        }
 
         // get row off the list
         row = $(row).detach();
@@ -8129,7 +8296,11 @@ function rcube_webmail() {
         }
 
         // move the existing table row
-        this.add_folder_row(id, name, display_name, is_protected, subscribed, class_name, row, subfolders);
+        this.add_folder_row(id, name, display_name, is_protected, subscribed, class_name, row, subfolders, next_sibling);
+
+        if (this.env.folder_ordered_manually) {
+            this.save_reordered_folder_list();
+        }
     };
 
     // remove the table row of a specific mailbox from the table
@@ -8790,6 +8961,8 @@ function rcube_webmail() {
             });
         }
 
+        options.close = close_func;
+
         return this.show_popup_dialog(content, title, buttons, options);
     };
 
@@ -8862,7 +9035,7 @@ function rcube_webmail() {
             prefix = 'rcmli';
         }
 
-        if (this.gui_objects.folderlist) {
+        if (this.gui_objects.folderlist || this.gui_objects.subscriptionlist) {
             name = this.html_identifier(name, encode);
             return document.getElementById(prefix + name);
         }
