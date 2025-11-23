@@ -100,21 +100,6 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
 <link rel="stylesheet" type="text/css" href="static.php/installer/styles.css">
 <link rel="shortcut icon" href="static.php/skins/elastic/images/favicon.ico">
 <script type="text/javascript" src="static.php/installer/client.js"></script>
-<style>
-  /* Additional inline styles for better shadcn/ui appearance */
-  body {
-    min-height: 100vh;
-  }
-  
-  #banner {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: hsl(var(--background) / 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-</style>
 </head>
 
 <body>
@@ -155,38 +140,38 @@ if ($RCI->configured && empty($_REQUEST['_step'])) {
         exit;
     }
 
-    ?>
+?>
 
     <h1>Roundcube Webmail Installer</h1>
 
     <ol id="progress">
     <?php
-    $include_steps = [
-        1 => __DIR__ . '/check.php',
-        2 => __DIR__ . '/config.php',
-        3 => __DIR__ . '/test.php',
-    ];
+$include_steps = [
+    1 => __DIR__ . '/check.php',
+    2 => __DIR__ . '/config.php',
+    3 => __DIR__ . '/test.php',
+];
 
-    if (!in_array($RCI->step, array_keys($include_steps))) {
-        $RCI->step = 1;
-    }
+if (!in_array($RCI->step, array_keys($include_steps))) {
+    $RCI->step = 1;
+}
 
-    foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
-        $j = $i + 1;
-        $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
-        printf('<li class="step%d%s">%s</li>', $j + 1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
-    }
-    ?>
+foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
+    $j = $i + 1;
+    $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
+    printf('<li class="step%d%s">%s</li>', $j + 1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);
+}
+?>
     </ol>
 
     <?php
 
-    include $include_steps[$RCI->step];
+include $include_steps[$RCI->step];
 
-    ?>
+?>
 </div>
 <div id="footer">
-  Installer Copyright &copy; by the Roundcube Dev Team – Published under the GNU Public License
+  Roundcube Web Installer - Copyright &copy; by the <a href="https://roundcube.net">Roundcube</a> Dev Team – Published under the GNU Public License
 </div>
 </body>
 </html>

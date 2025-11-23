@@ -1,24 +1,24 @@
-/* shadcn/ui dark theme */
+/* shadcn/ui dark theme - improved colors */
 :root {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --card: 224 71% 4%;
-  --card-foreground: 213 31% 91%;
-  --popover: 224 71% 4%;
-  --popover-foreground: 213 31% 91%;
-  --primary: 210 40% 98%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
   --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
-  --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%;
-  --accent: 216 34% 17%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
   --accent-foreground: 210 40% 98%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  --border: 216 34% 17%;
-  --input: 216 34% 17%;
-  --ring: 213 94% 68%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
   --radius: 0.5rem;
 }
 
@@ -45,22 +45,23 @@ body {
   color: hsl(var(--foreground));
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Links */
 a {
-  color: hsl(213 94% 68%);
+  color: hsl(217.2 91.2% 59.8%);
   text-decoration: underline;
-  text-decoration-color: hsl(213 94% 68% / 0.3);
+  text-decoration-color: hsl(217.2 91.2% 59.8% / 0.4);
   text-underline-offset: 2px;
   transition: all 0.2s;
 }
 
 a:hover {
-  text-decoration-color: hsl(213 94% 68%);
-  color: hsl(213 94% 78%);
+  text-decoration-color: hsl(217.2 91.2% 59.8%);
+  color: hsl(217.2 91.2% 69.8%);
 }
 
 /* Custom Scrollbar */
@@ -84,11 +85,14 @@ a:hover {
 }
 
 #banner {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   border-bottom: 1px solid hsl(var(--border));
-  background: hsl(var(--background));
+  background: hsl(var(--background) / 0.95);
   padding: 1.5rem 2rem;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 #banner .banner-bg {
@@ -110,24 +114,41 @@ a:hover {
 #banner .banner-logo img {
   max-height: 40px;
   width: auto;
+  /* Add light background for better visibility on dark theme */
+  background-color: hsl(0 0% 100%);
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius) - 2px);
 }
 
 #topnav {
   position: absolute;
   top: 1.75rem;
   right: 2rem;
+  z-index: 10;
 }
 
 #topnav a {
-  color: hsl(var(--muted-foreground));
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: var(--radius);
   font-size: 0.875rem;
   font-weight: 500;
-  transition: color 0.2s;
+  height: 2.25rem;
+  padding: 0 1rem;
+  color: hsl(var(--foreground));
+  background-color: transparent;
+  border: 1px solid hsl(var(--input));
+  text-decoration: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
 }
 
 #topnav a:hover {
-  color: hsl(var(--foreground));
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+  border-color: hsl(var(--accent));
 }
 
 #content {
@@ -497,15 +518,15 @@ input[type="button"]:hover {
 
 .notice,
 .ok {
-  background-color: hsl(222.2 84% 4.9%);
-  border-color: hsl(142.1 76.2% 45%);
-  color: hsl(142.1 76.2% 95%);
+  background-color: hsl(142.1 76.2% 10%);
+  border-color: hsl(142.1 76.2% 36.1%);
+  color: hsl(142.1 70% 96.5%);
 }
 
 .error {
-  background-color: hsl(222.2 84% 4.9%);
+  background-color: hsl(0 62.8% 15%);
   border-color: hsl(0 84.2% 60.2%);
-  color: hsl(0 84.2% 95%);
+  color: hsl(0 85.7% 97.3%);
   display: flex;
   align-items: start;
   gap: 0.75rem;
@@ -942,11 +963,11 @@ a.removelink:hover {
 p.warning,
 div.warning {
   padding: 1rem 1.25rem;
-  background-color: hsl(222.2 84% 4.9%);
-  border: 1px solid hsl(38 92% 50%);
+  background-color: hsl(48 96% 15%);
+  border: 1px solid hsl(48 96% 53%);
   border-radius: var(--radius);
   margin-bottom: 1.5rem;
-  color: hsl(38 92% 95%);
+  color: hsl(48 96% 96%);
   display: flex;
   align-items: start;
   gap: 0.75rem;
@@ -954,7 +975,7 @@ div.warning {
 
 p.warning strong,
 div.warning strong {
-  color: hsl(38 92% 95%);
+  color: hsl(48 96% 96%);
   font-weight: 600;
 }
 
