@@ -495,8 +495,8 @@ class OauthTest extends ActionTestCase
             'authorization' => 'Bearer token',
         ]);
 
-        // Clear any existing $_POST['_url']
-        unset($_POST['_url']);
+        // Initialize $_POST with known shape (value will be overwritten by authenticate)
+        $_POST = ['_url' => null];
 
         $result = $oauth->authenticate([]);
 
@@ -519,8 +519,8 @@ class OauthTest extends ActionTestCase
             'authorization' => 'Bearer token',
         ]);
 
-        // Clear any existing $_POST['_url']
-        unset($_POST['_url']);
+        // Initialize $_POST with known shape (value will be overwritten by authenticate)
+        $_POST = ['_url' => null];
 
         $result = $oauth->authenticate([]);
 
@@ -582,6 +582,6 @@ class OauthTest extends ActionTestCase
 
         // Step 2: unauthenticated hook should NOT store login URLs
         $oauth->unauthenticated([]);
-        $this->assertFalse(isset($_SESSION['oauth_redirect_uri']));
+        $this->assertArrayNotHasKey('oauth_redirect_uri', $_SESSION);
     }
 }
