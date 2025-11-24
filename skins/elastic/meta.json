@@ -15,6 +15,8 @@
 	"meta": {
 		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
 		"theme-color": "#f4f4f4",
-		"msapplication-navbutton-color": "#f4f4f4"
+		"msapplication-navbutton-color": "#f4f4f4",
+		"mobile-web-app-capable": "yes",
+		"application-name": "Roundcube"
 	}
 }
