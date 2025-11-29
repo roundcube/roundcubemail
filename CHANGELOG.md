@@ -12,6 +12,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Add a new plugin called `markdown_editor` that provides an alternative editor to compose emails using Markdown syntax
 - Allow links with "target" attribute in signatures and stored responses (#10017)
 - Preserve requested url on OIDC login (#10033)
+- Managesieve: Show a warning when actions in wrong order (#10015, #6590)
 - Password: Removed the (insecure) virtualmin driver (#8007)
 - Fix jqueryui plugin's minicolors.css issue with custom skins (#9967)
 - Fix `skin_logo` with a relative URL (#10030)
