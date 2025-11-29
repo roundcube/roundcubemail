@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/timezones/
 */
 
 $labels['tz:utc'] = 'UTC';
@@ -370,6 +368,9 @@ $labels['tz:europe:volgograd'] = 'Wołgograd';
 $labels['tz:europe:warsaw'] = 'Warszawa';
 $labels['tz:europe:zagreb'] = 'Zagrzeb';
 $labels['tz:europe:zurich'] = 'Zurych';
+$labels['tz:indian:maldives'] = 'Malediwy';
+$labels['tz:indian:mayotte'] = 'Majotta';
 $labels['tz:pacific'] = 'Pacyfik';
+$labels['tz:pacific:fiji'] = 'Fidżi';
 $labels['tz:pacific:tahiti'] = 'Tahiti';
 $labels['tz:pacific:tarawa'] = 'Tarawa';

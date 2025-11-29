@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
 $labels['identitydialogtitle'] = 'സ്വീകര്‍ത്താവിന്റെ വ്യക്തിത്വം പൂര്‍ത്തീകരിക്കുക';

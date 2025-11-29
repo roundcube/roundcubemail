@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
 $labels['sharing'] = 'Споделяне';
@@ -75,7 +73,7 @@ $labels['longaclt'] = 'Флагът Изтрито може да бъде про
 $labels['longacle'] = 'Писмата могат да бъдат заличавани';
 $labels['longaclx'] = 'Папката може да бъде изтривана или преименувана';
 $labels['longacla'] = 'Правата за достъп до папката могат да бъдат променяни';
-$labels['longacln'] = 'Могат да се променят споделените метаданни (антоции) на писмата';
+$labels['longacln'] = 'Могат да се променят споделените метаданни (анотации) на писмата';
 $labels['longaclfull'] = 'Пълен контрол, включително и администриране на папките';
 $labels['longaclread'] = 'Папката може да бъде отворена за четене';
 $labels['longaclwrite'] = 'Писмата могат да бъдат маркирани, записвани или копирани в папката';

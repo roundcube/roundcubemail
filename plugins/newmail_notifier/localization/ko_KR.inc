@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
 $labels['basic'] = '새로운 메시지가 도착하면 브라우저 알림 표시';

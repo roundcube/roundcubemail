@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-new_user_dialog/
 */
 
 $labels['identitydialogtitle'] = '발송자의 신원을 완성해주세요.';

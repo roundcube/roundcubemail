@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages['errortitle']  = 'Ocorreu um erro!';
@@ -102,6 +100,7 @@ $messages['nopagesizewarning'] = 'Por favor, introduza o tamanho da página.';
 $messages['nosenderwarning'] = 'Por favor, introduza o endereço de email do remetente.';
 $messages['recipientsadded'] = 'Destinatário(s) adicionado(s) com sucesso.';
 $messages['norecipientwarning'] = 'Por favor, insira pelo menos um destinatário.';
+$messages['disclosedrecipwarning'] = 'Todos os destinatários irão ver os endereços de e-mail uns dos outros. Para evitar isso e proteger a sua privacidade, pode utilizar o campo Bcc.';
 $messages['disclosedreciptitle'] = 'Demasiados destinatários públicos';
 $messages['nosubjectwarning']  = 'O campo "Assunto" não foi preenchido. Deseja incluí-lo agora?';
 $messages['nosubjecttitle']  = 'Sem assunto';
@@ -159,6 +158,9 @@ $messages['nogroupassignmentschanged'] = 'Não foi alterada nenhuma atribuição
 $messages['importwait'] = 'A importar, por favor aguarde...';
 $messages['importformaterror'] = 'A importação falhou! O ficheiro enviado não é um ficheiro de dados válido.';
 $messages['importconfirm'] = '<b>Foram importados com sucesso $inserted contactos</b>';
+$messages['importconfirmskipped'] = '<b>Ignorado(s) $skipped contacto(s) existente(s)</b>';
+$messages['importconfirminvalid'] = 'Ignorado(s) $invalid contacto(s) inválido(s)';
+$messages['importconfirmerrors'] = 'Falha ao importar $errors contacto(s) válido(s)';
 $messages['importmessagesuccess'] = 'Foram importadas com sucesso $nr mensagens';
 $messages['importmessageerror'] = 'A importação falhou! O ficheiro carregado não é um arquivo de caixa de correio ou ficheiro de mensagem válido.';
 $messages['opnotpermitted'] = 'Operação não permitida!';
@@ -229,3 +231,5 @@ $messages['listusebutton'] = 'Use o botão Criar para adicionar um novo registo.
 $messages['keypaircreatesuccess'] = 'Um novo par de chaves foi criado com sucesso para $identity.';
 $messages['emptyattachment'] = 'Este anexo parece estar vazio.<br>Por favor, verifique com a pessoa que o enviou.';
 $messages['oauthloginfailed'] = 'O login do OAuth falhou. Por favor, tente novamente.';
+$messages['oauthinvalidrequest'] = 'O pedido de autorização era inválido ou incompleto.';
+$messages['oauthaccessdenied'] = 'O servidor de autorização ou o utilizador negou o pedido.';

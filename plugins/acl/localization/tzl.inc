@@ -10,12 +10,11 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-acl/
 */
 
 $labels['username'] = 'Uçeir:';
 $labels['anonymous'] = 'Gästs (anonimös)';
+
 $labels['aclread'] = 'Lirarh';
 $labels['acldelete'] = 'Zeletarh';
 $labels['shortaclr'] = 'Lirarh';

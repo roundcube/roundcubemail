@@ -10,11 +10,10 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/roundcube/roundcube-webmail/plugin-enigma/
 */
 
 $labels['subkeycreated'] = 'Үүссэн';
 $labels['unknown'] = 'мэдэгдэхгүй';
+
 $labels['keychpass'] = 'Нууц үг солих';
 $labels['newkeypass'] = 'Нууц үг';

@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
 $labels['basic'] = 'ബ്രൌസര്‍ അറിയിപ്പുകള്‍ പുതിയ സന്ദേശത്തില്‍ കാണിക്കുക';
