@@ -114,7 +114,7 @@ class rcube_session_memcache extends rcube_session
     {
         if ($value = $this->memcache->get($key)) {
             $arr = unserialize($value);
-            $this->changed = $arr['changed'];
+            $this->expires_at = $arr['expires_at'];
             $this->ip = $arr['ip'];
             $this->vars = $arr['vars'];
             $this->key = $key;
@@ -142,7 +142,7 @@ class rcube_session_memcache extends rcube_session
             return true;
         }
 
-        $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $vars]);
+        $data = serialize(['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $vars]);
         $result = $this->memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
         if ($this->debug) {
@@ -166,8 +166,8 @@ class rcube_session_memcache extends rcube_session
     {
         $ts = microtime(true);
 
-        if ($newvars !== $oldvars || $ts - $this->changed > $this->lifetime / 3) {
-            $data = serialize(['changed' => time(), 'ip' => $this->ip, 'vars' => $newvars]);
+        if ($newvars !== $oldvars || $this->expires_at - $ts > $this->lifetime / 3) {
+            $data = serialize(['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $newvars]);
             $result = $this->memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->lifetime + 60);
 
             if ($this->debug) {

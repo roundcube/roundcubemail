@@ -124,12 +124,12 @@ CREATE INDEX ix_responses_user_id ON responses(user_id, del);
 
 CREATE TABLE session (
   sess_id varchar(128) NOT NULL PRIMARY KEY,
-  changed datetime NOT NULL default '0000-00-00 00:00:00',
+  expires_at datetime NOT NULL default '0000-00-00 00:00:00',
   ip varchar(40) NOT NULL default '',
   vars text NOT NULL
 );
 
-CREATE INDEX ix_session_changed ON session (changed);
+CREATE INDEX ix_session_expires_at ON session (expires_at);
 
 --
 -- Table structure for table dictionary
@@ -274,4 +274,4 @@ CREATE TABLE system (
   value text NOT NULL
 );
 
-INSERT INTO system (name, value) VALUES ('roundcube-version', '2022100100');
+INSERT INTO system (name, value) VALUES ('roundcube-version', '2025092300');
