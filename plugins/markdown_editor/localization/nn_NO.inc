@@ -13,5 +13,4 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markdown_editor/
 */
-
 $labels['toolbar_button_undo'] = 'Gjer om';

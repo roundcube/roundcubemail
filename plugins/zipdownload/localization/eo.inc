@@ -13,5 +13,3 @@
 */
 
 $labels['downloadall'] = 'Elŝuti ĉiujn kunsendaĵojn';
-
-

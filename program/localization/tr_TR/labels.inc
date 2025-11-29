@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = '$product e-posta sistemine hoş geldiniz';
 $labels['username'] = 'Kullanıcı adı';
 $labels['password'] = 'Parola';

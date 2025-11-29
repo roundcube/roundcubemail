@@ -13,7 +13,5 @@
 */
 
 $labels['add'] = 'ಸೇರಿಸು';
-
-
 $labels['shortaclc'] = 'ರಚಿಸು';
 $labels['shortaclk'] = 'ರಚಿಸು';

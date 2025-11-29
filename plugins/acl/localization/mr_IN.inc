@@ -13,8 +13,6 @@
 */
 
 $labels['add'] = 'समावेश करा';
-
-
 $labels['aclother'] = 'इतर';
 $labels['acldelete'] = 'नष्ट करा';
 $labels['shortaclc'] = 'तयार करा';

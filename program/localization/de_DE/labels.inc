@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Willkommen bei $product';
 $labels['username'] = 'Benutzername';
 $labels['password'] = 'Passwort';

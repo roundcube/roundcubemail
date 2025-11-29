@@ -14,5 +14,4 @@
 
 $labels['expiresnever'] = 'කිසි විටෙකත් නැති';
 $labels['unknown'] = 'නොදනී';
-
 $labels['newkeypass'] = 'මුරපදය';

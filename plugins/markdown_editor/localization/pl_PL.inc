@@ -13,7 +13,6 @@
 
  For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markdown_editor/
 */
-
 $labels['editor_icon_alt'] = 'Edytor Markdown';
 $labels['editor_button_title'] = 'Utwórz wiadomość w Markdown, która zostanie wysłana w HTMLu';
 $labels['toolbar_button_quit'] = 'Powrót do edytora zwykłego tekstu';

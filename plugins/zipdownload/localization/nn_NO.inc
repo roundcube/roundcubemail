@@ -13,5 +13,3 @@
 */
 
 $labels['downloadall'] = 'Last ned alle vedlegg';
-
-

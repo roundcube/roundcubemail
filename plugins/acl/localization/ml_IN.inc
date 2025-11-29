@@ -13,8 +13,6 @@
 */
 
 $labels['add'] = 'ചേര്‍ക്കു';
-
-
 $labels['aclother'] = 'മറ്റുള്ളത്';
 $labels['aclread'] = 'വായിച്ചവ';
 $labels['acldelete'] = 'നീക്കം ചെയ്യുക';

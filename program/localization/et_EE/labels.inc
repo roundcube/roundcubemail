@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Tere tulemast! See on $product.';
 $labels['username'] = 'Kasutajanimi';
 $labels['password'] = 'Parool';

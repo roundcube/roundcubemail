@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Vítejte v $product';
 $labels['username'] = 'Uživatel';
 $labels['password'] = 'Heslo';

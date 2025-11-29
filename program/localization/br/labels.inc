@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Degemer mat war $product';
 $labels['username'] = 'Anv an arveriad';
 $labels['password'] = 'Ger-Tremen';

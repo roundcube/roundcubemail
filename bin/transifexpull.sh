@@ -28,7 +28,7 @@ do_clean()
     # remove (one-line) comments
     perl -pi -e "s/^\\/\\/.*//" $1
     # remove empty lines (but not in file header)
-    perl -ne 'print if ($. < 18 || length($_) > 1)' $1 > $1.tmp
+    perl -ne 'print if ($. < 15 || length($_) > 1)' $1 > $1.tmp
     mv $1.tmp $1
 }
 

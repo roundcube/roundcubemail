@@ -12,5 +12,4 @@
  +-----------------------------------------------------------------------+
 */
 
-
 $messages['reportedasjunk'] = 'Uspješno prijavljeno kao Junk';

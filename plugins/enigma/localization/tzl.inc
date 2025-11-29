@@ -14,5 +14,4 @@
 
 $labels['keyname'] = 'Nómina';
 $labels['unknown'] = 'inschì';
-
 $labels['newkeypass'] = 'Teßera';

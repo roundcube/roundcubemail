@@ -12,6 +12,4 @@
  | Author: Madghis <mbuzakhar@armas.ly>                                  |
  +-----------------------------------------------------------------------+
 */
-
 $labels['username'] = 'Izwel n';
-

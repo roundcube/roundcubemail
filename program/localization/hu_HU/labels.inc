@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Üdvözli a $product';
 $labels['username'] = 'Felhasználónév';
 $labels['password'] = 'Jelszó';
