@@ -10,9 +10,8 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
+
 
 
 $labels['welcome'] = 'Esiet laipni lūgti $product';
@@ -237,6 +236,8 @@ $labels['searchinterval-1Y'] = 'vecākas par gadu';
 $labels['searchinterval1W'] = 'nedēļu vecas';
 $labels['searchinterval1M'] = 'mēnesi vecas';
 $labels['searchinterval1Y'] = 'gadu vecas';
+$labels['infolder'] = 'Mape: $folder';
+$labels['alladdressbooks'] = 'Visas adrešu grāmatas';
 $labels['openinextwin'] = 'Atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';
 $labels['changeformattext'] = 'Rādīt kā neformatētu tekstu';
@@ -455,6 +456,9 @@ $labels['importmapdesc'] = 'Pirms turpināt CSV (komatiem atdalītu) datu import
 $labels['fieldnotmapped'] = 'Lauks nav kartēts (neimportēt)';
 $labels['skipheader'] = 'Neimportēt pirmo rindu (galvenes)';
 $labels['done'] = 'Pabeigts';
+$labels['birth_day'] = 'Dzimšanas diena';
+$labels['birth_month'] = 'Dzimšanas mēnesis';
+$labels['birth_year'] = 'Dzimšanas gads';
 $labels['settingsfor'] = 'Iestatījumi';
 $labels['about'] = 'Par';
 $labels['preferences'] = 'Iestatījumi';
@@ -557,6 +561,7 @@ $labels['automarkread'] = 'Atzīmēt vēstules kā lasītas';
 $labels['afternseconds'] = 'pēc $n sekundēm';
 $labels['reqmdn'] = 'Vienmēr pieprasīt saņemšanas apstiprinājumu';
 $labels['reqdsn'] = 'Vienmēr pieprasīt atskati par piegādi';
+$labels['alwayskeepformatting'] = 'Vienmēr lietot oriģinālo teksta formatējumu';
 $labels['replysamefolder'] = 'Glabāt atbildes tajā pašā mapē, kurā ir vēstule, uz kuru tika atbildēts';
 $labels['defaultabook'] = 'Noklusētā adrešu grāmata';
 $labels['autocompletesingle'] = 'Automātiski aizpildot, nerādīt alternatīvās e-pasta adreses';

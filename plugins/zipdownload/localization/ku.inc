@@ -10,12 +10,13 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
 $labels['downloadall'] = 'Hemû pêvekan daxîne';
+$labels['export'] = 'Derxîne...';
 $labels['downloadmbox'] = 'Mbox format (.zip)';
 $labels['downloadmaildir'] = 'Maildir format (.zip)';
-$labels['downloademl'] = 'Çavkanî (.eml)';
+$labels['downloademl'] = 'Source (.eml)';
+$labels['sizelimiterror'] = 'Mezinahiya giştî ya peyamên bijartî ji sînor ($size) derbas dike';
+$labels['exportmenu'] = 'Menûya vebijarkên derxistina peyaman';
 $labels['download'] = 'Daxîne...';

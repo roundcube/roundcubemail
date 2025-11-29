@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages['errortitle']  = 'Wystąpił błąd!';
@@ -102,6 +100,7 @@ $messages['nopagesizewarning'] = 'Podaj poprawną wartość!';
 $messages['nosenderwarning'] = 'Podaj adres e-mail nadawcy!';
 $messages['recipientsadded'] = 'Odbiorcy zostali dodani pomyślnie.';
 $messages['norecipientwarning'] = 'Podaj co najmniej jednego odbiorcę!';
+$messages['disclosedrecipwarning'] = 'Wszyscy odbiorcy będą widzieć adresy e-mail innych odbiorców. Aby temu zapobiec i chronić ich prywatność możesz użyć pola Bcc.';
 $messages['disclosedreciptitle'] = 'Zbyt wielu publicznych odbiorców';
 $messages['nosubjectwarning']  = 'Nie podano tematu wiadomości. Czy chcesz go teraz uzupełnić?';
 $messages['nosubjecttitle']  = 'Brak tematu';
@@ -159,6 +158,9 @@ $messages['nogroupassignmentschanged'] = 'Nie zmieniono żadnych powiązań z gr
 $messages['importwait'] = 'Importowanie, proszę czekać...';
 $messages['importformaterror'] = 'Import nieudany! Użyty plik nie jest poprawnym plikiem importu danych.';
 $messages['importconfirm'] = '<b>Pomyślnie dodano $inserted kontaktów.</b>';
+$messages['importconfirmskipped'] = '<b>Pominięto $skipped istniejących wpisów</b>';
+$messages['importconfirminvalid'] = '<b>Pominięto $invalid błędnych kontaktów</b>';
+$messages['importconfirmerrors'] = '<b>Nie udało się zaimportować $errors poprawnych kontaktów</b>';
 $messages['importmessagesuccess'] = 'Pomyślnie zaimportowano następującą liczbę wiadomości: $nr';
 $messages['importmessageerror'] = 'Import nieudany! Wgrywany plik nie jest poprawną wiadomością lub plikiem skrzynki pocztowej';
 $messages['opnotpermitted'] = 'Niedozwolona operacja!';
@@ -228,3 +230,5 @@ $messages['listusebutton'] = 'Aby dodać nowy wpis użyj przycisk Utwórz.';
 $messages['keypaircreatesuccess'] = 'Pomyślnie utworzono parę kluczy dla $identity.';
 $messages['emptyattachment'] = 'Wybrany załącznik wygląda na pusty.<br>Zweryfikuj to z nadawcą wiadomości.';
 $messages['oauthloginfailed'] = 'Nieudane logowanie OAuth, Spróbuj ponownie.';
+$messages['oauthinvalidrequest'] = 'Żądanie autoryzacji było błędne lub niekompletne.';
+$messages['oauthaccessdenied'] = 'Żądanie zostało odrzucone przez serwer autoryzacji lub użytkownika.';
