@@ -530,9 +530,44 @@ rcube_webmail.prototype.managesieve_save = function () {
                 this.gui_objects.sieveform.elements._fid.value = parent.rcmail.filters_list.rows[id].uid;
             }
         }
+
+        // validate action order e.g. setflag not after fileinto (#6590)
+        var action_priority_errors = { previous: null, current: null };
+        var action_priority_last = 0;
+        $('#actions select[id^=action_type].error').removeClass('error is-invalid');
+        $('#actions select[id^=action_type] option:selected').each(function (idx, elem) {
+            var priority = rcmail.managesieve_action_priority($(elem).val());
+
+            if (priority > action_priority_last) {
+                action_priority_errors.current = idx;
+            } else if (!action_priority_errors.current) {
+                action_priority_errors.previous = idx;
+                action_priority_last = priority;
+            }
+        });
+
+        if (action_priority_errors.current) {
+            $('#actions select[id^=action_type]').eq(action_priority_errors.previous).addClass('error is-invalid');
+            $('#actions select[id^=action_type]').eq(action_priority_errors.current).addClass('error is-invalid');
+            var action_priority_message = { previous: $('#actions select[id^=action_type] option:selected').eq(action_priority_errors.previous).text(), current: $('#actions select[id^=action_type] option:selected').eq(action_priority_errors.current).text() };
+            this.display_message(this.get_label('managesieve.saving.actionordererror', null, action_priority_message), 'error');
+            return;
+        }
+
         this.gui_objects.sieveform.submit();
     } else if (this.gui_objects.sievesetrawform) {
         this.gui_objects.sievesetrawform.submit();
+    }
+};
+
+rcube_webmail.prototype.managesieve_action_priority = function (val) {
+    switch (val) {
+        case 'fileinto':
+            return -1;
+        case 'stop':
+            return -2;
+        default:
+            return 0;
     }
 };
 
