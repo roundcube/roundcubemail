@@ -12,5 +12,4 @@
  +-----------------------------------------------------------------------+
 */
 
-
 $messages['reportedasjunk'] = 'Sukses dilaporkan sebagai sampah';

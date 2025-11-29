@@ -13,5 +13,3 @@
 */
 
 $labels['downloadall'] = 'Bütün qoşmaları endir';
-
-

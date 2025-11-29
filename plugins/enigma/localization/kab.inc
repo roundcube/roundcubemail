@@ -13,6 +13,4 @@
 */
 
 $labels['unknown'] = 'arussin';
-
-
 $labels['keychpass'] = 'Beddel awal uffir';

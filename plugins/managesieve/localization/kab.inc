@@ -14,4 +14,3 @@
 
 $labels['del'] = 'Kkes';
 $labels['flagread'] = 'Ɣeṛ';
-

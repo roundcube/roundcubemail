@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Bienvenue au courriel Web $product';
 $labels['username'] = 'Nom d’utilisateur';
 $labels['password'] = 'Mot de passe';

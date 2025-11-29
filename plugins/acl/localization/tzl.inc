@@ -14,7 +14,6 @@
 
 $labels['username'] = 'Uçeir:';
 $labels['anonymous'] = 'Gästs (anonimös)';
-
 $labels['aclread'] = 'Lirarh';
 $labels['acldelete'] = 'Zeletarh';
 $labels['shortaclr'] = 'Lirarh';

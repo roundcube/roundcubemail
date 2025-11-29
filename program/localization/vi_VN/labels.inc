@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Chào mừng bạn đã sử dụng $product';
 $labels['username'] = 'Tên đăng nhập';
 $labels['password'] = 'Mật khẩu';

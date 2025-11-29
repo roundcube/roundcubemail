@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['acldelete'] = 'Padam';
 $labels['shortaclc'] = 'Cipta';
 $labels['shortaclk'] = 'Cipta';

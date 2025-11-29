@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = '$product ga xush kelibsiz!';
 $labels['username'] = 'Foydalanuvchi nomi';
 $labels['password'] = 'Parol';

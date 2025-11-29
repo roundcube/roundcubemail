@@ -13,6 +13,4 @@
 */
 
 $labels['keyname'] = 'ಹೆಸರು';
-
-
 $labels['newkeypass'] = 'ರಹಸ್ಯ ಪದ';

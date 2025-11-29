@@ -14,5 +14,4 @@
 
 $labels['export'] = 'გატანა...';
 $labels['downloademl'] = 'წყარო (.eml)';
-
 $labels['download'] = 'გადმოწერა...';

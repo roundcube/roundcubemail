@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Bi xêr hatî $product';
 $labels['username'] = 'Navê bikarhêner';
 $labels['password'] = 'Borînpeyv';

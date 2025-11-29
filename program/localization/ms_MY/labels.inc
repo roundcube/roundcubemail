@@ -12,8 +12,6 @@
  +-----------------------------------------------------------------------+
 */
 
-
-
 $labels['welcome'] = 'Selamat datang ke $product';
 $labels['username'] = 'Nama Pengguna';
 $labels['password'] = 'Katalaluan';

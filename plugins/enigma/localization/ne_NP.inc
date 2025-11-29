@@ -14,5 +14,4 @@
 
 $labels['expiresnever'] = 'काहिलै नहुने';
 $labels['unknown'] = 'अज्ञात';
-
 $labels['newkeypass'] = 'प्रवेश शब्द';

@@ -13,4 +13,3 @@
 */
 
 $labels['buttonjunk'] = 'Ev peyam nebaş e';
-

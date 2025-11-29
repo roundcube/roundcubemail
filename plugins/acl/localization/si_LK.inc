@@ -13,8 +13,6 @@
 */
 
 $labels['add'] = 'එක් කරන්න';
-
-
 $labels['aclother'] = 'වෙනත්';
 $labels['aclread'] = 'කියවන්න';
 $labels['acldelete'] = 'මකන්න';
