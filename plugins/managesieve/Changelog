@@ -1,3 +1,6 @@
+* version 9.6 [2025-11-29]
+-----------------------------------------------------------
+- Show a warning when actions in wrong order (#10015, #6590)
 - Fix invalid line break characters in multi-line text in Sieve scripts (#9543)
 - Fix javascript error when relational or spamtest extension is not enabled (#9139)
 - Support an array in managesieve_host option (#9447)
