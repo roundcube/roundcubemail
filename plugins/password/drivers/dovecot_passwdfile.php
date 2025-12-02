@@ -39,12 +39,11 @@ class rcube_dovecot_passwdfile_password
      *
      * roundcube already validated the old password so we just need to change it at this point
      *
-     * @param string $curpass Current password
-     * @param string $newpass New password
+     * @param string $currpass Current password
+     * @param string $newpass  New password
      * @param string $username Login username (configured form based on $config['password_username_format'])
      *
      * @return int PASSWORD_SUCCESS|PASSWORD_CONNECT_ERROR|PASSWORD_ERROR
-     * @throws Exception if the password file cannot be read or written
      */
     public function save(string $currpass, string $newpass, string $username): int
     {
@@ -112,8 +111,7 @@ class rcube_dovecot_passwdfile_password
 
         if ($rcmail->config->get('password_idn_ascii')) {
             return rcube_utils::idn_to_ascii($part_value);
-        } else {
-            return rcube_utils::idn_to_utf8($part_value);
         }
+        return rcube_utils::idn_to_utf8($part_value);
     }
 }
