@@ -25,15 +25,14 @@ if (!empty($_POST['submit'])) {
     $_SESSION['config'] = $RCI->create_config();
 
     if ($RCI->save_configfile($_SESSION['config'])) {
-        echo '<p class="notice">The config file was saved successfully into'
-           . ' <tt>' . RCMAIL_CONFIG_DIR . '</tt> directory of your Roundcube installation.';
+        echo '<div class="notice">';
+        echo '<p>The config file was saved successfully into <code>' . RCMAIL_CONFIG_DIR . '</code> directory of your Roundcube installation.</p>';
 
         if ($RCI->legacy_config) {
-            echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files'
-                . ' <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
+            echo '<p>Afterwards, please <strong>remove</strong> the old configuration files <code>main.inc.php</code> and <code>db.inc.php</code> from the config directory.</p>';
         }
 
-        echo '</p>';
+        echo '</div>';
     } else {
         $save_button = '';
         if (($dir = sys_get_temp_dir()) && @is_writable($dir)) {
@@ -42,30 +41,28 @@ if (!empty($_POST['submit'])) {
             echo '<input name="_getconfig" value="2" /></form>';
 
             $button_txt = html::quote('Save in ' . $dir);
-            $save_button = '&nbsp;<input type="button" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
+            $save_button = '&nbsp;<input type="button" class="btn btn-secondary" onclick="document.getElementById(\'getconfig_form\').submit()" value="' . $button_txt . '" />';
         }
 
-        echo '<p class="notice">Copy or download the following configuration and save it';
-        echo ' as <tt><b>config.inc.php</b></tt> within the <tt>' . RCUBE_CONFIG_DIR . '</tt> directory of your Roundcube installation.<br/>';
-        echo ' Make sure that there are no characters before the <tt>&lt;?php</tt> bracket when saving the file.';
-        echo '&nbsp;<input type="button" onclick="location.href=\'?_getconfig=1\'" value="Download" />';
-        echo $save_button;
+        echo '<div class="card">';
+        echo '<p class="notice">Copy or download the following configuration and save it as <code><strong>config.inc.php</strong></code> within the <code>' . RCUBE_CONFIG_DIR . '</code> directory of your Roundcube installation.</p>';
+        echo '<p class="hint">Make sure that there are no characters before the <code>&lt;?php</code> bracket when saving the file.</p>';
+        echo '<p><input type="button" class="btn btn-primary" onclick="location.href=\'?_getconfig=1\'" value="Download" />';
+        echo $save_button . '</p>';
 
         if ($RCI->legacy_config) {
-            echo '<br/><br/>Afterwards, please <b>remove</b> the old configuration files'
-             . ' <tt>main.inc.php</tt> and <tt>db.inc.php</tt> from the config directory.';
+            echo '<p class="hint">Afterwards, please <strong>remove</strong> the old configuration files <code>main.inc.php</code> and <code>db.inc.php</code> from the config directory.</p>';
         }
-
-        echo '</p>';
 
         $textbox = new html_textarea(['rows' => 16, 'cols' => 60, 'class' => 'configfile']);
         echo $textbox->show($_SESSION['config']);
+        echo '</div>';
     }
 
-    echo '<p class="hint">Of course there are more options to configure.
-    Have a look at the defaults.inc.php file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
-
-    echo '<p><input type="button" onclick="location.href=\'?_step=3\'" value="CONTINUE" /></p>';
+    echo '<div class="card">';
+    echo '<p class="hint">Of course there are more options to configure. Have a look at the <code>defaults.inc.php</code> file or visit <a href="https://github.com/roundcube/roundcubemail/wiki/Configuration" target="_blank">Howto_Config</a> to find out.</p>';
+    echo '<p><input type="button" class="btn btn-primary" onclick="location.href=\'?_step=3\'" value="CONTINUE" /></p>';
+    echo '</div>';
 
     // echo '<style type="text/css"> .configblock { display:none } </style>';
     echo "\n<hr style='margin-bottom:1.6em' />\n";
@@ -641,7 +638,7 @@ foreach ($plugins as $p) {
 
 <?php
 
-echo '<p><input type="submit" name="submit" value="' . ($RCI->configured ? 'UPDATE' : 'CREATE') . ' CONFIG" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
+echo '<p><input type="submit" name="submit" class="btn btn-primary" value="' . ($RCI->configured ? 'UPDATE' : 'CREATE') . ' CONFIG" ' . ($RCI->failures ? 'disabled' : '') . ' /></p>';
 
 ?>
 </form>
