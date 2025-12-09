@@ -106,6 +106,9 @@ function rcube_treelist_widget(node, p) {
     this.get_single_selection = get_selection;
     this.is_search = is_search;
     this.reset_search = reset_search;
+    this.sortable_init = sortable_init;
+    this.sortable_cancel = sortable_cancel;
+    this.sortable_get_items = sortable_get_items;
 
     // ///// startup code (constructor)
 
@@ -1327,6 +1330,127 @@ function rcube_treelist_widget(node, p) {
 
     function is_draggable() {
         return !!ui_draggable;
+    }
+
+    function sortable_init() {
+        const mainList = node;
+        me.sortable_lists = $(mainList.parentElement).find('ul');
+        const listContainerElem = $(mainList).parents('#layout-list')[0];
+        me.sortable_lists.sortable({
+            // We can't use `li.mailbox.protected` here because that would disable moving elements out of protected
+            // folders. jQuery UI uses `closest()` with this selector, which makes it impossible to keep main list items
+            // and sub-list items apart. We disable sorting protected items via a `mousedown` event in the
+            // setup code of this rcube_treelist_widget().
+            cancel: 'input, div.treetoggle, .custom-control',
+            // Use a custom helper element so we can style it.
+            // helper: 'original',
+            helper: (event, item) => $('<div>').attr('id', 'rcmdraglayer').text(item.children('a').text().trim()),
+            appendTo: 'body', // append the helper element to the body so we can make it float outside the lists.
+            cursor: 'pointer',
+            cursorAt: { top: 0, left: -20 }, // place the helper element to the right of the mouse pointer.
+            tolerance: 'pointer', // Position the placeholder according to the mouse pointer, not the helper element.
+            items: '> li.mailbox', // handle only the directly descending items, not those of sub-lists (they get they own instance of $.sortable()
+            connectWith: `#${mainList.id}, #${mainList.id} ul`,
+            placeholder: 'placeholder', // Class name for the placeholder
+            start: (event, ui) => {
+                // We need the `ui` in the callback and can't pass it as function argument if the callback is
+                // called via `body_mouseup()`, so we store a reference.
+                me.sortable_ui = ui;
+                me.sortable_mouse_move_handler = (event) => {
+                    const lastElementUnderCursor = document.elementFromPoint(event.pageX, event.pageY);
+                    // Cancel the sorting if the mouse is dragged out of the list "column".
+                    if ($.contains(listContainerElem, lastElementUnderCursor) === false) {
+                        me.sortable_cancel();
+                    }
+                };
+                document.addEventListener('mousemove', me.sortable_mouse_move_handler);
+            },
+            stop: (event, ui) => {
+                // Reset some states.
+                document.removeEventListener('mousemove', me.sortable_mouse_move_handler);
+                me.sortable_lists.find('.hover').removeClass('hover');
+                me.sortable_cancelling = false;
+            },
+            change: (event, ui) => {
+                // Prevent sortable folders being sorted in between (technically: before) protected folders.
+                // There is no technical reason for this, we just want it from a UX perspective.
+                if (ui.placeholder.next().is('.protected')) {
+                    ui.placeholder.hide();
+                } else {
+                    ui.placeholder.show();
+                }
+            },
+            over: (event, ui) => {
+                // Highlight only the list that the dragged element is hovering over.
+                me.sortable_lists.find('.hover').removeClass('hover');
+                if (event.target !== mainList) {
+                    $(event.target).closest('li').addClass('hover');
+                }
+            },
+            // We have to make this async so we can wait for the confirmation dialog.
+            receive: async (event, ui) => {
+                me.sortable_lists.find('.hover').removeClass('hover');
+                if (me.sortable_cancelling) {
+                    // Don't do anything, the sorting is cancelled.
+                    return;
+                }
+
+                let destId;
+                if (event.target === mainList) {
+                    destId = '*';
+                } else {
+                    destId = event.target.parentElement.id;
+                }
+                const result = await rcmail.subscription_move_folder(ui.item.attr('id'), destId);
+                if (!result) {
+                    ui.sender.sortable('cancel');
+                }
+            },
+            update: (event, ui) => {
+                me.sortable_lists.find('.hover').removeClass('hover');
+                if (me.sortable_cancelling) {
+                    // Don't do anything, the sorting is cancelled.
+                    return;
+                }
+                if (ui.item.next().is('.protected')) {
+                    ui.item.parent().sortable('cancel');
+                    return false;
+                }
+                // Save the order if the item was moved only within its list. In case it was moved into a (different)
+                // sub-list, the order-saving function gets called from the server's response after the relevant folder
+                // rows have been re-rendered, and we can save one HTTP request. We don't skip the other function call
+                // because in this moment here we don't know yet if the confirmation dialog about moving the folder will
+                // be confirmed or cancelled.
+                if (ui.item[0].parentElement === event.target) {
+                    rcmail.save_reordered_folder_list();
+                }
+            },
+        });
+
+        return me;
+    }
+
+    function sortable_cancel() {
+        me.sortable_lists.find('.hover').removeClass('hover');
+        me.sortable_cancelling = true;
+        me.sortable_ui.placeholder.hide();
+        me.sortable_ui.helper.hide({ duration: 300 });
+        me.sortable_ui.item.show({ duration: 300 });
+        setTimeout(() => me.sortable_lists.sortable('cancel'), 400);
+    }
+
+    function sortable_get_items() {
+        const items = me.container.sortable('toArray');
+        const subLists = me.container.find('.ui-sortable').map((i, elem) => ({
+            parentId: elem.parentElement.id,
+            elems: $(elem).sortable('toArray'),
+        })).toArray();
+        // Sort sub-lists after their their parent element, so the sorting for the settings page doesn't get confused
+        // (which will hook child-folders onto wrong parents if we don't do this).
+        subLists.forEach((subList) => {
+            items.splice(items.indexOf(subList.parentId) + 1, 0, ...subList.elems);
+        });
+        return items;
     }
 }
 
