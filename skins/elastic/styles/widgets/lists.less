@@ -648,26 +648,13 @@ ul.treelist {
             padding-bottom: 0;
         }
 
-        // Give the list items a little bit more space at top to counter the increased space required by the sub-lists at the bottom.
-        li {
-            padding-top: 0.5rem;
+        .placeholder {
+            border: dashed thin @color-input-border;
+            min-height: 2.5rem;
         }
 
-        li div.treetoggle {
-            top: 0.5rem;
-        }
-
-        .custom-control-label {
-            top: 0.5rem;
-        }
-
-        li ul li:first-child {
-            margin-top: 0.5rem;
-        }
-
-        // To counter the counter, give the first sub-list layer a small padding at the bottom to even out the increased margins/paddings at the top of the elements.
-        &#subscription-table > li > ul {
-            padding-bottom: 0.5rem;
+        .hover {
+            background-color: @color-list-droptarget-background;
         }
 
     }
@@ -1157,34 +1144,5 @@ html.touch {
     td.name:before {
         &:extend(.font-icon-class);
         content: @fa-var-file-alt;
-    }
-}
-
-#subscription-table {
-    padding-bottom: 2em;
-
-    li.mailbox a {
-        padding-right: 2.5rem;
-    }
-
-    ul {
-      list-style-type: none;
-      display: block;
-      min-height: 1rem;
-      margin: 0;
-      padding: 0 0 0.5em 1rem;
-    }
-
-    .placeholder {
-        border: dashed thin @color-input-border;
-        min-height: 1.5rem;
-    }
-
-    .hover {
-        background-color: @color-list-droptarget-background;
-
-        .placeholder {
-            margin-left: 3em;
-        }
     }
 }
