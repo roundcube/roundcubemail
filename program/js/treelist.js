@@ -162,14 +162,14 @@ function rcube_treelist_widget(node, p) {
                 e.stopPropagation();
                 return false;
             }
+        })
+        .on('mousedown', 'li.mailbox.protected, li.mailbox.protected a', function (e) {
             // Prevent protected folders from being dragged/sorted.
             // We can't use the options of $.sortable() for that (then sub-folders of protected folders couldn't be
             // dragged, either), thus we implement it here.
-            if ($(e.target).parent().is('li.mailbox.protected')) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         });
 
     // activate search function
