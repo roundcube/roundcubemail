@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix jqueryui plugin's minicolors.css issue with custom skins (#9967)
 - Fix `skin_logo` with a relative URL (#10030)
 - Replace session attribute `changed` by `expires_at` to allow for variable session lengths per-user.
+- Add rel='noopener' to all links opening in a new window to mitigate against misuse in older browsers.
 
 ## Release 1.7-beta2
 
