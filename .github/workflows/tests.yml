@@ -10,7 +10,7 @@ permissions:
 jobs:
   tests_linux:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name)"
 
     strategy:
       fail-fast: false
@@ -38,15 +38,6 @@ jobs:
         run: sudo apt-get -y update && sudo apt-get -y install --no-install-recommends aspell aspell-en aspell-de hunspell-en-us
 
       - name: Execute tests
-        if: ${{ matrix.php != '8.5' }}
-        run: .ci/run_tests.sh
-
-      # Pass in a composer arg to make composer not complain about PHP version constrains with v8.5-rc until all
-      # dependency packages have released a version that supports v8.5.
-      - name: Execute tests
-        if: ${{ matrix.php == '8.5' }}
-        env:
-          COMPOSER_ARGS: "--ignore-platform-reqs"
         run: .ci/run_tests.sh
 
       - name: Upload artifacts
@@ -58,7 +49,7 @@ jobs:
 
   tests_windows:
     runs-on: windows-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name)"
 
     strategy:
       fail-fast: false
@@ -80,15 +71,6 @@ jobs:
           coverage: none
 
       - name: Execute tests
-        if: ${{ matrix.php != '8.5' }}
-        run: bash -ex .ci/run_tests.sh
-
-      # Pass in a composer arg to make composer not complain about PHP version constrains with v8.5-rc until all
-      # dependency packages have released a version that supports v8.5.
-      - name: Execute tests
-        if: ${{ matrix.php == '8.5' }}
-        env:
-          COMPOSER_ARGS: "--ignore-platform-reqs"
         run: bash -ex .ci/run_tests.sh
 
       - name: Upload artifacts

@@ -2409,6 +2409,7 @@ function rcube_webmail() {
             size: cols.size,
             date: cols.date,
             flags: flags.extra_flags, // flags from plugins
+            folder: cols.folder,
         });
 
         var c, n, col, html, css_class, label, status_class = '', status_label = '', tree = '', expando = '',
@@ -2595,6 +2596,10 @@ function rcube_webmail() {
         domrow.className = row.className;
         if (row.style) {
             $.extend(domrow.style, row.style);
+        }
+
+        if (this.is_multifolder_listing()) {
+            domrow.title = rcmail.get_label('infolder', null, { folder: message.folder });
         }
 
         $.each(this.env.widescreen_list_template, function () {
@@ -4232,7 +4237,7 @@ function rcube_webmail() {
             if (!isvalid && missing_keys.length) {
                 // display dialog with missing keys
                 ref.simple_dialog(
-                    ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', '))
+                    ref.get_label('nopubkeyfor', null, { email: missing_keys.join(', ') })
                         + '<p>' + ref.get_label('searchpubkeyservers') + '</p>',
                     'encryptedsendialog',
                     function () {
@@ -4387,7 +4392,7 @@ function rcube_webmail() {
             }
             // some keys could not be found
             if (missing_keys.length) {
-                ref.display_message(ref.get_label('nopubkeyfor').replace('$email', missing_keys.join(', ')), 'warning');
+                ref.display_message(ref.get_label('nopubkeyfor', null, { email: missing_keys.join(', ') }), 'warning');
             }
         }).fail(function () {
             console.error('Pubkey lookup failed with', arguments);
@@ -4420,7 +4425,13 @@ function rcube_webmail() {
 
             li.append($('<label>').addClass('keyid').text(ref.get_label('keyid')));
             li.append($('<a>').text(keyrec.keyid.substr(-8).toUpperCase())
-                .attr({ href: keyrec.info, target: '_blank', tabindex: '-1' }));
+                .attr({
+                    href: keyrec.info,
+                    target: '_blank',
+                    rel: 'noopener',
+                    tabindex: '-1',
+                })
+            );
 
             li.append($('<label>').addClass('keylen').text(ref.get_label('keylength')));
             li.append($('<span>').text(keyrec.keylen));
@@ -4485,7 +4496,7 @@ function rcube_webmail() {
                     } else {
                         var $key = keyid.substr(-8).toUpperCase();
                         btn.closest('.key').fadeOut();
-                        ref.display_message(ref.get_label('keyimportsuccess').replace('$key', $key), 'confirmation');
+                        ref.display_message(ref.get_label('keyimportsuccess', null, { key: $key }), 'confirmation');
                     }
                 }, function (err) {
                     console.log(err);
@@ -4532,7 +4543,7 @@ function rcube_webmail() {
                 var content = container.find('.identity-encryption-block').empty();
                 if (private_keys && private_keys.length) {
                     // show private key information
-                    $('<p>').text(ref.get_label('encryptionprivkeysinmailvelope').replace('$nr', private_keys.length)).appendTo(content);
+                    $('<p>').text(ref.get_label('encryptionprivkeysinmailvelope', null, { nr: private_keys.length })).appendTo(content);
                     var ul = $('<ul>').addClass('keylist').appendTo(content);
                     $.each(private_keys, function (i, key) {
                         $('<li>').appendTo(ul)
@@ -4597,7 +4608,7 @@ function rcube_webmail() {
                         generator.generate()
                             .then(function (result) {
                                 if (typeof result === 'string' && result.indexOf('BEGIN PGP') > 0) {
-                                    ref.display_message(ref.get_label('keypaircreatesuccess').replace('$identity', identity_email), 'confirmation');
+                                    ref.display_message(ref.get_label('keypaircreatesuccess', null, { identity: identity_email }), 'confirmation');
                                     // reset keygen view
                                     ref.mailvelope_identity_keygen();
                                 }
@@ -4659,7 +4670,7 @@ function rcube_webmail() {
 
         if (this.env.mdn_request_save) {
             buttons.unshift({
-                text: this.get_label('sendalwaysto').replace('$email', this.env.mdn_request_sender.mailto),
+                text: this.get_label('sendalwaysto', null, { email: this.env.mdn_request_sender.mailto }),
                 class: 'mainaction send',
                 click: function (e, ui, dialog) {
                     props.data._save = ref.env.mdn_request_save;
@@ -5108,7 +5119,7 @@ function rcube_webmail() {
             ref.display_message('requesttimedout', 'error');
         }, this.env.request_timeout * 1000);
 
-        form.submit();
+        form.requestSubmit();
     };
 
     this.compose_recipient_select = function (list) {
@@ -5358,6 +5369,7 @@ function rcube_webmail() {
             var lock = this.display_message('', 'loading');
             this.http_get('settings/response-get', { _id: response, _is_html: this.editor.is_html() ? 1 : 0 }, lock);
         }
+        this.triggerEvent('insert_response');
     };
 
     // Updates spellchecker buttons on state change
@@ -5832,6 +5844,8 @@ function rcube_webmail() {
                 this.clear_message_list();
             } else if (this.contact_list) {
                 this.list_contacts_clear();
+                // use env.last_source as env.source is overwritten by search action
+                url._scope = this.env.search_scope == 'base' ? this.env.last_source : null;
             }
 
             if (this.env.source) {
@@ -6216,7 +6230,7 @@ function rcube_webmail() {
 
         if (q.length && q.length < min) {
             if (!this.ksearch_info) {
-                this.ksearch_info = this.display_message(this.get_label('autocompletechars').replace('$min', min));
+                this.ksearch_info = this.display_message(this.get_label('autocompletechars', null, { min: min }));
             }
             return;
         }
@@ -6338,10 +6352,11 @@ function rcube_webmail() {
         if (results && (len = results.length)) {
             for (i = 0; i < len && maxlen > 0; i++) {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
+                fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { name: text };
                 type = typeof results[i] === 'object' ? results[i].type : '';
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
-                    .html('<i class="icon"></i>' + this.quote_html(text.replace(new RegExp('(' + RegExp.escape(value) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>'))
+                    .html(this.ksearch_results_display(fields, value))
                     .addClass(type || '')
                     .appendTo(ul)
                     .mouseover(function () {
@@ -6375,6 +6390,24 @@ function rcube_webmail() {
         if (this.ksearch_data.id == reqid) {
             this.ksearch_data.num--;
         }
+    };
+
+    this.ksearch_results_display = function (fields, search_term) {
+        line = "<i class='icon'></i>{name} &lt;{email}&gt;";
+
+        $.each(fields, function (key, data) {
+            line = line.replace('{' + key + '}', data ? ref.ksearch_results_highlight(data, search_term) : '');
+        });
+        line = line.replace(/\{[a-z]+\}/ug, '');
+        line = line.replace(/\s*&lt;&gt;/ug, '');
+        line = line.replace(/\s+/ug, ' ');
+        line = line.trim();
+
+        return line;
+    };
+
+    this.ksearch_results_highlight = function (haystack, needle) {
+        return this.quote_html(haystack.replace(new RegExp('(' + RegExp.escape(needle) + ')', 'ig'), '##$1%%')).replace(/##([^%]+)%%/g, '<b>$1</b>');
     };
 
     // Getter for input value
@@ -7489,6 +7522,9 @@ function rcube_webmail() {
                     if (this.name.match(/^_search/) && this.value != '') {
                         form[this.name] = this.value;
                         valid = true;
+                    } else if (this.name == '_scope' && this.value == 'base') {
+                        // use env.last_source as env.source is overwritten by search action
+                        form[this.name] = ref.env.last_source;
                     }
                 });
 

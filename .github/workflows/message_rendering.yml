@@ -10,7 +10,7 @@ permissions:
 jobs:
   message_rendering:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name)"
 
     strategy:
       fail-fast: false
@@ -28,14 +28,6 @@ jobs:
       # services are started before the repo is cloned). And instead of
       # re-building what our compose-file contains we can just use it.
       - name: Run tests via docker compose
-        if: ${{ matrix.php != '8.5' }}
-        run: docker compose -f .ci/compose.yaml run test_message_rendering
-
-      - name: Run tests via docker compose
-        if: ${{ matrix.php == '8.5' }}
-        env:
-          ROUNDCUBEMAIL_IMAGE_MESSAGE_RENDERING: ghcr.io/roundcube/roundcubemail:php8.5-rc
-          COMPOSE_ARGS: '--ignore-platform-reqs'
         run: docker compose -f .ci/compose.yaml run test_message_rendering
 
       - name: Upload artifacts

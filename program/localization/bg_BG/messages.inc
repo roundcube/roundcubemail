@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/messages/
 */
 
 $messages['errortitle']  = 'Възникна грешка!';
@@ -160,6 +158,9 @@ $messages['nogroupassignmentschanged'] = 'Няма променени групо
 $messages['importwait'] = 'Импортиране, моля изчакайте...';
 $messages['importformaterror'] = 'Неуспешен импорт! Данните в каченият файл не са във валиден формат.';
 $messages['importconfirm'] = '<b>Успешно са импортирани $inserted контакта, вече съществуващите $skipped контакта са пропуснати</b>:<p><em>$names</em></p>';
+$messages['importconfirmskipped'] = '<b>Пропуснати са $skipped съществуващи записи</b>';
+$messages['importconfirminvalid'] = '<b>Пропуснати са $skipped невалидни записи</b>';
+$messages['importconfirmerrors'] = '<b>Невъзмоно импортиране на $errors валидни записи</b>';
 $messages['importmessagesuccess'] = 'Успешно импортирани $nr писма';
 $messages['importmessageerror'] = 'Неуспешен импорт! Каченият файл не е валиден файл на писма или пощенска кутия';
 $messages['opnotpermitted'] = 'Непозволена операция!';
@@ -229,3 +230,5 @@ $messages['listusebutton'] = 'Използвайте бутона Създай, 
 $messages['keypaircreatesuccess'] = 'Успешно е създадена нова двойка ключове за $identity.';
 $messages['emptyattachment'] = 'Изглежда, че този прикачен файл е празен.<br>Моля, консултирайте се с лицето, което го е изпратило.';
 $messages['oauthloginfailed'] = 'OAuth автентикацията не бе успешна. Моля опитайте отново.';
+$messages['oauthinvalidrequest'] = 'Заявката за оторизация е невалидна или непълна';
+$messages['oauthaccessdenied'] = 'Оторизационният сървър или потребителят отказаха заявката';

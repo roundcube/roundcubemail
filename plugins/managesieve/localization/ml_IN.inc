@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-managesieve/
 */
-
 
 $labels['filters'] = 'അരിപ്പകള്‍';
 $labels['managefilters'] = 'അകത്തോട്ടുള്ള ഇമെയില്‍ അരിപ്പകള്‍ ക്രമീകരിക്കുക';

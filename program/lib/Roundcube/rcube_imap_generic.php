@@ -2704,7 +2704,7 @@ class rcube_imap_generic
      * @param array  $add_headers List of additional headers
      * @param array  $query_items List of additional items to fetch
      *
-     * @return bool|rcube_message_header Message data, False on error
+     * @return rcube_message_header|bool|null Message data, False on error, Null if not found
      */
     public function fetchHeader($mailbox, $id, $is_uid = false, $bodystr = false, $add_headers = [], $query_items = [])
     {

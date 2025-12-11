@@ -118,7 +118,12 @@ class jqueryui extends rcube_plugin
         $config = ['theme' => $colors_theme];
         $config_str = rcube_output::json_serialize($config);
 
-        $rcube->output->include_css('plugins/jqueryui/' . $css);
+        if (!array_key_exists('elastic', (array) $rcube->output->skins)) {
+            $rcube->output->include_css($css);
+        } else {
+            $rcube->output->include_css('plugins/jqueryui/' . $css);
+        }
+
         $rcube->output->include_script($script, 'head', false);
         $rcube->output->add_script('$.fn.miniColors = $.fn.minicolors; $("input.colors").minicolors(' . $config_str . ')', 'docready');
         $rcube->output->set_env('minicolors_config', $config);

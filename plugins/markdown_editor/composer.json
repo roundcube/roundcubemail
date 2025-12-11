@@ -1,0 +1,22 @@
+{
+    "name": "roundcube/markdown_editor",
+    "type": "roundcube-plugin",
+    "description": "An editor to compose emails in Markdown syntax, which gets converted into HTML before sending.",
+    "license": "GPL-3.0-or-later",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "Pablo Zimdahl",
+            "homepage": "https://github.com/pabzm"
+        }
+    ],
+    "require": {
+        "php": ">=8.1.0",
+        "roundcube/plugin-installer": "~0.3.5"
+    },
+    "autoload": {
+        "classmap": [
+            "markdown_editor.php"
+        ]
+    }
+}

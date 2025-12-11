@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = 'Vitajte v $product';
 $labels['username'] = 'Meno používateľa';
@@ -237,6 +234,9 @@ $labels['searchinterval-1Y'] = 'staršie ako rok';
 $labels['searchinterval1W'] = 'nie staršie ako týždeň';
 $labels['searchinterval1M'] = 'nie staršie ako mesiac';
 $labels['searchinterval1Y'] = 'nie staršie ako rok';
+$labels['infolder'] = 'Priečinok: $folder';
+$labels['currentaddressbook'] = 'Aktuálny adresár';
+$labels['alladdressbooks'] = 'Všetky adresáre';
 $labels['openinextwin'] = 'Otvoriť v novom okne';
 $labels['emlsave'] = 'Stiahnuť (.eml)';
 $labels['changeformattext'] = 'Zobraziť vo formáte čistého textu';
@@ -455,6 +455,9 @@ $labels['importmapdesc'] = 'Skôr než budete pokračovať v importovaní údajo
 $labels['fieldnotmapped'] = 'Pole nie je priradené (neimportuje sa)';
 $labels['skipheader'] = 'Neimportovať prvý riadok (hlavičky)';
 $labels['done'] = 'Hotovo';
+$labels['birth_day'] = 'Deň narodenia';
+$labels['birth_month'] = 'Mesiac narodenia';
+$labels['birth_year'] = 'Rok narodenia';
 $labels['settingsfor'] = 'Nastavenia pre';
 $labels['about'] = 'O systéme';
 $labels['preferences'] = 'Nastavenia';

@@ -7,11 +7,11 @@ SET FOREIGN_KEY_CHECKS=0;
 
 CREATE TABLE `session` (
  `sess_id` varchar(128) NOT NULL,
- `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
+ `expires_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
  `ip` varchar(40) NOT NULL,
  `vars` mediumtext NOT NULL,
  PRIMARY KEY(`sess_id`),
- INDEX `changed_index` (`changed`)
+ INDEX `expires_at_index` (`expires_at`)
 ) ROW_FORMAT=DYNAMIC ENGINE=INNODB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
@@ -272,4 +272,4 @@ CREATE TABLE `system` (
 
 SET FOREIGN_KEY_CHECKS=1;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2022100100');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2025092300');

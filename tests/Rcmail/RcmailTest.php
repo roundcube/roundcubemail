@@ -147,6 +147,13 @@ class RcmailTest extends ActionTestCase
             $rcmail->url(['_action' => 'test', '_b' => 'BB', '_c' => null]),
             'Prefixed parameters (skip empty)'
         );
+
+        $this->assertSame(
+            '/sub/?_task=cli&_action=test&_files[]=file1.txt&_files[]=file2.txt',
+            $rcmail->url(['_action' => 'test', '_files' => ['file1.txt', 'file2.txt']]),
+            'Array parameters'
+        );
+
         $this->assertSame('/sub/?_task=cli', $rcmail->url([]), 'Empty input');
 
         $this->assertSame(

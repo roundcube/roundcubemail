@@ -141,7 +141,7 @@ class rcmail_action_mail_index extends rcmail_action
                     'priority', 'withattachment', 'fileuploaderror', 'mark', 'markallread',
                     'markasread', 'markasunread', 'markasflagged', 'markasunflagged', 'undeletemessage',
                     'folders-cur', 'folders-sub', 'folders-all', 'cancel', 'bounce', 'bouncemsg',
-                    'sendingmessage');
+                    'sendingmessage', 'infolder');
             }
         }
 
@@ -1324,6 +1324,7 @@ class rcmail_action_mail_index extends rcmail_action
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
+                $attrib['rel'] = 'noopener';
             }
 
             // Better security by adding rel="noreferrer" (#1484686)

@@ -141,15 +141,8 @@ abstract class rcube_output
 
         $this->header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         $this->header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-        // We need to set the following headers to make downloads work using IE in HTTPS mode.
-        if ($this->browser->ie && rcube_utils::https_check()) {
-            $this->header('Pragma: private');
-            $this->header('Cache-Control: private, must-revalidate');
-        } else {
-            $this->header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
-            $this->header('Pragma: no-cache');
-        }
+        $this->header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+        $this->header('Pragma: no-cache');
     }
 
     /**
@@ -180,11 +173,6 @@ abstract class rcube_output
         }
 
         $headers = [];
-
-        // Unlock IE compatibility mode
-        if ($this->browser->ie) {
-            $headers['X-UA-Compatible'] = 'IE=edge';
-        }
 
         if ($privacy) {
             // Request browser to disable DNS prefetching (CVE-2010-0464)
@@ -271,10 +259,6 @@ abstract class rcube_output
 
         $this->header("Content-Disposition: {$disposition}");
         $this->header("Content-Type: {$ctype}");
-
-        if ($params['disposition'] == 'attachment' && $this->browser->ie) {
-            $this->header('Content-Type: application/force-download');
-        }
 
         if (isset($params['length'])) {
             $this->header('Content-Length: ' . $params['length']);

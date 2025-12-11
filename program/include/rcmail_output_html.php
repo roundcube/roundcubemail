@@ -340,8 +340,7 @@ class rcmail_output_html extends rcmail_output
         $meta = $this->get_skin_info($skin_name);
 
         $meta['path'] = $skin_path;
-        $path_elements = explode('/', $skin_path);
-        $skin_id = end($path_elements);
+        $skin_id = array_last(explode('/', $skin_path));
 
         if (empty($meta['name'])) {
             $meta['name'] = $skin_id;
@@ -569,10 +568,10 @@ class rcmail_output_html extends rcmail_output
             }
         }
 
-        foreach ($this->script_files as $position => $files) {
-            foreach ($files as $file) {
-                if (str_starts_with($file, 'plugins/jqueryui')) {
-                    $script_files[$position][] = $file;
+        foreach ($this->script_files as $position => $scripts_list) {
+            foreach ($scripts_list as $script_attribs) {
+                if (str_starts_with($script_attribs['src'], 'plugins/jqueryui')) {
+                    $script_files[$position][] = $script_attribs;
                 }
             }
         }
@@ -1808,11 +1807,6 @@ class rcmail_output_html extends rcmail_output
             $attrib['aria-disabled'] = 'true';
         }
 
-        // set title to alt attribute for IE browsers
-        if ($this->browser->ie && empty($attrib['title']) && !empty($attrib['alt'])) {
-            $attrib['title'] = $attrib['alt'];
-        }
-
         // add empty alt attribute for XHTML compatibility
         if (!isset($attrib['alt'])) {
             $attrib['alt'] = '';
@@ -1930,10 +1924,12 @@ class rcmail_output_html extends rcmail_output
     /**
      * Link an external script file
      *
-     * @param string $file     File URL
-     * @param string $position Target position [head|head_bottom|foot]
+     * @param string $file           File URL
+     * @param string $position       Target position [head|head_bottom|foot]
+     * @param bool   $add_path       Whether to prepend `scripts_path` to the file path, and to append an mtime-based parameter to it, too
+     * @param array  $tag_attributes Additional attributes for the script tag
      */
-    public function include_script($file, $position = 'head', $add_path = true)
+    public function include_script($file, $position = 'head', $add_path = true, $tag_attributes = [])
     {
         if ($add_path && !preg_match('|^https?://|i', $file) && $file[0] != '/') {
             $file = $this->file_mod($this->scripts_path . $file);
@@ -1943,8 +1939,12 @@ class rcmail_output_html extends rcmail_output
             $this->script_files[$position] = [];
         }
 
-        if (!in_array($file, $this->script_files[$position])) {
-            $this->script_files[$position][] = $file;
+        $tag_attributes = ['src' => $file] + $tag_attributes;
+        // Sort the array so differently ordered keys don't cause a duplicatedly loaded script.
+        ksort($tag_attributes);
+
+        if (!in_array($tag_attributes, $this->script_files[$position])) {
+            $this->script_files[$position][] = $tag_attributes;
         }
     }
 
@@ -2008,8 +2008,8 @@ class rcmail_output_html extends rcmail_output
             $is_empty = true;
         }
 
-        $merge_script_files = static function ($output, $script) {
-            return $output . html::script($script);
+        $merge_script_files = static function ($output, $attributes) {
+            return $output . html::script($attributes);
         };
 
         $merge_scripts = static function ($output, $script) {

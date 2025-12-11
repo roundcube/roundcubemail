@@ -92,8 +92,12 @@ file_filter = plugins/zipdownload/localization/<lang>.inc
 source_file = plugins/zipdownload/localization/en_US.inc
 source_lang = en_US
 
+[o:roundcube:p:roundcube-webmail:r:plugin-markdown_editor]
+file_filter = plugins/markdown_editor/localization/<lang>.inc
+source_file = plugins/markdown_editor/localization/en_US.inc
+source_lang = en_US
+
 [o:roundcube:p:roundcube-webmail:r:timezones]
 file_filter = program/localization/<lang>/timezones.inc
 source_file = program/localization/en_US/timezones.inc
 source_lang = en_US
-

@@ -201,7 +201,7 @@ class rcmail_action_contacts_index extends rcmail_action
             'size' => 40,
             'maxlength' => 128,
             'label' => 'instantmessenger',
-            'subtypes' => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype', 'other'],
+            'subtypes' => ['aim', 'icq', 'msn', 'yahoo', 'jabber', 'skype'],
             'category' => 'main',
         ],
         'notes' => [
@@ -648,7 +648,7 @@ class rcmail_action_contacts_index extends rcmail_action
         foreach ($result as $row) {
             $emails = rcube_addressbook::get_col_values('email', $row, true);
             $row['CID'] = $row['ID'];
-            $row['email'] = reset($emails);
+            $row['email'] = array_first($emails);
             $source_id = $rcmail->output->get_env('source');
             $a_row_cols = [];
             $type = !empty($row['_type']) ? $row['_type'] : 'person';

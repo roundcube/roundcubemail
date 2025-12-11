@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-newmail_notifier/
 */
 
 $labels['basic'] = 'បង្ហាញ​ការ​ជូនដំណឹង​កម្មវិធី​អ៊ីនធឺណិត​ពេល​មាន​សារ​ថ្មី';

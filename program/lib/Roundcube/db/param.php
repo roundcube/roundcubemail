@@ -20,7 +20,7 @@
 /**
  * Database query parameter
  */
-class rcube_db_param
+class rcube_db_param implements \Stringable
 {
     protected $db;
     protected $type;

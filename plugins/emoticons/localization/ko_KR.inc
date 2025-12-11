@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-emoticons/
 */
 
 $labels['emoticonsdisplay'] = '일반 텍스트 메시지에서 이모티콘 표시';

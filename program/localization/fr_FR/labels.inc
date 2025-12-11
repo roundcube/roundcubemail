@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = 'Bienvenue au courriel Web $product';
 $labels['username'] = 'Nom d’utilisateur';
@@ -237,6 +234,9 @@ $labels['searchinterval-1Y'] = 'plus d’une année';
 $labels['searchinterval1W'] = 'moins d’une semaine';
 $labels['searchinterval1M'] = 'moins d’un mois';
 $labels['searchinterval1Y'] = 'moins d’une année';
+$labels['infolder'] = 'Dossier : $folder';
+$labels['currentaddressbook'] = 'Carnet d’adresses actuel';
+$labels['alladdressbooks'] = 'Tous les carnets d’adresses';
 $labels['openinextwin'] = 'Ouvrir dans une nouvelle fenêtre';
 $labels['emlsave'] = 'Télécharger (.eml)';
 $labels['changeformattext'] = 'Afficher le texte brut';
@@ -455,6 +455,9 @@ $labels['importmapdesc'] = 'Confirmez que les renseignements de mappage des cham
 $labels['fieldnotmapped'] = 'Le champ n’est pas mappé (ne pas importer)';
 $labels['skipheader'] = 'Ne pas importer la première ligne (en-têtes)';
 $labels['done'] = 'Terminé';
+$labels['birth_day'] = 'Jour de naissance';
+$labels['birth_month'] = 'Mois de naissance';
+$labels['birth_year'] = 'Année de naissance';
 $labels['settingsfor'] = 'Paramètres pour';
 $labels['about'] = 'À propos de';
 $labels['preferences'] = 'Préférences';

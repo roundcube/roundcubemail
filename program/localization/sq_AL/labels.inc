@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = 'Mirë se vini në $product';
 $labels['username'] = 'Emër përdoruesi';
@@ -235,6 +232,9 @@ $labels['searchinterval-1Y'] = 'më të vjetër se një vit';
 $labels['searchinterval1W'] = 'më të rinj se një javë';
 $labels['searchinterval1M'] = 'më të rinj se një muaj';
 $labels['searchinterval1Y'] = 'më të rinj se një vit';
+$labels['infolder'] = 'Dosje: $folder';
+$labels['currentaddressbook'] = 'Libër i tanishëm adresash';
+$labels['alladdressbooks'] = 'Krejt librat e adresave';
 $labels['openinextwin'] = 'Hape në dritare të re';
 $labels['emlsave'] = 'Shkarkoje (.eml)';
 $labels['changeformattext'] = 'Shfaqe në format tekst të thjeshtë';
@@ -452,6 +452,9 @@ $labels['importmapdesc'] = 'Përpara se të ecet më tej me importim të dhënas
 $labels['fieldnotmapped'] = 'Fushë e papërshoqëruar (mos e importo)';
 $labels['skipheader'] = 'Mos importo rreshtin e parë (kryet)';
 $labels['done'] = 'U bë';
+$labels['birth_day'] = 'Ditë Lindjeje';
+$labels['birth_month'] = 'Muaj Lindjeje';
+$labels['birth_year'] = 'Vit Lindjeje';
 $labels['settingsfor'] = 'Rregullime për';
 $labels['about'] = 'Rreth';
 $labels['preferences'] = 'Parapëlqime';

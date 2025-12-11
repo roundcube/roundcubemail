@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = '$productにようこそ';
 $labels['username'] = 'ユーザー名';
@@ -237,6 +234,9 @@ $labels['searchinterval-1Y'] = '1年より前';
 $labels['searchinterval1W'] = '1週間以内';
 $labels['searchinterval1M'] = '1か月以内';
 $labels['searchinterval1Y'] = '1年以内';
+$labels['infolder'] = 'フッター: $folder';
+$labels['currentaddressbook'] = '現在のアドレス帳';
+$labels['alladdressbooks'] = 'すべてのアドレス帳';
 $labels['openinextwin'] = '新しいウィンドウで開く';
 $labels['emlsave'] = 'ダウンロード(.eml形式)';
 $labels['changeformattext'] = 'テキスト形式で表示';
@@ -455,6 +455,9 @@ $labels['importmapdesc'] = 'CSV(コンマ区切り)のデータのインポー�
 $labels['fieldnotmapped'] = '列の対応なし(無視)';
 $labels['skipheader'] = '最初の行(ヘッダー)を無視';
 $labels['done'] = '完了';
+$labels['birth_day'] = '誕生日';
+$labels['birth_month'] = '誕生月';
+$labels['birth_year'] = '誕生年';
 $labels['settingsfor'] = '次の設定:';
 $labels['about'] = 'このプログラムについて';
 $labels['preferences'] = '設定';

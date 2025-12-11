@@ -2843,7 +2843,7 @@ function rcube_elastic_ui() {
             interval_select = $('#s_interval', obj),
             mbox = rcmail.env.mailbox,
             mods = rcmail.env.search_mods,
-            scope = rcmail.env.search_scope || 'base';
+            scope = rcmail.env.search_scope || (rcmail.task == 'addressbook' ? 'all' : 'base');
 
         if (!$(obj).data('initialized')) {
             $(obj).data('initialized', true);
@@ -4449,6 +4449,21 @@ if (window.rcmail) {
     rcmail.hide_menu = function (name, event) {
         // delegate to rcube_elastic_ui
         return rcmail.triggerEvent('menu-close', { name: name, props: { menu: name }, originalEvent: event });
+    };
+
+    /**
+     * Elastic version of ksearch_results_display with small screen support
+     */
+    rcmail.ksearch_results_display = function (fields, search_term) {
+        var line = $('<li>')
+            .append($('<i>').addClass('icon'))
+            .append($('<span>').addClass('fields'));
+
+        $.each(fields, function (key, data) {
+            line.children('span.fields').append($('<span>').addClass('field ' + key).html(data ? rcmail.ksearch_results_highlight(data, search_term) : ''));
+        });
+
+        return line.html();
     };
 } else {
     // rcmail does not exists e.g. on the error template inside a frame

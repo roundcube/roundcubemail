@@ -87,7 +87,7 @@ class ShowTest extends ActionTestCase
     public function test_render_url_value()
     {
         $input = 'http://test/<123';
-        $expected = '<a href="http://test/&lt;123" target="_blank" class="url">http://test/&lt;123</a>';
+        $expected = '<a href="http://test/&lt;123" target="_blank" rel="noopener" class="url">http://test/&lt;123</a>';
         $this->assertSame($expected, \rcmail_action_contacts_show::render_url_value($input));
     }
 

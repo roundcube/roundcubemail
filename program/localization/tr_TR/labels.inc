@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = '$product e-posta sistemine hoş geldiniz';
 $labels['username'] = 'Kullanıcı adı';
@@ -237,6 +234,9 @@ $labels['searchinterval-1Y'] = 'Bir yıldan eski';
 $labels['searchinterval1W'] = 'Bir haftadan yeni';
 $labels['searchinterval1M'] = 'Bir aydan yeni';
 $labels['searchinterval1Y'] = 'Bir yıldan yeni';
+$labels['infolder'] = 'Klasör: $folder';
+$labels['currentaddressbook'] = 'Geçerli adres defteri';
+$labels['alladdressbooks'] = 'Tüm adres defterleri';
 $labels['openinextwin'] = 'Yeni pencerede aç';
 $labels['emlsave'] = 'İndir (.eml)';
 $labels['changeformattext'] = 'Düz metin biçiminde görüntülensin';
@@ -455,6 +455,9 @@ $labels['importmapdesc'] = 'CSV verilerini içe aktarmayı başlatmadan önce a�
 $labels['fieldnotmapped'] = 'Alan eşleştirilmemiş (içe aktarılmaz)';
 $labels['skipheader'] = 'İlk satır içe aktarılmasın (başlıklar)';
 $labels['done'] = 'Tamam';
+$labels['birth_day'] = 'Doğum günü';
+$labels['birth_month'] = 'Doğum ayı';
+$labels['birth_year'] = 'Doğum yılı';
 $labels['settingsfor'] = 'Şunun ayarları';
 $labels['about'] = 'Hakkında';
 $labels['preferences'] = 'Ayarlar';

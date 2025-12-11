@@ -283,3 +283,4 @@ $messages['duplicate.conflict.err'] = 'Both header and unique identifier are not
 $messages['disabledaction'] = 'Action not permitted.';
 $messages['lastindexempty'] = 'Index is required when counting from end';
 $messages['noflagset'] = 'At least one flag must be selected.';
+$messages['saving.actionordererror'] = 'The \'$previous\' action must be after the \'$current\' action.';

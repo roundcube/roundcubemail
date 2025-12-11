@@ -263,7 +263,10 @@ $labels['searchinterval-1Y'] = 'older than a year';
 $labels['searchinterval1W'] = 'younger than a week';
 $labels['searchinterval1M'] = 'younger than a month';
 $labels['searchinterval1Y'] = 'younger than a year';
+$labels['infolder'] = 'Folder: $folder';
 
+$labels['currentaddressbook'] = 'Current address book';
+$labels['alladdressbooks'] = 'All address books';
 $labels['openinextwin'] = 'Open in new window';
 $labels['emlsave'] = 'Download (.eml)';
 $labels['changeformattext'] = 'Display in plain text format';
@@ -505,6 +508,9 @@ $labels['importmapdesc'] = 'Confirm the field mapping information below is corre
 $labels['fieldnotmapped'] = 'Field not mapped (do not import)';
 $labels['skipheader'] = 'Do not import first line (headers)';
 $labels['done'] = 'Done';
+$labels['birth_day'] = 'Birth Day';
+$labels['birth_month'] = 'Birth Month';
+$labels['birth_year'] = 'Birth Year';
 
 // settings
 $labels['settingsfor'] = 'Settings for';

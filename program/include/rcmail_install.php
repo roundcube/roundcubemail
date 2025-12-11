@@ -525,7 +525,7 @@ class rcmail_install
         foreach ($lines as $line) {
             if (preg_match('/^\s*create table ([\S]+)/i', $line, $m)) {
                 $table_name = explode('.', $m[1]);
-                $table_name = end($table_name);
+                $table_name = array_last($table_name);
                 $table_name = preg_replace('/[`"\[\]]/', '', $table_name);
             } elseif (preg_match('/insert into/i', $line) && preg_match('/\'roundcube-version\',\s*\'([0-9]+)\'/', $line, $m)) {
                 $version = $m[1];
@@ -811,7 +811,7 @@ class rcmail_install
         $hint = rcube::Q($message);
 
         if ($url) {
-            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank">' . rcube::Q($url) . '</a>';
+            $hint .= ($hint ? '; ' : '') . 'See <a href="' . rcube::Q($url) . '" target="_blank" rel="noopener">' . rcube::Q($url) . '</a>';
         }
 
         if ($hint) {

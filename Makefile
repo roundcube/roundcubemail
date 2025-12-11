@@ -61,7 +61,7 @@ verify:
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
-roundcubemail-git: buildtools
+roundcubemail-git: buildtools plugin-markdown_editor-prepare-for-release
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic && make css)
@@ -69,7 +69,7 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; find . -name '.gitignore' | xargs rm -f)
 	(cd roundcubemail-git; find . -name '.travis.yml' | xargs rm -f)
 	(cd roundcubemail-git; rm -rf tests plugins/*/tests .git* .tx* .ci* .editorconfig* index-test.php Dockerfile Makefile package.json package-lock.json node_modules)
-	(cd roundcubemail-git; rm -f .eslintrc.js .php-cs-fixer.dist.php phpstan.neon.dist)
+	(cd roundcubemail-git; rm -f .eslintrc.js .php-cs-fixer.dist.php .php-cs-fixer-fully_qualified_strict_types.php phpstan.neon.dist)
 	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
 
@@ -112,3 +112,25 @@ downloads-json-data:
 	@echo "\nRun this command in the directory of your cloned copy of 'https://github.com/roundcube/roundcube.github.com/'\nto generate the data for the file 'releases.json':\n./_bin/generate-downloads-json-data.php $(PWD) $(VERSION)\n"
 
 release: edit-changelog git-tag all sign verify downloads-json-data git-tag-push
+
+composer-update: /tmp/composer.phar
+	php /tmp/composer.phar update --no-dev
+
+install-jsdeps: npm-install
+	./bin/install-jsdeps.sh
+
+build: composer-update install-jsdeps css-elastic plugins-build
+
+plugins-build: plugin-markdown_editor-build
+
+plugin-markdown_editor-build: plugin-markdown_editor-clean
+	cd plugins/markdown_editor && \
+		npm clean-install && \
+		npm run build && \
+		rm -rf node_module
+
+plugin-markdown_editor-clean:
+	cd plugins/markdown_editor && npm run clean
+
+plugin-markdown_editor-prepare-for-release: plugin-markdown_editor-build
+	(cd roundcubemail-git/plugins/markdown_editor; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)

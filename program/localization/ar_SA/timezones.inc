@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/timezones/
 */
 
 $labels['tz:utc'] = 'التوقيت العالمي';
@@ -330,6 +328,30 @@ $labels['tz:atlantic:stanley'] = 'ستانلي';
 $labels['tz:australia'] = 'أستراليا';
 $labels['tz:australia:adelaide'] = 'أديلايد';
 $labels['tz:australia:brisbane'] = 'بريسبان';
+$labels['tz:australia:broken_hill'] = 'بروكن هيل';
+$labels['tz:australia:currie'] = 'كوري ';
+$labels['tz:australia:darwin'] = 'داروين';
+$labels['tz:australia:eucla'] = 'يوكلا';
+$labels['tz:australia:hobart'] = 'هوبارت';
+$labels['tz:australia:lindeman'] = 'ليندمان';
+$labels['tz:australia:lord_howe'] = 'لورد هاو';
+$labels['tz:australia:melbourne'] = 'ملبورن';
+$labels['tz:australia:perth'] = 'بيرث';
+$labels['tz:australia:sydney'] = 'سيدني';
+$labels['tz:europe'] = 'أوروبا';
+$labels['tz:europe:amsterdam'] = 'أمستردام';
+$labels['tz:europe:andorra'] = 'أندورا';
+$labels['tz:europe:astrakhan'] = 'أستراخان';
+$labels['tz:europe:athens'] = 'أثينا';
+$labels['tz:europe:belgrade'] = 'بلغراد';
+$labels['tz:europe:berlin'] = 'برلين';
+$labels['tz:europe:bratislava'] = 'براتيسلافا';
+$labels['tz:europe:brussels'] = 'بروكسل';
+$labels['tz:europe:bucharest'] = 'بوخارست';
+$labels['tz:europe:budapest'] = 'بودابست';
+$labels['tz:europe:busingen'] = 'بوزنجن';
+$labels['tz:europe:chisinau'] = 'كيشيناو';
+$labels['tz:europe:copenhagen'] = 'كوبنهاجن';
 $labels['tz:pacific:gambier'] = 'غامبير';
 $labels['tz:pacific:guadalcanal'] = 'غوادالكانال';
 $labels['tz:pacific:guam'] = 'غوام';

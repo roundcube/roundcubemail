@@ -4,6 +4,20 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Move autocomplete list rendering to client-side (#9832)
+- Remove `contact_search_name` option in favor of `contactlist_name_template` (#9832)
+- Add scope parameter to contact search (#9863)
+- Add tooltip with folder name to widescreen list of multi-folder listing (#9989, #7950)
+- Add ability to chose from all available contact fields on CSV import (#9419)
+- Add a new plugin called `markdown_editor` that provides an alternative editor to compose emails using Markdown syntax
+- Allow links with "target" attribute in signatures and stored responses (#10017)
+- Preserve requested url on OIDC login (#10033)
+- Managesieve: Show a warning when actions in wrong order (#10015, #6590)
+- Password: Removed the (insecure) virtualmin driver (#8007)
+- Fix jqueryui plugin's minicolors.css issue with custom skins (#9967)
+- Fix `skin_logo` with a relative URL (#10030)
+- Replace session attribute `changed` by `expires_at` to allow for variable session lengths per-user.
+- Add rel='noopener' to all links opening in a new window to mitigate against misuse in older browsers.
 
 ## Release 1.7-beta2
 

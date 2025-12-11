@@ -363,6 +363,16 @@ class rcmail_oauth
     }
 
     /**
+     * Getter for OAuth options
+     *
+     * @return array OAuth configuration options
+     */
+    public function get_options()
+    {
+        return $this->options;
+    }
+
+    /**
      * Callback for `loginform_content` hook
      *
      * Append Oauth button on login page if defined (this is a hook)
@@ -695,6 +705,12 @@ class rcmail_oauth
             if ($this->options['pkce']) {
                 // store crypted code_verifier because session is going to be killed
                 $this->login_phase['code_verifier'] = $_SESSION['oauth_code_verifier'];
+            }
+
+            // Preserve the originally requested URL through session kill (stored by unauthenticated hook)
+            if (!empty($_SESSION['oauth_redirect_uri'])) {
+                $this->login_phase['redirect_uri'] = $_SESSION['oauth_redirect_uri'];
+                $this->log_debug('preserving redirect URI for post-login: %s', $_SESSION['oauth_redirect_uri']);
             }
 
             return true;
@@ -1112,6 +1128,13 @@ class rcmail_oauth
         // Make plugins aware that SSO is in use
         $options['sso'] = true;
 
+        // Restore the originally requested URL by setting $_POST['_url']
+        // This allows Roundcube's built-in redirect handling to restore the original request
+        if (!empty($this->login_phase['redirect_uri'])) {
+            $_POST['_url'] = $this->login_phase['redirect_uri'];
+            $this->log_debug('setting $_POST[_url] for post-login redirect: %s', $this->login_phase['redirect_uri']);
+        }
+
         return $options;
     }
 
@@ -1131,7 +1154,7 @@ class rcmail_oauth
         // store important data to new freshly created session
         $_SESSION['oauth_token'] = $this->login_phase['token'];
         $_SESSION['oauth_nonce'] = $this->login_phase['nonce'];
-        if ($this->options['pkce']) {
+        if ($this->options['pkce'] && isset($this->login_phase['code_verifier'])) {
             $_SESSION['oauth_code_verifier'] = $this->login_phase['code_verifier'];
         }
 
@@ -1320,11 +1343,21 @@ class rcmail_oauth
      */
     public function unauthenticated($options)
     {
+        // Store the originally requested URL query string for post-authentication redirect
+        // We store just the query string (not full URL) so it can be used directly with $_POST['_url']
+        if (!empty($_SERVER['QUERY_STRING']) && !$this->rcmail->output->ajax_call) {
+            // Only store if it's not a login or oauth action (prevents redirect loops)
+            if (!preg_match('/(_task=login|_action=oauth)/', $_SERVER['QUERY_STRING'])) {
+                $_SESSION['oauth_redirect_uri'] = $_SERVER['QUERY_STRING'];
+                $this->log_debug('storing original query string for post-auth redirect: %s', $_SERVER['QUERY_STRING']);
+            }
+        }
+
         if (
             $this->options['login_redirect']
             && !$this->rcmail->output->ajax_call
             && !$this->no_redirect
-            && empty($options['error'])
+            && (empty($options['error']) || $options['error'] === 'sessionerror')
             && $options['http_code'] === 200
         ) {
             $this->login_redirect();

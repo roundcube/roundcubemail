@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = 'Ongi etorri $product-ra';
 $labels['username'] = 'Erabiltzaile-izena';
@@ -237,6 +234,9 @@ $labels['searchinterval-1Y'] = 'urtebete baino zaharragoak';
 $labels['searchinterval1W'] = 'astebetea baino berriagoak';
 $labels['searchinterval1M'] = 'hilabetea baino berriagoak';
 $labels['searchinterval1Y'] = 'urtebetea baino berriagoak';
+$labels['infolder'] = 'Karpeta: $folder';
+$labels['currentaddressbook'] = 'Egungo helbide-liburua';
+$labels['alladdressbooks'] = 'Helbide liburu guztiak';
 $labels['openinextwin'] = 'Ireki leiho berrian';
 $labels['emlsave'] = 'Deskargatu (.eml)';
 $labels['changeformattext'] = 'Bistaratu formaturik gabeko testuan';
@@ -455,6 +455,9 @@ $labels['importmapdesc'] = 'Baieztatu beheko eremuen mapen informazioa zuzena de
 $labels['fieldnotmapped'] = 'Eremua ez da mapatu (ez inportatu)';
 $labels['skipheader'] = 'Ez inportatu lehenengo lerroa (goiburuak)';
 $labels['done'] = 'Egina';
+$labels['birth_day'] = 'Jaiotze eguna';
+$labels['birth_month'] = 'Jaiotze hilabetea';
+$labels['birth_year'] = 'Jaiotze urtea';
 $labels['settingsfor'] = 'Honen ezarpenak:';
 $labels['about'] = 'Honi buruz';
 $labels['preferences'] = 'Hobespenak';

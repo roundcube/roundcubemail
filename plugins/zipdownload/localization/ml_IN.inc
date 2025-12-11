@@ -10,8 +10,6 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-zipdownload/
 */
 
 $labels['downloadall'] = 'എല്ലാ അറ്റാച്ച്മെന്റുകളും ഡൗൺലോഡ് ചെയ്യുക';

@@ -1,5 +1,10 @@
 #!/bin/bash -ex
 
+if test "$PWD" = '/work'; then
+    rm -r tests/Browser/screenshots
+    ln -s /app/tests/Browser/screenshots tests/Browser/screenshots
+fi
+
 # The script is intended for use locally, as well as in the CI.
 # It runs the browser-tests ("E2E" in the CI).
 # It expects a running IMAP server (connection configured in
@@ -42,16 +47,19 @@ bin/install-jsdeps.sh
 # Compile Elastic's styles
 make css-elastic
 
+# Build JS and CSS for plugins
+make plugins-build
+
 # Use minified javascript files
 bin/jsshrink.sh
 
 # Run tests
 echo "TESTS_MODE: DESKTOP"
-TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga
+TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations --exclude-group=failsonga
 
 echo "TESTS_MODE: TABLET"
-TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga-tablet
+TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations --exclude-group=failsonga-tablet
 
 # Mobile mode tests are unreliable on Github Actions
 # echo "TESTS_MODE: PHONE"
-# TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --exclude-group=failsonga-phone
+# TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations --exclude-group=failsonga-phone

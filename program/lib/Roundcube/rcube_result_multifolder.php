@@ -253,8 +253,8 @@ class rcube_result_multifolder
     public function get_element($idx)
     {
         switch ($idx) {
-            case 'FIRST': return $this->index[0];
-            case 'LAST':  return end($this->index);
+            case 'FIRST': return $this->index[0] ?? null;
+            case 'LAST':  return array_last($this->index);
             default:      return $this->index[$idx] ?? null;
         }
     }

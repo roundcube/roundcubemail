@@ -10,10 +10,7 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/labels/
 */
-
 
 $labels['welcome'] = 'Bem-vindo ao $product';
 $labels['username'] = 'Utilizador';
@@ -269,6 +266,7 @@ $labels['keylength'] = 'Bits';
 $labels['keyexpired'] = 'Expirada';
 $labels['keyrevoked'] = 'Revogada';
 $labels['bccinstead'] = 'Usar Bcc';
+$labels['addheader'] = 'Adicionar campo (Cc, Bcc...)';
 $labels['insert'] = 'Inserir';
 $labels['insertcontact'] = 'Inserir contacto(s)';
 $labels['recipient'] = 'Destinatário';
@@ -557,6 +555,7 @@ $labels['automarkread'] = 'Marcar mensagens como lidas';
 $labels['afternseconds'] = 'após $n segundos';
 $labels['reqmdn'] = 'Pedir sempre um recibo de leitura';
 $labels['reqdsn'] = 'Pedir sempre um recibo de entrega';
+$labels['alwayskeepformatting'] = 'Manter sempre a formatação original do texto';
 $labels['replysamefolder'] = 'Guardar respostas na mesma pasta da mensagem original';
 $labels['defaultabook'] = 'Livro de endereços padrão';
 $labels['autocompletesingle'] = 'Ignorar endereços de email alternativos no preenchimento automático';
@@ -575,6 +574,8 @@ $labels['spellcheckignoresyms'] = 'Ignorar palavras com símbolos';
 $labels['spellcheckignorenums'] = 'Ignorar palavras com números';
 $labels['spellcheckignorecaps'] = 'Ignorar palavras em maiúsculas';
 $labels['addtodict'] = 'Adicionar ao dicionário';
+$labels['editoroptions'] = 'Opções do Editor';
+$labels['enableautolink'] = 'Converter automaticamente URLs válidos em hiperligações';
 $labels['mailtoprotohandler'] = 'Registar manipulador de protocolo para mailto: links';
 $labels['standardwindows'] = 'Lidar com popups como janelas padrão';
 $labels['forwardmode'] = 'Reencaminhamento de mensagens';

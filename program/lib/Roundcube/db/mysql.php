@@ -1,5 +1,7 @@
 <?php
 
+use Pdo\Mysql;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -97,31 +99,31 @@ class rcube_db_mysql extends rcube_db
         $result = parent::dsn_options($dsn);
 
         if (!empty($dsn['key'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_KEY] = $dsn['key'];
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_KEY : Mysql::ATTR_SSL_KEY] = $dsn['key'];
         }
 
         if (!empty($dsn['cipher'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_CIPHER] = $dsn['cipher'];
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_CIPHER : Mysql::ATTR_SSL_CIPHER] = $dsn['cipher'];
         }
 
         if (!empty($dsn['cert'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_CERT] = $dsn['cert'];
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_CERT : Mysql::ATTR_SSL_CERT] = $dsn['cert'];
         }
 
         if (!empty($dsn['capath'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_CAPATH] = $dsn['capath'];
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_CAPATH : Mysql::ATTR_SSL_CAPATH] = $dsn['capath'];
         }
 
         if (!empty($dsn['ca'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_CA] = $dsn['ca'];
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_CA : Mysql::ATTR_SSL_CA] = $dsn['ca'];
         }
 
         if (isset($dsn['verify_server_cert'])) {
-            $result[\PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
+            $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT : Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
         }
 
         // Always return matching (not affected only) rows count
-        $result[\PDO::MYSQL_ATTR_FOUND_ROWS] = true;
+        $result[\PHP_VERSION_ID < 80500 ? \PDO::MYSQL_ATTR_FOUND_ROWS : Mysql::ATTR_FOUND_ROWS] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
         $result[\PDO::ATTR_AUTOCOMMIT] = true;

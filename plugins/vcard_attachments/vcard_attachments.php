@@ -311,7 +311,7 @@ class vcard_attachments extends rcube_plugin
         // Get first writeable addressbook if the configured doesn't exist
         // This can happen when user deleted the addressbook (e.g. Kolab folder)
         if (!is_object($CONTACTS)) {
-            $source = reset($rcmail->get_address_sources(true));
+            $source = array_first($rcmail->get_address_sources(true));
             $CONTACTS = $rcmail->get_address_book($source['id'], true);
         }
 

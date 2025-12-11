@@ -195,7 +195,7 @@ function rcube_text_editor(config, id) {
         ed.on('click', function (e) {
             var link = $(e.target).closest('a');
             if (link.length && e.shiftKey) {
-                window.open(link.get(0).href, '_blank');
+                window.open(link.get(0).href, '_blank', 'noopener=true');
                 return false;
             }
         });

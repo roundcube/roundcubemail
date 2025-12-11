@@ -467,12 +467,14 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                 }
             }
 
-            foreach ($date_value as $idx => $value) {
-                $date = !empty($value['datetime']) ? $value['datetime'] : $value['date'];
-                $date_value[$idx] = $this->rc->format_date($date, $date_format, false);
+            foreach (['from', 'to'] as $idx) {
+                if ($value = $date_value[$idx] ?? null) {
+                    $date = !empty($value['datetime']) ? $value['datetime'] : $value['date'];
+                    $date_value[$idx] = $this->rc->format_date($date, $date_format, false);
 
-                if (!empty($value['datetime'])) {
-                    $date_value['time_' . $idx] = $this->rc->format_date($date, $time_format, true);
+                    if (!empty($value['datetime'])) {
+                        $date_value['time_' . $idx] = $this->rc->format_date($date, $time_format, true);
+                    }
                 }
             }
         } elseif ($regex_extension) {
