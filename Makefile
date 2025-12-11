@@ -17,7 +17,7 @@ endif
 
 all: clean complete dependent framework
 
-complete: roundcubemail-git
+complete: prepare-release-repo
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config version $(VERSION))
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config platform.php $(PHP_VERSION))
@@ -36,12 +36,12 @@ complete: roundcubemail-git
 	tar czf roundcubemail-$(VERSION)-complete.tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
 
-dependent: roundcubemail-git
+dependent: prepare-release-repo
 	cp -RH roundcubemail-git roundcubemail-$(VERSION)
 	tar czf roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)
 	rm -rf roundcubemail-$(VERSION)
 
-framework: roundcubemail-git /tmp/phpDocumentor.phar
+framework: prepare-release-repo /tmp/phpDocumentor.phar
 	cp -r roundcubemail-git/program/lib/Roundcube roundcube-framework-$(VERSION)
 	(cd roundcube-framework-$(VERSION); XDEBUG_MODE=off php /tmp/phpDocumentor.phar run -d . -t ./doc --title="Roundcube Framework" --defaultpackagename="Framework")
 	(cd roundcube-framework-$(VERSION); rm -rf .phpdoc)
@@ -61,7 +61,9 @@ verify:
 shasum:
 	shasum -a 256 roundcubemail-$(VERSION).tar.gz roundcubemail-$(VERSION)-complete.tar.gz roundcube-framework-$(VERSION).tar.gz
 
-roundcubemail-git: buildtools plugin-markdown_editor-prepare-for-release
+prepare-release-repo: roundcubemail-git plugins-prepare-for-release
+
+roundcubemail-git: buildtools
 	git clone --branch=$(GITBRANCH) --depth=1 $(GITREMOTE) roundcubemail-git
 	(cd roundcubemail-git; bin/jsshrink.sh; bin/updatecss.sh; bin/cssshrink.sh)
 	(cd roundcubemail-git/skins/elastic && make css)
@@ -123,6 +125,8 @@ build: composer-update install-jsdeps css-elastic plugins-build
 
 plugins-build: plugin-markdown_editor-build
 
+plugins-prepare-for-release: plugin-markdown_editor-prepare-for-release
+
 plugin-markdown_editor-build: plugin-markdown_editor-clean
 	cd plugins/markdown_editor && \
 		npm clean-install && \
@@ -132,5 +136,9 @@ plugin-markdown_editor-build: plugin-markdown_editor-clean
 plugin-markdown_editor-clean:
 	cd plugins/markdown_editor && npm run clean
 
-plugin-markdown_editor-prepare-for-release: plugin-markdown_editor-build
-	(cd roundcubemail-git/plugins/markdown_editor; rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests)
+plugin-markdown_editor-prepare-for-release:
+	cd roundcubemail-git && \
+		cd plugins/markdown_editor && \
+		npm clean-install && \
+		npm run build && \
+		rm -rf node_modules package*.json rollup.config.*js build.sh javascript *.less tests
