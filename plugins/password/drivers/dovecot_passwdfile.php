@@ -34,20 +34,37 @@
 
 class rcube_dovecot_passwdfile_password
 {
-    public function save($currpass, $newpass, $username)
+    /**
+     * This method is called from roundcube to change the password
+     *
+     * roundcube already validated the old password so we just need to change it at this point
+     *
+     * @param string $currpass Current password
+     * @param string $newpass  New password
+     * @param string $username Login username (configured form based on $config['password_username_format'])
+     *
+     * @return int PASSWORD_SUCCESS|PASSWORD_CONNECT_ERROR|PASSWORD_ERROR
+     */
+    public function save(string $currpass, string $newpass, string $username): int
     {
         $rcmail = rcmail::get_instance();
-        $mailuserfile = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
+
+        $passwd_file = self::_expand_config_value(
+            subject: $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd',
+            local_part: self::_get_username_part_idn_aware($rcmail, 'local'),
+            domain_part: self::_get_username_part_idn_aware($rcmail, 'domain'),
+            username: $_SESSION['username'],
+        );
 
         $password = password::hash_password($newpass);
         $username = escapeshellcmd($username); // FIXME: Do we need this?
         $content = '';
 
         // read the entire mail user file
-        $fp = fopen($mailuserfile, 'r');
+        $fp = fopen($passwd_file, 'r');
 
         if (empty($fp)) {
-            rcube::raise_error("Password plugin: Unable to read password file {$mailuserfile}.", true);
+            rcube::raise_error("Password plugin: Unable to read password file {$passwd_file}.", true);
             return PASSWORD_CONNECT_ERROR;
         }
 
@@ -64,7 +81,7 @@ class rcube_dovecot_passwdfile_password
             }
 
             // Write back the entire file
-            if (file_put_contents($mailuserfile, $content)) {
+            if (file_put_contents($passwd_file, $content)) {
                 flock($fp, \LOCK_UN);
                 fclose($fp);
 
@@ -74,8 +91,27 @@ class rcube_dovecot_passwdfile_password
 
         fclose($fp);
 
-        rcube::raise_error("Password plugin: Failed to save file {$mailuserfile}.", true);
+        rcube::raise_error("Password plugin: Failed to save file {$passwd_file}.", true);
 
         return PASSWORD_ERROR;
+    }
+
+    private static function _expand_config_value(string $subject, string $local_part, string $domain_part, string $username): string
+    {
+        return strtr($subject, [
+            '%l' => $local_part,
+            '%d' => $domain_part,
+            '%u' => $username,
+        ]);
+    }
+
+    private static function _get_username_part_idn_aware(rcmail $rcmail, string $part): string
+    {
+        $part_value = $rcmail->user->get_username($part);
+
+        if ($rcmail->config->get('password_idn_ascii')) {
+            return rcube_utils::idn_to_ascii($part_value);
+        }
+        return rcube_utils::idn_to_utf8($part_value);
     }
 }
