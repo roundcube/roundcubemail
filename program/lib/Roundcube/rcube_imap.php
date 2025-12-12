@@ -4401,8 +4401,26 @@ class rcube_imap extends rcube_storage
         // sort folders
         // asort($folders, SORT_LOCALE_STRING) is not properly sorting case sensitive names
         uasort($folders, [$this, 'sort_folder_comparator']);
-
         $folders = array_keys($folders);
+
+        $prefs = rcube::get_instance()->user->get_prefs();
+        if (isset($prefs['folder_order'])) {
+            $folder_order = $prefs['folder_order'];
+            $new_list = [];
+            foreach ($folders as $folder_name) {
+                if (!is_string($folder_name)) {
+                    continue;
+                }
+                $folder_id = rcube_utils::html_identifier($folder_name, true);
+                // If the folder doesn't have a position, e.g. because it wasn't yet part of a list that has been
+                // reordered, just append it to the end (but keep the original sorting order within the "un-ordered"
+                // folders).
+                $index = $folder_order[$folder_id] ?? 100000 + count($new_list);
+                $new_list[$index] = $folder_name;
+            }
+            ksort($new_list);
+            $folders = array_values($new_list);
+        }
 
         if ($skip_special || empty($folders)) {
             return $folders;
