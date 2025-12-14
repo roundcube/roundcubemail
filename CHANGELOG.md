@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix Cross-Site-Scripting vulnerability via SVG's animate tag
+
+## Release 1.5.11
+
 - Makefile: Make sure to use proper composer version (for PHP 5.5 support)
 
 ## Release 1.5.10

@@ -341,7 +341,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
   <!-- foreignObject ignored -->
   <set attributeName="onmouseover" x-washed="to" />
   <animate attributeName="onunload" x-washed="to" />
-  <animate attributeName="xlink:href" begin="0" x-washed="from" />
+  <!-- animate blocked -->
 </svg>';
 
         $washer = new rcube_washtml;
@@ -410,6 +410,14 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<svg><set xlink:href="#xss" attributeName="href" from="?" to="javascript:alert(1)" />'
                     . '<a id="xss"><text x="20" y="20">XSS</text></a></svg>',
                 '<svg><!-- set blocked --><a id="xss"><text x="20" y="20">XSS</text></a></svg>',
+            ],
+            [
+                '<svg><a class="a"><animate attributeName="xlink:href" values="javascript:alert(1)" /></a></svg>',
+                '<svg><a class="a"><!-- animate blocked --></a></svg>',
+            ],
+            [
+                '<title><html><head><meta><body></title><svg><a class="a"><animate attributeName="xlink:href" values="javascript:alert(1)" /></a></svg>',
+                '<svg><a class="a"><!-- animate blocked --></a></svg>',
             ],
             [
                 '<svg><animate xlink:href="#xss" attributename="href" dur="5s" repeatCount="indefinite" keytimes="0;0;1" values="https://portswigger.net?;javascript:alert(1);0" />'
