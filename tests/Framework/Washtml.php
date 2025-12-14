@@ -291,6 +291,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $washed = $washer->wash($html);
 
         $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
+
+        $html = '<div style=\'content: "\0026quot;; background: url(//http.cat/418); content:""; width: 100%; height: 100%;\'>test</div>';
+
+        $washer = new \rcube_washtml();
+        $washed = $washer->wash($html);
+
+        $this->assertTrue(strpos($washed, '<div x-washed="style">test</div>') !== false);
     }
 
     /**
