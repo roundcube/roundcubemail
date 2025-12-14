@@ -11,6 +11,7 @@
 - Fix bug where an mbox export file could include inconsistent message delimiters (#9879)
 - Fix parsing of inline styles that aren't well-formatted (#9948)
 - Fix Cross-Site-Scripting vulnerability via SVG's animate tag
+- Fix Information Disclosure vulnerability in the HTML style sanitizer
 
 ## Release 1.6.11
 
