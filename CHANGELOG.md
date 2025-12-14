@@ -10,6 +10,7 @@
 - Fix bug where contacts search would fail if `contactlist_fields` contained vcard fields (#9850)
 - Fix bug where an mbox export file could include inconsistent message delimiters (#9879)
 - Fix parsing of inline styles that aren't well-formatted (#9948)
+- Fix Cross-Site-Scripting vulnerability via SVG's animate tag
 
 ## Release 1.6.11
 

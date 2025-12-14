@@ -303,7 +303,8 @@ class rcube_washtml
 
                 // in SVG to/from attribs may contain anything, including URIs
                 if ($key == 'to' || $key == 'from') {
-                    $key = strtolower($node->getAttribute('attributeName'));
+                    $key = strtolower((string) $node->getAttribute('attributeName'));
+                    $key = trim(preg_replace('/^.*:/', '', $key));
                     if ($key && !isset($this->_html_attribs[$key])) {
                         $key = null;
                     }
@@ -512,10 +513,14 @@ class rcube_washtml
     private static function attribute_value($node, $attr_name, $attr_value)
     {
         $attr_name = strtolower($attr_name);
+        $attr_value = strtolower($attr_value);
 
         foreach ($node->attributes as $name => $attr) {
             if (strtolower($name) === $attr_name) {
-                if (strtolower($attr_value) === strtolower(trim($attr->nodeValue))) {
+                // Read the attribute name, remove the namespace (e.g. xlink:href => href)
+                $val = strtolower(trim($attr->nodeValue));
+                $val = trim(preg_replace('/^.*:/', '', $val));
+                if ($attr_value === $val) {
                     return true;
                 }
             }
@@ -734,6 +739,7 @@ class rcube_washtml
             // space(s) between <NOBR>
             '/(<\/nobr>)(\s+)(<nobr>)/i',
             // PHP bug #32547 workaround: remove title tag
+            // TODO: This is an old libxml2 bug, maybe we could drop this at some point
             '/<title[^>]*>.*<\/title>/iU',
             // remove <!doctype> before BOM (#1490291)
             '/<\!doctype[^>]+>[^<]*/im',
@@ -741,8 +747,7 @@ class rcube_washtml
             '/^(\0\0\xFE\xFF|\xFF\xFE\0\0|\xFE\xFF|\xFF\xFE|\xEF\xBB\xBF)/',
             // washtml/DOMDocument cannot handle xml namespaces
             '/<html\s[^>]+>/i',
-            // washtml/DOMDocument cannot handle xml namespaces
-            // HTML5 parser cannot handler <?xml
+            // HTML5 parser cannot handle <?xml
             '/<\?xml[^>]*>/i',
         ];
 
