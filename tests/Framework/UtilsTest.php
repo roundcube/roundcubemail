@@ -303,7 +303,7 @@ class UtilsTest extends TestCase
 
         $style = "body { content: '< page: ;/style>< page: ;img src onerror=\"alert(\\'hello\\');\">'; color: red; }";
         $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame("#rcmbody { content: '< page: ;/style>< page: ;img src onerror=\"alert('hello');\">'; color: red; }", $mod);
+        $this->assertSame("#rcmbody { color: red; }", $mod);
 
         // Removing page: property
         $style = 'body { page: test; color: red }';
