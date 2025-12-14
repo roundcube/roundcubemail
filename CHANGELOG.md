@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix Cross-Site-Scripting vulnerability via SVG's animate tag
+
+## 1.7-rc
+
 - Move autocomplete list rendering to client-side (#9832)
 - Remove `contact_search_name` option in favor of `contactlist_name_template` (#9832)
 - Add scope parameter to contact search (#9863)
