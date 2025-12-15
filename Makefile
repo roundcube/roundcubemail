@@ -103,7 +103,7 @@ git-tag:
 git-tag-push:
 	@read -p 'Push the git tag "$(VERSION)" to origin? [yN] ' ;\
    	if test "$$REPLY" = 'y'; then \
-        echo git push origin tag $(VERSION) ;\
+        git push origin tag $(VERSION) ;\
     fi; \
 
 edit-changelog:
