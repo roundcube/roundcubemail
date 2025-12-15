@@ -559,7 +559,7 @@ class rcube_utils
                                 $value .= ' url(' . $url . ')';
                             }
                         }
-                    } elseif (preg_match('/;.*/', $val)) {
+                    } elseif (preg_match('/;.+/', $val)) {
                         // Invalid or evil content, ignore
                         continue;
                     } else {
