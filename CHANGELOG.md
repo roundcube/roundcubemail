@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix syntax error in DDL scripts for Postgres (#10052)
 - Fix Cross-Site-Scripting vulnerability via SVG's animate tag
 - Fix Information Disclosure vulnerability in the HTML style sanitizer
+- Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 
 ## 1.7-rc
 
