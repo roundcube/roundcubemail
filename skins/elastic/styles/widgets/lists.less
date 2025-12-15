@@ -151,17 +151,24 @@ ul.listing {
     }
 
     li {
-        .overflow-ellipsis();
         white-space: nowrap;
         position: relative;
         list-style: none;
 
+        a {
+            .overflow-ellipsis();
+        }
+
         ul {
-            border-top: 1px solid @color-list-border;
+            min-height: 1.5rem;
             padding-left: 1.5em;
 
             li:last-child {
                 border-bottom: none;
+            }
+
+            li:first-child {
+                border-top: 1px solid @color-list-border;
             }
         }
 
@@ -469,6 +476,10 @@ ul.treelist {
             padding-left: @listing-treetoggle-width;
         }
 
+        &.hover .placeholder {
+            margin-left: (2 * @listing-treetoggle-width);
+        }
+
         &.selected {
             // reset .listing selection style
             color: inherit;
@@ -488,22 +499,37 @@ ul.treelist {
                 padding-left: 0;
                 a { padding-left: (2 * @listing-treetoggle-width); }
                 div.treetoggle { left: @listing-treetoggle-width; }
+                &.hover .placeholder {
+                    margin-left: (3 * @listing-treetoggle-width);
+                }
 
                 li {
                     a { padding-left: (3 * @listing-treetoggle-width); }
                     div.treetoggle { left: (2 * @listing-treetoggle-width); }
+                    &.hover .placeholder {
+                        margin-left: (4 * @listing-treetoggle-width);
+                    }
 
                     li {
                         a { padding-left: (4 * @listing-treetoggle-width); }
                         div.treetoggle { left: (3 * @listing-treetoggle-width); }
+                        &.hover .placeholder {
+                            margin-left: (5 * @listing-treetoggle-width);
+                        }
 
                         li {
                             a { padding-left: (5 * @listing-treetoggle-width); }
                             div.treetoggle { left: (4 * @listing-treetoggle-width); }
+                            &.hover .placeholder {
+                                margin-left: (6 * @listing-treetoggle-width);
+                            }
 
                             li {
                                 a { padding-left: (6 * @listing-treetoggle-width); }
                                 div.treetoggle { left: (5 * @listing-treetoggle-width); }
+                                &.hover .placeholder {
+                                    margin-left: (7 * @listing-treetoggle-width);
+                                }
                             }
                         }
                     }
@@ -517,7 +543,7 @@ ul.treelist {
             display: none;
         }
 
-        li > a {
+        & > li > a {
             padding-left: .5em;
         }
     }
@@ -610,6 +636,27 @@ ul.treelist {
     // folder-selector fix for left padding
     &.menu a:before {
         margin-left: .5em;
+    }
+
+    // Styles for the sortable list of folders in the settings.
+    &.ui-sortable {
+        // Using an ID here to overwrite the styles from other rules, which also use this ID as selector.
+        &#subscription-table ul {
+            // Make the sub-list overlay its parent element so an item that is visually hovering over the parent element is actually hovering over the sub-list and thus gets sorted into it.
+            margin-top: -2rem;
+            padding-top: 2rem;
+            padding-bottom: 0;
+        }
+
+        .placeholder {
+            border: dashed thin @color-input-border;
+            min-height: 2.5rem;
+        }
+
+        .hover {
+            background-color: @color-list-droptarget-background;
+        }
+
     }
 }
 
@@ -1097,11 +1144,5 @@ html.touch {
     td.name:before {
         &:extend(.font-icon-class);
         content: @fa-var-file-alt;
-    }
-}
-
-#subscription-table {
-    li.mailbox a {
-        padding-right: 2.5rem;
     }
 }
