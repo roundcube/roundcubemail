@@ -32,6 +32,7 @@
  2.1.6.  cPanel
  2.1.7.  XIMSS/Communigate (ximms)
  2.1.9.  hMailServer (hmail)
+ 2.1.9a. hMailServer (hmaildb) - database
  2.1.10. PAM (pam)
  2.1.11. Chpasswd (chpasswd)
  2.1.12. LDAP - no PEAR (ldap_simple)
@@ -229,6 +230,14 @@
  you'll need to define 'hmailserver_remote_dcom' and 'hmailserver_server'.
  See config.inc.php.dist file for more info.
 
+ 2.1.9a. hMailServer (hmaildb)
+ --------------------------
+
+ Direct access to hm_accounts in hMailserver database. This is a more secure
+ method than the COM method. Unlike the COM method, this method is platform
+ agnostic and can be used on any platform that supports Roundcube.
+ It requires a database connection to the hMailserver database (mySQL)
+ See config.inc.php.dist file for more info.
 
  2.1.10. PAM (pam)
  -----------------
