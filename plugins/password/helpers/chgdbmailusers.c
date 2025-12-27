@@ -12,7 +12,7 @@
   chmod 4550 chgdbmailusers
 */
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   int rc, cc;
 
