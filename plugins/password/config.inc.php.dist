@@ -513,6 +513,13 @@ $config['password_httpapi_expect'] = '/^ok$/i';
 
 // dovecot_passwdfile
 // ------------------
+// Dovecot supports multiple passwd file databases,
+// see https://doc.dovecot.org/2.4.0/core/config/auth/databases/passwd_file.html#multiple-passwd-files.
+// This option allows you to configure Roundcube password plugin for that.
+// Supported variables (similar to password_username_format):
+//     %u - full username
+//     %l - the local part of the username (in case the username is an email address)
+//     %d - the domain part of the username (in case the username is an email address)
 $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 
 // Mailcow driver options
