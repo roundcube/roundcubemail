@@ -1548,10 +1548,11 @@ class rcmail_action_mail_index extends rcmail_action
         $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
 
         // Build search string of "with attachment" filter
-        $attachment = trim(str_repeat(' OR', count($ctypes) - 1));
+        $attachment = trim(str_repeat(' OR', count($ctypes))) . ' KEYWORD $HasAttachment';
         foreach ($ctypes as $type) {
             $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
         }
+        $attachment .= ' NOT KEYWORD $HasNoAttachment';
 
         $select = new html_select($attrib);
         $select->add($rcmail->gettext('all'), 'ALL');
