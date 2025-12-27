@@ -4,16 +4,8 @@
  * Dovecot passwdfile Password Driver
  *
  * Driver that adds functionality to change the passwords in dovecot v2 passwd-file files.
- * The code is derived from the Plugin examples by The Roundcube Dev Team
  *
- * On vanilla dovecot v2 environments, use the correct values for these config settings, too:
- *
- * $config['password_dovecot_passwdfile_path']: The path of your dovecot passwd-file '/path/to/filename'
- * $config['password_dovecotpw']: Full path and 'pw' command of doveadm binary - like '/usr/local/bin/doveadm pw'
- * $config['password_dovecotpw_method']: Dovecot hashing algo (https://doc.dovecot.org/2.3/configuration_manual/authentication/password_schemes/#authentication-password-schemes)
- * $config['password_dovecotpw_with_method']: True if you want the hashing algo as prefix in your passwd-file
- *
- * @version 1.1
+ * @version 1.2
  *
  * Copyright (C) 2017, hostNET Medien GmbH, www.hostnet.de
  * Copyright (C) The Roundcube Dev Team
@@ -49,12 +41,8 @@ class rcube_dovecot_passwdfile_password
     {
         $rcmail = rcmail::get_instance();
 
-        $passwd_file = self::_expand_config_value(
-            subject: $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd',
-            local_part: self::_get_username_part_idn_aware($rcmail, 'local'),
-            domain_part: self::_get_username_part_idn_aware($rcmail, 'domain'),
-            username: $_SESSION['username'],
-        );
+        $passwd_file = $rcmail->config->get('password_dovecot_passwdfile_path') ?: '/etc/mail/imap.passwd';
+        $passwd_file = self::expand_config_value($passwd_file);
 
         $password = password::hash_password($newpass);
         $username = escapeshellcmd($username); // FIXME: Do we need this?
@@ -96,22 +84,25 @@ class rcube_dovecot_passwdfile_password
         return PASSWORD_ERROR;
     }
 
-    private static function _expand_config_value(string $subject, string $local_part, string $domain_part, string $username): string
+    private static function expand_config_value(string $subject): string
     {
         return strtr($subject, [
-            '%l' => $local_part,
-            '%d' => $domain_part,
-            '%u' => $username,
+            '%l' => self::get_username_part_idn_aware('local'),
+            '%d' => self::get_username_part_idn_aware('domain'),
+            '%u' => $_SESSION['username'],
         ]);
     }
 
-    private static function _get_username_part_idn_aware(rcmail $rcmail, string $part): string
+    private static function get_username_part_idn_aware(string $part): string
     {
+        $rcmail = rcmail::get_instance();
+
         $part_value = $rcmail->user->get_username($part);
 
         if ($rcmail->config->get('password_idn_ascii')) {
             return rcube_utils::idn_to_ascii($part_value);
         }
+
         return rcube_utils::idn_to_utf8($part_value);
     }
 }
