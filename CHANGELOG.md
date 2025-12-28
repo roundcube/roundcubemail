@@ -4,7 +4,8 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
-Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
+- Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
+- Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 
 ## 1.7-rc2
 
