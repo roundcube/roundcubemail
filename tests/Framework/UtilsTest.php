@@ -38,6 +38,57 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Test https_check()
+     */
+    public function test_https_check()
+    {
+        $config = \rcube::get_instance()->config;
+        $config->set('proxy_whitelist', ['127.0.0.1']);
+
+        $_SERVER['HTTP_HOST'] = '';
+        $_SERVER['SERVER_PORT'] = '';
+        $_SERVER['REMOTE_ADDR'] = '';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = '';
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = '';
+        $_SERVER['HTTPS'] = '';
+
+        $config->set('use_https', true);
+
+        $this->assertTrue(\rcube_utils::https_check());
+        $this->assertFalse(\rcube_utils::https_check(null, false));
+
+        $config->set('use_https', false);
+
+        $this->assertFalse(\rcube_utils::https_check());
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+
+        $this->assertFalse(\rcube_utils::https_check());
+
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = 443;
+
+        $this->assertFalse(\rcube_utils::https_check());
+
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = '';
+
+        $this->assertTrue(\rcube_utils::https_check());
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = '';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = 443;
+
+        $this->assertFalse(\rcube_utils::https_check());
+        $this->assertTrue(\rcube_utils::https_check(443));
+
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = '';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = '';
+        $_SERVER['SERVER_PORT'] = 443;
+
+        $this->assertFalse(\rcube_utils::https_check());
+        $this->assertTrue(\rcube_utils::https_check(443));
+    }
+
+    /**
      * @dataProvider provide_valid_email_cases
      */
     #[DataProvider('provide_valid_email_cases')]
@@ -949,6 +1000,64 @@ class UtilsTest extends TestCase
             ['forward', 'Fwd: Re: Test subject forward', 'Re: Test subject forward'],
             ['forward', 'Fw: Re: Test subject forward', 'Re: Test subject forward'],
         ];
+    }
+
+    /**
+     * Test resolve_url()
+     */
+    public function test_resolve_url()
+    {
+        $config = \rcube::get_instance()->config;
+        $config->set('use_https', false);
+        $config->set('proxy_whitelist', []);
+
+        $_SERVER['REMOTE_ADDR'] = '';
+        $_SERVER['HTTP_HOST'] = '';
+        $_SERVER['SERVER_PORT'] = '';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = '';
+        $_SERVER['HTTPS'] = 'off';
+
+        $this->assertSame('http://this.host', \rcube_utils::resolve_url('http://this.host'));
+        $this->assertSame('https://this.host', \rcube_utils::resolve_url('https://this.host'));
+
+        $_SERVER['HTTP_HOST'] = 'localhost';
+
+        $this->assertSame('http://localhost/test', \rcube_utils::resolve_url('test'));
+        $this->assertSame('http://localhost/test', \rcube_utils::resolve_url('/test'));
+
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['SERVER_PORT'] = 443;
+
+        $this->assertSame('http://localhost:8080/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_PORT'] = '';
+
+        $this->assertSame('https://localhost:8080/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['HTTP_HOST'] = 'test.tld';
+        $_SERVER['HTTPS'] = 'off';
+
+        $this->assertSame('http://test.tld/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['HTTP_HOST'] = 'test.tld:888';
+        $_SERVER['SERVER_PORT'] = 1443;
+
+        $this->assertSame('http://test.tld:888/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['HTTP_HOST'] = 'test.tld';
+        $_SERVER['SERVER_PORT'] = 1443;
+
+        $this->assertSame('http://test.tld:1443/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = 888;
+
+        $this->assertSame('http://test.tld:1443/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $config->set('proxy_whitelist', ['127.0.0.1']);
+
+        $this->assertSame('http://test.tld:888/test/1', \rcube_utils::resolve_url('test/1'));
     }
 
     /**

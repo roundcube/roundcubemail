@@ -19,7 +19,8 @@ class RcmailTest extends ActionTestCase
         $_SERVER['SERVER_PORT'] = '443';
         $_SERVER['SCRIPT_NAME'] = '/sub/index.php';
         $_SERVER['HTTPS'] = true;
-        $_SERVER['X_FORWARDED_PATH'] = '/proxied/';
+        $_SERVER['HTTP_X_FORWARDED_PATH'] = '/proxied/';
+        $_SERVER['HTTP_X_FORWARDED_PORT'] = null;
 
         \rcmail::get_instance()->filename = '';
     }
@@ -186,7 +187,7 @@ class RcmailTest extends ActionTestCase
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
         $this->assertSame('/rc/?_task=cli', $rcmail->url([]), 'Empty input with REQUEST_URI prefix');
 
-        $rcmail->config->set('request_path', 'X_FORWARDED_PATH');
+        $rcmail->config->set('request_path', 'HTTP_X_FORWARDED_PATH');
         $this->assertSame('/proxied/?_task=cli', $rcmail->url([]), 'Consider request_path config (_SERVER)');
 
         $rcmail->config->set('request_path', '/test');
