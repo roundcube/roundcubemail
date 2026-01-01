@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Support X-Forwarded-Host/X-Forwarded-Port in self URLs generation (#9952)
 - Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 - Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 
