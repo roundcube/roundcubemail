@@ -1520,8 +1520,13 @@ class rcube_utils
      */
     public static function resolve_url($url)
     {
-        // prepend protocol://hostname:port
-        if (!preg_match('|^https?://|', $url)) {
+        if (preg_match('|^https?://|', $url)) {
+            return $url;
+        }
+
+        if ($request_url = rcube::get_instance()->config->get('request_url')) {
+            $request_url = str_replace('%n', $_SERVER['SERVER_NAME'] ?? '', $request_url);
+        } else {
             $schema = 'http';
             $default_port = 80;
 
@@ -1546,15 +1551,13 @@ class rcube_utils
                 $port = (int) $_SERVER['SERVER_PORT'];
             }
 
-            $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
+            $request_url = $schema . '://' . preg_replace('/:\d+$/', '', $host);
             if ($port && $port != $default_port && $port != 80) {
-                $prefix .= ':' . $port;
+                $request_url .= ':' . $port;
             }
-
-            $url = $prefix . ($url[0] == '/' ? '' : '/') . $url;
         }
 
-        return $url;
+        return rtrim($request_url, '/') . '/' . ltrim($url, '/');
     }
 
     /**

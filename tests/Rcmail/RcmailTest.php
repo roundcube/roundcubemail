@@ -130,6 +130,8 @@ class RcmailTest extends ActionTestCase
     public function test_url()
     {
         $rcmail = \rcmail::get_instance();
+        $rcmail->config->set('request_url', '');
+        $rcmail->config->set('proxy_whitelist', ['127.0.0.1']);
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test',
@@ -184,6 +186,7 @@ class RcmailTest extends ActionTestCase
             'Absolute URL (root)'
         );
 
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['REQUEST_URI'] = '/rc/?_task=mail';
         $this->assertSame('/rc/?_task=cli', $rcmail->url([]), 'Empty input with REQUEST_URI prefix');
 

@@ -870,6 +870,12 @@ $config['use_secure_urls'] = false;
 // whichever is set (in this order).
 $config['request_path'] = null;
 
+// Request URL to be used as a base for relative URLs to itself. It should be a full
+// URL prefix with scheme and hostname, e.g. https://roundcube.test:8080.
+// It should be used as a last resort for tricky environments (e.g. with proxies).
+// One replacement variable is supported: %n (resolves to the value of $_SERVER['SERVER_NAME']).
+$config['request_url'] = null;
+
 // Allows to define separate server/path for image/js/css files
 // Warning: If the domain is different cross-domain access to some
 // resources need to be allowed
