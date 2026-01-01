@@ -1008,6 +1008,7 @@ class UtilsTest extends TestCase
     public function test_resolve_url()
     {
         $config = \rcube::get_instance()->config;
+        $config->set('request_url', null);
         $config->set('use_https', false);
         $config->set('proxy_whitelist', []);
 
@@ -1058,6 +1059,11 @@ class UtilsTest extends TestCase
         $config->set('proxy_whitelist', ['127.0.0.1']);
 
         $this->assertSame('http://test.tld:888/test/1', \rcube_utils::resolve_url('test/1'));
+
+        $config->set('request_url', 'https://config.host:8080');
+        $config->set('proxy_whitelist', []);
+
+        $this->assertSame('https://config.host:8080/test/1', \rcube_utils::resolve_url('test/1'));
     }
 
     /**

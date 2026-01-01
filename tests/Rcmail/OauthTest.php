@@ -172,7 +172,7 @@ class OauthTest extends ActionTestCase
     {
         $oauth = \rcmail_oauth::get_instance();
 
-        $this->assertMatchesRegularExpression('|^http://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
+        $this->assertMatchesRegularExpression('|^https?://.*/index.php/login/oauth$|', $oauth->get_redirect_uri());
     }
 
     /**
