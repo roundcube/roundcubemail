@@ -2766,11 +2766,7 @@ function rcube_webmail() {
             } else {
                 // "Allow remote resources" reloads the page, we remove this request from the history,
                 // so Back button works as expected, i.e. ignores the reload request (#6620)
-                if (safe && document.referrer && window.history.replaceState) {
-                    window.history.replaceState({}, '', document.referrer);
-                }
-
-                this.location_href(url, target, true);
+                this.location_href(url, target, true, safe && document.referrer);
             }
         }
     };
@@ -9548,7 +9544,7 @@ function rcube_webmail() {
         this.redirect(url, lock);
     };
 
-    this.location_href = function (url, target, frame) {
+    this.location_href = function (url, target, frame, replace) {
         if (frame) {
             this.lock_frame(target);
         }
@@ -9557,9 +9553,8 @@ function rcube_webmail() {
             url = this.env.comm_path + '&' + $.param(url);
         }
 
-        // simulate real link click to force IE to send referer header
-        if (bw.ie && target == window) {
-            $('<a>').attr('href', url).appendTo(document.body).get(0).click();
+        if (replace) {
+            target.location.replace(url);
         } else {
             target.location.href = url;
         }
