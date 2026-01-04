@@ -474,4 +474,13 @@ body.task-error-login #layout {
     @import "dark";
 }
 
+/* UX: show hand cursor on clickable items in listings */
+.records-table tbody tr[role="link"],
+.listing li[role="link"],
+.listing a,
+#layout-list .listing a,
+#layout-sidebar .listing a {
+  cursor: pointer;
+}
+
 @import (optional) "_styles";
