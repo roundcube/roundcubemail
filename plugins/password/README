@@ -194,6 +194,19 @@
 
  See config.inc.php.dist file. Requires PEAR::Net_LDAP2 package.
 
+ Please note when connecting to an LDAP server with either SSL (`ldaps://`),
+ or StartTLS, you've to ensure the SSL certificate of the LDAP server must be
+ a valid certificate. Since PHPs `ldap_bind()` method uses the underlying
+ LDAP bindings, you've to configure `/etc/ldap/ldap.conf` with the appropriate
+ CA certificate, for example:
+
+ ```
+ TLS_CACERT /etc/ssl/certs/ca-certificates.crt
+ ```
+
+ This should work for an certificate signed by an «official CA». If you've your
+ private certificate authority, ensure you point `TLS_CACERT` to your CA
+ certificate.
 
  2.1.5. DirectAdmin Control Panel (directadmin)
  ----------------------------------------------
