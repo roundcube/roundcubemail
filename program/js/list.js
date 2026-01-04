@@ -174,24 +174,7 @@ rcube_list_widget.prototype = {
                     return true;
                 });
 
-            // for IE and Edge (Trident) differentiate between touch, touch+hold using pointer events rather than touch
-            if ((bw.ie || (bw.edge && bw.vendver < 75)) && bw.pointer) {
-                $(row).on('pointerdown', function (e) {
-                    if (e.pointerType == 'touch') {
-                        self.touch_start_time = new Date().getTime();
-                        return false;
-                    }
-                })
-                    .on('pointerup', function (e) {
-                        if (e.pointerType == 'touch') {
-                            var duration = (new Date().getTime() - self.touch_start_time);
-                            if (duration <= self.touch_event_time) {
-                                self.drag_row(e, this.uid);
-                                return self.click_row(e, this.uid);
-                            }
-                        }
-                    });
-            } else if (bw.touch && row.addEventListener) {
+            if (bw.touch && row.addEventListener) {
                 row.addEventListener('touchstart', function (e) {
                     if (e.touches.length == 1) {
                         self.touchmoved = false;
@@ -1758,7 +1741,7 @@ rcube_list_widget.prototype = {
 
         if (this.drag_active && this.draglayer) {
             var pos = rcube_event.get_mouse_pos(e);
-            this.draglayer.css({ left: (pos.x + 20) + 'px', top: (pos.y - 5 + (bw.ie ? document.documentElement.scrollTop : 0)) + 'px' });
+            this.draglayer.css({ left: (pos.x + 20) + 'px', top: (pos.y - 5) + 'px' });
             this.triggerEvent('dragmove', e ? e : window.event);
         }
 
