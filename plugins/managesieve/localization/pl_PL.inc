@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Nagłówek i identyfikator nie mogą być
 $messages['disabledaction'] = 'Niedozwolona akcja';
 $messages['lastindexempty'] = 'Number pozycji jest wymagany przy odliczaniu od końca';
 $messages['noflagset'] = 'Przynajmniej jedna flaga musi być zaznaczona.';
+$messages['saving.actionordererror'] = 'Akcja \'$previous\' musi być wykonana po akcji \'$current\'.';

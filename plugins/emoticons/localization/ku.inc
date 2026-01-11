@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail Userinfo plugin            |
+ | Localization file of the Roundcube Webmail Emoticons plugin           |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |
@@ -12,9 +12,5 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['userinfo'] = 'Kullanıcı bilgileri';
-$labels['infoforuser'] = '$user bilgileri';
-$labels['created'] = 'Eklendi';
-$labels['lastlogin'] = 'Son oturum açma';
-$labels['defaultidentity'] = 'Varsayılan kimlik';
-$labels['userid'] = 'Kimlik';
+$labels['emoticonsdisplay'] = 'Îmojî di peyamên nivîsê yên sade de nîşan bide';
+$labels['emoticonscompose'] = 'Emojî çalak bike';

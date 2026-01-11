@@ -10,7 +10,13 @@
  | any later version with exceptions for skins & plugins.                |
  | See the README file for a full license statement.                     |
  +-----------------------------------------------------------------------+
-
- For translation see https://www.transifex.com/projects/p/roundcube-webmail/resource/plugin-markdown_editor/
 */
+
+$labels['editor_icon_alt'] = 'Markdown-Editor';
+$labels['toolbar_button_bold'] = 'Fett';
+$labels['toolbar_button_italic'] = 'Kursiv';
+$labels['toolbar_button_strike'] = 'Durchgestrichen';
+$labels['toolbar_button_link'] = 'Link';
+$labels['toolbar_button_image'] = 'Bild';
 $labels['toolbar_button_undo'] = 'Rückgängig machen';
+$labels['toolbar_button_redo'] = 'Wiederherstellen';
