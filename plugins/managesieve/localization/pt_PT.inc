@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Ambos, cabeçalho e identificador único,
 $messages['disabledaction'] = 'Ação não permitida.';
 $messages['lastindexempty'] = 'É necessário o índice quando se conta a partir do fim';
 $messages['noflagset'] = 'Deve seleccionar pelo menos um sinalizador.';
+$messages['saving.actionordererror'] = 'A ação \'$previous\' deve ocorrer depois da ação \'$current\'.';

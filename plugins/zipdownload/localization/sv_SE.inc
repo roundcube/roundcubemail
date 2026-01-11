@@ -13,8 +13,10 @@
 */
 
 $labels['downloadall'] = 'Hämta alla bifogade filer';
+$labels['export'] = 'Exportera...';
 $labels['downloadmbox'] = 'Format Mbox (.zip)';
 $labels['downloadmaildir'] = 'Format Maildir (.zip)';
 $labels['downloademl'] = 'Källkod (.eml)';
 $labels['sizelimiterror'] = 'Sammanlagd storlek på valda meddelanden är för stor ($size)';
+$labels['exportmenu'] = 'Exportalternativmeny';
 $labels['download'] = 'Hämta...';

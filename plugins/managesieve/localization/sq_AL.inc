@@ -278,3 +278,4 @@ $messages['duplicate.conflict.err'] = 'S’lejohet përdorimi i njëkohshëm i k
 $messages['disabledaction'] = 'Veprim jo i lejuar.';
 $messages['lastindexempty'] = 'Treguesi është i domosdoshëm kur numërohet nga fundi';
 $messages['noflagset'] = 'Duhet përzgjedhur të paktën një shenjë';
+$messages['saving.actionordererror'] = 'Veprim \'$previous\' duhet të jetë pas veprimit \'$current\'.';

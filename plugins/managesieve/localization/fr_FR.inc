@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'L’en-tête et l’identifiant unique ne
 $messages['disabledaction'] = 'L’action n’est pas permise.';
 $messages['lastindexempty'] = 'L’index est requis en comptant de la fin';
 $messages['noflagset'] = 'Au moins un drapeau doit être sélectionné.';
+$messages['saving.actionordererror'] = 'L’action « $previous » doit suivre l’action « $current ».';

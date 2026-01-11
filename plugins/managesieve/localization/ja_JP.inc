@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'ヘッダーと一意な識別子の両�
 $messages['disabledaction'] = '許可されていない動作です。';
 $messages['lastindexempty'] = '最後から数える時はインデックスが必要';
 $messages['noflagset'] = '少なくともフラッグを1つ選択しなければなりません。';
+$messages['saving.actionordererror'] = '\'$previous\'の処理は\'$current\'の処理の後でなければなりません。';

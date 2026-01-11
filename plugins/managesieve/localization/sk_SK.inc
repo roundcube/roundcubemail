@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Hlavička a aj unikátny identifikátor n
 $messages['disabledaction'] = 'Akcia nie je povolená.';
 $messages['lastindexempty'] = 'Index sa vyžaduje pri počítaní od konca';
 $messages['noflagset'] = 'Musí byť vybraný aspoň jeden príznak.';
+$messages['saving.actionordererror'] = 'Akcia \'$previous\' musí nasledovať po akcii \'$current\'.';
