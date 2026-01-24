@@ -834,6 +834,12 @@ class rcube_sieve_script
                     $test = ['test' => $token, 'not' => $not];
 
                     $test['arg'] = array_pop($tokens);
+                    // According to RFC5260, arg has a string-list type
+                    // but only single value is supported in UI - #10074
+                    if (is_array($test['arg'])) {
+                        $test['arg'] = array_pop($test['arg']);
+                    }
+
                     $test['part'] = array_pop($tokens);
 
                     if ($token == 'date') {
