@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Managesieve: Fix handling of string-list format values for date tests in Out of Office (#10075)
+
+## Release 1.6.12
+
 - Support IPv6 in database DSN (#9937)
 - Don't force specific error_reporting setting
 - Fix compatibility with PHP 8.5 regarding array_first()

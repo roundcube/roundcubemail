@@ -150,6 +150,14 @@ class rcube_sieve_vacation extends rcube_sieve_engine
                     }
                 }
 
+                // According to RFC5260, currentdate target can be a string-list,
+                // but here we support only a single value (#10074)
+                foreach ($rule['tests'] as $i => $r) {
+                    if ($r['test'] == 'currentdate' && is_array($r['arg'])) {
+                        $rule['tests'][$i]['arg'] = array_first($r['arg']);
+                    }
+                }
+
                 $this->vacation = array_merge($rule['actions'][0], [
                         'idx'      => $idx,
                         'disabled' => $rule['disabled'] || !$active,
