@@ -421,6 +421,9 @@ $config['oauth_user_create_map'] = [
 // Note: The claim have to be added to 'oauth_scope' above.
 $config['oauth_password_claim'] = null;
 
+// Forced authentication type. One of "XOAUTH2", "OAUTHBEARER", "OAUTH" (default, auto-selection)
+$config['oauth_auth_type'] = null;
+
 // /// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/

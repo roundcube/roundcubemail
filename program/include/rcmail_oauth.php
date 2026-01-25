@@ -39,9 +39,6 @@ class rcmail_oauth
 
     public const JWKS_CACHE_TTL = 30; // TTL for JWKS (in seconds)
 
-    /** @var string XOAUTH2, OAUTHBEAER, OAUTH=choose the supported method */
-    protected $auth_type = 'OAUTH';
-
     /** @var rcmail */
     protected $rcmail;
 
@@ -168,6 +165,8 @@ class rcmail_oauth
             'pkce' => $this->rcmail->config->get('oauth_pkce', 'S256'),
             'password_claim' => $this->rcmail->config->get('oauth_password_claim'),
             'debug' => $this->rcmail->config->get('oauth_debug', false),
+            // One of: XOAUTH2, OAUTHBEARER, OAUTH
+            'auth_type' => $this->rcmail->config->get('oauth_auth_type') ?: 'OAUTH',
         ];
 
         // http_options will be used in test phase to add a mock
@@ -667,7 +666,7 @@ class rcmail_oauth
                 }
             }
 
-            $data['auth_type'] = $this->auth_type;
+            $data['auth_type'] = $this->options['auth_type'];
 
             // Backends with no XOAUTH2/OAUTHBEARER support
             if ($pass_claim = $this->options['password_claim']) {
