@@ -68,7 +68,7 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
                 $rcmail->output->command('set_trash_count', $rcmail->storage->count($trash_mbox, 'EXISTS'));
             }
 
-            if (!$delete && strlen($trash_mbox)) {
+            if (!$delete) {
                 self::send_unread_count($trash_mbox, true);
             }
 
