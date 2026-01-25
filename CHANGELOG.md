@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Managesieve: Fix handling of string-list format values for date tests in Out of Office (#10075)
 - Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 - Fix a UI issue on using browser Back button after allowing remote resources (#10062)
+- Fix syntax error in DDL scripts for Postgres (#10070)
 
 ## 1.7-rc2
 
