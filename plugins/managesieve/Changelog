@@ -1,3 +1,5 @@
+- Fix handling of string-list format values for date tests in Out of Office (#10075)
+
 * version 9.6 [2025-11-29]
 -----------------------------------------------------------
 - Show a warning when actions in wrong order (#10015, #6590)
