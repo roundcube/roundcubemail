@@ -1878,10 +1878,10 @@ class rcube_imap extends rcube_storage
         } else {
             $headers = $this->conn->fetchHeader(
                 $folder, $uid, true, true, $this->get_fetch_headers(), $this->get_fetch_items());
+        }
 
-            if (is_object($headers)) {
-                $headers->folder = $folder;
-            }
+        if (is_object($headers)) {
+            $headers->folder = $folder;
         }
 
         return $headers;
