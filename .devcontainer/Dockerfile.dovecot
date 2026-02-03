@@ -1,0 +1,42 @@
+FROM debian:bookworm-slim
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dovecot-core \
+    dovecot-imapd \
+    dovecot-lmtpd \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create test user (password: testpass)
+RUN useradd -m -s /bin/bash testuser \
+    && echo "testuser:testpass" | chpasswd
+
+# Create mail directories
+RUN mkdir -p /var/mail/testuser \
+    && chown -R testuser:testuser /var/mail/testuser
+
+# Configure Dovecot (use 99-* to override Debian defaults)
+RUN echo 'protocols = imap lmtp' > /etc/dovecot/conf.d/99-custom.conf \
+    && echo 'mail_location = maildir:/var/mail/%u' >> /etc/dovecot/conf.d/99-custom.conf \
+    && echo 'disable_plaintext_auth = no' >> /etc/dovecot/conf.d/99-custom.conf \
+    && echo 'auth_mechanisms = plain login' >> /etc/dovecot/conf.d/99-custom.conf \
+    && echo 'ssl = no' >> /etc/dovecot/conf.d/99-custom.conf \
+    && echo 'listen = *' >> /etc/dovecot/conf.d/99-custom.conf \
+    && printf 'service lmtp {\n  inet_listener lmtp {\n    port = 24\n  }\n}\n' >> /etc/dovecot/conf.d/99-custom.conf
+
+# Create entrypoint script to initialize maildir at runtime (after volume mount)
+# In maildir format, the root directory IS the INBOX (no .INBOX subfolder)
+RUN echo '#!/bin/bash\n\
+if [ ! -d /var/mail/testuser/cur ]; then\n\
+    mkdir -p /var/mail/testuser/{cur,new,tmp}\n\
+    chown -R testuser:testuser /var/mail/testuser\n\
+fi\n\
+exec "$@"' > /entrypoint.sh \
+    && chmod +x /entrypoint.sh
+
+EXPOSE 143 24
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["dovecot", "-F"]
