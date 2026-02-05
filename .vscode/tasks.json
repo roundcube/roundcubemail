@@ -132,6 +132,23 @@
                 "panel": "shared"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Install Suggested Packages",
+            "type": "shell",
+            "command": "composer",
+            "args": [
+                "require",
+                "--dev",
+                "bjeavons/zxcvbn-php",
+                "kolab/net_ldap3",
+                "--no-interaction"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ],
     "inputs": [

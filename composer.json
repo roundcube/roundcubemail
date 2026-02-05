@@ -23,7 +23,6 @@
         "ergebnis/composer-normalize": "^2.13",
         "ergebnis/phpunit-slow-test-detector": "^2.11",
         "friendsofphp/php-cs-fixer": "^3.8",
-        "kolab/net_ldap3": "^1.1",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",

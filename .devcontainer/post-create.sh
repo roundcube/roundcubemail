@@ -228,10 +228,6 @@ full_setup() {
     echo "Installing Composer dependencies..."
     composer install --prefer-dist --no-interaction
 
-    # Install Net_LDAP3 for enhanced LDAP support (optional but recommended)
-    echo "Installing Net_LDAP3..."
-    composer require --dev kolab/net_ldap3 --no-interaction
-
     # Download JavaScript libraries (jQuery, TinyMCE, CodeMirror)
     # Run this BEFORE npm install since it's independent and npm can fail on some systems
     echo "Installing JavaScript libraries..."

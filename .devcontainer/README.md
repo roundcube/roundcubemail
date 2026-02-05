@@ -117,6 +117,7 @@ Access tasks via `Terminal → Run Task...` or `Ctrl+Shift+P` → "Tasks: Run Ta
 | **Initialize Database**       | Smart initialization (detects current state)     |
 | **Reset Database**            | Drop and recreate database (destroys all data)   |
 | **Check Database Status**     | Show database state without making changes       |
+| **Install Suggested Packages**| Install optional packages (zxcvbn-php, net_ldap3)|
 
 ## Command Line Scripts
 
@@ -291,12 +292,16 @@ The container includes all required and recommended PHP extensions for Roundcube
 | enchant   | Spell checking support                     |
 | xdebug    | Debugging and code coverage                |
 
-### Additional Libraries
-| Library    | Source                                    | Purpose                    |
-|------------|-------------------------------------------|----------------------------|
-| Net_LDAP3  | kolab/net_ldap3 (Composer)                | Enhanced LDAP support      |
+### Suggested Packages (Optional)
+| Library       | Source                      | Purpose                         |
+|---------------|-----------------------------|---------------------------------|
+| Net_LDAP3     | kolab/net_ldap3             | Enhanced LDAP support           |
+| zxcvbn-php    | bjeavons/zxcvbn-php         | Password strength checking      |
 
-Net_LDAP3 is installed via Composer from the official Kolab package for best LDAP compatibility.
+These packages are optional. Install them via the **Install Suggested Packages** VS Code task or manually with:
+```bash
+composer require --dev bjeavons/zxcvbn-php kolab/net_ldap3
+```
 
 ## VS Code Extensions
 
