@@ -111,6 +111,10 @@ detect_db_state() {
 
     # Check if any core tables exist (indicates partial initialization)
     local table_count=$(mariadb -h db -u roundcube -proundcube roundcube -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='roundcube'" 2>/dev/null)
+    # Default to 0 if empty or non-numeric
+    if [ -z "$table_count" ] || ! [[ "$table_count" =~ ^[0-9]+$ ]]; then
+        table_count=0
+    fi
     if [ "$table_count" -gt 0 ]; then
         echo "DB_STATE: Partial initialization detected ($table_count tables exist, but no version marker)"
         return 2
@@ -150,7 +154,12 @@ reset_database() {
         drop_sql="${drop_sql} SET FOREIGN_KEY_CHECKS=1;"
 
         # Execute all drops in a single session
-        mariadb -h db -u roundcube -proundcube roundcube -e "$drop_sql"
+        if ! mariadb -h db -u roundcube -proundcube roundcube -e "$drop_sql"; then
+            echo "ERROR: Failed to execute DROP statements"
+            echo "drop_sql was: $drop_sql"
+            echo "Aborting before init_database to prevent inconsistent state"
+            return 1
+        fi
         echo "All tables dropped."
     else
         echo "No tables to drop."
@@ -252,7 +261,7 @@ create_config() {
         cat > config/config.inc.php << 'EOF'
 <?php
 
-/* Local configuration for Roundcube Webmail */
+// Local configuration for Roundcube Webmail
 
 // Database connection string (DSN) for read+write operations
 $config['db_dsnw'] = 'mysql://roundcube:roundcube@db/roundcube';
@@ -272,8 +281,8 @@ $config['smtp_pass'] = '';
 // Provide an URL where a user can get support for this Roundcube installation
 $config['support_url'] = '';
 
-// This key is used for encrypting purposes
-$config['des_key'] = 'rcmail-dev-container-key24';
+// This key is used for encrypting purposes (must be exactly 24 characters)
+$config['des_key'] = 'rcmail-dev-container!24!';
 
 // Name your service
 $config['product_name'] = 'Roundcube Webmail (Dev)';

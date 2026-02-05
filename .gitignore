@@ -38,3 +38,13 @@ skins/elastic/styles/_variables.less
 
 # Ignore files used for local overriding.
 /tests/MessageRendering/.env
+
+# Ignore vendor specific assisted coding AGENTS
+CLAUDE.md
+GEMINI.md
+.claude
+.claudeignore
+.geminiignore
+
+# Ignore build artifacts
+skins/elastic/styles/*.min.css

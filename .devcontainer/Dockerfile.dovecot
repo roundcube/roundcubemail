@@ -28,12 +28,12 @@ RUN echo 'protocols = imap lmtp' > /etc/dovecot/conf.d/99-custom.conf \
 
 # Create entrypoint script to initialize maildir at runtime (after volume mount)
 # In maildir format, the root directory IS the INBOX (no .INBOX subfolder)
-RUN echo '#!/bin/bash\n\
+RUN printf '#!/bin/bash\n\
 if [ ! -d /var/mail/testuser/cur ]; then\n\
     mkdir -p /var/mail/testuser/{cur,new,tmp}\n\
     chown -R testuser:testuser /var/mail/testuser\n\
 fi\n\
-exec "$@"' > /entrypoint.sh \
+exec "$@"\n' > /entrypoint.sh \
     && chmod +x /entrypoint.sh
 
 EXPOSE 143 24

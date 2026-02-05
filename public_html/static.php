@@ -158,8 +158,14 @@ function serveStaticFile($path): void
         $ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
         $range = explode('-', $ranges[0]);
 
-        $start = $range[0] === '' ? 0 : (int) $range[0];
-        $end = $range[1] === '' ? $size - 1 : (int) $range[1];
+        // Handle suffix-range (e.g., "bytes=-500" means last 500 bytes)
+        if ($range[0] === '') {
+            $start = max(0, $size - (int) $range[1]);
+            $end = $size - 1;
+        } else {
+            $start = (int) $range[0];
+            $end = $range[1] === '' ? $size - 1 : (int) $range[1];
+        }
 
         if ($start >= 0 && $end <= $size - 1 && $start <= $end) {
             http_response_code(206); // "Partial Content"
@@ -171,7 +177,11 @@ function serveStaticFile($path): void
             }
 
             // For range requests, use chunked reading
-            $fp = fopen($path, 'rb');
+            $fp = fopen($path, 'r');
+            if ($fp === false) {
+                http_response_code(500);
+                return;
+            }
             fseek($fp, $start);
             $remaining = $end - $start + 1;
 
@@ -194,20 +204,25 @@ function serveStaticFile($path): void
     }
 
     // For full file requests
-    // PHP built-in server can have Content-Length issues, so skip it for cli-server
-    if (PHP_SAPI !== 'cli-server') {
-        $headers['Content-Length'] = $size;
-    }
+    $headers['Content-Length'] = $size;
 
     foreach ($headers as $k => $v) {
         header("{$k}: {$v}", true);
     }
 
     // Use chunked reading with flush for PHP built-in server compatibility
-    if (PHP_SAPI === 'cli-server') {
-        $fp = fopen($path, 'rb');
+    if (\PHP_SAPI === 'cli-server') {
+        $fp = fopen($path, 'r');
+        if ($fp === false) {
+            http_response_code(500);
+            return;
+        }
         while (!feof($fp) && connection_status() === \CONNECTION_NORMAL) {
-            echo fread($fp, 8192);
+            $chunk = fread($fp, 8192);
+            if ($chunk === false) {
+                break;
+            }
+            echo $chunk;
             flush();
         }
         fclose($fp);
