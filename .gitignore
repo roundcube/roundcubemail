@@ -39,6 +39,9 @@ skins/elastic/styles/_variables.less
 # Ignore files used for local overriding.
 /tests/MessageRendering/.env
 
+# PHPUnit cache
+/tests/.phpunit.result.cache
+
 # Ignore vendor specific assisted coding AGENTS
 CLAUDE.md
 GEMINI.md
