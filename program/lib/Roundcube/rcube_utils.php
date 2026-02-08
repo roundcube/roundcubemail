@@ -442,7 +442,6 @@ class rcube_utils
 
         // remove html and css comments
         $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
-        $source = self::remove_css_comments($source);
 
         // To prevent from a double-escaping tricks we consider a script with
         // any escape sequences (after de-escaping them above) an evil script.
@@ -452,7 +451,7 @@ class rcube_utils
         }
 
         // If after removing comments there are still comments it's most likely a hack
-        if (str_contains('/*', $source) || str_contains('<!--', $source)) {
+        if (str_contains($source, '/*') || str_contains($source, '<!--')) {
             return '/* evil! */';
         }
 
