@@ -474,11 +474,11 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ],
             [
                 '<html><svg><defs><filter><feImage href="http://external.site"/></filter></defs></html>',
-                '<svg xmlns="http://www.w3.org/1999/xhtml"><defs><filter><feimage x-washed="href"></feimage></filter></defs></svg>',
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><defs><filter><feImage x-washed="href"></feImage></filter></defs></svg>',
             ],
             [
                 '<html><svg><defs><filter><feImage xlink:href="http://external.site"/></filter></defs></html>',
-                '<svg xmlns="http://www.w3.org/1999/xhtml"><defs><filter><feimage x-washed="xlink:href"></feimage></filter></defs></svg>',
+                '<svg xmlns="http://www.w3.org/1999/xhtml"><defs><filter><feImage x-washed="xlink:href"></feImage></filter></defs></svg>',
             ],
         ];
     }
