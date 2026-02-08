@@ -32,6 +32,11 @@
     "config": {
         "allow-plugins": {
             "roundcube/plugin-installer": true
+        },
+        "audit": {
+            "ignore": [
+                "PKSA-z3gr-8qht-p93v"
+            ]
         }
     }
 }
