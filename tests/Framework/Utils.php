@@ -276,6 +276,10 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = rcube_utils::mod_css_styles(".test { position\n: fixed; top: 0; }", 'rcmbody');
         $this->assertEquals("#rcmbody .test { position: absolute; top: 0; }", $mod, "Replace position:fixed with position:absolute (5)");
 
+        // missing closing brace
+        $mod = \rcube_utils::mod_css_styles('.test { position: fixed; top: 0;', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (6)');
+
         // allow data URIs with images (#5580)
         $mod = rcube_utils::mod_css_styles("body { background-image: url(data:image/png;base64,123); }", 'rcmbody');
         $this->assertStringContainsString("#rcmbody { background-image: url(data:image/png;base64,123);", $mod, "Data URIs in url() allowed [1]");
@@ -300,9 +304,15 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
         $this->assertSame("#rcmbody { color: red; }", $mod);
 
-        $style = "body { background:url(alert(&#039;URL!&#039;)); }";
-        $mod = rcube_utils::mod_css_styles($style, 'rcmbody', true);
-        $this->assertSame("#rcmbody {}", $mod);
+        $style = 'body { background:url(alert(&#039;URL!&#039;)); }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('#rcmbody {}', $mod);
+
+        // CSS comments and nesting
+        $mod = \rcube_utils::mod_css_styles('/* b { content: "*/* {background-color: silver;}', 'rcmbody', true);
+        $this->assertSame('#rcmbody * { background-color: silver; }', $mod);
+        $mod = \rcube_utils::mod_css_styles('//* test */* {background-color: silver;}', 'rcmbody', true);
+        $this->assertSame('/* evil! */', $mod);
     }
 
     /**
