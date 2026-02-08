@@ -13,6 +13,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 - Fix a UI issue on using browser Back button after allowing remote resources (#10062)
 - Fix syntax error in DDL scripts for Postgres (#10070)
+- Fix remote image blocking bypass via SVG content reported by nullcathedral.
 
 ## 1.7-rc2
 

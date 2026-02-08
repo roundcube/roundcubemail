@@ -509,6 +509,14 @@ class WashtmlTest extends TestCase
                 '<html><svg><animate attributeName="href " values="javascript:alert(\'XSS\')" href="#link" /></animate></svg></html>',
                 '<svg><!-- animate blocked --></svg>',
             ],
+            [
+                '<html><svg><defs><filter><feImage href="http://external.site"/></filter></defs></html>',
+                '<svg><defs><filter><feimage x-washed="href"></feimage></filter></defs></svg>',
+            ],
+            [
+                '<html><svg><defs><filter><feImage xlink:href="http://external.site"/></filter></defs></html>',
+                '<svg><defs><filter><feimage x-washed="xlink:href"></feimage></filter></defs></svg>',
+            ],
         ];
     }
 
