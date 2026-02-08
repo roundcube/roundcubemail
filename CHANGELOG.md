@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Managesieve: Fix handling of string-list format values for date tests in Out of Office (#10075)
+- Fix remote image blocking bypass via SVG content reported by nullcathedral.
 
 ## Release 1.6.12
 

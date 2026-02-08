@@ -482,8 +482,7 @@ class rcube_washtml
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
             || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
-            || ($tag == 'use' && $attr == 'href') // SVG
-            || ($tag == 'image' && $attr == 'href'); // SVG
+            || ($attr == 'href' && preg_match('/^(feimage|image|use)$/i', $tag)); // SVG
     }
 
     /**
