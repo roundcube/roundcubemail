@@ -432,7 +432,7 @@ class rcube_utils
      */
     public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
     {
-        $source   = self::xss_entity_decode($source);
+        $source = self::xss_entity_decode($source);
 
         // No @import allowed
         // TODO: We should just remove it, not invalidate the whole content
@@ -447,7 +447,6 @@ class rcube_utils
 
         // remove html and css comments
         $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
-        $source = self::remove_css_comments($source);
 
         // To prevent from a double-escaping tricks we consider a script with
         // any escape sequences (after de-escaping them above) an evil script.
@@ -457,6 +456,8 @@ class rcube_utils
         }
 
         // If after removing comments there are still comments it's most likely a hack
+        // Note: In <=1.6 comments are being removed by xss_entity_decode() above
+        // $source = self::remove_css_comments($source);
         if (strpos($source, '/*') !== false || strpos($source, '<!--') !== false) {
             return '/* evil! */';
         }
