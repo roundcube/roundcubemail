@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Fix remote image blocking bypass via SVG content reported by nullcathedral.
+
+## Release 1.5.12
+
 - Fix Cross-Site-Scripting vulnerability via SVG's animate tag
 - Fix Information Disclosure vulnerability in the HTML style sanitizer
 
