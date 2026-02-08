@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Fix remote image blocking bypass via SVG content reported by nullcathedral.
+- Fix remote image blocking bypass via SVG content reported by nullcathedral
+- Fix CSS injection vulnerability reported by CERT Polska
 
 ## Release 1.5.12
 
