@@ -440,6 +440,10 @@ class rcube_utils
             return '/* invalid! */';
         }
 
+        // remove html and css comments
+        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
+        $source = self::remove_css_comments($source);
+
         // To prevent from a double-escaping tricks we consider a script with
         // any escape sequences (after de-escaping them above) an evil script.
         // This probably catches many valid scripts, but we\'re on the safe side.
@@ -447,8 +451,10 @@ class rcube_utils
             return '/* evil! */';
         }
 
-        // remove html comments
-        $source = preg_replace('/(^\s*<\!--)|(-->\s*$)/m', '', $source);
+        // If after removing comments there are still comments it's most likely a hack
+        if (str_contains('/*', $source) || str_contains('<!--', $source)) {
+            return '/* evil! */';
+        }
 
         $url_callback = static function ($url) use ($allow_remote) {
             if (str_starts_with($url, 'data:image')) {
@@ -463,7 +469,13 @@ class rcube_utils
         $replacements = new rcube_string_replacer();
 
         // cut out all contents between { and }
-        while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos))) {
+        while (($pos = strpos($source, '{', $last_pos)) && ($pos2 = strpos($source, '}', $pos) ?: (strlen($source) - 1))) {
+            // In case there was no closing brace add one
+            if ($source[$pos2] != '}') {
+                $pos2++;
+                $source .= '}';
+            }
+
             $nested = strpos($source, '{', $pos + 1);
             if ($nested && $nested < $pos2) { // when dealing with nested blocks (e.g. @media), take the inner one
                 $pos = $nested;
@@ -591,18 +603,8 @@ class rcube_utils
      */
     public static function parse_css_block($style)
     {
-        $pos = 0;
-
-        // first remove comments
-        while (($pos = strpos($style, '/*', $pos)) !== false) {
-            $end = strpos($style, '*/', $pos + 2);
-
-            if ($end === false) {
-                $style = substr($style, 0, $pos);
-            } else {
-                $style = substr_replace($style, '', $pos, $end - $pos + 2);
-            }
-        }
+        // Remove comments
+        $style = self::remove_css_comments($style);
 
         // Replace new lines with spaces
         $style = preg_replace('/[\r\n]+/', ' ', $style);
@@ -649,6 +651,30 @@ class rcube_utils
         }
 
         return $result;
+    }
+
+    /**
+     * Remove CSS comments from styles.
+     *
+     * @param string $style CSS style
+     *
+     * @return string CSS style
+     */
+    public static function remove_css_comments($style)
+    {
+        $pos = 0;
+
+        while (($pos = strpos($style, '/*', $pos)) !== false) {
+            $end = strpos($style, '*/', $pos + 2);
+
+            if ($end === false) {
+                $style = substr($style, 0, $pos);
+            } else {
+                $style = substr_replace($style, '', $pos, $end - $pos + 2);
+            }
+        }
+
+        return $style;
     }
 
     /**
