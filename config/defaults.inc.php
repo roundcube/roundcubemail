@@ -421,6 +421,9 @@ $config['oauth_user_create_map'] = [
 // Note: The claim have to be added to 'oauth_scope' above.
 $config['oauth_password_claim'] = null;
 
+// Forced authentication type. One of "XOAUTH2", "OAUTHBEARER", "OAUTH" (default, auto-selection)
+$config['oauth_auth_type'] = null;
+
 // /// Example config for Gmail
 
 // Register your service at https://console.developers.google.com/
@@ -869,6 +872,12 @@ $config['use_secure_urls'] = false;
 // By default the path comes from  'REDIRECT_SCRIPT_URL', 'SCRIPT_NAME' or 'REQUEST_URI',
 // whichever is set (in this order).
 $config['request_path'] = null;
+
+// Request URL to be used as a base for relative URLs to itself. It should be a full
+// URL prefix with scheme and hostname, e.g. https://roundcube.test:8080.
+// It should be used as a last resort for tricky environments (e.g. with proxies).
+// One replacement variable is supported: %n (resolves to the value of $_SERVER['SERVER_NAME']).
+$config['request_url'] = null;
 
 // Allows to define separate server/path for image/js/css files
 // Warning: If the domain is different cross-domain access to some

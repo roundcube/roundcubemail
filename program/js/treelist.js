@@ -1042,7 +1042,7 @@ function rcube_treelist_widget(node, p) {
         var li, item, height,
             pos = container.offset();
 
-        body_scroll_top = bw.ie ? 0 : window.pageYOffset;
+        body_scroll_top = window.pageYOffset;
         list_scroll_top = container.parent().scrollTop();
         pos.top += list_scroll_top;
 
@@ -1149,7 +1149,7 @@ function rcube_treelist_widget(node, p) {
      */
     function intersects(mouse, highlight) {
     // offsets to compensate for scrolling while dragging a message
-        var boffset = bw.ie ? -document.documentElement.scrollTop : body_scroll_top,
+        var boffset = body_scroll_top,
             moffset = container.parent().scrollTop(),
             result = null;
 

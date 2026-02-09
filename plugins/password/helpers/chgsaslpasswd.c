@@ -13,7 +13,7 @@
   chmod 4550 chgsaslpasswd
 */
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   int rc,cc;
 

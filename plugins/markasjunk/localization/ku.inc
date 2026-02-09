@@ -12,4 +12,12 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['buttonjunk'] = 'Ev peyam nebaş e';
+$labels['buttonjunk'] = 'Ev peyam spam e';
+$labels['asjunk'] = 'Wekî spam';
+$labels['markasjunk'] = 'Wekî spam nîşan bide';
+$labels['buttonnotjunk'] = 'Ev peyam ne spam e';
+$labels['asnotjunk'] = 'Wekî ne spam';
+$labels['markasnotjunk'] = 'Wekî spam nîşan nede';
+$labels['notjunk'] = 'Ne spam e';
+$messages['reportedasjunk'] = 'Bi serkeftî wekî spam hate ragihandin';
+$messages['reportedasnotjunk'] = 'Bi serkeftî wekî ne spam hat ragihandin';

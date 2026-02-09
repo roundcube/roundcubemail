@@ -4,9 +4,24 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Support `request_url` config option for resolving relative URLs (#9868)
+- Support X-Forwarded-Host/X-Forwarded-Port in self URLs generation (#9952)
+- Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
+- OAuth: Fix bug where it was impossible to login again after logout (#10073)
+- OAuth: Add `oauth_auth_type` option
+- Managesieve: Fix handling of string-list format values for date tests in Out of Office (#10075)
+- Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
+- Fix a UI issue on using browser Back button after allowing remote resources (#10062)
+- Fix syntax error in DDL scripts for Postgres (#10070)
+- Fix remote image blocking bypass via SVG content reported by nullcathedral
+- Fix CSS injection vulnerability reported by CERT Polska
+
+## 1.7-rc2
+
 - Fix syntax error in DDL scripts for Postgres (#10052)
 - Fix Cross-Site-Scripting vulnerability via SVG's animate tag
 - Fix Information Disclosure vulnerability in the HTML style sanitizer
+- Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 
 ## 1.7-rc
 
