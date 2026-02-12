@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Installer: Fix broken link to download the created configuration file (#10092)
+
+## 1.7-rc3
+
 - Support `request_url` config option for resolving relative URLs (#9868)
 - Support X-Forwarded-Host/X-Forwarded-Port in self URLs generation (#9952)
 - Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
