@@ -81,7 +81,7 @@ if ($RCI->configured && ($messages = $RCI->check_config())) {
     }
 
     echo '<p class="suggestion">OK, lazy people can download the updated config file here: ';
-    echo html::a(['href' => './?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
+    echo html::a(['href' => '?_mergeconfig=1'], 'config.inc.php') . ' &nbsp;';
     echo '</p>';
 
     if (!empty($messages['dependencies'])) {
