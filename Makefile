@@ -74,6 +74,12 @@ roundcubemail-git: buildtools
 	(cd roundcubemail-git; rm -f .eslintrc.js .php-cs-fixer.dist.php .php-cs-fixer-fully_qualified_strict_types.php phpstan.neon.dist)
 	(cd roundcubemail-git; $(SEDI) 's/1.7-git/$(VERSION)/' program/include/iniset.php program/lib/Roundcube/bootstrap.php)
 	(cd roundcubemail-git; $(SEDI) 's/# Unreleased/# Release $(VERSION)'/ CHANGELOG.md)
+	# Some versions of sed on file systems mounted via virtiofs leave the edited files with wrong permissions
+	# (0600), so we make sure all files are readable for everyone, and also executable for everyone if they
+	# are for the owner.
+	chmod -R a+rX roundcubemail-git
+	# Also remove any ACLs that could have sneaked in (also observed as an artefact of sed+virtiofs).
+	setfacl --remove-all --recursive roundcubemail-git
 
 buildtools: /tmp/composer.phar npm-install
 
