@@ -4,6 +4,9 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Ensure correct file permissions when building a release.
+- Installer: Fix broken link to download the created configuration file (#10092)
+
 ## 1.7-rc3
 
 - Support `request_url` config option for resolving relative URLs (#9868)
