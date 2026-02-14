@@ -70,11 +70,39 @@ class rcube_smtp
 
         $host = rcube_utils::parse_host($host);
 
+        // Allow arrays for SMTP users
+        if (empty($user)) {
+            $user = $rcube->config->get('smtp_user', '%u');
+            if (is_array($user)) {
+                if (array_key_exists($_SESSION['storage_host'], $user)) {
+                    $user = $user[$_SESSION['storage_host']];
+                } else {
+                    $this->response[] = 'Connection failed: No SMTP user found for IMAP host ' . $_SESSION['storage_host'];
+                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
+                    return false;
+                }
+            }
+        }
+
+        // Allow arrays for SMTP passwords
+        if (empty($pass)) {
+            $pass = $rcube->config->get('smtp_pass', '%p');
+            if (is_array($pass)) {
+                if (array_key_exists($_SESSION['storage_host'], $pass)) {
+                    $pass = $pass[$_SESSION['storage_host']];
+                } else {
+                    $this->response[] = 'Connection failed: No SMTP password found for IMAP host ' . $_SESSION['storage_host'];
+                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
+                    return false;
+                }
+            }
+        }
+     
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
             'smtp_host' => $host,
-            'smtp_user' => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
-            'smtp_pass' => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
+            'smtp_user' => $user,
+            'smtp_pass' => $pass,
             'smtp_auth_cid' => $rcube->config->get('smtp_auth_cid'),
             'smtp_auth_pw' => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
