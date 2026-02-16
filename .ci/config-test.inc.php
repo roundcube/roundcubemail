@@ -36,6 +36,7 @@ $config['plugins'] = [
     'markasjunk',
     'markdown_editor',
     'zipdownload',
+    'persisted_login',
 ];
 
 $config['archive_mbox'] = 'Archive';
