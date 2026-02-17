@@ -40,3 +40,4 @@ $messages['passwdconstraintviolation'] = 'Password constraint violation. Passwor
 $messages['pwned_mustnotbedisclosed'] = 'Password must not be <a href="$href" target="_blank">commonly known</a>.';
 $messages['pwned_isdisclosed'] = 'This password is commonly known.';
 $messages['pwned_fetcherror'] = 'Failed to verify the password strength.';
+$messages['gandi_strengthrules'] = 'Password must contain between $minlen and $maxlen characters and contain at least $uppercase upper-case letter(s), $nums number(s), and $specialchars special character(s).';

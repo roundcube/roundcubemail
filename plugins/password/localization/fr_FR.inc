@@ -39,3 +39,4 @@ $messages['passwdconstraintviolation'] = 'Contrainte non respectée. Le mot de p
 $messages['pwned_mustnotbedisclosed'] = 'Le mot de passe ne doit pas être <a href="$href" target="_blank">notoire</a>.';
 $messages['pwned_isdisclosed'] = 'Ce mot de passe est connu par ailleurs.';
 $messages['pwned_fetcherror'] = 'Échec de vérification de la robustesse du mot de passe.';
+$messages['gandi_strengthrules'] = 'Le mot de passe doit contenir entre $minlen et $maxlen caractères et contenir au moins $uppercase lettre(s) majuscule(s), $nums nombre(s) et $specialchars caractère(s) spécial(s).';

@@ -39,3 +39,4 @@ $messages['passwdconstraintviolation'] = 'Нарушение на изисква
 $messages['pwned_mustnotbedisclosed'] = 'Паролата не трябва да бъде <a href="$href" target="_blank">общоизвестна</a>.';
 $messages['pwned_isdisclosed'] = 'Тази парола е общоизвестна.';
 $messages['pwned_fetcherror'] = 'Неуспешна проверка на силата на паролата.';
+$messages['gandi_strengthrules'] = 'Паролата трябва да съдържа между $minlen и $maxlen знаци и да съдържа поне $uppercase главни букви, $nums числа и $specialchars специални знаци.';

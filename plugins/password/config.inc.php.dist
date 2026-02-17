@@ -526,3 +526,20 @@ $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 // ----------------------
 $config['password_mailcow_api_host'] = 'localhost';
 $config['password_mailcow_api_token'] = '';
+
+
+// GANDI-API Driver options
+// ------------------------
+// The domain-to-personal-access-token/domain-to-api-key configuration required for authentication.
+// This can take various forms depending on your needs.
+//     (1) The raw Personal-Access-Token/API-key or an array containing the key-value mapping.
+//         $config['password_gandi_keys'] = 'your-personal-access-token-or-api-key';
+//         $config['password_gandi_keys'] = array(
+//             'example.com' => 'first-personal-access-token-or-api-key',
+//             'foo.com' => 'second-personal-access-token-or-api-key',
+//         );
+//     (2) The absolute path to a file containing either the raw Personal-Access-Token/API-key or a key-value mapping in JSON format.
+//         $config['password_gandi_keys'] = '/absolute/path/to/somewhere';
+//
+// Note: For security reasons, it is recommended to use the second option.
+$config['password_gandi_keys'] = null;
