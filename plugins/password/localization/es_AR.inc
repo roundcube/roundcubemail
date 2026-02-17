@@ -39,3 +39,11 @@ $messages['passwdconstraintviolation'] = 'Violación de restricción de contrase
 $messages['pwned_mustnotbedisclosed'] = 'La constraseña no debe ser <a href="$href" target="_blank">comúnmente conocida</a>.';
 $messages['pwned_isdisclosed'] = 'La contraseña es comúnmente conocida.';
 $messages['pwned_fetcherror'] = 'No se pudo verificar la seguridad de la contraseña.';
+$messages['passwdqc_minlength'] = 'El largo mínimo es de $N4 caracteres.';
+$messages['passwdqc_maxlength'] = 'El largo máximo es de $max caracteres.';
+$messages['passwdqc_4classes'] = 'Una contraseña con entre $N4 y $N3 caracteres debe tener al menos 4 clases de caracteres.';
+$messages['passwdqc_3classes'] = 'Una contraseña con entre $N3 y $N1 caracteres debe tener al menos 3 clases de caracteres.';
+$messages['passwdqc_2classes'] = 'Una contraseña con entre $N1 y $N0 caracteres debe tener al menos 2 clases de caracteres.';
+$messages['passwdqc_1classes'] = 'Una contraseña con más de $N0 caracteres no tiene restricciones de clases de caracteres.';
+$messages['passwdqc_passphrase'] = 'Puede utilizar un passphrase de al menos $passphrase palabras y $N2 caracteres sin deber cumplir ninguna restricción extra.';
+$messages['passwdqc_firstupper_lastdigit'] = 'Una mayúscula al principio o un dígito al final de la contraseña no cuenta para la clase de caracter correspondiente.';

@@ -526,3 +526,14 @@ $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 // ----------------------
 $config['password_mailcow_api_host'] = 'localhost';
 $config['password_mailcow_api_token'] = '';
+
+// passwdqc driver options
+// ----------------------
+$config['password_passwdqc_n0'] = 26;
+$config['password_passwdqc_n1'] = 20;
+$config['password_passwdqc_n2'] = 16;
+$config['password_passwdqc_n3'] = 12;
+$config['password_passwdqc_n4'] = 10;
+$config['password_passwdqc_max'] = 40;
+$config['password_passwdqc_passphrase'] = 4;
+$config['password_passwdqc_match'] = 4;
