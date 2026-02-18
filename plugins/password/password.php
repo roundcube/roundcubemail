@@ -658,8 +658,21 @@ class password extends rcube_plugin
                 $prefix = '{SMD5}';
                 break;
             case 'samba':
+            case 'nt-hex':
                 if (function_exists('hash')) {
                     $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
+                    $crypted = strtoupper($crypted);
+                } else {
+                    rcube::raise_error([
+                        'code' => 600,
+                        'message' => 'Password plugin: Your PHP installation does not have hash() function',
+                    ], true, true);
+                }
+
+                break;
+            case 'nt-binary':
+                if (function_exists('hash')) {
+                    $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'), true);
                     $crypted = strtoupper($crypted);
                 } else {
                     rcube::raise_error([
