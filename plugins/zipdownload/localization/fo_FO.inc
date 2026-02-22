@@ -13,6 +13,7 @@
 */
 
 $labels['downloadall'] = 'Heinta allar viðheftingar';
+$labels['export'] = 'Tak út...';
 $labels['downloadmbox'] = 'Mbox týpa (.zip)';
 $labels['downloadmaildir'] = 'Teldupost mappu format (.zip)';
 $labels['downloademl'] = 'Kelda (.eml)';

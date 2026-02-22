@@ -28,3 +28,4 @@ $messages['passwordweak'] = 'Loyniorði má innihalda minst eitt nummar og eitt 
 $messages['passwordforbidden'] = 'Loyniorð inniheldur ólóglig tekin.';
 $messages['firstloginchange'] = 'Hetta er tín fyrsta innriting. Vinarliga broyt títt loyniorð.';
 $messages['disablednotice'] = 'Skipanin er í verandi stunduni dagførd. Av tí sama, er ikki loyvt at broyta loyniorði í løtuni. Alt skuldi verið aftur til tað vanliga skjótt. Tað muga tygum orsaka. ';
+$messages['passwinhistory'] = 'Loyniorðið er nýtt áður.';
