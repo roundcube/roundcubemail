@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Ni ganiateir defnyddio pennawd a dynodwr 
 $messages['disabledaction'] = 'Ni ganiateir y weithred.';
 $messages['lastindexempty'] = 'Mae angen mynegai wrth gyfri o\'r diwedd';
 $messages['noflagset'] = 'Rhaid dewis o leia un fflag';
+$messages['saving.actionordererror'] = 'Rhaid i\'r weithred \'$previous\' ddod ar ôl y weithred \'$current\'.';

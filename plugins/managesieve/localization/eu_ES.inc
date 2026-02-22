@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Goiburua eta identifikatzaile bakarra ez 
 $messages['disabledaction'] = 'Ekintza ez da onartzen.';
 $messages['lastindexempty'] = 'Indizea beharrezkoa da amaieratik zenbatzen denean';
 $messages['noflagset'] = 'Gutxienez bandera bat hautatu behar da.';
+$messages['saving.actionordererror'] = '\'$previous\' ekintza \'$current\' ekintzaren aurretik izan behar du.';
