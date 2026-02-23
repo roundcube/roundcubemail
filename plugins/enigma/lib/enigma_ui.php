@@ -23,6 +23,7 @@ class enigma_ui
     private $data;
     private $keys_parts = [];
     private $keys_bodies = [];
+    private $status_messages = [];
 
     /**
      * Object constructor
@@ -954,7 +955,6 @@ class enigma_ui
             && !empty($engine->decryptions[$found])
         ) {
             $status = $engine->decryptions[$found];
-            $attach_scripts = true;
 
             // show the message only once
             unset($engine->decryptions[$found]);
@@ -996,7 +996,6 @@ class enigma_ui
             && !empty($engine->signatures[$found])
         ) {
             $sig = $engine->signatures[$found];
-            $attach_scripts = true;
 
             // show the message only once
             unset($engine->signatures[$found]);
@@ -1038,22 +1037,7 @@ class enigma_ui
             $messages[] = $attrib;
         }
 
-        if ($count = count($messages)) {
-            if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
-                // @phpstan-ignore-next-line
-                $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
-            } else {
-                foreach ($messages as $msg) {
-                    $p['prefix'] .= html::div($msg, $msg['msg']);
-                }
-            }
-        }
-
-        if (!empty($attach_scripts)) {
-            // add css and js script
-            $this->add_css();
-            $this->add_js();
-        }
+        $this->status_messages = $messages;
 
         return $p;
     }
@@ -1115,6 +1099,17 @@ class enigma_ui
             ) . $p['content'];
 
             $attach_scripts = true;
+        }
+
+        if ($count = count($this->status_messages)) {
+            $attach_scripts = true;
+            if ($count == 2 && $this->status_messages[0]['class'] == $this->status_messages[1]['class']) {
+                $p['content'] = html::div($this->status_messages[0], $this->status_messages[0]['msg'] . ' ' . $this->status_messages[1]['msg']) . $p['content'];
+            } else {
+                foreach ($this->status_messages as $msg) {
+                    $p['content'] = html::div($msg, $msg['msg']) . $p['content'];
+                }
+            }
         }
 
         if (!empty($attach_scripts)) {
