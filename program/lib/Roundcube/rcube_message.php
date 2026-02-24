@@ -349,7 +349,9 @@ class rcube_message
         }
 
         // ..convert charset encoding
-        $body = rcube_charset::convert($body, $part->charset);
+        if (!mb_check_encoding($body, 'UTF-8')) {
+            $body = rcube_charset::convert($body, $part->charset);
+        }
 
         return $body;
     }
