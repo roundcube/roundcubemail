@@ -1,0 +1,22 @@
+{
+    "name": "Roundcube Webmail",
+    "short_name": "Roundcube",
+    "description": "Modern webmail for everyday use.",
+    "start_url": "../../../",
+    "scope": "../../../",
+    "display": "standalone",
+    "theme_color": "#2f3a3f",
+    "background_color": "#2f3a3f",
+    "icons": [
+        {
+            "src": "../images/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "../images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
