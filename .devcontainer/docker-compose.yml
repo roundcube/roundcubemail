@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    depends_on:
+      db:
+        condition: service_healthy
+      mail:
+        condition: service_started
+      mailhog:
+        condition: service_started
+    environment:
+      - ROUNDCUBE_DB_HOST=db
+      - ROUNDCUBE_DB_USER=roundcube
+      - ROUNDCUBE_DB_PASSWORD=roundcube
+      - ROUNDCUBE_DB_NAME=roundcube
+      - ROUNDCUBE_IMAP_HOST=mail
+      - ROUNDCUBE_SMTP_HOST=mailhog:1025
+    networks:
+      - roundcube-dev
+
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: roundcube
+      MARIADB_USER: roundcube
+      MARIADB_PASSWORD: roundcube
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - roundcube-dev
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  mail:
+    build:
+      context: .
+      dockerfile: Dockerfile.dovecot
+    restart: unless-stopped
+    volumes:
+      - mail-data:/var/mail
+    networks:
+      - roundcube-dev
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"   # Web UI
+    networks:
+      - roundcube-dev
+
+volumes:
+  mariadb-data:
+  mail-data:
+
+networks:
+  roundcube-dev:

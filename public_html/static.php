@@ -131,6 +131,11 @@ function validateStaticFile(string $path): ?string
  */
 function serveStaticFile($path): void
 {
+    // Clean any output buffers to prevent Content-Length mismatch with PHP built-in server
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+
     $lastModifiedTime = filemtime($path);
 
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s \G\M\T', $lastModifiedTime));
@@ -140,76 +145,95 @@ function serveStaticFile($path): void
     }
 
     $size = filesize($path);
-    $fp = fopen($path, 'r');
-    $range = [0, $size - 1];
-
-    if (isset($_SERVER['HTTP_RANGE'])) {
-        // $valid = preg_match('^bytes=\d*-\d*(,\d*-\d*)*$', $_SERVER['HTTP_RANGE']);
-        if (!str_starts_with($_SERVER['HTTP_RANGE'], 'bytes=')) {
-            http_response_code(416); // "Range Not Satisfiable"
-            header('Content-Range: bytes */' . $size); // Required in 416.
-            return;
-        }
-
-        $ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
-        $range = explode('-', $ranges[0]); // TODO: only support the first range now.
-
-        if ($range[0] === '') {
-            $range[0] = 0;
-        }
-        if ($range[1] === '') {
-            $range[1] = $size - 1;
-        }
-
-        if ($range[0] >= 0 && ($range[1] <= $size - 1) && $range[0] <= $range[1]) {
-            http_response_code(206); // "Partial Content"
-            header('Content-Range: bytes ' . sprintf('%u-%u/%u', $range[0], $range[1], $size));
-        } else {
-            http_response_code(416); // "Range Not Satisfiable"
-            header('Content-Range: bytes */' . $size);
-            return;
-        }
-    }
-
-    $contentLength = $range[1] - $range[0] + 1;
     $ext = pathinfo($path, \PATHINFO_EXTENSION);
 
     $headers = [
         'Accept-Ranges' => 'bytes',
-        'Content-Length' => $contentLength,
         'Content-Type' => SUPPORTED_TYPES[strtolower($ext)],
-        // 'Content-Disposition: attachment; filename="xxxxx"',
         'Cache-Control' => 'public, max-age=604800',
         'Expires' => gmdate('D, d M Y H:i:s \G\M\T', time() + 30 * 86400),
     ];
+
+    // Handle range requests
+    if (isset($_SERVER['HTTP_RANGE'])) {
+        if (!str_starts_with($_SERVER['HTTP_RANGE'], 'bytes=')) {
+            http_response_code(416); // "Range Not Satisfiable"
+            header('Content-Range: bytes */' . $size);
+            return;
+        }
+
+        $ranges = explode(',', substr($_SERVER['HTTP_RANGE'], 6));
+        $range = explode('-', $ranges[0]);
+
+        // Handle suffix-range (e.g., "bytes=-500" means last 500 bytes)
+        if ($range[0] === '') {
+            $start = max(0, $size - (int) $range[1]);
+            $end = $size - 1;
+        } else {
+            $start = (int) $range[0];
+            $end = $range[1] === '' ? $size - 1 : (int) $range[1];
+        }
+
+        if ($start >= 0 && $end <= $size - 1 && $start <= $end) {
+            http_response_code(206); // "Partial Content"
+            header('Content-Range: bytes ' . sprintf('%u-%u/%u', $start, $end, $size));
+            $headers['Content-Length'] = $end - $start + 1;
+
+            foreach ($headers as $k => $v) {
+                header("{$k}: {$v}", true);
+            }
+
+            // For range requests, use chunked reading
+            $fp = fopen($path, 'r');
+            if ($fp === false) {
+                http_response_code(500);
+                return;
+            }
+            fseek($fp, $start);
+            $remaining = $end - $start + 1;
+
+            while ($remaining > 0 && !feof($fp) && connection_status() === \CONNECTION_NORMAL) {
+                $chunk = fread($fp, min($remaining, 8192));
+                if ($chunk === false) {
+                    break;
+                }
+                echo $chunk;
+                $remaining -= strlen($chunk);
+            }
+
+            fclose($fp);
+        } else {
+            http_response_code(416); // "Range Not Satisfiable"
+            header('Content-Range: bytes */' . $size);
+        }
+
+        return;
+    }
+
+    // For full file requests
+    $headers['Content-Length'] = $size;
 
     foreach ($headers as $k => $v) {
         header("{$k}: {$v}", true);
     }
 
-    if ($range[0] > 0) {
-        fseek($fp, $range[0]);
-    }
-
-    $sentSize = 0;
-
-    while (!feof($fp) && (connection_status() === \CONNECTION_NORMAL)) {
-        $readingSize = $contentLength - $sentSize;
-        $readingSize = min($readingSize, 512 * 1024);
-
-        if ($readingSize <= 0) {
-            break;
+    // Use chunked reading with flush for PHP built-in server compatibility
+    if (\PHP_SAPI === 'cli-server') {
+        $fp = fopen($path, 'r');
+        if ($fp === false) {
+            http_response_code(500);
+            return;
         }
-
-        $data = fread($fp, $readingSize);
-        if ($data === false) {
-            break;
+        while (!feof($fp) && connection_status() === \CONNECTION_NORMAL) {
+            $chunk = fread($fp, 8192);
+            if ($chunk === false) {
+                break;
+            }
+            echo $chunk;
+            flush();
         }
-
-        $sentSize += strlen($data);
-        echo $data;
-        flush();
+        fclose($fp);
+    } else {
+        readfile($path);
     }
-
-    fclose($fp);
 }

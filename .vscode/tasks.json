@@ -1,0 +1,162 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Roundcube Dev Server",
+            "type": "shell",
+            "command": "php",
+            "args": [
+                "-S",
+                "0.0.0.0:${input:serverPort}",
+                "-t",
+                "public_html"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": true
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "php",
+                "pattern": {
+                    "regexp": "^PHP\\s+(Warning|Fatal error|Parse error|Notice):\\s+(.*)\\s+in\\s+(.*)\\s+on line\\s+(\\d+)$",
+                    "severity": 1,
+                    "message": 2,
+                    "file": 3,
+                    "line": 4
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^PHP .* Development Server",
+                    "endsPattern": "^$"
+                }
+            },
+            "runOptions": {
+                "instanceLimit": 1
+            }
+        },
+        {
+            "label": "Run PHPUnit Tests",
+            "type": "shell",
+            "command": "vendor/bin/phpunit",
+            "args": [
+                "-c",
+                "tests/phpunit.xml",
+                "--fail-on-warning"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": "$phpunit"
+        },
+        {
+            "label": "PHP CS Fixer (check)",
+            "type": "shell",
+            "command": "vendor/bin/php-cs-fixer",
+            "args": ["fix", "--dry-run", "--diff"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "PHP CS Fixer (fix)",
+            "type": "shell",
+            "command": "vendor/bin/php-cs-fixer",
+            "args": ["fix"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "PHPStan Analyse",
+            "type": "shell",
+            "command": "vendor/bin/phpstan",
+            "args": ["analyse", "-v"],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "ESLint Check",
+            "type": "shell",
+            "command": "npx",
+            "args": ["eslint", "--ext", ".js", "."],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Initialize Database",
+            "type": "shell",
+            "command": ".devcontainer/post-create.sh",
+            "args": ["--db-only"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Reset Database",
+            "type": "shell",
+            "command": ".devcontainer/post-create.sh",
+            "args": ["--db-reset"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Check Database Status",
+            "type": "shell",
+            "command": ".devcontainer/post-create.sh",
+            "args": ["--db-status"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Suggested Packages",
+            "type": "shell",
+            "command": "composer",
+            "args": [
+                "require",
+                "--dev",
+                "bjeavons/zxcvbn-php",
+                "kolab/net_ldap3",
+                "--no-interaction"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "serverPort",
+            "type": "promptString",
+            "description": "Port for the development server",
+            "default": "8081"
+        }
+    ]
+}

@@ -30,10 +30,24 @@ program/js/tinymce/
 skins/elastic/styles/_styles.less
 skins/elastic/styles/_variables.less
 
-# ignore IDE files
-.vscode
+# ignore IDE files (except shared VS Code tasks)
+.vscode/*
+!.vscode/tasks.json
 .DS_Store
 .idea
 
 # Ignore files used for local overriding.
 /tests/MessageRendering/.env
+
+# PHPUnit cache
+/tests/.phpunit.result.cache
+
+# Ignore vendor specific assisted coding AGENTS
+CLAUDE.md
+GEMINI.md
+.claude
+.claudeignore
+.geminiignore
+
+# Ignore build artifacts
+skins/elastic/styles/*.min.css
