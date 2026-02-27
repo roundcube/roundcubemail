@@ -796,3 +796,7 @@ $labels['helplistkeyboardnavmessages'] = "Arrows right/left: expand/collapse mes
 Enter: Open the selected/focused message.
 Delete: Move selected messages to Trash.";
 $labels['helplistkeyboardnavcontacts'] = "Enter: Open the selected/focused contact.";
+
+$labels['reorder_folder'] = 'Reorder folder in list';
+$labels['reorder_folder_up'] = 'up';
+$labels['reorder_folder_down'] = 'down';
