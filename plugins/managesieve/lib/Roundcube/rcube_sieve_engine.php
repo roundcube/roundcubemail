@@ -629,6 +629,7 @@ class rcube_sieve_engine
             $mod_types = rcube_utils::get_input_value('_rule_mod_type', rcube_utils::INPUT_POST);
             $body_trans = rcube_utils::get_input_value('_rule_trans', rcube_utils::INPUT_POST);
             $body_types = rcube_utils::get_input_value('_rule_trans_type', rcube_utils::INPUT_POST, true);
+            $time_zones = rcube_utils::get_input_value('_rule_time_zone', rcube_utils::INPUT_POST);
             $comparators = rcube_utils::get_input_value('_rule_comp', rcube_utils::INPUT_POST);
             $indexes = rcube_utils::get_input_value('_rule_index', rcube_utils::INPUT_POST);
             $lastindexes = rcube_utils::get_input_value('_rule_index_last', rcube_utils::INPUT_POST);
@@ -742,9 +743,15 @@ class rcube_sieve_engine
                     } elseif ($header == 'currentdate') {
                         $datepart = $this->strip_value($dateparts[$idx]);
                         $type = preg_replace('/^not/', '', $operator);
+                        $time_zone = $this->strip_value($time_zones[$idx] ?? null);
 
                         $this->form['tests'][$i]['test'] = 'currentdate';
                         $this->form['tests'][$i]['type'] = $type;
+
+                        if (!empty($time_zone)) {
+                            $this->form['tests'][$i]['zone'] = $time_zone;
+                        }
+
                         $this->form['tests'][$i]['part'] = $datepart;
                         $this->form['tests'][$i]['arg'] = $target;
                         $this->form['tests'][$i]['not'] = preg_match('/^not/', $operator) === 1;
@@ -784,6 +791,7 @@ class rcube_sieve_engine
                         $index = $this->strip_value($indexes[$idx]);
                         $indexlast = $this->strip_value($lastindexes[$idx] ?? null);
                         $mod = $this->strip_value($mods[$idx]);
+                        $time_zone = $this->strip_value($time_zones[$idx] ?? null);
 
                         $type = preg_replace('/^not/', '', $operator);
 
@@ -804,6 +812,11 @@ class rcube_sieve_engine
 
                         $this->form['tests'][$i]['test'] = 'date';
                         $this->form['tests'][$i]['type'] = $type;
+
+                        if (!empty($time_zone)) {
+                            $this->form['tests'][$i]['zone'] = $time_zone;
+                        }
+
                         $this->form['tests'][$i]['part'] = $datepart;
                         $this->form['tests'][$i]['arg'] = $target;
                         $this->form['tests'][$i]['header'] = $dateheader;
@@ -2018,6 +2031,34 @@ class rcube_sieve_engine
             'style' => !isset($rule['part']) || $rule['part'] != 'content' ? 'display:none' : '',
             'class' => $this->error_class($id, 'test', 'part', 'rule_trans_type'),
         ]);
+        $mout .= '</div>';
+
+        // Date time zone
+        $need_tzone = $rule['test'] == 'date' || $rule['test'] == 'currentdate';
+        $select_tzone = new html_select([
+            'name' => "_rule_time_zone[{$id}]",
+            'id' => 'rule_time_zone' . $id,
+            'class' => 'custom-select',
+        ]);
+        $select_tzone->add('-', '');
+
+        $zones = [];
+        foreach (\DateTimeZone::listIdentifiers() as $i => $tzs) {
+            if ($data = rcmail_action_settings_index::timezone_standard_time_data($tzs)) {
+                $zones[] = $data['offset'];
+            }
+        }
+
+        $zones = array_unique($zones);
+        sort($zones, \SORT_NUMERIC);
+
+        foreach ($zones as $zone) {
+            $select_tzone->add($zone, str_replace(':', '', $zone));
+        }
+
+        $mout .= '<div id="rule_time_zone' . $id . '" class="adv input-group"' . (!$need_tzone ? ' style="display:none"' : '') . '>';
+        $mout .= html::span('label input-group-prepend', html::span('input-group-text', rcube::Q($this->plugin->gettext('datezone'))));
+        $mout .= $select_tzone->show(!empty($rule['zone']) ? $rule['zone'] : '');
         $mout .= '</div>';
 
         // Date header
