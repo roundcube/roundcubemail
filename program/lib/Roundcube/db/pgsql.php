@@ -32,6 +32,7 @@ class rcube_db_pgsql extends rcube_db
         'sslmode',
         'sslcert',
         'sslkey',
+        'sslpassword',
         'sslrootcert',
         'sslcrl',
         'sslcompression',
