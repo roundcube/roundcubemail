@@ -1461,7 +1461,9 @@ class rcube
         }
 
         if ($cli) {
-            fwrite(\STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
+            if (!defined('ROUNDCUBE_STDERR_DISABLE')) {
+                fwrite(\STDERR, 'ERROR: ' . trim($arg['message']) . "\n");
+            }
         } elseif ($terminate && self::$instance && is_object(self::$instance->output)) {
             self::$instance->output->raise_error($arg['code'], $arg['message']);
         } elseif ($terminate) {
