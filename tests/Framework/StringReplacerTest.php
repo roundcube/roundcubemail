@@ -72,6 +72,10 @@ class StringReplacerTest extends TestCase
             ['http://192.168.56.1/.', '<a href="http://192.168.56.1/">http://192.168.56.1/</a>.'],
             ['ftp://1.1.1.101/test.', '<a href="ftp://1.1.1.101/test">ftp://1.1.1.101/test</a>.'],
             ['http://[::1]:8000/test.', '<a href="http://[::1]:8000/test">http://[::1]:8000/test</a>.'],
+            // Port number in URL with domain name
+            ['http://example.com:8080/path', '<a href="http://example.com:8080/path">http://example.com:8080/path</a>'],
+            ['https://example.com:3000', '<a href="https://example.com:3000">https://example.com:3000</a>'],
+            ['https://example.com:8443/path?q=1 end', '<a href="https://example.com:8443/path?q=1">https://example.com:8443/path?q=1</a> end'],
             // Non-unicode characters should be supported
             ['http://link.com ' . chr(206) . 'a', '<a href="http://link.com">http://link.com</a> ' . chr(206) . 'a'],
             // #9538: unicode Fullwidth Left Parenthesis (U+FF08)
