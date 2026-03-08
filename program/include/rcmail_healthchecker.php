@@ -36,11 +36,15 @@ class rcmail_healthchecker
     {
         $rcmail = rcmail::get_instance();
 
-        // TODO: SMTP, LDAP, memcache/redis, spellchecker, OAuth/OIDC (?)
+        // TODO: SMTP, LDAP, memcache, spellchecker, OAuth/OIDC (?)
         $checks = [
             'DB' => [$this, 'check_db'],
             'IMAP' => [$this, 'check_imap'],
         ];
+
+        if (!empty($rcmail->config->get('redis_hosts'))) {
+            $checks['Redis'] = [$this, 'check_redis'];
+        }
 
         // Let plugins inject their own checks e.g. managesieve, password
         $plugin = $rcmail->plugins->exec_hook('health_check', ['checks' => $checks]);
@@ -74,6 +78,11 @@ class rcmail_healthchecker
         return (int) $status;
     }
 
+    /**
+     * Check SQL database connection
+     *
+     * @param array $args Checker input arguments (user, pass, host)
+     */
     public function check_db(array $args = [])
     {
         $db = rcmail_utils::db();
@@ -81,6 +90,11 @@ class rcmail_healthchecker
         return in_array($db->table_name('system'), (array) $db->list_tables());
     }
 
+    /**
+     * Check IMAP connection
+     *
+     * @param array $args Checker input arguments (user, pass, host)
+     */
     public function check_imap(array $args = [])
     {
         $rcmail = rcmail::get_instance();
@@ -111,10 +125,29 @@ class rcmail_healthchecker
 
         if (!$result) {
             $_host = preg_replace('/:[0-9]+$/', '', $_host) . ":{$port}";
-            $result = [false, "Failed to connect to {$_host}"];
+            $result = [false, "Failed to connect to {$_host}: " . $storage->get_error_str()];
         }
 
         return $result;
+    }
+
+    /**
+     * Check Redis connection
+     *
+     * @param array $args Checker input arguments (user, pass, host)
+     */
+    public function check_redis(array $args = [])
+    {
+        $rcmail = rcmail::get_instance();
+        $redis = $rcmail->get_redis();
+
+        if (!$redis) {
+            $hosts = implode(', ', (array) $rcmail->config->get('redis_hosts'));
+
+            return [false, "Failed to connect to {$hosts}"];
+        }
+
+        return true;
     }
 
     private function color_success($text): string
