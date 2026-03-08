@@ -40,6 +40,7 @@ class rcmail_healthchecker
         $checks = [
             'DB' => [$this, 'check_db'],
             'IMAP' => [$this, 'check_imap'],
+            'SMTP' => [$this, 'check_smtp'],
         ];
 
         if (!empty($rcmail->config->get('redis_hosts'))) {
@@ -123,12 +124,13 @@ class rcmail_healthchecker
 
         $result = (bool) $storage->connect($host, $args['user'] ?? '', $args['pass'] ?? '', $port, $ssl);
 
+        $_host = preg_replace('/:[0-9]+$/', '', $_host) . ":{$port}";
+
         if (!$result) {
-            $_host = preg_replace('/:[0-9]+$/', '', $_host) . ":{$port}";
             $result = [false, "Failed to connect to {$_host}: " . $storage->get_error_str()];
         }
 
-        return $result;
+        return [$result, $_host];
     }
 
     /**
@@ -141,13 +143,47 @@ class rcmail_healthchecker
         $rcmail = rcmail::get_instance();
         $redis = $rcmail->get_redis();
 
-        if (!$redis) {
-            $hosts = implode(', ', (array) $rcmail->config->get('redis_hosts'));
+        $hosts = (array) $rcmail->config->get('redis_hosts');
 
+        // Remove passwords if included
+        $hosts = array_map(
+            function ($host) {
+                $items = explode(':', $host);
+                if (count($items) > 3) {
+                    unset($items[3]);
+                    return implode(':', $items);
+                }
+                return $host;
+            },
+            $hosts
+        );
+
+        $hosts = implode(', ', $hosts);
+
+        if (!$redis) {
             return [false, "Failed to connect to {$hosts}"];
         }
 
-        return true;
+        return [true, $hosts];
+    }
+
+    /**
+     * Check SMTP connection
+     *
+     * @param array $args Checker input arguments (user, pass, host)
+     */
+    public function check_smtp(array $args = [])
+    {
+        $rcmail = rcmail::get_instance();
+        $smtp = new rcube_smtp();
+
+        $result = $smtp->connect(null, null, $args['user'] ?? '', $args['pass'] ?? '');
+
+        if (!$result) {
+            return [false, "Failed to connect to " . $smtp->get_host()];
+        }
+
+        return [$result, $smtp->get_host()];
     }
 
     private function color_success($text): string
