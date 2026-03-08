@@ -115,6 +115,7 @@ class rcube_message_part
      */
     public $content_location;
 
+    public $structure;
     public $type;
     public $replaces = [];
     public $disposition = '';
