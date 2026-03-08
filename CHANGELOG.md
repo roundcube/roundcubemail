@@ -4,6 +4,11 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Password: Add nt-binary hashing method (#10096)
+- Fix URL matching for domain names with port numbers (#10105)
+
+## 1.7-rc4
+
 - Ensure correct file permissions when building a release.
 - Installer: Fix broken link to download the created configuration file (#10092)
 
