@@ -147,7 +147,7 @@ class rcmail_healthchecker
 
         // Remove passwords if included
         $hosts = array_map(
-            function ($host) {
+            static function ($host) {
                 $items = explode(':', $host);
                 if (count($items) > 3) {
                     unset($items[3]);
