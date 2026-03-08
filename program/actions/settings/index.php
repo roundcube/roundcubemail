@@ -1106,10 +1106,8 @@ class rcmail_action_settings_index extends rcmail_action
                             'class' => 'custom-select',
                         ]);
 
-                        if (!empty($books)) {
-                            foreach ($books as $book) {
-                                $select->add(html_entity_decode($book['name'], \ENT_COMPAT, 'UTF-8'), $book['id']);
-                            }
+                        foreach ($books as $book) {
+                            $select->add(html_entity_decode($book['name'], \ENT_COMPAT, 'UTF-8'), $book['id']);
                         }
 
                         $blocks['main']['options']['default_addressbook'] = [
