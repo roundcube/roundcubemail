@@ -36,7 +36,7 @@ class rcmail_healthchecker
     {
         $rcmail = rcmail::get_instance();
 
-        // TODO: SMTP, LDAP, memcache, spellchecker, OAuth/OIDC (?)
+        // TODO: LDAP, memcache, spellchecker
         $checks = [
             'DB' => [$this, 'check_db'],
             'IMAP' => [$this, 'check_imap'],
@@ -174,13 +174,12 @@ class rcmail_healthchecker
      */
     public function check_smtp(array $args = [])
     {
-        $rcmail = rcmail::get_instance();
         $smtp = new rcube_smtp();
 
         $result = $smtp->connect(null, null, $args['user'] ?? '', $args['pass'] ?? '');
 
         if (!$result) {
-            return [false, "Failed to connect to " . $smtp->get_host()];
+            return [false, 'Failed to connect to ' . $smtp->get_host()];
         }
 
         return [$result, $smtp->get_host()];
