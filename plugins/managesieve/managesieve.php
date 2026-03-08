@@ -371,10 +371,10 @@ class managesieve extends rcube_plugin
             $result = $engine->connect($opts['user'] ?? null, $opts['pass'] ?? null);
 
             if ($result) {
-                return [false, "Failed to connect to server {$engine->connect_host}"];
+                return [false, 'Failed to connect to server ' . $engine->get_host()];
             }
 
-            return true;
+            return [true, $engine->get_host()];
         };
 
         return $args;

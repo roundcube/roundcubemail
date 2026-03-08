@@ -24,13 +24,12 @@
 
 class rcube_sieve_engine
 {
-    public $connect_host;
-
     protected $rc;
     protected $sieve;
     protected $plugin;
     protected $errors;
     protected $form;
+    protected $host;
     protected $list;
     protected $master_file;
     protected $tips = [];
@@ -218,7 +217,7 @@ class rcube_sieve_engine
             $port = getservbyname('sieve', 'tcp') ?: self::PORT;
         }
 
-        $this->connect_host = preg_replace('/:[0-9]+$/', '', $plugin['host']) . ":{$port}";
+        $this->host = preg_replace('/:[0-9]+$/', '', $plugin['host']) . ':' . $port;
 
         $host = rcube_utils::idn_to_ascii($host);
 
@@ -252,6 +251,16 @@ class rcube_sieve_engine
         }
 
         return $error;
+    }
+
+    /**
+     * Returns host (URI) configured for connection
+     *
+     * @return ?string
+     */
+    public function get_host()
+    {
+        return $this->host;
     }
 
     /**
