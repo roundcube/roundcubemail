@@ -1323,9 +1323,9 @@ class rcube_db
         }
 
         if ($parsed['protocol'] == 'tcp' && strlen($proto_opts)) {
-            $parsed['hostspec'] = $proto_opts;
-        }
-        else if ($parsed['protocol'] == 'unix') {
+            // Remove IPv6 brakets
+            $parsed['hostspec'] = trim($proto_opts, '[]');
+        } elseif ($parsed['protocol'] == 'unix') {
             $parsed['socket'] = $proto_opts;
         }
 
