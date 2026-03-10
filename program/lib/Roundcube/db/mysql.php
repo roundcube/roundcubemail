@@ -71,7 +71,7 @@ class rcube_db_mysql extends rcube_db
 
         if (isset($dsn['hostspec'])) {
             // Use IPv6 address in brackets
-            if (str_contains($dsn['hostspec'], ':')) {
+            if (strpos($dsn['hostspec'], ':') !== false) {
                 $dsn['hostspec'] = '[' . $dsn['hostspec'] . ']';
             }
 
