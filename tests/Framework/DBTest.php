@@ -204,7 +204,7 @@ class DBTest extends TestCase
         $this->assertSame('mysql', $result['phptype']);
         $this->assertSame('user', $result['username']);
         $this->assertSame('pass', $result['password']);
-        $this->assertSame('[fd00:3::11]', $result['hostspec']);
+        $this->assertSame('fd00:3::11', $result['hostspec']);
         $this->assertSame('3306', $result['port']);
         $this->assertSame('roundcubemail', $result['database']);
 
@@ -213,7 +213,7 @@ class DBTest extends TestCase
         $this->assertSame('mysql', $result['phptype']);
         $this->assertSame('user', $result['username']);
         $this->assertSame('pass', $result['password']);
-        $this->assertSame('[::1]', $result['hostspec']);
+        $this->assertSame('::1', $result['hostspec']);
         $this->assertTrue(!array_key_exists('port', $result));
         $this->assertSame('roundcubemail', $result['database']);
 
