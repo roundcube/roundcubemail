@@ -66,7 +66,7 @@ class rcube_stalwart_password
     {
         $client = password::get_http_client();
         $config = rcmail::get_instance()->config;
-        $url = $config->get('stalwart_host', 'https://mail.datagr.am/api');
+        $url = $config->get('stalwart_host');
         $token = $config->get('stalwart_token');
         
         try {
