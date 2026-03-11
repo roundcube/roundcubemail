@@ -2,6 +2,10 @@
 
 /**
  * Stalwart Password Driver
+ * 
+ * Permissions required for the Stalwart API key:
+ * - Retrieve specific account information => On
+ * - Modify user account information       => On
  *
  * Config variables:
  * $config['stalwart_host']  = 'https://mail.example.org/api'; // required
