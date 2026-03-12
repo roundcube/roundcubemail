@@ -160,6 +160,20 @@ class Text2HtmlTest extends TestCase
     }
 
     /**
+     * Test that HTML tag characters in plain text don't break URL detection
+     */
+    public function test_text2html_html_in_text()
+    {
+        $input = '<a href="https://example.com/">click here</a>';
+        $t2h = new \rcube_text2html($input);
+
+        $html = $t2h->get_html();
+
+        $this->assertStringContainsString('href="https://example.com/"', $html);
+        $this->assertStringNotContainsString('href="https://example.com/&quot;', $html);
+    }
+
+    /**
      * Test bug #8021
      */
     public function test_text2html_8021()
