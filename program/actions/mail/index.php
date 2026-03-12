@@ -1324,12 +1324,12 @@ class rcmail_action_mail_index extends rcmail_action
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
-                $attrib['rel'] = 'noopener';
+                $attrib['rel'] = trim(($attrib['rel'] ?? '') . ' noopener');
             }
 
             // Better security by adding rel="noreferrer" (#1484686)
             if (($tag == 'a' || $tag == 'area') && $attrib['href'] && $attrib['href'][0] != '#') {
-                $attrib['rel'] = 'noreferrer';
+                $attrib['rel'] = trim(($attrib['rel'] ?? '') . ' noreferrer');
             }
         }
 
