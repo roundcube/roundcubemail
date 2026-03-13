@@ -39,3 +39,4 @@ $messages['passwdconstraintviolation'] = 'Passwortbeschränkungsverletzung. Pass
 $messages['pwned_mustnotbedisclosed'] = 'Das Passwort darf nicht <a href="$href" target="_blank">allgemein bekannt sein</a>.';
 $messages['pwned_isdisclosed'] = 'Dieses Passwort ist allgemein bekannt.';
 $messages['pwned_fetcherror'] = 'Die Überprüfung der Passwortstärke ist fehlgeschlagen.';
+$messages['gandi_strengthrules'] = 'Das Passwort muss zwischen $minlen und $maxlen Zeichen und mindestens $uppercase Großbuchstaben, $nums Zahl(en) und $specialchars Sonderzeichen enthalten.';
