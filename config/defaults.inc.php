@@ -1577,3 +1577,8 @@ $config['message_show_email'] = false;
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
 $config['reply_all_mode'] = 0;
+// Backend to use for compose_data storage. 
+//Can either be 'session' (default), 'redis', 'memcache', 'apc', or 'db'
+$config['compose_data_storage'] = 'session';
+// Lifetime of compose data storage. Possible units: s, m, h, d, w
+$config['compose_data_storage_ttl'] = '24h'; 
