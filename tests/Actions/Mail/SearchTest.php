@@ -300,6 +300,34 @@ class SearchTest extends ActionTestCase
                 '"-from:test1"',
                 'HEADER SUBJECT -from:test1',
             ],
+            // Security: CRLF injection via _filter must be rejected (CVE candidate)
+            // An injected payload like "UNSEEN\r\nA099 STORE 1:* +FLAGS (\Deleted)"
+            // would append a second IMAP command to the socket stream if $filter is
+            // not validated. The allowlist in search_input() discards any value that
+            // is not a recognised IMAP search keyword, so the injected string below
+            // must produce an empty result.
+            [
+                ['', 'subject', "UNSEEN\r\nA099 STORE 1:* +FLAGS (\\Deleted)\r\nA100 EXPUNGE", null],
+                '',
+            ],
+            [
+                ['', 'subject', "UNSEEN\nSTORE 1:* +FLAGS (\\Deleted)", null],
+                '',
+            ],
+            // Unknown / arbitrary filter values must be discarded
+            [
+                ['', 'subject', 'ARBITRARY_VALUE', null],
+                '',
+            ],
+            // Valid filter keywords must still pass through
+            [
+                ['', 'subject', 'UNSEEN', null],
+                'UNSEEN',
+            ],
+            [
+                ['', 'subject', 'FLAGGED', null],
+                'FLAGGED',
+            ],
         ];
     }
 

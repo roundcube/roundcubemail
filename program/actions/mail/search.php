@@ -214,6 +214,18 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
     {
         $headers = $headers ? explode(',', $headers) : ['subject'];
 
+        // Validate $filter against the known set of IMAP search keywords.
+        // Any value outside this list (including CRLF-injected payloads) is
+        // silently discarded, preventing IMAP command injection via _filter.
+        $allowed_filters = [
+            'ALL', 'UNSEEN', 'SEEN', 'FLAGGED', 'UNFLAGGED',
+            'DELETED', 'UNDELETED', 'ANSWERED', 'UNANSWERED', 'RECENT',
+        ];
+
+        if ($filter && !in_array(strtoupper($filter), $allowed_filters)) {
+            $filter = '';
+        }
+
         // Add list filter string
         $result = $filter && $filter != 'ALL' ? $filter : '';
 
