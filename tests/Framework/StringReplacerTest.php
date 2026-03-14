@@ -80,6 +80,10 @@ class StringReplacerTest extends TestCase
             ['http://link.com ' . chr(206) . 'a', '<a href="http://link.com">http://link.com</a> ' . chr(206) . 'a'],
             // #9538: unicode Fullwidth Left Parenthesis (U+FF08)
             // ['http://www.domain.tld/abc（哇哇）', '<a href="http://www.domain.tld/abc">http://www.domain.tld/abc</a>（哇哇）'],
+            // HTML tag characters should not be consumed as part of URL path
+            ['<a href="https://example.com/">click here</a>', '<a href="<a href="https://example.com/">https://example.com/</a>">click here</a>'],
+            ['<img src="https://example.com/img.png"/>', '<img src="<a href="https://example.com/img.png">https://example.com/img.png</a>"/>'],
+            ['<https://example.com/>', '<<a href="https://example.com/">https://example.com/</a>>'],
         ];
     }
 
