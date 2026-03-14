@@ -901,18 +901,20 @@ class rcube_imap_generic
         $this->logged = false;
         $this->selected = null;
 
+        $auth_method = $this->prefs['auth_type'] ?? null;
+
         // check input
         if (empty($host)) {
             $this->setError(self::ERROR_BAD, 'Empty host');
             return false;
         }
 
-        if (empty($user)) {
+        if (empty($user) && $auth_method !== 'NONE') {
             $this->setError(self::ERROR_NO, 'Empty user');
             return false;
         }
 
-        if (empty($password) && empty($options['gssapi_cn'])) {
+        if (empty($password) && empty($options['gssapi_cn']) && $auth_method !== 'NONE') {
             $this->setError(self::ERROR_NO, 'Empty password');
             return false;
         }
@@ -927,7 +929,6 @@ class rcube_imap_generic
             $this->data['ID'] = $this->id($this->prefs['preauth_ident']);
         }
 
-        $auth_method = $this->prefs['auth_type'];
         $auth_methods = [];
         $result = null;
 
@@ -980,6 +981,9 @@ class rcube_imap_generic
                 break;
             case 'IMAP':
                 $result = $this->login($user, $password);
+                break;
+            case 'NONE':
+                $result = $this->fp;
                 break;
             default:
                 $this->setError(self::ERROR_BAD, "Configuration error. Unknown auth method: {$auth_method}");

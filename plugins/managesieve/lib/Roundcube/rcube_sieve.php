@@ -96,6 +96,11 @@ class rcube_sieve
             $password = $auth_pw;
         }
 
+        // @phpstan-ignore-next-line
+        if ($username === null || $username === '' || $password === null || $password === '') {
+            return;
+        }
+
         $result = $this->sieve->login($username, $password, $auth_type ? strtoupper($auth_type) : null, $authz);
 
         if (is_a($result, 'PEAR_Error')) {

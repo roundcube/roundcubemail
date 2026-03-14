@@ -24,6 +24,7 @@
 class rcube_smtp
 {
     private $conn;
+    private $host;
     private $response;
     private $error;
     private $anonymize_log = 0;
@@ -113,12 +114,12 @@ class rcube_smtp
         $this->conn = new \Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
             $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
+        $this->host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
+
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, [$this, 'debug_handler']);
             $this->anonymize_log = 0;
-
-            $_host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
-            $this->debug_handler($this->conn, "Connecting to {$_host}...");
+            $this->debug_handler($this->conn, "Connecting to {$this->host}...");
         }
 
         // register authentication methods
@@ -400,6 +401,16 @@ class rcube_smtp
     public function get_error()
     {
         return $this->error;
+    }
+
+    /**
+     * Get host specification
+     *
+     * @return ?string
+     */
+    public function get_host()
+    {
+        return $this->host;
     }
 
     /**
