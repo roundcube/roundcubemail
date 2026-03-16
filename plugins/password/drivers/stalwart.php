@@ -2,7 +2,7 @@
 
 /**
  * Stalwart Password Driver
- * 
+ *
  * Permissions required for the Stalwart API key:
  * - Retrieve specific account information => On
  * - Modify user account information       => On
@@ -34,12 +34,12 @@ class rcube_stalwart_password
     private function hash_password($password)
     {
         $salt = bin2hex(random_bytes(16));
-        return crypt($password, "\$6\$" . $salt . "\$");
+        return crypt($password, '$6$' . $salt . '$');
     }
 
     private function hash_slated_password($password, $salt)
     {
-        return crypt($password, "\$6\$" . $salt . "\$");
+        return crypt($password, '$6$' . $salt . '$');
     }
 
     private function fetch_user($username)
@@ -47,12 +47,12 @@ class rcube_stalwart_password
         $config = rcmail::get_instance()->config;
         $url = $config->get('stalwart_host');
         $token = $config->get('stalwart_token');
-    
+
         $client = password::get_http_client();
         $response = $client->request('GET', $url . '/principal/' . $username, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
             ],
         ]);
 
@@ -60,7 +60,7 @@ class rcube_stalwart_password
         $resp = (string) $response->getBody();
 
         if ($code !== 200) {
-            throw new Exception("Failed to fetch data, HTTP status $code");
+            throw new \Exception("Failed to fetch data, HTTP status {$code}");
         }
 
         return json_decode($resp, true);
@@ -72,7 +72,7 @@ class rcube_stalwart_password
         $config = rcmail::get_instance()->config;
         $url = $config->get('stalwart_host');
         $token = $config->get('stalwart_token');
-        
+
         try {
             $data = $this->fetch_user($username);
 
@@ -82,7 +82,7 @@ class rcube_stalwart_password
 
             $current_api_entry = null;
             foreach ($data['data']['secrets'] as $entry) {
-                if (strpos($entry, '$6$') !== 0) {
+                if (!str_starts_with($entry, '$6$')) {
                     continue;
                 }
 
@@ -106,21 +106,21 @@ class rcube_stalwart_password
             $payload = [
                 [
                     'action' => 'addItem',
-                    'field'  => 'secrets',
-                    'value'  => $this->hash_password($newpass),
+                    'field' => 'secrets',
+                    'value' => $this->hash_password($newpass),
                 ],
                 [
                     'action' => 'removeItem',
-                    'field'  => 'secrets',
-                    'value'  => $current_api_entry,
+                    'field' => 'secrets',
+                    'value' => $current_api_entry,
                 ],
             ];
 
             $response = $client->request('PATCH', $url . '/principal/' . urlencode($data['data']['name']), [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,
-                    'Accept'        => 'application/json',
-                    'Content-Type'  => 'application/json',
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
                 ],
                 'json' => $payload,
             ]);
