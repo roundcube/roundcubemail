@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix PHP fatal error when using IMAP cache (#10102)
 - Fix Postgres connection using IPv6 address (#10104)
 - Fix bug where `rel=stylesheet` part of a `<link>` could get removed
+- Security: Fix pre-auth arbitrary file write via unsafe deserialization in redis/memcache session handler
 
 ## 1.7-rc4
 
