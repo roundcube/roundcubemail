@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix Postgres connection using IPv6 address (#10104)
 - Fix bug where `rel=stylesheet` part of a `<link>` could get removed
 - Security: Fix pre-auth arbitrary file write via unsafe deserialization in redis/memcache session handler
+- Security: Fix bug where a password could get changed without providing the old password
 
 ## 1.7-rc4
 
