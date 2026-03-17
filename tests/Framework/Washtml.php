@@ -500,6 +500,20 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<html><svg><defs><filter><feImage xlink:href="http://external.site"/></filter></defs></html>',
                 '<svg><defs><filter><feImage x-washed="xlink:href"></feImage></filter></defs></svg>',
             ],
+            [
+                '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><animate attributeName="mask" values="none;url(https://external.site);url(https://external.site)"'
+                    . ' repeatCount="indefinite" dur="1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><animate attributeName="cursor" attributeType="CSS" values="url(https://external.site),auto"'
+                    . ' feel="freeze" dur="1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
         ];
     }
 
