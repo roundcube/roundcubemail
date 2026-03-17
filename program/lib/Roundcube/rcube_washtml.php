@@ -501,28 +501,49 @@ class rcube_washtml
      * Do it in case-insensitive manner.
      *
      * @param DOMElement $node       The element
-     * @param string     $attr_name  The attribute name
-     * @param string     $attr_value The attribute value to find
+     * @param string     $attr_value The attribute value to find (regexp)
      *
      * @return bool True if the specified attribute exists and has the expected value
      */
     private static function attribute_value($node, $attr_name, $attr_value)
     {
         $attr_name = strtolower($attr_name);
-        $attr_value = strtolower($attr_value);
 
         foreach ($node->attributes as $name => $attr) {
             if (strtolower($name) === $attr_name) {
+                $val = trim($attr->nodeValue);
                 // Read the attribute name, remove the namespace (e.g. xlink:href => href)
-                $val = strtolower(trim($attr->nodeValue));
-                $val = trim(preg_replace('/^.*:/', '', $val));
-                if ($attr_value === $val) {
+                if ($attr_name === 'attributename') {
+                    $val = trim(preg_replace('/^.*:/', '', $val));
+                }
+                if (preg_match($attr_value, $val)) {
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    /**
+     * Check if the node is an insecure element
+     *
+     * @param \DOMElement $node
+     */
+    private static function is_insecure_tag($node)
+    {
+        $tagName = strtolower($node->nodeName);
+
+        if (!in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])) {
+            return false;
+        }
+
+        if (self::attribute_value($node, 'attributeName', '/^href$/i')) {
+            return true;
+        }
+
+        return self::attribute_value($node, 'attributeName', '/^(mask|cursor)$/i')
+            && self::attribute_value($node, 'values', '/url\(/i');
     }
 
     /**
@@ -576,10 +597,9 @@ class rcube_washtml
 
                     $node->setAttribute('href', (string) $uri);
                 }
-                else if (in_array($tagName, ['animate', 'animatecolor', 'set', 'animatetransform'])
-                    && self::attribute_value($node, 'attributename', 'href')
-                ) {
+                else if (self::is_insecure_tag($node)) {
                     // Insecure svg tags
+                    // TODO: We really should use wash_attribs()/wash_uri() for these cases
                     if ($this->config['add_comments']) {
                         $dump .= "<!-- {$tagName} blocked -->";
                     }
