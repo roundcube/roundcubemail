@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Security: Fix pre-auth arbitrary file write via unsafe deserialization in redis/memcache session handler
+
+## Release 1.5.13
+
 - Fix remote image blocking bypass via SVG content reported by nullcathedral
 - Fix CSS injection vulnerability reported by CERT Polska
 

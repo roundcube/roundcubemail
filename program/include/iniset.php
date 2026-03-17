@@ -1,6 +1,8 @@
 <?php
 
-/**
+use GuzzleHttp\Cookie\FileCookieJar;
+
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -75,6 +77,13 @@ require_once 'Roundcube/bootstrap.php';
 
 // register autoloader for rcmail app classes
 spl_autoload_register('rcmail_autoload');
+
+// disable use of dangerous dependencies
+spl_autoload_register(static function ($classname) {
+    if ($classname === FileCookieJar::class) {
+        throw new \Exception("{$classname} is forbidden for security reasons.");
+    }
+}, true, true);
 
 /**
  * PHP5 autoloader routine for dynamic class loading
