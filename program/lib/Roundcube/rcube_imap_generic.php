@@ -3598,7 +3598,6 @@ class rcube_imap_generic
                     && is_array($data[++$i]) // @phpstan-ignore-line
                 ) {
                     for ($x = 0, $size2 = count($data[$i]); $x < $size2; $x += 2) {
-                        // @phpstan-ignore-next-line
                         if ($data[$i][$x + 1] !== null) {
                             $result[$mbox][$data[$i][$x]] = $data[$i][$x + 1];
                         }
