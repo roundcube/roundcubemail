@@ -281,6 +281,9 @@ class rcmail_action_mail_send extends rcmail_action
         }
 
         if ($savedraft) {
+            // Sanitize the IMAP SEARCH input
+            $message_id = preg_replace('/[\r\n]+/', '', $message_id);
+
             // remember new draft-uid ($saved could be an UID or true/false here)
             if ($saved && is_bool($saved)) {
                 $index = $rcmail->storage->search_once($drafts_mbox, 'HEADER Message-ID ' . $message_id);
