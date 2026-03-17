@@ -4,6 +4,7 @@
 
 - Fix Postgres connection using IPv6 address (#10104)
 - Security: Fix pre-auth arbitrary file write via unsafe deserialization in redis/memcache session handler
+- Security: Fix bug where a password could get changed without providing the old password
 
 ## Release 1.6.13
 

@@ -333,10 +333,10 @@ class password extends rcube_plugin
         else {
             switch ($type) {
             case PASSWORD_COMPARE_CURRENT:
-                $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
+                $result = $curpwd !== $newpwd ? $this->gettext('passwordincorrect') : null;
                 break;
             case PASSWORD_COMPARE_NEW:
-                $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
+                $result = $curpwd === $newpwd ? $this->gettext('samepasswd') : null;
                 break;
             default:
                 $result = $this->gettext('internalerror');
