@@ -15,6 +15,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix remote image blocking bypass via various SVG animate attributes
 - Security: Fix remote image blocking bypass via a crafted body background attribute
 - Security: Fix fixed position mitigation bypass via use of !important
+- Security: Fix XSS issue in a HTML attachment preview
 
 ## 1.7-rc4
 

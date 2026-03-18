@@ -255,6 +255,9 @@ trait rcube_uploads
             header('Content-Type: ' . $file['mimetype']);
             header('Content-Length: ' . $file['size']);
 
+            // Use strict security policy to make sure no javascript is executed
+            header("Content-Security-Policy: script-src 'none'");
+
             if (isset($file['data']) && is_string($file['data'])) {
                 echo $file['data'];
             } elseif (!empty($file['path'])) {
