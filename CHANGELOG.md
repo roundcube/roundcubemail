@@ -7,6 +7,7 @@
 - Security: Fix IMAP Injection + CSRF bypass in mail search
 - Security: Fix remote image blocking bypass via various SVG animate attributes
 - Security: Fix remote image blocking bypass via a crafted body background attribute
+- Security: Fix fixed position mitigation bypass via use of !important
 
 ## Release 1.5.13
 
