@@ -14,6 +14,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix IMAP Injection + CSRF bypass in mail search
 - Security: Fix remote image blocking bypass via various SVG animate attributes
 - Security: Fix remote image blocking bypass via a crafted body background attribute
+- Security: Fix fixed position mitigation bypass via use of !important
 
 ## 1.7-rc4
 
