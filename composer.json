@@ -9,6 +9,7 @@
         "guzzlehttp/promises": "^2.0",
         "league/commonmark": "^2.7",
         "masterminds/html5": "~2.9.0",
+        "mlocati/ip-lib": "^1.22.0",
         "pear/auth_sasl": "~1.2.0",
         "pear/crypt_gpg": "~1.6.3",
         "pear/mail_mime": "~1.10.11",
