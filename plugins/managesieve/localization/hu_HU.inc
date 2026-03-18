@@ -281,3 +281,4 @@ $messages['duplicate.conflict.err'] = 'Egyszerre fejléc és egyedi azonosító 
 $messages['disabledaction'] = 'A művelet nem megengedett.';
 $messages['lastindexempty'] = 'Az index kötelező, amikor a végétől számoljuk';
 $messages['noflagset'] = 'Legalább egy jelző ki kell legyen választva.';
+$messages['saving.actionordererror'] = 'A(z) \'$previous\' müveletet meg kell előzze a(z) \'$current\' művelet';

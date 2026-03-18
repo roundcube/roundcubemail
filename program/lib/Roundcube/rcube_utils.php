@@ -1,5 +1,7 @@
 <?php
 
+use IPLib\Factory;
+
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -415,6 +417,48 @@ class rcube_utils
     }
 
     /**
+     * Check if an URL point to a local network location.
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public static function is_local_url($url)
+    {
+        $host = parse_url($url, \PHP_URL_HOST);
+
+        if (is_string($host)) {
+            // TODO: This is pretty fast, but a single message can contain multiple links
+            // to the same target, maybe we should do some in-memory caching.
+            if ($address = Factory::parseAddressString($host = trim($host, '[]'))) {
+                $nets = [
+                    '127.0.0.0/8',    // loopback
+                    '10.0.0.0/8',     // RFC1918
+                    '172.16.0.0/12',  // RFC1918
+                    '192.168.0.0/16', // RFC1918
+                    '169.254.0.0/16', // link-local / cloud metadata
+                    '::1/128',
+                    'fc00::/7',
+                ];
+
+                foreach ($nets as $net) {
+                    $range = Factory::parseRangeString($net);
+                    if ($range->contains($address)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            // FIXME: Should we accept any non-fqdn hostnames?
+            return (bool) preg_match('/^localhost(\.localdomain)?$/i', $host);
+        }
+
+        return false;
+    }
+
+    /**
      * Replace all css definitions with #container [def]
      * and remove css-inlined scripting, make position style safe
      *
@@ -552,7 +596,7 @@ class rcube_utils
             if ($property == 'page') {
                 // Remove 'page' attributes (#7604)
                 continue;
-            } elseif ($property == 'position' && strcasecmp($value, 'fixed') === 0) {
+            } elseif ($property == 'position' && stripos($value, 'fixed') !== false) {
                 // Convert position:fixed to position:absolute (#5264)
                 $value = 'absolute';
             } elseif (preg_match('/expression|image-set/i', $value)) {

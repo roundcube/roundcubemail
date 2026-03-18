@@ -770,6 +770,14 @@ function rule_header_select(id) {
     }
 
     obj.style.width = h == '...' ? '40px' : '';
+
+    var adv_btn = $('#ruleadv' + id);
+    if ($('#rule_advanced' + id).children().filter(function () { return $(this).css('display') != 'none'; }).length == 0) {
+        rule_adv_switch(id, adv_btn[0], true);
+        adv_btn.addClass('disabled');
+    } else {
+        adv_btn.removeClass('disabled');
+    }
 }
 
 function rule_op_select(obj, id, header) {
@@ -826,8 +834,12 @@ function rule_join_radio(value) {
     $('#rules').css('display', value == 'any' ? 'none' : 'block');
 }
 
-function rule_adv_switch(id, elem) {
-    var elem = $(elem), enabled = elem.hasClass('hide'), adv = $('#rule_advanced' + id);
+function rule_adv_switch(id, elem, hide = false) {
+    var elem = $(elem), enabled = hide || elem.hasClass('hide'), adv = $('#rule_advanced' + id);
+
+    if (elem.hasClass('disabled')) {
+        return;
+    }
 
     if (enabled) {
         adv.get(0).style.display = 'none';

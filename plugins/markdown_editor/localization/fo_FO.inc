@@ -12,4 +12,8 @@
  +-----------------------------------------------------------------------+
 */
 
+$labels['toolbar_button_italic'] = 'Skákskrift';
+$labels['toolbar_button_link'] = 'Leinkja';
+$labels['toolbar_button_image'] = 'Mynd';
 $labels['toolbar_button_undo'] = 'Angra';
+$labels['toolbar_button_redo'] = 'Ger umaftur';

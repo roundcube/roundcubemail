@@ -946,7 +946,7 @@ class rcmail_sendmail
                 break;
         }
 
-        if ($fname && $field_type) {
+        if ($fname) {
             // pass the following attributes to the form class
             $field_attrib = ['name' => $fname, 'spellcheck' => 'false'];
             foreach ($attrib as $attr => $value) {

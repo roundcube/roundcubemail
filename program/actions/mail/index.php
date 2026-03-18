@@ -1280,7 +1280,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (isset($attrib['href'])) {
             $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
 
-            if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
+            if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href']) && !rcube_utils::is_local_url($attrib['href'])) {
                 $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
                 $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
                 $attrib['href'] = $rcmail->url([
@@ -1324,12 +1324,12 @@ class rcmail_action_mail_index extends rcmail_action
                 }
             } elseif (!empty($attrib['href']) && $attrib['href'][0] != '#') {
                 $attrib['target'] = '_blank';
-                $attrib['rel'] = 'noopener';
+                $attrib['rel'] = trim(($attrib['rel'] ?? '') . ' noopener');
             }
 
             // Better security by adding rel="noreferrer" (#1484686)
             if (($tag == 'a' || $tag == 'area') && $attrib['href'] && $attrib['href'][0] != '#') {
-                $attrib['rel'] = 'noreferrer';
+                $attrib['rel'] = trim(($attrib['rel'] ?? '') . ' noreferrer');
             }
         }
 

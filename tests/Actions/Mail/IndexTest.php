@@ -601,7 +601,7 @@ class IndexTest extends ActionTestCase
         // allow external links, add target and noreferrer
         $this->assertStringContainsString('<a href="https://roundcube.net"', $body);
         $this->assertStringContainsString(' target="_blank"', $body);
-        $this->assertStringContainsString(' rel="noreferrer"', $body);
+        $this->assertStringContainsString(' rel="noopener noreferrer"', $body);
     }
 
     /**

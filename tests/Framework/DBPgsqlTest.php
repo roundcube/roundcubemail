@@ -97,5 +97,13 @@ class DBPgsqlTest extends TestCase
         $dsn = $db->parse_dsn('pgsql://user@unix(/var/run/postgresql)/roundcubemail?sslmode=verify-full');
         $result = invokeMethod($db, 'dsn_string', [$dsn]);
         $this->assertSame('pgsql:host=/var/run/postgresql;dbname=roundcubemail;sslmode=verify-full', $result);
+
+        $result = $db->parse_dsn('pgsql://user:pass@[fd00:3::11]:5432/test');
+        $dsn = invokeMethod($db, 'dsn_string', [$result]);
+        $this->assertSame('pgsql:host=fd00:3::11;port=5432;dbname=test', $dsn);
+
+        $result = $db->parse_dsn('pgsql://user:pass@[::1]/test');
+        $dsn = invokeMethod($db, 'dsn_string', [$result]);
+        $this->assertSame('pgsql:host=::1;dbname=test', $dsn);
     }
 }

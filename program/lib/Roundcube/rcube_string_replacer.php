@@ -57,7 +57,7 @@ class rcube_string_replacer
         $this->options = $options;
         $this->linkref_index = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
-        $this->link_pattern = "/({$link_prefix})(({$ip_address}(:[0-9]{1,5})?|{$utf_domain})([\\/?#]\\S*[^\\s.:;,]+)*[\\/?#]?)/";
+        $this->link_pattern = "/({$link_prefix})(({$ip_address}|{$utf_domain})(:[0-9]{1,5})?([\\/?#][^\\s<>\"']*[^\\s.:;,<>\"'])*[\\/?#]?)/";
         $this->mailto_pattern = '/('
             . '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*' // local-part
             . '@' . $utf_domain                                       // domain-part

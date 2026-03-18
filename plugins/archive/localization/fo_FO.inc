@@ -13,9 +13,9 @@
 */
 
 $labels['buttontext'] = 'Goym í skjalasavni';
-$labels['buttontitle'] = 'Goym hetta boð í skjalasavni';
-$labels['archived'] = 'Goymt í skjalasavn';
-$labels['archivedreload'] = 'Goymt í skjalasavn. Les inn aftur síðu fyri at síggja nýggjar mappur';
+$labels['buttontitle'] = 'Goym boðið í skjalasavni';
+$labels['archived'] = 'Goymt í skjalasavni';
+$labels['archivedreload'] = 'Goymt í skjalasavni. Endurinnles fyri at síggja nýggjar mappur.';
 $labels['archiveerror'] = 'Onkur boð kundu ikki leggjast í skjalagoymslu';
 $labels['archivefolder'] = 'Goym í skjalasavni';
 $labels['settingstitle'] = 'Goym í skjalasavni';

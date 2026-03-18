@@ -341,6 +341,9 @@ class UtilsTest extends TestCase
         $mod = \rcube_utils::mod_css_styles('.test { position: fixed; top: 0;', 'rcmbody');
         $this->assertSame('#rcmbody .test { position: absolute; top: 0; }', $mod, 'Replace position:fixed with position:absolute (6)');
 
+        $mod = \rcube_utils::mod_css_styles('.test { position: fixed !important; }', 'rcmbody');
+        $this->assertSame('#rcmbody .test { position: absolute; }', $mod, 'Replace position:fixed with position:absolute (7)');
+
         // allow data URIs with images (#5580)
         $mod = \rcube_utils::mod_css_styles('body { background-image: url(data:image/png;base64,123); }', 'rcmbody');
         $this->assertStringContainsString('#rcmbody { background-image: url(data:image/png;base64,123);', $mod, 'Data URIs in url() allowed [1]');
@@ -634,6 +637,40 @@ class UtilsTest extends TestCase
             $result = \rcube_utils::file2class($v[0], $v[1]);
             $this->assertSame($v[2], $result);
         }
+    }
+
+    /**
+     * Test is_local_url()
+     *
+     * @dataProvider provide_is_local_url_cases
+     */
+    #[DataProvider('provide_is_local_url_cases')]
+    public function test_is_local_url($input, $output)
+    {
+        $this->assertSame($output, \rcube_utils::is_local_url($input));
+    }
+
+    /**
+     * Test-Cases for is_local_url() test
+     */
+    public static function provide_is_local_url_cases(): iterable
+    {
+        return [
+            // Local hosts
+            ['https://127.0.0.1', true],
+            ['https://10.1.1.1', true],
+            ['https://172.16.0.1', true],
+            ['https://192.168.0.100', true],
+            ['https://169.254.0.200', true],
+            ['http://[fc00::1]', true],
+            ['ftp://[::1]:8080', true],
+            ['//127.0.0.1', true],
+            ['http://localhost', true],
+            ['http://localhost.localdomain', true],
+            // Non-local hosts
+            ['http://[2001:470::76:0:0:0:2]', false],
+            ['http://domain.tld', false],
+        ];
     }
 
     /**

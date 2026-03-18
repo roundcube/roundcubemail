@@ -4,6 +4,20 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Password: Add nt-binary hashing method (#10096)
+- Fix URL matching for domain names with port numbers (#10105)
+- Fix PHP fatal error when using IMAP cache (#10102)
+- Fix Postgres connection using IPv6 address (#10104)
+- Fix bug where `rel=stylesheet` part of a `<link>` could get removed
+- Security: Fix pre-auth arbitrary file write via unsafe deserialization in redis/memcache session handler
+- Security: Fix bug where a password could get changed without providing the old password
+- Security: Fix IMAP Injection + CSRF bypass in mail search
+- Security: Fix remote image blocking bypass via various SVG animate attributes
+- Security: Fix remote image blocking bypass via a crafted body background attribute
+- Security: Fix fixed position mitigation bypass via use of !important
+- Security: Fix XSS issue in a HTML attachment preview
+- Security: Fix SSRF + Information Disclosure via stylesheet links to a local network hosts
+
 ## 1.7-rc4
 
 - Ensure correct file permissions when building a release.

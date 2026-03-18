@@ -326,10 +326,10 @@ class password extends rcube_plugin
         } else {
             switch ($type) {
                 case PASSWORD_COMPARE_CURRENT:
-                    $result = $curpwd != $newpwd ? $this->gettext('passwordincorrect') : null;
+                    $result = $curpwd !== $newpwd ? $this->gettext('passwordincorrect') : null;
                     break;
                 case PASSWORD_COMPARE_NEW:
-                    $result = $curpwd == $newpwd ? $this->gettext('samepasswd') : null;
+                    $result = $curpwd === $newpwd ? $this->gettext('samepasswd') : null;
                     break;
                 default:
                     $result = $this->gettext('internalerror');
@@ -658,8 +658,21 @@ class password extends rcube_plugin
                 $prefix = '{SMD5}';
                 break;
             case 'samba':
+            case 'nt-hex':
                 if (function_exists('hash')) {
                     $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'));
+                    $crypted = strtoupper($crypted);
+                } else {
+                    rcube::raise_error([
+                        'code' => 600,
+                        'message' => 'Password plugin: Your PHP installation does not have hash() function',
+                    ], true, true);
+                }
+
+                break;
+            case 'nt-binary':
+                if (function_exists('hash')) {
+                    $crypted = hash('md4', rcube_charset::convert($password, RCUBE_CHARSET, 'UTF-16LE'), true);
                     $crypted = strtoupper($crypted);
                 } else {
                     rcube::raise_error([
