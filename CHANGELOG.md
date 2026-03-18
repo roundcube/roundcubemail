@@ -8,6 +8,7 @@
 - Security: Fix remote image blocking bypass via various SVG animate attributes
 - Security: Fix remote image blocking bypass via a crafted body background attribute
 - Security: Fix fixed position mitigation bypass via use of !important
+- Security: Fix XSS issue in a HTML attachment preview
 
 ## Release 1.5.13
 
