@@ -558,7 +558,7 @@ class rcube_utils
             if ($property == 'page') {
                 // Remove 'page' attributes (#7604)
                 continue;
-            } elseif ($property == 'position' && strcasecmp($value, 'fixed') === 0) {
+            } elseif ($property == 'position' && stripos($value, 'fixed') !== false) {
                 // Convert position:fixed to position:absolute (#5264)
                 $value = 'absolute';
             } elseif (preg_match('/expression|image-set/i', $value)) {
