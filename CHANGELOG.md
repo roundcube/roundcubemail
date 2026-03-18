@@ -7,6 +7,7 @@
 - Security: Fix bug where a password could get changed without providing the old password
 - Security: Fix IMAP Injection + CSRF bypass in mail search
 - Security: Fix remote image blocking bypass via various SVG animate attributes
+- Security: Fix remote image blocking bypass via a crafted body background attribute
 
 ## Release 1.6.13
 
