@@ -3,7 +3,7 @@
 #
 
 GITREMOTE=https://github.com/roundcube/roundcubemail.git
-GITBRANCH=master
+GITBRANCH=release-1.7
 GPGKEY=devs@roundcube.net
 VERSION=1.7-git
 SEDI=sed -i
