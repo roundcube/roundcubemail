@@ -47,7 +47,7 @@ class rcmail_action_utils_modcss extends rcmail_action
         $ctype  = null;
 
         try {
-            $client   = rcube::get_instance()->get_http_client();
+            $client = rcube::get_instance()->get_http_client(['allow_redirects' => false]);
             $response = $client->get($realurl);
 
             if (!empty($response)) {

@@ -1274,7 +1274,7 @@ class rcmail_action_mail_index extends rcmail_action
         if (isset($attrib['href'])) {
             $attrib['href'] = preg_replace('/[\x00-\x1F]/', '', $attrib['href']);
 
-            if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href'])) {
+            if ($tag == 'link' && preg_match('/^https?:\/\//i', $attrib['href']) && !rcube_utils::is_local_url($attrib['href'])) {
                 $tempurl = 'tmp-' . md5($attrib['href']) . '.css';
                 $_SESSION['modcssurls'][$tempurl] = $attrib['href'];
                 $attrib['href'] = $rcmail->url([
