@@ -530,7 +530,7 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 . "googie.setDecoration(false);\n"
                 . "googie.decorateTextarea(rcmail.env.composebody);\n",
                 $rcmail->output->asset_url($rcmail->output->get_skin_path()),
-                $rcmail->url(['_task' => 'utils', '_action' => 'spell', '_remote' => 1]),
+                $rcmail->url(['_task' => 'utils', '_action' => 'spell']),
                 !empty($dictionary) ? 'true' : 'false',
                 rcube::JQ(rcube::Q($rcmail->gettext('checkspelling'))),
                 rcube::JQ(rcube::Q($rcmail->gettext('resumeediting'))),

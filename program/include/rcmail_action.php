@@ -68,11 +68,7 @@ abstract class rcmail_action
         $rcmail = rcmail::get_instance();
 
         if (static::$mode) {
-            if (!(static::$mode & self::MODE_HTTP) && empty($rcmail->output->ajax_call)) {
-                return false;
-            }
-
-            if (!(static::$mode & self::MODE_AJAX) && !empty($rcmail->output->ajax_call)) {
+            if (!(static::$mode & self::MODE_AJAX) && $rcmail->output->ajax_call) {
                 return false;
             }
         }
