@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix regression where mail search would fail on non-ascii search criteria (#10121)
+- Fix so distribution packages (and composer.json) don't include development dependencies
 
 ## Release 1.5.14
 

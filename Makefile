@@ -1,7 +1,7 @@
 GITREMOTE=https://github.com/roundcube/roundcubemail.git
 GITBRANCH=release-1.5
 GPGKEY=devs@roundcube.net
-VERSION=1.5-git
+VERSION=1.5.14
 PHP_VERSION=5.5
 SEDI=sed -i
 
@@ -20,6 +20,7 @@ complete: roundcubemail-git
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "symfony/polyfill-intl-idn:1.19.0" --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar require "roundcube/plugin-installer:0.3.3" --no-install)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset suggest.kolab/net_ldap3)
+	(cd roundcubemail-$(VERSION); php /tmp/composer.phar remove phpunit/phpunit --dev --no-update)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar install --prefer-dist --no-dev --no-interaction)
 	(cd roundcubemail-$(VERSION); php /tmp/composer.phar config --unset platform)
 	(cd roundcubemail-$(VERSION); bin/install-jsdeps.sh --force)
