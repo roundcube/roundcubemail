@@ -527,3 +527,8 @@ $config['password_dovecot_passwdfile_path'] = '/etc/mail/imap.passwd';
 // ----------------------
 $config['password_mailcow_api_host'] = 'localhost';
 $config['password_mailcow_api_token'] = '';
+
+// Stalwart driver options
+// ----------------------
+$config['password_stalwart_api_host']  = ''; // URL
+$config['password_stalwart_api_token'] = '';
