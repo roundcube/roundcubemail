@@ -416,6 +416,7 @@
  Password change via LDAP unicodePwd attribute supported by Active Directory.
  Uses configuration for other LDAP drivers.
 
+
  2.1.30. Stalwart
  ---------------------------------------------------
 
@@ -425,8 +426,10 @@
   - Modify user account information       => On
 
  Then setup these Roundcube config key:
-  $config['stalwart_host']  = 'https://mail.example.org/api'; // required
-  $config['stalwart_token'] = 'deadbeef';                     // required
+
+ $config['password_stalwart_api_host']  = 'https://mail.example.org/api'; // required
+ $config['password_stalwart_api_token'] = 'deadbeef';                     // required
+
 
  2.2. Password Strength Drivers
  ------------------------------

@@ -7,10 +7,6 @@
  * - Retrieve specific account information => On
  * - Modify user account information       => On
  *
- * Config variables:
- * $config['stalwart_host']  = 'https://mail.example.org/api'; // required
- * $config['stalwart_token'] = 'deadbeef';                     // required
- *
  * @author Armand Vignat <armand@vignat.org>
  *
  * Copyright (C) The Roundcube Dev Team
@@ -45,8 +41,8 @@ class rcube_stalwart_password
     private function fetch_user($username)
     {
         $config = rcmail::get_instance()->config;
-        $url = $config->get('stalwart_host');
-        $token = $config->get('stalwart_token');
+        $url = $config->get('password_stalwart_api_host');
+        $token = $config->get('password_stalwart_api_token');
 
         $client = password::get_http_client();
         $response = $client->request('GET', $url . '/principal/' . $username, [
@@ -70,8 +66,8 @@ class rcube_stalwart_password
     {
         $client = password::get_http_client();
         $config = rcmail::get_instance()->config;
-        $url = $config->get('stalwart_host');
-        $token = $config->get('stalwart_token');
+        $url = $config->get('password_stalwart_api_host');
+        $token = $config->get('password_stalwart_api_token');
 
         try {
             $data = $this->fetch_user($username);

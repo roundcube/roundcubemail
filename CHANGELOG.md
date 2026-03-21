@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Password: Added Stalwart driver (#10114)
+
+## 1.7-rc5
+
 - Password: Add nt-binary hashing method (#10096)
 - Fix URL matching for domain names with port numbers (#10105)
 - Fix PHP fatal error when using IMAP cache (#10102)
