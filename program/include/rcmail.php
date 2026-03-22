@@ -141,7 +141,7 @@ class rcmail extends rcube
         // init output class
         if (\PHP_SAPI == 'cli') {
             $this->output = new rcmail_output_cli();
-        } elseif (!empty($_REQUEST['_remote'])) {
+        } elseif (rcube_utils::request_header('X-Roundcube-Request')) {
             $this->json_init();
         } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
             $this->load_gui(!empty($_REQUEST['_framed']));
