@@ -30,7 +30,7 @@
 
 class managesieve extends rcube_plugin
 {
-    public $task = 'mail|settings';
+    public $task = 'cli|mail|settings';
 
     private $rc;
     private $engine;
@@ -77,6 +77,8 @@ class managesieve extends rcube_plugin
             if (empty($action) || $action == 'show' || str_starts_with($action, 'plugin.managesieve')) {
                 $this->mail_task_handler();
             }
+        } elseif ($task == 'cli') {
+            $this->add_hook('health_check', [$this, 'health_check']);
         }
     }
 
@@ -356,5 +358,25 @@ class managesieve extends rcube_plugin
         // Fetch extra mail headers used by the plugin
         $p['fetch_headers'] = trim(($p['fetch_headers'] ?? '') . ' List-Id');
         return $p;
+    }
+
+    /**
+     * Health check action handler
+     */
+    public function health_check($args)
+    {
+        $args['checks']['Managesieve'] = function ($opts) {
+            $engine = $this->get_engine();
+
+            $result = $engine->connect($opts['user'] ?? null, $opts['pass'] ?? null);
+
+            if ($result) {
+                return [false, 'Failed to connect to server ' . $engine->get_host()];
+            }
+
+            return [true, $engine->get_host()];
+        };
+
+        return $args;
     }
 }
