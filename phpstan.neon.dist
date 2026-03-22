@@ -14,7 +14,6 @@ parameters:
         # relax strict rules
         - '~^Only booleans are allowed in .+, .+ given( on the (left|right) side)?\.~'
         - '~^Variable (static )?(property access|method call) on .+\.~'
-        - '~^Variable variables are not allowed.~'
         - '~^Variable .* might not be defined\.~'
         - '~Call to function array_filter\(\) requires parameter #2 to be passed to avoid loose comparison semantics.~'
         - identifier: equal.notAllowed
