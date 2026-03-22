@@ -270,31 +270,11 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         }
 
         if ($date_extension) {
-            $date_format = $this->rc->config->get('date_format', 'Y-m-d');
-            foreach (['date_from', 'date_to'] as $var) {
-                $time = ${str_replace('date', 'time', $var)};
-                $date = rcube_utils::format_datestr(${$var}, $date_format);
-                $date = trim($date . ' ' . $time);
-
-                if ($date && ($dt = rcube_utils::anytodatetime($date, $timezone))) {
-                    if ($time) {
-                        $vacation_tests[] = [
-                            'test' => 'currentdate',
-                            'part' => 'iso8601',
-                            'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
-                            'zone' => $dt->format('O'),
-                            'arg' => str_replace('+00:00', 'Z', strtoupper($dt->format('c'))),
-                        ];
-                    } else {
-                        $vacation_tests[] = [
-                            'test' => 'currentdate',
-                            'part' => 'date',
-                            'type' => 'value-' . ($var == 'date_from' ? 'ge' : 'le'),
-                            'zone' => $dt->format('O'),
-                            'arg' => $dt->format('Y-m-d'),
-                        ];
-                    }
-                }
+            if ($cdt = $this->get_currentdate_test($date_from, $time_from, $timezone, 'ge')) {
+                $vacation_tests[] = $cdt;
+            }
+            if ($cdt = $this->get_currentdate_test($date_to, $time_to, $timezone, 'le')) {
+                $vacation_tests[] = $cdt;
             }
         } elseif ($regex_extension) {
             // Add date range rules if range specified
@@ -697,23 +677,19 @@ class rcube_sieve_vacation extends rcube_sieve_engine
         $end = null;
 
         if ($date_extension) {
-            $date_value = [];
             if (!empty($this->vacation['tests'])) {
                 foreach ((array) $this->vacation['tests'] as $test) {
                     if ($test['test'] == 'currentdate') {
-                        $idx = $test['type'] == 'value-ge' ? 'start' : 'end';
-
-                        if ($test['part'] == 'date') {
-                            $date_value[$idx]['date'] = $test['arg'];
-                        } elseif ($test['part'] == 'iso8601') {
-                            $date_value[$idx]['datetime'] = $test['arg'];
+                        if ($test['part'] == 'date' || $test['part'] == 'iso8601') {
+                            $dt = new \DateTime($test['arg'], $timezone);
+                            if ($test['type'] == 'value-ge') {
+                                $start = $dt;
+                            } else {
+                                $end = $dt;
+                            }
                         }
                     }
                 }
-            }
-
-            foreach ($date_value as $idx => $value) {
-                ${$idx} = new \DateTime(!empty($value['datetime']) ? $value['datetime'] : $value['date'], $timezone);
             }
         } elseif ($regex_extension) {
             // Sieve 'date' extension not available, read start/end from RegEx based rules instead
@@ -896,5 +872,34 @@ class rcube_sieve_vacation extends rcube_sieve_engine
     public function get_error()
     {
         return $this->error;
+    }
+
+    /**
+     * Get a currentdate test definition
+     */
+    protected function get_currentdate_test($date, $time, $timezone, $op)
+    {
+        $date_format = $this->rc->config->get('date_format', 'Y-m-d');
+        $date = rcube_utils::format_datestr($date, $date_format);
+        $date = trim($date . ' ' . $time);
+
+        if (!$date || !($dt = rcube_utils::anytodatetime($date, $timezone))) {
+            return null;
+        }
+
+        $test = [
+            'test' => 'currentdate',
+            'part' => 'date',
+            'type' => 'value-' . $op,
+            'zone' => $dt->format('O'),
+            'arg' => $dt->format('Y-m-d'),
+        ];
+
+        if ($time) {
+            $test['part'] = 'iso8601';
+            $test['arg'] = str_replace('+00:00', 'Z', strtoupper($dt->format('c')));
+        }
+
+        return $test;
     }
 }
