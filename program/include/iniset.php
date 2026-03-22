@@ -130,7 +130,7 @@ function rcmail_fatal_error()
 {
     if (\PHP_SAPI === 'cli') {
         echo "Fatal error: Please check the Roundcube error log and/or server error logs for more information.\n";
-    } elseif (!empty($_REQUEST['_remote'])) {
+    } elseif (rcube_utils::request_header('X-Roundcube-Request')) {
         // Ajax request from UI
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(['code' => 500, 'message' => 'Internal Server Error']);
