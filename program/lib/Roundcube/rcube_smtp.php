@@ -36,10 +36,10 @@ class rcube_smtp
     /**
      * SMTP Connection and authentication
      *
-     * @param string $host Server host
-     * @param string $port Server port
-     * @param string $user User name
-     * @param string $pass Password
+     * @param ?string $host Server host
+     * @param ?string $port Server port
+     * @param ?string $user User name
+     * @param ?string $pass Password
      *
      * @return bool True on success, or False on error
      */
@@ -420,10 +420,10 @@ class rcube_smtp
      *                       value (ie, 'test'). The header produced from those
      *                       values would be 'Subject: test'.
      *
-     * @return mixed returns false if it encounters a bad address,
-     *               otherwise returns an array containing two
-     *               elements: Any From: address found in the headers,
-     *               and the plain text version of the headers
+     * @return array|false Returns False if it encounters a bad address,
+     *                     otherwise an array containing two elements:
+     *                     Any From: address found in the headers,
+     *                     and the plain text version of the headers
      */
     private function _prepare_headers($headers)
     {
@@ -474,11 +474,11 @@ class rcube_smtp
      * bare addresses (forward paths) that can be passed to sendmail
      * or an smtp server with the rcpt to: command.
      *
-     * @param mixed $recipients either a comma-separated list of recipients
-     *                          (RFC822 compliant), or an array of recipients,
-     *                          each RFC822 valid
+     * @param string|array $recipients Either a comma-separated list of recipients
+     *                                 (RFC822 compliant), or an array of recipients,
+     *                                 each RFC822 valid
      *
-     * @return array an array of forward paths (bare addresses)
+     * @return array An array of forward paths (bare addresses)
      */
     private function _parse_rfc822($recipients)
     {
