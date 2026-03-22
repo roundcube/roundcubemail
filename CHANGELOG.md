@@ -4,6 +4,8 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Added system health checker CLI script (#10106)
+- Stricter recognition of an Ajax request (#10118)
 - Password: Added Stalwart driver (#10114)
 
 ## 1.7-rc5
