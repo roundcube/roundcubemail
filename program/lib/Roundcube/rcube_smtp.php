@@ -71,7 +71,7 @@ class rcube_smtp
         $host = rcube_utils::parse_host($host);
 
         // Allow arrays for SMTP users
-        if (empty($user)) {
+        if (is_null($user)) {
             $user = $rcube->config->get('smtp_user', '%u');
             if (is_array($user)) {
                 if (array_key_exists($_SESSION['storage_host'], $user)) {
@@ -85,7 +85,7 @@ class rcube_smtp
         }
 
         // Allow arrays for SMTP passwords
-        if (empty($pass)) {
+        if (is_null($pass)) {
             $pass = $rcube->config->get('smtp_pass', '%p');
             if (is_array($pass)) {
                 if (array_key_exists($_SESSION['storage_host'], $pass)) {
