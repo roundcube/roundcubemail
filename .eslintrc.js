@@ -19,6 +19,7 @@ module.exports = {
         '/plugins/managesieve/codemirror',
         '/program/js/tinymce',
         '/program/js/publickey.js',
+        '/temp',
         'node_modules',
         '*.min.js',
     ],
