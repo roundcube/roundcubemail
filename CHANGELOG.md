@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix regression where mail search would fail on non-ascii search criteria (#10121)
+- Fix regression where some data url images could get ignored/lost (#10128)
 
 ## Release 1.6.14
 

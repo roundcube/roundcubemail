@@ -428,7 +428,7 @@ class rcube_washtml
             }
 
             // At this point we allow only valid base64 images
-            if (stripos($type, 'base64') === false || preg_match('|[^0-9a-z\s/+]|i', $matches[2])) {
+            if (stripos($type, 'base64') === false || preg_match('|[^0-9a-z\s/+=]|i', $matches[2])) {
                 return '';
             }
 
