@@ -58,6 +58,8 @@ abstract class TestCase extends PHPUnitTestCase
             '--no-sandbox',
             '--disable-features=InsecureDownloadWarnings',
             '--unsafely-treat-insecure-origin-as-secure=' . self::getServerUrl(),
+            '--disable-search-engine-choice-screen',
+            '--disable-smooth-scrolling',
         ]);
 
         // For file download handling
