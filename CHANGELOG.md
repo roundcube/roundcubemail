@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Stricter recognition of an Ajax request (#10118)
 - Password: Added Stalwart driver (#10114)
 - Fix regression where some data url images could get ignored/lost (#10128)
+- Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke
 
 ## 1.7-rc5
 
