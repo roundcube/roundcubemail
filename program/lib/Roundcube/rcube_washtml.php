@@ -547,7 +547,8 @@ class rcube_washtml
             return true;
         }
 
-        return self::attribute_value($node, 'attributeName', '/^(mask|cursor)$/i')
+        $rx = '/^(mask|cursor|fill|filter|stroke|clip-path|marker-start|marker-end|marker-mid)$/i';
+        return self::attribute_value($node, 'attributeName', $rx)
             && self::attribute_value($node, 'values', '/url\(/i');
     }
 
