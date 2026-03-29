@@ -46,8 +46,6 @@ class rcube_smtp
      */
     public function connect($host = null, $port = null, $user = null, $pass = null)
     {
-        $rcube = rcube::get_instance();
-
         // disconnect/destroy $this->conn
         $this->disconnect();
 
@@ -55,50 +53,31 @@ class rcube_smtp
         $this->error = $this->response = null;
 
         if (empty($host)) {
-            $host = $rcube->config->get('smtp_host', 'localhost:587');
-            if (is_array($host)) {
-                if (array_key_exists($_SESSION['storage_host'], $host)) {
-                    $host = $host[$_SESSION['storage_host']];
-                } else {
-                    $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
-                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
-                    return false;
-                }
+            $host = $this->_config_option_for_storage_host('smtp_host', 'localhost:587');
+            if ($host === false) {
+                return false;
             }
         } elseif (!empty($port) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 
+        if ($user === null) {
+            $user = $this->_config_option_for_storage_host('smtp_user', '%u');
+            if ($user === false) {
+                return false;
+            }
+        }
+
+        if ($pass === null) {
+            $pass = $this->_config_option_for_storage_host('smtp_pass', '%p');
+            if ($pass === false) {
+                return false;
+            }
+        }
+
+        $rcube = rcube::get_instance();
         $host = rcube_utils::parse_host($host);
 
-        // Allow arrays for SMTP users
-        if (is_null($user)) {
-            $user = $rcube->config->get('smtp_user', '%u');
-            if (is_array($user)) {
-                if (array_key_exists($_SESSION['storage_host'], $user)) {
-                    $user = $user[$_SESSION['storage_host']];
-                } else {
-                    $this->response[] = 'Connection failed: No SMTP user found for IMAP host ' . $_SESSION['storage_host'];
-                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
-                    return false;
-                }
-            }
-        }
-
-        // Allow arrays for SMTP passwords
-        if (is_null($pass)) {
-            $pass = $rcube->config->get('smtp_pass', '%p');
-            if (is_array($pass)) {
-                if (array_key_exists($_SESSION['storage_host'], $pass)) {
-                    $pass = $pass[$_SESSION['storage_host']];
-                } else {
-                    $this->response[] = 'Connection failed: No SMTP password found for IMAP host ' . $_SESSION['storage_host'];
-                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
-                    return false;
-                }
-            }
-        }
-     
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
             'smtp_host' => $host,
@@ -614,5 +593,25 @@ class rcube_smtp
 
         $this->error = ['label' => $label, 'vars' => $vars];
         $this->response[] = "{$message}: {$err[1]} (Code: {$err[0]})";
+    }
+
+    /**
+     * Read SMTP configuration option with support for per-host array
+     */
+    private function _config_option_for_storage_host($name, $default = null)
+    {
+        $value = rcube::get_instance()->config->get($name, $default);
+
+        if (is_array($value)) {
+            if (array_key_exists($_SESSION['storage_host'], $value)) {
+                $value = $value[$_SESSION['storage_host']];
+            } else {
+                $this->response[] = "Connection aborted: No '{$name}' found for IMAP host " . $_SESSION['storage_host'];
+                $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
+                return false;
+            }
+        }
+
+        return $value;
     }
 }
