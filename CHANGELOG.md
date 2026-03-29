@@ -4,6 +4,7 @@
 
 - Fix regression where mail search would fail on non-ascii search criteria (#10121)
 - Fix regression where some data url images could get ignored/lost (#10128)
+- Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke
 
 ## Release 1.6.14
 

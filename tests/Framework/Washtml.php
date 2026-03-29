@@ -521,6 +521,10 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                     . ' feel="freeze" dur="1s" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
+            [
+                '<svg><animate attributeName="fill" values="url(http://external.site)" dur="1s" begin="0s" fill="freeze" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
         ];
     }
 
