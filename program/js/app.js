@@ -9576,7 +9576,6 @@ function rcube_webmail() {
             data = rcube_parse_query(data);
         }
 
-        data._remote = 1;
         data._unlock = lock ? lock : 0;
 
         // trigger plugin hook
@@ -10110,7 +10109,7 @@ function rcube_webmail() {
         // prepare multipart form data composition
         var uri,
             files = e.target.files || e.dataTransfer.files,
-            args = { _id: this.env.compose_id || this.env.cid || '', _remote: 1, _from: this.env.action };
+            args = { _id: this.env.compose_id || this.env.cid || '', _from: this.env.action };
 
         if (!files || !files.length) {
             // Roundcube attachment, pass its uri to the backend and attach
@@ -10153,7 +10152,7 @@ function rcube_webmail() {
             formdata = new FormData(),
             fieldname = props.name || '_file[]',
             limit = props.single ? 1 : files.length;
-        args = $.extend({ _remote: 1, _from: this.env.action }, post_args || {});
+        args = $.extend({ _from: this.env.action }, post_args || {});
 
         // add files to form data
         for (i = 0; numfiles < limit && (f = files[i]); i++) {

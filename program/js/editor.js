@@ -114,7 +114,7 @@ function rcube_text_editor(config, id) {
         $.extend(conf, {
             plugins: 'autolink charmap code directionality link lists image media nonbreaking'
                 + ' paste table tabfocus searchreplace spellchecker',
-            spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html&_remote=1',
+            spellchecker_rpc_url: abs_url + '/?_task=utils&_action=spell_html',
             spellchecker_language: rcmail.env.spell_lang,
         });
     }

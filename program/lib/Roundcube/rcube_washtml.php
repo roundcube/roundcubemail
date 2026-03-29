@@ -417,7 +417,7 @@ class rcube_washtml
             }
 
             // At this point we allow only valid base64 images
-            if (stripos($type, 'base64') === false || preg_match('|[^0-9a-z\s/+]|i', $matches[2])) {
+            if (stripos($type, 'base64') === false || preg_match('|[^0-9a-z\s/+=]|i', $matches[2])) {
                 return '';
             }
 
@@ -544,7 +544,8 @@ class rcube_washtml
             return true;
         }
 
-        return self::attribute_value($node, 'attributeName', '/^(mask|cursor)$/i')
+        $rx = '/^(mask|cursor|fill|filter|stroke|clip-path|marker-start|marker-end|marker-mid)$/i';
+        return self::attribute_value($node, 'attributeName', $rx)
             && self::attribute_value($node, 'values', '/url\(/i');
     }
 

@@ -57,12 +57,12 @@ class WashtmlTest extends TestCase
      */
     public function test_data_image_with_newline()
     {
-        $html = "<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>";
+        $html = "<p><img src=\"data:image/png;base64,12345\n\t+/ABC=\" /></p>";
 
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t67890\" /></p>", $this->cleanupResult($washed));
+        $this->assertSame("<p><img src=\"data:image/png;base64,12345\n\t+/ABC=\" /></p>", $this->cleanupResult($washed));
     }
 
     /**
@@ -536,6 +536,10 @@ class WashtmlTest extends TestCase
             [
                 '<svg><animate attributeName="cursor" attributeType="CSS" values="url(https://external.site),auto"'
                     . ' feel="freeze" dur="1s" /></svg>',
+                '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><animate attributeName="fill" values="url(http://external.site)" dur="1s" begin="0s" fill="freeze" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
         ];

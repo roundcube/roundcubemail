@@ -4,6 +4,15 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Added support for arrays in `smtp_user` and `smtp_pass` config options (#10083)
+- Added system health checker CLI script (#10106)
+- Stricter recognition of an Ajax request (#10118)
+- Password: Added Stalwart driver (#10114)
+- Fix regression where some data url images could get ignored/lost (#10128)
+- Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke
+
+## 1.7-rc5
+
 - Password: Add nt-binary hashing method (#10096)
 - Fix URL matching for domain names with port numbers (#10105)
 - Fix PHP fatal error when using IMAP cache (#10102)

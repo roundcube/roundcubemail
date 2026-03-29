@@ -24,6 +24,7 @@
 class rcube_smtp
 {
     private $conn;
+    private $host;
     private $response;
     private $error;
     private $anonymize_log = 0;
@@ -36,17 +37,15 @@ class rcube_smtp
     /**
      * SMTP Connection and authentication
      *
-     * @param string $host Server host
-     * @param string $port Server port
-     * @param string $user User name
-     * @param string $pass Password
+     * @param ?string $host Server host
+     * @param ?string $port Server port
+     * @param ?string $user User name
+     * @param ?string $pass Password
      *
      * @return bool True on success, or False on error
      */
     public function connect($host = null, $port = null, $user = null, $pass = null)
     {
-        $rcube = rcube::get_instance();
-
         // disconnect/destroy $this->conn
         $this->disconnect();
 
@@ -54,27 +53,36 @@ class rcube_smtp
         $this->error = $this->response = null;
 
         if (empty($host)) {
-            $host = $rcube->config->get('smtp_host', 'localhost:587');
-            if (is_array($host)) {
-                if (array_key_exists($_SESSION['storage_host'], $host)) {
-                    $host = $host[$_SESSION['storage_host']];
-                } else {
-                    $this->response[] = 'Connection failed: No SMTP server found for IMAP host ' . $_SESSION['storage_host'];
-                    $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
-                    return false;
-                }
+            $host = $this->_config_option_for_storage_host('smtp_host', 'localhost:587');
+            if ($host === false) {
+                return false;
             }
         } elseif (!empty($port) && !preg_match('/:\d+$/', $host)) {
             $host = "{$host}:{$port}";
         }
 
+        if ($user === null) {
+            $user = $this->_config_option_for_storage_host('smtp_user', '%u');
+            if ($user === false) {
+                return false;
+            }
+        }
+
+        if ($pass === null) {
+            $pass = $this->_config_option_for_storage_host('smtp_pass', '%p');
+            if ($pass === false) {
+                return false;
+            }
+        }
+
+        $rcube = rcube::get_instance();
         $host = rcube_utils::parse_host($host);
 
         // let plugins alter smtp connection config
         $CONFIG = $rcube->plugins->exec_hook('smtp_connect', [
             'smtp_host' => $host,
-            'smtp_user' => $user !== null ? $user : $rcube->config->get('smtp_user', '%u'),
-            'smtp_pass' => $pass !== null ? $pass : $rcube->config->get('smtp_pass', '%p'),
+            'smtp_user' => $user,
+            'smtp_pass' => $pass,
             'smtp_auth_cid' => $rcube->config->get('smtp_auth_cid'),
             'smtp_auth_pw' => $rcube->config->get('smtp_auth_pw'),
             'smtp_auth_type' => $rcube->config->get('smtp_auth_type'),
@@ -113,12 +121,12 @@ class rcube_smtp
         $this->conn = new \Net_SMTP($smtp_host, $smtp_port, $helo_host, false, 0, $CONFIG['smtp_conn_options'],
             $CONFIG['gssapi_context'], $CONFIG['gssapi_cn']);
 
+        $this->host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
+
         if ($rcube->config->get('smtp_debug')) {
             $this->conn->setDebug(true, [$this, 'debug_handler']);
             $this->anonymize_log = 0;
-
-            $_host = ($use_tls ? 'tls://' : '') . $smtp_host . ':' . $smtp_port;
-            $this->debug_handler($this->conn, "Connecting to {$_host}...");
+            $this->debug_handler($this->conn, "Connecting to {$this->host}...");
         }
 
         // register authentication methods
@@ -403,6 +411,16 @@ class rcube_smtp
     }
 
     /**
+     * Get host specification
+     *
+     * @return ?string
+     */
+    public function get_host()
+    {
+        return $this->host;
+    }
+
+    /**
      * Get server response messages array
      */
     public function get_response()
@@ -420,10 +438,10 @@ class rcube_smtp
      *                       value (ie, 'test'). The header produced from those
      *                       values would be 'Subject: test'.
      *
-     * @return mixed returns false if it encounters a bad address,
-     *               otherwise returns an array containing two
-     *               elements: Any From: address found in the headers,
-     *               and the plain text version of the headers
+     * @return array|false Returns False if it encounters a bad address,
+     *                     otherwise an array containing two elements:
+     *                     Any From: address found in the headers,
+     *                     and the plain text version of the headers
      */
     private function _prepare_headers($headers)
     {
@@ -474,11 +492,11 @@ class rcube_smtp
      * bare addresses (forward paths) that can be passed to sendmail
      * or an smtp server with the rcpt to: command.
      *
-     * @param mixed $recipients either a comma-separated list of recipients
-     *                          (RFC822 compliant), or an array of recipients,
-     *                          each RFC822 valid
+     * @param string|array $recipients Either a comma-separated list of recipients
+     *                                 (RFC822 compliant), or an array of recipients,
+     *                                 each RFC822 valid
      *
-     * @return array an array of forward paths (bare addresses)
+     * @return array An array of forward paths (bare addresses)
      */
     private function _parse_rfc822($recipients)
     {
@@ -575,5 +593,25 @@ class rcube_smtp
 
         $this->error = ['label' => $label, 'vars' => $vars];
         $this->response[] = "{$message}: {$err[1]} (Code: {$err[0]})";
+    }
+
+    /**
+     * Read SMTP configuration option with support for per-host array
+     */
+    private function _config_option_for_storage_host($name, $default = null)
+    {
+        $value = rcube::get_instance()->config->get($name, $default);
+
+        if (is_array($value)) {
+            if (array_key_exists($_SESSION['storage_host'], $value)) {
+                $value = $value[$_SESSION['storage_host']];
+            } else {
+                $this->response[] = "Connection aborted: No '{$name}' found for IMAP host " . $_SESSION['storage_host'];
+                $this->error = ['label' => 'smtpconnerror', 'vars' => ['code' => '500']];
+                return false;
+            }
+        }
+
+        return $value;
     }
 }
