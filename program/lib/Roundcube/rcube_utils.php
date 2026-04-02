@@ -865,7 +865,7 @@ class rcube_utils
     public static function check_proxy_whitelist_ip()
     {
         return isset($_SERVER['REMOTE_ADDR'])
-            && self::is_whitelisted_proxy($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
+            && self::is_ip_in_range($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
     }
 
     /**
@@ -877,7 +877,7 @@ class rcube_utils
      *
      * @return bool
      */
-    private static function is_whitelisted_proxy(string $ip, array $whitelist): bool
+    private static function is_ip_in_range(string $ip, array $whitelist): bool
     {
         if (empty($whitelist)) {
             return false;
@@ -1061,11 +1061,11 @@ class rcube_utils
         // Check if any of the headers are set first to improve performance
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
             $proxy_whitelist = (array) rcube::get_instance()->config->get('proxy_whitelist', []);
-            if (self::is_whitelisted_proxy($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
+            if (self::is_ip_in_range($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
                         $forwarded_ip = trim($forwarded_ip);
-                        if (!self::is_whitelisted_proxy($forwarded_ip, $proxy_whitelist)) {
+                        if (!self::is_ip_in_range($forwarded_ip, $proxy_whitelist)) {
                             return $forwarded_ip;
                         }
                     }
