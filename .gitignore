@@ -37,3 +37,6 @@ skins/elastic/styles/_variables.less
 
 # Ignore files used for local overriding.
 /tests/MessageRendering/.env
+
+# PHPUnit cache
+/tests/.phpunit.result.cache
