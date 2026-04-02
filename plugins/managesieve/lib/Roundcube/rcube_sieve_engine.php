@@ -1597,7 +1597,7 @@ class rcube_sieve_engine
             $this->add_tip('_name', $this->errors['name'], true);
         }
 
-        $input_name = $input_name->show(isset($scr) ? $scr['name'] : '');
+        $input_name = $input_name->show($scr['name'] ?? '');
 
         $out .= sprintf("\n" . '<div class="form-group row">'
             . '<label for="_name" class="col-sm-4 col-form-label">%s</label>'
