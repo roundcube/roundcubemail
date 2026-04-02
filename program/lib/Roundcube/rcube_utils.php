@@ -865,7 +865,36 @@ class rcube_utils
     public static function check_proxy_whitelist_ip()
     {
         return isset($_SERVER['REMOTE_ADDR'])
-            && in_array($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
+            && self::is_whitelisted_proxy($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
+    }
+
+    /**
+     * Check if an IP address matches an entry in the given whitelist.
+     * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
+     *
+     * @param string $ip        IP address to check
+     * @param array  $whitelist List of IPs or CIDR ranges
+     *
+     * @return bool
+     */
+    private static function is_whitelisted_proxy(string $ip, array $whitelist): bool
+    {
+        if (empty($whitelist)) {
+            return false;
+        }
+
+        $address = Factory::parseAddressString($ip);
+
+        foreach ($whitelist as $entry) {
+            if ($entry === $ip) {
+                return true;
+            }
+            if ($address && ($range = Factory::parseRangeString($entry)) && $range->contains($address)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -1032,11 +1061,11 @@ class rcube_utils
         // Check if any of the headers are set first to improve performance
         if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']) || !empty($_SERVER['HTTP_X_REAL_IP'])) {
             $proxy_whitelist = (array) rcube::get_instance()->config->get('proxy_whitelist', []);
-            if (in_array($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
+            if (self::is_whitelisted_proxy($_SERVER['REMOTE_ADDR'], $proxy_whitelist)) {
                 if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                     foreach (array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $forwarded_ip) {
                         $forwarded_ip = trim($forwarded_ip);
-                        if (!in_array($forwarded_ip, $proxy_whitelist)) {
+                        if (!self::is_whitelisted_proxy($forwarded_ip, $proxy_whitelist)) {
                             return $forwarded_ip;
                         }
                     }

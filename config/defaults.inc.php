@@ -681,7 +681,7 @@ $config['session_samesite'] = null;
 // Setting this value to 'php' will use the default session save handler configured in PHP
 $config['session_storage'] = 'db';
 
-// List of trusted proxies
+// List of trusted proxies (exact IPs or CIDR ranges, e.g. '10.0.0.0/8', '2001:db8::/32')
 // X_FORWARDED_* and X_REAL_IP headers are only accepted from these IPs
 $config['proxy_whitelist'] = [];
 
