@@ -1023,78 +1023,32 @@ class rcube_utils
     }
 
     /**
-     * Checks if $ip is listed (exactly) or falls into any CIDR subnet in $whitelist.
-     * Supports IPv4 and IPv6.
+     * Check if an IP address matches an entry in the given whitelist.
+     * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
      *
-     * @param  string $ip
-     * @param  array  $whitelist  list of IPs or CIDR ranges, e.g. ['10.0.0.5','10.42.0.0/16']
+     * @param string $ip        IP address to check
+     * @param array  $whitelist List of IPs or CIDR ranges
+     *
      * @return bool
      */
     private static function isWhitelistedProxy(string $ip, array $whitelist): bool
     {
+        if (empty($whitelist)) {
+            return false;
+        }
+
+        $address = Factory::parseAddressString($ip);
+
         foreach ($whitelist as $entry) {
-            if (self::matchIpOrCidr($ip, $entry)) {
+            if ($entry === $ip) {
+                return true;
+            }
+            if ($address && ($range = Factory::parseRangeString($entry)) && $range->contains($address)) {
                 return true;
             }
         }
+
         return false;
-    }
-
-    /**
-     * Match a single IPv4 or IPv6 address against an IP or CIDR subnet.
-     *
-     * @param  string $ip       IPv4 or IPv6 address
-     * @param  string $pattern  either a single IP or CIDR (e.g. '192.168.1.0/24')
-     * @return bool
-     */
-    private static function matchIpOrCidr(string $ip, string $pattern): bool
-    {
-        // if no prefix, do a straight compare (case‐insensitive)
-        if (strpos($pattern, '/') === false) {
-            return strcasecmp($ip, $pattern) === 0;
-        }
-
-        list($subnet, $prefix) = explode('/', $pattern, 2);
-        $prefix = (int) $prefix;
-
-        // convert to binary form (4 bytes for IPv4, 16 for IPv6)
-        $ipBin     = @inet_pton($ip);
-        $subnetBin = @inet_pton($subnet);
-        if ($ipBin === false || $subnetBin === false) {
-            return false;
-        }
-
-        // must be same address family
-        $len = strlen($ipBin);
-        if ($len !== strlen($subnetBin)) {
-            return false;
-        }
-
-        // prefix must be 0–(len*8)
-        $maxBits = $len * 8;
-        if ($prefix < 0 || $prefix > $maxBits) {
-            return false;
-        }
-
-        // build the mask: sequence of 0xFF bytes, then one partial byte, then 0x00 bytes
-        $mask = '';
-        $bitsRemaining = $prefix;
-        for ($i = 0; $i < $len; $i++) {
-            if ($bitsRemaining >= 8) {
-                $mask .= "\xFF";
-                $bitsRemaining -= 8;
-            }
-            elseif ($bitsRemaining > 0) {
-                $mask .= chr((0xFF << (8 - $bitsRemaining)) & 0xFF);
-                $bitsRemaining = 0;
-            }
-            else {
-                $mask .= "\x00";
-            }
-        }
-
-        // compare network bits
-        return (($ipBin & $mask) === ($subnetBin & $mask));
     }
 
     /**
