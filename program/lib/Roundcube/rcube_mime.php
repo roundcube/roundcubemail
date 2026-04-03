@@ -162,6 +162,11 @@ class rcube_mime
     {
         $default_charset = $fallback ?: self::get_charset();
 
+        // RFC 6532: detect raw UTF-8 in headers to avoid wrong charset conversion
+        if ($fallback !== false && mb_check_encoding($input, 'UTF-8') && preg_match('/[\x80-\xFF]/', $input)) {
+            $default_charset = RCUBE_CHARSET;
+        }
+
         // rfc: all line breaks or other characters not found
         // in the Base64 Alphabet must be ignored by decoding software
         // delete all blanks between MIME-lines, differently we can
