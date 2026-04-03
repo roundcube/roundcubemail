@@ -1,0 +1,40 @@
+{
+  "name": "Roundcube Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "junstyle.php-cs-fixer",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "editor.formatOnSave": true
+      }
+    }
+  },
+
+  "forwardPorts": [3306, 143, 8025],
+  "portsAttributes": {
+    "3306": { "label": "MySQL" },
+    "143": { "label": "IMAP" },
+    "8025": { "label": "Mailhog UI" }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "notify"
+  },
+
+  "postCreateCommand": ".devcontainer/post-create.sh",
+
+  "remoteUser": "vscode"
+}

@@ -8,12 +8,22 @@ use PhpCsFixerCustom\CustomFullyQualifiedStrictTypesFixer;
 $finder = Finder::create()
     ->in([__DIR__])
     ->exclude([
+        '.ci',
+        '.devcontainer',
         'node_modules',
         'vendor',
     ])
     ->ignoreDotFiles(false)
     ->name('*.php.dist')
-    ->name('*.sh');
+    ->name('*.sh')
+    // bin/*.sh files are mostly PHP scripts with .sh extension
+    // Actual shell scripts in bin/ are excluded via notPath below
+    ->notPath([
+        'bin/cssshrink.sh',
+        'bin/jsshrink.sh',
+        'bin/makedoc.sh',
+        'bin/transifexpull.sh',
+    ]);
 
 require_once __DIR__ . '/.php-cs-fixer-fully_qualified_strict_types.php';
 
