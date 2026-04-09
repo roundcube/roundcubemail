@@ -168,6 +168,13 @@ function serveStaticFile($path): void
         }
 
         if ($start >= 0 && $end <= $size - 1 && $start <= $end) {
+            // Open file before sending headers so we can return 500 on failure
+            $fp = fopen($path, 'r');
+            if ($fp === false) {
+                http_response_code(500);
+                return;
+            }
+
             http_response_code(206); // "Partial Content"
             header('Content-Range: bytes ' . sprintf('%u-%u/%u', $start, $end, $size));
             $headers['Content-Length'] = $end - $start + 1;
@@ -176,12 +183,6 @@ function serveStaticFile($path): void
                 header("{$k}: {$v}", true);
             }
 
-            // For range requests, use chunked reading
-            $fp = fopen($path, 'r');
-            if ($fp === false) {
-                http_response_code(500);
-                return;
-            }
             fseek($fp, $start);
             $remaining = $end - $start + 1;
 
@@ -192,6 +193,9 @@ function serveStaticFile($path): void
                 }
                 echo $chunk;
                 $remaining -= strlen($chunk);
+                if (\PHP_SAPI === 'cli-server') {
+                    flush();
+                }
             }
 
             fclose($fp);
@@ -206,10 +210,6 @@ function serveStaticFile($path): void
     // For full file requests
     $headers['Content-Length'] = $size;
 
-    foreach ($headers as $k => $v) {
-        header("{$k}: {$v}", true);
-    }
-
     // Use chunked reading with flush for PHP built-in server compatibility
     if (\PHP_SAPI === 'cli-server') {
         $fp = fopen($path, 'r');
@@ -217,6 +217,11 @@ function serveStaticFile($path): void
             http_response_code(500);
             return;
         }
+
+        foreach ($headers as $k => $v) {
+            header("{$k}: {$v}", true);
+        }
+
         while (!feof($fp) && connection_status() === \CONNECTION_NORMAL) {
             $chunk = fread($fp, 8192);
             if ($chunk === false) {
@@ -227,6 +232,9 @@ function serveStaticFile($path): void
         }
         fclose($fp);
     } else {
+        foreach ($headers as $k => $v) {
+            header("{$k}: {$v}", true);
+        }
         readfile($path);
     }
 }

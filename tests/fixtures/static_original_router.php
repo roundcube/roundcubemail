@@ -63,7 +63,7 @@ if (isset($_GET['ob'])) {
 // Router script receives the path in REQUEST_URI, not PATH_INFO
 $pathInfo = parse_url($_SERVER['REQUEST_URI'], \PHP_URL_PATH);
 
-$path = validateStaticFile($pathInfo ?? '');
+$path = validateStaticFile(is_string($pathInfo) ? $pathInfo : '');
 
 if (!$path) {
     http_response_code(404);
