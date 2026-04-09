@@ -269,27 +269,136 @@ class StaticTest extends ServerTestCase
     }
 
     /**
-     * Test Content-Length accuracy for full (non-range) file responses
+     * Test that CSS files are served correctly on the PHP built-in server
      *
-     * On PHP's built-in server (cli-server SAPI), output buffering can cause
-     * the actual response body to be larger than the declared Content-Length,
-     * leading to truncated or corrupted downloads. This verifies that the
-     * Content-Length header exactly matches the actual response body size.
+     * The PHP built-in server (cli-server SAPI) can corrupt static file
+     * responses in two ways:
+     * 1. Output buffering adds extra bytes before the file content, causing
+     *    the actual body to exceed the declared Content-Length. HTTP clients
+     *    then truncate the response at Content-Length, cutting off the end
+     *    of the file — resulting in broken stylesheets.
+     * 2. Without explicit flush() between chunks, large files may be
+     *    incompletely delivered, again producing truncated CSS.
+     *
+     * These tests run against the built-in server (see ServerTestCase) and
+     * verify byte-for-byte integrity of the served content.
      */
-    public function testContentLengthAccuracy(): void
+    #[DataProvider('provide_CssFileIntegrity_cases')]
+    public function testCssFileIntegrity($path): void
     {
-        $path = 'program/resources/dummy.pdf';
         $file = file_get_contents(INSTALL_PATH . $path);
-
         $response = $this->request('GET', 'static.php/' . $path);
+
+        $this->assertSame(200, $response->getStatusCode());
 
         $declaredLength = $response->getHeader('Content-Length')[0] ?? null;
         $actualBody = (string) $response->getBody();
 
-        $this->assertNotNull($declaredLength);
-        $this->assertSame((int) $declaredLength, strlen($actualBody),
-            'Content-Length header must match actual body size to prevent download corruption');
+        // Content-Length must match the file on disk — a mismatch here means
+        // output buffering injected extra bytes or the size was miscalculated
+        $this->assertSame((string) strlen($file), $declaredLength,
+            "Content-Length header must match file size on disk for {$path}");
+
+        // The response body must be exactly the file content — truncation or
+        // prepended buffer output would break stylesheet parsing
         $this->assertSame(strlen($file), strlen($actualBody),
-            'Response body size must match the actual file size on disk');
+            "Response body length must match file size for {$path}");
+        $this->assertSame($file, $actualBody,
+            "Response body must be byte-for-byte identical to {$path} on disk");
+    }
+
+    /**
+     * Dataset for testCssFileIntegrity()
+     */
+    public static function provide_CssFileIntegrity_cases(): iterable
+    {
+        return [
+            'small less file' => ['skins/elastic/styles/global.less'],
+            'large less file' => ['skins/elastic/styles/styles.less'],
+        ];
+    }
+
+    /**
+     * Test that JavaScript files are served correctly on the PHP built-in server
+     *
+     * Same output buffering and chunked delivery issues as CSS (see above).
+     * JavaScript files are particularly affected because app.js (~387KB) is
+     * large enough that without chunked reading + flush(), the built-in server
+     * may not deliver the full content before the connection is considered
+     * complete, leaving the browser with a truncated and unparseable script.
+     */
+    #[DataProvider('provide_JsFileIntegrity_cases')]
+    public function testJsFileIntegrity($path): void
+    {
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $response = $this->request('GET', 'static.php/' . $path);
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $declaredLength = $response->getHeader('Content-Length')[0] ?? null;
+        $actualBody = (string) $response->getBody();
+
+        $this->assertSame((string) strlen($file), $declaredLength,
+            "Content-Length header must match file size on disk for {$path}");
+        $this->assertSame(strlen($file), strlen($actualBody),
+            "Response body length must match file size for {$path}");
+        $this->assertSame($file, $actualBody,
+            "Response body must be byte-for-byte identical to {$path} on disk");
+    }
+
+    /**
+     * Dataset for testJsFileIntegrity()
+     */
+    public static function provide_JsFileIntegrity_cases(): iterable
+    {
+        return [
+            'small js file' => ['plugins/acl/acl.js'],
+            'large js file' => ['program/js/app.js'],
+        ];
+    }
+
+    /**
+     * Test Content-Length accuracy across multiple file types
+     *
+     * On PHP's built-in server (cli-server SAPI), output buffering can cause
+     * the actual response body to be larger than the declared Content-Length,
+     * leading to truncated or corrupted downloads. The fix cleans any active
+     * output buffers (ob_end_clean) before serving, and uses chunked
+     * fread()+flush() instead of readfile() on the built-in server to ensure
+     * complete delivery. This test verifies that Content-Length exactly matches
+     * the actual response body size for various file types and sizes.
+     */
+    #[DataProvider('provide_ContentLengthAccuracy_cases')]
+    public function testContentLengthAccuracy($path): void
+    {
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $response = $this->request('GET', 'static.php/' . $path);
+
+        $this->assertSame(200, $response->getStatusCode());
+
+        $declaredLength = $response->getHeader('Content-Length')[0] ?? null;
+        $actualBody = (string) $response->getBody();
+
+        $this->assertNotNull($declaredLength,
+            "Content-Length header must be present for {$path}");
+        $this->assertSame((int) $declaredLength, strlen($actualBody),
+            "Content-Length must match actual body size for {$path}");
+        $this->assertSame(strlen($file), strlen($actualBody),
+            "Response body size must match file on disk for {$path}");
+    }
+
+    /**
+     * Dataset for testContentLengthAccuracy()
+     */
+    public static function provide_ContentLengthAccuracy_cases(): iterable
+    {
+        return [
+            'tiny binary (54 bytes)' => ['program/resources/blank.gif'],
+            'small pdf (1058 bytes)' => ['program/resources/dummy.pdf'],
+            'medium css (4KB)' => ['skins/elastic/styles/global.less'],
+            'medium js (12KB)' => ['plugins/acl/acl.js'],
+            'large css (10KB)' => ['skins/elastic/styles/styles.less'],
+            'large js (387KB)' => ['program/js/app.js'],
+        ];
     }
 }
