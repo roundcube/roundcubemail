@@ -90,84 +90,206 @@ class StaticTest extends ServerTestCase
     }
 
     /**
-     * Test handling of Range header
+     * Test handling of Range header - invalid requests
      */
-    public function testRangeHeader(): void
+    public function testRangeHeaderInvalid(): void
     {
         $path = 'program/resources/dummy.pdf';
         $file = file_get_contents(INSTALL_PATH . $path);
 
-        // Invalid header
-        $headers = [
-            'Range' => 'invalid',
-        ];
-
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        // Non-"bytes=" prefix must be rejected per RFC 7233 Section 3.1
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'invalid'],
+        ]);
 
         $this->assertSame(416, $response->getStatusCode());
         $this->assertSame(['bytes */' . strlen($file)], $response->getHeader('Content-Range'));
         $this->assertSame('', (string) $response->getBody());
 
-        // Invalid header
-        $headers = [
-            'Range' => 'bytes=1000-10',
-        ];
-
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        // Start position greater than end position is invalid
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=1000-10'],
+        ]);
 
         $this->assertSame(416, $response->getStatusCode());
         $this->assertSame(['bytes */' . strlen($file)], $response->getHeader('Content-Range'));
         $this->assertSame('', (string) $response->getBody());
+    }
 
-        // Valid request
-        $headers = [
-            'Range' => 'bytes=10-50',
-        ];
+    /**
+     * Test handling of Range header - standard byte range (bytes=start-end)
+     */
+    public function testRangeHeaderStandard(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
 
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=10-50'],
+        ]);
 
         $this->assertSame(206, $response->getStatusCode());
         $this->assertSame(['41'], $response->getHeader('Content-Length'));
         $this->assertSame(['bytes 10-50/' . strlen($file)], $response->getHeader('Content-Range'));
         $this->assertSame(substr($file, 10, 41), (string) $response->getBody());
+    }
 
-        // Open-ended range (bytes=10- means from byte 10 to end)
-        $headers = [
-            'Range' => 'bytes=10-',
-        ];
+    /**
+     * Test handling of Range header - open-ended range (bytes=offset-)
+     *
+     * RFC 7233 Section 2.1: "If the last-byte-pos value is absent [...] the
+     * byte range extends to the end of the representation's data."
+     *
+     * This verifies that an open-ended range like "bytes=10-" correctly returns
+     * all bytes from offset 10 to the end of the file, rather than being
+     * misinterpreted or rejected.
+     */
+    public function testRangeHeaderOpenEnded(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
 
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=10-'],
+        ]);
 
-        $expectedLength = strlen($file) - 10;
+        $expectedLength = $size - 10;
+        $expectedEnd = $size - 1;
         $this->assertSame(206, $response->getStatusCode());
         $this->assertSame([(string) $expectedLength], $response->getHeader('Content-Length'));
-        $this->assertSame(['bytes 10-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame(["bytes 10-{$expectedEnd}/{$size}"], $response->getHeader('Content-Range'));
+        // Verify actual byte content matches - not just length
         $this->assertSame(substr($file, 10), (string) $response->getBody());
+    }
 
-        // Suffix-range (bytes=-500 means last 500 bytes)
-        $headers = [
-            'Range' => 'bytes=-500',
-        ];
+    /**
+     * Test handling of Range header - suffix-range (bytes=-N)
+     *
+     * RFC 7233 Section 2.1: "A client can request the last N bytes of the
+     * selected representation using a suffix-byte-range-spec."
+     *   suffix-byte-range-spec = "-" suffix-length
+     * For example, "bytes=-500" means "the last 500 bytes".
+     *
+     * BUG FIXED: The previous implementation treated the empty first element
+     * of "bytes=-500" (split on "-" yields ["", "500"]) by setting start=0,
+     * which incorrectly served bytes 0-500 (the FIRST 501 bytes) instead of
+     * the last 500 bytes. For a 1058-byte file, "bytes=-500" returned bytes
+     * 0-500 with Content-Range "bytes 0-500/1058", but RFC 7233 requires
+     * bytes 558-1057 with Content-Range "bytes 558-1057/1058".
+     */
+    public function testRangeHeaderSuffix(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+        $suffixLength = 500;
 
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => "bytes=-{$suffixLength}"],
+        ]);
 
-        $suffixStart = max(0, strlen($file) - 500);
-        $suffixLength = strlen($file) - $suffixStart;
+        $expectedStart = $size - $suffixLength; // 1058 - 500 = 558
+        $expectedEnd = $size - 1;               // 1057
+
         $this->assertSame(206, $response->getStatusCode());
         $this->assertSame([(string) $suffixLength], $response->getHeader('Content-Length'));
-        $this->assertSame(['bytes ' . $suffixStart . '-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
-        $this->assertSame(substr($file, $suffixStart), (string) $response->getBody());
+        $this->assertSame(
+            ["bytes {$expectedStart}-{$expectedEnd}/{$size}"],
+            $response->getHeader('Content-Range'),
+        );
 
-        // Full file via range (bytes=0-)
-        $headers = [
-            'Range' => 'bytes=0-',
-        ];
+        // Verify the actual returned bytes are from the END of the file,
+        // not the beginning. This is the core assertion that proves the fix:
+        // the old code would return substr($file, 0, 501) here instead.
+        $expectedContent = substr($file, $expectedStart);
+        $actualContent = (string) $response->getBody();
+        $this->assertSame($expectedContent, $actualContent);
 
-        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+        // Double-check: the old (buggy) response would have started with the
+        // file's first bytes - verify we are NOT getting those
+        $firstBytes = substr($file, 0, 10);
+        $this->assertNotSame($firstBytes, substr($actualContent, 0, 10));
+    }
+
+    /**
+     * Test suffix-range larger than the file (bytes=-N where N > filesize)
+     *
+     * RFC 7233 Section 2.1: "If the selected representation is shorter than
+     * the specified suffix-length, the entire representation is used."
+     *
+     * BUG FIXED: The previous implementation would interpret "bytes=-9999"
+     * on a 1058-byte file as "bytes=0-9999", which fails the bounds check
+     * ($range[1] <= $size - 1) and returns 416. The correct behavior per
+     * RFC 7233 is to clamp and serve the entire file as a 206 response.
+     */
+    public function testRangeHeaderSuffixLargerThanFile(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=-9999'],
+        ]);
+
+        // Should clamp to the full file: bytes 0-(size-1)
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) $size], $response->getHeader('Content-Length'));
+        $this->assertSame(
+            ['bytes 0-' . ($size - 1) . '/' . $size],
+            $response->getHeader('Content-Range'),
+        );
+        $this->assertSame($file, (string) $response->getBody());
+    }
+
+    /**
+     * Test full file retrieval via range (bytes=0-)
+     *
+     * Verifies that requesting from byte 0 with no end returns the complete
+     * file contents with a 206 status and correct Content-Range header.
+     */
+    public function testRangeHeaderFullFileViaRange(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=0-'],
+        ]);
 
         $this->assertSame(206, $response->getStatusCode());
-        $this->assertSame([(string) strlen($file)], $response->getHeader('Content-Length'));
-        $this->assertSame(['bytes 0-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame([(string) $size], $response->getHeader('Content-Length'));
+        $this->assertSame(
+            ['bytes 0-' . ($size - 1) . '/' . $size],
+            $response->getHeader('Content-Range'),
+        );
         $this->assertSame($file, (string) $response->getBody());
+    }
+
+    /**
+     * Test Content-Length accuracy for full (non-range) file responses
+     *
+     * On PHP's built-in server (cli-server SAPI), output buffering can cause
+     * the actual response body to be larger than the declared Content-Length,
+     * leading to truncated or corrupted downloads. This verifies that the
+     * Content-Length header exactly matches the actual response body size.
+     */
+    public function testContentLengthAccuracy(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+
+        $response = $this->request('GET', 'static.php/' . $path);
+
+        $declaredLength = $response->getHeader('Content-Length')[0] ?? null;
+        $actualBody = (string) $response->getBody();
+
+        $this->assertNotNull($declaredLength);
+        $this->assertSame((int) $declaredLength, strlen($actualBody),
+            'Content-Length header must match actual body size to prevent download corruption');
+        $this->assertSame(strlen($file), strlen($actualBody),
+            'Response body size must match the actual file size on disk');
     }
 }
