@@ -130,5 +130,44 @@ class StaticTest extends ServerTestCase
         $this->assertSame(['41'], $response->getHeader('Content-Length'));
         $this->assertSame(['bytes 10-50/' . strlen($file)], $response->getHeader('Content-Range'));
         $this->assertSame(substr($file, 10, 41), (string) $response->getBody());
+
+        // Open-ended range (bytes=10- means from byte 10 to end)
+        $headers = [
+            'Range' => 'bytes=10-',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $expectedLength = strlen($file) - 10;
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) $expectedLength], $response->getHeader('Content-Length'));
+        $this->assertSame(['bytes 10-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame(substr($file, 10), (string) $response->getBody());
+
+        // Suffix-range (bytes=-500 means last 500 bytes)
+        $headers = [
+            'Range' => 'bytes=-500',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $suffixStart = max(0, strlen($file) - 500);
+        $suffixLength = strlen($file) - $suffixStart;
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) $suffixLength], $response->getHeader('Content-Length'));
+        $this->assertSame(['bytes ' . $suffixStart . '-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame(substr($file, $suffixStart), (string) $response->getBody());
+
+        // Full file via range (bytes=0-)
+        $headers = [
+            'Range' => 'bytes=0-',
+        ];
+
+        $response = $this->request('GET', 'static.php/' . $path, ['headers' => $headers]);
+
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) strlen($file)], $response->getHeader('Content-Length'));
+        $this->assertSame(['bytes 0-' . (strlen($file) - 1) . '/' . strlen($file)], $response->getHeader('Content-Range'));
+        $this->assertSame($file, (string) $response->getBody());
     }
 }
