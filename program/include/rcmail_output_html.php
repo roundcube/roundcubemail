@@ -112,6 +112,10 @@ class rcmail_output_html extends rcmail_output
         $this->set_skin($this->config->get('skin'));
         $this->set_assets_path($this->config->get('assets_path'));
 
+        if ($product_name = $this->config->get('product_name')) {
+            $this->meta_tags['application-name'] = $product_name;
+        }
+
         if (!empty($_REQUEST['_extwin'])) {
             $this->set_env('extwin', 1);
         }
