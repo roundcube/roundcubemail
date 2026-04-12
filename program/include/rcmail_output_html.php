@@ -1565,6 +1565,30 @@ class rcmail_output_html extends rcmail_output
                         }
                     }
                     $content = html::quote($ver);
+                } elseif ($object == 'manifest_url') {
+                    $manifest = [
+                        'name' => $this->config->get('product_name', 'Roundcube Webmail'),
+                        'short_name' => $this->config->get('product_name', 'Roundcube Webmail'),
+                        'description' => 'Modern webmail for everyday use.',
+                        'start_url' => './',
+                        'scope' => './',
+                        'display' => 'standalone',
+                        'theme_color' => '#2f3a3f',
+                        'background_color' => '#2f3a3f',
+                        'icons' => [
+                            [
+                                'src' => $this->abs_url($this->config->get('assets_path') . 'skins/elastic/images/icon-192.png'),
+                                'sizes' => '192x192',
+                                'type' => 'image/png'
+                            ],
+                            [
+                                'src' => $this->abs_url($this->config->get('assets_path') . 'skins/elastic/images/icon-512.png'),
+                                'sizes' => '512x512',
+                                'type' => 'image/png'
+                            ]
+                        ]
+                    ];
+                    $content = 'data:application/manifest+json;base64,' . base64_encode(json_encode($manifest));
                 } elseif ($object == 'steptitle') {
                     $content = html::quote($this->get_pagetitle(false));
                 } elseif ($object == 'pagetitle') {
