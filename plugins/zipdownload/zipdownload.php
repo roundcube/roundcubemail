@@ -132,9 +132,22 @@ class zipdownload extends rcube_plugin
         // require CSRF protected request
         $rcmail->request_security_check(rcube_utils::INPUT_GET);
 
+        $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
+        $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
+
+        $this->_download_attachments_tempfile($message, $filename);
+    }
+
+    /**
+     * Perform attachment download using temporary files
+     *
+     * @param rcube_message $message  Where to retrieve attachments
+     * @param string        $filename Name to give to the download file
+     */
+    public function _download_attachments_tempfile($message, $filename)
+    {
         $tmpfname = rcube_utils::temp_filename('zipdownload');
         $tempfiles = [$tmpfname];
-        $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
 
         // open zip file
         $zip = new \ZipArchive();
@@ -153,8 +166,6 @@ class zipdownload extends rcube_plugin
         }
 
         $zip->close();
-
-        $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
 
         $this->_deliver_zipfile($tmpfname, $filename);
 
@@ -233,8 +244,6 @@ class zipdownload extends rcube_plugin
         $limit = $rcmail->config->get('zipdownload_selection', $this->default_limit);
         $limit = $limit !== true ? parse_bytes($limit) : -1;
         $delimiter = $imap->get_hierarchy_delimiter();
-        $tmpfname = rcube_utils::temp_filename('zipdownload');
-        $tempfiles = [$tmpfname];
         $folders = count($messageset) > 1;
         $timezone = new \DateTimeZone('UTC');
         $messages = [];
@@ -285,8 +294,6 @@ class zipdownload extends rcube_plugin
                 $size += $headers->size;
 
                 if ($limit > 0 && $size > $limit) {
-                    unlink($tmpfname);
-
                     $msg = $this->gettext([
                         'name' => 'sizelimiterror',
                         'vars' => ['$size' => rcmail_action::show_bytes($limit)],
@@ -299,11 +306,62 @@ class zipdownload extends rcube_plugin
             }
         }
 
+        $basename = $folders ? 'messages' : $imap->get_folder();
+        $this->_download_messages_tempfile($messages, $mode, $basename);
+    }
+
+    /**
+     * Helper method to add a single email to an mbox-style file stream
+     *
+     * @param resource $stream  File stream to write to
+     * @param string   $header  Mbox header to write before the email
+     * @param string   $mbox    The mailbox folder containing the email
+     * @param string   $uid     The UID of the email to write
+     * @param bool     $is_last Is this the last email in the mbox
+     */
+    private function _write_mbox_stream($stream, $header, $mbox, $uid, $is_last)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+
+        fwrite($stream, $header);
+        $imap->set_folder($mbox);
+
+        // Use stream filter to quote "From " in the message body
+        $filter = stream_filter_append($stream, 'mbox_filter');
+        $imap->get_raw_body($uid, $stream);
+        stream_filter_remove($filter);
+
+        // Make sure the delimiter is a double \r\n
+        $fstat = fstat($stream);
+        if (stream_get_contents($stream, 2, $fstat['size'] - 2) != "\r\n") {
+            fwrite($stream, "\r\n");
+        }
+        if (!$is_last) {
+            fwrite($stream, "\r\n");
+        }
+    }
+
+    /**
+     * Perform message download using temporary files
+     *
+     * @param array  $messages Map of uid:mbox => mbox_header or timestamp:display_name
+     * @param string $mode     The _mode POST parameter
+     * @param string $basename Name, without extension, to give to the download file
+     */
+    private function _download_messages_tempfile($messages, $mode, $basename)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+        $tmpfname = rcube_utils::temp_filename('zipdownload');
+        $tempfiles = [$tmpfname];
+
         if ($mode == 'mbox') {
             $tmpfp = fopen($tmpfname . '.mbox', 'w');
             if (!$tmpfp) {
                 exit;
             }
+            stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
         }
 
         // open zip file
@@ -314,29 +372,14 @@ class zipdownload extends rcube_plugin
         $last_key = array_key_last($messages);
         foreach ($messages as $key => $value) {
             [$uid, $mbox] = explode(':', $key, 2);
-            $imap->set_folder($mbox);
 
             if (!empty($tmpfp)) {
-                fwrite($tmpfp, $value);
-
-                // Use stream filter to quote "From " in the message body
-                stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
-                $filter = stream_filter_append($tmpfp, 'mbox_filter');
-                $imap->get_raw_body($uid, $tmpfp);
-                stream_filter_remove($filter);
-
-                // Make sure the delimiter is a double \r\n
-                $fstat = fstat($tmpfp);
-                if (stream_get_contents($tmpfp, 2, $fstat['size'] - 2) != "\r\n") {
-                    fwrite($tmpfp, "\r\n");
-                }
-                if ($key != $last_key) {
-                    fwrite($tmpfp, "\r\n");
-                }
+                $this->_write_mbox_stream($tmpfp, $value, $mbox, $uid, $key == $last_key);
             } else { // maildir
                 [$date, $filename] = explode(':', $value, 2);
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
                 $fp = fopen($tmpfn, 'w');
+                $imap->set_folder($mbox);
                 $imap->get_raw_body($uid, $fp);
                 $tempfiles[] = $tmpfn;
                 fclose($fp);
@@ -348,17 +391,15 @@ class zipdownload extends rcube_plugin
             }
         }
 
-        $filename = $folders ? 'messages' : $imap->get_folder();
-
         if (!empty($tmpfp)) {
             $tempfiles[] = $tmpfname . '.mbox';
             fclose($tmpfp);
-            $zip->addFile($tmpfname . '.mbox', $filename . '.mbox');
+            $zip->addFile($tmpfname . '.mbox', $basename . '.mbox');
         }
 
         $zip->close();
 
-        $this->_deliver_zipfile($tmpfname, $filename . '.zip');
+        $this->_deliver_zipfile($tmpfname, $basename . '.zip');
 
         // delete temporary files from disk
         foreach ($tempfiles as $tmpfn) {
