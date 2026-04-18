@@ -369,7 +369,20 @@ class zipdownload extends rcube_plugin
 
         $rcmail->output->download_headers($filename, ['length' => filesize($tmpfname)]);
 
-        readfile($tmpfname);
+        $tmpfp = fopen($tmpfname, 'r');
+        if (!$tmpfp) {
+            return;
+        }
+        while (true) {
+            $data = fread($tmpfp, 512 * 1024);
+            if (strlen($data) == 0) {
+                break;
+            }
+            echo $data;
+            ob_flush();
+            flush();
+        }
+        fclose($tmpfp);
     }
 
     /**
