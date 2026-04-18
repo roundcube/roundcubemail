@@ -19,6 +19,7 @@ class zipdownload extends rcube_plugin
     private $charset = 'ASCII';
     private $names = [];
     private $default_limit = '50MB';
+    private $timezone;
 
     // RFC4155: mbox date format
     public const MBOX_DATE_FORMAT = 'D M d H:i:s Y';
@@ -251,14 +252,15 @@ class zipdownload extends rcube_plugin
             foreach ($uids as $uid) {
                 $headers = $imap->get_message_headers($uid);
 
+                // Received (internal) date
+                $date = rcube_utils::anytodatetime($headers->internaldate);
+
                 if ($mode == 'mbox') {
                     // Sender address
                     $from = rcube_mime::decode_address_list($headers->from, null, true, $headers->charset, true);
                     $from = array_shift($from);
                     $from = preg_replace('/\s/', '-', $from);
 
-                    // Received (internal) date
-                    $date = rcube_utils::anytodatetime($headers->internaldate);
                     if ($date) {
                         $date = $date->setTimezone($timezone)->format(self::MBOX_DATE_FORMAT);
                     } else {
@@ -277,7 +279,7 @@ class zipdownload extends rcube_plugin
                     $path = $folders ? str_replace($delimiter, '/', $mbox) . '/' : '';
                     $disp_name = $path . $uid . ($subject ? " {$subject}" : '') . '.eml';
 
-                    $messages[$uid . ':' . $mbox] = $disp_name;
+                    $messages[$uid . ':' . $mbox] = ($date ? $date->getTimestamp() : '') . ':' . $disp_name;
                 }
 
                 $size += $headers->size;
@@ -305,6 +307,7 @@ class zipdownload extends rcube_plugin
         }
 
         // open zip file
+        putenv('TZ=UTC');  // see _datetime_to_ziplocal() comments
         $zip = new \ZipArchive();
         $zip->open($tmpfname, \ZipArchive::OVERWRITE);
 
@@ -331,12 +334,17 @@ class zipdownload extends rcube_plugin
                     fwrite($tmpfp, "\r\n");
                 }
             } else { // maildir
+                [$date, $filename] = explode(':', $value, 2);
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
                 $fp = fopen($tmpfn, 'w');
                 $imap->get_raw_body($uid, $fp);
                 $tempfiles[] = $tmpfn;
                 fclose($fp);
-                $zip->addFile($tmpfn, $value);
+                $zip->addFile($tmpfn, $filename);
+                if ($date) {
+                    $date = $this->_datetime_to_ziplocal(new \DateTime('@' . $date));
+                    $zip->setMtimeName($filename, $date->getTimestamp());
+                }
             }
         }
 
@@ -358,6 +366,41 @@ class zipdownload extends rcube_plugin
         }
 
         exit;
+    }
+
+    /**
+     * Zip files do not store timezones; most extraction tools extract times
+     * as though they were local times. This converts the UTC times inside
+     * DateTime objects into a user's preferred local time (despite claiming
+     * to still be UTC) so that when added and later extracted to/from a zip
+     * file, they will be in that user's local time.
+     *
+     * Also, ZipArchive creation is affected the system's default timezone
+     * (NOT date_default_timezone_set); to mitigate this, putenv('TZ=UTC').
+     *
+     * @param \DateTimeInterface $real The accurate DateTime of a file (is not changed)
+     *
+     * @return \DateTimeInterface A "fake" DateTimeImmutable for inclusion into a zip
+     */
+    private function _datetime_to_ziplocal($real)
+    {
+        if (!$this->timezone) {
+            if ($this->timezone === false) {
+                return $real;
+            }
+            $rcmail = rcmail::get_instance();
+            try {
+                $this->timezone = new \DateTimeZone($rcmail->config->get('timezone'));
+            } catch (\DateInvalidTimeZoneException) {
+                $this->timezone = false;
+                return $real;
+            }
+        }
+
+        $real = \DateTime::createFromInterface($real);
+        $real->setTimezone($this->timezone);
+        $local = max($real->format('Y/m/d H:i:s'), '1980/01/01 00:00:00');  // Earliest supported by zip
+        return \DateTimeImmutable::createFromFormat('Y/m/d H:i:s O', $local . ' +0000');
     }
 
     /**
