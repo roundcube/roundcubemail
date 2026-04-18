@@ -1,5 +1,7 @@
 <?php
 
+use ZipStream\ZipStream;
+
 /**
  * ZipDownload
  *
@@ -11,6 +13,7 @@
  * @author Philip Weir
  * @author Thomas Bruderli
  * @author Aleksander Machniak
+ * @author Christopher Gurnee
  */
 class zipdownload extends rcube_plugin
 {
@@ -135,7 +138,11 @@ class zipdownload extends rcube_plugin
         $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
         $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
 
-        $this->_download_attachments_tempfile($message, $filename);
+        if (class_exists('ZipStream\ZipStream')) {
+            $this->_download_attachments_zipstream($message, $filename);
+        } else {
+            $this->_download_attachments_tempfile($message, $filename);
+        }
     }
 
     /**
@@ -173,6 +180,33 @@ class zipdownload extends rcube_plugin
         foreach ($tempfiles as $tmpfn) {
             unlink($tmpfn);
         }
+
+        exit;
+    }
+
+    /**
+     * Perform attachment download using ZipStream
+     *
+     * @param rcube_message $message  Where to retrieve attachments
+     * @param string        $filename Name to give to the download file
+     */
+    public function _download_attachments_zipstream($message, $filename)
+    {
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->download_headers($filename);
+
+        $zip = new ZipStream(
+            sendHttpHeaders: false,
+            defaultDeflateLevel: 1,
+            flushOutput: true
+        );
+
+        foreach ($message->attachments as $part) {
+            $disp_name = $this->_create_displayname($part);
+            $zip->addFile($disp_name, $message->get_part_body($part->mime_id));
+        }
+
+        $zip->finish();
 
         exit;
     }
@@ -307,7 +341,11 @@ class zipdownload extends rcube_plugin
         }
 
         $basename = $folders ? 'messages' : $imap->get_folder();
-        $this->_download_messages_tempfile($messages, $mode, $basename);
+        if (class_exists('ZipStream\ZipStream')) {
+            $this->_download_messages_zipstream($messages, $mode, $basename);
+        } else {
+            $this->_download_messages_tempfile($messages, $mode, $basename);
+        }
     }
 
     /**
@@ -405,6 +443,46 @@ class zipdownload extends rcube_plugin
         foreach ($tempfiles as $tmpfn) {
             unlink($tmpfn);
         }
+
+        exit;
+    }
+
+    /**
+     * Perform message download using ZipStream
+     *
+     * @param array  $messages Map of uid:mbox => mbox_header or timestamp:display_name
+     * @param string $mode     The _mode POST parameter
+     * @param string $basename Name, without extension, to give to the download file
+     */
+    private function _download_messages_zipstream($messages, $mode, $basename)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+
+        $rcmail->output->download_headers($basename . '.zip');
+
+        $zip = new ZipStream(
+            sendHttpHeaders: false,
+            defaultDeflateLevel: 1,
+            flushOutput: true
+        );
+
+        $last_key = array_key_last($messages);
+        foreach ($messages as $key => $value) {
+            [$uid, $mbox] = explode(':', $key, 2);
+
+            if ($mode == 'mbox') {
+                stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
+                // TODO
+            } else {  // maildir
+                [$date, $filename] = explode(':', $value, 2);
+                $date = $date ? $this->_datetime_to_ziplocal(new \DateTime('@' . $date)) : null;
+                $imap->set_folder($mbox);
+                $zip->addFile($filename, $imap->get_raw_body($uid), lastModificationDateTime: $date);
+            }
+        }
+
+        $zip->finish();
 
         exit;
     }

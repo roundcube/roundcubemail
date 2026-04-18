@@ -68,7 +68,8 @@
     },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
-        "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP"
+        "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP",
+        "maennchen/zipstream-php": "^3.0 optional for larger zip support in zipdownload plugin"
     },
     "repositories": [
         {
