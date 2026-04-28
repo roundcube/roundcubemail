@@ -41,8 +41,7 @@ class Toolbarmenu extends Component
     #[\Override]
     public function elements()
     {
-        return [
-        ];
+        return [];
     }
 
     /**

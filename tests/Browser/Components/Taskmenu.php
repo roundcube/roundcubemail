@@ -43,8 +43,7 @@ class Taskmenu extends Component
     #[\Override]
     public function elements()
     {
-        return [
-        ];
+        return [];
     }
 
     /**
