@@ -401,5 +401,4 @@ class StaticTest extends ServerTestCase
             'large js (387KB)' => ['program/js/app.js'],
         ];
     }
-
 }
