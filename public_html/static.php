@@ -147,6 +147,9 @@ function serveStaticFile($path): void
         'Expires' => gmdate('D, d M Y H:i:s \G\M\T', time() + 30 * 86400),
     ];
 
+    $start = 0;
+    $end = $size - 1;
+
     // Handle range requests
     if (isset($_SERVER['HTTP_RANGE'])) {
         if (!str_starts_with($_SERVER['HTTP_RANGE'], 'bytes=')) {
@@ -161,80 +164,49 @@ function serveStaticFile($path): void
         // Handle suffix-range (e.g., "bytes=-500" means last 500 bytes)
         if ($range[0] === '') {
             $start = max(0, $size - (int) $range[1]);
-            $end = $size - 1;
         } else {
             $start = (int) $range[0];
             $end = $range[1] === '' ? $size - 1 : (int) $range[1];
         }
 
-        if ($start >= 0 && $end <= $size - 1 && $start <= $end) {
-            // Open file before sending headers so we can return 500 on failure
-            $fp = fopen($path, 'r');
-            if ($fp === false) {
-                http_response_code(500);
-                return;
-            }
-
-            http_response_code(206); // "Partial Content"
-            header('Content-Range: bytes ' . sprintf('%u-%u/%u', $start, $end, $size));
-            $headers['Content-Length'] = $end - $start + 1;
-
-            foreach ($headers as $k => $v) {
-                header("{$k}: {$v}", true);
-            }
-
-            fseek($fp, $start);
-            $remaining = $end - $start + 1;
-
-            while ($remaining > 0 && !feof($fp) && connection_status() === \CONNECTION_NORMAL) {
-                $chunk = fread($fp, min($remaining, 8192));
-                if ($chunk === false) {
-                    break;
-                }
-                echo $chunk;
-                $remaining -= strlen($chunk);
-                if (\PHP_SAPI === 'cli-server') {
-                    flush();
-                }
-            }
-
-            fclose($fp);
-        } else {
+        if ($start < 0 || $end > $size - 1 || $start > $end) {
             http_response_code(416); // "Range Not Satisfiable"
             header('Content-Range: bytes */' . $size);
-        }
-
-        return;
-    }
-
-    // For full file requests
-    $headers['Content-Length'] = $size;
-
-    // Use chunked reading with flush for PHP built-in server compatibility
-    if (\PHP_SAPI === 'cli-server') {
-        $fp = fopen($path, 'r');
-        if ($fp === false) {
-            http_response_code(500);
             return;
         }
 
-        foreach ($headers as $k => $v) {
-            header("{$k}: {$v}", true);
-        }
-
-        while (!feof($fp) && connection_status() === \CONNECTION_NORMAL) {
-            $chunk = fread($fp, 8192);
-            if ($chunk === false) {
-                break;
-            }
-            echo $chunk;
-            flush();
-        }
-        fclose($fp);
-    } else {
-        foreach ($headers as $k => $v) {
-            header("{$k}: {$v}", true);
-        }
-        readfile($path);
+        http_response_code(206); // "Partial Content"
+        header('Content-Range: bytes ' . sprintf('%u-%u/%u', $start, $end, $size));
     }
+
+    // Open file before sending headers so we can return 500 on failure
+    $fp = fopen($path, 'r');
+    if ($fp === false) {
+        http_response_code(500);
+        return;
+    }
+
+    $headers['Content-Length'] = $end - $start + 1;
+
+    foreach ($headers as $k => $v) {
+        header("{$k}: {$v}", true);
+    }
+
+    if ($start > 0) {
+        fseek($fp, $start);
+    }
+
+    $remaining = $end - $start + 1;
+
+    while ($remaining > 0 && !feof($fp) && connection_status() === \CONNECTION_NORMAL) {
+        $chunk = fread($fp, min($remaining, 8192));
+        if ($chunk === false) {
+            break;
+        }
+        echo $chunk;
+        $remaining -= strlen($chunk);
+        flush();
+    }
+
+    fclose($fp);
 }
