@@ -441,18 +441,38 @@ class rcube_utils
                     'fc00::/7',
                 ];
 
-                foreach ($nets as $net) {
-                    $range = Factory::parseRangeString($net);
-                    if ($range->contains($address)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return self::is_ip_in_range($address, $nets);
             }
 
             // FIXME: Should we accept any non-fqdn hostnames?
             return (bool) preg_match('/^localhost(\.localdomain)?$/i', $host);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if an IP address matches an entry in the given whitelist.
+     * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
+     *
+     * @param string $ip        IP address to check
+     * @param array  $whitelist List of IPs or CIDR ranges
+     */
+    private static function is_ip_in_range(string $ip, array $whitelist): bool
+    {
+        if (empty($whitelist)) {
+            return false;
+        }
+
+        $address = Factory::parseAddressString($ip);
+
+        foreach ($whitelist as $entry) {
+            if ($entry === $ip) {
+                return true;
+            }
+            if ($address && ($range = Factory::parseRangeString($entry)) && $range->contains($address)) {
+                return true;
+            }
         }
 
         return false;
@@ -866,35 +886,6 @@ class rcube_utils
     {
         return isset($_SERVER['REMOTE_ADDR'])
             && self::is_ip_in_range($_SERVER['REMOTE_ADDR'], (array) rcube::get_instance()->config->get('proxy_whitelist', []));
-    }
-
-    /**
-     * Check if an IP address matches an entry in the given whitelist.
-     * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
-     *
-     * @param string $ip        IP address to check
-     * @param array  $whitelist List of IPs or CIDR ranges
-     *
-     * @return bool
-     */
-    private static function is_ip_in_range(string $ip, array $whitelist): bool
-    {
-        if (empty($whitelist)) {
-            return false;
-        }
-
-        $address = Factory::parseAddressString($ip);
-
-        foreach ($whitelist as $entry) {
-            if ($entry === $ip) {
-                return true;
-            }
-            if ($address && ($range = Factory::parseRangeString($entry)) && $range->contains($address)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

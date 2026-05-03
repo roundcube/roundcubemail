@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Added support for arrays in `smtp_user` and `smtp_pass` config options (#10083)
 - Added system health checker CLI script (#10106)
 - Stricter recognition of an Ajax request (#10118)
+- Allow cidr (subnets) in proxy_whitelist (#7103)
 - Password: Added Stalwart driver (#10114)
 - Fix regression where some data url images could get ignored/lost (#10128)
 - Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
