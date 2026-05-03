@@ -51,10 +51,10 @@
     {
       "lib": "openpgp",
       "name": "OpenPGP.js",
-      "version": "5.0.0",
+      "version": "6.3.0",
       "url": "https://cdn.jsdelivr.net/npm/openpgp@$v/dist/openpgp.min.js",
       "dest": "plugins/enigma/openpgp.min.js",
-      "sha1": "0fc8b02e9d26a28280b46fd8d3a1516d9bff21db",
+      "sha1": "fcfc7c22633bd018b7793de050dbde9b0d284799",
       "license": "LGPL",
       "copyright": "Copyright (c) OpenPGP Development Team",
       "source": "https://cdn.jsdelivr.net/npm/openpgp@$v/dist/openpgp.js"

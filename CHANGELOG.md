@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Bump OpenPGPjs version to 6.3.0
 - Added support for arrays in `smtp_user` and `smtp_pass` config options (#10083)
 - Added system health checker CLI script (#10106)
 - Stricter recognition of an Ajax request (#10118)
