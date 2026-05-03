@@ -1176,7 +1176,7 @@ class rcube_utils
      * Date parsing function that turns the given value into a DateTime object
      *
      * @param \DateTime|string $date     A date
-     * @param \DateTimeZone    $timezone Timezone to use for DateTime object
+     * @param \DateTimeZone    $timezone A timezone to use for the result, if not included in the input
      *
      * @return \DateTime|false DateTime object or False on failure
      */
@@ -1202,10 +1202,7 @@ class rcube_utils
         // try our advanced strtotime() method
         if (!$dt && ($timestamp = self::strtotime($date, $timezone))) {
             try {
-                $dt = new \DateTime('@' . $timestamp);
-                if ($timezone) {
-                    $dt->setTimezone($timezone);
-                }
+                $dt = $timezone ? new \DateTime('@' . $timestamp, $timezone) : new \DateTime('@' . $timestamp);
             } catch (\Exception $e) {
                 // ignore
             }

@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Stricter recognition of an Ajax request (#10118)
 - Allow cidr (subnets) in proxy_whitelist (#7103)
 - Password: Added Stalwart driver (#10114)
+- Zipdownload: Fix message date time zone in mbox export (#10147)
 - Fix regression where some data url images could get ignored/lost (#10128)
 - Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
 

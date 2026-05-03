@@ -258,16 +258,15 @@ class zipdownload extends rcube_plugin
                     $from = preg_replace('/\s/', '-', $from);
 
                     // Received (internal) date
-                    $date = rcube_utils::anytodatetime($headers->internaldate, $timezone);
+                    $date = rcube_utils::anytodatetime($headers->internaldate);
                     if ($date) {
-                        $date = $date->format(self::MBOX_DATE_FORMAT);
+                        $date = $date->setTimezone($timezone)->format(self::MBOX_DATE_FORMAT);
+                    } else {
+                        $date = new \DateTime('now', $timezone);
                     }
 
                     // Mbox format header (RFC4155)
-                    $header = sprintf("From %s %s\r\n",
-                        $from ?: 'MAILER-DAEMON',
-                        $date ?: ''
-                    );
+                    $header = sprintf("From %s %s\r\n", $from ?: 'MAILER-DAEMON', $date);
 
                     $messages[$uid . ':' . $mbox] = $header;
                 } else { // maildir
