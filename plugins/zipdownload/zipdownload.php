@@ -405,7 +405,7 @@ class zipdownload extends rcube_plugin
  */
 class zipdownload_mbox_filter extends \php_user_filter
 {
-    private $prev_bucket;
+    protected $prev_bucket;
     private $prev_match;
     private $first = true;
 
