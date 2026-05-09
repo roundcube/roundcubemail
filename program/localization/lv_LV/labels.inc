@@ -235,6 +235,7 @@ $labels['searchinterval1W'] = 'nedēļu vecas';
 $labels['searchinterval1M'] = 'mēnesi vecas';
 $labels['searchinterval1Y'] = 'gadu vecas';
 $labels['infolder'] = 'Mape: $folder';
+$labels['currentaddressbook'] = 'Adrešu grāmata';
 $labels['alladdressbooks'] = 'Visas adrešu grāmatas';
 $labels['openinextwin'] = 'Atvērt jaunā logā';
 $labels['emlsave'] = 'lejupielādēt (.eml)';

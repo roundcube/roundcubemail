@@ -226,6 +226,7 @@ $labels['selectimage'] = 'Wêne bibijêre';
 $labels['addimage'] = 'Wêne tev bike';
 $labels['selectmedia'] = 'Fîlmekê bibijêre';
 $labels['addmedia'] = 'Fîlmekê tev bike';
+$labels['keyid'] = 'ID a kilîtê';
 $labels['insert'] = 'Tev bike';
 $labels['checkspelling'] = 'Kontrola rastnivîsê';
 $labels['resumeediting'] = 'Serastkirinê bidomîne';

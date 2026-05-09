@@ -12,5 +12,5 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['identitydialogtitle'] = 'tkaya nawnişani nenar ba tawawi bnwsa';
-$labels['identitydialoghint'] = 'am qtwia wadiara yak jar la sarata krawatawa';
+$labels['identitydialogtitle'] = 'Tika ye nasnameya şandina xwe biqedîne';
+$labels['identitydialoghint'] = 'Ev qutî tenê di dema têketina yekem de xuya dibe.';

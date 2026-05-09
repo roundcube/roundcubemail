@@ -12,4 +12,7 @@
  +-----------------------------------------------------------------------+
 */
 
+$labels['toolbar_button_link'] = 'Saite';
+$labels['toolbar_button_image'] = 'Attēls';
 $labels['toolbar_button_undo'] = 'Atsaukt';
+$labels['toolbar_button_redo'] = 'Atsaukt';
