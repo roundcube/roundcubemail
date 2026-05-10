@@ -12,13 +12,13 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['basic'] = 'Agahdariyên gerokê li ser peyama nû bide nîşan';
-$labels['desktop'] = 'Agahdariyên sermasê li ser peyama nû bide nîşan';
-$labels['sound'] = 'Deng li ser peyameke nû veke';
+$labels['basic'] = 'Agahdariyên gerokê li ser peyama nû nîşan bide';
+$labels['desktop'] = 'Agahdariyên sermaseyê li ser peyama nû nîşan bide';
+$labels['sound'] = 'Dema peyama nû hat dengê bilizîne';
 $labels['test'] = 'Test';
-$labels['title'] = 'Emaila Nû!';
+$labels['title'] = 'Enameya nû!';
 $labels['body'] = 'Peyameke te ya nû heye.';
 $labels['testbody'] = 'Ev agahdariyeke testê ye.';
 $labels['desktopdisabled'] = 'Agahdariyên sermasê di geroka te de girtî ne. ';
 $labels['desktopunsupported'] = 'Geroka te bi agahdariyên sermasê re ne ahengdar e.';
-$labels['desktoptimeout'] = 'Ahahadariya sermasê bigire';
+$labels['desktoptimeout'] = 'Agahadariya sermaseyê bigire';

@@ -91,6 +91,7 @@ $messages['nopagesizewarning'] = 'Vinarliga skriva síðu stødd.';
 $messages['nosenderwarning'] = 'Vinarliga skriva sendara teldupost búðstað.';
 $messages['norecipientwarning'] = 'Vinarliga skriva minst ein móttakara.';
 $messages['nosubjectwarning']  = 'Evna teigurin er tómur. Vilt tú skriva nakað í hann?';
+$messages['nosubjecttitle']  = 'Einki evni';
 $messages['nobodywarning'] = 'Send hesi boð uttan tekst?';
 $messages['restoresavedcomposedata'] = 'Eitt fyrrverandi skriva boð, men ósent, boð var funni.\n\nEvni: $subject\nGoymt: $date\n\nVilt tú endur stovna hetta boð?';
 $messages['nosearchname'] = 'Vinarliga skriva eitt persón navn ella teldupost búðstað,';

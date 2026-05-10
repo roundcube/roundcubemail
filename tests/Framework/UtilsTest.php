@@ -89,6 +89,51 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Test proxy_whitelist with CIDR ranges
+     */
+    public function test_proxy_whitelist_cidr()
+    {
+        $config = \rcube::get_instance()->config;
+
+        // IPv4 CIDR: address inside the range is trusted
+        $config->set('proxy_whitelist', ['10.0.0.0/8']);
+        $_SERVER['REMOTE_ADDR'] = '10.1.2.3';
+        $this->assertTrue(\rcube_utils::check_proxy_whitelist_ip());
+
+        // IPv4 CIDR: address outside the range is not trusted
+        $_SERVER['REMOTE_ADDR'] = '172.16.0.1';
+        $this->assertFalse(\rcube_utils::check_proxy_whitelist_ip());
+
+        // IPv6 CIDR: address inside the range is trusted
+        $config->set('proxy_whitelist', ['fc00::/7']);
+        $_SERVER['REMOTE_ADDR'] = 'fc00::1';
+        $this->assertTrue(\rcube_utils::check_proxy_whitelist_ip());
+
+        // IPv6 CIDR: address outside the range is not trusted
+        $_SERVER['REMOTE_ADDR'] = '2001:db8::1';
+        $this->assertFalse(\rcube_utils::check_proxy_whitelist_ip());
+
+        // Exact IP still works (backwards compatibility)
+        $config->set('proxy_whitelist', ['127.0.0.1']);
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $this->assertTrue(\rcube_utils::check_proxy_whitelist_ip());
+
+        // Exact IP does not match a different address
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.2';
+        $this->assertFalse(\rcube_utils::check_proxy_whitelist_ip());
+
+        // X-Forwarded-For is resolved when REMOTE_ADDR matches a CIDR range
+        $config->set('proxy_whitelist', ['192.168.0.0/16']);
+        $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '203.0.113.5, 192.168.1.1';
+        $_SERVER['HTTP_X_REAL_IP'] = '';
+        $this->assertSame('203.0.113.5', \rcube_utils::remote_addr());
+
+        $config->set('proxy_whitelist', []);
+        unset($_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['HTTP_X_REAL_IP']);
+    }
+
+    /**
      * @dataProvider provide_valid_email_cases
      */
     #[DataProvider('provide_valid_email_cases')]
@@ -754,22 +799,21 @@ class UtilsTest extends TestCase
      */
     public function test_anytodatetime_timezone()
     {
+        date_default_timezone_set('America/New_York');
+
         $tz = new \DateTimeZone('Europe/Helsinki');
         $test = [
-            'Jan 1st 2014 +0800' => '2013-12-31 18:00', // result in target timezone
-            'Jan 1st 14 45:42' => '2014-01-01 00:00', // force fallback to rcube_utils::strtotime()
-            'Jan 1st 2014 UK' => '2014-01-01 00:00',
-            '1520587800' => '2018-03-09 11:30',  // unix timestamp conversion
+            'Jan 1st 2014 +0800' => '2014-01-01 00:00 +08:00',
+            'Jan 1st 14 45:42' => '2013-12-31 22:00 +00:00', // force fallback to rcube_utils::strtotime()
+            'Jan 1st 2014 UK' => '2013-12-31 22:00 +00:00',
+            '2026-05-12 13:14:15.000000 Europe/Warsaw' => '2026-05-12 13:14 Europe/Warsaw',
+            '1520587800' => '2018-03-09 09:30 +00:00', // unix timestamp conversion
             'Invalid date' => false,
         ];
 
-        foreach ($test as $datetime => $ts) {
+        foreach ($test as $datetime => $expected) {
             $result = \rcube_utils::anytodatetime($datetime, $tz);
-            if ($result) {
-                // move to target timezone for comparison
-                $result->setTimezone($tz);
-            }
-            $this->assertSame($ts, $result ? $result->format('Y-m-d H:i') : false, "Error parsing date: {$datetime}");
+            $this->assertSame($expected, $result ? $result->format('Y-m-d H:i e') : false, "Error parsing date: {$datetime}");
         }
     }
 

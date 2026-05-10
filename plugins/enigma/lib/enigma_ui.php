@@ -1040,7 +1040,6 @@ class enigma_ui
 
         if ($count = count($messages)) {
             if ($count == 2 && $messages[0]['class'] == $messages[1]['class']) {
-                // @phpstan-ignore-next-line
                 $p['prefix'] .= html::div($messages[0], $messages[0]['msg'] . ' ' . $messages[1]['msg']);
             } else {
                 foreach ($messages as $msg) {

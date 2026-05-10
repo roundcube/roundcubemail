@@ -33,7 +33,12 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
 
         // This resets X-Frame-Options for framed output (#6688)
-        $rcmail->output->page_headers();
+        // Not needed in AJAX mode (#10152)
+        // TODO: Make this action available in non-AJAX mode only, create a separate action for
+        // getting mail part content as-is using AJAX.
+        if ($rcmail->output instanceof rcmail_output_html) {
+            $rcmail->output->page_headers();
+        }
 
         // show loading page
         if (!empty($_GET['_preload'])) {

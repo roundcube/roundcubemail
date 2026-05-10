@@ -13,11 +13,25 @@
 */
 
 $labels['encryption'] = 'Şîfrekirin';
+$labels['enigmacerts'] = 'Bawernamyên S/MIME';
+$labels['enigmakeys'] = 'Kilîtên PGP';
 $labels['keyname'] = 'Nav';
-$labels['subkeyid'] = 'NN';
+$labels['keyid'] = 'ID a kilîtê';
+$labels['keyuserid'] = 'ID a bikarhêner';
+$labels['keytype'] = 'Cûreya kilîtê';
+$labels['keyprops'] = 'Taybetmendiyên kilîtê';
+$labels['basicinfo'] = 'Zanyariyên bingehîn';
+$labels['typesign'] = 'Têkeve';
+$labels['subkeyid'] = 'ID';
 $labels['subkeycreated'] = 'Hat afirandin';
-$labels['expiresnever'] = 'qet';
+$labels['subkeyusage'] = 'Bikaranîn';
+$labels['expiresnever'] = 'ti car';
 $labels['unknown'] = 'nenas';
-$labels['userid'] = 'NN';
+$labels['uservalid'] = 'Derbasdar';
+$labels['userid'] = 'ID';
+$labels['valid'] = 'derbasdar';
+$labels['keyremove'] = 'Rake';
 $labels['keychpass'] = 'Şîfreyê biguherîne';
-$labels['newkeypass'] = 'Nasnav';
+$labels['newkeypass'] = 'Borînpeyv';
+$labels['newkeypassconfirm'] = 'Borînpeyvê biperjîne';
+$labels['newkeytype'] = 'Cûreya kilîtê';

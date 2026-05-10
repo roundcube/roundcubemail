@@ -13,8 +13,10 @@
 */
 
 $labels['downloadall'] = 'Niðurhala öllum viðhengjum';
+$labels['export'] = 'Flytja út...';
 $labels['downloadmbox'] = 'Mbox snið (.zip)';
 $labels['downloadmaildir'] = 'Maildir snið (.zip)';
 $labels['downloademl'] = 'Upprunalegt (.eml)';
 $labels['sizelimiterror'] = 'Heildarstærð valinna skilaboða fer fram yfir ($size) takmörkin';
+$labels['exportmenu'] = 'Valmynd valkosta við útflutning skilaboða';
 $labels['download'] = 'Hlaða niður...';
