@@ -11,7 +11,7 @@
         "masterminds/html5": "~2.9.0",
         "mlocati/ip-lib": "^1.22.0",
         "pear/auth_sasl": "~1.2.0",
-        "pear/crypt_gpg": "~1.6.3",
+        "pear/crypt_gpg": "~1.7.0",
         "pear/mail_mime": "~1.10.11",
         "pear/net_sieve": "~1.4.7",
         "pear/net_smtp": "~1.12.0",
