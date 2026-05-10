@@ -85,8 +85,9 @@ class identity_select extends rcube_plugin
         if (strtolower($header) == 'received') {
             // find first email address in all Received headers
             $email = null;
-            foreach ((array) $value as $entry) {
-                if (preg_match('/[\s\t]+for[\s\t]+<([^>]+)>/', $entry, $matches)) {
+            // reverse the header array as RFC 5321 requires additional Received headers are prepended
+            foreach (array_reverse((array) $value) as $entry) {
+                if (preg_match('/[\s\t]+for\s+<?([^\s>@]+@[^\s]+\.[^\s>;]+)>?/u', $entry, $matches)) {
                     $email = $matches[1];
                     break;
                 }
