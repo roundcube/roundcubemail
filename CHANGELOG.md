@@ -4,6 +4,8 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+## 1.7.0
+
 - Bump OpenPGPjs version to 6.3.0
 - Allow cidr (subnets) in proxy_whitelist (#7103)
 - Zipdownload: Fix message date time zone in mbox export (#10147)
