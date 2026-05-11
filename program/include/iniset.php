@@ -27,7 +27,7 @@ if (\PHP_VERSION_ID < 80100) {
 }
 
 // application constants
-define('RCMAIL_VERSION', '1.7-git');
+define('RCMAIL_VERSION', '1.8-git');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {

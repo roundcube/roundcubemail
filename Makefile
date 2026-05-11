@@ -5,7 +5,7 @@
 GITREMOTE=https://github.com/roundcube/roundcubemail.git
 GITBRANCH=master
 GPGKEY=devs@roundcube.net
-VERSION=1.7-git
+VERSION=1.8-git
 SEDI=sed -i
 PHP_VERSION=8.1
 
