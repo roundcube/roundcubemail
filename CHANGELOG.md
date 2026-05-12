@@ -4,6 +4,8 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
+
 ## 1.7.0
 
 - Bump OpenPGPjs version to 6.3.0
