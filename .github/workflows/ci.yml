@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --prefer-dist --no-interaction --no-progress
+          composer install --prefer-dist --prefer-stable --no-interaction --no-progress
           npm install --omit=optional
 
       - name: Check Coding Style - PHP
@@ -73,7 +73,7 @@ jobs:
             composer require "laravel/dusk:^8.3" --no-update
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer install --prefer-dist --prefer-stable --no-interaction --no-progress
 
       - name: Run Static Analysis
         run: vendor/bin/phpstan analyse -v
