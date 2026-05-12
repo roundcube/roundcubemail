@@ -78,3 +78,18 @@ $config['enigma_passwordless'] = false;
 //     - enigma_options_lock = ['sign']
 //     - dont_override       = ['enigma_sign_all']
 $config['enigma_options_lock'] = [];
+
+// Enable Kolab's Web Of Anti-Trust feature
+// Fetches public keys from DNS. Default: false
+// To enable set it to True or an array of domain names.
+$config['enigma_woat'] = false;
+
+// Enable automatic public key lookups and import.
+// Fetches public keys from a HKP v1 key server. Default: null
+// To enable set it to a url e.g. 'https://pgp.roundcube.test'
+// or an array map like this:
+// $config['enigma_keyserver'] = [
+//   'domain.tld' => 'https://pgp.domain.tld',
+//   '*' => 'https://keys.openpgp.org',
+// ]
+$config['enigma_keyserver'] = null;

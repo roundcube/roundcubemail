@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
+
+## Release 1.6.16
+
 - Fix potential too long value in IMAP ID command (#10136)
 - Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 - Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`

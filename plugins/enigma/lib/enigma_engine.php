@@ -1442,4 +1442,31 @@ class enigma_engine
             );
         }
     }
+
+    /**
+     * Import public keys from configured key lookup sources.
+     *
+     * @param array $recipients List of email addresses
+     */
+    protected function sync_keys($recipients)
+    {
+        $import = [];
+
+        foreach ($recipients as $recipient) {
+            if (!strpos($recipient, '@')) {
+                continue;
+            }
+
+            if ($key = enigma_key_lookup::woat($recipient)) {
+                $import[] = $key;
+            } elseif ($key = enigma_key_lookup::keyserver($recipient)) {
+                $import[] = $key;
+            }
+        }
+
+        // Import the fetched keys
+        if (!empty($import)) {
+            $this->import_key(implode("\n", $import));
+        }
+    }
 }
