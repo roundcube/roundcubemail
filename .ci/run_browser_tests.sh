@@ -29,7 +29,7 @@ fi
 
 # Install dependencies for to remote control the browser.
 composer require $COMPOSER_ARGS -n "nesbot/carbon:^2.62.1" --no-update
-composer require $COMPOSER_ARGS -n "laravel/dusk:^7.9" --no-update
+composer require $COMPOSER_ARGS -n "laravel/dusk:^8.3" --no-update
 
 if $(echo $PHP_VERSION | grep -q '^8.3'); then
 	# Downgrade dependencies (for PHP 8.3 only)
