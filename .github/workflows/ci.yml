@@ -28,7 +28,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --prefer-dist --prefer-stable --no-interaction --no-progress
+          composer config prefer-stable true
+          composer install --prefer-dist --no-interaction --no-progress
           npm install --omit=optional
 
       - name: Check Coding Style - PHP
@@ -69,11 +70,12 @@ jobs:
 
       - name: Setup composer
         run: |
+            composer config prefer-stable true
             composer require "kolab/net_ldap3:~1.1.1" --no-update
             composer require "laravel/dusk:^8.3" --no-update
 
       - name: Install dependencies
-        run: composer install --prefer-dist --prefer-stable --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Run Static Analysis
         run: vendor/bin/phpstan analyse -v
