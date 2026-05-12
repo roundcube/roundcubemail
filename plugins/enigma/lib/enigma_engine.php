@@ -1435,50 +1435,23 @@ class enigma_engine
     }
 
     /**
-     * Import public keys from DNS according to Kolab Web-Of-Anti-Trust
+     * Import public keys from configured key lookup sources.
      *
      * @param array $recipients List of email addresses
      */
     protected function sync_keys($recipients)
     {
         $import = [];
-        $woat = $this->rc->config->get('enigma_woat');
-
-        if (empty($woat)) {
-            return;
-        }
 
         foreach ($recipients as $recipient) {
             if (!strpos($recipient, '@')) {
                 continue;
             }
 
-            [$local, $domain] = explode('@', $recipient);
-
-            // Do this for configured domains only
-            if (is_array($woat) && !in_array_nocase($domain, $woat)) {
-                continue;
-            }
-
-            // remove parts behind a recipient delimiter ("jeroen+Trash" => "jeroen")
-            $local = preg_replace('/\+.*$/', '', $local);
-
-            $fqdn = sha1($local) . '._woat.' . $domain;
-
-            // Fetch the TXT record(s)
-            if (($records = dns_get_record($fqdn, \DNS_TXT)) === false) {
-                continue;
-            }
-
-            foreach ($records as $record) {
-                if (str_starts_with($record['txt'], 'v=woat1,')) {
-                    $entry = explode('public_key=', $record['txt']);
-                    if (count($entry) == 2) {
-                        $import[] = $entry[1];
-                        // For now we support only one key
-                        break;
-                    }
-                }
+            if ($key = enigma_key_lookup::woat($recipient)) {
+                $import[] = $key;
+            } elseif ($key = enigma_key_lookup::keyserver($recipient)) {
+                $import[] = $key;
             }
         }
 
