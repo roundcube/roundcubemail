@@ -62,13 +62,13 @@ class identity_select extends rcube_plugin
         $rcmail = rcmail::get_instance();
         $identities = [];
         foreach ($p['identities'] as $idx => $ident) {
-            $identities[$idx] = $ident['email'];
+            $identities[$idx] = mb_strtolower($ident['email']);
         }
 
         foreach ((array) $rcmail->config->get('identity_select_headers', []) as $header) {
             if ($emails = $this->get_email_from_header($p['message'], $header)) {
                 foreach ($emails as $email) {
-                    if (($idx = array_search($email, $identities)) !== false) {
+                    if (($idx = array_search(mb_strtolower($email), $identities)) !== false) {
                         $p['selected'] = $idx;
                         break 2;
                     }
