@@ -36,9 +36,9 @@ class IdentitySelectTest extends TestCase
         ];
         $message->headers = \rcube_message_header::from_array($headers);
         $result = invokeMethod($plugin, 'get_email_from_header', [$message, 'Delivered-To']);
-        $this->assertSame('user@example.com', $result[0]);
+        $this->assertSame(['user@example.com'], $result);
         $result = invokeMethod($plugin, 'get_email_from_header', [$message, 'Received']);
-        $this->assertSame('john@domain.tld', $result[0]);
+        $this->assertSame(['john@domain.tld'], $result);
 
         $headers = [
             'Received' => [
@@ -52,7 +52,7 @@ class IdentitySelectTest extends TestCase
         ];
         $message->headers = \rcube_message_header::from_array($headers);
         $result = invokeMethod($plugin, 'get_email_from_header', [$message, 'Received']);
-        $this->assertSame('sales@example.com', $result[0]);
+        $this->assertSame(['sales@example.com', 'bob.smith@example.com', 'chris.smith@example.com'], $result);
 
         $headers = [
             'Received' => 'from mail.aliasprovider.com (mail.aliasprovider.com [198.51.100.20]) by smtp.example.com (Postfix) with ESMTP id 555AAA777'
@@ -60,6 +60,6 @@ class IdentitySelectTest extends TestCase
         ];
         $message->headers = \rcube_message_header::from_array($headers);
         $result = invokeMethod($plugin, 'get_email_from_header', [$message, 'Received']);
-        $this->assertSame('josé.müller@example.com', $result[0]);
+        $this->assertSame(['josé.müller@example.com'], $result);
     }
 }

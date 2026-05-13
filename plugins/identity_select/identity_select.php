@@ -60,11 +60,15 @@ class identity_select extends rcube_plugin
         }
 
         $rcmail = rcmail::get_instance();
+        $identities = [];
+        foreach ($p['identities'] as $idx => $ident) {
+            $identities[$idx] = $ident['email'];
+        }
 
         foreach ((array) $rcmail->config->get('identity_select_headers', []) as $header) {
             if ($emails = $this->get_email_from_header($p['message'], $header)) {
-                foreach ($p['identities'] as $idx => $ident) {
-                    if (in_array($ident['email_ascii'], $emails)) {
+                foreach ($emails as $email) {
+                    if (($idx = array_search($email, $identities)) !== false) {
                         $p['selected'] = $idx;
                         break 2;
                     }
@@ -83,17 +87,16 @@ class identity_select extends rcube_plugin
         $value = $message->headers->get($header, false);
 
         if (strtolower($header) == 'received') {
-            // find first email address in all Received headers
-            $email = null;
+            // find all email addresses in all Received headers
+            $emails = [];
             // reverse the header array as RFC 5321 requires additional Received headers are prepended
             foreach (array_reverse((array) $value) as $entry) {
                 if (preg_match('/[\s\t]+for\s+<?([^\s>@]+@[^\s]+\.[^\s>;]+)>?/u', $entry, $matches)) {
-                    $email = $matches[1];
-                    break;
+                    $emails[] = $matches[1];
                 }
             }
 
-            $value = $email;
+            $value = $emails;
         }
 
         return (array) $value;
