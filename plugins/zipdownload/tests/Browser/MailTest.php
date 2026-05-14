@@ -62,10 +62,13 @@ class MailTest extends TestCase
                         ->click('a.download.mbox');
 
                     $filename = 'INBOX.zip';
-                    $files = $this->getFilesFromZip($browser, $filename);
-                    $browser->removeDownloadedFile($filename);
-
-                    $this->assertSame(['INBOX.mbox'], $files);
+                    try {
+                        $this->checkFilesInZip($browser, $filename, [
+                            'INBOX.mbox' => ['From test-from', "\nFrom thomas", "\n>From line which needs to be escaped"],
+                        ]);
+                    } finally {
+                        $browser->removeDownloadedFile($filename);
+                    }
                 });
 
             // Test More > Download > Maildir format (two messages selected)
@@ -79,9 +82,14 @@ class MailTest extends TestCase
                     $browser->click('a.download.maildir');
 
                     $filename = 'INBOX.zip';
-                    $files = $this->getFilesFromZip($browser, $filename);
-                    $browser->removeDownloadedFile($filename);
-                    $this->assertCount(2, $files);
+                    try {
+                        $this->checkFilesInZip($browser, $filename, [
+                            'Test.eml' => ['Attached image:'],
+                            'Lines.eml' => ["\nFrom line which needs to be escaped in mbox format."],
+                        ]);
+                    } finally {
+                        $browser->removeDownloadedFile($filename);
+                    }
                 });
 
             // Test attachments download
@@ -95,17 +103,21 @@ class MailTest extends TestCase
                 });
 
             $filename = 'Lines.zip';
-            $files = $this->getFilesFromZip($browser, $filename);
-            $browser->removeDownloadedFile($filename);
-            $expected = ['lines.txt', 'lines_lf.txt'];
-            $this->assertSame($expected, $files);
+            try {
+                $this->checkFilesInZip($browser, $filename, [
+                    'lines.txt' => ["foo\r\nbar\r\ngna"],
+                    'lines_lf.txt' => ["foo\nbar\ngna"],
+                ]);
+            } finally {
+                $browser->removeDownloadedFile($filename);
+            }
         });
     }
 
     /**
-     * Helper to extract files list from downloaded zip file
+     * Helper to extract and check files from downloaded zip file
      */
-    private function getFilesFromZip($browser, $filename)
+    private function checkFilesInZip($browser, $filename, $contents)
     {
         $filename = $browser->getDownloadedFilePath($filename);
 
@@ -134,16 +146,24 @@ class MailTest extends TestCase
         } while ($filesize1 !== $filesize2);
 
         $zip = new \ZipArchive();
-        $files = [];
+        $partial_names = [];
+        $m = [];
 
         if ($zip->open($filename)) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $files[] = $zip->getNameIndex($i);
+                $this->assertSame(1, preg_match('/([a-z]\w*).*(\.[^.]+)$/i', $zip->getNameIndex($i), $m));
+                $first_word_and_ext = $m[1] . $m[2];
+                $partial_names[] = $first_word_and_ext;
+                if (array_key_exists($first_word_and_ext, $contents)) {
+                    $unzipped = $zip->getFromIndex($i);
+                    foreach ($contents[$first_word_and_ext] as $str) {
+                        $this->assertStringContainsString($str, $unzipped);
+                    }
+                }
             }
         }
+        $this->assertSame(array_keys($contents), $partial_names);
 
         $zip->close();
-
-        return $files;
     }
 }
