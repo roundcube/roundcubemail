@@ -2355,6 +2355,18 @@ class rcmail_output_html extends rcmail_output
             'buttons' => [],
         ];
 
+        if ($this->config->session_lifetime_extension_days() > 0) {
+            $session_lifetime_extension_hidden_field = new html_hiddenfield(['name' => '_session_lifetime_extension', 'value' => '0']);
+            $form_content['hidden']['session_lifetime_extension'] = $session_lifetime_extension_hidden_field->show();
+
+            // Make sure the value is in the range 1..365.
+            $session_lifetime_extension_text = str_replace('#', $this->config->session_lifetime_extension_days(), $this->app->gettext('session_lifetime_extension_switch_text'));
+            $session_lifetime_extension_checkbox = new html_checkbox(['name' => '_session_lifetime_extension', 'id' => '_session_lifetime_extension', 'title' => $session_lifetime_extension_text]);
+            $form_content['inputs']['session_lifetime_extension'] = [
+                'content' => html::label(['for' => '_session_lifetime_extension'], [$session_lifetime_extension_checkbox->show(), $session_lifetime_extension_text]),
+            ];
+        }
+
         if (is_array($default_host) && count($default_host) > 1) {
             $input_host = new html_select(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'custom-select']);
 
