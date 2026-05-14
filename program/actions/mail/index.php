@@ -1543,17 +1543,6 @@ class rcmail_action_mail_index extends rcmail_action
             $attrib['onchange'] = rcmail_output::JS_OBJECT_NAME . '.filter_mailbox(this.value)';
         }
 
-        // Content-Type values of messages with attachments
-        // the same as in app.js:add_message_row()
-        $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
-
-        // Build search string of "with attachment" filter
-        $attachment = trim(str_repeat(' OR', count($ctypes))) . ' KEYWORD $HasAttachment';
-        foreach ($ctypes as $type) {
-            $attachment .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
-        }
-        $attachment .= ' NOT KEYWORD $HasNoAttachment';
-
         $select = new html_select($attrib);
         $select->add($rcmail->gettext('all'), 'ALL');
         $select->add($rcmail->gettext('unread'), 'UNSEEN');
@@ -1563,7 +1552,7 @@ class rcmail_action_mail_index extends rcmail_action
             $select->add($rcmail->gettext('deleted'), 'DELETED');
             $select->add($rcmail->gettext('undeleted'), 'UNDELETED');
         }
-        $select->add($rcmail->gettext('withattachment'), $attachment);
+        $select->add($rcmail->gettext('withattachment'), self::search_has_attachment());
         $select->add($rcmail->gettext('priority') . ': ' . $rcmail->gettext('highest'), 'HEADER X-PRIORITY 1');
         $select->add($rcmail->gettext('priority') . ': ' . $rcmail->gettext('high'), 'HEADER X-PRIORITY 2');
         $select->add($rcmail->gettext('priority') . ': ' . $rcmail->gettext('normal'), 'NOT HEADER X-PRIORITY 1 NOT HEADER X-PRIORITY 2 NOT HEADER X-PRIORITY 4 NOT HEADER X-PRIORITY 5');
@@ -1685,5 +1674,23 @@ class rcmail_action_mail_index extends rcmail_action
         }
 
         return array_values($mimetypes);
+    }
+
+    /**
+     * Build IMAP search criteria for "has attachment" search
+     */
+    public static function search_has_attachment()
+    {
+        // Content-Type values of messages with attachments
+        // the same as in app.js:add_message_row()
+        $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
+
+        // Build search string of "with attachment" filter
+        $result = ltrim(str_repeat(' OR', count($ctypes)));
+        foreach ($ctypes as $type) {
+            $result .= ' HEADER Content-Type ' . rcube_imap_generic::escape($type);
+        }
+
+        return $result . ' KEYWORD $HasAttachment NOT KEYWORD $HasNoAttachment';
     }
 }
