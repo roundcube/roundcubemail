@@ -63,3 +63,7 @@ TESTS_MODE=tablet vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warn
 # Mobile mode tests are unreliable on Github Actions
 # echo "TESTS_MODE: PHONE"
 # TESTS_MODE=phone vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations --exclude-group=failsonga-phone
+
+echo "TESTS_MODE: DESKTOP with zipstream"
+composer require $COMPOSER_ARGS -n 'maennchen/zipstream-php:^3.0'
+TESTS_MODE=desktop vendor/bin/phpunit -c tests/Browser/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations plugins/zipdownload/tests/Browser
