@@ -83,18 +83,25 @@ class rcube_mime
      * @param int          $max      List only this number of addresses
      * @param bool         $decode   Decode address strings
      * @param string       $fallback Fallback charset if none specified
-     * @param bool         $addronly Return flat array with e-mail addresses only
+     * @param bool         $addronly          Return flat array with e-mail addresses only
+     * @param bool         $preserve_comments Preserve comments in the display name
      *
      * @return array Indexed list of addresses
      */
-    public static function decode_address_list($input, $max = null, $decode = true, $fallback = null, $addronly = false)
-    {
+    public static function decode_address_list(
+        $input,
+        $max = null,
+        $decode = true,
+        $fallback = null,
+        $addronly = false,
+        $preserve_comments = false
+    ) {
         // A common case when the same header is used many times in a mail message
         if (is_array($input)) {
             $input = implode(', ', $input);
         }
 
-        $a = self::parse_address_list((string) $input, $decode, $fallback);
+        $a = self::parse_address_list((string) $input, $decode, $fallback, $preserve_comments);
         $out = [];
         $j = 0;
 
@@ -312,15 +319,15 @@ class rcube_mime
     /**
      * E-mail address list parser
      */
-    private static function parse_address_list($str, $decode = true, $fallback = null)
+    private static function parse_address_list($str, $decode = true, $fallback = null, $preserve_comments = false)
     {
         // remove any newlines and carriage returns before
         $str = preg_replace('/\r?\n(\s|\t)?/', ' ', $str);
 
-        // extract list items, remove comments
+        // extract list items, optionally preserving comments for display
         // We don't support groups in address-lists, thus we also split on the semicolon here and check for a group-name
         // later.
-        $str = self::explode_header_string(',;', $str, true);
+        $str = self::explode_header_string(',;', $str, !$preserve_comments);
 
         // simplified regexp, supporting quoted local part
         $email_rx = '([^\s:]+|("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+"))@\S+';
@@ -334,7 +341,7 @@ class rcube_mime
             $val = trim($val);
 
             // Check for group names and store them for later, if present.
-            $tokens = self::explode_header_string(':', $val, true);
+            $tokens = self::explode_header_string(':', $val, !$preserve_comments);
             switch (count($tokens)) {
                 case 1:
                     // No colon, nothing to do.
@@ -440,7 +447,14 @@ class rcube_mime
                 } elseif ($str[$i] == '(') {
                     $comment++;
                 } elseif ($str[$i] == '\\') {
+                    if (!$remove_comments) {
+                        $out .= '\\';
+                    }
                     $i++;
+                }
+
+                if (!$remove_comments && isset($str[$i])) {
+                    $out .= $str[$i];
                 }
 
                 continue;
@@ -458,8 +472,12 @@ class rcube_mime
                 $quoted = true;
             }
             // start of comment
-            elseif ($remove_comments && $str[$i] == '(') {
+            elseif ($str[$i] == '(') {
                 $comment++;
+                if (!$remove_comments) {
+                    $out .= $str[$i];
+                }
+                continue;
             }
 
             if ($comment <= 0) {
@@ -467,7 +485,7 @@ class rcube_mime
             }
         }
 
-        if ($out && $comment <= 0) {
+        if ($out && ($comment <= 0 || !$remove_comments)) {
             $result[] = $out;
         }
 
