@@ -94,6 +94,20 @@
 					<option value="all"><roundcube:label name="allfolders" /></option>
 				</select>
 			</div>
+			<div class="hint search-help">
+				<p><roundcube:label name="searchhelpexamples" /></p>
+				<ul>
+					<li><code>from:address</code></li>
+					<li><code>body:test</code></li>
+					<li><code>from:example.com subject:invoice</code></li>
+					<li><code>from:example.com -subject:worksheet</code></li>
+				</ul>
+				<p><roundcube:label name="searchhelpfields" /> <code>subject:</code> <code>from:</code> <code>to:</code> <code>cc:</code> <code>bcc:</code> <code>replyto:</code> <code>followupto:</code> <code>body:</code> <code>text:</code></p>
+				<p><roundcube:label name="searchhelpstatus" /> <code>is:seen</code> <code>is:unseen</code> <code>is:read</code> <code>is:deleted</code> <code>is:undeleted</code> <code>is:answered</code> <code>is:unanswered</code> <code>is:flagged</code> <code>is:unflagged</code></p>
+				<p><roundcube:label name="searchhelpsize" /> <code>has:attachment</code> <code>smaller:1KB</code> <code>larger:1M</code></p>
+				<p><roundcube:label name="searchhelpdate" /> <code>since:1w</code> <code>before:1w</code> <code>since:2022-12-31</code> <code>before:2022-11-30</code></p>
+				<p><roundcube:label name="searchhelpcombine" /> <code>-from:alice@example.com</code> <code>from:example since:2026-04-01 -subject:payment has:attachment</code> <code>from:example.com OR example.org</code></p>
+			</div>
 		</div>
 		<div class="formbuttons">
 			<button type="button" class="btn btn-primary icon search" onclick="return rcmail.command('search')"><roundcube:label name="search" /></button>
