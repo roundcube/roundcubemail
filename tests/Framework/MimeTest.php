@@ -50,6 +50,8 @@ class MimeTest extends TestCase
             // invalid addr-spec (#8164)
             26 => '"Test.org"<test@domain.tld',
             27 => '<test@domain.tld',
+            28 => 'root@domain.tld (Cron Daemon)',
+            29 => 'root',
         ];
 
         $results = [
@@ -82,6 +84,8 @@ class MimeTest extends TestCase
             25 => [1, '', 'user@domain.tld'],
             26 => [1, 'Test.org', 'test@domain.tld'],
             27 => [1, '', 'test@domain.tld'],
+            28 => [1, '', 'root@domain.tld'],
+            29 => [1, '', 'root'],
         ];
 
         foreach ($headers as $idx => $header) {
@@ -101,6 +105,7 @@ class MimeTest extends TestCase
     {
         $headers = [
             'Test User (test@domain.tld) <list@domain.tld>' => 'Test User (test@domain.tld)',
+            'root@domain.tld (Cron Daemon)' => 'root@domain.tld (Cron Daemon)',
             'Test User (via Test Mailing List) <list@domain.tld>' => 'Test User (via Test Mailing List)',
             'Test User (via: Test, Mailing List) <list@domain.tld>' => 'Test User (via: Test, Mailing List)',
             '"\\"test.user@domain.tld\\"" (via Test Mailing List) <test@domain.tld>' => '"\\"test.user@domain.tld\\"" (via Test Mailing List)',

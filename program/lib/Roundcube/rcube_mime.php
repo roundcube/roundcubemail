@@ -361,6 +361,9 @@ class rcube_mime
                 // remove it later, because $email_rx will catch it (#8164)
                 $address = rtrim($m[2], '>');
                 $name = trim($m[1]);
+            } elseif (preg_match('/^(' . $email_rx . ')(\s*\(.+\))$/', $val, $m)) {
+                $address = $m[1];
+                $name = $preserve_comments ? $val : '';
             } elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
                 $address = $m[1];
                 $name = '';
@@ -371,6 +374,8 @@ class rcube_mime
                 $name = substr($val, 0, -strlen($m[1]));
             } elseif (preg_match('/(' . $email_rx . ')/', $val, $m)) {
                 $name = $m[1];
+            } elseif (strcasecmp($val, 'root') === 0) {
+                $address = $val;
             } else {
                 $name = $val;
             }
