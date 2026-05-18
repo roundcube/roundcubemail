@@ -6,6 +6,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Fix so "has:attachment" search uses $HasAttachment/$HasNoAttachment keywords (#10168)
+- Fix potential too long value in IMAP ID command (#10136)
 
 ## 1.7.0
 
