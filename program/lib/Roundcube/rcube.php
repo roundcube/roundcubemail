@@ -1158,20 +1158,23 @@ class rcube
             $this->db->closeConnection();
         }
 
-        if ($this->memcache) {
-            $this->memcache->close();
+        if ($this->memcache !== null) {
+            rcube_cache_memcache::engineDestroy();
+            $this->memcache = null;
         }
 
-        if ($this->memcached) {
-            $this->memcached->quit();
+        if ($this->memcached !== null) {
+            rcube_cache_memcached::engineDestroy();
+            $this->memcached = null;
+        }
+
+        if ($this->redis !== null) {
+            rcube_cache_redis::engineDestroy();
+            $this->redis = null;
         }
 
         if ($this->smtp) {
             $this->smtp->disconnect();
-        }
-
-        if ($this->redis) {
-            $this->redis->close();
         }
     }
 
