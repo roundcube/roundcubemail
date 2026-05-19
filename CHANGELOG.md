@@ -8,6 +8,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Clarified Elastic installation instructions (#10163)
 - Fix so "has:attachment" search uses $HasAttachment/$HasNoAttachment keywords (#10168)
 - Fix potential too long value in IMAP ID command (#10136)
+- Fix redis/memcache disconnection in rcube::sleep() (#10127)
 
 ## 1.7.0
 
