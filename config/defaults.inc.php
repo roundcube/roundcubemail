@@ -544,7 +544,7 @@ $config['support_url'] = '';
 $config['blankpage_url'] = '/watermark.html';
 
 // Logo image replacement. Specifies location of the image as:
-// - URL relative to the document root of this Roundcube installation
+// - URL relative to the root directory of the Roundcube installation
 // - full URL with http:// or https:// prefix
 // - URL relative to the current skin folder (when starts with a '/')
 //

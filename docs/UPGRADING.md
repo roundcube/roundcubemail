@@ -86,7 +86,8 @@ Post-Upgrade Activities
 4. When upgrading from version older than *1.4.0* make sure old files
    in configured `temp_dir` are removed. Since this version we use constant filename
    prefix and do not remove files not starting with "RCMTEMP".
-
+5. When upgrading from version older than *1.7.0* make sure your HTTP server
+   points to the `public_html` directory as a document root.
 
 SQLite database upgrade
 -----------------------

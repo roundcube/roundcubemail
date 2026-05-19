@@ -51,6 +51,7 @@ const ALLOWED_PATHS = [
     'installer/',
     'plugins/',
     'program/',
+    'public_html/',
     'skins/',
 ];
 
