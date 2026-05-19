@@ -10,13 +10,13 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix potential too long value in IMAP ID command (#10136)
 - Fix redis/memcache disconnection in rcube::sleep() (#10127)
 
-## 1.7.0
+## Release 1.7.0
 
 - Bump OpenPGPjs version to 6.3.0
 - Allow cidr (subnets) in proxy_whitelist (#7103)
 - Zipdownload: Fix message date time zone in mbox export (#10147)
 
-## 1.7-rc6
+## Release 1.7-rc6
 
 - Added support for arrays in `smtp_user` and `smtp_pass` config options (#10083)
 - Added system health checker CLI script (#10106)
@@ -25,7 +25,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix regression where some data url images could get ignored/lost (#10128)
 - Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
 
-## 1.7-rc5
+## Release 1.7-rc5
 
 - Password: Add nt-binary hashing method (#10096)
 - Fix URL matching for domain names with port numbers (#10105)
@@ -41,12 +41,12 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix XSS issue in a HTML attachment preview [CVE-2026-35539]
 - Security: Fix SSRF + Information Disclosure via stylesheet links to a local network hosts [CVE-2026-35540]
 
-## 1.7-rc4
+## Release 1.7-rc4
 
 - Ensure correct file permissions when building a release.
 - Installer: Fix broken link to download the created configuration file (#10092)
 
-## 1.7-rc3
+## Release 1.7-rc3
 
 - Support `request_url` config option for resolving relative URLs (#9868)
 - Support X-Forwarded-Host/X-Forwarded-Port in self URLs generation (#9952)
@@ -60,14 +60,14 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix remote image blocking bypass via SVG content reported by nullcathedral [CVE-2026-25916]
 - Fix CSS injection vulnerability reported by CERT Polska [CVE-2026-26079]
 
-## 1.7-rc2
+## Release 1.7-rc2
 
 - Fix syntax error in DDL scripts for Postgres (#10052)
 - Fix Cross-Site-Scripting vulnerability via SVG's animate tag [CVE-2025-68461]
 - Fix Information Disclosure vulnerability in the HTML style sanitizer [CVE-2025-68460]
 - Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 
-## 1.7-rc
+## Release 1.7-rc
 
 - Move autocomplete list rendering to client-side (#9832)
 - Remove `contact_search_name` option in favor of `contactlist_name_template` (#9832)
