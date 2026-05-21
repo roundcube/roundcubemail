@@ -320,10 +320,11 @@ class managesieve extends rcube_plugin
         $result = [];
         $got_list = false;
 
-        if ($list_id = ($headers->others['list-id'] ?? null)) {
+        foreach ((array) $headers->get('list-id', false) as $list_id) {
             if (preg_match('/<([^>]+)>/', $list_id, $m)) {
                 $result[] = ['List-Id', $m[1], true];
                 $got_list = true;
+                break;
             }
         }
 

@@ -1,4 +1,5 @@
 - Fix handling of string-list format values for date tests in Out of Office (#10075)
+- Fix error when a mail message contains duplicate List-Id header (#10186)
 
 * version 9.6 [2025-11-29]
 -----------------------------------------------------------
