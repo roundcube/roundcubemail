@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix potential too long value in IMAP ID command (#10136)
 - Fix redis/memcache disconnection in rcube::sleep() (#10127)
 - Fix so static resources, e.g. skin_logo can be put inside the public_html directory (#10160)
+- Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is not set in static.php (#10181)
 
 ## Release 1.7.0
 

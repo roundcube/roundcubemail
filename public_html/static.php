@@ -57,7 +57,10 @@ const ALLOWED_PATHS = [
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
-$path = validateStaticFile($_SERVER['PATH_INFO']);
+$path = $_SERVER['PATH_INFO']
+    ?? explode('static.php/', $_SERVER['REQUEST_URI'] ?? '')[1]
+    ?? '';
+$path = validateStaticFile($path);
 
 if (!$path) {
     http_response_code(404);
