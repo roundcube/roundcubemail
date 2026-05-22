@@ -14,4 +14,4 @@
 
 $labels['hide'] = 'Veşêre';
 $labels['show'] = 'Nîşan bide';
-$labels['quotelimit'] = 'Jêgirtinê bigire dema ku hejmara rêzan zêdetir be ji';
+$labels['quotelimit'] = 'Jêgirtinê veşêre dema ku jimara rêzan mezintir be ji';

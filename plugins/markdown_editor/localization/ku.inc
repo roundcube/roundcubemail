@@ -12,5 +12,9 @@
  +-----------------------------------------------------------------------+
 */
 
+$labels['toolbar_button_bold'] = 'Qalind';
+$labels['toolbar_button_italic'] = 'Xwar';
 $labels['toolbar_button_link'] = 'Girêdan';
 $labels['toolbar_button_image'] = 'Wêne';
+$labels['toolbar_button_undo'] = 'Vegere';
+$labels['toolbar_button_redo'] = 'Dûbare bike';
