@@ -45,7 +45,6 @@ class rcmail_output_html extends rcmail_output
     protected $body = '';
     protected $base_path = '';
     protected $assets_path;
-    protected $assets_dir = RCUBE_INSTALL_PATH;
     protected $devel_mode = false;
     protected $default_template = "<html>\n<head><meta name='generator' content='Roundcube'></head>\n<body></body>\n</html>";
 
@@ -193,8 +192,8 @@ class rcmail_output_html extends rcmail_output
     public function set_assets_path($path)
     {
         // set absolute path for assets if /index.php/foo/bar url is used
-        if (empty($path) && !empty($_SERVER['PATH_INFO'])) {
-            $path = preg_replace('/\?_task=[a-z]+/', '', $this->app->url([], true));
+        if (empty($path) && ($path = self::path_info())) {
+            $path = preg_replace('/\/?\?_task=[a-z]+/', '', $this->app->url([], true));
         }
 
         if (empty($path)) {
@@ -202,29 +201,6 @@ class rcmail_output_html extends rcmail_output
         }
 
         $path = rtrim($path, '/') . '/';
-
-        // handle relative assets path
-        if (!preg_match('|^https?://|', $path) && $path[0] != '/') {
-            // save the path to search for asset files later
-            $this->assets_dir = $path;
-
-            $base = preg_replace('/[?#&].*$/', '', $_SERVER['REQUEST_URI']);
-            $base = rtrim($base, '/');
-
-            // remove url token if exists
-            if ($len = intval($this->config->get('use_secure_urls'))) {
-                $_base = explode('/', $base);
-                $last = count($_base) - 1;
-                $length = $len > 1 ? $len : 16; // as in rcube::get_secure_url_token()
-
-                // we can't use real token here because it
-                // does not exists in unauthenticated state,
-                // hope this will not produce false-positive matches
-                if (preg_match('/^[a-f0-9]{' . $length . '}$/', $_base[$last])) {
-                    $path = '../' . $path;
-                }
-            }
-        }
 
         $this->assets_path = $path;
         $this->set_env('assets_path', $path);
@@ -459,12 +435,6 @@ class rcmail_output_html extends rcmail_output
     protected function find_file_path($file, $skin_paths)
     {
         foreach ($skin_paths as $skin_path) {
-            if ($this->assets_dir != RCUBE_INSTALL_PATH) {
-                if (realpath($this->assets_dir . $skin_path . $file)) {
-                    return $skin_path;
-                }
-            }
-
             if (realpath(RCUBE_INSTALL_PATH . $skin_path . $file)) {
                 return $skin_path;
             }
@@ -1060,12 +1030,12 @@ class rcmail_output_html extends rcmail_output
         // use minified file if exists (not in development mode)
         if (!$this->devel_mode && !preg_match('/\.min\.' . $ext . '$/', $file)) {
             $minified_file = substr($file, 0, strlen($ext) * -1) . 'min.' . $ext;
-            if ($fs = @filemtime($this->assets_dir . $minified_file)) {
+            if ($fs = @filemtime(RCUBE_INSTALL_PATH . $minified_file)) {
                 return $minified_file . '?s=' . $fs;
             }
         }
 
-        if ($fs = @filemtime($this->assets_dir . $file)) {
+        if ($fs = @filemtime(RCUBE_INSTALL_PATH . $file)) {
             $file .= '?s=' . $fs;
         }
 
@@ -1077,14 +1047,12 @@ class rcmail_output_html extends rcmail_output
      */
     protected function resource_location($location)
     {
-        if (!str_contains($location, '://')) {
+        if (empty($this->assets_path) && !str_contains($location, '://')) {
             $location = ltrim($location, '/');
             $prefix = '';
 
-            // FIXME: Would REQUEST_URI be a better option than PATH_INFO?
-            if (!empty($_SERVER['PATH_INFO'])) {
-                $path = explode('/', trim($_SERVER['PATH_INFO'], '/'));
-                $prefix = str_repeat('../', count($path) + 1);
+            if ($path = self::path_info()) {
+                $prefix = str_repeat('../', substr_count($path, '/') + 2);
             }
 
             if (!str_starts_with($location, $prefix . 'static.php')
@@ -2385,7 +2353,7 @@ class rcmail_output_html extends rcmail_output
             ];
         }
 
-        if (rcube_utils::get_boolean($attrib['submit'])) {
+        if (isset($attrib['submit']) && rcube_utils::get_boolean($attrib['submit'])) {
             $button_attr = ['type' => 'submit', 'id' => 'rcmloginsubmit', 'class' => 'button mainaction submit'];
             $button = html::tag('button', $button_attr, $this->app->gettext('login'));
 
