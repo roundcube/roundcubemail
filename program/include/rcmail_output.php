@@ -136,4 +136,23 @@ abstract class rcmail_output extends rcube_output
     {
         $this->object_handlers = array_merge($this->object_handlers, $handlers);
     }
+
+    /**
+     * Return request path info
+     *
+     * @return string
+     */
+    public static function path_info()
+    {
+        $path = $_SERVER['PATH_INFO']
+            ?? explode('index.php/', $_SERVER['REQUEST_URI'] ?? '')[1]
+            ?? '';
+
+        // Remove query params from the path
+        $path = preg_replace('/[?&].*$/', '', $path);
+
+        $path = trim($path, "/ \t\r\n");
+
+        return $path;
+    }
 }
