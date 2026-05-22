@@ -1346,7 +1346,9 @@ class rcmail_oauth
         // We store just the query string (not full URL) so it can be used directly with $_POST['_url']
         if (!empty($_SERVER['QUERY_STRING']) && !$this->rcmail->output->ajax_call) {
             // Only store if it's not a login or oauth action (prevents redirect loops)
-            if (!preg_match('/(_task=login|_task=logout|_action=oauth)/', $_SERVER['QUERY_STRING'])) {
+            if (!preg_match('/(_task=login|_task=logout|_action=oauth)/', $_SERVER['QUERY_STRING'])
+                && rcmail_output::path_info() != 'login/oauth'
+            ) {
                 $_SESSION['oauth_redirect_uri'] = $_SERVER['QUERY_STRING'];
                 $this->log_debug('storing original query string for post-auth redirect: %s', $_SERVER['QUERY_STRING']);
             }
