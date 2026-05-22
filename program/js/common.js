@@ -832,11 +832,12 @@ var Base64 = (function () {
 })();
 
 // HTMLFormElement.requestSubmit polyfill for old browsers (#10179)
-(function(prototype) {
-    if (typeof prototype.requestSubmit == 'function')
+(function (prototype) {
+    if (typeof prototype.requestSubmit == 'function') {
         return;
+    }
 
-    prototype.requestSubmit = function(submitter) {
+    prototype.requestSubmit = function (submitter) {
         if (submitter) {
             validateSubmitter(submitter, this);
             submitter.click();
@@ -848,17 +849,17 @@ var Base64 = (function () {
             submitter.click();
             this.removeChild(submitter);
         }
-    }
+    };
 
     function validateSubmitter(submitter, form)
     {
         submitter instanceof HTMLElement || raise(TypeError, "parameter 1 is not of type 'HTMLElement'");
-        submitter.type == 'submit' || raise(TypeError, "The specified element is not a submit button");
-        submitter.form == form || raise(DOMException, "The specified element is not owned by this form element", 'NotFoundError');
+        submitter.type == 'submit' || raise(TypeError, 'The specified element is not a submit button');
+        submitter.form == form || raise(DOMException, 'The specified element is not owned by this form element', 'NotFoundError');
     }
 
     function raise(errorConstructor, message, name)
     {
-        throw new errorConstructor("Failed to execute 'requestSubmit' on 'HTMLFormElement': " + message + ".", name);
+        throw new errorConstructor("Failed to execute 'requestSubmit' on 'HTMLFormElement': " + message + '.', name);
     }
 })(HTMLFormElement.prototype);
