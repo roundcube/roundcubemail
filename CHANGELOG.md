@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Managesieve: Fix error when a mail message contains duplicate List-Id header (#10186)
 - Clarified Elastic installation instructions (#10163)
+- Added HTMLFormElement.requestSubmit() polyfill for older browsers (#10179)
 - Fix so "has:attachment" search uses $HasAttachment/$HasNoAttachment keywords (#10168)
 - Fix potential too long value in IMAP ID command (#10136)
 - Fix redis/memcache disconnection in rcube::sleep() (#10127)
