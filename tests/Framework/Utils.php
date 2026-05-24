@@ -253,6 +253,11 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = \rcube_utils::mod_css_styles("p { background: url('//data:image&leak'); }", 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);
 
+        $mod = \rcube_utils::mod_css_styles("p { background-image: var(--x, url(http://evil.com/1.gif)) }", 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+        $mod = \rcube_utils::mod_css_styles("p { background-image: var(--x, url(http://evil.com/1.gif)) }", 'rcmbody', true);
+        $this->assertSame('#rcmbody p { background-image: var(--x, url(http://evil.com/1.gif)); }', $mod);
+
         // Note: This looks to me like a bug in browsers, for now we don't allow image-set at all
         $mod = \rcube_utils::mod_css_styles("p { background: image-set('//evil.com/img.png' 1x); }", 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);

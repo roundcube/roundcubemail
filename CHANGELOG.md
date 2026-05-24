@@ -7,6 +7,7 @@
 - Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
 - Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
 - Security: Fix SSRF bypass via specific local address URLs
+- Security: Fix bypass of remote image blocking via CSS var()
 
 ## Release 1.6.15
 

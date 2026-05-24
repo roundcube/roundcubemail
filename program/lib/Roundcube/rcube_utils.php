@@ -627,10 +627,17 @@ class rcube_utils
             } else {
                 $value = '';
                 foreach (self::explode_css_property_block($rule[1]) as $val) {
-                    if ($url_callback && preg_match('/^url\s*\(/i', $val)) {
-                        if (preg_match('/^url\s*\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
-                            if ($url = $url_callback($match[1])) {
-                                $value .= ' url(' . $url . ')';
+                    if ($url_callback && preg_match('/\burl\s*\(/i', $val)) {
+                        if (preg_match_all('/(\b)url\s*\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $matches)) {
+                            foreach ($matches[2] as $idx => $url) {
+                                if ($url = $url_callback($url)) {
+                                    $val = str_replace($matches[0][$idx], $matches[1][$idx] . "url({$url})", $val);
+                                } else {
+                                    $val = '';
+                                }
+                            }
+                            if (strlen($val)) {
+                                $value .= ' ' . $val;
                             }
                         }
                     } elseif (preg_match('/;.+/', $val)) {
