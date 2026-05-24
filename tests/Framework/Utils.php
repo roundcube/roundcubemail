@@ -584,9 +584,19 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ['//127.0.0.1', true],
             ['http://localhost', true],
             ['http://localhost.localdomain', true],
+            ['http://localhost.:8080/', true],
+            ['http://2130706433:8080', true],
+            ['http://0x7f000001:8080', true],
+            ['http://0177.0.0.1:8080', true],
+            ['http://127.1:8080', true],
+            ['http://0.0.0.0:8080', true],
+            ['http://[::ffff:127.0.0.1]:8080', true],
+            ['http://127.0.0.1.nip.io', true],
+            ['http://metadata.google.internal', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
+            ['http://20.0.0.1.nip.io', false],
         ];
     }
 

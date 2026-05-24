@@ -6,6 +6,7 @@
 - Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 - Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
 - Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
+- Security: Fix SSRF bypass via specific local address URLs
 
 ## Release 1.6.15
 

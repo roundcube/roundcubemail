@@ -1,6 +1,7 @@
 <?php
 
 use IPLib\Factory;
+use IPLib\ParseStringFlag;
 
 /*
  +-----------------------------------------------------------------------+
@@ -433,10 +434,25 @@ class rcube_utils
         $host = parse_url($url, \PHP_URL_HOST);
 
         if (is_string($host)) {
+            $options = ParseStringFlag::IPV4_MAYBE_NON_DECIMAL
+                | ParseStringFlag::IPV4SUBNET_MAYBE_COMPACT
+                | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
+                | ParseStringFlag::MAY_INCLUDE_ZONEID;
+
+            $host = trim($host, '[]');
+
+            // IPLib does not seem to work with IPv6 syntax for IPv4 addresses
+            $host = preg_replace('/^::ffff:/i', '', $host);
+
+            if (preg_match('/([0-9a-f.-]+)\.nip\.io$/i', $host, $matches)) {
+                $host = trim($matches[1], '-.');
+            }
+
             // TODO: This is pretty fast, but a single message can contain multiple links
             // to the same target, maybe we should do some in-memory caching.
-            if ($address = Factory::parseAddressString($host = trim($host, '[]'))) {
+            if ($address = Factory::parseAddressString($host, $options)) {
                 $nets = [
+                    '0.0.0.0',
                     '127.0.0.0/8',    // loopback
                     '10.0.0.0/8',     // RFC1918
                     '172.16.0.0/12',  // RFC1918
@@ -457,7 +473,8 @@ class rcube_utils
             }
 
             // FIXME: Should we accept any non-fqdn hostnames?
-            return (bool) preg_match('/^localhost(\.localdomain)?$/i', $host);
+            $host = strtolower($host);
+            return $host == 'metadata.google.internal' || preg_match('/^localhost(\.localdomain)?\.?$/', $host);
         }
 
         return false;
