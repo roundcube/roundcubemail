@@ -5,6 +5,7 @@
 - Fix potential too long value in IMAP ID command (#10136)
 - Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 - Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
+- Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
 
 ## Release 1.6.15
 
