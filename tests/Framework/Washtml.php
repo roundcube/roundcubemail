@@ -712,6 +712,7 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             ['<link href="http://TRACKING_URL/">', true],
             ['<link href="src:abc">', false],
             ['<img src="http://TRACKING_URL/">', true],
+            ['<img src="http://127.0.0.1">', true],
             ['<img src="data:image">', false],
             ['<p style="backgr\ound-image: \ur\l(\'http://TRACKING_URL\')"></p>', true],
             ['<p style="background-image: var(--x, url(http://evil.com/1.gif))"></p>', true],
