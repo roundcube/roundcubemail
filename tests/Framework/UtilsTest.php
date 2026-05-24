@@ -359,9 +359,9 @@ class UtilsTest extends TestCase
         $mod = \rcube_utils::mod_css_styles("p { background: url('//data:image&leak'); }", 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);
 
-        $mod = \rcube_utils::mod_css_styles("p { background-image: var(--x, url(http://evil.com/1.gif)) }", 'rcmbody');
+        $mod = \rcube_utils::mod_css_styles('p { background-image: var(--x, url(http://evil.com/1.gif)) }', 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);
-        $mod = \rcube_utils::mod_css_styles("p { background-image: var(--x, url(http://evil.com/1.gif)) }", 'rcmbody', true);
+        $mod = \rcube_utils::mod_css_styles('p { background-image: var(--x, url(http://evil.com/1.gif)) }', 'rcmbody', true);
         $this->assertSame('#rcmbody p { background-image: var(--x, url(http://evil.com/1.gif)); }', $mod);
 
         // Note: This looks to me like a bug in browsers, for now we don't allow image-set at all
