@@ -719,13 +719,19 @@ class WashtmlTest extends TestCase
             ['<img src="http://TRACKING_URL/">', true],
             ['<img src="data:image">', false],
             ['<p style="backgr\ound-image: \ur\l(\'http://TRACKING_URL\')"></p>', true],
+            ['<p style="background-image: var(--x, url(http://evil.com/1.gif))"></p>', true],
+            ['<p style="cursor: var(--x, url(http://evil.com/5.gif), auto)"></p>', true],
+            ['<p style="background: var(--a, var(--b, url(http://evil.com/6.gif)))"></p>', true],
+            ['<p style="color: red; background-image: var(--x, url(http://evil.com/7.gif)); font-size: 12px"></p>', true],
+            ['<p style="background: image(url(http://evil.com/8.gif))"></p>', true],
+            ['<p style="background: cross-fade(url(http://evil.com/9a.gif), url(http://evil.com/9b.gif), 50%)"></p>', true],
         ];
 
         foreach ($html as $item) {
             $washer = new \rcube_washtml();
             $washed = $washer->wash($item[0]);
 
-            $this->assertSame($item[1], $washer->extlinks);
+            $this->assertSame($item[1], $washer->extlinks, "Failed on: {$item[0]}");
         }
 
         foreach ($html as $item) {
