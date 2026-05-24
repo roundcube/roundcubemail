@@ -25,8 +25,6 @@
  */
 class rcube_ldap_generic extends \Net_LDAP3
 {
-    /** private properties */
-    protected $cache;
     protected $attributes = ['dn'];
     protected $error;
 
