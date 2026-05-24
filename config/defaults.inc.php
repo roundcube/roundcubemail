@@ -1212,8 +1212,7 @@ $config['ldap_public']['Verisign'] = [
   'sub_fields' => [],
   // Generate values for the following LDAP attributes automatically when creating a new record
   'autovalues' => [
-    // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed
-    // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+    // 'mail' => '{givenname}.{sn}@mydomain.com',  // composite strings with placeholders for existing attributes
   ],
   'sort'           => 'cn',         // The field to sort the listing by.
   'scope'          => 'sub',        // search mode: sub|base|list
