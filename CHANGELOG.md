@@ -16,6 +16,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix `assets_path` feature and remove dependency on `PATH_INFO` (#10185)
 - Fix MySQL upgrade on MySQL < 8.0 and MariaDB < 10.5.3 (#10188)
 - Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
+- Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
 
 ## Release 1.7.0
 

@@ -542,6 +542,18 @@ class WashtmlTest extends TestCase
                 '<svg><animate attributeName="fill" values="url(http://external.site)" dur="1s" begin="0s" fill="freeze" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
+            [
+                '<svg><rect><animate attributeName="style" values="filter:url(http://attacker.com)" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="values" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" values="width:expression(alert(1))" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="values" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" values="position:fixed;top:0;left:0" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" values="position: absolute; top: 0; left: 0" dur="0s" fill="freeze" /></rect></svg>',
+            ],
         ];
     }
 

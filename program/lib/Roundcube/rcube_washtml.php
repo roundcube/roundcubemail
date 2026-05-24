@@ -291,9 +291,14 @@ class rcube_washtml
             $key = strtolower($name);
             $value = $attr->nodeValue;
 
-            if ($key == 'style' && ($style = $this->wash_style($value))) {
-                // replace double quotes to prevent syntax error and XSS issues (#1490227)
-                $result .= ' style="' . str_replace('"', '&quot;', $style) . '"';
+            if ($key == 'style' || ($key == 'values' && self::attribute_value($node, 'attributename', '/^style$/i'))) {
+                $style = '';
+                if ($value === '' || ($style = $this->wash_style($value))) {
+                    // replace double quotes to prevent syntax error and XSS issues (#1490227)
+                    $result .= ' ' . $attr->nodeName . '="' . str_replace('"', '&quot;', $style) . '"';
+                } else {
+                    $washed[] = htmlspecialchars($attr->nodeName, \ENT_QUOTES, $this->config['charset']);
+                }
             } elseif (isset($this->_html_attribs[$key]) || in_array($key, $additional_attribs)) {
                 $value = trim($value);
                 $out = null;
