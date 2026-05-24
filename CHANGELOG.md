@@ -10,6 +10,7 @@
 - Security: Fix bypass of remote image blocking via CSS var()
 - Security: Fix local/private URL fetch bypass when remote resources were not allowed
 - Security: Fix pre-auth arbitrary file delete via redis/memcache session poisoning bypass
+- Security: Fix code injection vulnerability - remove support for code evaluation in LDAP `autovalues` option 
 
 ## Release 1.6.15
 

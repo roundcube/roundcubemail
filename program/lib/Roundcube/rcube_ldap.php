@@ -1581,34 +1581,14 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['autovalues'] as $lf => $templ) {
             if (empty($attrs[$lf])) {
-                if (strpos($templ, '(') !== false) {
-                    // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
-                    $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
-                    $res  = false;
-
-                    try {
-                        $res = eval("return ($code);");
-                    }
-                    catch (ParseError $e) {
-                        // ignore
-                    }
-
-                    if ($res === false) {
-                        rcube::raise_error([
-                                'code' => 505, 'file' => __FILE__, 'line' => __LINE__,
-                                'message' => "Expression parse error on: ($code)"
-                            ], true, false);
-                        continue;
-                    }
-
-                    $attrs[$lf] = $res;
-                }
-                else {
-                    // replace {attr} placeholders with concrete attribute values
-                    $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
-                }
+                // replace {attr} placeholders with concrete attribute values
+                $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
             }
         }
+
+        $rcube = rcube::get_instance();
+        $plugin = $rcube->plugins->exec_hook('ldap_autovalues', ['attrs' => $attrs]);
+        $attrs = $plugin['attrs'];
     }
 
     /**
