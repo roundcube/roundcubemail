@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix MySQL upgrade on MySQL < 8.0 and MariaDB < 10.5.3 (#10188)
 - Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 - Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
+- Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
 
 ## Release 1.7.0
 
