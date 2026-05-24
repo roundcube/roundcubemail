@@ -84,16 +84,6 @@ class rcmail_sendmail
     }
 
     /**
-     * Object destructor to cleanup temporary files
-     */
-    public function __destruct()
-    {
-        foreach ($this->temp_files as $file) {
-            @unlink($file);
-        }
-    }
-
-    /**
      * Collect input data for message headers
      *
      * @return array Message headers
@@ -467,6 +457,7 @@ class rcmail_sendmail
         // @phpstan-ignore-next-line
         if ($mailbody_file) {
             $this->temp_files[$message->headers()['Message-ID']] = $mailbody_file;
+            $this->rcmail->add_shutdown_function(static function () use ($mailbody_file) { @unlink($mailbody_file); });
         }
 
         // save message sent time
@@ -548,6 +539,7 @@ class rcmail_sendmail
 
                     if (!is_a($msg, 'PEAR_Error')) {
                         $this->temp_files[$msg_id] = $msg_file;
+                        $this->rcmail->add_shutdown_function(static function () use ($msg_file) { @unlink($msg_file); });
                     }
                 }
 
