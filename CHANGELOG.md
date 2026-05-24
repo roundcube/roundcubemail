@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Fix potential too long value in IMAP ID command (#10136)
+- Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 
 ## Release 1.6.15
 
