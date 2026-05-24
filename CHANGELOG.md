@@ -14,6 +14,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is not set in static.php (#10181)
 - Fix `assets_path` feature and remove dependency on `PATH_INFO` (#10185)
 - Fix MySQL upgrade on MySQL < 8.0 and MariaDB < 10.5.3 (#10188)
+- Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
 
 ## Release 1.7.0
 
