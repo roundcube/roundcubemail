@@ -20,6 +20,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix SSRF bypass via specific local address URLs
 - Security: Fix bypass of remote image blocking via CSS var()
 - Security: Fix local/private URL fetch bypass when remote resources were not allowed
+- Security: Fix pre-auth arbitrary file delete via redis/memcache session poisoning bypass
 
 ## Release 1.7.0
 

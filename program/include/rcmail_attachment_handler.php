@@ -116,16 +116,6 @@ class rcmail_attachment_handler
     }
 
     /**
-     * Remove temp files, etc.
-     */
-    public function __destruct()
-    {
-        if ($this->body_file) {
-            @unlink($this->body_file);
-        }
-    }
-
-    /**
      * Check if the object is a message part not uploaded file
      *
      * @return bool True if the object is a message part
@@ -248,6 +238,7 @@ class rcmail_attachment_handler
             $this->body_file = $filename;
             fclose($fp);
             @chmod($filename, 0600);
+            rcmail::get_instance()->add_shutdown_function(static function () use ($filename) { @unlink($filename); });
 
             return true;
         }
