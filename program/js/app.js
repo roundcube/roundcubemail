@@ -4990,7 +4990,7 @@ function rcube_webmail() {
                 this.show_popup_dialog(
                     this.get_label('restoresavedcomposedata')
                         .replace('$date', new Date(formdata.changed).toLocaleString())
-                        .replace('$subject', formdata._subject)
+                        .replace('$subject', $('<span>').text(formdata._subject).html())
                         .replace(/\n/g, '<br/>'),
                     this.get_label('restoremessage'),
                     [{
