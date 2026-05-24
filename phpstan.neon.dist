@@ -19,6 +19,7 @@ parameters:
         - identifier: equal.notAllowed
         - identifier: notEqual.notAllowed
         # TODO
+        - identifier: property.missingOverride
         - '~^Dynamic call to static method .+\.~' # TODO in https://github.com/roundcube/roundcubemail/pull/9314
         - '~^Construct empty\(\) is not allowed\. Use more strict comparison\.~'
         - '~^Casting to .+ something that''s already .+\.~'
