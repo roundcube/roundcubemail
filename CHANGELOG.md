@@ -4,6 +4,9 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+
+## Release 1.7.1
+
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Managesieve: Fix error when a mail message contains duplicate List-Id header (#10186)
 - Clarified Elastic installation instructions (#10163)
@@ -36,7 +39,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Stricter recognition of an Ajax request (#10118)
 - Password: Added Stalwart driver (#10114)
 - Fix regression where some data url images could get ignored/lost (#10128)
-- Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
+- Security: Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
 
 ## Release 1.7-rc5
 
@@ -70,14 +73,14 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 - Fix a UI issue on using browser Back button after allowing remote resources (#10062)
 - Fix syntax error in DDL scripts for Postgres (#10070)
-- Fix remote image blocking bypass via SVG content reported by nullcathedral [CVE-2026-25916]
-- Fix CSS injection vulnerability reported by CERT Polska [CVE-2026-26079]
+- Security: Fix remote image blocking bypass via SVG content reported by nullcathedral [CVE-2026-25916]
+- Security: Fix CSS injection vulnerability reported by CERT Polska [CVE-2026-26079]
 
 ## Release 1.7-rc2
 
 - Fix syntax error in DDL scripts for Postgres (#10052)
-- Fix Cross-Site-Scripting vulnerability via SVG's animate tag [CVE-2025-68461]
-- Fix Information Disclosure vulnerability in the HTML style sanitizer [CVE-2025-68460]
+- Security: Fix Cross-Site-Scripting vulnerability via SVG's animate tag [CVE-2025-68461]
+- Security: Fix Information Disclosure vulnerability in the HTML style sanitizer [CVE-2025-68460]
 - Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 
 ## Release 1.7-rc
