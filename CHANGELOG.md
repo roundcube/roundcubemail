@@ -20,6 +20,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
 - Security: Fix SSRF bypass via specific local address URLs
 - Security: Fix bypass of remote image blocking via CSS var()
+- Security: Fix local/private URL fetch bypass when remote resources were not allowed
 
 ## Release 1.7.0
 

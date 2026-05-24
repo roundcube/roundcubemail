@@ -389,7 +389,7 @@ class rcube_washtml
         }
 
         if (preg_match('/^(http|https|ftp):.+/i', $uri)) {
-            if (!empty($this->config['allow_remote']) || rcube_utils::is_local_url($uri)) {
+            if (!empty($this->config['allow_remote'])) {
                 return $uri;
             }
 
