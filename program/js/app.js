@@ -3900,7 +3900,9 @@ function rcube_webmail() {
     this.set_button_titles = function () {
         var label = 'deletemessage';
 
-        if (!this.env.flag_for_deletion
+        if (this.env.action == 'compose') {
+            label = 'discardmessage';
+        } else if (!this.env.flag_for_deletion
             && this.env.trash_mailbox && this.env.mailbox != this.env.trash_mailbox
             && (!this.env.delete_junk || !this.env.junk_mailbox || this.env.mailbox != this.env.junk_mailbox)
         ) {
