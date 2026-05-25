@@ -407,7 +407,7 @@ function rcube_webmail() {
                         'download-attachment', 'open-attachment', 'rename-attachment'];
 
                     if (this.env.drafts_mailbox) {
-                        this.env.compose_commands.push('savedraft');
+                        this.env.compose_commands.push('savedraft', 'delete');
                     }
 
                     this.enable_command(this.env.compose_commands, true);
@@ -840,13 +840,7 @@ function rcube_webmail() {
             && !this.compose_skip_unsavedcheck
         ) {
             if (!this.env.is_sent && this.cmp_hash != this.compose_field_hash()) {
-                this.confirm_dialog(this.get_label('notsentwarning'), 'discard', function () {
-                    // remove copy from local storage if compose screen is left intentionally
-                    ref.remove_compose_data(ref.env.compose_id);
-                    ref.compose_skip_unsavedcheck = true;
-                    ref.command(command, props, obj, event);
-                });
-
+                this.discard_draft(null, command, props, obj, event);
                 return false;
             }
         }
@@ -1130,8 +1124,12 @@ function rcube_webmail() {
 
                 break;
             case 'delete':
+                // mail: discard draft
+                if (this.task == 'mail' && this.env.action == 'compose') {
+                    this.discard_draft(this.env.draft_id);
+                }
                 // mail task
-                if (this.task == 'mail') {
+                else if (this.task == 'mail') {
                     this.delete_messages(event);
                 }
                 // addressbook task
@@ -3563,6 +3561,30 @@ function rcube_webmail() {
 
         this.with_selected_messages('delete', post_data);
         this.show_contentframe(false);
+    };
+
+    this.discard_draft = function (uid, command, props, obj, event) {
+        var msg = uid ? this.get_label('discarddraftwarning') : this.get_label('notsentwarning');
+        this.confirm_dialog(msg, 'discard', function () {
+            if (uid) {
+                // if a draft has been saved then delete it
+                var post_data = ref.selection_post_data({ _uid: uid, _compose_id: ref.env.compose_id });
+                post_data._mbox = ref.env.drafts_mailbox;
+                ref.with_selected_messages('delete', post_data);
+            }
+            else {
+                // remove copy from local storage if compose screen is left intentionally
+                ref.remove_compose_data(ref.env.compose_id);
+
+                if (command) {
+                    ref.compose_skip_unsavedcheck = true;
+                    ref.command(command, props, obj, event);
+                }
+                else {
+                    ref.sent_successfully('confirmation', 'draftdiscarded');
+                }
+            }
+        });
     };
 
     // Send a specific move/delete request with UIDs of all selected messages
