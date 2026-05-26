@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Add HEAD request handler to the `static.php`
 - Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
 
 ## Release 1.7.1
