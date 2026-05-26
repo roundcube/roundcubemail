@@ -1478,7 +1478,7 @@ class rcmail_output_html extends rcmail_output
                     }
 
                     if (($template_logo = $this->get_template_logo($logo_type, $logo_match)) !== null) {
-                        $attrib['src'] = $template_logo;
+                        $attrib['src'] = $this->asset_url($template_logo, true);
                     }
 
                     if (($link = $this->get_template_logo('link')) !== null) {
