@@ -177,7 +177,7 @@ function serveStaticFile($path): void
             $start = max(0, $size - (int) $range[1]);
         } else {
             $start = (int) $range[0];
-            $end = $range[1] === '' ? $size - 1 : (int) $range[1];
+            $end = $range[1] === '' || $range[1] > ($size - 1) ? $size - 1 : (int) $range[1];
         }
 
         if ($start < 0 || $end > $size - 1 || $start > $end) {

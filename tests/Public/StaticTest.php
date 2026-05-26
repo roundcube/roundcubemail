@@ -269,6 +269,28 @@ class StaticTest extends ServerTestCase
     }
 
     /**
+     * Test full file retrieval where end of range is bigger than the file size
+     */
+    public function testRangeHeaderFullFileViaRangeEndBiggetThanSize(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=0-' . ($size + 1)],
+        ]);
+
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) $size], $response->getHeader('Content-Length'));
+        $this->assertSame(
+            ['bytes 0-' . ($size - 1) . '/' . $size],
+            $response->getHeader('Content-Range'),
+        );
+        $this->assertSame($file, (string) $response->getBody());
+    }
+
+    /**
      * Test that CSS files are served correctly on the PHP built-in server
      *
      * The PHP built-in server (cli-server SAPI) can corrupt static file
