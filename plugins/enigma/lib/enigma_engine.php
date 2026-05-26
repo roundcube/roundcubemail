@@ -1483,12 +1483,6 @@ class enigma_engine
     {
         $import = [];
 
-        $woat = $this->rc->config->get('enigma_woat');
-
-        if (empty($woat)) {
-            return;
-        }
-
         foreach ($recipients as $recipient) {
             if (!strpos($recipient, '@')) {
                 continue;
