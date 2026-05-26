@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
+
+## Release 1.7.1
+
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Managesieve: Fix error when a mail message contains duplicate List-Id header (#10186)
 - Clarified Elastic installation instructions (#10163)
