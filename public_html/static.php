@@ -153,10 +153,18 @@ function serveStaticFile($path): void
 
     $headers = [
         'Accept-Ranges' => 'bytes',
+        'Content-Length' => $size,
         'Content-Type' => SUPPORTED_TYPES[strtolower($ext)],
         'Cache-Control' => 'public, max-age=604800',
         'Expires' => gmdate('D, d M Y H:i:s \G\M\T', time() + 30 * 86400),
     ];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
+        foreach ($headers as $k => $v) {
+            header("{$k}: {$v}", true);
+        }
+        exit;
+    }
 
     $start = 0;
     $end = $size - 1;
