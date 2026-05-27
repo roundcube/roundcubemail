@@ -19,9 +19,12 @@ class new_user_dialog extends rcube_plugin
     #[\Override]
     public function init()
     {
+        $rcmail = rcmail::get_instance();
+        $this->load_config();
         $this->add_hook('identity_create', [$this, 'create_identity']);
         $this->add_hook('render_page', [$this, 'render_page']);
         $this->register_action('plugin.newusersave', [$this, 'save_data']);
+        $this->signature_text = $rcmail->config->get('new_user_dialog_signature_text');
     }
 
     /**
@@ -89,6 +92,7 @@ class new_user_dialog extends rcube_plugin
                     'name' => '_signature',
                     'rows' => '5',
                 ],
+                $out = str_replace('@EMAIL@', rcube_utils::idn_to_utf8($identity['email']) , $this->signature_text ?? ''),
                 $identity['signature']
             ));
 
