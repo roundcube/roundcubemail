@@ -292,7 +292,7 @@ class StaticTest extends ServerTestCase
     /**
      * Test full file retrieval where end of range is bigger than the file size
      */
-    public function testRangeHeaderFullFileViaRangeEndBiggetThanSize(): void
+    public function testRangeHeaderFullFileViaRangeEndBiggerThanSize(): void
     {
         $path = 'program/resources/dummy.pdf';
         $file = file_get_contents(INSTALL_PATH . $path);
