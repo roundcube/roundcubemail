@@ -20,14 +20,14 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is not set in static.php (#10181)
 - Fix `assets_path` feature and remove dependency on `PATH_INFO` (#10185)
 - Fix MySQL upgrade on MySQL < 8.0 and MariaDB < 10.5.3 (#10188)
-- Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog
-- Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">`
-- Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass
-- Security: Fix SSRF bypass via specific local address URLs
-- Security: Fix bypass of remote image blocking via CSS var()
-- Security: Fix local/private URL fetch bypass when remote resources were not allowed
-- Security: Fix pre-auth arbitrary file delete via redis/memcache session poisoning bypass
-- Security: Fix code injection vulnerability - remove support for code evaluation in LDAP `autovalues` option 
+- Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog [CVE-2026-48849]
+- Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">` [CVE-2026-48848]
+- Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass [CVE-2026-48842]
+- Security: Fix SSRF bypass via specific local address URLs [CVE-2026-48843]
+- Security: Fix bypass of remote image blocking via CSS var() [CVE-2026-48846]
+- Security: Fix local/private URL fetch bypass when remote resources were not allowed [CVE-2026-48845]
+- Security: Fix pre-auth arbitrary file delete via redis/memcache session poisoning bypass [CVE-2026-48847]
+- Security: Fix code injection vulnerability - remove support for code evaluation in LDAP `autovalues` option [CVE-2026-48844]
 
 ## Release 1.7.0
 
