@@ -76,6 +76,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                 $a_user_prefs = [
                     'message_extwin' => self::prefs_input_int('message_extwin'),
                     'message_show_email' => isset($_POST['_message_show_email']),
+                    'message_show_address_comments' => isset($_POST['_message_show_address_comments']),
                     'prefer_html' => isset($_POST['_prefer_html']),
                     'inline_images' => isset($_POST['_inline_images']),
                     'show_images' => self::prefs_input_int('show_images'),
