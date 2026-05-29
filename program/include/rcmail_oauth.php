@@ -585,7 +585,11 @@ class rcmail_oauth
             ],
         ]);
 
-        return json_decode($identity_response->getBody(), true);
+        $identity = (string) $identity_response->getBody();
+
+        $this->log_debug('fetched identity: %s', $identity);
+
+        return json_decode($identity, true);
     }
 
     /**
@@ -637,6 +641,7 @@ class rcmail_oauth
             [$authorization, $identity] = $this->parse_tokens('authorization_code', $data);
 
             $username = null;
+            $pass_claim = $this->options['password_claim'];
 
             if ($identity) {
                 // note that id_token values depend on scopes
@@ -649,12 +654,8 @@ class rcmail_oauth
             }
 
             // request user identity (email)
-            if (empty($username)) {
-                $fetched_identity = $this->fetch_userinfo($authorization);
-
-                $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
-
-                if (!empty($fetched_identity)) {
+            if (empty($username) || ($pass_claim && empty($identity[$pass_claim]))) {
+                if ($fetched_identity = $this->fetch_userinfo($authorization)) {
                     $identity = $fetched_identity;
 
                     foreach ($this->options['identity_fields'] as $field) {
@@ -669,7 +670,7 @@ class rcmail_oauth
             $data['auth_type'] = $this->options['auth_type'];
 
             // Backends with no XOAUTH2/OAUTHBEARER support
-            if ($pass_claim = $this->options['password_claim']) {
+            if ($pass_claim) {
                 if (empty($identity[$pass_claim])) {
                     throw new \Exception("Password claim ({$pass_claim}) not found");
                 }
@@ -766,9 +767,17 @@ class rcmail_oauth
             [$authorization, $identity] = $this->parse_tokens('refresh_token', $data, $token);
 
             // Backends with no XOAUTH2/OAUTHBEARER support
-            if (($pass_claim = $this->options['password_claim']) && isset($identity[$pass_claim])) {
-                $authorization = $identity[$pass_claim];
-                unset($identity[$pass_claim]);
+            if ($pass_claim = $this->options['password_claim']) {
+                if (empty($identity[$pass_claim])) {
+                    if ($fetched_identity = $this->fetch_userinfo($authorization)) {
+                        $identity = $fetched_identity;
+                    }
+                }
+
+                if (isset($identity[$pass_claim])) {
+                    $authorization = $identity[$pass_claim];
+                    unset($identity[$pass_claim]);
+                }
             }
 
             // update access token stored as password

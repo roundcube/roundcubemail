@@ -5,6 +5,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 ## Unreleased
 
 - Add HEAD request handler to the `static.php`
+- Fix so the `oauth_password_claim` claim is retrieved via token or userinfo request (#9631)
 - Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
 - Fix bug where configured skin logo wasn't loaded via `static.php` resulting in 404 error (#10191)
 
