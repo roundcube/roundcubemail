@@ -197,7 +197,7 @@ class rcube_tnef_decoder
      * @param string &$data The data string
      * @param int    $bytes how many bytes to retrieve
      *
-     * @return string Extracted data
+     * @return ?string Extracted data
      */
     protected function _getx(&$data, $bytes)
     {
@@ -246,7 +246,7 @@ class rcube_tnef_decoder
      *
      * @param string &$data The data string
      *
-     * @return string Extracted data
+     * @return ?string Extracted data
      */
     protected function _decodeAttribute(&$data)
     {
