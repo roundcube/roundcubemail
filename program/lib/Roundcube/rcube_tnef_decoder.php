@@ -203,9 +203,9 @@ class rcube_tnef_decoder
     {
         $value = null;
 
-        if (strlen($data) >= $bytes) {
+        if (strlen($data)) {
             $value = substr($data, 0, $bytes);
-            $data = substr($data, $bytes);
+            $data = substr($data, strlen($value));
         }
 
         return $value;
@@ -234,6 +234,8 @@ class rcube_tnef_decoder
             }
 
             $data = substr($data, $bytes);
+        } else {
+            $data = '';
         }
 
         return $value;
@@ -343,6 +345,9 @@ class rcube_tnef_decoder
 
                         // Read and truncate to length.
                         $value = $this->_getx($data, $datalen);
+                        if ($value === null) {
+                            break;
+                        }
                     }
 
                     if ($attr_type == self::MAPI_UNICODE_STRING) {
