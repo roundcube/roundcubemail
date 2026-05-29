@@ -4,6 +4,7 @@
 
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Enigma: Kolab WOAT Support (#8626)
+- Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
 
 ## Release 1.6.16
 
