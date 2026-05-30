@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
 - Fix bug where configured skin logo wasn't loaded via `static.php` resulting in 404 error (#10191)
 - Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
+- Fix bug where installto.sh would fail if public_html folder does not exist in the target directory (#10202)
 
 ## Release 1.7.1
 
