@@ -57,6 +57,12 @@ $input = $accept ?: trim(fgets(\STDIN));
 if (strtolower($input) == 'y') {
     echo 'Copying files to target location...';
 
+    if (!file_exists("{$target_dir}/public_html")) {
+        if (!mkdir("{$target_dir}/public_html")) {
+            rcube::raise_error("Failed to create {$target_dir}/public_html. Create it and try again", false, true);
+        }
+    }
+
     $adds = [];
     $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'docs'];
 
