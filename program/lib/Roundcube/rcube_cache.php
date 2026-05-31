@@ -33,10 +33,13 @@ class rcube_cache
     /**
      * Controls the allowed_classes option passed to unserialize().
      * Set to false to disallow all object deserialization (safest for caches that
-     * only store scalar/array values), or an array of class names to restrict which
-     * PHP objects may be instantiated. Defaults to true for backwards compatibility.
+     * only store scalar/array values), or an array of fully-qualified class names
+     * to restrict which PHP objects may be instantiated on deserialization.
+     * Defaults to true (allow all) for backwards compatibility with plugins.
      *
-     * @var bool|array
+     * Use set_allowed_classes() to configure this after construction.
+     *
+     * @var bool|string[]
      */
     protected $allowed_classes = true;
     protected $indexed;
@@ -107,6 +110,23 @@ class rcube_cache
         $this->prefix = $prefix;
         $this->packed = $packed;
         $this->indexed = $indexed;
+    }
+
+    /**
+     * Restrict which PHP classes may be instantiated during unserialize().
+     *
+     * Pass false to disallow all objects (safest for caches that only store
+     * scalar/array values), or an array of fully-qualified class names to
+     * allow only those specific classes.
+     *
+     * Example — allow only Roundcube data-transfer objects:
+     *   $cache->set_allowed_classes([\rcube_message_header::class, \rcube_message_part::class]);
+     *
+     * @param bool|string[] $classes false to disallow all, or array of class names
+     */
+    public function set_allowed_classes($classes): void
+    {
+        $this->allowed_classes = $classes;
     }
 
     /**
