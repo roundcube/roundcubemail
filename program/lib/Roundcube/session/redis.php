@@ -127,7 +127,10 @@ class rcube_session_redis extends rcube_session
         }
 
         if ($value) {
-            $arr = unserialize($value);
+            // The session envelope only contains scalar fields (expires_at, ip, vars);
+            // disallow object deserialization to prevent PHP Object Injection via a
+            // compromised or unauthenticated Redis backend.
+            $arr = unserialize($value, ['allowed_classes' => false]);
             // Use a fallback to avoid errors in case expires_at is unset
             $this->expires_at = $arr['expires_at'] ?? time();
             $this->ip = $arr['ip'];

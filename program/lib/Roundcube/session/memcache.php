@@ -113,7 +113,10 @@ class rcube_session_memcache extends rcube_session
     public function read($key)
     {
         if ($value = $this->memcache->get($key)) {
-            $arr = unserialize($value);
+            // The session envelope only contains scalar fields (expires_at, ip, vars);
+            // disallow object deserialization to prevent PHP Object Injection via a
+            // compromised or unauthenticated Memcache backend.
+            $arr = unserialize($value, ['allowed_classes' => false]);
             // Use a fallback to avoid errors in case expires_at is unset
             $this->expires_at = $arr['expires_at'] ?? time();
             $this->ip = $arr['ip'];

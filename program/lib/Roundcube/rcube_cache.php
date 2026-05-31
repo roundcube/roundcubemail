@@ -29,6 +29,16 @@ class rcube_cache
     protected $prefix;
     protected $ttl;
     protected $packed;
+
+    /**
+     * Controls the allowed_classes option passed to unserialize().
+     * Set to false to disallow all object deserialization (safest for caches that
+     * only store scalar/array values), or an array of class names to restrict which
+     * PHP objects may be instantiated. Defaults to true for backwards compatibility.
+     *
+     * @var bool|array
+     */
+    protected $allowed_classes = true;
     protected $indexed;
     protected $index;
     protected $index_update;
@@ -455,7 +465,8 @@ class rcube_cache
         }
 
         $data = $this->get_item($this->ikey());
-        $this->index = $data ? unserialize($data) : [];
+        // The index only stores an array of string cache keys — never PHP objects.
+        $this->index = $data ? unserialize($data, ['allowed_classes' => false]) : [];
     }
 
     /**
@@ -609,7 +620,15 @@ class rcube_cache
      */
     protected function unserialize($data)
     {
-        return $this->packed ? @unserialize($data) : $data;
+        if (!$this->packed) {
+            return $data;
+        }
+
+        if ($this->allowed_classes !== true) {
+            return @unserialize($data, ['allowed_classes' => $this->allowed_classes]);
+        }
+
+        return @unserialize($data);
     }
 
     /**
