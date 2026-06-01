@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * Passkey login plugin configuration.
+ *
+ * Copy this file to config.inc.php and adjust as needed.
+ */
+
+// Relying-party display name shown by the browser/OS during the passkey
+// ceremony. The relying-party *ID* is always the current hostname.
+$config['passkey_login_rp_name'] = 'Roundcube Webmail';
+
+// Whether to offer enrollment ("Set up a passkey on this device") on the
+// password step. Set to false to allow passkey *sign-in* only (e.g. when
+// enrollment is handled elsewhere).
+$config['passkey_login_enroll'] = true;
+
+// Browsers (matched as case-sensitive substrings of the User-Agent) for which
+// passkeys are NOT offered at all. Some browsers advertise WebAuthn PRF support
+// they can't actually deliver (notably Firefox on Windows), and that can't be
+// detected reliably at runtime — the ceremony just fails at the OS level. Such
+// browsers fall straight through to the normal password login.
+// Default excludes Firefox; set to an empty array to allow every browser.
+$config['passkey_login_excluded_browsers'] = ['Firefox'];
+
+// Server-side WebAuthn assertion verification uses the expected relying-party
+// ID and web origin. By default both are derived from the incoming request,
+// which is correct for most single-host setups. Behind a reverse proxy, or
+// when the derived values are wrong, set them explicitly:
+//
+// $config['passkey_login_rpid'] = 'mail.example.com';
+// $config['passkey_login_origin'] = 'https://mail.example.com';
+// // multiple origins are allowed:
+// $config['passkey_login_origin'] = ['https://mail.example.com', 'https://webmail.example.com'];

@@ -11,6 +11,7 @@
         "league/commonmark": "^2.7",
         "masterminds/html5": "~2.9.0",
         "mlocati/ip-lib": "^1.22.0",
+        "paragonie/sodium_compat": "^2.5",
         "pear/auth_sasl": "~1.2.0",
         "pear/crypt_gpg": "~1.7.0",
         "pear/mail_mime": "~1.10.11",

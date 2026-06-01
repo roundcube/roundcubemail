@@ -1,0 +1,22 @@
+{
+    "name": "roundcube/passkey_login",
+    "type": "roundcube-plugin",
+    "description": "Username-first login with optional passkey (WebAuthn) sign-in. The IMAP password is stored only as ciphertext, encrypted in the browser with a key derived from the passkey via the WebAuthn PRF extension; the server never sees the key or the plaintext.",
+    "license": "GPL-3.0-or-later",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Claude",
+            "role": "Lead"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": "~0.3.5"
+    },
+    "autoload": {
+        "classmap": [
+            "passkey_login.php"
+        ]
+    }
+}

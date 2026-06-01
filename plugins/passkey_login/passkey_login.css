@@ -1,0 +1,58 @@
+/**
+ * Passkey login plugin styles
+ *
+ * Visibility of the individual steps is driven from passkey_login.js (inline
+ * display toggling), so the login form still degrades to a normal password
+ * form when JavaScript is disabled. These rules are cosmetics only.
+ */
+
+#login-form .passkey-signin::before {
+    content: "\f084"; /* key icon (Font Awesome, present in Elastic) */
+    font-family: "Font Awesome 5 Free", "FontAwesome", sans-serif;
+    font-weight: 900;
+    margin-right: .5em;
+}
+
+#login-form .passkey-change,
+#login-form .passkey-usepass {
+    display: block;
+    margin-top: .75em;
+    text-align: center;
+    font-size: .9em;
+    cursor: pointer;
+}
+
+#login-form .passkey-enroll {
+    display: block;
+    margin: .75em 0;
+    font-size: .9em;
+    cursor: pointer;
+}
+
+#login-form .passkey-enroll input {
+    margin-right: .4em;
+    vertical-align: middle;
+}
+
+#login-form .passkey-status {
+    margin-top: .75em;
+    text-align: center;
+    font-size: .9em;
+    opacity: .85;
+}
+
+#login-form .passkey-status.error {
+    color: #d2322d;
+    opacity: 1;
+}
+
+#login-form #rcmloginuser.error {
+    border-color: #d2322d;
+    box-shadow: 0 0 3px rgba(210, 50, 45, .5);
+}
+
+#login-form.passkey-step-passkey #rcmloginuser[readonly],
+#login-form.passkey-step-password #rcmloginuser[readonly] {
+    cursor: default;
+    opacity: .85;
+}
