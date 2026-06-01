@@ -1,0 +1,23 @@
+{
+    "name": "roundcube/twostep_login",
+    "type": "roundcube-plugin",
+    "description": "Turns the login form into a two-step flow: the username is asked for first, and the password field is revealed only after the username is confirmed. Pure client-side progressive enhancement; the server-side authentication flow is unchanged.",
+    "license": "GPL-3.0-or-later",
+    "version": "1.0",
+    "authors": [
+        {
+            "name": "Jari Turkia",
+            "email": "jatu@hqcodeshop.fi",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": "~0.3.5"
+    },
+    "autoload": {
+        "classmap": [
+            "twostep_login.php"
+        ]
+    }
+}
