@@ -337,6 +337,20 @@ class OutputHtmlTest extends TestCase
     }
 
     /**
+     * Test current_username() with no authenticated user
+     */
+    public function test_current_username()
+    {
+        $rcmail = \rcube::get_instance();
+        $rcmail->user = new \rcube_user(null);
+        unset($_SESSION['username']);
+
+        $output = new \rcmail_output_html();
+
+        $this->assertSame('', $output->current_username([]));
+    }
+
+    /**
      * Test abs_url()
      */
     public function test_abs_url()

@@ -2249,7 +2249,7 @@ class rcmail_output_html extends rcmail_output
             $username = $this->app->user->get_username();
         }
 
-        $username = rcube_utils::idn_to_utf8($username);
+        $username = rcube_utils::idn_to_utf8((string) $username);
 
         return html::quote($username);
     }
