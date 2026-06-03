@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Message security info plugin configuration.
+ *
+ * Copy this file to config.inc.php and adjust as needed.
+ */
+
+// Only trust `Authentication-Results` headers stamped by these authserv-ids
+// (typically your own inbound mail server's hostname — the first token of the
+// header, before the first ';'). Leave empty to consider every
+// Authentication-Results header, which is convenient but can be spoofed by
+// upstream hops you don't control. STRONGLY recommended to set this.
+//
+// $config['message_security_info_trusted_authserv'] = ['mx.example.org'];
+$config['message_security_info_trusted_authserv'] = [];
+
+// Don't show the Message Security link for your own outgoing mail (Sent / Drafts).
+$config['message_security_info_skip_sent'] = true;
+
+// Additional raw message headers to show in the details popup, below the
+// parsed SPF / DKIM / DMARC summary and the Authentication-Results /
+// Received-SPF lines. Useful for surfacing whatever an administrator cares to
+// inspect (spam scores, routing, message id, ...). Headers not present on a
+// message are simply omitted.
+//
+// This is the DEFAULT; each user can override it in Settings → Message
+// security (stored per-user in users.preferences). To force this list and
+// prevent users changing it, add 'message_security_info_extra_headers' to the
+// global $config['dont_override'] array.
+//
+// $config['message_security_info_extra_headers'] = ['X-Spam-Status', 'X-Spam-Score', 'Message-ID', 'Return-Path'];
+$config['message_security_info_extra_headers'] = [];

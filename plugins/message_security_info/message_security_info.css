@@ -1,0 +1,66 @@
+/**
+ * Message security info plugin styles
+ *
+ * The "DKIM" entry is an <a> appended into the message header's .header-links
+ * row, so it inherits that skin's link styling (blue text, icon sizing/position
+ * via the bundled 'Icons' font). These rules only add the status-specific glyph
+ * and colour for the icon, and style the details popup.
+ */
+
+/* The link text stays a normal link colour (like Summary / Headers / Plain
+   text); only the icon is coloured by status. */
+.msgsec-link {
+    cursor: pointer;
+}
+
+/* Ensure the icon font even on skins that don't extend it onto these links. */
+.msgsec-link::before {
+    font-family: 'Icons';
+    font-weight: 900;
+}
+
+/* Status glyph + colour (Font Awesome solid code points from the Icons font). */
+.msgsec-link.msgsec-pass::before    { content: "\f058"; color: #1a7f37; } /* check-circle  */
+.msgsec-link.msgsec-warn::before    { content: "\f071"; color: #b8860b; } /* triangle      */
+.msgsec-link.msgsec-fail::before    { content: "\f057"; color: #d2322d; } /* times-circle  */
+.msgsec-link.msgsec-unknown::before { content: "\f059"; color: #6c757d; } /* question-circle */
+
+/* ---- details popup -------------------------------------------------- */
+
+.msgsec-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.msgsec-table th {
+    padding: .35em .8em .35em 0;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.msgsec-table td {
+    padding: .35em 0;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+/* Raw header values: monospace, wrapping. The neutral colour is forced inline
+ * from message_security_info.js (code.style), because a compiled Elastic/Bootstrap rule
+ * beats an external `code` colour rule here on specificity; only an inline
+ * style is guaranteed to win. */
+code.msgsec-value {
+    display: block;
+    background: none;
+    font-family: monospace;
+    font-size: 90%;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* "DKIM" label inside the notice bar (warning/error). */
+.msgsec-bar-label {
+    font-weight: bold;
+    margin-right: .25em;
+}

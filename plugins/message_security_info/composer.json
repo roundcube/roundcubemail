@@ -1,0 +1,23 @@
+{
+    "name": "roundcube/message_security_info",
+    "type": "roundcube-plugin",
+    "description": "Shows a verdict banner above received messages describing their DKIM status and whether the signing domain aligns with the visible From address. Reads the receiving server's Authentication-Results header; falls back to detecting a raw DKIM-Signature when none is present.",
+    "license": "GPL-3.0-or-later",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "Jari Turkia",
+            "email": "jatu@hqcodeshop.fi",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "roundcube/plugin-installer": "~0.3.5"
+    },
+    "autoload": {
+        "classmap": [
+            "message_security_info.php"
+        ]
+    }
+}
