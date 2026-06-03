@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * DKIM display plugin configuration.
+ *
+ * Copy this file to config.inc.php and adjust as needed.
+ */
+
+// Only trust `Authentication-Results` headers stamped by these authserv-ids
+// (typically your own inbound mail server's hostname — the first token of the
+// header, before the first ';'). Leave empty to consider every
+// Authentication-Results header, which is convenient but can be spoofed by
+// upstream hops you don't control. STRONGLY recommended to set this.
+//
+// $config['dkim_display_trusted_authserv'] = ['mx.example.org'];
+$config['dkim_display_trusted_authserv'] = [];
+
+// Don't show the DKIM banner for your own outgoing mail (Sent / Drafts).
+$config['dkim_display_skip_sent'] = true;
