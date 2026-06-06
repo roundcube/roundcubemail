@@ -37,6 +37,8 @@ class DBTest extends TestCase
             'CREATE TABLE `i` (`test` int, UNIQUE INDEX `testidx` (`test`))',
             'INSERT INTO xxx test = 1;',
             'SELECT test FROM xxx;',
+            'ALTER TABLE `xxx1` ADD INDEX `testidx` (`test`);',
+            'ALTER TABLE `xxx2` DROP INDEX `testidx`;',
         ]);
 
         $output = implode("\n", [
@@ -52,6 +54,8 @@ class DBTest extends TestCase
             'CREATE TABLE `prefix_i` (`test` int, UNIQUE INDEX `prefix_testidx` (`test`))',
             'INSERT INTO prefix_xxx test = 1',
             'SELECT test FROM prefix_xxx',
+            'ALTER TABLE `prefix_xxx1` ADD INDEX `prefix_testidx` (`test`)',
+            'ALTER TABLE `prefix_xxx2` DROP INDEX `prefix_testidx`',
         ]);
 
         $result = $db->exec_script($script);
@@ -62,7 +66,7 @@ class DBTest extends TestCase
         }
 
         $this->assertTrue($result, 'Execute SQL script (result)');
-        $this->assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
+        $this->assertSame($output, implode("\n", $out), 'Execute SQL script (content)');
     }
 
     /**
@@ -89,6 +93,8 @@ class DBTest extends TestCase
             'CREATE TABLE `i` (`test` int, UNIQUE INDEX `testidx` (`test`))',
             'INSERT INTO xxx test = 1;',
             'SELECT test FROM xxx;',
+            'ALTER TABLE `xxx1` ADD INDEX `testidx` (`test`);',
+            'ALTER TABLE `xxx1` DROP INDEX `testidx`;',
         ]);
 
         $output = implode("\n", [
@@ -104,6 +110,8 @@ class DBTest extends TestCase
             'CREATE TABLE `prefix`.`i` (`test` int, UNIQUE INDEX `testidx` (`test`))',
             'INSERT INTO prefix.xxx test = 1',
             'SELECT test FROM prefix.xxx',
+            'ALTER TABLE `prefix`.`xxx1` ADD INDEX `testidx` (`test`)',
+            'ALTER TABLE `prefix`.`xxx1` DROP INDEX `testidx`',
         ]);
 
         $result = $db->exec_script($script);
@@ -114,7 +122,7 @@ class DBTest extends TestCase
         }
 
         $this->assertTrue($result, 'Execute SQL script (result)');
-        $this->assertSame(implode("\n", $out), $output, 'Execute SQL script (content)');
+        $this->assertSame($output, implode("\n", $out), 'Execute SQL script (content)');
     }
 
     /**
