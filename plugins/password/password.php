@@ -136,73 +136,64 @@ class password extends rcube_plugin
         $required_length = (int) $this->rc->config->get('password_minimum_length', 8);
         $force_save = $this->rc->config->get('password_force_save');
 
-        if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']) || !strlen($_POST['_newpasswd'])) {
+        $charset = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
+        $rc_charset = strtoupper($this->rc->output->get_charset());
+
+        $sesspwd = $this->rc->decrypt($_SESSION['password']);
+        $curpwd = $confirm ? rcube_utils::get_input_string('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
+        $newpwd = rcube_utils::get_input_string('_newpasswd', rcube_utils::INPUT_POST, true);
+        $conpwd = rcube_utils::get_input_string('_confpasswd', rcube_utils::INPUT_POST, true);
+
+        // check allowed characters according to the configured 'password_charset' option
+        // by converting the password entered by the user to this charset and back to UTF-8
+        $orig_pwd = $newpwd;
+        $chk_pwd = rcube_charset::convert($orig_pwd, $rc_charset, $charset);
+        $chk_pwd = rcube_charset::convert($chk_pwd, $charset, $rc_charset);
+
+        // We're doing this for consistence with Roundcube core
+        $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
+        $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
+
+        if (($confirm && ($_POST['_curppasswd'] === '' || !isset($_POST['_curppasswd']))) || $newpwd === '') {
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
+        } elseif ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
+            $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
+        } elseif ($conpwd != $newpwd) {
+            $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
+        } elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
+            $this->rc->output->command('display_message', $res, 'error');
+        } elseif ($required_length && strlen($newpwd) < $required_length) {
+            $res = $this->gettext(['name' => 'passwordshort', 'vars' => ['length' => $required_length]]);
+            $this->rc->output->command('display_message', $res, 'error');
+        } elseif ($res = $this->_check_strength($newpwd)) {
+            $this->rc->output->command('display_message', $res, 'error');
+        } elseif (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
+            $this->rc->output->command('display_message', $res, 'error');
+        } elseif (!($res = $this->_save($curpwd, $newpwd))) {
+            $this->rc->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+
+            // allow additional actions after password change (e.g. reset some backends)
+            $plugin = $this->rc->plugins->exec_hook('password_change', [
+                'old_pass' => $curpwd,
+                'new_pass' => $newpwd,
+            ]);
+
+            // Reset session password
+            $_SESSION['password'] = $this->rc->encrypt($plugin['new_pass']);
+
+            if ($this->rc->config->get('newuserpassword')) {
+                $this->rc->user->save_prefs(['newuserpassword' => false]);
+            }
+            // Log password change
+            if ($this->rc->config->get('password_log')) {
+                rcube::write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
+                    $this->rc->get_user_name(), $this->rc->user->ID, rcube_utils::remote_ip()));
+            }
+
+            // Remove expiration date/time
+            $this->rc->session->remove('password_expires');
         } else {
-            $charset = strtoupper($this->rc->config->get('password_charset', 'UTF-8'));
-            $rc_charset = strtoupper($this->rc->output->get_charset());
-
-            $sesspwd = $this->rc->decrypt($_SESSION['password']);
-            $curpwd = $confirm ? rcube_utils::get_input_string('_curpasswd', rcube_utils::INPUT_POST, true, $charset) : $sesspwd;
-            $newpwd = rcube_utils::get_input_string('_newpasswd', rcube_utils::INPUT_POST, true);
-            $conpwd = rcube_utils::get_input_string('_confpasswd', rcube_utils::INPUT_POST, true);
-
-            // check allowed characters according to the configured 'password_charset' option
-            // by converting the password entered by the user to this charset and back to UTF-8
-            $orig_pwd = $newpwd;
-            $chk_pwd = rcube_charset::convert($orig_pwd, $rc_charset, $charset);
-            $chk_pwd = rcube_charset::convert($chk_pwd, $charset, $rc_charset);
-
-            // We're doing this for consistence with Roundcube core
-            $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
-            $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
-
-            if ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
-                $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
-            }
-            // other passwords validity checks
-            elseif ($conpwd != $newpwd) {
-                $this->rc->output->command('display_message', $this->gettext('passwordinconsistency'), 'error');
-            } elseif ($confirm && ($res = $this->_compare($sesspwd, $curpwd, PASSWORD_COMPARE_CURRENT))) {
-                $this->rc->output->command('display_message', $res, 'error');
-            } elseif ($required_length && strlen($newpwd) < $required_length) {
-                $this->rc->output->command('display_message', $this->gettext(
-                    ['name' => 'passwordshort', 'vars' => ['length' => $required_length]]), 'error');
-            } elseif ($res = $this->_check_strength($newpwd)) {
-                $this->rc->output->command('display_message', $res, 'error');
-            }
-            // password is the same as the old one, warn user, return error
-            elseif (!$force_save && ($res = $this->_compare($sesspwd, $newpwd, PASSWORD_COMPARE_NEW))) {
-                $this->rc->output->command('display_message', $res, 'error');
-            }
-            // try to save the password
-            elseif (!($res = $this->_save($curpwd, $newpwd))) {
-                $this->rc->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-
-                // allow additional actions after password change (e.g. reset some backends)
-                $plugin = $this->rc->plugins->exec_hook('password_change', [
-                    'old_pass' => $curpwd,
-                    'new_pass' => $newpwd,
-                ]);
-
-                // Reset session password
-                $_SESSION['password'] = $this->rc->encrypt($plugin['new_pass']);
-
-                if ($this->rc->config->get('newuserpassword')) {
-                    $this->rc->user->save_prefs(['newuserpassword' => false]);
-                }
-
-                // Log password change
-                if ($this->rc->config->get('password_log')) {
-                    rcube::write_log('password', sprintf('Password changed for user %s (ID: %d) from %s',
-                        $this->rc->get_user_name(), $this->rc->user->ID, rcube_utils::remote_ip()));
-                }
-
-                // Remove expiration date/time
-                $this->rc->session->remove('password_expires');
-            } else {
-                $this->rc->output->command('display_message', $res, 'error');
-            }
+            $this->rc->output->command('display_message', $res, 'error');
         }
 
         $this->rc->overwrite_action('plugin.password');
