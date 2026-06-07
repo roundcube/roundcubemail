@@ -124,6 +124,28 @@ class VCardTest extends TestCase
         $this->assertSame('an example', $result['notes'][0]);
     }
 
+    /**
+     * vCard 2.1 unfolds a CRLF followed by a whitespace to that whitespace
+     * (RFC 822), i.e. the folding whitespace is kept - unlike vCard 3.0/4.0
+     * (RFC 2425) which drops it entirely. See #9647.
+     */
+    public function test_parse_v21_continuation_line_keeps_whitespace()
+    {
+        $vcard_string = "BEGIN:VCARD\r\n"
+            . "VERSION:2.1\r\n"
+            . "N:Doe;Jane;;;\r\n"
+            . "FN:Jane Doe\r\n"
+            . "NOTE:an\r\n"
+            . " example\r\n"
+            . "END:VCARD\r\n";
+
+        $vcard = new \rcube_vcard($vcard_string);
+
+        $result = $vcard->get_assoc();
+
+        $this->assertSame('an example', $result['notes'][0]);
+    }
+
     public function test_import()
     {
         $input = file_get_contents($this->_srcpath('apple.vcf'));
