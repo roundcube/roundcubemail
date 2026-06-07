@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
 - Fix bug where installto.sh would fail if public_html folder does not exist in the target directory (#10202)
 - Revert "Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)" (#10198)
+- Fix incorrect unfolding of folded lines when importing vCard 2.1 contacts (#9647)
 
 ## Release 1.7.1
 
