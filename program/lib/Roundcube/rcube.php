@@ -841,13 +841,11 @@ class rcube
         elseif ($lang && !isset($rcube_languages[$lang])) {
             $short = substr($lang, 0, 2);
 
-            // check if we have an alias for the short language code
-            if (!isset($rcube_languages[$short]) && isset($rcube_language_aliases[$short])) {
-                $lang = $rcube_language_aliases[$short];
-            }
-            // expand 'nn' to 'nn_NN'
-            elseif (!isset($rcube_languages[$short])) {
-                $lang = $short . '_' . strtoupper($short);
+            if (isset($rcube_languages[$short])) {
+                $lang = $short;
+            } else {
+                // @phpstan-ignore-next-line
+                $lang = $rcube_language_aliases[$short] ?? ($short . '_' . strtoupper($short));
             }
         }
 
