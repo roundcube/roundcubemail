@@ -285,7 +285,10 @@ class rcube_message
 
             if (is_resource($mode)) {
                 fwrite($mode, $body);
-                @rewind($mode);
+                $stat = fstat($mode);
+                if ($stat && $stat['size']) {  // try to check if this file is seekable
+                    @rewind($mode);
+                }
                 return true;
             }
 
@@ -305,7 +308,10 @@ class rcube_message
             !($mode && $formatted), $max_bytes, $mode && $formatted);
 
         if (is_resource($mode)) {
-            @rewind($mode);
+            $stat = fstat($mode);
+            if ($stat && $stat['size']) {  // try to check if this file is seekable
+                @rewind($mode);
+            }
             return $body !== false;
         }
 
