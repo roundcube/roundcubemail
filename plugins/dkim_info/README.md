@@ -1,5 +1,5 @@
-DKIM display plugin for Roundcube
-=================================
+DKIM information plugin for Roundcube
+=====================================
 
 Shows a verdict banner above each received message describing its **DKIM**
 status and whether the signing domain aligns with the **From** address the user
