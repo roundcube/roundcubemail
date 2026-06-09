@@ -39,11 +39,11 @@ Security: trust the right header
 --------------------------------
 
 `Authentication-Results` headers added by mail hops you don't control can be
-**forged**. Set `dkim_display_trusted_authserv` to your own inbound server's
+**forged**. Set `dkim_info_trusted_authserv` to your own inbound server's
 authserv-id (the token before the first `;`) so only its verdict is used:
 
 ```php
-$config['dkim_display_trusted_authserv'] = ['mx.example.org'];
+$config['dkim_info_trusted_authserv'] = ['mx.example.org'];
 ```
 
 Leave it empty to consider every `Authentication-Results` header (convenient
@@ -68,10 +68,10 @@ Installation
 1. Place this directory in Roundcube's `plugins/` folder.
 2. Enable it in `config/config.inc.php`:
    ```php
-   $config['plugins'] = ['dkim_display'];
+   $config['plugins'] = ['dkim_info'];
    ```
 3. Optionally copy `config.inc.php.dist` to `config.inc.php` and set
-   `dkim_display_trusted_authserv`.
+   `dkim_info_trusted_authserv`.
 
 License
 -------

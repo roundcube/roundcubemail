@@ -2,7 +2,7 @@
 
 /*
  +-----------------------------------------------------------------------+
- | Localization file of the Roundcube Webmail DKIM display plugin        |
+ | Localization file of the Roundcube Webmail DKIM info plugin        |
  |                                                                       |
  | Copyright (C) The Roundcube Dev Team                                  |
  |                                                                       |

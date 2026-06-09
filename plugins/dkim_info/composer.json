@@ -1,5 +1,5 @@
 {
-    "name": "roundcube/dkim_display",
+    "name": "roundcube/dkim_info",
     "type": "roundcube-plugin",
     "description": "Shows a verdict banner above received messages describing their DKIM status and whether the signing domain aligns with the visible From address. Reads the receiving server's Authentication-Results header; falls back to detecting a raw DKIM-Signature when none is present.",
     "license": "GPL-3.0-or-later",
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "classmap": [
-            "dkim_display.php"
+            "dkim_info.php"
         ]
     }
 }

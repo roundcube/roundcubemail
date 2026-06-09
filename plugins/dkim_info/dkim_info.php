@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DKIM display
+ * DKIM info
  *
  * Shows a verdict banner above a received message describing its DKIM status
  * and whether the signing domain aligns with the visible From address:
@@ -27,13 +27,13 @@
  * lookups, which is beyond an initial version).
  *
  * Because `Authentication-Results` headers added by hops you don't control can
- * be forged, configure `dkim_display_trusted_authserv` with your own mail
+ * be forged, configure `dkim_info_trusted_authserv` with your own mail
  * server's authserv-id(s) for a trustworthy result.
  *
  * @license GNU GPLv3+
  * @author Claude
  */
-class dkim_display extends rcube_plugin
+class dkim_info extends rcube_plugin
 {
     public $task = 'mail';
 
@@ -55,7 +55,7 @@ class dkim_display extends rcube_plugin
 
         if ($this->rc->action === 'show' || $this->rc->action === 'preview') {
             $this->add_texts('localization/', true);
-            $this->include_stylesheet('dkim_display.css');
+            $this->include_stylesheet('dkim_info.css');
             $this->add_hook('message_objects', [$this, 'message_objects']);
         }
     }
@@ -92,7 +92,7 @@ class dkim_display extends rcube_plugin
      */
     private function skip_folder($message)
     {
-        if (!$this->rc->config->get('dkim_display_skip_sent', true)) {
+        if (!$this->rc->config->get('dkim_info_skip_sent', true)) {
             return false;
         }
 
@@ -179,7 +179,7 @@ class dkim_display extends rcube_plugin
      */
     private function dkim_from_authresults($headers)
     {
-        $trusted = (array) $this->rc->config->get('dkim_display_trusted_authserv', []);
+        $trusted = (array) $this->rc->config->get('dkim_info_trusted_authserv', []);
         $trusted = array_map('strtolower', $trusted);
         $results = [];
 
@@ -294,8 +294,8 @@ class dkim_display extends rcube_plugin
         $text = $this->gettext(['name' => $verdict['label'], 'vars' => $verdict['vars']]);
 
         return html::div(
-            ['class' => 'dkim-display box' . $verdict['level'] . ' dkim-' . $verdict['level'], 'role' => 'note'],
-            html::span(['class' => 'dkim-display-label'], rcube::Q($this->gettext('dkimstatus')))
+            ['class' => 'dkim-info box' . $verdict['level'] . ' dkim-' . $verdict['level'], 'role' => 'note'],
+            html::span(['class' => 'dkim-info-label'], rcube::Q($this->gettext('dkimstatus')))
                 . html::span(null, rcube::Q($text))
         );
     }

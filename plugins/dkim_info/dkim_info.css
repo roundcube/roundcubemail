@@ -1,0 +1,26 @@
+/**
+ * DKIM info plugin styles
+ *
+ * The banner reuses the skin's notice box classes (boxconfirmation /
+ * boxwarning / boxerror / boxinformation) so it adapts to the active skin;
+ * these rules only add small accents specific to the DKIM verdict.
+ */
+
+#messagebody .dkim-info,
+.message-part .dkim-info,
+.dkim-info {
+    margin: 0 0 .5em 0;
+    padding: .6em .8em;
+    border-radius: 3px;
+}
+
+.dkim-info .dkim-info-label {
+    font-weight: bold;
+    margin-right: .4em;
+}
+
+/* Fallback colouring for skins that don't define the box* classes */
+.dkim-info.dkim-confirmation { background: #e8f5e9; border: 1px solid #66bb6a; }
+.dkim-info.dkim-warning      { background: #fff8e1; border: 1px solid #ffb300; }
+.dkim-info.dkim-error        { background: #fdecea; border: 1px solid #e53935; }
+.dkim-info.dkim-information  { background: #e8eef7; border: 1px solid #5c85d6; }
