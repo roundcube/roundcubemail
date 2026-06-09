@@ -24,3 +24,53 @@
 .dkim-info.dkim-warning      { background: #fff8e1; border: 1px solid #ffb300; }
 .dkim-info.dkim-error        { background: #fdecea; border: 1px solid #e53935; }
 .dkim-info.dkim-information  { background: #e8eef7; border: 1px solid #5c85d6; }
+
+/* ----------------------------------------------------------------------
+ * Aligned-pass (green) compact badge
+ *
+ * Instead of a full-width banner, the green verdict is a small check-circle
+ * shown in the empty right-hand space of the message header. dkim_info.js
+ * relocates the badge into #message-header; it is absolutely positioned, so
+ * it consumes no layout space and overlaps no text. The !important resets
+ * override the "ui alert / box*" styling the Elastic skin's ui.js applies to
+ * every #message-objects child (before the badge is moved out).
+ * -------------------------------------------------------------------- */
+
+/* Primary anchor (after the badge is moved here by dkim_info.js). */
+#message-header {
+    position: relative;
+}
+
+/* Fallback anchor for skins without #message-header / where the move is a
+   no-op: keep the badge contained at the top of the message body column. */
+#message-objects {
+    position: relative;
+}
+
+.dkim-info-badge {
+    position: absolute !important;
+    top: auto;
+    bottom: .5em;
+    right: 1em;
+    z-index: 10;
+    display: inline-block !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: .1em .25em !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    line-height: 1;
+    cursor: default;
+}
+
+/* FontAwesome solid check-circle (\f058) via Elastic's bundled 'Icons' font. */
+.dkim-info-badge::before {
+    content: "\f058";
+    font-family: 'Icons';
+    font-weight: 900;
+    font-size: 28px; /* twice the previous 14px so the badge is easy to notice */
+    color: #1a7f37;
+}

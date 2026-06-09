@@ -56,6 +56,8 @@ class dkim_info extends rcube_plugin
         if ($this->rc->action === 'show' || $this->rc->action === 'preview') {
             $this->add_texts('localization/', true);
             $this->include_stylesheet('dkim_info.css');
+            // Relocates the green badge into the message header (see .js).
+            $this->include_script('dkim_info.js');
             $this->add_hook('message_objects', [$this, 'message_objects']);
         }
     }
@@ -293,6 +295,20 @@ class dkim_info extends rcube_plugin
     {
         $text = $this->gettext(['name' => $verdict['label'], 'vars' => $verdict['vars']]);
 
+        // Aligned-pass (green): show only a small check-circle that overlays
+        // the message's top-right corner, consuming no vertical space. The
+        // glyph, positioning and style live in dkim_info.css. ('noicon' stops
+        // the Elastic skin from prepending its own alert icon.)
+        if ($verdict['level'] === 'confirmation') {
+            return html::span([
+                'class' => 'dkim-info-badge noicon',
+                'role' => 'img',
+                'title' => $text,
+                'aria-label' => $text,
+            ], '');
+        }
+
+        // Everything else keeps the full-width banner.
         return html::div(
             ['class' => 'dkim-info box' . $verdict['level'] . ' dkim-' . $verdict['level'], 'role' => 'note'],
             html::span(['class' => 'dkim-info-label'], rcube::Q($this->gettext('dkimstatus')))
