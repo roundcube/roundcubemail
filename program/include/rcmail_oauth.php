@@ -19,6 +19,8 @@
  +-----------------------------------------------------------------------+
 */
 
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
@@ -255,6 +257,8 @@ class rcmail_oauth
      */
     protected function fetch_jwks(): void
     {
+        // TODO: Use Firebase\JWT\CachedKeySet?
+
         if (!$this->options['jwks_uri']) {
             // not activated
             return;
@@ -417,45 +421,24 @@ class rcmail_oauth
      * @param string $jwt
      *
      * @return array Hash array with decoded body
+     *
+     * @throws \Exception
      */
     public function jwt_decode($jwt)
     {
-        [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
-
-        $header = json_decode(static::base64url_decode($headb64), true);
-        $body = json_decode(static::base64url_decode($bodyb64), true);
-        // $crypto = static::base64url_decode($cryptob64);
-
         // jwks_uri defined, will check JWT signature
         if ($this->options['jwks_uri']) {
+            // TODO: If jwks is not available we could get the public key from config
             $this->fetch_jwks();
-            $jwk = null;
 
-            // FIXME: As far as I understand JWT tokens may not include 'kid' claim (it's optional)
-            if (!isset($header['kid']) && count($this->jwks['keys']) == 1) {
-                $jwk = $this->jwks['keys'][0];
-            } else {
-                $kid = $header['kid'] ?? null;
-                $alg = $header['alg'];
+            // Validate the token (throws exceptions)
+            $body = (array) JWT::decode($jwt, JWK::parseKeySet($this->jwks));
+        } else {
+            [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
-                foreach ($this->jwks['keys'] as $current_jwk) {
-                    if ($current_jwk['kid'] === $kid) {
-                        $jwk = $current_jwk;
-                        break;
-                    }
-                }
-            }
-
-            if ($jwk === null) {
-                throw new \RuntimeException('JWS key to verify JWT not found');
-            }
-
-            // check algorithm matches ('alg' is optional)
-            if (isset($jwk['alg']) && isset($header['alg']) && $jwk['alg'] != $header['alg']) {
-                throw new \RuntimeException('JWS key verification failed. Wrong algorithm.');
-            }
-
-            // TODO should check signature, note will use https://github.com/firebase/php-jwt later as it requires ^php7.4
+            // $header = json_decode(static::base64url_decode($headb64), true);
+            $body = json_decode(static::base64url_decode($bodyb64), true);
+            // $crypto = static::base64url_decode($cryptob64);
         }
 
         // FIXME depends on body type: ID, Logout, Bearer, Refresh,
