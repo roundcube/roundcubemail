@@ -277,6 +277,7 @@ $labels['editasnew'] = 'Edit as new';
 $labels['send'] = 'Send';
 $labels['sendmessage'] = 'Send message';
 $labels['savemessage'] = 'Save as draft';
+$labels['discardmessage'] = 'Discard draft';
 $labels['addattachment'] = 'Attach a file';
 $labels['charset'] = 'Charset';
 $labels['editortype'] = 'Editor type';
