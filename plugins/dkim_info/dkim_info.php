@@ -295,17 +295,13 @@ class dkim_info extends rcube_plugin
     {
         $text = $this->gettext(['name' => $verdict['label'], 'vars' => $verdict['vars']]);
 
-        // Aligned-pass (green): show only a small check-circle that overlays
-        // the message's top-right corner, consuming no vertical space. The
-        // glyph, positioning and style live in dkim_info.css. ('noicon' stops
-        // the Elastic skin from prepending its own alert icon.)
+        // Aligned-pass (green): a compact "✓ DKIM" item that dkim_info.js moves
+        // into the header's .header-links row. The verdict text is the tooltip.
         if ($verdict['level'] === 'confirmation') {
             return html::span([
-                'class' => 'dkim-info-badge noicon',
-                'role' => 'img',
+                'class' => 'dkim-info-link',
                 'title' => $text,
-                'aria-label' => $text,
-            ], '');
+            ], rcube::Q($this->gettext('dkimbadge')));
         }
 
         // Everything else keeps the full-width banner.

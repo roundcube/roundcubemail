@@ -13,6 +13,7 @@
 */
 
 $labels['dkimstatus'] = 'DKIM: ';
+$labels['dkimbadge'] = 'DKIM';
 $labels['dkimpassaligned'] = 'Signature is valid and matches the sender\'s domain ($domain).';
 $labels['dkimpassunaligned'] = 'Signature is valid but was signed by "$domain", which does not match the From address ("$from"). The sender may be impersonated.';
 $labels['dkimfail'] = 'Signature verification failed (result: $result). The sender may be forged.';

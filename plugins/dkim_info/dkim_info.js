@@ -1,11 +1,11 @@
 /**
  * DKIM info plugin script
  *
- * The green "aligned pass" verdict is rendered (server-side) as a small badge
- * inside #message-objects, which sits directly above the message body — so on
- * plain-text mail it overlaps the first lines. This moves the badge into the
- * empty right-hand space of the message header instead, where it doesn't
- * cover any text. The non-green banner is left untouched.
+ * The green "aligned pass" verdict is rendered (server-side) as a small item
+ * inside #message-objects. This moves it into the message header's
+ * .header-links row — after Summary / Headers / Plain text — so it reads as a
+ * status next to those links instead of floating in a corner. Any non-green
+ * verdict keeps its full banner and is left untouched.
  *
  * @licstart  The following is the entire license notice for the
  * JavaScript code in this file.
@@ -24,10 +24,13 @@
 /* global rcmail */
 
 window.rcmail && rcmail.addEventListener('init', function () {
-    var badge = document.querySelector('.dkim-info-badge'),
-        header = document.getElementById('message-header');
+    var badge = document.querySelector('.dkim-info-link'),
+        links = document.querySelector('#message-header .header-links');
 
-    if (badge && header) {
-        header.appendChild(badge);
+    if (badge && links) {
+        // Drop any "ui alert / box*" classes the skin may have stamped on it
+        // while it was still a #message-objects child, then move it.
+        badge.className = 'dkim-info-link';
+        links.appendChild(badge);
     }
 });
