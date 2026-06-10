@@ -117,6 +117,7 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->output->set_env('reply_all_mode', (int) $rcmail->config->get('reply_all_mode'));
             $rcmail->output->set_env('layout', $rcmail->config->get('layout') ?: 'widescreen');
             $rcmail->output->set_env('quota', $rcmail->storage->get_capability('QUOTA'));
+            $rcmail->output->set_env('list_hover_menu', $rcmail->config->get('list_hover_menu', true));
 
             // set special folders
             foreach (['drafts', 'trash', 'junk'] as $mbox) {
@@ -226,6 +227,12 @@ class rcmail_action_mail_index extends rcmail_action
         $threading = $a_threading[$_SESSION['mbox']] ?? $default_threading;
 
         $rcmail->storage->set_threading($threading);
+
+        // toggle list hover menu
+        if (isset($_GET['_hmenu'])) {
+            $hmenu = !empty($_GET['_hmenu']) ? true : false;
+            $rcmail->user->save_prefs(['list_hover_menu' => $hmenu]);
+        }
     }
 
     /**
