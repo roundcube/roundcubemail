@@ -2657,7 +2657,7 @@ function rcube_webmail() {
         this.env.sort_order = sort_order;
     };
 
-    this.set_list_options = function (cols, sort_col, sort_order, threads, layout) {
+    this.set_list_options = function (cols, sort_col, sort_order, threads, layout, hover_menu) {
         var update, post_data = {};
 
         if (sort_col === undefined) {
@@ -2709,6 +2709,11 @@ function rcube_webmail() {
                 update = 1;
                 post_data._cols = newcols.join(',');
             }
+        }
+
+        if (hover_menu !== null && this.env.list_hover_menu != hover_menu) {
+            update = 1;
+            post_data._hmenu = hover_menu;
         }
 
         if (update) {
