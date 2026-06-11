@@ -998,10 +998,14 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'add_comments' => false,
         ];
 
-        if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT) {
+        if (self::$COMPOSE['mode'] == rcmail_sendmail::MODE_DRAFT
+            || self::$COMPOSE['mode'] == rcmail_sendmail::MODE_EDIT
+        ) {
             // convert TinyMCE's empty-line sequence (#1490463)
             $body = preg_replace('/<p>\xC2\xA0<\/p>/', '<p><br /></p>', $body);
             // remove <body> tags (not their content)
+            // Note: do not wrap the body in a container element here, otherwise
+            // an extra <div> would accumulate on every edit/send cycle (#9919)
             $wash_params['ignore_elements'] = ['body'];
         } else {
             $wash_params['container_id'] = $container_id;
