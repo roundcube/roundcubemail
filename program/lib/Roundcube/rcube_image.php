@@ -171,6 +171,7 @@ class rcube_image
                     // use PHP's Imagick class
                     else {
                         try {
+                            $image = null;
                             $image = new \Imagick($this->image_file);
 
                             try {
@@ -193,6 +194,12 @@ class rcube_image
                             }
                         } catch (\Exception $e) {
                             rcube::raise_error($e, true, false);
+                        } finally {
+                            // Free resources
+                            if ($image instanceof \Imagick) {
+                                $image->clear();
+                                $image->destroy();
+                            }
                         }
                     }
                 }
