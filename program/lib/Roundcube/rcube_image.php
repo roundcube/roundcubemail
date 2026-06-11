@@ -197,8 +197,11 @@ class rcube_image
                         } finally {
                             // Free resources
                             if ($image instanceof \Imagick) {
-                                $image->clear();
-                                $image->destroy();
+                                try {
+                                    $image->clear();
+                                } catch (\Exception $e) {
+                                    // Ignore errors
+                                }
                             }
                         }
                     }
