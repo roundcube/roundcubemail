@@ -145,6 +145,10 @@ function rcube_twostep_login() {
         show(next, false);
         show(change, true);
 
+        if (submit) {
+            submit.disabled = false; // recover if a prior submit disabled it
+        }
+
         pass.setAttribute('required', 'required');
         // keep the chosen username visible but locked while entering password
         user.setAttribute('readonly', 'readonly');
@@ -184,13 +188,23 @@ function rcube_twostep_login() {
         }
     });
 
-    // Safety net: never let the form submit while still on step 1
-    form.addEventListener('submit', function (e) {
-        if (form.classList.contains('twostep-step1')) {
+    // Safety net: never let the form submit while still on step 1.
+    //
+    // Roundcube's own login-form handler (program/js/app.js) shows a persistent
+    // "Loading…" message and disables the submit button on every submit event,
+    // without preventing navigation. If we only preventDefault here, that
+    // handler still runs and the page is left stuck on "Loading…" with the
+    // button disabled and no request sent (e.g. when Enter is pressed on the
+    // username step). A capture-phase listener on the document runs before the
+    // form-bound handler, so stopPropagation() suppresses it while on step 1.
+    // Step 2 submits are left to propagate and post normally.
+    document.addEventListener('submit', function (e) {
+        if (e.target === form && form.classList.contains('twostep-step1')) {
             e.preventDefault();
+            e.stopPropagation();
             advance();
         }
-    });
+    }, true);
 
     // start on step 1
     step1();

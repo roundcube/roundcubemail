@@ -22,12 +22,26 @@ class twostep_login extends rcube_plugin
     private $rc;
 
     /**
+     * Plugins that also take over the login form / authentication flow and
+     * therefore cannot run alongside this one. Extend as needed.
+     */
+    private const CONFLICTING_PLUGINS = [
+        'passkey_login',
+    ];
+
+    /**
      * Plugin initialization.
      */
     #[\Override]
     public function init()
     {
         $this->rc = rcmail::get_instance();
+
+        // If a conflicting plugin is enabled, log it for the administrator and
+        // stay out of the way (no hooks) rather than fight over the login form.
+        if ($this->has_conflict()) {
+            return;
+        }
 
         // Assets are injected from the 'render_page' hook rather than
         // 'template_object_loginform'. In modern skins (e.g. Elastic) the
@@ -42,6 +56,40 @@ class twostep_login extends rcube_plugin
         // Unauthenticated requests never reach action_handler(), so this must
         // be served from the 'startup' hook.
         $this->add_hook('startup', [$this, 'startup']);
+    }
+
+    /**
+     * Detect a plugin that also rewrites the login flow. On a conflict an
+     * error is written to the Roundcube error log so the administrator is
+     * notified; the caller then disables this plugin's functionality.
+     *
+     * The configured `plugins` list is checked (not just already-loaded
+     * plugins) so a conflict is detected regardless of load order.
+     *
+     * @return bool True if a conflicting plugin is enabled
+     */
+    private function has_conflict()
+    {
+        $enabled = array_merge(
+            (array) $this->rc->config->get('plugins', []),
+            (array) $this->rc->plugins->active_plugins
+        );
+
+        foreach (self::CONFLICTING_PLUGINS as $plugin) {
+            if (in_array($plugin, $enabled, true)) {
+                rcube::raise_error([
+                    'code' => 520,
+                    'type' => 'php',
+                    'message' => "Plugin '{$this->ID}' is disabled: it cannot be used together with"
+                        . " '{$plugin}' (both take over the login form). Enable only one of them"
+                        . ' in the $config[\'plugins\'] list.',
+                ], true, false);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
