@@ -1,0 +1,29 @@
+/**
+ * Two-step login plugin styles
+ *
+ * Note: the actual show/hide of the password and username steps is done from
+ * twostep_login.js (inline display toggling), so that the form degrades to a
+ * normal single-step login when JavaScript is disabled. These rules only add
+ * cosmetics for the controls the plugin injects.
+ */
+
+/* "Change user" link shown with the buttons in step 2 */
+#login-form .twostep-change {
+    display: block;
+    margin-top: .75em;
+    text-align: center;
+    font-size: .9em;
+    cursor: pointer;
+}
+
+/* Locked username while entering the password */
+#login-form.twostep-step2 #rcmloginuser[readonly] {
+    cursor: default;
+    opacity: .85;
+}
+
+/* Highlight an empty username when trying to advance */
+#login-form #rcmloginuser.error {
+    border-color: #d2322d;
+    box-shadow: 0 0 3px rgba(210, 50, 45, .5);
+}
