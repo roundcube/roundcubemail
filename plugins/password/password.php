@@ -482,7 +482,7 @@ class password extends rcube_plugin
             $username = $_SESSION['username'];
 
             foreach ($exceptions as $ec) {
-                if ($username === $ec) {
+                if ($username === $ec || (str_starts_with($ec, '/') && preg_match($ec, $username))) {
                     return false;
                 }
             }
