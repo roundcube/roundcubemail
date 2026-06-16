@@ -171,7 +171,6 @@ class rcube_image
                     // use PHP's Imagick class
                     else {
                         try {
-                            $image = null;
                             $image = new \Imagick($this->image_file);
 
                             try {
