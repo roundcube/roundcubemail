@@ -359,6 +359,14 @@ class rcube_image
                     return true;
                 }
             } catch (\Exception $e) {
+                // Free resources
+                if ($image instanceof \Imagick) {
+                    try {
+                        $image->clear();
+                    } catch (\Exception $e) {
+                        // Ignore errors
+                    }
+                }
                 rcube::raise_error($e, true, false);
             }
         }
