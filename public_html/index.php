@@ -209,8 +209,8 @@ elseif ($RCMAIL->task == 'logout' && !empty($_SESSION['user_id'])) {
 // check session and auth cookie
 elseif ($RCMAIL->task != 'login' && !empty($_SESSION['user_id'])) {
     if (!$RCMAIL->session->check_auth()) {
+        $session_error = $RCMAIL->session_error() ?: 'sessionerror';
         $RCMAIL->kill_session();
-        $session_error = 'sessionerror';
     }
 }
 
