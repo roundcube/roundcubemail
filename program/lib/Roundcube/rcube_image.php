@@ -192,8 +192,6 @@ class rcube_image
                                 $result = '';
                             }
                         } catch (\Exception $e) {
-                            rcube::raise_error($e, true, false);
-                        } finally {
                             // Free resources
                             if ($image instanceof \Imagick) {
                                 try {
@@ -202,6 +200,7 @@ class rcube_image
                                     // Ignore errors
                                 }
                             }
+                            rcube::raise_error($e, true, false);
                         }
                     }
                 }
