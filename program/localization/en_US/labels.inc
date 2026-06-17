@@ -226,7 +226,7 @@ $labels['layoutwidescreendesc'] = 'Widescreen (3-column view)';
 $labels['layoutdesktopdesc'] = 'Desktop (wide list and mail preview below)';
 $labels['layoutlistdesc'] = 'List (no mail preview)';
 
-$labels['listhovermenu'] = 'Enable quick menu';
+$labels['listhovermenu'] = 'Mouse-over menu';
 
 $labels['folderactions'] = 'Folder actions...';
 $labels['compact'] = 'Compact';
