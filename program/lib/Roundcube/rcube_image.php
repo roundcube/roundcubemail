@@ -193,7 +193,7 @@ class rcube_image
                             }
                         } catch (\Exception $e) {
                             // Free resources
-                            if ($image instanceof \Imagick) {
+                            if (!empty($image)) {
                                 try {
                                     $image->clear();
                                 } catch (\Exception $e) {
@@ -360,7 +360,7 @@ class rcube_image
                 }
             } catch (\Exception $e) {
                 // Free resources
-                if ($image instanceof \Imagick) {
+                if (!empty($image)) {
                     try {
                         $image->clear();
                     } catch (\Exception $e) {
