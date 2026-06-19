@@ -69,8 +69,8 @@
         "symfony/process": "^6.4 || ^7.0"
     },
     "suggest": {
-        "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
         "ext-sodium": "Support EdDSA (Ed25519) signatures (OAuth)",
+        "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
         "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP"
     },
     "repositories": [
