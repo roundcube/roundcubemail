@@ -70,7 +70,7 @@
     },
     "suggest": {
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
-        "ext-sodium": "Support EdDSA (Ed25519) signatures (OAuth)"
+        "ext-sodium": "Support EdDSA (Ed25519) signatures (OAuth)",
         "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP"
     },
     "repositories": [
