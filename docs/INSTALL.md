@@ -16,6 +16,7 @@ REQUIREMENTS
    - Iconv, Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
    - GD, Imagick, XMLWriter (optional: thumbnails generation, QR-code)
+   - Sodium (optional: OAuth EdDSA (Ed25519) signatures support)
 * PEAR and PEAR packages distributed with Roundcube or external.
   See composer.json for the list of required packages.
 * php.ini options:
