@@ -228,7 +228,7 @@ class Foo extends \Other\BaseClass implements \Other\Interface1, \Other\Interfac
      */
     public function getPriority(): int
     {
-        return 6;
+        return 7;
     }
 
     public function isCandidate(Tokens $tokens): bool
