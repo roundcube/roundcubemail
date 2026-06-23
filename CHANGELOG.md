@@ -14,6 +14,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Revert "Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)" (#10198)
 - Fix incorrect unfolding of folded lines when importing vCard 2.1 contacts (#9647)
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
+- Fix bug where redis/memcache session could have been updated more often than needed
 
 ## Release 1.7.1
 
