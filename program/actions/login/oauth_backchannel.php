@@ -56,11 +56,13 @@ class rcmail_action_login_oauth_backchannel extends rcmail_action
                 }
                 */
 
-                if ($event['typ'] !== 'Logout') {
-                    throw new \RuntimeException('handle only Logout events');
-                }
+                // Validation: https://openid.net/specs/openid-connect-backchannel-1_0.html#rfc.section.2.6
+
                 if (!isset($event['sub'])) {
-                    throw new \RuntimeException('event has no "sub"');
+                    throw new \RuntimeException('OIDC: event has no "sub"');
+                }
+                if (isset($event['nonce'])) {
+                    throw new \RuntimeException('OIDC: event has non-empty "nonce"');
                 }
 
                 $rcmail->oauth->log_debug('backchannel: logout event received, schedule a revocation for token\'s sub: %s', $event['sub']);
