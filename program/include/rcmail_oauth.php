@@ -432,11 +432,13 @@ class rcmail_oauth
             $this->fetch_jwks();
 
             // Validate the token (throws exceptions)
-            $body = (array) JWT::decode($jwt, JWK::parseKeySet($this->jwks));
+            $header = new \stdClass();
+            $body = (array) JWT::decode($jwt, JWK::parseKeySet($this->jwks), $header);
+            $header = (array) $header;
         } else {
             [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
-            // $header = json_decode(static::base64url_decode($headb64), true);
+            $header = json_decode(static::base64url_decode($headb64), true);
             $body = json_decode(static::base64url_decode($bodyb64), true);
             // $crypto = static::base64url_decode($cryptob64);
         }
@@ -459,6 +461,8 @@ class rcmail_oauth
         if (isset($body['exp']) && (time() > $body['exp'])) {
             throw new \RuntimeException('Failed to validate JWT: expired message');
         }
+
+        $body['header'] = $header;
 
         $this->log_debug('jwt: %s', json_encode($body));
 

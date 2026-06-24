@@ -15,6 +15,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix incorrect unfolding of folded lines when importing vCard 2.1 contacts (#9647)
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
 - Fix bug where redis/memcache session could have been updated more often than needed
+- Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
 
 ## Release 1.7.1
 
