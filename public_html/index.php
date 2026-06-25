@@ -166,10 +166,11 @@ if ($RCMAIL->task == 'login' && $RCMAIL->action == 'login') {
             rcmail::ERROR_RATE_LIMIT => 'accountlocked',
         ];
 
+        $error_message = 'loginfailed';
         if (!empty($auth['error']) && !is_numeric($auth['error'])) {
             $error_message = $auth['error'];
-        } else {
-            $error_message = !empty($error_labels[$error_code]) ? $error_labels[$error_code] : 'loginfailed';
+        } elseif ($error_code !== null && !empty($error_labels[$error_code])) {
+            $error_message = $error_labels[$error_code];
         }
 
         $RCMAIL->output->show_message($error_message, 'warning');
