@@ -339,7 +339,17 @@ class message_security_info extends rcube_plugin
                     continue;
                 }
 
-                $method = strtolower($m[1]);
+                $method = match (strtolower($m[1])) {
+                    'dkim'  => 'dkim',
+                    'spf'   => 'spf',
+                    'dmarc' => 'dmarc',
+                    default => null,
+                };
+
+                if ($method === null) {
+                    continue;
+                }
+
                 $out[$method][] = [
                     'result' => strtolower($m[2]),
                     'domain' => $this->extract_domain($method, $segment),
