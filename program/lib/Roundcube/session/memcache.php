@@ -167,7 +167,7 @@ class rcube_session_memcache extends rcube_session
     {
         $ts = microtime(true);
 
-        if ($newvars !== $oldvars || $this->expires_at - $ts > $this->lifetime / 3) {
+        if ($newvars !== $oldvars || $this->expires_at - $ts < $this->lifetime / 2) {
             $data = serialize(['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $newvars]);
             $result = $this->memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->lifetime + 60);
 

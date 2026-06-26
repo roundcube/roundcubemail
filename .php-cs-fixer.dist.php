@@ -105,6 +105,7 @@ return (new Config())
         'octal_notation' => false,
 
         // TODO remove after https://github.com/roundcube/roundcubemail/pull/9481
+        'fully_qualified_strict_types' => false,
         'Custom/fully_qualified_strict_types' => ['leading_backslash_in_global_namespace' => static function (string $fqcn): bool {
             $pluginsRegex = 'filesystem_attachments|password|new_user_identity|identicon|example_addressbook|enigma';
 

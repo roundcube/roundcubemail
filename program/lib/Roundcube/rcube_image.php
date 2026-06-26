@@ -192,6 +192,14 @@ class rcube_image
                                 $result = '';
                             }
                         } catch (\Exception $e) {
+                            // Free resources
+                            if (!empty($image)) {
+                                try {
+                                    $image->clear();
+                                } catch (\Exception $e) {
+                                    // Ignore errors
+                                }
+                            }
                             rcube::raise_error($e, true, false);
                         }
                     }
@@ -351,6 +359,14 @@ class rcube_image
                     return true;
                 }
             } catch (\Exception $e) {
+                // Free resources
+                if (!empty($image)) {
+                    try {
+                        $image->clear();
+                    } catch (\Exception $e) {
+                        // Ignore errors
+                    }
+                }
                 rcube::raise_error($e, true, false);
             }
         }
