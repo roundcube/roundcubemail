@@ -340,8 +340,8 @@ class message_security_info extends rcube_plugin
                 }
 
                 $method = match (strtolower($m[1])) {
-                    'dkim'  => 'dkim',
-                    'spf'   => 'spf',
+                    'dkim' => 'dkim',
+                    'spf' => 'spf',
                     'dmarc' => 'dmarc',
                     default => null,
                 };
