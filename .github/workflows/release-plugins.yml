@@ -7,7 +7,9 @@ on:
     paths:
       - 'plugins/twostep_login/**'
       - 'plugins/message_security_info/**'
-      - 'plugins/my_third_plugin/**' # Replace with your 3rd plugin's folder name
+      - 'plugins/passkey_login/**' # Replace with your 3rd plugin's folder name
+
+  workflow_dispatch:
 
 permissions:
   contents: write # Required to create/update GitHub Releases and assets
@@ -19,7 +21,7 @@ jobs:
       # Prevent one plugin failing from stopping the others
       fail-fast: false
       matrix:
-        plugin: [ twostep_login, message_security_info, my_third_plugin ]
+        plugin: [ twostep_login, message_security_info, passkey_login ]
 
     steps:
       - name: Checkout Code
