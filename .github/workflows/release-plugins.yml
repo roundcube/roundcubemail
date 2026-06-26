@@ -1,15 +1,8 @@
 name: Release Plugins
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'plugins/twostep_login/**'
-      - 'plugins/message_security_info/**'
-      - 'plugins/passkey_login/**' # Replace with your 3rd plugin's folder name
-
-  workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: write # Required to create/update GitHub Releases and assets
@@ -51,17 +44,9 @@ jobs:
           cd plugins
           zip -r "../${{ steps.get-version.outputs.zip_name }}" "${{ matrix.plugin }}" -x "*.git*"
 
-      - name: Ensure Main Release Container Exists
+      - name: Upload Asset to Triggering Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Creates the central release if it doesn't exist. 
-          # The '|| true' ensures that parallel matrix jobs don't crash if they try to create it at the exact same second.
-          gh release create plugins-main --title "Main Plugin Repository Assets" --notes "Aggregated stable builds for Roundcube plugins." || true
-
-      - name: Upload Asset to Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # --clobber overwrites the existing file if the version hasn't incremented yet
-          gh release upload plugins-main "${{ steps.get-version.outputs.zip_name }}" --clobber
+          # Uses the tag name of the release that triggered this workflow
+          gh release upload "${{ github.event.release.tag_name }}" "${{ steps.get-version.outputs.zip_name }}" --clobber
