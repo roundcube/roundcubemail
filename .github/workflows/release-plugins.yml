@@ -1,0 +1,65 @@
+name: Release Plugins
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'plugins/twostep_login/**'
+      - 'plugins/message_security_info/**'
+      - 'plugins/my_third_plugin/**' # Replace with your 3rd plugin's folder name
+
+permissions:
+  contents: write # Required to create/update GitHub Releases and assets
+
+jobs:
+  release-plugins:
+    runs-on: ubuntu-latest
+    strategy:
+      # Prevent one plugin failing from stopping the others
+      fail-fast: false
+      matrix:
+        plugin: [ twostep_login, message_security_info, my_third_plugin ]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Extract Plugin Version
+        id: get-version
+        run: |
+          PLUGIN_DIR="plugins/${{ matrix.plugin }}"
+          
+          if [ -f "$PLUGIN_DIR/composer.json" ]; then
+            # Use jq to read the version string from composer.json
+            VERSION=$(jq -r '.version // "latest"' "$PLUGIN_DIR/composer.json")
+          else
+            echo "Warning: composer.json not found for ${{ matrix.plugin }}. Defaulting to 'latest'."
+            VERSION="latest"
+          fi
+          
+          # Save the version as an environment variable and step output
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "zip_name=${{ matrix.plugin }}-v${VERSION}.zip" >> $GITHUB_OUTPUT
+
+      - name: Create Zip Package
+        run: |
+          # Step into the plugins directory so the internal structure of the zip
+          # begins with the plugin folder name itself (e.g. twostep_login/...)
+          cd plugins
+          zip -r "../${{ steps.get-version.outputs.zip_name }}" "${{ matrix.plugin }}" -x "*.git*"
+
+      - name: Ensure Main Release Container Exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Creates the central release if it doesn't exist. 
+          # The '|| true' ensures that parallel matrix jobs don't crash if they try to create it at the exact same second.
+          gh release create plugins-main --title "Main Plugin Repository Assets" --notes "Aggregated stable builds for Roundcube plugins." || true
+
+      - name: Upload Asset to Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # --clobber overwrites the existing file if the version hasn't incremented yet
+          gh release upload plugins-main "${{ steps.get-version.outputs.zip_name }}" --clobber
