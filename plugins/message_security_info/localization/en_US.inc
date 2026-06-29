@@ -30,6 +30,12 @@ $labels['aligned'] = 'aligned with From';
 $labels['notaligned'] = 'does not match From ($from)';
 $labels['unverified'] = 'present, not verified by your server';
 
+// Transport encryption (informational; does not affect the icon)
+$labels['tls'] = 'Transport (TLS)';
+$labels['tlsencrypted'] = 'Encrypted';
+$labels['tlsplain'] = 'Not encrypted';
+$labels['tlsunknown'] = 'unknown';
+
 // Overall verdict summary (link tooltip / notice bar). Reflects DMARC when
 // available, otherwise the combined SPF + DKIM result.
 $labels['summarypass'] = 'Sender authentication passed.';

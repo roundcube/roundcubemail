@@ -161,11 +161,27 @@ class message_security_info extends rcube_plugin
     }
 
     /**
+     * Whether a given check (spf, dkim, dmarc, tls) is enabled by the
+     * administrator. All are on by default.
+     */
+    private function method_enabled($method)
+    {
+        return (bool) $this->rc->config->get('message_security_info_check_' . $method, true);
+    }
+
+    /**
      * Tell the core which headers to fetch from IMAP.
      */
     public function storage_init($p)
     {
-        $headers = array_merge(self::BASE_HEADERS, array_map('strtoupper', $this->extra_headers()));
+        $headers = self::BASE_HEADERS;
+
+        // Received lines are only needed for the transport (TLS) check.
+        if ($this->method_enabled('tls')) {
+            $headers[] = 'RECEIVED';
+        }
+
+        $headers = array_merge($headers, array_map('strtoupper', $this->extra_headers()));
         $p['fetch_headers'] = trim(($p['fetch_headers'] ?? '') . ' ' . implode(' ', array_unique($headers)));
 
         return $p;
@@ -180,6 +196,12 @@ class message_security_info extends rcube_plugin
         $message = $p['message'] ?? null;
 
         if (!$message || empty($message->headers) || $this->skip_folder($message)) {
+            return $p;
+        }
+
+        // With every authentication mechanism disabled there is nothing to
+        // evaluate — show no link, no icon, no popup.
+        if (!$this->method_enabled('spf') && !$this->method_enabled('dkim') && !$this->method_enabled('dmarc')) {
             return $p;
         }
 
@@ -233,35 +255,42 @@ class message_security_info extends rcube_plugin
      *
      * DMARC, when it actually evaluated, is authoritative — it already implies
      * an aligned SPF or DKIM pass. Otherwise the present SPF and DKIM results
-     * are combined, omitting whichever is missing.
+     * are combined, omitting whichever is missing. Mechanisms disabled by the
+     * administrator are excluded entirely.
      *
      * @return array{status:string, summary:string}
      */
     private function evaluate($headers, $auth)
     {
-        // DMARC is the overall verdict when it yielded a real result.
-        $dmarc = $auth['dmarc'][0]['result'] ?? null;
-        if ($dmarc === 'pass') {
-            return ['status' => 'pass', 'summary' => $this->gettext('summarypass')];
-        }
-        if ($dmarc === 'fail') {
-            return ['status' => 'fail', 'summary' => $this->gettext('summaryfail')];
+        // DMARC is the overall verdict when enabled and it yielded a real result.
+        if ($this->method_enabled('dmarc')) {
+            $dmarc = $auth['dmarc'][0]['result'] ?? null;
+            if ($dmarc === 'pass') {
+                return ['status' => 'pass', 'summary' => $this->gettext('summarypass')];
+            }
+            if ($dmarc === 'fail') {
+                return ['status' => 'fail', 'summary' => $this->gettext('summaryfail')];
+            }
         }
 
         // No usable DMARC: combine the SPF and DKIM results that are present.
         $from = $this->from_domain($headers);
         $statuses = [];
 
-        $spf = ($auth['spf'][0] ?? null) ?: $this->spf_from_received($headers);
-        if ($spf) {
-            $statuses[] = $this->method_status('spf', $spf, $from);
+        if ($this->method_enabled('spf')) {
+            $spf = ($auth['spf'][0] ?? null) ?: $this->spf_from_received($headers);
+            if ($spf) {
+                $statuses[] = $this->method_status('spf', $spf, $from);
+            }
         }
 
-        if (!empty($auth['dkim'])) {
-            $statuses[] = $this->method_status('dkim', $auth['dkim'][0], $from);
-        } elseif (!empty($this->normalize($headers->get('DKIM-Signature', false)))) {
-            // Signature present but not verified by the receiving server.
-            $statuses[] = 'unknown';
+        if ($this->method_enabled('dkim')) {
+            if (!empty($auth['dkim'])) {
+                $statuses[] = $this->method_status('dkim', $auth['dkim'][0], $from);
+            } elseif (!empty($this->normalize($headers->get('DKIM-Signature', false)))) {
+                // Signature present but not verified by the receiving server.
+                $statuses[] = 'unknown';
+            }
         }
 
         $status = $this->combine_statuses($statuses);
@@ -391,11 +420,21 @@ class message_security_info extends rcube_plugin
         // SPF is often only in a Received-SPF header, not Authentication-Results.
         $spf = $auth['spf'][0] ?? $this->spf_from_received($headers);
 
-        return [
-            ['label' => $this->gettext('spf'), 'value' => $this->format_method($spf)],
-            ['label' => $this->gettext('dkim'), 'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from)],
-            ['label' => $this->gettext('dmarc'), 'value' => $this->format_method($auth['dmarc'][0] ?? null)],
-        ];
+        $rows = [];
+        if ($this->method_enabled('spf')) {
+            $rows[] = ['label' => $this->gettext('spf'), 'value' => $this->format_method($spf)];
+        }
+        if ($this->method_enabled('dkim')) {
+            $rows[] = ['label' => $this->gettext('dkim'), 'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from)];
+        }
+        if ($this->method_enabled('dmarc')) {
+            $rows[] = ['label' => $this->gettext('dmarc'), 'value' => $this->format_method($auth['dmarc'][0] ?? null)];
+        }
+        if ($this->method_enabled('tls')) {
+            $rows[] = ['label' => $this->gettext('tls'), 'value' => $this->format_tls($this->tls_info($headers))];
+        }
+
+        return $rows;
     }
 
     /**
@@ -419,6 +458,44 @@ class message_security_info extends rcube_plugin
             }
 
             return ['result' => strtolower($m[1]), 'domain' => $domain];
+        }
+
+        return null;
+    }
+
+    /**
+     * Whether the message reached us over an encrypted SMTP connection, read
+     * from the topmost Received header (the most recent hop — typically our own
+     * receiving server). Informational only; never affects the icon verdict.
+     *
+     * @return array{encrypted:bool, detail:?string}|null null when undeterminable
+     */
+    private function tls_info($headers)
+    {
+        $received = $this->normalize($headers->get('Received', false));
+        if (empty($received)) {
+            return null;
+        }
+
+        $top = preg_replace('/\s+/', ' ', $received[0]);
+
+        // Cipher/version detail, when the receiving MTA logged it, e.g.
+        // "(using TLSv1.3 ...)" or "(version=TLS1_3 cipher=...)".
+        $detail = null;
+        if (preg_match('/\b(TLSv?[\d._]+|SSLv?[\d._]+)/i', $top, $m)) {
+            $detail = str_replace('_', '.', $m[1]);
+        }
+
+        // RFC 3848 transmission types: an "S" right after the SMTP/LMTP base
+        // means STARTTLS/TLS was used (ESMTPS, ESMTPSA, LMTPS, ...). An "A"
+        // (ESMTPA) is authentication without TLS.
+        if (preg_match('/\bwith\s+(?:UTF8)?(?:ESMTP|SMTP|LMTP)(S)?A?\b/i', $top, $m)) {
+            return ['encrypted' => !empty($m[1]), 'detail' => $detail];
+        }
+
+        // A version clause without a recognised transmission type still implies TLS.
+        if ($detail !== null) {
+            return ['encrypted' => true, 'detail' => $detail];
         }
 
         return null;
@@ -482,6 +559,23 @@ class message_security_info extends rcube_plugin
         }
 
         return $value;
+    }
+
+    /**
+     * Format the transport (TLS) result line for the popup.
+     */
+    private function format_tls($tls)
+    {
+        if ($tls === null) {
+            return $this->gettext('tlsunknown');
+        }
+        if (empty($tls['encrypted'])) {
+            return $this->gettext('tlsplain');
+        }
+
+        return !empty($tls['detail'])
+            ? $this->gettext('tlsencrypted') . ' — ' . $tls['detail']
+            : $this->gettext('tlsencrypted');
     }
 
     /**

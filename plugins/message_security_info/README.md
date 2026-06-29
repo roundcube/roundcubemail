@@ -22,9 +22,39 @@ The link text stays the normal blue link colour (like the other header links);
 only the icon is coloured. A tooltip on the link gives the one-line verdict.
 
 **Clicking the link opens a popup** (the same dialog style as *Message
-headers*) with the parsed **SPF / DKIM / DMARC** results — Gmail-style — and,
-below them, the raw `Authentication-Results` / `Received-SPF` lines plus any
-administrator-configured extra headers.
+headers*) with the parsed **SPF / DKIM / DMARC** results — Gmail-style — plus a
+**Transport (TLS)** line showing whether the message reached your server over
+an encrypted SMTP connection, and below them the raw `Authentication-Results` /
+`Received-SPF` lines plus any administrator-configured extra headers.
+
+Enabling / disabling checks
+---------------------------
+
+SPF, DKIM and DMARC each have to be deployed by the mail administrator, so it's
+fine for a site not to use all of them. Each can be turned off — a disabled
+mechanism is dropped from **both** the verdict and the popup, so users aren't
+shown a perpetual warning for a check that simply isn't deployed:
+
+```php
+$config['message_security_info_check_spf']   = true;
+$config['message_security_info_check_dkim']  = true;
+$config['message_security_info_check_dmarc'] = true;
+```
+
+If **all three** are disabled there is nothing to evaluate, so the link (and
+its icon) is hidden entirely.
+
+The transport (TLS) line is informational only — it never changes the icon —
+and has its own toggle:
+
+```php
+$config['message_security_info_check_tls'] = true;
+```
+
+The TLS state is read from the topmost `Received` header (the most recent hop,
+typically your own receiving server): an `ESMTPS`/`ESMTPSA`/`LMTPS` transmission
+type (RFC 3848) or a logged `TLSv…` version means the delivery to you was
+encrypted.
 
 How it works
 ------------

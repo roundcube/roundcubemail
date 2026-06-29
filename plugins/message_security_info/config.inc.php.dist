@@ -18,6 +18,21 @@ $config['message_security_info_trusted_authserv'] = [];
 // Don't show the Message Security link for your own outgoing mail (Sent / Drafts).
 $config['message_security_info_skip_sent'] = true;
 
+// Which authentication mechanisms to evaluate and display. Disable any your
+// mail server does not stamp results for, so users aren't shown a perpetual
+// warning for a check that is simply not deployed. A disabled mechanism is
+// dropped from the verdict AND from the details popup. If ALL THREE are
+// disabled the link is hidden entirely — there is nothing to evaluate.
+$config['message_security_info_check_spf'] = true;
+$config['message_security_info_check_dkim'] = true;
+$config['message_security_info_check_dmarc'] = true;
+
+// Show whether the message reached your server over an encrypted (TLS) SMTP
+// connection, read from the topmost Received header. Informational only: it is
+// shown in the popup but never changes the pass/warn/fail icon. Set to false
+// to hide the row (and skip fetching Received headers).
+$config['message_security_info_check_tls'] = true;
+
 // Additional raw message headers to show in the details popup, below the
 // parsed SPF / DKIM / DMARC summary and the Authentication-Results /
 // Received-SPF lines. Useful for surfacing whatever an administrator cares to
