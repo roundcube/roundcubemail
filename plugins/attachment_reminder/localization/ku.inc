@@ -12,6 +12,6 @@
 */
 
 $messages['missingattachment'] = "Pêvek kêm e?";
-$messages['forgotattachment'] = "Te jibîr kir da pelekê pêve bikî?";
-$messages['reminderoption'] = "Pêvekên jibîrkirî bi bîr bixe";
-$messages['keywords'] = "pêvek, pel, pêve bike, pêvekirî, pêve dike, girtî, CV, peyama bergê";
+$messages['forgotattachment'] = "Te jibîr kir da ku pelekê pê ve bikî?";
+$messages['reminderoption'] = "Pêvekên jibîrkirî bi bîr bixîne";
+$messages['keywords'] = "pêvek,pel,pê ve bike,pêvekirî,pê ve dike,girtî,CV,peyama bergê";

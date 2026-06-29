@@ -12,5 +12,5 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['identitydialogtitle'] = 'Tika ye nasnameya şandina xwe biqedîne';
+$labels['identitydialogtitle'] = 'Tika ye nasnameya xwe ya şandina biqedîne';
 $labels['identitydialoghint'] = 'Ev qutî tenê di dema têketina yekem de xuya dibe.';
