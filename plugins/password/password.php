@@ -154,7 +154,7 @@ class password extends rcube_plugin
         $newpwd = rcube_charset::convert($newpwd, $rc_charset, $charset);
         $conpwd = rcube_charset::convert($conpwd, $rc_charset, $charset);
 
-        if (($confirm && ($_POST['_curppasswd'] === '' || !isset($_POST['_curppasswd']))) || $newpwd === '') {
+        if (($confirm && ($_POST['_curpasswd'] === '' || !isset($_POST['_curpasswd']))) || $newpwd === '') {
             $this->rc->output->command('display_message', $this->gettext('nopassword'), 'error');
         } elseif ($chk_pwd != $orig_pwd || preg_match('/[\x00-\x1F\x7F]/', $newpwd)) {
             $this->rc->output->command('display_message', $this->gettext('passwordforbidden'), 'error');
