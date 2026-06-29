@@ -42,8 +42,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         self::$COMPOSE_ID = rcube_utils::get_input_string('_id', rcube_utils::INPUT_GET);
         self::$COMPOSE = null;
 
-        if (self::$COMPOSE_ID && !empty($_SESSION['compose_data_' . self::$COMPOSE_ID])) {
-            self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
+        if (self::$COMPOSE_ID && !empty(self::get_compose_data(self::$COMPOSE_ID))) {
+            self::$COMPOSE = self::get_compose_data(self::$COMPOSE_ID);
         }
 
         // give replicated session storage some time to synchronize
@@ -51,8 +51,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         while (self::$COMPOSE_ID && !is_array(self::$COMPOSE) && $rcmail->db->is_replicated() && $retries++ < 5) {
             usleep(500000);
             $rcmail->session->reload();
-            if ($_SESSION['compose_data_' . self::$COMPOSE_ID]) {
-                self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
+            if (self::get_compose_data(self::$COMPOSE_ID)) {
+                self::$COMPOSE = self::get_compose_data(self::$COMPOSE_ID);
             }
         }
 
@@ -74,15 +74,14 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             self::$COMPOSE_ID = uniqid(mt_rand());
             $params = rcube_utils::request2param(rcube_utils::INPUT_GET, 'task|action', true);
 
-            $_SESSION['compose_data_' . self::$COMPOSE_ID] = [
-                'id' => self::$COMPOSE_ID,
-                'param' => $params,
+            self::$COMPOSE = [
+                'id'      => self::$COMPOSE_ID,
+                'param'   => $params,
                 'mailbox' => isset($params['mbox']) && strlen($params['mbox'])
                     ? $params['mbox'] : $rcmail->storage->get_folder(),
             ];
-
-            self::$COMPOSE = &$_SESSION['compose_data_' . self::$COMPOSE_ID];
             self::process_compose_params(self::$COMPOSE);
+            self::set_compose_data(self::$COMPOSE_ID, self::$COMPOSE);
 
             // check if folder for saving sent messages exists and is subscribed (#1486802)
             if (!empty(self::$COMPOSE['param']['sent_mbox'])) {
@@ -335,6 +334,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $rcmail->output->include_script('publickey.js');
 
         self::spellchecker_init();
+
+        self::set_compose_data(self::$COMPOSE_ID, self::$COMPOSE);
 
         $rcmail->output->send('compose');
     }
@@ -1730,4 +1731,121 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
 
         return rtrim($out, "\n");
     }
+
+    /**
+     * Handles storage actions (get, set, remove) for compose data using the configured backend.
+     *
+     * @param string $id   The compose data identifier
+     * @param int    $type The action type: 0 = get, 1 = set, 2 = remove
+     * @param mixed  $data Optional data to store (used for set)
+     * @return mixed|null  The compose data for get, or null for set/remove
+     * @throws Exception   If an invalid storage type or action is provided
+     */
+    private static function _compose_storage_action($id, $type, $data = null) {
+        $compose_data = null;
+        $rcmail = rcmail::get_instance();
+        $storage_type = $rcmail->config->get('compose_data_storage', 'session');
+
+        switch ($storage_type) {
+            case 'session':
+                $key = "compose_data_$id";
+                switch ($type) {
+                    case 0:
+                        $compose_data = $_SESSION[$key];
+                        break;
+
+                    case 1:
+                        $_SESSION[$key] = $data;
+                        break;
+
+                    case 2:
+                        $rcmail->session->remove($key);
+                        break;
+
+                    default:
+                        throw new Exception("Invalide storage type");
+                        
+                }
+                break;
+
+            case 'apc':
+            case 'db':
+            case 'redis':
+            case 'memcache':
+                $ttl = $rcmail->config->get('compose_data_ttl', '8h');
+                $compose_data = call_user_func([$rcmail->get_cache('compose_data', $storage_type, $ttl), self::_get_cache_function($type)], $id, $data); //$id instead of $key for avoid redundant name in cache
+                break;
+            
+            default:
+                $plugin = $rcmail->plugins->exec_hook(self::_get_cache_function($type).'_compose_data', ['id' => $id, 'storage_type' => $storage_type, 'data' => $data, 'compose_data' => null]);
+                if (isset($plugin['compose_data'])) $compose_data = $plugin['compose_data'];
+                break;
+        }
+
+        return $compose_data;
+    }
+
+    /**
+     * Returns the cache function name corresponding to the action type.
+     *
+     * @param int $type The action type: 0 = get, 1 = set, 2 = remove
+     * @return string   The cache function name ('get', 'set', or 'remove')
+     * @throws Exception If an invalid action type is provided
+     */
+    private static function _get_cache_function($type) : string {
+        $cache_function = null;
+        switch ($type) {
+            case 0:
+                $cache_function = 'get';
+                break;
+
+            case 1:
+                $cache_function = 'set';
+                break;
+
+            case 2:
+                $cache_function = 'remove';
+                break;
+
+            default:
+                throw new Exception("Invalide storage type");
+                
+        }
+
+        return $cache_function;
+    }
+
+    /**
+     * Retrieve compose data by ID from the configured storage backend.
+     *
+     * @param string $id The compose data identifier
+     * @return mixed The compose data if found, or null otherwise
+     */
+    public static function get_compose_data($id) {
+        return self::_compose_storage_action($id, 0);
+    }
+
+    /**
+     * Store compose data by ID in the configured storage backend.
+     *
+     * @param string $id   The compose data identifier
+     * @param mixed  $data The compose data to store
+     * @return mixed The stored compose data
+     */
+    public static function set_compose_data($id, $data) {
+        self::_compose_storage_action($id, 1, $data);
+
+        return $data;
+    }
+
+    /**
+     * Remove compose data by ID from the configured storage backend.
+     *
+     * @param string $id The compose data identifier
+     * @return void
+     */
+    public static function remove_compose_data($id) : void {
+        self::_compose_storage_action($id, 2);
+    }
+
 }
