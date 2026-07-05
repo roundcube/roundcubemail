@@ -293,13 +293,10 @@ class rcube_ldap_simple_password
      */
     protected function substitute_vars($str)
     {
-        // Secure the username input for use in LDAP search or as a DN
-        $username = preg_replace('/[*()=|\0\\\]/', '', $this->username);
+        $str = str_replace('%login', $this->username, $str);
+        $str = str_replace('%l', $this->username, $str);
 
-        $str = str_replace('%login', $username, $str);
-        $str = str_replace('%l', $username, $str);
-
-        $parts = explode('@', $username);
+        $parts = explode('@', $this->username);
 
         if (count($parts) == 2) {
             $dc = 'dc=' . strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string
