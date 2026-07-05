@@ -1601,17 +1601,11 @@ class rcmail extends rcube
     public function format_date($date, $format = null, $convert = true)
     {
         if (!$date instanceof \DateTimeInterface) {
-            if (!empty($date)) {
-                $timestamp = rcube_utils::strtotime($date);
-            }
+            // Parse the input preserving a timezone specified there (if any), so that
+            // with $convert=false the date is presented in its original timezone
+            $date = !empty($date) ? rcube_utils::anytodatetime($date) : false;
 
-            if (empty($timestamp)) {
-                return '';
-            }
-
-            try {
-                $date = new \DateTime('@' . $timestamp);
-            } catch (\Exception $e) {
+            if (!$date || $date->getTimestamp() <= 0) {
                 return '';
             }
         }
@@ -1619,7 +1613,6 @@ class rcmail extends rcube
         if ($convert) {
             try {
                 // convert to the right timezone
-                $stz = date_default_timezone_get();
                 $tz = new \DateTimeZone($this->config->get('timezone'));
                 $date = clone $date; // don't modify the original object
                 $date->setTimezone($tz);
