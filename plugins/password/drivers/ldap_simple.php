@@ -31,19 +31,21 @@ class rcube_ldap_simple_password
 {
     protected $debug = false;
     protected $user;
+    protected $username;
     protected $conn;
 
-
-    public function save($curpass, $passwd)
+    public function save($curpass, $passwd, $username)
     {
-        $rcmail = rcmail::get_instance();
+        $this->username = $username;
 
-        $lchattr      = $rcmail->config->get('password_ldap_lchattr');
-        $pwattr       = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
-        $smbpwattr    = $rcmail->config->get('password_ldap_samba_pwattr');
-        $smblchattr   = $rcmail->config->get('password_ldap_samba_lchattr');
-        $samba        = $rcmail->config->get('password_ldap_samba');
-        $pass_mode    = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
+        $rcmail = rcmail::get_instance();
+        $lchattr = $rcmail->config->get('password_ldap_lchattr');
+        $pwattr = $rcmail->config->get('password_ldap_pwattr', 'userPassword');
+        $smbpwattr = $rcmail->config->get('password_ldap_samba_pwattr');
+        $smblchattr = $rcmail->config->get('password_ldap_samba_lchattr');
+        $samba = $rcmail->config->get('password_ldap_samba');
+        $pass_mode = $rcmail->config->get('password_ldap_encodage', 'md5-crypt');
+
         $crypted_pass = password::hash_password($passwd, $pass_mode);
 
         // Support password_ldap_samba option for backward compat.
@@ -162,7 +164,7 @@ class rcube_ldap_simple_password
             $user_dn = $plugin['user_dn'];
         }
         else if ($user_dn = $rcmail->config->get('password_ldap_userDN_mask')) {
-            $user_dn = self::substitute_vars($user_dn);
+            $user_dn = $this->substitute_vars($user_dn);
         }
         else {
             $user_dn = $this->search_userdn($rcmail, $ds);
@@ -210,7 +212,7 @@ class rcube_ldap_simple_password
      * Use search_base and search_filter defined in config file
      * Return the found DN
      */
-    function search_userdn($rcmail, $ds)
+    public function search_userdn($rcmail, $ds = null)
     {
         $search_user   = $rcmail->config->get('password_ldap_searchDN');
         $search_pass   = $rcmail->config->get('password_ldap_searchPW');
@@ -231,8 +233,8 @@ class rcube_ldap_simple_password
 
         $this->_debug("S: OK");
 
-        $search_base   = self::substitute_vars($search_base);
-        $search_filter = self::substitute_vars($search_filter);
+        $search_base = $this->substitute_vars($search_base);
+        $search_filter = $this->substitute_vars($search_filter);
 
         $this->_debug("C: Search $search_base for $search_filter");
 
@@ -258,12 +260,15 @@ class rcube_ldap_simple_password
      * Substitute %login, %name, %domain, %dc in $str
      * See plugin config for details
      */
-    public static function substitute_vars($str)
+    protected function substitute_vars($str)
     {
-        $str = str_replace('%login', $_SESSION['username'], $str);
-        $str = str_replace('%l', $_SESSION['username'], $str);
+        // Secure the username input for use in LDAP search or as a DN
+        $username = preg_replace('/[*()=|\0\\\]/', '', $this->username);
 
-        $parts = explode('@', $_SESSION['username']);
+        $str = str_replace('%login', $username, $str);
+        $str = str_replace('%l', $username, $str);
+
+        $parts = explode('@', $username);
 
         if (count($parts) == 2) {
             $dc = 'dc='.strtr($parts[1], ['.' => ',dc=']); // hierarchal domain string

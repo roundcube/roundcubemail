@@ -33,10 +33,10 @@
 
 class rcube_xmail_password
 {
-    function save($currpass, $newpass)
+    public function save($currpass, $newpass, $username)
     {
         $rcmail = rcmail::get_instance();
-        list($user, $domain) = explode('@', $_SESSION['username']);
+        [$user, $domain] = explode('@', $username);
 
         $xmail = new XMail;
 

@@ -58,8 +58,14 @@ class rcube_zxcvbn_password
             return;
         }
 
-        $zxcvbn   = new ZxcvbnPhp\Zxcvbn();
-        $strength = $zxcvbn->passwordStrength($passwd);
+        $rcmail = rcmail::get_instance();
+        $userData = [
+            $rcmail->user->get_username('local'),
+            $rcmail->user->get_username(),
+        ];
+
+        $zxcvbn = new Zxcvbn(); // @phpstan-ignore-line
+        $strength = $zxcvbn->passwordStrength($passwd, $userData); // @phpstan-ignore-line
 
         return [$strength['score'] + 1, $strength['feedback']['warning']];
     }

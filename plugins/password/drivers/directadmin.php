@@ -26,18 +26,17 @@
 
 class rcube_directadmin_password
 {
-    public function save($curpass, $passwd)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
         $Socket = new HTTPSocket;
 
-        $da_user    = $_SESSION['username'];
         $da_curpass = $curpass;
         $da_newpass = $passwd;
         $da_host    = $rcmail->config->get('password_directadmin_host');
         $da_port    = $rcmail->config->get('password_directadmin_port');
 
-        if (strpos($da_user, '@') === false) {
+        if (strpos($username, '@') === false) {
             return ['code' => PASSWORD_ERROR, 'message' => 'Change the SYSTEM user password through control panel!'];
         }
 
@@ -47,7 +46,7 @@ class rcube_directadmin_password
         $Socket->connect($da_host,$da_port); 
         $Socket->set_method('POST');
         $Socket->query('/CMD_CHANGE_EMAIL_PASSWORD', [
-                'email'         => $da_user,
+                'email'         => $username,
                 'oldpassword'   => $da_curpass,
                 'password1'     => $da_newpass,
                 'password2'     => $da_newpass,
@@ -56,14 +55,11 @@ class rcube_directadmin_password
 
         $response = $Socket->fetch_parsed_body();
 
-        //DEBUG
-        //rcube::console("Password Plugin: [USER: $da_user] [HOST: $da_host] - Response: [SOCKET: ".$Socket->result_status_code."] [DA ERROR: ".strip_tags($response['error'])."] [TEXT: ".$response[text]."]");
-
         if ($Socket->result_status_code != 200) {
             return ['code' => PASSWORD_CONNECT_ERROR, 'message' => $Socket->error[0]];
         }
 
-        if ($response['error'] == 1) {
+        if (isset($response['error']) && $response['error'] == 1) {
             return ['code' => PASSWORD_ERROR, 'message' => strip_tags($response['text'])];
         }
 
