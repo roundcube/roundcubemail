@@ -155,6 +155,23 @@ class Framework_Text2Html extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test XSS issue
+     */
+    public function test_text2html_xss53()
+    {
+        $input = 'a@a.co?]<img/src="x"/onerror=alert(document.domain)>';
+        $expected = '<div class="pre">'
+            . '<a href="mailto:a@a.co?">a@a.co?</a>'
+            . ']&lt;img/src=&quot;x&quot;/onerror=alert(document.domain)&gt;'
+            . '</div>';
+
+        $t2h = new \rcube_text2html($input);
+        $html = $t2h->get_html();
+
+        $this->assertSame($expected, $html);
+    }
+
+    /**
      * Test bug #8021
      */
     function test_text2html_8021()
