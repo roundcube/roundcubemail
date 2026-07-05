@@ -56,7 +56,7 @@ class rcube_zxcvbn_password
         $rcmail = rcmail::get_instance();
         $userData = [
             $rcmail->user->get_username('local'),
-            $_SESSION['username'],
+            $rcmail->user->get_username(),
         ];
 
         $zxcvbn = new Zxcvbn(); // @phpstan-ignore-line

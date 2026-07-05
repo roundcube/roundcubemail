@@ -15,6 +15,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
 - Fix bug where redis/memcache session could have been updated more often than needed
 - Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
+- Security: Fix various vulnerabilities in the password plugin using session-injected username
 
 ## Release 1.7.1
 

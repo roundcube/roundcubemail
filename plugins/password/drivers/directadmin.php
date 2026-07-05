@@ -29,17 +29,16 @@ use GuzzleHttp\Psr7\Query;
 
 class rcube_directadmin_password
 {
-    public function save($curpass, $passwd)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
 
-        $da_user = $_SESSION['username'];
         $da_curpass = $curpass;
         $da_newpass = $passwd;
         $da_host = $rcmail->config->get('password_directadmin_host');
         $da_port = $rcmail->config->get('password_directadmin_port');
 
-        if (!str_contains($da_user, '@')) {
+        if (!str_contains($username, '@')) {
             return ['code' => PASSWORD_ERROR, 'message' => 'Change the SYSTEM user password through control panel!'];
         }
 
@@ -60,7 +59,7 @@ class rcube_directadmin_password
         $options = [
             'http_errors' => true,
             'form_params' => [
-                'email' => $da_user,
+                'email' => $username,
                 'oldpassword' => $da_curpass,
                 'password1' => $da_newpass,
                 'password2' => $da_newpass,
