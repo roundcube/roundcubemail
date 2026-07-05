@@ -7,6 +7,7 @@
 - Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
 - Security: Fix various vulnerabilities in the password plugin using session-injected username
 - Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
+- Security: Fix SSRF bypass via specific local address URLs - two new cases
 
 ## Release 1.6.16
 
