@@ -512,6 +512,7 @@ class rcube_tnef_decoder
         $uncomp = '';
         $preload = "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
         $length_preload = strlen($preload);
+        $max_len = strlen($data);
 
         for ($cnt = 0; $cnt < $length_preload; $cnt++) {
             $uncomp .= $preload[$cnt];
@@ -545,6 +546,10 @@ class rcube_tnef_decoder
             } else {
                 $uncomp .= $data[$in++];
                 $out++;
+            }
+
+            if ($in >= $max_len) {
+                break;
             }
         }
 
