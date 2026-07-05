@@ -726,6 +726,9 @@ class UtilsTest extends TestCase
             ['http://[::ffff:127.0.0.1]:8080', true],
             ['http://127.0.0.1.nip.io', true],
             ['http://metadata.google.internal', true],
+            ['http://127.0.0.1.sslip.io/', true],
+            ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
+            ['http://0/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],

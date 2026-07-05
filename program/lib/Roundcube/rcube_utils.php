@@ -437,9 +437,9 @@ class rcube_utils
             $host = trim($host, '[]');
 
             // IPLib does not seem to work with IPv6 syntax for IPv4 addresses
-            $host = preg_replace('/^::ffff:/i', '', $host);
+            $host = preg_replace('/^[0:]*:ffff:/i', '', $host);
 
-            if (preg_match('/([0-9a-f.-]+)\.nip\.io$/i', $host, $matches)) {
+            if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
                 $host = trim($matches[1], '-.');
             }
 
