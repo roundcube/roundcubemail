@@ -18,6 +18,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix various vulnerabilities in the password plugin using session-injected username
 - Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
 - Security: Fix SSRF bypass via specific local address URLs - two new cases
+- Security: Fix zero-click stored XSS in plain-text rendering [CVE-2026-54433]
 
 ## Release 1.7.1
 
