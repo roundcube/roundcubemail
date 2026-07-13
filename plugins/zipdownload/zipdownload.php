@@ -127,6 +127,16 @@ class zipdownload extends rcube_plugin
     }
 
     /**
+     * Checks if ZipStream is installed and supported
+     *
+     * @return bool True if ZipStream is available
+     */
+    public static function zipstream_available()
+    {
+        return \PHP_INT_SIZE >= 8 && class_exists('ZipStream\ZipStream');
+    }
+
+    /**
      * Handler for attachment download action
      */
     public function download_attachments()
@@ -139,7 +149,7 @@ class zipdownload extends rcube_plugin
         $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
         $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
 
-        if (class_exists('ZipStream\ZipStream')) {
+        if (self::zipstream_available()) {
             $this->_download_attachments_zipstream($message, $filename);
         } else {
             $this->_download_attachments_tempfile($message, $filename);
@@ -343,7 +353,7 @@ class zipdownload extends rcube_plugin
         }
 
         $basename = $folders ? 'messages' : $imap->get_folder();
-        if (class_exists('ZipStream\ZipStream')) {
+        if (self::zipstream_available()) {
             $this->_download_messages_zipstream($messages, $mode, $basename);
         } else {
             $this->_download_messages_tempfile($messages, $mode, $basename);
