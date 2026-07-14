@@ -1052,10 +1052,11 @@ class rcube_sieve_script
             $exts[] = 'comparator-' . $test['comparator'];
         }
 
-        // skip default comparator
-        if ($test['comparator'] != 'i;ascii-casemap') {
-            $out .= ' :comparator ' . self::escape_string($test['comparator']);
-        }
+        // Emit the comparator. 'i;ascii-casemap' is the RFC default, but when
+        // it is present in the test it was set explicitly (the parser and the
+        // engine only populate 'comparator' on an explicit selection), so it
+        // must be preserved to reflect the user's choice and survive round-trips (#9981).
+        $out .= ' :comparator ' . self::escape_string($test['comparator']);
     }
 
     /**
