@@ -605,7 +605,7 @@ class rcube_vcard
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
                 '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
-                '/^item\d*\./mi',         // remove item1.ADR instead of ADR
+                '/^[a-z0-9-]+\./mi',      // strip RFC 6350 group prefix, e.g. item1.ADR or HOME.EMAIL becomes ADR/EMAIL
                 '/\n+/',                  // remove empty lines
                 '/^(N:[^;\r\n]*)$/m',     // if N doesn't have any semicolons, add some
             ],

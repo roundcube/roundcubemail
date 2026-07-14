@@ -103,6 +103,30 @@ class VCardTest extends TestCase
     }
 
     /**
+     * RFC 6350 allows any group name as a 'group.' prefix on properties
+     * (e.g. HOME.EMAIL or group1.TEL), not only the Apple-style 'item\d.'
+     * prefix. Such grouped properties must be parsed, not silently dropped.
+     */
+    public function test_parse_group_prefix()
+    {
+        $vcard = new \rcube_vcard("BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:Doe;Jane;;;\n"
+            . "FN:Jane Doe\n"
+            . "HOME.EMAIL:jane@example.com\n"
+            . "group1.TEL:+1234567890\n"
+            . 'END:VCARD'
+        );
+
+        $this->assertSame('jane@example.com', $vcard->email[0], 'Parse group-prefixed EMAIL');
+
+        $result = $vcard->get_assoc();
+
+        $this->assertSame('jane@example.com', $result['email:other'][0], 'Group-prefixed EMAIL in assoc data');
+        $this->assertSame('+1234567890', $result['phone:other'][0], 'Group-prefixed TEL in assoc data');
+    }
+
+    /**
      * Extra whitespace at start of continuation line (#9593/1).
      */
     public function test_parse_continuation_line_with_initial_whitespace()
