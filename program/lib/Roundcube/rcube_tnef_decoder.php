@@ -520,6 +520,12 @@ class rcube_tnef_decoder
         }
 
         while ($out < ($size + $length_preload)) {
+            // Bail out if the input is exhausted to avoid out-of-bounds reads
+            // on truncated/malformed payloads.
+            if ($in >= $max_len) {
+                break;
+            }
+
             if (($flag_count++ % 8) == 0) {
                 $flags = ord($data[$in++]);
             } else {
@@ -527,6 +533,11 @@ class rcube_tnef_decoder
             }
 
             if (($flags & 1) != 0) {
+                // The back-reference branch reads two more bytes.
+                if ($in + 1 >= $max_len) {
+                    break;
+                }
+
                 $offset = ord($data[$in++]);
                 $length = ord($data[$in++]);
                 $offset = ($offset << 4) | ($length >> 4);
@@ -544,12 +555,13 @@ class rcube_tnef_decoder
                     $out++;
                 }
             } else {
+                // The literal branch reads one more byte.
+                if ($in >= $max_len) {
+                    break;
+                }
+
                 $uncomp .= $data[$in++];
                 $out++;
-            }
-
-            if ($in >= $max_len) {
-                break;
             }
         }
 
