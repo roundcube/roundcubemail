@@ -250,4 +250,39 @@ class VCardTest extends TestCase
 
         $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
     }
+
+    /**
+     * A folded continuation line whose content equals END:VCARD (or surrounding
+     * whitespace around the real boundary) must not break block detection (#9593)
+     */
+    public function test_import_continuation_endvcard()
+    {
+        // The NOTE value is folded (RFC 2426) so its continuation line starts
+        // with a space and reads " END:VCARD". It must not end the first card,
+        // and the following card must still be detected.
+        $input = "BEGIN:VCARD\r\n"
+            . "VERSION:3.0\r\n"
+            . "FN:First Card\r\n"
+            . "N:Card;First;;;\r\n"
+            . "NOTE:This note folds onto a line reading\r\n"
+            . " END:VCARD\r\n"
+            . "EMAIL:first@example.com\r\n"
+            . "END:VCARD\r\n"
+            . "BEGIN:VCARD\r\n"
+            . "VERSION:3.0\r\n"
+            . "FN:Second Card\r\n"
+            . "N:Card;Second;;;\r\n"
+            . "END:VCARD\r\n";
+
+        $vcards = \rcube_vcard::import($input);
+
+        $this->assertCount(2, $vcards, 'Both vcards detected despite folded END:VCARD');
+        $this->assertSame('First Card', $vcards[0]->displayname, 'First card parsed fully');
+        $this->assertSame('Second Card', $vcards[1]->displayname, 'Second card still detected');
+
+        $assoc = $vcards[0]->get_assoc();
+        // The folded line is unfolded (RFC 2426 strips the single leading space).
+        $this->assertSame('This note folds onto a line readingEND:VCARD', $assoc['notes'][0], 'Folded NOTE value preserved');
+        $this->assertSame('first@example.com', $assoc['email:other'][0], 'EMAIL after folded line preserved');
+    }
 }
