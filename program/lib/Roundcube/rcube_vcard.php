@@ -755,7 +755,7 @@ class rcube_vcard
                             $value = strtoupper($value);
                             // add next line(s) to value string if QP line end detected
                             if ($value == 'QUOTED-PRINTABLE') {
-                                while (preg_match('/=$/', $lines[$i])) {
+                                while (isset($lines[$i]) && preg_match('/=$/', $lines[$i]) && isset($lines[$i + 1])) {
                                     $data .= "\n" . $lines[++$i];
                                 }
                             }
@@ -1049,7 +1049,7 @@ class rcube_vcard
                 $enc = $matches ? strtoupper($matches[1]) : 'BASE64';
                 // add next line(s) to value string if QP line end detected
                 if ($enc == 'QUOTED-PRINTABLE') {
-                    while (preg_match('/=$/', $lines[$i])) {
+                    while (isset($lines[$i]) && preg_match('/=$/', $lines[$i]) && isset($lines[$i + 1])) {
                         $data .= "\n" . $lines[++$i];
                     }
                 }
