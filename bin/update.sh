@@ -317,7 +317,7 @@ function repo_key($repo)
 function find_composer()
 {
     if (is_file(INSTALL_PATH . 'composer.phar')) {
-        return PHP_BINARY . 'composer.phar';
+        return PHP_BINARY . ' composer.phar';
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
