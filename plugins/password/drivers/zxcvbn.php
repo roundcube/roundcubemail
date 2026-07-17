@@ -1,5 +1,7 @@
 <?php
 
+use ZxcvbnPhp\Zxcvbn;
+
 /**
  * Zxcvb Password Strength Driver
  *
