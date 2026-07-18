@@ -168,7 +168,7 @@ if (strtolower($input) == 'y') {
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
             echo 'Installing JavaScript dependencies...';
-            system("cd {$target_dir} && " . \PHP_BINARY . " bin/install-jsdeps.sh");
+            system("cd {$target_dir} && " . \PHP_BINARY . ' bin/install-jsdeps.sh');
             echo "done.\n\n";
         }
     }
