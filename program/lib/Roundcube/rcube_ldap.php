@@ -526,7 +526,7 @@ class rcube_ldap extends rcube_addressbook
     #[\Override]
     public function get_name()
     {
-        return $this->prop['name'];
+        return $this->prop['name'] ?? '';
     }
 
     /**

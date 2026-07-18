@@ -385,13 +385,13 @@ class html
     /**
      * Replacing specials characters in html attribute value
      *
-     * @param string $str Input string
+     * @param ?string $str Input string
      *
      * @return string The quoted string
      */
-    public static function quote(string $str)
+    public static function quote($str)
     {
-        return @htmlspecialchars($str, \ENT_COMPAT | \ENT_SUBSTITUTE, RCUBE_CHARSET);
+        return @htmlspecialchars((string) $str, \ENT_COMPAT | \ENT_SUBSTITUTE, RCUBE_CHARSET);
     }
 }
 
