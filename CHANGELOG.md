@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Password: Fix fatal error "Class 'Zxcvbn' not found" (#10274)
+- Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
+
+## Release 1.6.17
+
 - Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
 - Enigma: Kolab WOAT Support (#8626)
 - Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
