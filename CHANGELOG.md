@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
+
+## Release 1.7.2
+
 - Add HEAD request handler to the `static.php`
 - Fix so the `oauth_password_claim` claim is retrieved via token or userinfo request (#9631)
 - Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
