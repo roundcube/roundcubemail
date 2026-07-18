@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- OAuth: Don't log an error when a refreshed token's TTL is below refresh_interval (#10213)
 - Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
 - Fix bug where searching in example_addressbook plugin was reporting zero results despite matches (#9022)
 
