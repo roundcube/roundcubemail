@@ -168,7 +168,7 @@ if (strtolower($input) == 'y') {
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
             echo 'Installing JavaScript dependencies...';
-            system("cd {$target_dir} && bin/install-jsdeps.sh");
+            system("cd {$target_dir} && " . \PHP_BINARY . ' bin/install-jsdeps.sh');
             echo "done.\n\n";
         }
     }
@@ -178,7 +178,7 @@ if (strtolower($input) == 'y') {
     }
 
     echo "Running update script at target...\n";
-    system("cd {$target_dir} && bin/update.sh --version={$oldversion}" . ($accept ? ' -y' : ''));
+    system("cd {$target_dir} && " . \PHP_BINARY . " bin/update.sh --version={$oldversion}" . ($accept ? ' -y' : ''));
     echo "All done.\n";
 } else {
     echo "Update cancelled. See ya!\n";

@@ -317,13 +317,13 @@ function repo_key($repo)
 function find_composer()
 {
     if (is_file(INSTALL_PATH . 'composer.phar')) {
-        return 'php composer.phar';
+        return \PHP_BINARY . ' composer.phar';
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
         $which = trim(rcube::exec("which {$check_file}"));
         if (!empty($which)) {
-            return $which;
+            return \PHP_BINARY . " {$which}";
         }
     }
 
