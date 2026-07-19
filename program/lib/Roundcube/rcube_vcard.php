@@ -562,6 +562,13 @@ class rcube_vcard
                 $vcard_block .= $line . "\n";
             }
 
+            // A folded/continuation line starts with whitespace (RFC 2426) and
+            // must never be mistaken for a block boundary. It is already kept as
+            // content above, so skip the boundary checks for it.
+            if (isset($line[0]) && ($line[0] === ' ' || $line[0] === "\t")) {
+                continue;
+            }
+
             $line = trim($line);
 
             if (preg_match('/^END:VCARD$/i', $line)) {
