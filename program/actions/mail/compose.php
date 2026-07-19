@@ -896,10 +896,14 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         $list = rcube_mime::decode_address_list($message->get_header('from'), 1, false, $message->headers->charset);
         $from = array_pop($list);
 
+        // Format the date in the sender's timezone and make the offset explicit,
+        // so the reference is unambiguous for every reader of the reply (#7352)
+        $date_format = $rcmail->config->get('date_long', 'Y-m-d H:i') . ' O';
+
         return $rcmail->gettext([
             'name' => 'mailreplyintro',
             'vars' => [
-                'date' => $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long')),
+                'date' => $rcmail->format_date($message->get_header('date'), $date_format, false),
                 'sender' => !empty($from['name']) ? $from['name'] : rcube_utils::idn_to_utf8($from['mailto']),
             ],
         ]);
@@ -925,7 +929,10 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
         }
 
         $rcmail = rcmail::get_instance();
-        $date = $rcmail->format_date($message->get_header('date'), $rcmail->config->get('date_long'));
+
+        // Format the date in the sender's timezone with an explicit offset (#7352)
+        $date_format = $rcmail->config->get('date_long', 'Y-m-d H:i') . ' O';
+        $date = $rcmail->format_date($message->get_header('date'), $date_format, false);
 
         if (!$bodyIsHtml) {
             $prefix = "\n\n\n-------- " . $rcmail->gettext('originalmessage') . " --------\n";

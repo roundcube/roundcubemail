@@ -316,5 +316,15 @@ class RcmailTest extends ActionTestCase
         $this->assertSame('Europe/Berlin', $date->getTimezone()->getName());
         $date = new \DateTime('2020-06-01 12:00:00', new \DateTimeZone('Europe/Berlin'));
         $this->assertSame('12:00 Europe/Berlin', $rcmail->format_date($date, 'H:i e', false));
+
+        // Test that string input preserves the timezone specified in the input (#7352)
+        $date = 'Tue, 28 Apr 2020 10:35:20 +0900';
+        $this->assertSame('2020-04-28 10:35 +0900', $rcmail->format_date($date, 'Y-m-d H:i O', false));
+        $this->assertSame('2020-04-28 01:35 +0000', $rcmail->format_date($date, 'Y-m-d H:i O', true));
+
+        // Invalid and zero dates
+        $this->assertSame('', $rcmail->format_date(''));
+        $this->assertSame('', $rcmail->format_date('an invalid date'));
+        $this->assertSame('', $rcmail->format_date('0000-00-00 00:00:00'));
     }
 }
