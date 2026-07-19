@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - OAuth: Don't log an error when a refreshed token's TTL is below refresh_interval (#10213)
 - Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
 - Fix bug where searching in example_addressbook plugin was reporting zero results despite matches (#9022)
+- Fix vCard import mis-detecting folded continuation lines as BEGIN/END:VCARD (#9593)
 
 ## Release 1.7.2
 
