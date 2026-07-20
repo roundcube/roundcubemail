@@ -741,8 +741,8 @@ class UtilsTest extends TestCase
      */
     public function test_strtotime()
     {
-        // this test depends on system timezone if not set
-        date_default_timezone_set('UTC');
+        // Make sure this does not depend on the system timezone being UTC
+        date_default_timezone_set('Europe/Warsaw');
 
         $test = [
             '1' => 1,
@@ -758,6 +758,8 @@ class UtilsTest extends TestCase
             '20130422' => 1366588800,
             '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
+            '17-Jul-1996 02:44:25 -0700' => 837596665, // RFC-3501
+            'Wed, 02 Oct 2002 08:00:00 -0700' => 1033570800, // RFC-822
         ];
 
         foreach ($test as $datetime => $ts) {

@@ -1171,10 +1171,9 @@ class rcube_utils
     public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
-        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
-        if (is_numeric($date)) {
+        if ($date === '' || is_numeric($date)) {
             return (int) $date;
         }
 
@@ -1182,6 +1181,10 @@ class rcube_utils
         if (strlen($date) > 128) {
             $date = substr($date, 0, 128);
         }
+
+        // Note we prefer UTC, if timezone is unknown, otherwise the result
+        // would depend on PHP/system timezone.
+        $tzname = $timezone ? ' ' . $timezone->getName() : ' UTC';
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
