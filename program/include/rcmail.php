@@ -1619,7 +1619,6 @@ class rcmail extends rcube
         if ($convert) {
             try {
                 // convert to the right timezone
-                $stz = date_default_timezone_get();
                 $tz = new \DateTimeZone($this->config->get('timezone'));
                 $date = clone $date; // don't modify the original object
                 $date->setTimezone($tz);
