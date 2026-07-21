@@ -80,4 +80,23 @@ class ComposeTest extends ActionTestCase
         $this->assertStringContainsString('replybody', $result);
         $this->assertStringContainsString('Hello world', $result);
     }
+
+    /**
+     * Test that "Edit as New" (MODE_EDIT) does not wrap the body in a <div> even
+     * when the stored message's <body> tag carries a style attribute (as added by
+     * send.php's default_font/default_font_size wrapping on every send). Without
+     * this, the body callback still forwards the style attribute into a new <div>
+     * on every edit/send cycle, so the accumulation from #9919 continues, just
+     * without the "editbody" id (#9919).
+     */
+    public function test_prepare_html_body_edit_mode_strips_body_style()
+    {
+        $body = '<html><head></head><body style="font-size: 10pt; font-family: Verdana,Geneva,sans-serif;">'
+            . "\r\n<p>Hello world</p></body></html>";
+
+        $result = $this->invoke_prepare_html_body(\rcmail_sendmail::MODE_EDIT, $body);
+
+        $this->assertStringNotContainsString('<div', $result);
+        $this->assertStringContainsString('Hello world', $result);
+    }
 }
