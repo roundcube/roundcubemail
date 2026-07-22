@@ -103,6 +103,36 @@ class VCardTest extends TestCase
     }
 
     /**
+     * A QUOTED-PRINTABLE soft-line-break ('=') on the very last line must not
+     * cause reading past the end of the internal lines array.
+     */
+    public function test_parse_qp_soft_break_on_last_line()
+    {
+        $errors = [];
+        set_error_handler(static function ($errno, $errstr) use (&$errors) {
+            $errors[] = $errstr;
+
+            return true;
+        });
+
+        try {
+            // Last line ends with '=' (QP soft line break) with no following line
+            $vcard_string = "BEGIN:VCARD\r\n"
+                . "VERSION:3.0\r\n"
+                . "FN:Test\r\n"
+                . 'NOTE;ENCODING=QUOTED-PRINTABLE:Hello=';
+
+            $vcard = new \rcube_vcard($vcard_string, null, true);
+            $result = $vcard->get_assoc();
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors, 'No PHP warnings/errors while decoding');
+        $this->assertSame('Hello', $result['notes'][0], 'Best-effort QP decode of the dangling line');
+    }
+
+    /**
      * Extra whitespace at start of continuation line (#9593/1).
      */
     public function test_parse_continuation_line_with_initial_whitespace()
