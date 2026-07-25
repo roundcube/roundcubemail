@@ -12,6 +12,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where the php session driver practically disabled session.lazy_write optimization (#9885, #10248)
 - Fix bug where dates could get displayed shifted back one day in some places (#9403)
 - Fix regression where it wasn't possible to hide a skin logo image anymore (#10254)
+- Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
 
 ## Release 1.7.2
 
