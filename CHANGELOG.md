@@ -24,12 +24,12 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
 - Fix bug where redis/memcache session could have been updated more often than needed
 - Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
-- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
-- Security: Fix various vulnerabilities in the password plugin using session-injected username
+- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193) [CVE-2026-62642]
+- Security: Fix various vulnerabilities in the password plugin using session-injected username [CVE-2026-62644]
 - Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
-- Security: Fix SSRF bypass via specific local address URLs - two new cases
+- Security: Fix SSRF bypass via specific local address URLs - two new cases [CVE-2026-62643]
 - Security: Fix zero-click stored XSS in plain-text rendering [CVE-2026-54433]
-- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file
+- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file [CVE-2026-62641]
 
 ## Release 1.7.1
 
