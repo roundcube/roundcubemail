@@ -4454,9 +4454,11 @@ if (window.rcmail) {
     /**
      * Elastic version of ksearch_results_display with small screen support
      */
-    rcmail.ksearch_results_display = function (fields, search_term) {
+    rcmail.ksearch_results_display = function (fields, search_term, photo) {
         var line = $('<li>')
-            .append($('<i>').addClass('icon'))
+            .append(photo
+                ? $('<img>').addClass('icon contact-photo').attr({ src: photo, alt: '' })
+                : $('<i>').addClass('icon'))
             .append($('<span>').addClass('fields'));
 
         $.each(fields, function (key, data) {
