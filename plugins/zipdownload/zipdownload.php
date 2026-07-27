@@ -1,5 +1,9 @@
 <?php
 
+use GuzzleHttp\Psr7\StreamWrapper;
+use Psr\Http\Message\StreamInterface;
+use ZipStream\ZipStream;
+
 /**
  * ZipDownload
  *
@@ -11,6 +15,7 @@
  * @author Philip Weir
  * @author Thomas Bruderli
  * @author Aleksander Machniak
+ * @author Christopher Gurnee
  */
 class zipdownload extends rcube_plugin
 {
@@ -122,6 +127,16 @@ class zipdownload extends rcube_plugin
     }
 
     /**
+     * Checks if ZipStream is installed and supported
+     *
+     * @return bool True if ZipStream is available
+     */
+    public static function zipstream_available()
+    {
+        return \PHP_INT_SIZE >= 8 && class_exists('ZipStream\ZipStream');
+    }
+
+    /**
      * Handler for attachment download action
      */
     public function download_attachments()
@@ -131,9 +146,26 @@ class zipdownload extends rcube_plugin
         // require CSRF protected request
         $rcmail->request_security_check(rcube_utils::INPUT_GET);
 
+        $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
+        $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
+
+        if (self::zipstream_available()) {
+            $this->_download_attachments_zipstream($message, $filename);
+        } else {
+            $this->_download_attachments_tempfile($message, $filename);
+        }
+    }
+
+    /**
+     * Perform attachment download using temporary files
+     *
+     * @param rcube_message $message  Where to retrieve attachments
+     * @param string        $filename Name to give to the download file
+     */
+    public function _download_attachments_tempfile($message, $filename)
+    {
         $tmpfname = rcube_utils::temp_filename('zipdownload');
         $tempfiles = [$tmpfname];
-        $message = new rcube_message(rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GET));
 
         // open zip file
         $zip = new \ZipArchive();
@@ -153,14 +185,41 @@ class zipdownload extends rcube_plugin
 
         $zip->close();
 
-        $filename = ($this->_filename_from_subject($message->subject) ?: 'attachments') . '.zip';
-
         $this->_deliver_zipfile($tmpfname, $filename);
 
         // delete temporary files from disk
         foreach ($tempfiles as $tmpfn) {
             unlink($tmpfn);
         }
+
+        exit;
+    }
+
+    /**
+     * Perform attachment download using ZipStream
+     *
+     * @param rcube_message $message  Where to retrieve attachments
+     * @param string        $filename Name to give to the download file
+     */
+    public function _download_attachments_zipstream($message, $filename)
+    {
+        $rcmail = rcmail::get_instance();
+        $rcmail->output->download_headers($filename);
+
+        $zip = new ZipStream(
+            sendHttpHeaders: false,
+            defaultDeflateLevel: 1,
+            flushOutput: true
+        );
+
+        foreach ($message->attachments as $part) {
+            $disp_name = $this->_create_displayname($part);
+            $fs = new \FiberStream(static fn ($fp) => $zip->addFileFromStream($disp_name, $fp));
+            $message->get_part_body($part->mime_id, false, 0, $fs->get_file());
+            $fs->close();
+        }
+
+        $zip->finish();
 
         exit;
     }
@@ -232,8 +291,6 @@ class zipdownload extends rcube_plugin
         $limit = $rcmail->config->get('zipdownload_selection', $this->default_limit);
         $limit = $limit !== true ? parse_bytes($limit) : -1;
         $delimiter = $imap->get_hierarchy_delimiter();
-        $tmpfname = rcube_utils::temp_filename('zipdownload');
-        $tempfiles = [$tmpfname];
         $folders = count($messageset) > 1;
         $timezone = new \DateTimeZone('UTC');
         $messages = [];
@@ -283,8 +340,6 @@ class zipdownload extends rcube_plugin
                 $size += $headers->size;
 
                 if ($limit > 0 && $size > $limit) {
-                    unlink($tmpfname);
-
                     $msg = $this->gettext([
                         'name' => 'sizelimiterror',
                         'vars' => ['$size' => rcmail_action::show_bytes($limit)],
@@ -297,11 +352,71 @@ class zipdownload extends rcube_plugin
             }
         }
 
+        $basename = $folders ? 'messages' : $imap->get_folder();
+        if (self::zipstream_available()) {
+            $this->_download_messages_zipstream($messages, $mode, $basename);
+        } else {
+            $this->_download_messages_tempfile($messages, $mode, $basename);
+        }
+    }
+
+    /**
+     * Helper method to add a single email to an mbox-style file stream
+     *
+     * @param resource     $stream      File stream to write to
+     * @param string       $header      Mbox header to write before the email
+     * @param string       $mbox        The mailbox folder containing the email
+     * @param string       $uid         The UID of the email to write
+     * @param bool         $is_last     Is this the last email in the mbox
+     * @param \FiberStream $fiberstream FiberStream, if any, associated with the $stream
+     */
+    private function _write_mbox_stream($stream, $header, $mbox, $uid, $is_last, $fiberstream = null)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+
+        fwrite($stream, $header);
+        $imap->set_folder($mbox);
+
+        // Use stream filter to quote "From " in the message body
+        $filter = stream_filter_append($stream, 'mbox_filter');
+        $imap->get_raw_body($uid, $stream);
+        stream_filter_remove($filter);
+
+        // Make sure the delimiter is a double \r\n
+        if ($fiberstream) {
+            $last_two = $fiberstream->get_last_two();  // if $stream doesn't support the functions below
+        } else {
+            $last_two = stream_get_contents($stream, 2, fstat($stream)['size'] - 2);
+        }
+        if ($last_two != "\r\n") {
+            fwrite($stream, "\r\n");
+        }
+        if (!$is_last) {
+            fwrite($stream, "\r\n");
+        }
+    }
+
+    /**
+     * Perform message download using temporary files
+     *
+     * @param array  $messages Map of uid:mbox => mbox_header or timestamp:display_name
+     * @param string $mode     The _mode POST parameter
+     * @param string $basename Name, without extension, to give to the download file
+     */
+    private function _download_messages_tempfile($messages, $mode, $basename)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+        $tmpfname = rcube_utils::temp_filename('zipdownload');
+        $tempfiles = [$tmpfname];
+
         if ($mode == 'mbox') {
             $tmpfp = fopen($tmpfname . '.mbox', 'w');
             if (!$tmpfp) {
                 exit;
             }
+            stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
         }
 
         // open zip file
@@ -311,28 +426,13 @@ class zipdownload extends rcube_plugin
         $last_key = array_key_last($messages);
         foreach ($messages as $key => $value) {
             [$uid, $mbox] = explode(':', $key, 2);
-            $imap->set_folder($mbox);
 
             if (!empty($tmpfp)) {
-                fwrite($tmpfp, $value);
-
-                // Use stream filter to quote "From " in the message body
-                stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
-                $filter = stream_filter_append($tmpfp, 'mbox_filter');
-                $imap->get_raw_body($uid, $tmpfp);
-                stream_filter_remove($filter);
-
-                // Make sure the delimiter is a double \r\n
-                $fstat = fstat($tmpfp);
-                if (stream_get_contents($tmpfp, 2, $fstat['size'] - 2) != "\r\n") {
-                    fwrite($tmpfp, "\r\n");
-                }
-                if ($key != $last_key) {
-                    fwrite($tmpfp, "\r\n");
-                }
+                $this->_write_mbox_stream($tmpfp, $value, $mbox, $uid, $key == $last_key);
             } else { // maildir
                 $tmpfn = rcube_utils::temp_filename('zipmessage');
                 $fp = fopen($tmpfn, 'w');
+                $imap->set_folder($mbox);
                 $imap->get_raw_body($uid, $fp);
                 $tempfiles[] = $tmpfn;
                 fclose($fp);
@@ -340,22 +440,67 @@ class zipdownload extends rcube_plugin
             }
         }
 
-        $filename = $folders ? 'messages' : $imap->get_folder();
-
         if (!empty($tmpfp)) {
             $tempfiles[] = $tmpfname . '.mbox';
             fclose($tmpfp);
-            $zip->addFile($tmpfname . '.mbox', $filename . '.mbox');
+            $zip->addFile($tmpfname . '.mbox', $basename . '.mbox');
         }
 
         $zip->close();
 
-        $this->_deliver_zipfile($tmpfname, $filename . '.zip');
+        $this->_deliver_zipfile($tmpfname, $basename . '.zip');
 
         // delete temporary files from disk
         foreach ($tempfiles as $tmpfn) {
             unlink($tmpfn);
         }
+
+        exit;
+    }
+
+    /**
+     * Perform message download using ZipStream
+     *
+     * @param array  $messages Map of uid:mbox => mbox_header or timestamp:display_name
+     * @param string $mode     The _mode POST parameter
+     * @param string $basename Name, without extension, to give to the download file
+     */
+    private function _download_messages_zipstream($messages, $mode, $basename)
+    {
+        $rcmail = rcmail::get_instance();
+        $imap = $rcmail->get_storage();
+
+        $rcmail->output->download_headers($basename . '.zip');
+
+        $zip = new ZipStream(
+            sendHttpHeaders: false,
+            defaultDeflateLevel: 1,
+            flushOutput: true
+        );
+
+        if ($mode == 'mbox') {
+            $fs = new \FiberStream(static fn ($fp) => $zip->addFileFromStream($basename . '.mbox', $fp));
+            stream_filter_register('mbox_filter', 'zipdownload_mbox_filter');
+        }
+
+        $last_key = array_key_last($messages);
+        foreach ($messages as $key => $value) {
+            [$uid, $mbox] = explode(':', $key, 2);
+
+            if ($mode == 'mbox') {
+                $this->_write_mbox_stream($fs->get_file(), $value, $mbox, $uid, $key == $last_key, $fs);
+            } else {  // maildir
+                $imap->set_folder($mbox);
+                $fs = new \FiberStream(static fn ($fp) => $zip->addFileFromStream($value, $fp));
+                $imap->get_raw_body($uid, $fs->get_file());
+                $fs->close();
+            }
+        }
+
+        if ($mode == 'mbox') {
+            $fs->close();
+        }
+        $zip->finish();
 
         exit;
     }
@@ -411,5 +556,216 @@ class zipdownload_mbox_filter extends \php_user_filter
         }
 
         return \PSFS_PASS_ON;
+    }
+}
+
+/**
+ * Consider a source of data, which writes to a standard file stream, and
+ * a destination of data, which reads from that stream, via this pattern:
+ *     $stream = fopen(..., 'w+');
+ *     write_all_to_stream($stream);
+ *     rewind($stream);
+ *     read_entire_stream($stream);
+ * The stream must be backed by something, typically a temp file or a
+ * php://memory file. As an alternative, a FiberStream can be used:
+ *     $fs = new FiberStream('read_entire_stream');  // arg is a callable
+ *     write_all_to_stream($fs->get_file());
+ *     $fs->close();
+ * The FiberStream allows the source to fwrite() up to a certain limit (the
+ * chunk_size, defaulting to 512 KiB), and then transfers control to the
+ * destination, which will fread() until the buffer is emptied, after which
+ * it will transfer control back to the source to begin writing again. By
+ * using a Fiber to switch back and forth, only a limited amount of buffer
+ * space is required, typically around 1 to 2 times the chunk_size.
+ */
+final class FiberStream implements StreamInterface
+{
+    public const DEFAULT_CHUNK_SIZE = 512 * 1024;
+    private $chunk_size;
+    private $dest_fiber;
+    private $write_file;
+    private $read_file;
+    private $buffer = '';
+    private $read_pos = 0;
+    private $last_two = '';
+    private $closing = false;
+    private $closed = false;
+
+    /**
+     * @param callable(resource): mixed $dest       Called by FiberStream to read an entire file stream
+     * @param int                       $chunk_size The stream's chunk size and desired buffer limit
+     */
+    public function __construct(callable $dest, $chunk_size = self::DEFAULT_CHUNK_SIZE)
+    {
+        $this->chunk_size = $chunk_size;
+        $this->dest_fiber = new \Fiber(function () use ($dest) {
+            $this->read_file = StreamWrapper::getResource($this);
+            stream_set_chunk_size($this->read_file, $this->chunk_size);
+            $dest($this->read_file);
+        });
+        $this->write_file = StreamWrapper::getResource($this);
+        stream_set_chunk_size($this->write_file, $chunk_size);
+    }
+
+    /**
+     * @return resource A file stream an entire file should be written to
+     */
+    public function get_file()
+    {
+        return $this->write_file;
+    }
+
+    /**
+     * Start or resume the destination fiber
+     */
+    private function run_dest_fiber()
+    {
+        if (!$this->dest_fiber->isStarted()) {
+            $this->dest_fiber->start();
+        } else {
+            $this->dest_fiber->resume();
+        }
+    }
+
+    private function check_not_closed()
+    {
+        if ($this->closed || $this->dest_fiber->isTerminated()) {
+            throw new \RuntimeException('FiberStream is closed');
+        }
+    }
+
+    #[\Override]
+    public function write($string): int
+    {
+        $this->check_not_closed();
+        $this->buffer .= $string;
+        $last = substr($this->buffer, -2);
+        if (strlen($last) == 2) {
+            $this->last_two = $last;
+        } elseif (strlen($last) == 1) {
+            $this->last_two = substr($this->last_two, -1) . $last;
+        }
+        if (strlen($this->buffer) >= $this->chunk_size) {
+            $this->run_dest_fiber();  // suspend writer/source and allow dest to read() the buffer
+        }
+        return strlen($string);
+    }
+
+    public function get_last_two()
+    {
+        return $this->last_two;  // for _write_mbox_stream()
+    }
+
+    #[\Override]
+    public function read($length): string
+    {
+        $this->check_not_closed();
+        if (\Fiber::getCurrent() !== $this->dest_fiber) {
+            throw new \RuntimeException('Only the dest callable may call FiberStream::read');
+        }
+        if (strlen($this->buffer) == 0 && !$this->closing) {
+            $this->dest_fiber->suspend();  // suspend reader/dest and allow source to write() more
+        }
+        $result = substr($this->buffer, $this->read_pos, $length);
+        $this->read_pos += $length;
+        if ($this->read_pos >= strlen($this->buffer)) {
+            $this->buffer = '';
+            $this->read_pos = 0;
+        }
+        return $result;
+    }
+
+    #[\Override]
+    public function eof(): bool
+    {
+        return $this->closing && $this->read_pos >= strlen($this->buffer);
+    }
+
+    /**
+     * Do not call fclose() on any files received from a FiberStream (e.g. from get_file()),
+     * instead call this which will close the files in the correct order.
+     */
+    #[\Override]
+    public function close(): void
+    {
+        if (!$this->closed) {
+            fclose($this->write_file);  // Can cause more calls to our write()/read()/eof(),
+            $this->closing = true;      // so wait until those calls have completed and only then set this flag.
+            $this->check_not_closed();  // Ensure dest_fiber hasn't returned early;
+            $this->run_dest_fiber();    // runs until dest returns, it's expected to read() until eof.
+            fclose($this->read_file);
+            $this->buffer = '';
+            $this->closed = true;
+        }
+    }
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return $this->getContents();
+    }
+
+    #[\Override]
+    public function getContents(): string
+    {
+        $buffer = $this->buffer;
+        $this->buffer = '';
+        $this->read_pos = 0;
+        return $buffer;
+    }
+
+    #[\Override]
+    public function detach()
+    {
+        $this->close();
+        return null;
+    }
+
+    #[\Override]
+    public function getSize(): ?int
+    {
+        return null;
+    }
+
+    #[\Override]
+    public function isReadable(): bool
+    {
+        return \Fiber::getCurrent() === $this->dest_fiber;
+    }
+
+    #[\Override]
+    public function isWritable(): bool
+    {
+        return \Fiber::getCurrent() !== $this->dest_fiber;
+    }
+
+    #[\Override]
+    public function isSeekable(): bool
+    {
+        return false;
+    }
+
+    #[\Override]
+    public function rewind(): void
+    {
+        $this->seek(0);
+    }
+
+    #[\Override]
+    public function seek($offset, $whence = \SEEK_SET): void
+    {
+        throw new \RuntimeException('Cannot seek a FiberStream');
+    }
+
+    #[\Override]
+    public function tell(): int
+    {
+        throw new \RuntimeException('Cannot determine the position of a FiberStream');
+    }
+
+    #[\Override]
+    public function getMetadata($key = null)
+    {
+        return $key ? null : [];
     }
 }
