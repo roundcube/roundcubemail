@@ -395,19 +395,48 @@ class zipdownload extends rcube_plugin
 
 class zipdownload_mbox_filter extends \php_user_filter
 {
+    /** @var string Buffer holding an incomplete trailing line between chunks */
+    private $buffer = '';
+
     #[\Override]
     #[\ReturnTypeWillChange]
     public function filter($in, $out, &$consumed, $closing)
     {
+        // The message body is written to the stream in arbitrary chunks (see
+        // rcube_imap_generic::handlePartBody(), which writes up to 1 MB at a
+        // time), not line by line. We therefore buffer across chunks and quote
+        // every complete line that starts with "From " (mboxrd escaping),
+        // keeping any incomplete trailing line for the next chunk.
         while ($bucket = stream_bucket_make_writeable($in)) {
-            // messages are read line by line
-            if (preg_match('/^>*From /', $bucket->data)) {
-                $bucket->data = '>' . $bucket->data;
-                $bucket->datalen++;
+            $consumed += (int) $bucket->datalen;
+            $this->buffer .= $bucket->data;
+        }
+
+        $data = '';
+
+        while (($pos = strpos($this->buffer, "\n")) !== false) {
+            $line = substr($this->buffer, 0, $pos + 1);
+            $this->buffer = substr($this->buffer, $pos + 1);
+
+            if (preg_match('/^>*From /', $line)) {
+                $line = '>' . $line;
             }
 
-            $consumed += (int) $bucket->datalen;
-            stream_bucket_append($out, $bucket);
+            $data .= $line;
+        }
+
+        // Flush the last line (which may have no trailing newline) on close.
+        if ($closing && $this->buffer !== '') {
+            if (preg_match('/^>*From /', $this->buffer)) {
+                $this->buffer = '>' . $this->buffer;
+            }
+
+            $data .= $this->buffer;
+            $this->buffer = '';
+        }
+
+        if ($data !== '') {
+            stream_bucket_append($out, stream_bucket_new($this->stream, $data));
         }
 
         return \PSFS_PASS_ON;
