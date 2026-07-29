@@ -257,11 +257,29 @@ html.dark-mode {
 
     .listing li ul,
     .listing tbody td,
-    .listing li {
+    .listing li,
+    .listing li ul li:first-child {
         border-color: @color-dark-list-border;
     }
 
-    .listing li.selected,
+    #subscription-table {
+        .placeholder {
+            /* color-dark-list-border is a little too dark here, so we use the input border color */
+            border-color: @color-dark-input-border;
+        }
+
+        .hover {
+            background-color: @color-dark-list-droptarget-background;
+        }
+        .ui-sortable-helper {
+            background-color: rgba(@color-dark-background, 50%);
+
+            &.selected > a {
+                background-color: rgba(@color-dark-list-selected-background, 0.7);
+            }
+        }
+    }
+
     .listing li.selected > a,
     .listing li.selected > div > a, // this is used e.g. by kolab_addressbook
     .listing tr.selected td {
@@ -269,12 +287,8 @@ html.dark-mode {
         background-color: @color-dark-list-selected-background;
     }
 
-    .listing li.selected ul {
-        background-color: @color-dark-background;
-
-        div.treetoggle {
-            color: @color-dark-font;
-        }
+    .listing li.selected ul div.treetoggle {
+        color: @color-dark-font;
     }
 
     .listing {

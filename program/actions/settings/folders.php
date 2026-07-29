@@ -34,6 +34,7 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
         $storage = $rcmail->get_storage();
 
         $rcmail->output->set_pagetitle($rcmail->gettext('folders'));
+        $rcmail->output->set_env('folder_ordered_manually', !empty($rcmail->user->get_prefs()['folder_order']));
         $rcmail->output->set_env('prefix_ns', $storage->get_namespace('prefix'));
         $rcmail->output->set_env('quota', (bool) $storage->get_capability('QUOTA'));
         $rcmail->output->include_script('treelist.js');
@@ -262,6 +263,10 @@ class rcmail_action_settings_folders extends rcmail_action_settings_index
             'id' => $idx,
             'class' => trim($data['class'] . ' mailbox'),
         ];
+        // Only allow reordering of non-protected folders.
+        if ($data['protected']) {
+            $attribs['class'] .= ' protected';
+        }
 
         if (!isset($data['level'])) {
             $data['level'] = 0;
