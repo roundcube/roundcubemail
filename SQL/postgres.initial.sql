@@ -290,7 +290,7 @@ CREATE TABLE cache_messages (
     user_id integer NOT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     mailbox varchar(255) NOT NULL,
-    uid integer NOT NULL,
+    uid bigint NOT NULL,
     expires timestamp with time zone,
     data text NOT NULL,
     flags integer NOT NULL DEFAULT 0,
