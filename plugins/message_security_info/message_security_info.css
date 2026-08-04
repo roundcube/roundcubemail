@@ -51,7 +51,7 @@
 .msgsec-table td {
     padding: .35em 0;
     vertical-align: top;
-    word-break: break-word;
+    overflow-wrap: break-word;
     /* Preserve the newline the DKIM row uses to put its mismatch note on its
        own line; ordinary single-line values are unaffected. */
     white-space: pre-line;

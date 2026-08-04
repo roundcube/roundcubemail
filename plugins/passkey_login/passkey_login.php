@@ -144,6 +144,9 @@ class passkey_login extends rcube_plugin
             case 'plugin.passkey_remove':
                 $this->action_remove();  // exits
                 break;
+            default:
+                // Not one of our endpoints; let normal dispatch continue.
+                break;
         }
 
         return $args;
@@ -248,7 +251,7 @@ class passkey_login extends rcube_plugin
         $this->rc->session->write_close();
 
         $this->json([
-            'found' => count($credentials) > 0,
+            'found' => !empty($credentials),
             'credentials' => $credentials,
             'challenge' => $challenge,
         ]);
@@ -283,12 +286,7 @@ class passkey_login extends rcube_plugin
         $client_json = base64_decode((string) rcube_utils::get_input_string('client_data', rcube_utils::INPUT_POST), true);
         $signature = base64_decode((string) rcube_utils::get_input_string('signature', rcube_utils::INPUT_POST), true);
 
-        if (
-            !$this->valid_b64($cred_id, self::MAX_CRED_ID)
-            || $auth_data === false || strlen($auth_data) < 37
-            || $client_json === false || $client_json === ''
-            || $signature === false || $signature === ''
-        ) {
+        if ($this->assertion_malformed($cred_id, $auth_data, $client_json, $signature)) {
             $this->json(['ok' => false, 'error' => 'malformed']);
         }
 
@@ -306,16 +304,70 @@ class passkey_login extends rcube_plugin
 
         // 1) clientDataJSON: correct ceremony, our challenge, our origin.
         $client = json_decode($client_json, true);
-        if (
-            !is_array($client)
-            || ($client['type'] ?? '') !== 'webauthn.get'
-            || !hash_equals($challenge, (string) ($client['challenge'] ?? ''))
-            || !$this->origin_allowed((string) ($client['origin'] ?? ''))
-        ) {
+        if (!$this->client_data_valid($client, $challenge)) {
             $this->json(['ok' => false, 'error' => 'client_data']);
         }
 
-        // 2) authenticatorData: RP ID hash, user present + verified.
+        // 2-4) authenticatorData, assertion signature and the cloned-authenticator
+        // counter; persists the new counter. Emits a JSON error and exits on any
+        // failure, so reaching the next line means the assertion is valid.
+        $this->verify_authenticator($row, $auth_data, $client_json, $signature, $db, $cred_id);
+
+        $this->json(['ok' => true]);
+    }
+
+    /**
+     * Structural validation of the decoded assertion inputs.
+     *
+     * @param string       $cred_id     Credential id (base64url)
+     * @param string|false $auth_data   Decoded authenticatorData
+     * @param string|false $client_json Decoded clientDataJSON
+     * @param string|false $signature   Decoded assertion signature
+     *
+     * @return bool True if any field is missing, malformed or out of bounds
+     */
+    private function assertion_malformed($cred_id, $auth_data, $client_json, $signature)
+    {
+        return !$this->valid_b64($cred_id, self::MAX_CRED_ID)
+            || $auth_data === false || strlen($auth_data) < 37
+            || $client_json === false || $client_json === ''
+            || $signature === false || $signature === '';
+    }
+
+    /**
+     * Validate the decoded clientDataJSON: correct ceremony type, our single-use
+     * challenge, and an accepted origin.
+     *
+     * @param mixed  $client    Decoded clientDataJSON (array on success)
+     * @param string $challenge The challenge issued by action_check()
+     *
+     * @return bool
+     */
+    private function client_data_valid($client, $challenge)
+    {
+        return is_array($client)
+            && ($client['type'] ?? '') === 'webauthn.get'
+            && hash_equals($challenge, (string) ($client['challenge'] ?? ''))
+            && $this->origin_allowed((string) ($client['origin'] ?? ''));
+    }
+
+    /**
+     * Verify authenticatorData (RP ID hash + user-present/verified flags), the
+     * assertion signature over authenticatorData || SHA-256(clientDataJSON), and
+     * the cloned-authenticator sign counter; then persist the new counter.
+     *
+     * Emits a JSON error and exits on any failure.
+     *
+     * @param array    $row         Stored credential row (public_key, sign_count)
+     * @param string   $auth_data   Decoded authenticatorData
+     * @param string   $client_json Decoded clientDataJSON
+     * @param string   $signature   Decoded assertion signature
+     * @param rcube_db $db          Database handle
+     * @param string   $cred_id     Credential id (base64url)
+     */
+    private function verify_authenticator($row, $auth_data, $client_json, $signature, $db, $cred_id)
+    {
+        // authenticatorData: RP ID hash, user present + verified.
         if (!hash_equals(hash('sha256', $this->rp_id(), true), substr($auth_data, 0, 32))) {
             $this->json(['ok' => false, 'error' => 'rpid']);
         }
@@ -325,7 +377,7 @@ class passkey_login extends rcube_plugin
         }
         $sign_count = unpack('N', substr($auth_data, 33, 4))[1];
 
-        // 3) signature over authenticatorData || SHA-256(clientDataJSON).
+        // signature over authenticatorData || SHA-256(clientDataJSON).
         $pem = $this->spki_to_pem($row['public_key']);
         $pubkey = $pem ? openssl_pkey_get_public($pem) : false;
         if (!$pubkey) {
@@ -337,7 +389,7 @@ class passkey_login extends rcube_plugin
             $this->json(['ok' => false, 'error' => 'signature']);
         }
 
-        // 4) cloned-authenticator detection via the signature counter.
+        // cloned-authenticator detection via the signature counter.
         $stored = (int) $row['sign_count'];
         if (($sign_count > 0 || $stored > 0) && $sign_count <= $stored) {
             $this->json(['ok' => false, 'error' => 'counter']);
@@ -347,8 +399,6 @@ class passkey_login extends rcube_plugin
             'UPDATE ' . $db->table_name('passkey_login', true) . ' SET `sign_count` = ? WHERE `cred_id` = ?',
             $sign_count, $cred_id
         );
-
-        $this->json(['ok' => true]);
     }
 
     /**

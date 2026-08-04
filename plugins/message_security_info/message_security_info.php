@@ -111,26 +111,20 @@ class message_security_info extends rcube_plugin
 
         $args['blocks']['main']['name'] = $this->gettext('securitysection');
 
-        // Lazy-load placeholder until the section is actually opened.
         if (empty($args['current'])) {
+            // Lazy-load placeholder until the section is actually opened.
             $args['blocks']['main']['content'] = true;
+        } elseif (!$this->pref_locked()) {
+            // Admin may lock the setting via dont_override; otherwise render it.
+            $field_id = 'rcmfd_message_security_extra_headers';
+            $textarea = new html_textarea(['name' => '_extra_headers', 'id' => $field_id, 'rows' => 8, 'cols' => 40]);
 
-            return $args;
+            $args['blocks']['main']['options']['extra_headers'] = [
+                'title' => html::label($field_id, rcube::Q($this->gettext('extraheaders'))),
+                'content' => $textarea->show(implode("\n", $this->extra_headers()))
+                    . html::div('hint', rcube::Q($this->gettext('extraheadershint'))),
+            ];
         }
-
-        // Admin may lock the setting via dont_override.
-        if ($this->pref_locked()) {
-            return $args;
-        }
-
-        $field_id = 'rcmfd_message_security_extra_headers';
-        $textarea = new html_textarea(['name' => '_extra_headers', 'id' => $field_id, 'rows' => 8, 'cols' => 40]);
-
-        $args['blocks']['main']['options']['extra_headers'] = [
-            'title' => html::label($field_id, rcube::Q($this->gettext('extraheaders'))),
-            'content' => $textarea->show(implode("\n", $this->extra_headers()))
-                . html::div('hint', rcube::Q($this->gettext('extraheadershint'))),
-        ];
 
         return $args;
     }
@@ -324,19 +318,25 @@ class message_security_info extends rcube_plugin
     {
         switch ($entry['result']) {
             case 'pass':
-                return $method === 'dkim' && !$this->aligned($entry['domain'], $from) ? 'warn' : 'pass';
+                $status = $method === 'dkim' && !$this->aligned($entry['domain'], $from) ? 'warn' : 'pass';
+                break;
             case 'fail':
-                return 'fail';
+                $status = 'fail';
+                break;
             case 'softfail':
             case 'neutral':
             case 'policy':
             case 'permerror':
-                return 'warn';
+                $status = 'warn';
+                break;
             case 'temperror':
-                return 'unknown';
+                $status = 'unknown';
+                break;
             default: // none, etc.
-                return 'none';
+                $status = 'none';
         }
+
+        return $status;
     }
 
     /**
@@ -520,11 +520,7 @@ class message_security_info extends rcube_plugin
         }
 
         // A version clause without a recognised transmission type still implies TLS.
-        if ($detail !== null) {
-            return ['encrypted' => true, 'detail' => $detail];
-        }
-
-        return null;
+        return $detail !== null ? ['encrypted' => true, 'detail' => $detail] : null;
     }
 
     /**

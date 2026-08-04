@@ -50,8 +50,8 @@ var rcube_passkey = (function () {
     function b64encode(buf) {
         var bytes = toBytes(buf),
             bin = '';
-        for (var i = 0; i < bytes.length; i++) {
-            bin += String.fromCharCode(bytes[i]);
+        for (var b of bytes) {
+            bin += String.fromCodePoint(b);
         }
         return btoa(bin);
     }
@@ -60,17 +60,19 @@ var rcube_passkey = (function () {
         var bin = atob(str),
             bytes = new Uint8Array(bin.length);
         for (var i = 0; i < bin.length; i++) {
-            bytes[i] = bin.charCodeAt(i);
+            bytes[i] = bin.codePointAt(i);
         }
         return bytes;
     }
 
     function b64urlEncode(buf) {
-        return b64encode(buf).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        // b64 padding is only ever a run of trailing '=', so dropping every '='
+        // is equivalent to the anchored /=+$/ strip but avoids a backtracking regex.
+        return b64encode(buf).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
     }
 
     function b64urlDecode(str) {
-        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        str = str.replaceAll('-', '+').replaceAll('_', '/');
         while (str.length % 4) {
             str += '=';
         }
@@ -123,9 +125,8 @@ var rcube_passkey = (function () {
     function supported() {
         return !!(window.isSecureContext
             && window.PublicKeyCredential
-            && navigator.credentials
-            && navigator.credentials.get
-            && navigator.credentials.create
+            && navigator.credentials?.get
+            && navigator.credentials?.create
             && window.crypto && crypto.subtle);
     }
 
@@ -149,15 +150,15 @@ var rcube_passkey = (function () {
     }
 
     function dbg() {
-        if (window.console && window.console.log) {
-            window.console.log.apply(window.console, ['[passkey_login]'].concat(Array.prototype.slice.call(arguments)));
+        if (window.console?.log) {
+            window.console.log('[passkey_login]', ...arguments);
         }
     }
 
     function prfResult(credential) {
         var ext = credential.getClientExtensionResults ? credential.getClientExtensionResults() : {};
-        dbg('prf extension result:', ext && ext.prf);
-        if (ext && ext.prf && ext.prf.results && ext.prf.results.first) {
+        dbg('prf extension result:', ext?.prf);
+        if (ext?.prf?.results?.first) {
             return toBytes(ext.prf.results.first);
         }
         return null;
@@ -259,9 +260,9 @@ var rcube_passkey = (function () {
                 }
                 var usedId = b64urlEncode(assertion.rawId),
                     match = null;
-                for (var i = 0; i < credentials.length; i++) {
-                    if (credentials[i].credId === usedId) {
-                        match = credentials[i];
+                for (var cred of credentials) {
+                    if (cred.credId === usedId) {
+                        match = cred;
                         break;
                     }
                 }
@@ -288,7 +289,7 @@ var rcube_passkey = (function () {
                             // reproducible (it reported support but doesn't
                             // really work — e.g. Firefox on Windows). This is
                             // the only reliable proof that PRF works here.
-                            dbg('signin: decryption failed -> PRF not usable', err && err.name);
+                            dbg('signin: decryption failed -> PRF not usable', err?.name);
                             throw new Error('prf_unsupported');
                         }
                     );
@@ -307,86 +308,22 @@ var rcube_passkey = (function () {
 
 // ----------------------------------------------------------------------
 // Login-page controller
+//
+// Wrapped in its own scope so the many small helpers below live beside the
+// controller rather than nested inside it (keeping each function simple)
+// without leaking generic names like show()/label() into the global scope.
 // ----------------------------------------------------------------------
 
-function rcube_passkey_login() {
-    var env = rcmail.env.passkey_login || {},
-        user = document.getElementById('rcmloginuser'),
-        pass = document.getElementById('rcmloginpwd'),
-        host = document.getElementById('rcmloginhost'),
-        submit = document.getElementById('rcmloginsubmit'),
-        form = (user && user.form) || document.getElementById('login-form');
+(function () {
+    var PRF_KEY = 'passkey_login_prf';
+    // Remember the last authentication method used on this device so the next
+    // login can default to it (and so we can offer the matching switch link).
+    var METHOD_COOKIE = 'passkey_login_method';
 
-    if (!user || !pass || !form) {
-        return;
-    }
-
-    // A pending enrollment only survives a *successful* login (it is read on
-    // the next authenticated page). If we are back on the login page, any
-    // pending blob is stale (e.g. the password was wrong) and must be dropped.
-    try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (e) {}
-
-    var PRF_KEY = 'passkey_login_prf',
-        webauthn = rcube_passkey.supported(),
-        prfSupported = null, // null = unknown, true/false once known
-        state = 'username',
-        credentials = [],
-        challenge = null;
-
-    // Remember a real PRF outcome per browser. This is the only reliable
-    // signal: getClientCapabilities() is missing on some browsers (Firefox)
-    // and a few misreport, so once an actual ceremony tells us PRF does/doesn't
-    // work we trust that and stop guessing.
-    function rememberPrf(value) {
-        prfSupported = value;
-        try {
-            if (window.localStorage) {
-                window.localStorage.setItem(PRF_KEY, value ? '1' : '0');
-            }
-        } catch (e) {}
-    }
-
-    // Some browsers advertise PRF support they can't actually deliver — most
-    // notably Firefox on Windows, where the failure surfaces only as an
-    // OS-level "security key can't be used" dialog and a generic, cancel-like
-    // error indistinguishable from a real user cancellation. Runtime detection
-    // is therefore unreliable, so an explicit user-agent exclude list
-    // (configurable, default Firefox) simply turns passkeys off for them.
-    if (env.excluded_browsers && env.excluded_browsers.length) {
-        var ua = navigator.userAgent || '';
-        for (var i = 0; i < env.excluded_browsers.length; i++) {
-            if (env.excluded_browsers[i] && ua.indexOf(env.excluded_browsers[i]) !== -1) {
-                prfSupported = false;
-                break;
-            }
-        }
-    }
-
-    // Otherwise remember a real per-browser outcome (the only fully reliable
-    // signal), then fall back to a best-effort capability query.
-    if (prfSupported === null) {
-        try {
-            if (window.localStorage) {
-                var cached = window.localStorage.getItem(PRF_KEY);
-                if (cached === '0') {
-                    prfSupported = false;
-                } else if (cached === '1') {
-                    prfSupported = true;
-                }
-            }
-        } catch (e) {}
-    }
-
-    if (webauthn && prfSupported === null) {
-        rcube_passkey.prfCapable().then(function (v) {
-            if (v !== null && prfSupported === null) {
-                prfSupported = v;
-            }
-        });
-    }
+    // ---- small DOM/util helpers ---------------------------------------
 
     function row_of(el) {
-        return el ? ((el.closest && el.closest('tr')) || el.parentNode) : null;
+        return el ? (el.closest?.('tr') || el.parentNode) : null;
     }
 
     function show(el, visible) {
@@ -395,95 +332,19 @@ function rcube_passkey_login() {
         }
     }
 
+    function insertAfter(node, ref) {
+        ref.parentNode.insertBefore(node, ref.nextSibling);
+    }
+
     function label(name) {
         return rcmail.get_label(name, 'passkey_login');
     }
 
-    // Remember the last authentication method used on this device so the next
-    // login can default to it (and so we can offer the matching switch link).
-    var METHOD_COOKIE = 'passkey_login_method';
-
-    function setMethod(value) {
-        try {
-            var secure = location.protocol === 'https:' ? '; Secure' : '';
-            // 30 days, in seconds.
-            document.cookie = METHOD_COOKIE + '=' + value
-                + '; Max-Age=' + (30 * 24 * 60 * 60) + '; Path=/; SameSite=Lax' + secure;
-        } catch (e) {}
-    }
-
-    function lastMethod() {
-        try {
-            var m = document.cookie.match(/(?:^|;\s*)passkey_login_method=([^;]*)/);
-            return m ? decodeURIComponent(m[1]) : null;
-        } catch (e) {
-            return null;
-        }
-    }
-
-    // Whether a passkey sign-in can be offered right now: the browser supports
-    // it, PRF isn't known-broken, and we have credentials + an unused challenge.
-    function passkeyAvailable() {
-        return !!(webauthn && prfSupported !== false && credentials.length && challenge);
-    }
-
-    var pass_row = row_of(pass),
-        host_row = host ? row_of(host) : null,
-        buttons = (submit && submit.parentNode) || form;
-
-    // --- injected controls ---------------------------------------------
-
-    var next = mkbutton('passkey-next', label('next'));
-    buttons.insertBefore(next, submit || null);
-
-    var signinBtn = mkbutton('passkey-signin', label('signinpasskey'));
-    signinBtn.classList.add('passkey-signin');
-    buttons.insertBefore(signinBtn, submit || null);
-
-    var status = document.createElement('div');
-    status.id = 'passkey-status';
-    status.className = 'passkey-status';
-    buttons.appendChild(status);
-
-    var change = mklink('passkey-change', label('changeuser'));
-    var usepass = mklink('passkey-usepass', label('usepassword'));
-    var usepasskey = mklink('passkey-usepasskey', label('usepasskey'));
-    buttons.appendChild(usepass);
-    buttons.appendChild(usepasskey);
-    buttons.appendChild(change);
-
-    // Enrollment opt-in (shown on the password step when supported).
-    var enrollWrap = null, enrollBox = null;
-    if (webauthn && env.enroll) {
-        enrollWrap = document.createElement('label');
-        enrollWrap.id = 'passkey-enroll-row';
-        enrollWrap.className = 'passkey-enroll';
-        enrollBox = document.createElement('input');
-        enrollBox.type = 'checkbox';
-        enrollBox.id = 'passkey-enroll';
-        enrollWrap.appendChild(enrollBox);
-        enrollWrap.appendChild(document.createTextNode(' ' + label('enrolllabel')));
-        if (pass_row && pass_row.parentNode) {
-            insertAfter(enrollWrap, pass_row);
-        } else {
-            buttons.insertBefore(enrollWrap, submit || null);
-        }
-    }
-
-    // Match the skin's styling of the primary button once it has run its init.
-    window.setTimeout(function () {
-        if (submit) {
-            var cls = submit.className;
-            next.className = cls + ' passkey-next';
-            signinBtn.className = cls + ' passkey-signin';
-        }
-    }, 0);
-
-    function mkbutton(id, text) {
+    function mkbutton(ctx, id, text) {
         var b = document.createElement('button');
         b.type = 'button';
         b.id = id;
-        b.className = (submit ? submit.className + ' ' : 'button mainaction submit ') + id;
+        b.className = (ctx.submit ? ctx.submit.className + ' ' : 'button mainaction submit ') + id;
         b.textContent = text;
         return b;
     }
@@ -497,85 +358,178 @@ function rcube_passkey_login() {
         return a;
     }
 
-    function insertAfter(node, ref) {
-        ref.parentNode.insertBefore(node, ref.nextSibling);
+    function setStatus(ctx, text, isError) {
+        ctx.status.textContent = text || '';
+        ctx.status.className = 'passkey-status' + (isError ? ' error' : '');
+        show(ctx.status, !!text);
     }
 
-    function setStatus(text, isError) {
-        status.textContent = text || '';
-        status.className = 'passkey-status' + (isError ? ' error' : '');
-        show(status, !!text);
+    // ---- PRF support memory -------------------------------------------
+
+    // Remember a real PRF outcome per browser. This is the only reliable
+    // signal: getClientCapabilities() is missing on some browsers (Firefox)
+    // and a few misreport, so once an actual ceremony tells us PRF does/doesn't
+    // work we trust that and stop guessing.
+    function rememberPrf(ctx, value) {
+        ctx.prfSupported = value;
+        try {
+            if (window.localStorage) {
+                window.localStorage.setItem(PRF_KEY, value ? '1' : '0');
+            }
+        } catch (e) { /* localStorage unavailable — non-fatal */ }
     }
 
-    // --- states ---------------------------------------------------------
-
-    function toUsername() {
-        state = 'username';
-        form.classList.remove('passkey-step-password', 'passkey-step-passkey');
-        form.classList.add('passkey-login', 'passkey-step-username');
-        show(pass_row, false);
-        show(host_row, true);
-        show(submit, false);
-        show(signinBtn, false);
-        show(next, true);
-        show(change, false);
-        show(usepass, false);
-        show(usepasskey, false);
-        show(enrollWrap, false);
-        setStatus('');
-        pass.removeAttribute('required');
-        user.removeAttribute('readonly');
-        try { user.focus(); } catch (e) {}
+    // Some browsers advertise PRF support they can't actually deliver — most
+    // notably Firefox on Windows, where the failure surfaces only as an
+    // OS-level "security key can't be used" dialog and a generic, cancel-like
+    // error indistinguishable from a real user cancellation. Runtime detection
+    // is therefore unreliable, so an explicit user-agent exclude list
+    // (configurable, default Firefox) simply turns passkeys off for them.
+    function applyExcludedBrowsers(ctx) {
+        if (!ctx.env.excluded_browsers?.length) {
+            return;
+        }
+        var ua = navigator.userAgent || '';
+        for (var name of ctx.env.excluded_browsers) {
+            if (name && ua.includes(name)) {
+                ctx.prfSupported = false;
+                break;
+            }
+        }
     }
 
-    function toPasskey() {
-        state = 'passkey';
-        form.classList.remove('passkey-step-username', 'passkey-step-password');
-        form.classList.add('passkey-login', 'passkey-step-passkey');
-        show(pass_row, false);
-        show(host_row, false);
-        show(submit, false);
-        show(next, false);
-        show(signinBtn, true);
-        show(change, true);
-        show(usepass, true);
-        show(usepasskey, false);
-        show(enrollWrap, false);
-        pass.removeAttribute('required');
-        user.setAttribute('readonly', 'readonly');
-        try { signinBtn.focus(); } catch (e) {}
+    // Otherwise remember a real per-browser outcome (the only fully reliable
+    // signal), then fall back to a best-effort capability query.
+    function applyCachedPrf(ctx) {
+        if (!window.localStorage) {
+            return;
+        }
+        var cached = null;
+        // Guard only the storage read; the branches below can't throw.
+        try {
+            cached = window.localStorage.getItem(PRF_KEY);
+        } catch (e) { /* localStorage blocked — leave undetermined */ }
+        if (cached === '0') {
+            ctx.prfSupported = false;
+        } else if (cached === '1') {
+            ctx.prfSupported = true;
+        }
     }
 
-    function toPassword() {
-        state = 'password';
-        form.classList.remove('passkey-step-username', 'passkey-step-passkey');
-        form.classList.add('passkey-login', 'passkey-step-password');
-        show(pass_row, true);
-        show(host_row, false);
-        show(submit, true);
-        show(next, false);
-        show(signinBtn, false);
-        show(change, true);
-        show(usepass, false);
+    function queryPrfCapability(ctx) {
+        rcube_passkey.prfCapable().then(function (v) {
+            if (v !== null && ctx.prfSupported === null) {
+                ctx.prfSupported = v;
+            }
+        });
+    }
+
+    function detectPrfSupport(ctx) {
+        applyExcludedBrowsers(ctx);
+        if (ctx.prfSupported === null) {
+            applyCachedPrf(ctx);
+        }
+        if (ctx.webauthn && ctx.prfSupported === null) {
+            queryPrfCapability(ctx);
+        }
+    }
+
+    // ---- method cookie -------------------------------------------------
+
+    function setMethod(value) {
+        var secure = location.protocol === 'https:' ? '; Secure' : '';
+        // 30 days, in seconds. Guard only the cookie write.
+        try {
+            document.cookie = METHOD_COOKIE + '=' + value
+                + '; Max-Age=' + (30 * 24 * 60 * 60) + '; Path=/; SameSite=Lax' + secure;
+        } catch (e) { /* cookies unavailable — non-fatal */ }
+    }
+
+    function lastMethod() {
+        var cookie;
+        // Guard only the cookie read; parsing below can't throw.
+        try {
+            cookie = document.cookie;
+        } catch (e) { /* cookie unreadable — treat as no preference */ return null; }
+        var m = /(?:^|;\s*)passkey_login_method=([^;]*)/.exec(cookie);
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+
+    // Whether a passkey sign-in can be offered right now: the browser supports
+    // it, PRF isn't known-broken, and we have credentials + an unused challenge.
+    function passkeyAvailable(ctx) {
+        return !!(ctx.webauthn && ctx.prfSupported !== false && ctx.credentials.length && ctx.challenge);
+    }
+
+    // ---- step transitions ---------------------------------------------
+
+    function toUsername(ctx) {
+        ctx.state = 'username';
+        ctx.form.classList.remove('passkey-step-password', 'passkey-step-passkey');
+        ctx.form.classList.add('passkey-login', 'passkey-step-username');
+        show(ctx.pass_row, false);
+        show(ctx.host_row, true);
+        show(ctx.submit, false);
+        show(ctx.signinBtn, false);
+        show(ctx.next, true);
+        show(ctx.change, false);
+        show(ctx.usepass, false);
+        show(ctx.usepasskey, false);
+        show(ctx.enrollWrap, false);
+        setStatus(ctx, '');
+        ctx.pass.removeAttribute('required');
+        ctx.user.removeAttribute('readonly');
+        try { ctx.user.focus(); } catch (e) { /* focus is best-effort */ }
+    }
+
+    function toPasskey(ctx) {
+        ctx.state = 'passkey';
+        ctx.form.classList.remove('passkey-step-username', 'passkey-step-password');
+        ctx.form.classList.add('passkey-login', 'passkey-step-passkey');
+        show(ctx.pass_row, false);
+        show(ctx.host_row, false);
+        show(ctx.submit, false);
+        show(ctx.next, false);
+        show(ctx.signinBtn, true);
+        show(ctx.change, true);
+        show(ctx.usepass, true);
+        show(ctx.usepasskey, false);
+        show(ctx.enrollWrap, false);
+        ctx.pass.removeAttribute('required');
+        ctx.user.setAttribute('readonly', 'readonly');
+        try { ctx.signinBtn.focus(); } catch (e) { /* focus is best-effort */ }
+    }
+
+    function toPassword(ctx) {
+        ctx.state = 'password';
+        ctx.form.classList.remove('passkey-step-username', 'passkey-step-passkey');
+        ctx.form.classList.add('passkey-login', 'passkey-step-password');
+        show(ctx.pass_row, true);
+        show(ctx.host_row, false);
+        show(ctx.submit, true);
+        show(ctx.next, false);
+        show(ctx.signinBtn, false);
+        show(ctx.change, true);
+        show(ctx.usepass, false);
         // Offer switching (back) to passkey only when one can actually be used.
-        show(usepasskey, passkeyAvailable());
+        show(ctx.usepasskey, passkeyAvailable(ctx));
         // Only offer enrollment when PRF support isn't known to be missing.
-        show(enrollWrap, prfSupported !== false);
-        if (enrollBox) {
-            enrollBox.checked = false;
+        show(ctx.enrollWrap, ctx.prfSupported !== false);
+        if (ctx.enrollBox) {
+            ctx.enrollBox.checked = false;
         }
-        if (submit) {
-            submit.disabled = false; // recover if a prior submit disabled it
+        if (ctx.submit) {
+            ctx.submit.disabled = false; // recover if a prior submit disabled it
         }
-        pass.setAttribute('required', 'required');
-        user.setAttribute('readonly', 'readonly');
-        try { pass.focus(); } catch (e) {}
+        ctx.pass.setAttribute('required', 'required');
+        ctx.user.setAttribute('readonly', 'readonly');
+        try { ctx.pass.focus(); } catch (e) { /* focus is best-effort */ }
     }
 
-    // --- behaviour ------------------------------------------------------
+    // ---- behaviour -----------------------------------------------------
 
-    function realSubmit() {
-        HTMLFormElement.prototype.submit.call(form);
+    function realSubmit(ctx) {
+        HTMLFormElement.prototype.submit.call(ctx.form);
     }
 
     // Re-establish the temp login session and pull a fresh CSRF token so a
@@ -583,11 +537,11 @@ function rcube_passkey_login() {
     // submit, even if the PHP session expired while the page sat idle.
     // Best-effort: on failure the existing token is kept. Updates both
     // rcmail.env.request_token and the form's hidden _token field.
-    function refresh_token() {
-        if (!env.token_url) {
+    function refresh_token(ctx) {
+        if (!ctx.env.token_url) {
             return Promise.resolve();
         }
-        return fetch(env.token_url, {
+        return fetch(ctx.env.token_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -598,9 +552,9 @@ function rcube_passkey_login() {
         })
             .then(function (r) { return r.json(); })
             .then(function (data) {
-                if (data && data.token) {
+                if (data?.token) {
                     rcmail.env.request_token = data.token;
-                    var tokenField = form.querySelector('input[name="_token"]');
+                    var tokenField = ctx.form.querySelector('input[name="_token"]');
                     if (tokenField) {
                         tokenField.value = data.token;
                     }
@@ -609,23 +563,43 @@ function rcube_passkey_login() {
             .catch(function () { /* keep the existing token */ });
     }
 
-    function advance() {
-        var name = (user.value || '').replace(/^\s+|\s+$/g, '');
+    function afterCheck(ctx, data) {
+        ctx.next.disabled = false;
+        setStatus(ctx, '');
+        if (ctx.webauthn && ctx.prfSupported !== false
+            && data?.found && data.credentials?.length && data.challenge
+        ) {
+            ctx.credentials = data.credentials;
+            ctx.challenge = data.challenge;
+            // Default to whichever method this device used last; the
+            // password step still offers a link back to the passkey.
+            if (lastMethod() === 'password') {
+                toPassword(ctx);
+            } else {
+                toPasskey(ctx);
+            }
+        } else {
+            toPassword(ctx);
+        }
+    }
+
+    function advance(ctx) {
+        var name = (ctx.user.value || '').trim();
         if (!name) {
-            user.classList.add('error');
-            try { user.focus(); } catch (e) {}
+            ctx.user.classList.add('error');
+            try { ctx.user.focus(); } catch (e) { /* focus is best-effort */ }
             return;
         }
-        user.classList.remove('error');
-        user.setAttribute('readonly', 'readonly');
-        next.disabled = true;
-        setStatus(label('checking'));
+        ctx.user.classList.remove('error');
+        ctx.user.setAttribute('readonly', 'readonly');
+        ctx.next.disabled = true;
+        setStatus(ctx, label('checking'));
 
         // Refresh the CSRF token first so the check/verify and the eventual
         // login submit all use a token valid for the current session.
-        refresh_token()
+        refresh_token(ctx)
             .then(function () {
-                return fetch(env.check_url, {
+                return fetch(ctx.env.check_url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -636,35 +610,17 @@ function rcube_passkey_login() {
                 });
             })
             .then(function (r) { return r.json(); })
-            .then(function (data) {
-                next.disabled = false;
-                setStatus('');
-                if (webauthn && prfSupported !== false
-                    && data && data.found && data.credentials && data.credentials.length && data.challenge
-                ) {
-                    credentials = data.credentials;
-                    challenge = data.challenge;
-                    // Default to whichever method this device used last; the
-                    // password step still offers a link back to the passkey.
-                    if (lastMethod() === 'password') {
-                        toPassword();
-                    } else {
-                        toPasskey();
-                    }
-                } else {
-                    toPassword();
-                }
-            })
+            .then(function (data) { afterCheck(ctx, data); })
             .catch(function () {
-                next.disabled = false;
-                setStatus('');
+                ctx.next.disabled = false;
+                setStatus(ctx, '');
                 // Network/endpoint problem: fall back to password login.
-                toPassword();
+                toPassword(ctx);
             });
     }
 
-    function verifyAssertion(payload) {
-        return fetch(env.verify_url, {
+    function verifyAssertion(ctx, payload) {
+        return fetch(ctx.env.verify_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -675,46 +631,46 @@ function rcube_passkey_login() {
         })
             .then(function (r) { return r.json(); })
             .then(function (v) {
-                if (!v || !v.ok) {
-                    throw new Error('verify_failed:' + ((v && v.error) || 'unknown'));
+                if (!v?.ok) {
+                    throw new Error('verify_failed:' + (v?.error || 'unknown'));
                 }
                 return true;
             });
     }
 
-    function doSignin() {
-        signinBtn.disabled = true;
-        setStatus(label('passkeyprompt'));
-        rcube_passkey.signin(user.value, credentials, challenge)
+    function doSignin(ctx) {
+        ctx.signinBtn.disabled = true;
+        setStatus(ctx, label('passkeyprompt'));
+        rcube_passkey.signin(ctx.user.value, ctx.credentials, ctx.challenge)
             .then(function (r) {
-                rememberPrf(true); // PRF worked on this browser
+                rememberPrf(ctx, true); // PRF worked on this browser
                 // The server must confirm the assertion before we submit.
-                return verifyAssertion(r.verify).then(function () {
-                    pass.value = r.password;
-                    setStatus(label('passkeyok'));
+                return verifyAssertion(ctx, r.verify).then(function () {
+                    ctx.pass.value = r.password;
+                    setStatus(ctx, label('passkeyok'));
                     setMethod('passkey'); // remember for next time on this device
-                    realSubmit();
+                    realSubmit(ctx);
                 });
             })
             .catch(function (err) {
-                signinBtn.disabled = false;
-                challenge = null; // consumed/!valid; a new one is needed
-                if (err && err.message === 'prf_unsupported') {
-                    rememberPrf(false); // stop offering passkeys on this browser
+                ctx.signinBtn.disabled = false;
+                ctx.challenge = null; // consumed/!valid; a new one is needed
+                if (err?.message === 'prf_unsupported') {
+                    rememberPrf(ctx, false); // stop offering passkeys on this browser
                 }
-                setStatus(label('passkeyfailed'), true);
+                setStatus(ctx, label('passkeyfailed'), true);
                 if (window.console) {
                     console.warn('passkey_login: sign-in failed', err);
                 }
                 // offer the password fallback
-                toPassword();
+                toPassword(ctx);
             });
     }
 
-    function enrollThenSubmit() {
-        submit.disabled = true;
-        setStatus(label('enrolling'));
-        rcube_passkey.enroll(user.value, pass.value, env.rp_name)
+    function enrollThenSubmit(ctx) {
+        ctx.submit.disabled = true;
+        setStatus(ctx, label('enrolling'));
+        rcube_passkey.enroll(ctx.user.value, ctx.pass.value, ctx.env.rp_name)
             .then(function (blob) {
                 // NB: a successful enrollment is NOT proof that PRF works — some
                 // browsers (Firefox/Windows) produce a PRF output that encrypts
@@ -728,13 +684,13 @@ function rcube_passkey_login() {
                         public_key: blob.public_key,
                         alg: blob.alg,
                     }));
-                } catch (e) {}
+                } catch (e) { /* sessionStorage unavailable — store step is skipped */ }
                 // The user just opted into passkeys — prefer them next time.
                 setMethod('passkey');
-                realSubmit();
+                realSubmit(ctx);
             })
             .catch(function (err) {
-                submit.disabled = false;
+                ctx.submit.disabled = false;
                 if (window.console) {
                     console.warn('passkey_login: enrollment failed', err);
                 }
@@ -743,118 +699,220 @@ function rcube_passkey_login() {
                 // normal password login. We intentionally do NOT auto-submit:
                 // realSubmit() would navigate away before the message is read,
                 // which is what made failures (e.g. on Firefox) look mysterious.
-                var reason = err && err.message;
+                var reason = err?.message;
                 if (reason === 'prf_unsupported' || reason === 'pubkey_unavailable') {
                     // Definitive: this browser can't produce what passkey
                     // encryption needs. Stop offering passkeys here.
-                    rememberPrf(false);
+                    rememberPrf(ctx, false);
                 }
-                setStatus(label(reason === 'prf_unsupported' ? 'prfunsupported' : 'enrollfailed'), true);
+                setStatus(ctx, label(reason === 'prf_unsupported' ? 'prfunsupported' : 'enrollfailed'), true);
 
                 // Clear the opt-in so the next Login click signs in with the
                 // password instead of retrying enrollment.
-                if (enrollBox) {
-                    enrollBox.checked = false;
+                if (ctx.enrollBox) {
+                    ctx.enrollBox.checked = false;
                 }
             });
     }
 
-    next.addEventListener('click', function (e) { e.preventDefault(); advance(); });
-    signinBtn.addEventListener('click', function (e) { e.preventDefault(); doSignin(); });
-    change.addEventListener('click', function (e) { e.preventDefault(); toUsername(); });
-    usepass.addEventListener('click', function (e) { e.preventDefault(); toPassword(); });
-    usepasskey.addEventListener('click', function (e) { e.preventDefault(); toPasskey(); });
+    // ---- DOM construction & wiring ------------------------------------
 
-    // Roundcube's own login-form handler (program/js/app.js) shows a
-    // persistent "Loading…" message and disables the submit button on every
-    // submit event, without preventing navigation. For the submits we
-    // intercept (the username step, and the enrollment step which we re-submit
-    // programmatically) we must keep that handler from running — otherwise the
-    // page is left stuck on "Loading…" with the button disabled and no request
-    // sent. A capture-phase listener on the document runs before the
-    // form-bound handler, so stopPropagation() here suppresses it. The plain
-    // password submit is allowed to propagate so the form posts normally.
-    document.addEventListener('submit', function (e) {
-        if (e.target !== form) {
+    function buildEnrollRow(ctx) {
+        ctx.enrollWrap = null;
+        ctx.enrollBox = null;
+        if (!(ctx.webauthn && ctx.env.enroll)) {
             return;
         }
-        if (state === 'username') {
+        var enrollWrap = document.createElement('label');
+        enrollWrap.id = 'passkey-enroll-row';
+        enrollWrap.className = 'passkey-enroll';
+        var enrollBox = document.createElement('input');
+        enrollBox.type = 'checkbox';
+        enrollBox.id = 'passkey-enroll';
+        enrollWrap.appendChild(enrollBox);
+        enrollWrap.appendChild(document.createTextNode(' ' + label('enrolllabel')));
+        ctx.enrollWrap = enrollWrap;
+        ctx.enrollBox = enrollBox;
+        if (ctx.pass_row?.parentNode) {
+            insertAfter(enrollWrap, ctx.pass_row);
+        } else {
+            ctx.buttons.insertBefore(enrollWrap, ctx.submit || null);
+        }
+    }
+
+    function buildControls(ctx) {
+        var next = mkbutton(ctx, 'passkey-next', label('next'));
+        ctx.next = next;
+        ctx.buttons.insertBefore(next, ctx.submit || null);
+
+        var signinBtn = mkbutton(ctx, 'passkey-signin', label('signinpasskey'));
+        signinBtn.classList.add('passkey-signin');
+        ctx.signinBtn = signinBtn;
+        ctx.buttons.insertBefore(signinBtn, ctx.submit || null);
+
+        var status = document.createElement('div');
+        status.id = 'passkey-status';
+        status.className = 'passkey-status';
+        ctx.status = status;
+        ctx.buttons.appendChild(status);
+
+        ctx.change = mklink('passkey-change', label('changeuser'));
+        ctx.usepass = mklink('passkey-usepass', label('usepassword'));
+        ctx.usepasskey = mklink('passkey-usepasskey', label('usepasskey'));
+        ctx.buttons.appendChild(ctx.usepass);
+        ctx.buttons.appendChild(ctx.usepasskey);
+        ctx.buttons.appendChild(ctx.change);
+
+        buildEnrollRow(ctx);
+
+        // Copy the real submit button's styling onto our buttons once the skin
+        // has finished decorating it (deferred a tick so class changes land).
+        window.setTimeout(function () {
+            if (ctx.submit) {
+                var cls = ctx.submit.className;
+                ctx.next.className = cls + ' passkey-next';
+                ctx.signinBtn.className = cls + ' passkey-signin';
+            }
+        }, 0);
+    }
+
+    function onFormSubmit(ctx, e) {
+        if (e.target !== ctx.form) {
+            return;
+        }
+        if (ctx.state === 'username') {
             e.preventDefault();
             e.stopPropagation();
-            advance();
-        } else if (state === 'password' && enrollBox && enrollBox.checked) {
+            advance(ctx);
+        } else if (ctx.state === 'password' && ctx.enrollBox?.checked) {
             e.preventDefault();
             e.stopPropagation();
-            enrollThenSubmit();
-        } else if (state === 'password') {
+            enrollThenSubmit(ctx);
+        } else if (ctx.state === 'password') {
             // Plain password login: record the method, then submit normally.
             setMethod('password');
         }
-    }, true);
-
-    toUsername();
-}
-
-// ----------------------------------------------------------------------
-// Authenticated-page tail: persist a pending enrollment, then forget it
-// ----------------------------------------------------------------------
-
-function rcube_passkey_flush_pending() {
-    if (window.self !== window.top) {
-        return; // never run inside a content iframe
     }
 
-    var env = rcmail.env.passkey_login || {},
-        raw;
+    function wireEvents(ctx) {
+        ctx.next.addEventListener('click', function (e) { e.preventDefault(); advance(ctx); });
+        ctx.signinBtn.addEventListener('click', function (e) { e.preventDefault(); doSignin(ctx); });
+        ctx.change.addEventListener('click', function (e) { e.preventDefault(); toUsername(ctx); });
+        ctx.usepass.addEventListener('click', function (e) { e.preventDefault(); toPassword(ctx); });
+        ctx.usepasskey.addEventListener('click', function (e) { e.preventDefault(); toPasskey(ctx); });
 
-    try { raw = window.sessionStorage.getItem(rcube_passkey.PENDING_KEY); } catch (e) { return; }
-    if (!raw || !env.store_url) {
-        return;
+        // Roundcube's own login-form handler (program/js/app.js) shows a
+        // persistent "Loading…" message and disables the submit button on every
+        // submit event, without preventing navigation. For the submits we
+        // intercept (the username step, and the enrollment step which we re-submit
+        // programmatically) we must keep that handler from running — otherwise the
+        // page is left stuck on "Loading…" with the button disabled and no request
+        // sent. A capture-phase listener on the document runs before the
+        // form-bound handler, so stopPropagation() here suppresses it. The plain
+        // password submit is allowed to propagate so the form posts normally.
+        document.addEventListener('submit', function (e) { onFormSubmit(ctx, e); }, true);
     }
 
-    var data;
-    try { data = JSON.parse(raw); } catch (e) {
-        try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (e2) {}
-        return;
+    function rcube_passkey_login() {
+        var user = document.getElementById('rcmloginuser'),
+            pass = document.getElementById('rcmloginpwd'),
+            host = document.getElementById('rcmloginhost'),
+            submit = document.getElementById('rcmloginsubmit'),
+            form = user?.form || document.getElementById('login-form');
+
+        if (!user || !pass || !form) {
+            return;
+        }
+
+        // A pending enrollment only survives a *successful* login (it is read on
+        // the next authenticated page). If we are back on the login page, any
+        // pending blob is stale (e.g. the password was wrong) and must be dropped.
+        try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (e) { /* no sessionStorage — nothing to drop */ }
+
+        var ctx = {
+            env: rcmail.env.passkey_login || {},
+            user: user,
+            pass: pass,
+            host: host,
+            submit: submit,
+            form: form,
+            webauthn: rcube_passkey.supported(),
+            prfSupported: null, // null = unknown, true/false once known
+            state: 'username',
+            credentials: [],
+            challenge: null,
+        };
+        ctx.pass_row = row_of(pass);
+        ctx.host_row = host ? row_of(host) : null;
+        ctx.buttons = submit?.parentNode || form;
+
+        detectPrfSupport(ctx);
+        buildControls(ctx);
+        wireEvents(ctx);
+        toUsername(ctx);
     }
 
-    fetch(env.store_url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Roundcube-Request': rcmail.env.request_token || '',
-        },
-        body: new URLSearchParams({
-            cred_id: data.cred_id,
-            iv: data.iv,
-            secret: data.secret,
-            public_key: data.public_key,
-            alg: data.alg,
-        }).toString(),
-        credentials: 'same-origin',
-    })
-        .then(function (r) { return r.json(); })
-        .then(function (res) {
-            if (res && res.ok) {
-                // Stored — forget the pending blob.
-                try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (e) {}
-            } else if (window.console) {
-                // Keep the blob so it retries on the next page load, and make
-                // the reason visible (e.g. {error: "db"} => check the table).
-                console.warn('passkey_login: storing the passkey failed', res);
-            }
+    // ----------------------------------------------------------------------
+    // Authenticated-page tail: persist a pending enrollment, then forget it
+    // ----------------------------------------------------------------------
+
+    function rcube_passkey_flush_pending() {
+        if (window.self !== window.top) {
+            return; // never run inside a content iframe
+        }
+
+        var env = rcmail.env.passkey_login || {},
+            raw;
+
+        try { raw = window.sessionStorage.getItem(rcube_passkey.PENDING_KEY); } catch (e) { return; }
+        if (!raw || !env.store_url) {
+            return;
+        }
+
+        var data;
+        try { data = JSON.parse(raw); } catch (e) {
+            try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (error_) { /* best-effort cleanup */ }
+            return;
+        }
+
+        fetch(env.store_url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Roundcube-Request': rcmail.env.request_token || '',
+            },
+            body: new URLSearchParams({
+                cred_id: data.cred_id,
+                iv: data.iv,
+                secret: data.secret,
+                public_key: data.public_key,
+                alg: data.alg,
+            }).toString(),
+            credentials: 'same-origin',
         })
-        .catch(function (err) {
-            if (window.console) {
-                console.warn('passkey_login: store request failed', err);
-            }
-        });
-}
-
-window.rcmail && rcmail.addEventListener('init', function () {
-    if (document.getElementById('rcmloginuser')) {
-        rcube_passkey_login();
-    } else {
-        rcube_passkey_flush_pending();
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (res?.ok) {
+                    // Stored — forget the pending blob.
+                    try { window.sessionStorage.removeItem(rcube_passkey.PENDING_KEY); } catch (e) { /* nothing to clean up */ }
+                } else if (window.console) {
+                    // Keep the blob so it retries on the next page load, and make
+                    // the reason visible (e.g. {error: "db"} => check the table).
+                    console.warn('passkey_login: storing the passkey failed', res);
+                }
+            })
+            .catch(function (err) {
+                if (window.console) {
+                    console.warn('passkey_login: store request failed', err);
+                }
+            });
     }
-});
+
+    window.rcmail && rcmail.addEventListener('init', function () {
+        if (document.getElementById('rcmloginuser')) {
+            rcube_passkey_login();
+        } else {
+            rcube_passkey_flush_pending();
+        }
+    });
+})();

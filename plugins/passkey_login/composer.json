@@ -3,11 +3,12 @@
     "type": "roundcube-plugin",
     "description": "Username-first login with optional passkey (WebAuthn) sign-in. The IMAP password is stored only as ciphertext, encrypted in the browser with a key derived from the passkey via the WebAuthn PRF extension; the server never sees the key or the plaintext.",
     "license": "GPL-3.0-or-later",
-    "version": "1.0",
+    "version": "1.1",
     "authors": [
         {
-            "name": "Claude",
-            "role": "Lead"
+            "name": "Jari Turkia",
+            "email": "jatu@hqcodeshop.fi",
+            "role": "Developer"
         }
     ],
     "require": {
