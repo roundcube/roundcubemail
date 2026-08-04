@@ -82,6 +82,7 @@ class message_security_info extends rcube_plugin
                 $this->add_texts('localization/', true);
                 $this->include_script('message_security_info.js');
                 $this->add_hook('message_objects', [$this, 'message_objects']);
+                $this->add_hook('message_headers_output', [$this, 'headers_output']);
             }
         }
     }
@@ -653,13 +654,14 @@ class message_security_info extends rcube_plugin
     }
 
     /**
-     * The visible From value for display: the human-readable display name
-     * (when present) alongside the address, as `Name <local@domain>`. Showing
-     * both makes a deceptive/obfuscated display name — a common phishing trick —
-     * obvious next to the real address the DKIM/SPF/DMARC checks apply to.
-     * Returns null when there is no From header.
+     * The decoded From display name and address as ['name' => …, 'addr' => …],
+     * or null when there is no From header. The name has control/formatting
+     * characters (bidi overrides, zero-width, …) stripped so it can't spoof the
+     * UI, while keeping the visible — possibly confusable — glyphs. `name` is
+     * empty when there is no real display name (Roundcube otherwise fills it
+     * with the address).
      */
-    private function from_address($headers)
+    private function from_parts($headers)
     {
         $from = $headers->from ?? null;
         if (!$from) {
@@ -676,25 +678,75 @@ class message_security_info extends rcube_plugin
             $addr = strtolower($m[0]);
         }
 
-        // Strip control and formatting characters (bidi overrides, zero-width,
-        // etc.) so the popup itself can't be spoofed, while keeping the visible
-        // — possibly confusable — glyphs that are the point of showing it.
         $clean = preg_replace('/[\p{Cc}\p{Cf}]/u', '', $name);
         if ($clean !== null) {
             $name = trim($clean);
         }
 
-        if ($addr === '') {
-            return $name !== '' ? $name : null;
+        // Drop the name when it is really just the address repeated.
+        if ($name !== '' && strcasecmp($name, $addr) === 0) {
+            $name = '';
         }
 
-        // Roundcube fills the name with the address when there's no real
-        // display name; only show it when it differs from the address.
-        if ($name !== '' && strcasecmp($name, $addr) !== 0) {
-            return $name . ' <' . $addr . '>';
+        return ['name' => $name, 'addr' => $addr];
+    }
+
+    /**
+     * The visible From value for display: the human-readable display name
+     * (when present) alongside the address, as `Name <local@domain>`. Showing
+     * both makes a deceptive/obfuscated display name — a common phishing trick —
+     * obvious next to the real address the DKIM/SPF/DMARC checks apply to.
+     * Returns null when there is no From header.
+     */
+    private function from_address($headers)
+    {
+        $parts = $this->from_parts($headers);
+        if (!$parts) {
+            return null;
         }
 
-        return $addr;
+        if ($parts['addr'] === '') {
+            return $parts['name'] !== '' ? $parts['name'] : null;
+        }
+
+        if ($parts['name'] !== '') {
+            return $parts['name'] . ' <' . $parts['addr'] . '>';
+        }
+
+        return $parts['addr'];
+    }
+
+    /**
+     * message_headers_output hook: when the From header shows a display name
+     * (which hides the real address behind it), append the actual address so a
+     * deceptive name — e.g. a homograph of a trusted sender — can't disguise
+     * where the mail really came from. A green DKIM/DMARC verdict only proves
+     * the signing domain, not that the visible name is honest.
+     */
+    public function headers_output($args)
+    {
+        if (empty($args['output']['from']) || empty($args['headers'])) {
+            return $args;
+        }
+
+        $parts = $this->from_parts($args['headers']);
+        // Nothing to add when there is no distinct name or no address — the
+        // address is then already the visible text.
+        if (!$parts || $parts['name'] === '' || $parts['addr'] === '') {
+            return $args;
+        }
+
+        $addr = html::span('msgsec-from-addr', '&lt;' . rcube::Q($parts['addr']) . '&gt;');
+
+        if (!empty($args['output']['from']['html'])) {
+            $args['output']['from']['value'] .= ' ' . $addr;
+        } else {
+            // Plain-text value: switch to HTML so our escaped span is rendered.
+            $args['output']['from']['value'] = rcube::Q($args['output']['from']['value']) . ' ' . $addr;
+            $args['output']['from']['html'] = true;
+        }
+
+        return $args;
     }
 
     /**

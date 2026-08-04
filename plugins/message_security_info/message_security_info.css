@@ -76,6 +76,15 @@ code.msgsec-value {
     margin-right: .25em;
 }
 
+/* Real address appended after a display name on the message From header, so a
+   deceptive name can't hide where the mail actually came from. */
+.msgsec-from-addr {
+    margin-left: .4em;
+    font-weight: normal;
+    opacity: .75;
+    word-break: break-all;
+}
+
 /* ---- DKIM marker on the message From header ------------------------- */
 
 .msgsec-from-marker {
