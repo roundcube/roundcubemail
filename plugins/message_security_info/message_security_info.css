@@ -15,7 +15,7 @@
 
 /* Ensure the icon font even on skins that don't extend it onto these links. */
 .msgsec-link::before {
-    font-family: 'Icons';
+    font-family: 'Icons', sans-serif;
     font-weight: 900;
 }
 
@@ -40,10 +40,21 @@
     font-weight: bold;
 }
 
+/* The dialog already draws a separator under its title; drop the border the
+   skin puts on the first row (From) so there isn't a second, shorter line
+   stacked just below it. */
+.msgsec-table tr:first-child > th,
+.msgsec-table tr:first-child > td {
+    border-top: 0;
+}
+
 .msgsec-table td {
     padding: .35em 0;
     vertical-align: top;
     word-break: break-word;
+    /* Preserve the newline the DKIM row uses to put its mismatch note on its
+       own line; ordinary single-line values are unaffected. */
+    white-space: pre-line;
 }
 
 /* Raw header values: monospace, wrapping. The neutral colour is forced inline
@@ -64,3 +75,28 @@ code.msgsec-value {
     font-weight: bold;
     margin-right: .25em;
 }
+
+/* Real address appended after a display name on the message From header, so a
+   deceptive name can't hide where the mail actually came from. */
+.msgsec-from-addr {
+    margin-left: .4em;
+    font-weight: normal;
+    opacity: .75;
+    word-break: break-all;
+}
+
+/* ---- DKIM marker on the message From header ------------------------- */
+
+.msgsec-from-marker {
+    margin-left: .4em;
+    cursor: help;
+}
+
+.msgsec-from-marker::before {
+    font-family: 'Icons', sans-serif;
+    font-weight: 900;
+}
+
+.msgsec-from-marker.msgsec-from-pass::before { content: "\f058"; color: #1a7f37; } /* check-circle    */
+.msgsec-from-marker.msgsec-from-fail::before { content: "\f057"; color: #d2322d; } /* times-circle    */
+.msgsec-from-marker.msgsec-from-none::before { content: "\f059"; color: #b8860b; } /* question-circle */

@@ -69,11 +69,21 @@ class message_security_info extends rcube_plugin
             $this->add_hook('preferences_sections_list', [$this, 'prefs_sections']);
             $this->add_hook('preferences_list', [$this, 'prefs_list']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
-        } elseif ($this->rc->action === 'show' || $this->rc->action === 'preview') {
-            $this->add_texts('localization/', true);
+        } elseif ($this->rc->task === 'mail') {
+            // The details popup is shown with rcmail.simple_dialog(), which
+            // Elastic renders in the *parent* window — not inside the message
+            // frame. Its stylesheet therefore has to be present in the parent
+            // too, so load the CSS for the whole mail task. The script and the
+            // message hook are only needed where the message (and its env) is
+            // actually rendered.
             $this->include_stylesheet('message_security_info.css');
-            $this->include_script('message_security_info.js');
-            $this->add_hook('message_objects', [$this, 'message_objects']);
+
+            if ($this->rc->action === 'show' || $this->rc->action === 'preview') {
+                $this->add_texts('localization/', true);
+                $this->include_script('message_security_info.js');
+                $this->add_hook('message_objects', [$this, 'message_objects']);
+                $this->add_hook('message_headers_output', [$this, 'headers_output']);
+            }
         }
     }
 
@@ -209,12 +219,20 @@ class message_security_info extends rcube_plugin
         $auth = $this->parse_authresults($headers);
         $verdict = $this->evaluate($headers, $auth);
 
-        $this->rc->output->set_env('message_security_info', [
+        $env = [
             'status' => $verdict['status'],
             'summary' => $verdict['summary'],
             'rows' => $this->summary_rows($headers, $auth),
             'headers' => $this->raw_headers($headers),
-        ]);
+        ];
+
+        // A DKIM/From marker placed on the message's From header (green check =
+        // signed & aligned, red = signed-but-unaligned or failed, amber = unsigned).
+        if ($this->method_enabled('dkim')) {
+            $env['dkim_from'] = $this->dkim_from_marker($headers, $auth);
+        }
+
+        $this->rc->output->set_env('message_security_info', $env);
 
         // Emphasise a problem with a notice bar above the message body. Mapping
         // the status to the skin's alert class (warning/error) lets the Elastic
@@ -409,7 +427,7 @@ class message_security_info extends rcube_plugin
     /**
      * Parsed SPF/DKIM/DMARC rows for the top of the popup.
      *
-     * @return array<array{label:string, value:string}>
+     * @return array<array{label:string, value:string, marker?:string}>
      */
     private function summary_rows($headers, $auth)
     {
@@ -421,11 +439,19 @@ class message_security_info extends rcube_plugin
         $spf = $auth['spf'][0] ?? $this->spf_from_received($headers);
 
         $rows = [];
+        // The sender address the SPF/DKIM/DMARC results are judged against.
+        $rows[] = ['label' => $this->gettext('from'), 'value' => $this->from_address($headers) ?? $this->gettext('notpresent')];
         if ($this->method_enabled('spf')) {
             $rows[] = ['label' => $this->gettext('spf'), 'value' => $this->format_method($spf)];
         }
         if ($this->method_enabled('dkim')) {
-            $rows[] = ['label' => $this->gettext('dkim'), 'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from)];
+            $rows[] = [
+                'label' => $this->gettext('dkim'),
+                'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from),
+                // Same verdict as the From-header marker, so users can tie the
+                // two together visually.
+                'marker' => $this->dkim_from_marker($headers, $auth),
+            ];
         }
         if ($this->method_enabled('dmarc')) {
             $rows[] = ['label' => $this->gettext('dmarc'), 'value' => $this->format_method($auth['dmarc'][0] ?? null)];
@@ -550,15 +576,34 @@ class message_security_info extends rcube_plugin
 
         if ($domain) {
             $value .= ' — ' . $domain;
-
-            if ($from) {
-                $value .= $this->aligned($domain, $from)
-                    ? ' (' . $this->gettext('aligned') . ')'
-                    : ' (' . $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]) . ')';
-            }
         }
 
-        return $value;
+        return $value . $this->dkim_alignment_note($entry['result'], $domain, $from);
+    }
+
+    /**
+     * The From-alignment suffix appended to a DKIM result line: empty for a
+     * clean aligned PASS, a newline-prefixed mismatch note for an unaligned
+     * PASS, or a parenthesised aligned/mismatch note for any non-pass result.
+     */
+    private function dkim_alignment_note($result, $domain, $from)
+    {
+        if (!$from || !$domain) {
+            return '';
+        }
+
+        $aligned = $this->aligned($domain, $from);
+        $mismatch = $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
+
+        if (strtolower($result) === 'pass') {
+            // Positive result: a clean, aligned PASS shows nothing further; a
+            // PASS whose signing domain isn't aligned adds the mismatch note on
+            // its own line (no surrounding parentheses).
+            return $aligned ? '' : "\n" . $mismatch;
+        }
+
+        // Non-pass: unchanged — parenthesised alignment note.
+        return $aligned ? ' (' . $this->gettext('aligned') . ')' : ' (' . $mismatch . ')';
     }
 
     /**
@@ -614,6 +659,128 @@ class message_security_info extends rcube_plugin
         $at = strrpos($addr, '@');
 
         return $at !== false ? strtolower(substr($addr, $at + 1)) : null;
+    }
+
+    /**
+     * The decoded From display name and address as ['name' => …, 'addr' => …],
+     * or null when there is no From header. The name has control/formatting
+     * characters (bidi overrides, zero-width, …) stripped so it can't spoof the
+     * UI, while keeping the visible — possibly confusable — glyphs. `name` is
+     * empty when there is no real display name (Roundcube otherwise fills it
+     * with the address).
+     */
+    private function from_parts($headers)
+    {
+        $from = $headers->from ?? null;
+        if (!$from) {
+            return null;
+        }
+
+        $list = rcube_mime::decode_address_list($from, 1, true);
+        $first = !empty($list) ? reset($list) : null;
+
+        $name = trim((string) ($first['name'] ?? ''));
+        $addr = strtolower(trim((string) ($first['mailto'] ?? '')));
+
+        if ($addr === '' && preg_match('/[\w.+-]+@[\w.-]+/', $from, $m)) {
+            $addr = strtolower($m[0]);
+        }
+
+        $clean = preg_replace('/[\p{Cc}\p{Cf}]/u', '', $name);
+        if ($clean !== null) {
+            $name = trim($clean);
+        }
+
+        // Drop the name when it is really just the address repeated.
+        if ($name !== '' && strcasecmp($name, $addr) === 0) {
+            $name = '';
+        }
+
+        return ['name' => $name, 'addr' => $addr];
+    }
+
+    /**
+     * The visible From value for display: the human-readable display name
+     * (when present) alongside the address, as `Name <local@domain>`. Showing
+     * both makes a deceptive/obfuscated display name — a common phishing trick —
+     * obvious next to the real address the DKIM/SPF/DMARC checks apply to.
+     * Returns null when there is no From header.
+     */
+    private function from_address($headers)
+    {
+        $parts = $this->from_parts($headers);
+        if (!$parts) {
+            return null;
+        }
+
+        if ($parts['addr'] === '') {
+            return $parts['name'] !== '' ? $parts['name'] : null;
+        }
+
+        return $parts['name'] !== ''
+            ? $parts['name'] . ' <' . $parts['addr'] . '>'
+            : $parts['addr'];
+    }
+
+    /**
+     * message_headers_output hook: when the From header shows a display name
+     * (which hides the real address behind it), append the actual address so a
+     * deceptive name — e.g. a homograph of a trusted sender — can't disguise
+     * where the mail really came from. A green DKIM/DMARC verdict only proves
+     * the signing domain, not that the visible name is honest.
+     */
+    public function headers_output($args)
+    {
+        if (empty($args['output']['from']) || empty($args['headers'])) {
+            return $args;
+        }
+
+        $parts = $this->from_parts($args['headers']);
+        // Nothing to add when there is no distinct name or no address — the
+        // address is then already the visible text.
+        if (!$parts || $parts['name'] === '' || $parts['addr'] === '') {
+            return $args;
+        }
+
+        $addr = html::span('msgsec-from-addr', '&lt;' . rcube::Q($parts['addr']) . '&gt;');
+
+        if (!empty($args['output']['from']['html'])) {
+            $args['output']['from']['value'] .= ' ' . $addr;
+        } else {
+            // Plain-text value: switch to HTML so our escaped span is rendered.
+            $args['output']['from']['value'] = rcube::Q($args['output']['from']['value']) . ' ' . $addr;
+            $args['output']['from']['html'] = true;
+        }
+
+        return $args;
+    }
+
+    /**
+     * From-header marker verdict, DKIM-specific and independent of the overall
+     * icon: 'pass' (a DKIM PASS aligned with the From domain), 'fail' (a PASS
+     * that isn't aligned, or any non-pass DKIM result) or 'none' (no verified
+     * DKIM result to judge).
+     */
+    private function dkim_from_marker($headers, $auth)
+    {
+        $entry = $auth['dkim'][0] ?? null;
+        if (empty($entry)) {
+            return 'none';
+        }
+
+        if (strtolower($entry['result']) !== 'pass') {
+            return 'fail';
+        }
+
+        $from = $this->from_domain($headers);
+        $sigs = $this->normalize($headers->get('DKIM-Signature', false));
+
+        $domain = $entry['domain'];
+        if (!$domain && !empty($sigs)) {
+            $domain = $this->signature_domain($sigs[0]);
+        }
+
+        return ($from && $domain && $this->aligned($domain, $from)) ? 'pass' : 'fail';
     }
 
     /**
