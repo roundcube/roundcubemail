@@ -22,6 +22,7 @@ $labels['extraheadershint'] = 'One header name per line (e.g. X-Spam-Status). He
 
 // Authentication-results popup
 $labels['authresults'] = 'Authentication results';
+$labels['from'] = 'From';
 $labels['spf'] = 'SPF';
 $labels['dkim'] = 'DKIM';
 $labels['dmarc'] = 'DMARC';
@@ -29,6 +30,11 @@ $labels['notpresent'] = 'not present';
 $labels['aligned'] = 'aligned with From';
 $labels['notaligned'] = 'does not match From ($from)';
 $labels['unverified'] = 'present, not verified by your server';
+
+// DKIM marker on the message's From header (tooltip)
+$labels['frommarkerpass'] = 'DKIM: signed and matches the sender address.';
+$labels['frommarkerfail'] = 'DKIM: signature does not match the sender, or verification failed.';
+$labels['frommarkernone'] = 'DKIM: this message is not signed.';
 
 // Transport encryption (informational; does not affect the icon)
 $labels['tls'] = 'Transport (TLS)';

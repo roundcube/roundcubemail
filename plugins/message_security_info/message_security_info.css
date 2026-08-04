@@ -44,6 +44,9 @@
     padding: .35em 0;
     vertical-align: top;
     word-break: break-word;
+    /* Preserve the newline the DKIM row uses to put its mismatch note on its
+       own line; ordinary single-line values are unaffected. */
+    white-space: pre-line;
 }
 
 /* Raw header values: monospace, wrapping. The neutral colour is forced inline
@@ -64,3 +67,19 @@ code.msgsec-value {
     font-weight: bold;
     margin-right: .25em;
 }
+
+/* ---- DKIM marker on the message From header ------------------------- */
+
+.msgsec-from-marker {
+    margin-left: .4em;
+    cursor: help;
+}
+
+.msgsec-from-marker::before {
+    font-family: 'Icons';
+    font-weight: 900;
+}
+
+.msgsec-from-marker.msgsec-from-pass::before { content: "\f058"; color: #1a7f37; } /* check-circle    */
+.msgsec-from-marker.msgsec-from-fail::before { content: "\f057"; color: #d2322d; } /* times-circle    */
+.msgsec-from-marker.msgsec-from-none::before { content: "\f059"; color: #b8860b; } /* question-circle */

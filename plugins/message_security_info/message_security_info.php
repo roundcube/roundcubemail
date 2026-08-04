@@ -69,11 +69,20 @@ class message_security_info extends rcube_plugin
             $this->add_hook('preferences_sections_list', [$this, 'prefs_sections']);
             $this->add_hook('preferences_list', [$this, 'prefs_list']);
             $this->add_hook('preferences_save', [$this, 'prefs_save']);
-        } elseif ($this->rc->action === 'show' || $this->rc->action === 'preview') {
-            $this->add_texts('localization/', true);
+        } elseif ($this->rc->task === 'mail') {
+            // The details popup is shown with rcmail.simple_dialog(), which
+            // Elastic renders in the *parent* window — not inside the message
+            // frame. Its stylesheet therefore has to be present in the parent
+            // too, so load the CSS for the whole mail task. The script and the
+            // message hook are only needed where the message (and its env) is
+            // actually rendered.
             $this->include_stylesheet('message_security_info.css');
-            $this->include_script('message_security_info.js');
-            $this->add_hook('message_objects', [$this, 'message_objects']);
+
+            if ($this->rc->action === 'show' || $this->rc->action === 'preview') {
+                $this->add_texts('localization/', true);
+                $this->include_script('message_security_info.js');
+                $this->add_hook('message_objects', [$this, 'message_objects']);
+            }
         }
     }
 
@@ -209,12 +218,20 @@ class message_security_info extends rcube_plugin
         $auth = $this->parse_authresults($headers);
         $verdict = $this->evaluate($headers, $auth);
 
-        $this->rc->output->set_env('message_security_info', [
+        $env = [
             'status' => $verdict['status'],
             'summary' => $verdict['summary'],
             'rows' => $this->summary_rows($headers, $auth),
             'headers' => $this->raw_headers($headers),
-        ]);
+        ];
+
+        // A DKIM/From marker placed on the message's From header (green check =
+        // signed & aligned, red = signed-but-unaligned or failed, amber = unsigned).
+        if ($this->method_enabled('dkim')) {
+            $env['dkim_from'] = $this->dkim_from_marker($headers, $auth);
+        }
+
+        $this->rc->output->set_env('message_security_info', $env);
 
         // Emphasise a problem with a notice bar above the message body. Mapping
         // the status to the skin's alert class (warning/error) lets the Elastic
@@ -421,11 +438,19 @@ class message_security_info extends rcube_plugin
         $spf = $auth['spf'][0] ?? $this->spf_from_received($headers);
 
         $rows = [];
+        // The sender address the SPF/DKIM/DMARC results are judged against.
+        $rows[] = ['label' => $this->gettext('from'), 'value' => $this->from_address($headers) ?? $this->gettext('notpresent')];
         if ($this->method_enabled('spf')) {
             $rows[] = ['label' => $this->gettext('spf'), 'value' => $this->format_method($spf)];
         }
         if ($this->method_enabled('dkim')) {
-            $rows[] = ['label' => $this->gettext('dkim'), 'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from)];
+            $rows[] = [
+                'label' => $this->gettext('dkim'),
+                'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from),
+                // Same verdict as the From-header marker, so users can tie the
+                // two together visually.
+                'marker' => $this->dkim_from_marker($headers, $auth),
+            ];
         }
         if ($this->method_enabled('dmarc')) {
             $rows[] = ['label' => $this->gettext('dmarc'), 'value' => $this->format_method($auth['dmarc'][0] ?? null)];
@@ -550,11 +575,22 @@ class message_security_info extends rcube_plugin
 
         if ($domain) {
             $value .= ' — ' . $domain;
+        }
 
-            if ($from) {
-                $value .= $this->aligned($domain, $from)
-                    ? ' (' . $this->gettext('aligned') . ')'
-                    : ' (' . $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]) . ')';
+        if ($from && $domain) {
+            $aligned = $this->aligned($domain, $from);
+            $mismatch = $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
+
+            if (strtolower($entry['result']) === 'pass') {
+                // Positive result: a clean, aligned PASS shows nothing further;
+                // a PASS whose signing domain isn't aligned adds the mismatch
+                // note on its own line (no surrounding parentheses).
+                if (!$aligned) {
+                    $value .= "\n" . $mismatch;
+                }
+            } else {
+                // Non-pass: unchanged — parenthesised alignment note.
+                $value .= $aligned ? ' (' . $this->gettext('aligned') . ')' : ' (' . $mismatch . ')';
             }
         }
 
@@ -614,6 +650,51 @@ class message_security_info extends rcube_plugin
         $at = strrpos($addr, '@');
 
         return $at !== false ? strtolower(substr($addr, $at + 1)) : null;
+    }
+
+    /**
+     * The full visible From address (local@domain), or null when absent.
+     */
+    private function from_address($headers)
+    {
+        $from = $headers->from ?? null;
+        if (!$from) {
+            return null;
+        }
+
+        $list = rcube_mime::decode_address_list($from, 1, true);
+        $first = !empty($list) ? reset($list) : null;
+        $addr = $first['mailto'] ?? '';
+
+        if ($addr === '' && preg_match('/[\w.+-]+@[\w.-]+/', $from, $m)) {
+            return strtolower($m[0]);
+        }
+
+        return $addr !== '' ? strtolower($addr) : null;
+    }
+
+    /**
+     * From-header marker verdict, DKIM-specific and independent of the overall
+     * icon: 'pass' (a DKIM PASS aligned with the From domain), 'fail' (a PASS
+     * that isn't aligned, or any non-pass DKIM result) or 'none' (no verified
+     * DKIM result to judge).
+     */
+    private function dkim_from_marker($headers, $auth)
+    {
+        $entry = $auth['dkim'][0] ?? null;
+        if (empty($entry)) {
+            return 'none';
+        }
+
+        if (strtolower($entry['result']) !== 'pass') {
+            return 'fail';
+        }
+
+        $from = $this->from_domain($headers);
+        $sigs = $this->normalize($headers->get('DKIM-Signature', false));
+        $domain = $entry['domain'] ?: (!empty($sigs) ? $this->signature_domain($sigs[0]) : null);
+
+        return ($from && $domain && $this->aligned($domain, $from)) ? 'pass' : 'fail';
     }
 
     /**

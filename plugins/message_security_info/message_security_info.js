@@ -49,6 +49,34 @@ window.rcmail && rcmail.addEventListener('init', function () {
 
     links.appendChild(link);
 
+    add_from_marker(info.dkim_from);
+
+    // Place a DKIM verdict marker on the message's From header:
+    // green check = signed & aligned, red = signed-but-unaligned or failed,
+    // amber question = unsigned. Independent of the header-links icon.
+    function add_from_marker(state) {
+        if (!state) {
+            return;
+        }
+
+        var cell = document.querySelector('#message-header td.header.from');
+        if (!cell || cell.querySelector('.msgsec-from-marker')) {
+            return;
+        }
+
+        var marker = document.createElement('span'),
+            tip = rcmail.get_label('frommarker' + state, 'message_security_info');
+
+        marker.className = 'msgsec-from-marker msgsec-from-' + state;
+        marker.setAttribute('role', 'img');
+        if (tip) {
+            marker.title = tip;
+            marker.setAttribute('aria-label', tip);
+        }
+
+        cell.appendChild(marker);
+    }
+
     // Build the popup table: parsed SPF/DKIM/DMARC rows, then raw header lines.
     // Values are set via textContent, so header content is never interpreted.
     function build_table(info) {
@@ -60,7 +88,7 @@ window.rcmail && rcmail.addEventListener('init', function () {
         table.className = 'msgsec-table';
 
         for (i = 0; i < rows.length; i++) {
-            add_row(table, rows[i].label, rows[i].value, false);
+            add_row(table, rows[i].label, rows[i].value, false, rows[i].marker);
         }
         for (i = 0; i < headers.length; i++) {
             add_row(table, headers[i].name, headers[i].value, true);
@@ -69,12 +97,27 @@ window.rcmail && rcmail.addEventListener('init', function () {
         return table;
     }
 
-    function add_row(table, label, value, raw) {
+    function add_row(table, label, value, raw, marker) {
         var tr = document.createElement('tr'),
             th = document.createElement('th'),
             td = document.createElement('td');
 
         th.textContent = label;
+
+        // Repeat the From-header verdict marker beside the DKIM label so the
+        // popup and the header cell share the same glyph.
+        if (marker) {
+            var glyph = document.createElement('span'),
+                tip = rcmail.get_label('frommarker' + marker, 'message_security_info');
+
+            glyph.className = 'msgsec-from-marker msgsec-from-' + marker;
+            glyph.setAttribute('role', 'img');
+            if (tip) {
+                glyph.title = tip;
+                glyph.setAttribute('aria-label', tip);
+            }
+            th.appendChild(glyph);
+        }
 
         if (raw) {
             tr.className = 'msgsec-raw';
