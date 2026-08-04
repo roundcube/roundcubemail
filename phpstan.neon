@@ -1,0 +1,34 @@
+# Fork-local PHPStan overrides.
+#
+# PHPStan auto-loads this file in preference to phpstan.neon.dist. It includes
+# the upstream configuration unchanged and only adds tolerances for pre-existing
+# upstream issues that surface in this fork's CI (PHP 8.5), so the upstream
+# files (phpstan.neon.dist, tinycp.php, rcube.php, ci.yml) stay pristine and
+# keep merging cleanly. Delete this file to revert to stock behaviour.
+includes:
+    - phpstan.neon.dist
+
+parameters:
+    # rcube.php carries a @phpstan-ignore-next-line that no longer matches a
+    # reported error under this CI's PHP/PHPStan combination. Don't fail the
+    # build on such stale upstream ignore comments.
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        # plugins/password/drivers/tinycp.php require()s TinyCPConnector.php — a
+        # proprietary connector the administrator drops in at runtime. It is
+        # never present in the repository, so the require-path existence check
+        # can never be satisfied here.
+        -
+            message: '~Path in require_once\(\) .*TinyCPConnector\.php.* is not a file or it does not exist\.~'
+            path: plugins/password/drivers/tinycp.php
+            reportUnmatched: false
+
+        # program/actions/mail/compose.php has a `? : $x ?? null` ternary that a
+        # newer PHPStan (2.2.7 on this fork's CI, vs 2.2.2 locally) now reports as
+        # an unnecessary null coalesce. The upstream file is untouched by this
+        # fork, so tolerate the version-drift finding instead of editing core.
+        -
+            message: '~Coalesce operator \?\? is unnecessary because the left side is always set and the right side is null\.~'
+            path: program/actions/mail/compose.php
+            reportUnmatched: false

@@ -427,7 +427,7 @@ class message_security_info extends rcube_plugin
     /**
      * Parsed SPF/DKIM/DMARC rows for the top of the popup.
      *
-     * @return array<array{label:string, value:string}>
+     * @return array<array{label:string, value:string, marker?:string}>
      */
     private function summary_rows($headers, $auth)
     {
@@ -578,24 +578,32 @@ class message_security_info extends rcube_plugin
             $value .= ' — ' . $domain;
         }
 
-        if ($from && $domain) {
-            $aligned = $this->aligned($domain, $from);
-            $mismatch = $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
+        return $value . $this->dkim_alignment_note($entry['result'], $domain, $from);
+    }
 
-            if (strtolower($entry['result']) === 'pass') {
-                // Positive result: a clean, aligned PASS shows nothing further;
-                // a PASS whose signing domain isn't aligned adds the mismatch
-                // note on its own line (no surrounding parentheses).
-                if (!$aligned) {
-                    $value .= "\n" . $mismatch;
-                }
-            } else {
-                // Non-pass: unchanged — parenthesised alignment note.
-                $value .= $aligned ? ' (' . $this->gettext('aligned') . ')' : ' (' . $mismatch . ')';
-            }
+    /**
+     * The From-alignment suffix appended to a DKIM result line: empty for a
+     * clean aligned PASS, a newline-prefixed mismatch note for an unaligned
+     * PASS, or a parenthesised aligned/mismatch note for any non-pass result.
+     */
+    private function dkim_alignment_note($result, $domain, $from)
+    {
+        if (!$from || !$domain) {
+            return '';
         }
 
-        return $value;
+        $aligned = $this->aligned($domain, $from);
+        $mismatch = $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
+
+        if (strtolower($result) === 'pass') {
+            // Positive result: a clean, aligned PASS shows nothing further; a
+            // PASS whose signing domain isn't aligned adds the mismatch note on
+            // its own line (no surrounding parentheses).
+            return $aligned ? '' : "\n" . $mismatch;
+        }
+
+        // Non-pass: unchanged — parenthesised alignment note.
+        return $aligned ? ' (' . $this->gettext('aligned') . ')' : ' (' . $mismatch . ')';
     }
 
     /**
@@ -709,11 +717,9 @@ class message_security_info extends rcube_plugin
             return $parts['name'] !== '' ? $parts['name'] : null;
         }
 
-        if ($parts['name'] !== '') {
-            return $parts['name'] . ' <' . $parts['addr'] . '>';
-        }
-
-        return $parts['addr'];
+        return $parts['name'] !== ''
+            ? $parts['name'] . ' <' . $parts['addr'] . '>'
+            : $parts['addr'];
     }
 
     /**
@@ -768,7 +774,11 @@ class message_security_info extends rcube_plugin
 
         $from = $this->from_domain($headers);
         $sigs = $this->normalize($headers->get('DKIM-Signature', false));
-        $domain = $entry['domain'] ?: (!empty($sigs) ? $this->signature_domain($sigs[0]) : null);
+
+        $domain = $entry['domain'];
+        if (!$domain && !empty($sigs)) {
+            $domain = $this->signature_domain($sigs[0]);
+        }
 
         return ($from && $domain && $this->aligned($domain, $from)) ? 'pass' : 'fail';
     }

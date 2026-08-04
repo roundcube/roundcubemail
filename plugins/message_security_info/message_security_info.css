@@ -15,7 +15,7 @@
 
 /* Ensure the icon font even on skins that don't extend it onto these links. */
 .msgsec-link::before {
-    font-family: 'Icons';
+    font-family: 'Icons', sans-serif;
     font-weight: 900;
 }
 
@@ -93,7 +93,7 @@ code.msgsec-value {
 }
 
 .msgsec-from-marker::before {
-    font-family: 'Icons';
+    font-family: 'Icons', sans-serif;
     font-weight: 900;
 }
 
