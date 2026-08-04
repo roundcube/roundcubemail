@@ -653,7 +653,11 @@ class message_security_info extends rcube_plugin
     }
 
     /**
-     * The full visible From address (local@domain), or null when absent.
+     * The visible From value for display: the human-readable display name
+     * (when present) alongside the address, as `Name <local@domain>`. Showing
+     * both makes a deceptive/obfuscated display name — a common phishing trick —
+     * obvious next to the real address the DKIM/SPF/DMARC checks apply to.
+     * Returns null when there is no From header.
      */
     private function from_address($headers)
     {
@@ -664,13 +668,33 @@ class message_security_info extends rcube_plugin
 
         $list = rcube_mime::decode_address_list($from, 1, true);
         $first = !empty($list) ? reset($list) : null;
-        $addr = $first['mailto'] ?? '';
+
+        $name = trim((string) ($first['name'] ?? ''));
+        $addr = strtolower(trim((string) ($first['mailto'] ?? '')));
 
         if ($addr === '' && preg_match('/[\w.+-]+@[\w.-]+/', $from, $m)) {
-            return strtolower($m[0]);
+            $addr = strtolower($m[0]);
         }
 
-        return $addr !== '' ? strtolower($addr) : null;
+        // Strip control and formatting characters (bidi overrides, zero-width,
+        // etc.) so the popup itself can't be spoofed, while keeping the visible
+        // — possibly confusable — glyphs that are the point of showing it.
+        $clean = preg_replace('/[\p{Cc}\p{Cf}]/u', '', $name);
+        if ($clean !== null) {
+            $name = trim($clean);
+        }
+
+        if ($addr === '') {
+            return $name !== '' ? $name : null;
+        }
+
+        // Roundcube fills the name with the address when there's no real
+        // display name; only show it when it differs from the address.
+        if ($name !== '' && strcasecmp($name, $addr) !== 0) {
+            return $name . ' <' . $addr . '>';
+        }
+
+        return $addr;
     }
 
     /**

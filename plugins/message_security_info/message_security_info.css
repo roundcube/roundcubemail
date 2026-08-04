@@ -40,6 +40,14 @@
     font-weight: bold;
 }
 
+/* The dialog already draws a separator under its title; drop the border the
+   skin puts on the first row (From) so there isn't a second, shorter line
+   stacked just below it. */
+.msgsec-table tr:first-child > th,
+.msgsec-table tr:first-child > td {
+    border-top: 0;
+}
+
 .msgsec-table td {
     padding: .35em 0;
     vertical-align: top;
