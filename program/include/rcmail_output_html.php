@@ -912,8 +912,8 @@ class rcmail_output_html extends rcmail_output
     /**
      * Modify path by adding URL prefix if configured
      *
-     * @param string $path    Asset path
-     * @param bool   $abs_url Pass to self::abs_url() first
+     * @param ?string $path    Asset path
+     * @param bool    $abs_url Pass to self::abs_url() first
      *
      * @return string Asset path
      */
@@ -921,6 +921,10 @@ class rcmail_output_html extends rcmail_output
     {
         // iframe content can't be in a different domain
         // @TODO: check if assets are on a different domain
+
+        if ($path === '' || $path === null) {
+            return '';
+        }
 
         if ($abs_url) {
             $path = $this->abs_url($path, true);

@@ -481,7 +481,7 @@ class rcmail_action_contacts_index extends rcmail_action
                 $class_name .= ' ' . $source['class_name'];
             }
 
-            $name = $source['name'] ?: $id;
+            $name = !empty($source['name']) ? $source['name'] : $id;
             $out .= sprintf($line_templ,
                 rcube_utils::html_identifier($id, true),
                 $class_name,

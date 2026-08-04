@@ -479,7 +479,7 @@ class password extends rcube_plugin
         if ($exceptions = $this->rc->config->get('password_login_exceptions')) {
             $exceptions = array_map('trim', (array) $exceptions);
             $exceptions = array_filter($exceptions);
-            $username = $_SESSION['username'];
+            $username = $this->rc->get_user_name();
 
             foreach ($exceptions as $ec) {
                 if ($username === $ec) {
@@ -783,15 +783,20 @@ class password extends rcube_plugin
             $format = $rcmail->config->get('password_username_format');
         }
 
-        if (!$format) {
-            return $_SESSION['username'];
+        $username = $rcmail->get_user_name();
+
+        if ($format) {
+            $username = strtr($format, [
+                '%l' => $rcmail->user->get_username('local'),
+                '%d' => $rcmail->user->get_username('domain'),
+                '%u' => $username,
+            ]);
         }
 
-        return strtr($format, [
-            '%l' => $rcmail->user->get_username('local'),
-            '%d' => $rcmail->user->get_username('domain'),
-            '%u' => $_SESSION['username'],
-        ]);
+        // Sanitize the username
+        $username = preg_replace('/[*()\r\n\0\\\]/', '', $username);
+
+        return $username;
     }
 
     /**

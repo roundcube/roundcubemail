@@ -32,4 +32,20 @@ class ExampleAddressbookTest extends TestCase
 
         $this->assertSame('static', $result['sources']['static']['id']);
     }
+
+    /**
+     * Test search()
+     */
+    public function test_search()
+    {
+        $backend = new \example_addressbook_backend('static');
+
+        // "Jane" matches only the Jane Example record
+        $result = $backend->search(['name'], 'Jane');
+
+        $this->assertInstanceOf('rcube_result_set', $result);
+        $this->assertCount(1, $result->records);
+        $this->assertSame(1, $result->count);
+        $this->assertSame('112', $result->records[0]['ID']);
+    }
 }

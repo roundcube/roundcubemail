@@ -55,7 +55,8 @@ class enigma_signature
                 $level = explode('.', $part_id);
                 $parts = $message->mime_parts();
 
-                while (array_pop($level) !== null) {
+                while (count($level) > 1) {
+                    array_pop($level);
                     $parent = implode('.', $level);
                     if (!empty($parts[$parent]) && $parts[$parent]->mimetype == 'message/rfc822') {
                         $from = $parts[$parent]->headers['from'];
