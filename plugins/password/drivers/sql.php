@@ -29,12 +29,13 @@ class rcube_sql_password
     /**
      * Update current user password
      *
-     * @param string $curpass Current password
-     * @param string $passwd  New password
+     * @param string $curpass  Current password
+     * @param string $passwd   New password
+     * @param string $username Username
      *
      * @return int Result
      */
-    public function save($curpass, $passwd)
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
 
@@ -83,7 +84,6 @@ class rcube_sql_password
 
         $local_part = $rcmail->user->get_username('local');
         $domain_part = $rcmail->user->get_username('domain');
-        $username = $_SESSION['username'];
         $host = $_SESSION['imap_host'];
 
         // convert domains to/from punycode

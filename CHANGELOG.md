@@ -4,18 +4,36 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
+- OAuth: Don't log an error when a refreshed token's TTL is below refresh_interval (#10213)
+- Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
+- Fix bug where searching in example_addressbook plugin was reporting zero results despite matches (#9022)
+- Fix vCard import mis-detecting folded continuation lines as BEGIN/END:VCARD (#9593)
+- Fix bug where the php session driver practically disabled session.lazy_write optimization (#9885, #10248)
+- Fix bug where dates could get displayed shifted back one day in some places (#9403)
+- Fix regression where it wasn't possible to hide a skin logo image anymore (#10254)
+- Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
+- Fix vCard import silently dropping properties with a non-item group prefix (#10271)
+
+## Release 1.7.2
+
 - Add HEAD request handler to the `static.php`
 - Fix so the `oauth_password_claim` claim is retrieved via token or userinfo request (#9631)
 - Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
 - Fix bug where configured skin logo wasn't loaded via `static.php` resulting in 404 error (#10191)
-- Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
 - Fix bug where installto.sh would fail if public_html folder does not exist in the target directory (#10202)
 - Revert "Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)" (#10198)
 - Fix incorrect unfolding of folded lines when importing vCard 2.1 contacts (#9647)
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
 - Fix bug where redis/memcache session could have been updated more often than needed
 - Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
+- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193) [CVE-2026-62642]
+- Security: Fix various vulnerabilities in the password plugin using session-injected username [CVE-2026-62644]
+- Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
+- Security: Fix SSRF bypass via specific local address URLs - two new cases [CVE-2026-62643]
+- Security: Fix zero-click stored XSS in plain-text rendering [CVE-2026-54433]
+- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file [CVE-2026-62641]
 
 ## Release 1.7.1
 

@@ -29,18 +29,22 @@
  * along with this program. If not, see https://www.gnu.org/licenses/.
  */
 
-class rcube_ldap_password
+require_once __DIR__ . '/ldap_simple.php';
+
+class rcube_ldap_password extends rcube_ldap_simple_password
 {
-    public function save($curpass, $passwd)
+    #[\Override]
+    public function save($curpass, $passwd, $username)
     {
         $rcmail = rcmail::get_instance();
+        $this->username = $username;
 
         require_once 'Net/LDAP2.php';
         require_once __DIR__ . '/ldap_simple.php';
 
         // Building user DN
         if ($userDN = $rcmail->config->get('password_ldap_userDN_mask')) {
-            $userDN = rcube_ldap_simple_password::substitute_vars($userDN);
+            $userDN = $this->substitute_vars($userDN);
         } else {
             $userDN = $this->search_userdn($rcmail);
         }
@@ -156,7 +160,8 @@ class rcube_ldap_password
      * Use search_base and search_filter defined in config file.
      * Return the found DN.
      */
-    public function search_userdn($rcmail)
+    #[\Override]
+    public function search_userdn($rcmail, $ds = null)
     {
         $binddn = $rcmail->config->get('password_ldap_searchDN');
         $bindpw = $rcmail->config->get('password_ldap_searchPW');
@@ -181,8 +186,8 @@ class rcube_ldap_password
             return '';
         }
 
-        $base = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_base'));
-        $filter = rcube_ldap_simple_password::substitute_vars($rcmail->config->get('password_ldap_search_filter'));
+        $base = $this->substitute_vars($rcmail->config->get('password_ldap_search_base'));
+        $filter = $this->substitute_vars($rcmail->config->get('password_ldap_search_filter'));
         $options = [
             'scope' => 'sub',
             'attributes' => [],

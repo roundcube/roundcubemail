@@ -844,7 +844,6 @@ class rcube
             if (isset($rcube_languages[$short])) {
                 $lang = $short;
             } else {
-                // @phpstan-ignore-next-line
                 $lang = $rcube_language_aliases[$short] ?? ($short . '_' . strtoupper($short));
             }
         }

@@ -81,6 +81,42 @@ class TnefDecoderTest extends TestCase
     }
 
     /**
+     * Test that a truncated compressed-RTF payload does not cause
+     * out-of-bounds string reads (PHP warnings) in _decompressRTF().
+     */
+    public function test_decompressRTF_truncated()
+    {
+        $tnef = new \rcube_tnef_decoder();
+
+        $method = new \ReflectionMethod('rcube_tnef_decoder', '_decompressRTF');
+
+        // First byte is a flags byte with bit 0 set, so the back-reference
+        // branch is taken. The branch needs two more bytes (offset + length),
+        // but the payload is truncated right after the flags byte. On
+        // unmodified code this triggers "Uninitialized string offset" warnings.
+        $truncated = [
+            "\x01",           // flags byte only, no data follows
+            "\x01\x00",       // flags + offset, length byte missing
+            "\x00\x00",       // literal branch, then out of data mid-loop
+        ];
+
+        // Turn PHP warnings/notices into exceptions so we can assert cleanly.
+        set_error_handler(static function ($errno, $errstr) {
+            throw new \ErrorException($errstr, 0, $errno);
+        });
+
+        try {
+            foreach ($truncated as $data) {
+                // A large $size forces the loop to keep consuming input.
+                $result = $method->invoke($tnef, $data, 1000);
+                $this->assertIsString($result);
+            }
+        } finally {
+            restore_error_handler();
+        }
+    }
+
+    /**
      * Test rtf2text()
      */
     public function test_rtf2text()

@@ -49,14 +49,14 @@ class rcube_zxcvbn_password
      */
     public function check_strength($passwd)
     {
-        if (!class_exists('ZxcvbnPhp\Zxcvbn')) {
+        if (!class_exists(Zxcvbn::class)) {
             rcube::raise_error('Password plugin: Zxcvbn library not found.', true, true);
         }
 
         $rcmail = rcmail::get_instance();
         $userData = [
             $rcmail->user->get_username('local'),
-            $_SESSION['username'],
+            $rcmail->user->get_username(),
         ];
 
         $zxcvbn = new Zxcvbn(); // @phpstan-ignore-line

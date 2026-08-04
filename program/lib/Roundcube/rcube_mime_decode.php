@@ -292,12 +292,18 @@ class rcube_mime_decode
                     $return['other'][strtolower($matches[1])] = $matches[2];
                 }
                 // Support RFC2231 encoding
-                elseif (preg_match('/^([[:alnum:]]+)\*([0-9]*)\*?="*([^"]+)"*/', $parts[$n], $matches)) {
+                elseif (preg_match('/^([[:alnum:]]+)\*([0-9]*)(\*?)="*([^"]+)"*/', $parts[$n], $matches)) {
                     $key = strtolower($matches[1]);
-                    $val = $matches[3];
+                    $val = $matches[4];
+                    // A trailing '*' marks an extended (percent-encoded) parameter
+                    $extended = $matches[3] === '*';
 
                     if (preg_match("/^(([^']*)'[^']*')/", $val, $m)) {
+                        // First segment carries the charset'lang' prefix
                         $val = rawurldecode(substr($val, strlen($m[0])));
+                    } elseif ($extended) {
+                        // Continuation segment of an extended parameter
+                        $val = rawurldecode($val);
                     }
 
                     if (isset($return['other'][$key])) {

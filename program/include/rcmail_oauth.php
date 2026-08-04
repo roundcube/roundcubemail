@@ -905,7 +905,9 @@ class rcmail_oauth
             // refresh_token is optional, there will be no refreshes
             $data['expires'] = time() + $data['expires_in'] - 5;
         } elseif ($data['expires_in'] <= $refresh_interval) {
-            rcube::raise_error(sprintf('Token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
+            // short-lived token: it expires before the next refresh interval would trigger.
+            // This is an expected case, so only log it at debug level (not as an error).
+            $this->log_debug('token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
         } else {

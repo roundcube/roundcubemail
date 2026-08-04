@@ -302,6 +302,50 @@ class OauthTest extends ActionTestCase
     }
 
     /**
+     * Test request_access_token() with a short-lived token (expires_in <= refresh_interval).
+     *
+     * This is a normal case for short-lived tokens and must not emit an error-level log.
+     */
+    public function test_request_access_token_short_lived()
+    {
+        $payload = [
+            'token_type' => 'Bearer',
+            'access_token' => 'FAKE-ACCESS-TOKEN',
+            'expires_in' => 30, // below the default refresh_interval (60)
+            'refresh_token' => 'FAKE-REFRESH-TOKEN',
+            'refresh_expires_in' => 1800,
+            'id_token' => $this->generate_fake_id_token(), // inject a generated identity
+            'not-before-policy' => 0,
+            'session_state' => 'fake-session',
+            'scope' => 'openid profile email',
+        ];
+
+        HttpClientMock::setResponses([
+            [200, ['Content-Type' => 'application/json'], json_encode($payload)],
+        ]);
+
+        $oauth = new \rcmail_oauth((array) $this->config);
+        $oauth->init();
+
+        $_SESSION['oauth_state'] = 'random-state'; // ensure state identiquals
+        $_SESSION['oauth_nonce'] = 'fake-nonce';
+
+        StderrMock::start();
+        $response = $oauth->request_access_token('fake-code', 'random-state');
+        StderrMock::stop();
+
+        $this->assertTrue($response);
+
+        // A short-lived token is a normal case and must not raise an error
+        $this->assertSame('', trim(StderrMock::$output));
+
+        $login_phase = getProperty($oauth, 'login_phase');
+
+        $this->assertSame('Bearer FAKE-ACCESS-TOKEN', $login_phase['authorization']);
+        $this->assertTrue(isset($login_phase['token']['expires']));
+    }
+
+    /**
      * Test request_access_token() method without identity, code will have to fetch the identity using the access token
      */
     public function test_request_access_token_without_id_token()

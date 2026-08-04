@@ -726,6 +726,9 @@ class UtilsTest extends TestCase
             ['http://[::ffff:127.0.0.1]:8080', true],
             ['http://127.0.0.1.nip.io', true],
             ['http://metadata.google.internal', true],
+            ['http://127.0.0.1.sslip.io/', true],
+            ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
+            ['http://0/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
@@ -738,8 +741,8 @@ class UtilsTest extends TestCase
      */
     public function test_strtotime()
     {
-        // this test depends on system timezone if not set
-        date_default_timezone_set('UTC');
+        // Make sure this does not depend on the system timezone being UTC
+        date_default_timezone_set('Europe/Warsaw');
 
         $test = [
             '1' => 1,
@@ -755,6 +758,8 @@ class UtilsTest extends TestCase
             '20130422' => 1366588800,
             '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
+            '17-Jul-1996 02:44:25 -0700' => 837596665, // RFC-3501
+            'Wed, 02 Oct 2002 08:00:00 -0700' => 1033570800, // RFC-822
         ];
 
         foreach ($test as $datetime => $ts) {
