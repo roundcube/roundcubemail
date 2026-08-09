@@ -220,6 +220,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         // We pass the filter as-is into IMAP SEARCH command. A newline could be used
         // to inject extra commands, so we remove these. Keep the filter simple, please.
         $result = preg_replace('/[\r\n]+/', ' ', $result);
+        $str = preg_replace('/[\r\n]+/', ' ', $str);
 
         // Add the interval filter string
         if ($search_interval = self::search_interval_criteria($interval)) {
