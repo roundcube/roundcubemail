@@ -56,21 +56,24 @@ class markasjunk_cmd_learn
 
         // backwards compatibility %xds removed in markasjunk v1.12
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
-        $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
-        $command = str_replace('%l', escapeshellarg($rcube->user->get_username('local')), $command);
-        $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
+
+        $vars = [
+            '%u' => escapeshellarg($rcube->get_user_name()),
+            '%l' => escapeshellarg($rcube->user->get_username('local')),
+            '%d' => escapeshellarg($rcube->user->get_username('domain')),
+        ];
+
         if (strpos($command, '%i') !== false) {
             $identity = $rcube->user->get_identity();
-            $command  = str_replace('%i', escapeshellarg($identity['email']), $command);
+            $vars['%i'] = escapeshellarg($identity['email']);
         }
 
         foreach ($uids as $uid) {
-            // reset command for next message
-            $tmp_command = $command;
+            $replace = $vars;
 
             if (strpos($tmp_command, '%s') !== false) {
-                $message     = new rcube_message($uid);
-                $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
+                $message = new rcube_message($uid);
+                $replace['%s'] = escapeshellarg($message->sender['mailto']);
             }
 
             if (!empty($header_names)) {
@@ -86,7 +89,7 @@ class markasjunk_cmd_learn
                     }
 
                     if (!empty($val)) {
-                        $tmp_command = str_replace('%h:' . $header, escapeshellarg($val), $tmp_command);
+                        $replace['%h:' . $header] = escapeshellarg($val);
                     }
                     else {
                         if ($debug) {
@@ -101,9 +104,10 @@ class markasjunk_cmd_learn
             if (strpos($command, '%f') !== false) {
                 $tmpfname = tempnam($temp_dir, 'rcmSALearn');
                 file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
-                $tmp_command = str_replace('%f', escapeshellarg($tmpfname), $tmp_command);
+                $replace['%f'] = escapeshellarg($tmpfname);
             }
 
+            $tmp_command = strtr($command, $replace);
             $output = shell_exec($tmp_command);
 
             if ($debug) {
