@@ -35,19 +35,23 @@
 
 class rcube_modoboa_password
 {
-    function save($curpass, $passwd)
+    function save($curpass, $passwd, $username)
     {
         // Init config access
-        $rcmail           = rcmail::get_instance();
-        $ModoboaToken     = $rcmail->config->get('password_modoboa_api_token');
-        $RoudCubeUsername = $_SESSION['username'];
-        $IMAPhost         = $_SESSION['imap_host'];
+        $rcmail = rcmail::get_instance();
+        $token = $rcmail->config->get('password_modoboa_api_token');
+        $host = $rcmail->config->get('password_modoboa_api_host');
+
+        // We don't allow replacement variables when the host name(s) come from the user
+        if (!empty($rcmail->config->get('imap_host'))) {
+            $host = rcube_utils::parse_host($host);
+        }
 
         // Call GET to fetch values from modoboa server
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/?search=" . urlencode($RoudCubeUsername),
+            CURLOPT_URL            => "https://" . $host . "/api/v1/accounts/?search=" . urlencode($username),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
             CURLOPT_MAXREDIRS      => 10,
@@ -55,7 +59,7 @@ class rcube_modoboa_password
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => "GET",
             CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
+                "Authorization: Token " . $token,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
             ],
@@ -91,7 +95,7 @@ class rcube_modoboa_password
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL            => "https://" . $IMAPhost . "/api/v1/accounts/" . $userid . "/",
+            CURLOPT_URL            => "https://" . $host . "/api/v1/accounts/" . $userid . "/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
             CURLOPT_MAXREDIRS      => 10,
@@ -100,7 +104,7 @@ class rcube_modoboa_password
             CURLOPT_CUSTOMREQUEST  => "PUT",
             CURLOPT_POSTFIELDS     => "" . $encoded . "",
             CURLOPT_HTTPHEADER     => [
-                "Authorization: Token " . $ModoboaToken,
+                "Authorization: Token " . $token,
                 "Cache-Control: no-cache",
                 "Content-Type: application/json"
             ],

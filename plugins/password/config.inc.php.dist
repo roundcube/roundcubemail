@@ -456,7 +456,16 @@ $config['password_kpasswd_cmd'] = '/usr/bin/kpasswd';
 
 // Modoboa Driver options
 // ---------------------
-// put token number from Modoboa server
+// API host. Supported replacement variables:
+// %h - user's IMAP hostname
+// %n - hostname ($_SERVER['SERVER_NAME'])
+// %t - hostname without the first part
+// %d - domain (http hostname $_SERVER['HTTP_HOST'] without the first part)
+// %z - IMAP domain (IMAP hostname without the first part)
+// Note: For security reasons replacement variables are not available if $config['imap_host'] is empty.
+$config['password_modoboa_api_host'] = '%h';
+
+// Modoboa API authentication token
 $config['password_modoboa_api_token'] = '';
 
 
