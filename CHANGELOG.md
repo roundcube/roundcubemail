@@ -8,6 +8,7 @@
 - Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets
 - Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check
 - Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute
+- Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
 
 ## Release 1.6.17
 

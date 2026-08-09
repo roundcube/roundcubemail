@@ -349,11 +349,12 @@ class rcube_ldap extends rcube_addressbook
 
                 // Get the pieces needed for variable replacement.
                 if ($fu = ($rcube->get_user_email() ?: ($conf['username'] ?? null))) {
+                    $fu = rcube_ldap_generic::quote_string($fu);
                     list($u, $d) = explode('@', $fu);
                 }
                 else {
                     $u = '';
-                    $d = $this->mail_domain;
+                    $d = rcube_ldap_generic::quote_string($this->mail_domain);
                 }
 
                 $dc = 'dc='.strtr($d, ['.' => ',dc=']); // hierarchal domain string
@@ -2216,7 +2217,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         $base_dn     = $this->groups_base_dn;
-        $contact_dn  = self::dn_decode($contact_id);
+        $contact_dn  = rcube_ldap_generic::quote_string(self::dn_decode($contact_id));
         $name_attr   = $this->prop['groups']['name_attr'] ?: 'cn';
         $member_attr = $this->get_group_member_attr();
         $add_filter  = '';
