@@ -393,23 +393,73 @@ class zipdownload extends rcube_plugin
     }
 }
 
+/**
+ * Unfortunately a body line which could be mistaken for an Mbox header,
+ * and which therefore must be escaped with '>', can be split between
+ * buckets (and between calls to filter()), so if the bucket being filtered
+ * ends in a way that *might* be a line needing escaping, postpone placing
+ * it in the $out brigade until we've seen the next bucket and can decide
+ * whether or not to escape. Don't bother checking if such a line might be
+ * split among more than 2 buckets -- given even a little buffering, this
+ * should never happen in practice.
+ */
 class zipdownload_mbox_filter extends \php_user_filter
 {
+    protected $prev_bucket;
+    private $prev_match;
+    private $first = true;
+
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function filter($in, $out, &$consumed, $closing)
+    public function filter($in, $out, &$consumed, $closing): int
     {
+        $out_empty = true;
+        $replaced = 0;
+        $m = [];
+
         while ($bucket = stream_bucket_make_writeable($in)) {
-            // messages are read line by line
-            if (preg_match('/^>*From /', $bucket->data)) {
-                $bucket->data = '>' . $bucket->data;
-                $bucket->datalen++;
+            // Escape lines which definitely need it
+            $anchor = $this->first ? '^' : "\n";  // Only the file's first line may match w/o \n
+            $this->first = false;
+            $bucket->data = preg_replace("/({$anchor}>*)From /m", '\1>From ', $bucket->data, -1, $replaced);
+            $consumed += $bucket->datalen;
+            $bucket->datalen += $replaced;
+
+            // If the previous bucket was postponed...
+            if ($this->prev_bucket) {
+                // Escape its last line if necessary
+                $joined = $this->prev_match . substr($bucket->data, 0, strspn($bucket->data, '>From '));
+                if (preg_match('/^>*From /', $joined)) {
+                    if (strlen($this->prev_match)) {  // prev_match == end of prev_bucket w/o \n, e.g. 'Fro' or '>>F' or ''
+                        $this->prev_bucket->data = substr_replace(
+                            $this->prev_bucket->data, '>' . $this->prev_match, -strlen($this->prev_match));
+                    } else {
+                        $this->prev_bucket->data .= '>';
+                    }
+                    $this->prev_bucket->datalen++;
+                }
+
+                // And in either case send it out
+                stream_bucket_append($out, $this->prev_bucket);
+                $this->prev_bucket = null;
+                $out_empty = false;
             }
 
-            $consumed += (int) $bucket->datalen;
-            stream_bucket_append($out, $bucket);
+            // Decide if the current bucket should be postponed or sent immediately
+            if (str_contains("\n>From", substr($bucket->data, -1))
+                && preg_match('/\G\n>*(?:F(?:r(?:om?)?)?)?\z/', $bucket->data, $m, 0, strrpos($bucket->data, "\n"))
+            ) {
+                $this->prev_bucket = $bucket;
+                $this->prev_match = substr($m[0], 1);  // What was matched without the initial \n (could be '')
+            } else {
+                stream_bucket_append($out, $bucket);
+                $out_empty = false;
+            }
         }
 
-        return \PSFS_PASS_ON;
+        if ($closing && $this->prev_bucket) {
+            stream_bucket_append($out, $this->prev_bucket);
+            $this->prev_bucket = null;
+        }
+        return !$out_empty || $closing ? \PSFS_PASS_ON : \PSFS_FEED_ME;
     }
 }
