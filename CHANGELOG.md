@@ -14,6 +14,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
 - Fix vCard import silently dropping properties with a non-item group prefix (#10271)
 - Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
+- Security: Add basic validation for content proxied by the css proxy
 
 ## Release 1.7.2
 
