@@ -318,7 +318,7 @@ class rcube_washtml
                     $out = $this->wash_link($value);
                 } elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $value)) {
-                        if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
+                        if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)?/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, \ENT_QUOTES, $this->config['charset']) . ')'
