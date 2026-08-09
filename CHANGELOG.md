@@ -20,6 +20,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute
 - Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
 - Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions`
+- Security: Fix RCE via `cmd_learn` driver of markasjunk plugin
 
 ## Release 1.7.2
 
