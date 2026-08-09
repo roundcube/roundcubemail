@@ -86,8 +86,6 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     {
         $tnef = new \rcube_tnef_decoder();
 
-        $method = new \ReflectionMethod('rcube_tnef_decoder', '_decompressRTF');
-
         // First byte is a flags byte with bit 0 set, so the back-reference
         // branch is taken. The branch needs two more bytes (offset + length),
         // but the payload is truncated right after the flags byte. On
@@ -106,7 +104,7 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
         try {
             foreach ($truncated as $data) {
                 // A large $size forces the loop to keep consuming input.
-                $result = $method->invoke($tnef, $data, 1000);
+                $result = invokeMethod($tnef, '_decompressRTF', [$data, 1000]);
                 $this->assertIsString($result);
             }
         } finally {
