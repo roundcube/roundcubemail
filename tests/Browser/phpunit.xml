@@ -9,7 +9,9 @@
   displayDetailsOnPhpunitDeprecations="true"
 >
   <extensions>
-    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension">
+      <parameter name="maximum-duration" value="5000"/>
+    </bootstrap>
   </extensions>
   <testsuites>
     <testsuite name="tests">
