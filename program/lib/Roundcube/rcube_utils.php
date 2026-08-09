@@ -453,8 +453,10 @@ class rcube_utils
                     '172.16.0.0/12',  // RFC1918
                     '192.168.0.0/16', // RFC1918
                     '169.254.0.0/16', // link-local / cloud metadata
+                    '100.64.0.0/10',  // RFC6598: Shared Address Space (carrier-grade NAT)
                     '::1/128',
                     'fc00::/7',
+                    'fe80::/10',      // IPv6 link-local
                 ];
 
                 return self::is_ip_in_range($address, $nets);

@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix vCard import silently dropping properties with a non-item group prefix (#10271)
 - Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
 - Security: Add basic validation for content proxied by the css proxy
+- Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets
 
 ## Release 1.7.2
 
