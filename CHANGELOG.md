@@ -11,6 +11,7 @@
 - Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
 - Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions`
 - Security: Fix RCE via `cmd_learn` driver of markasjunk plugin
+- Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization
 
 ## Release 1.6.17
 

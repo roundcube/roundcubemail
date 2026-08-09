@@ -232,6 +232,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
         $srch      = null;
         $supported = ['subject', 'from', 'to', 'cc', 'bcc'];
 
+        $str = preg_replace('/[\r\n]+/', ' ', $str);
+
         // Check the search string for type of search
         if (preg_match("/^(from|to|reply-to|cc|bcc|subject):.*/i", $str, $m)) {
             list(, $srch) = explode(":", $str);
