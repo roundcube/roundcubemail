@@ -293,7 +293,7 @@ class rcube_washtml
             $key   = strtolower($name);
             $value = $attr->nodeValue;
 
-            if ($key == 'style' || ($key == 'values' && self::attribute_value($node, 'attributename', '/^style$/i'))) {
+            if ($key == 'style' || (in_array($key, ['by', 'values']) && self::attribute_value($node, 'attributename', '/^style$/i'))) {
                 $style = '';
                 if ($value === '' || ($style = $this->wash_style($value))) {
                     // replace double quotes to prevent syntax error and XSS issues (#1490227)
