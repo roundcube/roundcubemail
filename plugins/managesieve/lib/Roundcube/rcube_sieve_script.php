@@ -240,7 +240,7 @@ class rcube_sieve_script
 
             // header
             if (!empty($rule['name']) && strlen($rule['name'])) {
-                $script .= '# rule:[' . $rule['name'] . "]\r\n";
+                $script .= '# rule:[' . preg_replace('/[\r\n]+/', ' ', $rule['name']) . "]\r\n";
             }
 
             // constraints expressions

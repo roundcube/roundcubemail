@@ -9,6 +9,7 @@
 - Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check
 - Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute
 - Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
+- Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions`
 
 ## Release 1.6.17
 
