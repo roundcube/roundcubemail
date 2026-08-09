@@ -6,6 +6,7 @@
 - Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
 - Security: Add basic validation for content proxied by the css proxy
 - Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets
+- Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check
 
 ## Release 1.6.17
 

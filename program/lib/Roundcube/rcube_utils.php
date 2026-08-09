@@ -445,7 +445,14 @@ class rcube_utils
             $host = preg_replace('/^[0:]*:ffff:/i', '', $host);
 
             if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
-                $host = trim($matches[1], '-.');
+                $host = $matches[1];
+                if (preg_match('/([0-9]{1,3}([.-][0-9]{1,3}){3})$/', $host, $m)) {
+                    $host = str_replace('-', '.', $m[1]); // IPv4
+                } elseif (preg_match('/^([0-9a-f]{8})$/i', $host, $m)) {
+                    $host = long2ip(base_convert($m[1], 16, 10)); // Hexadecimal
+                } else {
+                    $host = str_replace('-', ':', $host); // IPv6
+                }
             }
 
             // TODO: This is pretty fast, but a single message can contain multiple links
