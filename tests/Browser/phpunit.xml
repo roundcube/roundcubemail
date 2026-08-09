@@ -2,6 +2,11 @@
 <phpunit
   bootstrap="bootstrap.php"
   colors="true"
+  failOnDeprecation="true"
+  failOnNotice="true"
+  failOnWarning="true"
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  displayDetailsOnPhpunitDeprecations="true"
 >
   <extensions>
     <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
