@@ -13,6 +13,7 @@
 - Security: Fix RCE via `cmd_learn` driver of markasjunk plugin
 - Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization
 - Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host
+- Security: Fix stored XSS in "Add to address book" action
 
 ## Release 1.6.17
 

@@ -90,7 +90,7 @@ class rcmail_action_mail_addcontact extends rcmail_action
             }
         }
         else {
-            $rcmail->output->show_message($error ?: 'errorsavingcontact', 'error', null, false);
+            $rcmail->output->show_message($error ? rcmail::Q($error) : 'errorsavingcontact', 'error', null, false);
         }
 
         $rcmail->output->send();
