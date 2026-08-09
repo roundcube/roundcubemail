@@ -9,7 +9,7 @@
   displayDetailsOnPhpunitDeprecations="true"
 >
   <extensions>
-    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
   </extensions>
   <testsuites>
     <testsuite name="tests">
