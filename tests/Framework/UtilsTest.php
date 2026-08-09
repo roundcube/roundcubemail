@@ -729,6 +729,8 @@ class UtilsTest extends TestCase
             ['http://127.0.0.1.sslip.io/', true],
             ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
             ['http://0/', true],
+            ['http://100.64.0.1', true],
+            ['http://[fe80::1]', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
