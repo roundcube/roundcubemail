@@ -13,6 +13,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix regression where it wasn't possible to hide a skin logo image anymore (#10254)
 - Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
 - Fix vCard import silently dropping properties with a non-item group prefix (#10271)
+- Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
 
 ## Release 1.7.2
 
