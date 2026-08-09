@@ -558,6 +558,10 @@ class WashtmlTest extends TestCase
                 '<svg><rect><animate attributeName="style" values="position:fixed;top:0;left:0" dur="0s" fill="freeze"/></rect></svg>',
                 '<svg><rect><animate attributeName="style" values="position: absolute; top: 0; left: 0" dur="0s" fill="freeze" /></rect></svg>',
             ],
+            [
+                '<svg><rect><animate attributeName="style" by="filter:url(http://attacker.example/track)" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="by" /></rect></svg>',
+            ],
         ];
     }
 
