@@ -5,6 +5,8 @@
   failOnDeprecation="true"
   failOnNotice="true"
   failOnWarning="true"
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  displayDetailsOnPhpunitDeprecations="true"
 >
   <source>
     <include>
