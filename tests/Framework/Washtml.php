@@ -508,6 +508,10 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<svg><defs><filter><feImage x-washed="xlink:href"></feImage></filter></defs></svg>',
             ],
             [
+                '<svg><rect fill="url(http://attacker.com"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
                 '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
