@@ -26,6 +26,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization
 - Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host
 - Security: Fix stored XSS in "Add to address book" action
+- Security: Fix HTML/CSS sanitization bypass via SVG animate `by` attribute
 
 ## Release 1.7.2
 
