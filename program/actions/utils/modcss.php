@@ -65,9 +65,8 @@ class rcmail_action_utils_modcss extends rcmail_action
 
         $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
         $css_prefix   = preg_replace('/[^a-z0-9]/i', '', $prefix);
-        $ctype_regexp = '~^text/(css|plain)~i';
 
-        if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
+        if ($source !== false && self::is_valid_css($source, $ctype)) {
             $rcmail->output->sendExit(
                 rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
                 ['Content-Type: text/css']
@@ -75,5 +74,20 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         $rcmail->output->sendExitError(404, "Invalid response returned by server");
+    }
+
+    /**
+     * Do basic response validation
+     */
+    private static function is_valid_css(string $source, $ctype): bool
+    {
+        // Because we can't block all requests to local services we have to be strict
+        // on what we proxy to the browser. Here we check if we deal with css or not.
+
+        return preg_match('~^text/(css|plain)~i', (string) $ctype)
+            && !preg_match('~^[{<]~', $source) // exclude json and html
+            && strpos($source, '{')
+            && strpos($source, '}')
+            && strpos($source, ':');
     }
 }

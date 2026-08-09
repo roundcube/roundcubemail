@@ -4,6 +4,7 @@
 
 - Password: Fix fatal error "Class 'Zxcvbn' not found" (#10274)
 - Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
+- Security: Add basic validation for content proxied by the css proxy
 
 ## Release 1.6.17
 
