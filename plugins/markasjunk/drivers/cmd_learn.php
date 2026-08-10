@@ -71,7 +71,7 @@ class markasjunk_cmd_learn
         foreach ($uids as $uid) {
             $replace = $vars;
 
-            if (strpos($tmp_command, '%s') !== false) {
+            if (strpos($command, '%s') !== false) {
                 $message = new rcube_message($uid);
                 $replace['%s'] = escapeshellarg($message->sender['mailto']);
             }
