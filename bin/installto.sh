@@ -88,6 +88,7 @@ if (strtolower($input) == 'y') {
         'jsdeps.json',
         'index.php',
         'CHANGELOG.md',
+        'LICENSE.md',
         'README.md',
         'public_html/index.php',
         'public_html/installer.php',
