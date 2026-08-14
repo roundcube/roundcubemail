@@ -1460,7 +1460,7 @@ function rcube_webmail() {
                 return this.qsearch(props);
             // reset quicksearch
             case 'reset-search':
-                var n, s = this.env.search_request || this.env.qsearch;
+                var s = this.env.search_request || this.env.qsearch;
 
                 this.reset_qsearch(true);
 
