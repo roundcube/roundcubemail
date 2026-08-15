@@ -1235,7 +1235,7 @@ function rcube_webmail() {
 
                 return true;
             case 'select-all':
-                this.select_all_mode = props ? false : true;
+                this.select_all_mode = !props;
                 this.dummy_select = true; // prevent msg opening if there's only one msg on the list
                 var list = this[this.task == 'addressbook' ? 'contact_list' : 'message_list'];
                 if (props == 'invert') {
@@ -3722,7 +3722,7 @@ function rcube_webmail() {
 
         // mark all message rows as read/unread
         for (i = 0; i < len; i++) {
-            this.set_message(a_uids[i], 'unread', (flag == 'unread' ? true : false));
+            this.set_message(a_uids[i], 'unread', flag == 'unread');
         }
 
         this.http_post('mark', post_data, lock);
@@ -3737,7 +3737,7 @@ function rcube_webmail() {
 
         // mark all message rows as flagged/unflagged
         for (i = 0; i < len; i++) {
-            this.set_message(a_uids[i], 'flagged', (flag == 'flagged' ? true : false));
+            this.set_message(a_uids[i], 'flagged', flag == 'flagged');
         }
 
         if (this.env.action == 'show' || $.inArray(this.preview_id, a_uids) >= 0) {
@@ -7290,7 +7290,7 @@ function rcube_webmail() {
                 var label, input,
                     colprop = this.env.coltypes[col],
                     name_suffix = colprop.limit != 1 ? '[]' : '',
-                    compact = $(menu).data('compact') ? true : false,
+                    compact = !!$(menu).data('compact'),
                     input_id = 'ff_' + col + (colprop.count || 0),
                     row = $('<div>').addClass('row input-group'),
                     cell = $('<div>').addClass('contactfieldcontent ' + colprop.type);
@@ -7495,7 +7495,7 @@ function rcube_webmail() {
         }
 
         $('#ff_photo').val(id);
-        this.enable_command('upload-photo', this.env.coltypes.photo ? true : false);
+        this.enable_command('upload-photo', !!this.env.coltypes.photo);
         this.enable_command('delete-photo', this.env.coltypes.photo && id != '-del-');
     };
 
@@ -7920,7 +7920,7 @@ function rcube_webmail() {
 
         // update subscription checkbox
         $('input[name="_subscribed[]"]', row).first().val(id)
-            .prop({ checked: subscribed ? true : false, disabled: is_protected ? true : false });
+            .prop({ checked: !!subscribed, disabled: !!is_protected });
 
         // add to folder/row-ID map
         this.env.subscriptionrows[id] = [name, display_name, false];
@@ -9257,7 +9257,7 @@ function rcube_webmail() {
         obj.appendTo(document.body);
 
         if (typeof show === 'undefined') {
-            show = obj.is(':visible') ? false : true;
+            show = !obj.is(':visible');
         }
 
         if (show && ref.length) {
