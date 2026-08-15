@@ -1748,7 +1748,7 @@ function rcube_webmail() {
     // append CSRF protection token to the given url
     this.secure_url = function (url) {
         return this.add_url(url, '_token', this.env.request_token);
-    },
+    };
 
     this.is_framed = function () {
         return this.env.framed && parent.rcmail && parent.rcmail != this && typeof parent.rcmail.command === 'function';
@@ -1964,7 +1964,6 @@ function rcube_webmail() {
                     && target != obj.data('opener')
                     && target != obj.get(0) // check if scroll bar was clicked (#1489832)
                     && !parents.is(obj.data('opener'))
-                    && id != skip
                     && (obj.attr('data-editable') != 'true' || !$(target).parents('#' + id).length)
                     && (obj.attr('data-sticky') != 'true' || !rcube_mouse_is_over(e, obj.get(0)))
                 ) {
@@ -8975,7 +8974,7 @@ function rcube_webmail() {
         // set unread count to window title
         reg = /^\([0-9]+\)\s+/i;
         if (set_title && document.title) {
-            var new_title = '',
+            var new_title,
                 doc_title = String(document.title);
 
             if (mycount && doc_title.match(reg)) {
@@ -10568,7 +10567,7 @@ function rcube_webmail() {
     // Cookie setter
     this.set_cookie = function (name, value, expires) {
         if (expires === false) {
-            var expires = new Date();
+            expires = new Date();
             expires.setYear(expires.getFullYear() + 1);
         }
 
