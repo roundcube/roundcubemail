@@ -117,8 +117,11 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             if (!empty($_GET['_thumb'])) {
                 if (is_file($cache_file)) {
                     $rcmail->output->future_expire_header(3600);
-                    header('Content-Type: ' . $mimetype);
-                    header('Content-Length: ' . filesize($cache_file));
+                    $rcmail->output->download_headers($filename, [
+                        'type' => $mimetype,
+                        'disposition' => 'inline',
+                        'length' => filesize($cache_file),
+                    ]);
                     readfile($cache_file);
                 }
 
