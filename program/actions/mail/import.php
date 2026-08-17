@@ -216,6 +216,18 @@ class rcmail_action_mail_import extends rcmail_action
         }
 
         $message = rtrim($message);
+
+        // Fall back to the message's Date header (an EML input, or an mbox from-line
+        // without a recognized date), so imported messages keep their original date
+        // as the INTERNALDATE instead of the import time (#5559)
+        if (!$date) {
+            $headers = rcube_mime::parse_headers(preg_split('/\r?\n\r?\n/', $message, 2)[0]);
+
+            if (!empty($headers['date'])) {
+                $date = rcube_utils::anytodatetime($headers['date']) ?: null;
+            }
+        }
+
         $rcmail = rcmail::get_instance();
 
         if ($rcmail->storage->save_message($folder, $message, '', false, [], $date)) {

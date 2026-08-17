@@ -4,12 +4,33 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
+- Use `X-Content-Type-Options:nosniff` for attachment previews and downloads (#10308)
+
+## Release 1.7.3
+
 - OAuth: Don't log an error when a refreshed token's TTL is below refresh_interval (#10213)
 - Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
 - Fix bug where searching in example_addressbook plugin was reporting zero results despite matches (#9022)
 - Fix vCard import mis-detecting folded continuation lines as BEGIN/END:VCARD (#9593)
 - Fix bug where the php session driver practically disabled session.lazy_write optimization (#9885, #10248)
+- Fix bug where dates could get displayed shifted back one day in some places (#9403)
+- Fix regression where it wasn't possible to hide a skin logo image anymore (#10254)
+- Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
+- Fix vCard import silently dropping properties with a non-item group prefix (#10271)
+- Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
+- Security: Add basic validation for content proxied by the css proxy
+- Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets
+- Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check
+- Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute
+- Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
+- Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions`
+- Security: Fix RCE via `cmd_learn` driver of markasjunk plugin
+- Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization
+- Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host
+- Security: Fix stored XSS in "Add to address book" action
+- Security: Fix HTML/CSS sanitization bypass via SVG animate `by` attribute
 
 ## Release 1.7.2
 
@@ -23,12 +44,12 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where Imagick could leave large temporary files on failure (#10230)
 - Fix bug where redis/memcache session could have been updated more often than needed
 - Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
-- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193)
-- Security: Fix various vulnerabilities in the password plugin using session-injected username
+- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193) [CVE-2026-62642]
+- Security: Fix various vulnerabilities in the password plugin using session-injected username [CVE-2026-62644]
 - Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
-- Security: Fix SSRF bypass via specific local address URLs - two new cases
+- Security: Fix SSRF bypass via specific local address URLs - two new cases [CVE-2026-62643]
 - Security: Fix zero-click stored XSS in plain-text rendering [CVE-2026-54433]
-- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file
+- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file [CVE-2026-62641]
 
 ## Release 1.7.1
 

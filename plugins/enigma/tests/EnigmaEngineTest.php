@@ -26,7 +26,7 @@ class EnigmaEngineTest extends TestCase
         $time = time();
         $engine->password_handler();
 
-        $store = unserialize($rcube->decrypt($_SESSION['enigma_pass'])); // @phpstan-ignore-line
+        $store = unserialize($rcube->decrypt($_SESSION['enigma_pass']));
 
         $this->assertCount(2, $store['ABC']);
         $this->assertSame('123<a>456', $store['ABC'][0]);

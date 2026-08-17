@@ -21,16 +21,17 @@ class OutputTest extends TestCase
         $output->reset();
         $output->download_headers('test');
 
-        $this->assertCount(3, $output->headers);
+        $this->assertCount(4, $output->headers);
         $this->assertContains('Content-Disposition: attachment; filename="test"', $output->headers);
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
         $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
+        $this->assertContains('X-Content-Type-Options: nosniff', $output->headers);
 
         // Test handling of filename*
         $output->reset();
         $output->download_headers('test ? test');
 
-        $this->assertCount(3, $output->headers);
+        $this->assertCount(4, $output->headers);
         $this->assertContains('Content-Disposition: attachment; filename="test _ test"; filename*=' . RCUBE_CHARSET . "''" . rawurlencode('test ? test'), $output->headers);
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
         $this->assertContains('Content-Security-Policy: default-src \'none\'; img-src \'self\'', $output->headers);
@@ -40,7 +41,7 @@ class OutputTest extends TestCase
         $params = ['type' => 'invalid'];
         $output->download_headers('test', $params);
 
-        $this->assertCount(3, $output->headers);
+        $this->assertCount(4, $output->headers);
         $this->assertContains('Content-Type: application/octet-stream', $output->headers);
 
         // Test inline disposition with type_charset
@@ -48,7 +49,7 @@ class OutputTest extends TestCase
         $params = ['disposition' => 'inline', 'type' => 'text/plain', 'type_charset' => 'ISO-8859-1'];
         $output->download_headers('test', $params);
 
-        $this->assertCount(3, $output->headers);
+        $this->assertCount(4, $output->headers);
         $this->assertContains('Content-Disposition: inline; filename="test"', $output->headers);
         $this->assertContains('Content-Type: text/plain; charset=ISO-8859-1', $output->headers);
 

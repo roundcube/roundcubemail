@@ -440,7 +440,14 @@ class rcube_utils
             $host = preg_replace('/^[0:]*:ffff:/i', '', $host);
 
             if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
-                $host = trim($matches[1], '-.');
+                $host = $matches[1];
+                if (preg_match('/([0-9]{1,3}([.-][0-9]{1,3}){3})$/', $host, $m)) {
+                    $host = str_replace('-', '.', $m[1]); // IPv4
+                } elseif (preg_match('/^([0-9a-f]{8})$/i', $host, $m)) {
+                    $host = long2ip(base_convert($m[1], 16, 10)); // Hexadecimal
+                } else {
+                    $host = str_replace('-', ':', $host); // IPv6
+                }
             }
 
             // TODO: This is pretty fast, but a single message can contain multiple links
@@ -453,8 +460,10 @@ class rcube_utils
                     '172.16.0.0/12',  // RFC1918
                     '192.168.0.0/16', // RFC1918
                     '169.254.0.0/16', // link-local / cloud metadata
+                    '100.64.0.0/10',  // RFC6598: Shared Address Space (carrier-grade NAT)
                     '::1/128',
                     'fc00::/7',
+                    'fe80::/10',      // IPv6 link-local
                 ];
 
                 return self::is_ip_in_range($address, $nets);
@@ -1171,10 +1180,9 @@ class rcube_utils
     public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
-        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
-        if (is_numeric($date)) {
+        if ($date === '' || is_numeric($date)) {
             return (int) $date;
         }
 
@@ -1182,6 +1190,10 @@ class rcube_utils
         if (strlen($date) > 128) {
             $date = substr($date, 0, 128);
         }
+
+        // Note we prefer UTC, if timezone is unknown, otherwise the result
+        // would depend on PHP/system timezone.
+        $tzname = $timezone ? ' ' . $timezone->getName() : ' UTC';
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again

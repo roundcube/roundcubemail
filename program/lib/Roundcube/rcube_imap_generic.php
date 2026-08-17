@@ -133,50 +133,54 @@ class rcube_imap_generic
             return false;
         }
 
+        $res = 0;
+        $position = 0;
+        $len = 0;
+
+        while (preg_match('/\{([0-9]+)\}\r\n/m', $string, $matches, \PREG_OFFSET_CAPTURE, $position + $len) === 1) {
+            $match = $matches[0][0]; // the whole match
+            $match_position = $matches[0][1]; // position of the match
+            $match_len = strlen($match); // length of the whole match
+            $len = (int) $matches[1][0]; // length of the next literal
+
+            // LITERAL+/LITERAL- support
+            $literal_plus = !empty($this->prefs['literal+']) || (!empty($this->prefs['literal-']) && $len <= 4096);
+
+            if ($literal_plus) {
+                $match = str_replace('}', '+}', $match);
+            }
+
+            $line = substr($string, $position, $match_position - $position) . $match;
+
+            $bytes = $this->putLine($line, false, $anonymized);
+            if ($bytes === false) {
+                return false;
+            }
+
+            $res += $bytes;
+
+            if (!$literal_plus) {
+                $line = $this->readLine(1000);
+                // handle error in command
+                if (!isset($line[0]) || $line[0] != '+') {
+                    return false;
+                }
+            }
+
+            $position = $match_position + $match_len;
+        }
+
         if ($endln) {
             $string .= "\r\n";
         }
 
-        $res = 0;
-        if ($parts = preg_split('/(\{[0-9]+\}\r\n)/m', $string, -1, \PREG_SPLIT_DELIM_CAPTURE)) {
-            for ($i = 0, $cnt = count($parts); $i < $cnt; $i++) {
-                if ($i + 1 < $cnt && preg_match('/^\{([0-9]+)\}\r\n$/', $parts[$i + 1], $matches)) {
-                    // LITERAL+/LITERAL- support
-                    $literal_plus = false;
-                    if (
-                        !empty($this->prefs['literal+'])
-                        || (!empty($this->prefs['literal-']) && $matches[1] <= 4096)
-                    ) {
-                        $parts[$i + 1] = sprintf("{%d+}\r\n", $matches[1]);
-                        $literal_plus = true;
-                    }
-
-                    $bytes = $this->putLine($parts[$i] . $parts[$i + 1], false, $anonymized);
-                    if ($bytes === false) {
-                        return false;
-                    }
-
-                    $res += $bytes;
-
-                    // don't wait if server supports LITERAL+ capability
-                    if (!$literal_plus) {
-                        $line = $this->readLine(1000);
-                        // handle error in command
-                        if (!isset($line[0]) || $line[0] != '+') {
-                            return false;
-                        }
-                    }
-
-                    $i++;
-                } else {
-                    $bytes = $this->putLine($parts[$i], false, $anonymized);
-                    if ($bytes === false) {
-                        return false;
-                    }
-
-                    $res += $bytes;
-                }
+        if ($position < strlen($string)) {
+            $bytes = $this->putLine($position ? substr($string, $position) : $string, false, $anonymized);
+            if ($bytes === false) {
+                return false;
             }
+
+            $res += $bytes;
         }
 
         return $res;
@@ -320,19 +324,19 @@ class rcube_imap_generic
      */
     protected function readReply(&$untagged = null)
     {
-        $untagged = []; // @phpstan-ignore-line
+        $untagged_lines = [];
 
         while (true) {
             $line = trim($this->readLine(1024));
             // store untagged response lines
             if (isset($line[0]) && $line[0] == '*') {
-                $untagged[] = $line; // @phpstan-ignore-line
+                $untagged_lines[] = $line;
             } else {
                 break;
             }
         }
 
-        $untagged = count($untagged) > 0 ? implode("\n", $untagged) : null;
+        $untagged = count($untagged_lines) > 0 ? implode("\n", $untagged_lines) : null;
 
         return $line;
     }
@@ -347,6 +351,11 @@ class rcube_imap_generic
      */
     protected function parseResult($string, $err_prefix = '')
     {
+        if ($string === '' && $this->eof()) {
+            $this->error = ($err_prefix ?: '') . 'Connection error';
+            return $this->errornum = self::ERROR_UNKNOWN;
+        }
+
         if (preg_match('/^[a-z0-9*]+ (OK|NO|BAD|BYE)(.*)$/i', trim($string), $matches)) {
             $res = strtoupper($matches[1]);
             $str = trim($matches[2]);
@@ -391,6 +400,26 @@ class rcube_imap_generic
         }
 
         return self::ERROR_UNKNOWN;
+    }
+
+    /**
+     * Reads server reply expecting a command continuation response
+     *
+     * @param string $reply The reply line
+     *
+     * @return int Response status
+     */
+    protected function expectReadyResponse(&$reply = ''): int
+    {
+        $reply = $this->readReply();
+
+        if (!strlen($reply) || $reply[0] != '+') {
+            return $this->parseResult($reply);
+        }
+
+        $reply = substr($reply, 2);
+
+        return self::ERROR_OK;
     }
 
     /**
@@ -560,12 +589,8 @@ class rcube_imap_generic
             }
 
             $this->putLine($this->nextTag() . " AUTHENTICATE {$type}");
-            $line = trim($this->readReply());
-
-            if ($line[0] == '+') {
-                $challenge = substr($line, 2);
-            } else {
-                return $this->parseResult($line);
+            if ($err = $this->expectReadyResponse($challenge)) {
+                return $err;
             }
 
             if ($type == 'CRAM-MD5') {
@@ -616,14 +641,12 @@ class rcube_imap_generic
 
                 // send result
                 $this->putLine($reply, true, true);
-                $line = trim($this->readReply());
 
-                if ($line[0] != '+') {
-                    return $this->parseResult($line);
+                if ($err = $this->expectReadyResponse($challenge)) {
+                    return $err;
                 }
 
                 // check response
-                $challenge = substr($line, 2);
                 $challenge = base64_decode($challenge);
                 if (!str_contains($challenge, 'rspauth=')) {
                     return $this->setError(self::ERROR_BAD,
@@ -668,13 +691,11 @@ class rcube_imap_generic
             }
 
             $this->putLine($this->nextTag() . ' AUTHENTICATE GSSAPI ' . $token);
-            $line = trim($this->readReply());
-
-            if ($line[0] != '+') {
-                return $this->parseResult($line);
+            if ($err = $this->expectReadyResponse($line)) {
+                return $err;
             }
 
-            $itoken = base64_decode(substr($line, 2));
+            $itoken = base64_decode($line);
             $otoken = null;
 
             try {
@@ -727,10 +748,8 @@ class rcube_imap_generic
                     self::COMMAND_LASTLINE | self::COMMAND_CAPABILITY | self::COMMAND_ANONYMIZED);
             } else {
                 $this->putLine($this->nextTag() . ' AUTHENTICATE PLAIN');
-                $line = trim($this->readReply());
-
-                if ($line[0] != '+') {
-                    return $this->parseResult($line);
+                if ($err = $this->expectReadyResponse()) {
+                    return $err;
                 }
 
                 // send result, get reply and process it
@@ -741,16 +760,14 @@ class rcube_imap_generic
         } elseif ($type == 'LOGIN') {
             $this->putLine($this->nextTag() . ' AUTHENTICATE LOGIN');
 
-            $line = trim($this->readReply());
-            if ($line[0] != '+') {
-                return $this->parseResult($line);
+            if ($err = $this->expectReadyResponse()) {
+                return $err;
             }
 
             $this->putLine(base64_encode($user), true, true);
 
-            $line = trim($this->readReply());
-            if ($line[0] != '+') {
-                return $this->parseResult($line);
+            if ($err = $this->expectReadyResponse()) {
+                return $err;
             }
 
             // send result, get reply and process it
@@ -766,7 +783,7 @@ class rcube_imap_generic
 
             $line = trim($this->readReply());
 
-            if ($line[0] == '+') {
+            if (strlen($line) && $line[0] == '+') {
                 // send empty line
                 $this->putLine('', true, true);
                 $line = $this->readReply();
@@ -1920,10 +1937,9 @@ class rcube_imap_generic
         }
 
         $encoding = $encoding ? trim($encoding) : 'US-ASCII';
-        $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
         [$code, $response] = $this->execute($return_uid ? 'UID SORT' : 'SORT',
-            ["({$field})", $encoding, $criteria]);
+            ["({$field})", $encoding, $criteria ?: 'ALL']);
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -1958,10 +1974,9 @@ class rcube_imap_generic
 
         $encoding = $encoding ? trim($encoding) : 'US-ASCII';
         $algorithm = $algorithm ? trim($algorithm) : 'REFERENCES';
-        $criteria = $criteria ? 'ALL ' . trim($criteria) : 'ALL';
 
         [$code, $response] = $this->execute($return_uid ? 'UID THREAD' : 'THREAD',
-            [$algorithm, $encoding, $criteria]);
+            [$algorithm, $encoding, $criteria ?: 'ALL']);
 
         if ($code != self::ERROR_OK) {
             $response = null;
@@ -2000,7 +2015,6 @@ class rcube_imap_generic
         }
 
         $esearch = empty($items) ? false : $this->getCapability('ESEARCH');
-        $criteria = trim($criteria);
         $params = '';
 
         // RFC4731: ESEARCH
@@ -3178,10 +3192,7 @@ class rcube_imap_generic
 
         // Do not wait when LITERAL+ is supported
         if (!$literal_plus) {
-            $line = $this->readReply();
-
-            if ($line[0] != '+') {
-                $this->parseResult($line, 'APPEND: ');
+            if ($this->expectReadyResponse()) {
                 return false;
             }
         }

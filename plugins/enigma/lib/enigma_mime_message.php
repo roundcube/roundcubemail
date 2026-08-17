@@ -162,7 +162,7 @@ class enigma_mime_message extends \Mail_mime
      * @param bool  $skip_head True if you want to return/save only the message
      *                         without headers
      *
-     * @return mixed The MIME message content string, null or PEAR error object
+     * @return \PEAR_Error|string|null The MIME message content string, null or PEAR error object
      */
     #[\Override]
     public function get($params = null, $filename = null, $skip_head = false)
