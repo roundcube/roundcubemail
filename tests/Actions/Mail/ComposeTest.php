@@ -99,4 +99,33 @@ class ComposeTest extends ActionTestCase
         $this->assertStringNotContainsString('<div', $result);
         $this->assertStringContainsString('Hello world', $result);
     }
+
+    /**
+     * Test that reopening a saved draft (MODE_DRAFT) does not wrap the body in a
+     * <div> either, mirroring MODE_EDIT - a draft can be saved and reopened
+     * repeatedly just like Edit-as-New resends, so it is susceptible to the same
+     * accumulation (#9919).
+     */
+    public function test_prepare_html_body_draft_mode_strips_body_style()
+    {
+        $body = '<html><head></head><body style="font-size: 10pt; font-family: Verdana,Geneva,sans-serif;">'
+            . "\r\n<p>Hello world</p></body></html>";
+
+        $result = $this->invoke_prepare_html_body(\rcmail_sendmail::MODE_DRAFT, $body);
+
+        $this->assertStringNotContainsString('<div', $result);
+        $this->assertStringContainsString('Hello world', $result);
+    }
+
+    /**
+     * Test that forward mode still wraps the body in a container element,
+     * so the #9919 fix does not regress style isolation for forwards.
+     */
+    public function test_prepare_html_body_forward_mode_has_container()
+    {
+        $result = $this->invoke_prepare_html_body(\rcmail_sendmail::MODE_FORWARD, '<p>Hello world</p>');
+
+        $this->assertStringContainsString('forwardbody', $result);
+        $this->assertStringContainsString('Hello world', $result);
+    }
 }
