@@ -18,17 +18,17 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
 - Fix vCard import silently dropping properties with a non-item group prefix (#10271)
 - Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
-- Security: Add basic validation for content proxied by the css proxy
-- Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets
-- Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check
-- Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute
-- Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter`
-- Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions`
-- Security: Fix RCE via `cmd_learn` driver of markasjunk plugin
-- Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization
-- Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host
-- Security: Fix stored XSS in "Add to address book" action
-- Security: Fix HTML/CSS sanitization bypass via SVG animate `by` attribute
+- Security: Add basic validation for content proxied by the css proxy [CVE-2026-74998]
+- Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets [CVE-2026-75006]
+- Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check [CVE-2026-75006]
+- Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute [CVE-2026-75003]
+- Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter` [CVE-2026-75007]
+- Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions` [CVE-2026-75004]
+- Security: Fix RCE via `cmd_learn` driver of markasjunk plugin [CVE-2026-74997]
+- Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization [CVE-2026-75002]
+- Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host [CVE-2026-75010]
+- Security: Fix stored XSS in "Add to address book" action [CVE-2026-74999]
+- Security: Fix HTML/CSS sanitization bypass via SVG animate `by` attribute [CVE-2026-75000]
 
 ## Release 1.7.2
 
