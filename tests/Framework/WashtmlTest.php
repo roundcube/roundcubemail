@@ -525,6 +525,10 @@ class WashtmlTest extends TestCase
                 '<svg><defs><filter><feimage x-washed="xlink:href"></feimage></filter></defs></svg>',
             ],
             [
+                '<svg><rect fill="url(http://attacker.com"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
                 '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
@@ -553,6 +557,10 @@ class WashtmlTest extends TestCase
             [
                 '<svg><rect><animate attributeName="style" values="position:fixed;top:0;left:0" dur="0s" fill="freeze"/></rect></svg>',
                 '<svg><rect><animate attributeName="style" values="position: absolute; top: 0; left: 0" dur="0s" fill="freeze" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" by="filter:url(http://attacker.example/track)" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="by" /></rect></svg>',
             ],
         ];
     }

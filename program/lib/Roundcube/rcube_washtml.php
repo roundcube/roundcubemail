@@ -291,7 +291,7 @@ class rcube_washtml
             $key = strtolower($name);
             $value = $attr->nodeValue;
 
-            if ($key == 'style' || ($key == 'values' && self::attribute_value($node, 'attributename', '/^style$/i'))) {
+            if ($key == 'style' || (in_array($key, ['by', 'values']) && self::attribute_value($node, 'attributename', '/^style$/i'))) {
                 $style = '';
                 if ($value === '' || ($style = $this->wash_style($value))) {
                     // replace double quotes to prevent syntax error and XSS issues (#1490227)
@@ -318,7 +318,7 @@ class rcube_washtml
                     $out = $this->wash_link($value);
                 } elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
                     if (preg_match('/^[a-z:]*url\(/i', $value)) {
-                        if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $value, $match)) {
+                        if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)?/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
                                     . '(' . htmlspecialchars($url, \ENT_QUOTES, $this->config['charset']) . ')'

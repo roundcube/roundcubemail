@@ -41,10 +41,15 @@ class rcube_modoboa_password
         // Init config access
         $rcmail = rcmail::get_instance();
         $token = $rcmail->config->get('password_modoboa_api_token');
-        $IMAPhost = $_SESSION['imap_host'];
+        $host = $rcmail->config->get('password_modoboa_api_host');
+
+        // We don't allow replacement variables when the host name(s) come from the user
+        if (!empty($rcmail->config->get('imap_host'))) {
+            $host = rcube_utils::parse_host($host);
+        }
 
         $client = password::get_http_client();
-        $url = "https://{$IMAPhost}/api/v1/accounts/?search=" . urlencode($username);
+        $url = "https://{$host}/api/v1/accounts/?search=" . urlencode($username);
 
         $options = [
             'http_errors' => true,
@@ -82,7 +87,7 @@ class rcube_modoboa_password
                 'password' => $passwd, // new password
         ]);
 
-        $url = "https://{$IMAPhost}/api/v1/accounts/{$userid}/";
+        $url = "https://{$host}/api/v1/accounts/{$userid}/";
 
         // Call HTTP API Modoboa
         try {

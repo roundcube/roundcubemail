@@ -2,9 +2,16 @@
 <phpunit
   bootstrap="bootstrap.php"
   colors="true"
+  failOnDeprecation="true"
+  failOnNotice="true"
+  failOnWarning="true"
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  displayDetailsOnPhpunitDeprecations="true"
 >
   <extensions>
-    <extension class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
+    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension">
+      <parameter name="maximum-duration" value="5000"/>
+    </bootstrap>
   </extensions>
   <testsuites>
     <testsuite name="tests">
