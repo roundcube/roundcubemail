@@ -24,9 +24,9 @@ class Framework_Message extends PHPUnit\Framework\TestCase
      */
     public function test_tnef_decode()
     {
-        $message = new rcube_message_test(123);
+        $message = new MessageMock(123);
         $part = new rcube_message_part();
-        $part->mime_id = 1;
+        $part->mime_id = '1';
 
         $message->set_part_body(1, '');
         $result = $message->tnef_decode($part);
@@ -61,9 +61,9 @@ class Framework_Message extends PHPUnit\Framework\TestCase
      */
     public function test_uu_decode()
     {
-        $message = new rcube_message_test(123);
+        $message = new MessageMock(123);
         $part = new rcube_message_part();
-        $part->mime_id = 1;
+        $part->mime_id = '1';
 
         $message->set_part_body(1, '');
         $result = $message->uu_decode($part);
@@ -82,27 +82,5 @@ class Framework_Message extends PHPUnit\Framework\TestCase
         $this->assertSame(4, $result[0]->size);
         $this->assertSame('test', $result[0]->body);
         $this->assertSame([], $result[0]->parts);
-    }
-}
-
-/**
- * rcube_message wrapper for easier testing (without accessing IMAP)
- */
-class rcube_message_test extends rcube_message
-{
-    private $part_bodies = [];
-
-    public function __construct($uid, $folder = null, $is_safe = false)
-    {
-    }
-
-    public function get_part_body($mime_id, $formatted = false, $max_bytes = 0, $mode = null)
-    {
-        return $this->part_bodies[$mime_id] ?? null;
-    }
-
-    public function set_part_body($mime_id, $body)
-    {
-        $this->part_bodies[$mime_id] = $body;
     }
 }
