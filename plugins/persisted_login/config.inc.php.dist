@@ -1,0 +1,17 @@
+<?php
+
+// Set the number of days a login will be valid for (if the user toggles the
+// switch at login).
+//
+// The maximum number of days that can be set is 365 (1 year).
+// The minimum value is 1.
+// The default value is 7. This number will be also be used if the config option is set to something else than an
+// integer.
+//
+// To disable the plugin, remove it from the list of plugins in Roundcube's config.inc.php.
+//
+// Technical note; This plugin will over-ride $config['session_lifetime']
+// (which sets the session garbage collection max lifetime in PHP) to match the
+// number of days set above.
+
+$config['persisted_login_days'] = 7;
