@@ -938,6 +938,9 @@ $config['message_sort_order'] = 'DESC';
 // subject, from, to, fromto, cc, replyto, date, size, status, flag, attachment, priority
 $config['list_cols'] = ['subject', 'status', 'fromto', 'date', 'size', 'flag', 'attachment'];
 
+// show the hover menu in the message list
+$config['list_hover_menu'] = true;
+
 // the default locale setting (leave empty for auto-detection)
 // RFC1766 formatted language name like en_US, de_DE, de_CH, fr_FR, pt_BR
 $config['language'] = null;
