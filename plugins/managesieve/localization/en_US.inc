@@ -152,6 +152,7 @@ $labels['string'] = 'String';
 $labels['currdate'] = 'Current date';
 $labels['datetest'] = 'Date';
 $labels['dateheader'] = 'header:';
+$labels['datezone'] = 'time-zone:';
 $labels['year'] = 'year';
 $labels['month'] = 'month';
 $labels['day'] = 'day';
