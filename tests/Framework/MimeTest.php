@@ -217,6 +217,23 @@ class MimeTest extends TestCase
     }
 
     /**
+     * Test decoding of raw UTF-8 headers (RFC 6532)
+     * Uses rcube_mime::decode_mime_string()
+     */
+    public function test_header_decode_raw_utf8()
+    {
+        // Raw UTF-8 Korean with wrong fallback charset - should be preserved
+        $korean = "\xEC\x95\x88\xEB\x85\x95\xED\x95\x98\xEC\x84\xB8\xEC\x9A\x94"; // 안녕하세요
+        $res = \rcube_mime::decode_mime_string($korean, 'ISO-8859-1');
+        $this->assertSame($korean, $res, 'Raw UTF-8 header with Latin-1 fallback');
+
+        // Latin-1 high bytes (not valid UTF-8) - should still be converted
+        $latin1 = "caf\xE9"; // café in ISO-8859-1
+        $res = \rcube_mime::decode_mime_string($latin1, 'ISO-8859-1');
+        $this->assertSame('café', $res, 'Latin-1 header should be converted');
+    }
+
+    /**
      * Test headers parsing
      */
     public function test_parse_headers()
