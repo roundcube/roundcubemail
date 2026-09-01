@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix bug where toolbar was hidden after resizing the window from small to normal/large mode (#9085)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
 - Use `X-Content-Type-Options:nosniff` for attachment previews and downloads (#10308)
