@@ -22,11 +22,13 @@ class PrefsSaveTest extends ActionTestCase
 
         // TODO: Test all sections
         $_POST['_section'] = 'general';
+        $_POST['_refresh_interval'] = '300';
 
         $action->run();
 
         $this->assertSame('edit-prefs', \rcmail::get_instance()->action);
         $this->assertSame('successfullysaved', $output->getProperty('message'));
+        $this->assertSame(300, \rcmail::get_instance()->user->get_prefs()['refresh_interval']);
     }
 
     /**

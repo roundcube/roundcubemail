@@ -54,23 +54,27 @@ class IndexTest extends ActionTestCase
     public function test_user_prefs_refresh_interval()
     {
         $rcmail = \rcube::get_instance();
-        $rcmail->config->set('refresh_interval', 30);
+        $interval = $rcmail->config->get('refresh_interval');
 
-        $result = \rcmail_action_settings_index::user_prefs('general');
-        $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
+        try {
+            $rcmail->config->set('refresh_interval', 30);
 
-        // the current sub-minute interval must be offered and selected
-        $this->assertStringContainsString('<option value="30" selected="selected">every 30 second(s)</option>', $content);
+            $result = \rcmail_action_settings_index::user_prefs('general');
+            $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
 
-        $rcmail->config->set('refresh_interval', 120);
+            // the current sub-minute interval must be offered and selected
+            $this->assertStringContainsString('<option value="30" selected="selected">every 30 second(s)</option>', $content);
 
-        $result = \rcmail_action_settings_index::user_prefs('general');
-        $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
+            $rcmail->config->set('refresh_interval', 120);
 
-        // the same for an unlisted whole-minute interval
-        $this->assertStringContainsString('<option value="120" selected="selected">every 2 minute(s)</option>', $content);
+            $result = \rcmail_action_settings_index::user_prefs('general');
+            $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
 
-        $rcmail->config->set('refresh_interval', 60);
+            // the same for an unlisted whole-minute interval
+            $this->assertStringContainsString('<option value="120" selected="selected">every 2 minute(s)</option>', $content);
+        } finally {
+            $rcmail->config->set('refresh_interval', $interval);
+        }
     }
 
     /**
