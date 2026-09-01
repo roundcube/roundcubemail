@@ -6,6 +6,10 @@ parameters:
     checkMissingOverrideMethodAttribute: true
     paths:
         - .
+        # PHPStan skips dot files when scanning a directory, so the two
+        # php-cs-fixer configs have to be named explicitly.
+        - .php-cs-fixer.dist.php
+        - .php-cs-fixer-fully_qualified_strict_types.php
     excludePaths:
         - node_modules (?)
         - vendor
