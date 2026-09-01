@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix bug where labels in the compose form headers were too far from inputs on wide screens (#8913)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
 - Use `X-Content-Type-Options:nosniff` for attachment previews and downloads (#10308)
