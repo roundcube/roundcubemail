@@ -48,6 +48,32 @@ class IndexTest extends ActionTestCase
     }
 
     /**
+     * Test user_prefs() output for refresh_interval values that are not
+     * in the standard options list (#10292)
+     */
+    public function test_user_prefs_refresh_interval()
+    {
+        $rcmail = \rcube::get_instance();
+        $rcmail->config->set('refresh_interval', 30);
+
+        $result = \rcmail_action_settings_index::user_prefs('general');
+        $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
+
+        // the current sub-minute interval must be offered and selected
+        $this->assertStringContainsString('<option value="30" selected="selected">every 30 second(s)</option>', $content);
+
+        $rcmail->config->set('refresh_interval', 120);
+
+        $result = \rcmail_action_settings_index::user_prefs('general');
+        $content = $result[0]['general']['blocks']['main']['options']['refresh_interval']['content'];
+
+        // the same for an unlisted whole-minute interval
+        $this->assertStringContainsString('<option value="120" selected="selected">every 2 minute(s)</option>', $content);
+
+        $rcmail->config->set('refresh_interval', 60);
+    }
+
+    /**
      * Test get_skins() method
      */
     public function test_get_skins()
