@@ -672,7 +672,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         ['part' => $part, 'prefix' => '', 'message' => self::$MESSAGE]);
 
                     // Set attributes of the part container
-                    $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+                    $container_class = ($part->ctype_secondary == 'html' && $rcmail->config->get('prefer_html')) ? 'message-htmlpart' : 'message-part';
                     $container_id = $container_class . (++$part_no);
                     $container_attrib = ['class' => $container_class, 'id' => $container_id];
 
