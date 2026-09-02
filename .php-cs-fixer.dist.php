@@ -64,9 +64,6 @@ return (new Config())
         ],
         'native_function_invocation' => false,
         'void_return' => false,
-        'blank_line_before_statement' => [
-            'statements' => ['break', 'continue', 'declare', 'return', 'throw', 'exit'],
-        ],
         'final_internal_class' => false,
         'combine_consecutive_issets' => false,
         'combine_consecutive_unsets' => false,
@@ -78,9 +75,6 @@ return (new Config())
         'phpdoc_add_missing_param_annotation' => false,
         'return_assignment' => false,
         'comment_to_phpdoc' => false,
-        'general_phpdoc_annotation_remove' => [
-            'annotations' => ['author', 'copyright', 'throws'],
-        ],
 
         'modernize_strpos' => true,
 
