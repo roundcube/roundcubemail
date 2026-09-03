@@ -6,26 +6,55 @@ and lets users inspect the relevant headers.
 
 Adds a **Message Security** link to the message header's links row (next to
 *Summary / Headers / Plain text*). The link is always present; its icon colour
-reflects the overall sender-authentication verdict. **DMARC** drives the icon
-when the receiving server evaluated it (DMARC already implies an aligned SPF or
-DKIM pass); otherwise the present **SPF** and **DKIM** results are combined,
-omitting whichever is missing:
+reflects the overall sender-authentication verdict:
 
 | Situation | Icon |
 |---|---|
-| DMARC pass — or all present SPF/DKIM checks pass (DKIM aligned with From) | green check |
-| A present check is soft/incomplete (SPF softfail/neutral, DKIM valid but not aligned, or nothing to check) | amber triangle |
-| DMARC fail, or any present SPF/DKIM check failed | red cross |
+| Every enabled check passed (DKIM aligned with From) | green check |
+| A check is soft/incomplete (SPF softfail/neutral, DKIM valid but not aligned, or nothing to check) | amber triangle |
+| Any enabled check failed | red cross |
 | Only an unverified DKIM signature is present | grey question mark |
 
 The link text stays the normal blue link colour (like the other header links);
 only the icon is coloured. A tooltip on the link gives the one-line verdict.
 
 **Clicking the link opens a popup** (the same dialog style as *Message
-headers*) with the parsed **SPF / DKIM / DMARC** results — Gmail-style — plus a
-**Transport (TLS)** line showing whether the message reached your server over
-an encrypted SMTP connection, and below them the raw `Authentication-Results` /
-`Received-SPF` lines plus any administrator-configured extra headers.
+headers*) with the parsed **SPF / DKIM / DMARC** results — Gmail-style — each
+carrying **its own verdict glyph**, from the same five-glyph table as the link,
+so a reader who sees the amber `!` beside DKIM can read the `!` on the link as
+"the DKIM one won". Below them is a **Transport (TLS)** line showing whether the
+message reached your server over an encrypted SMTP connection, then the raw
+`Authentication-Results` / `Received-SPF` lines plus any administrator-configured
+extra headers.
+
+How the verdict is decided
+--------------------------
+
+**Across mechanisms, the worst result wins.** SPF, DKIM and DMARC are
+independent assertions about the same message, so the weakest of them governs.
+A DMARC pass is *not* treated as authoritative on its own: it means the domain
+owner's policy was met, not that every mechanism agreed — and the disagreement
+is exactly what's worth showing. So an ESP-signed message whose DKIM signature
+doesn't align with the visible From warns, rather than being waved through on
+DMARC alone.
+
+**Within DKIM the rule is reversed — the best signature wins.** A message is
+commonly signed more than once (by the author's domain and by the sending
+platform, say). Those signatures are alternatives, not conditions to satisfy:
+one that verifies *and* aligns with the From domain authenticates the message
+regardless of what the other says. Ties keep the earliest signature, so a
+singly-signed message reports exactly what it always did.
+
+**One exception, for relayed mail.** Forwarders and mailing lists relay under
+their own envelope sender, which breaks SPF for mail that is otherwise entirely
+genuine. When DMARC passed, the receiving server has already weighed that
+failure and accepted the message on a surviving aligned DKIM signature — so the
+SPF failure is demoted to a warning (and the SPF row says why) instead of
+raising a false alarm on legitimately forwarded mail.
+
+The **DKIM marker on the message's From header** is the DKIM row's verdict
+itself, lifted out rather than recomputed, so the row glyph, the header marker
+and its tooltip can never disagree.
 
 Enabling / disabling checks
 ---------------------------
@@ -127,8 +156,8 @@ Limitations (initial version)
 - **Alignment is not PSL-based.** Subdomain/equality only; it does not compute
   organizational domains via the Public Suffix List, so it is neither a full
   DMARC alignment check nor aware of registrable-domain boundaries.
-- **The icon is a summary, not a policy decision.** Without DMARC the combined
-  SPF + DKIM verdict treats an SPF-only pass as green even though SPF does not
+- **The icon is a summary, not a policy decision.** With no DKIM or DMARC result
+  to weigh against it, an SPF-only pass is green even though SPF does not
   authenticate the visible From address; the per-check breakdown in the popup
   shows the detail.
 

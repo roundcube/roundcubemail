@@ -13,17 +13,36 @@
     cursor: pointer;
 }
 
-/* Ensure the icon font even on skins that don't extend it onto these links. */
-.msgsec-link::before {
+/* ---- verdict glyphs -------------------------------------------------- */
+
+/* One glyph table on purpose, shared by the header link, the popup's SPF /
+   DKIM / DMARC rows and the From-header marker: a reader who sees the amber !
+   beside DKIM should be able to read the ! on the link as "the DKIM one won",
+   which only works while the same verdict always draws the same glyph.
+   Ensures the icon font even on skins that don't extend it onto these. */
+.msgsec-status::before {
     font-family: 'Icons', sans-serif;
     font-weight: 900;
 }
 
-/* Status glyph + colour (Font Awesome solid code points from the Icons font). */
-.msgsec-link.msgsec-pass::before    { content: "\f058"; color: #1a7f37; } /* check-circle  */
-.msgsec-link.msgsec-warn::before    { content: "\f071"; color: #b8860b; } /* triangle      */
-.msgsec-link.msgsec-fail::before    { content: "\f057"; color: #d2322d; } /* times-circle  */
-.msgsec-link.msgsec-unknown::before { content: "\f059"; color: #6c757d; } /* question-circle */
+/* Font Awesome solid code points from the Icons font. */
+.msgsec-status-pass::before    { content: "\f058"; color: #1a7f37; } /* check-circle    */
+.msgsec-status-warn::before    { content: "\f071"; color: #b8860b; } /* triangle        */
+.msgsec-status-fail::before    { content: "\f057"; color: #d2322d; } /* times-circle    */
+.msgsec-status-unknown::before { content: "\f059"; color: #6c757d; } /* question-circle */
+
+/* Nothing was reported, which is not a failing — a neutral dot rather than an
+   icon, so it doesn't read as a verdict of its own. */
+.msgsec-status-none::before {
+    font-family: inherit;
+    content: "\00b7";
+    color: #6c757d;
+}
+
+/* Verdict glyph beside a row label in the popup. */
+.msgsec-row-marker {
+    margin-left: .4em;
+}
 
 /* ---- details popup -------------------------------------------------- */
 
@@ -87,16 +106,8 @@ code.msgsec-value {
 
 /* ---- DKIM marker on the message From header ------------------------- */
 
+/* Draws its glyph from the shared .msgsec-status-* table above. */
 .msgsec-from-marker {
     margin-left: .4em;
     cursor: help;
 }
-
-.msgsec-from-marker::before {
-    font-family: 'Icons', sans-serif;
-    font-weight: 900;
-}
-
-.msgsec-from-marker.msgsec-from-pass::before { content: "\f058"; color: #1a7f37; } /* check-circle    */
-.msgsec-from-marker.msgsec-from-fail::before { content: "\f057"; color: #d2322d; } /* times-circle    */
-.msgsec-from-marker.msgsec-from-none::before { content: "\f059"; color: #b8860b; } /* question-circle */

@@ -28,6 +28,12 @@
  * be forged, configure `message_security_info_trusted_authserv` with your own mail
  * server's authserv-id(s) for a trustworthy result.
  *
+ * The overall status is the *worst* of the per-mechanism verdicts: SPF, DKIM and
+ * DMARC are independent assertions about the same message, so the weakest one
+ * governs, and a DMARC pass does not excuse a weaker result beside it. Within
+ * DKIM the rule is reversed — several signatures are alternatives, so the best
+ * of them is the one reported. `evaluate` and `best_dkim` carry the reasoning.
+ *
  * @license GNU GPLv3+
  * @author Claude
  */
@@ -53,6 +59,12 @@ class message_security_info extends rcube_plugin
         'spf' => ['smtp\.mailfrom', 'smtp\.helo', 'envelope-from'],
         'dmarc' => ['header\.from'],
     ];
+
+    /** The authentication mechanisms, in report order. */
+    private const METHODS = ['spf', 'dkim', 'dmarc'];
+
+    /** Best-first ranking used to pick between several DKIM signatures. */
+    private const DKIM_PREFERENCE = ['pass', 'warn', 'unknown', 'fail'];
 
     #[\Override]
     public function init()
@@ -211,19 +223,21 @@ class message_security_info extends rcube_plugin
 
         $headers = $message->headers;
         $auth = $this->parse_authresults($headers);
-        $verdict = $this->evaluate($headers, $auth);
+        $security = $this->security_fields($headers, $auth);
+        $verdict = $this->evaluate($security);
 
         $env = [
             'status' => $verdict['status'],
             'summary' => $verdict['summary'],
-            'rows' => $this->summary_rows($headers, $auth),
+            'rows' => $this->summary_rows($headers, $security),
             'headers' => $this->raw_headers($headers),
         ];
 
-        // A DKIM/From marker placed on the message's From header (green check =
-        // signed & aligned, red = signed-but-unaligned or failed, amber = unsigned).
-        if ($this->method_enabled('dkim')) {
-            $env['dkim_from'] = $this->dkim_from_marker($headers, $auth);
+        // The marker placed on the message's From header is the DKIM verdict
+        // itself — lifted out, never recomputed — so the row glyph, the header
+        // marker and its tooltip can never end up disagreeing with each other.
+        if (isset($security['dkim'])) {
+            $env['dkim_from'] = $security['dkim']['verdict'];
         }
 
         $this->rc->output->set_env('message_security_info', $env);
@@ -265,49 +279,198 @@ class message_security_info extends rcube_plugin
     /**
      * Overall sender-authentication verdict driving the link icon + tooltip.
      *
-     * DMARC, when it actually evaluated, is authoritative — it already implies
-     * an aligned SPF or DKIM pass. Otherwise the present SPF and DKIM results
-     * are combined, omitting whichever is missing. Mechanisms disabled by the
-     * administrator are excluded entirely.
+     * The worst of the per-mechanism verdicts wins. SPF, DKIM and DMARC are
+     * independent assertions about the same message, so the weakest of them
+     * governs; a DMARC pass is not treated as authoritative on its own. DMARC
+     * passing means the domain owner's policy was met — it does not mean every
+     * mechanism agreed, and the disagreement is exactly the interesting part.
+     *
+     * Mechanisms disabled by the administrator are absent from $security and so
+     * are excluded entirely.
+     *
+     * @param array<string, array> $security the per-mechanism findings
      *
      * @return array{status:string, summary:string}
      */
-    private function evaluate($headers, $auth)
+    private function evaluate($security)
     {
-        // DMARC is the overall verdict when enabled and it yielded a real result.
-        if ($this->method_enabled('dmarc')) {
-            $dmarc = $auth['dmarc'][0]['result'] ?? null;
-            if ($dmarc === 'pass') {
-                return ['status' => 'pass', 'summary' => $this->gettext('summarypass')];
-            }
-            if ($dmarc === 'fail') {
-                return ['status' => 'fail', 'summary' => $this->gettext('summaryfail')];
-            }
-        }
-
-        // No usable DMARC: combine the SPF and DKIM results that are present.
-        $from = $this->from_domain($headers);
-        $statuses = [];
-
-        if ($this->method_enabled('spf')) {
-            $spf = ($auth['spf'][0] ?? null) ?: $this->spf_from_received($headers);
-            if ($spf) {
-                $statuses[] = $this->method_status('spf', $spf, $from);
-            }
-        }
-
-        if ($this->method_enabled('dkim')) {
-            if (!empty($auth['dkim'])) {
-                $statuses[] = $this->method_status('dkim', $auth['dkim'][0], $from);
-            } elseif (!empty($this->normalize($headers->get('DKIM-Signature', false)))) {
-                // Signature present but not verified by the receiving server.
-                $statuses[] = 'unknown';
-            }
-        }
-
-        $status = $this->combine_statuses($statuses);
+        $status = $this->combine_statuses(array_column($security, 'verdict'));
 
         return ['status' => $status, 'summary' => $this->gettext('summary' . $status)];
+    }
+
+    /**
+     * The SPF/DKIM/DMARC findings: one fixed-shape entry per enabled mechanism.
+     *
+     * A disabled mechanism is absent entirely — nothing was evaluated, so there
+     * is nothing to report. Every entry present has the same keys, so callers
+     * can read them without special-casing; see security_entry() for what each
+     * of them means.
+     *
+     * @return array<string, array>
+     */
+    private function security_fields($headers, $auth)
+    {
+        $from = $this->from_domain($headers);
+        $sigs = $this->normalize($headers->get('DKIM-Signature', false));
+        $sig_domain = !empty($sigs) ? $this->signature_domain($sigs[0]) : null;
+
+        // SPF is often only in a Received-SPF header, not Authentication-Results.
+        $results = [
+            'spf' => ($auth['spf'][0] ?? null) ?: $this->spf_from_received($headers),
+            'dkim' => $this->best_dkim($auth['dkim'], $from, $sig_domain),
+            'dmarc' => $auth['dmarc'][0] ?? null,
+        ];
+
+        $security = [];
+
+        foreach (self::METHODS as $method) {
+            if ($this->method_enabled($method)) {
+                $security[$method] = $this->security_entry($method, $results[$method], $from, $sig_domain);
+            }
+        }
+
+        return $this->demote_relayed_spf($security);
+    }
+
+    /**
+     * One mechanism's finding, in the fixed shape security_fields() documents:
+     *
+     * - present     the mechanism is in effect for this message. False when
+     *               nothing was reported at all, and equally when the reported
+     *               result was 'none' (no SPF/DKIM/DMARC on the sending side).
+     * - verified    the receiving server checked this, rather than the message
+     *               merely carrying an unverified claim (an unchecked
+     *               DKIM-Signature is present but not verified).
+     * - status      the raw protocol result, upper case (PASS, FAIL, SOFTFAIL,
+     *               NONE, TEMPERROR, …), or null when there is no result.
+     * - domain      the domain the result is about — DKIM's signing domain, or
+     *               the envelope/From domain SPF and DMARC judged.
+     * - aligned     whether `domain` matches the From domain (DKIM only, since
+     *               that is the only mechanism this compares); null where the
+     *               question does not apply or cannot be answered.
+     * - verdict     the normalised severity: pass, warn, fail, unknown or none
+     *               (none = contributes nothing to the overall status). The row
+     *               glyph is drawn from this, so a finding can never show a
+     *               glyph that disagrees with its own verdict.
+     * - description a human-readable note: the alignment note, or why there is
+     *               no result. null when there is nothing to add.
+     */
+    private function security_entry($method, $entry, $from, $sig_domain)
+    {
+        if (empty($entry)) {
+            // No verified result. A DKIM-Signature with nothing to confirm it is
+            // still worth reporting: the message is signed, the server did not
+            // check it. Alignment is deliberately left unanswered — an unverified
+            // signature can claim any domain, so a match means nothing here.
+            $signed = $method === 'dkim' && $sig_domain !== null;
+
+            return [
+                'present' => $signed,
+                'verified' => false,
+                'status' => null,
+                'domain' => $signed ? $sig_domain : null,
+                'aligned' => null,
+                'verdict' => $signed ? 'unknown' : 'none',
+                'description' => $this->gettext($signed ? 'unverified' : 'notpresent'),
+            ];
+        }
+
+        $result = strtolower($entry['result']);
+        $domain = ($entry['domain'] ?? null) ?: ($method === 'dkim' ? $sig_domain : null);
+        $aligned = null;
+        $description = null;
+
+        if ($method === 'dkim' && $domain && $from) {
+            $aligned = $this->aligned($domain, $from);
+            $description = $aligned
+                ? $this->gettext('aligned')
+                : $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
+        }
+
+        return [
+            'present' => $result !== 'none',
+            'verified' => true,
+            'status' => strtoupper($result),
+            'domain' => $domain,
+            'aligned' => $aligned,
+            // Judged on the domain the row displays, not on the raw result: a
+            // result that named no domain of its own falls back to the
+            // DKIM-Signature above, and the verdict has to follow it there or it
+            // would contradict the line it is printed beside.
+            'verdict' => $this->method_status($method, ['result' => $result, 'domain' => $domain], $from),
+            'description' => $description,
+        ];
+    }
+
+    /**
+     * The DKIM result that counts, out of every signature the server checked.
+     *
+     * A message is commonly signed more than once — by the author's domain and
+     * by the sending platform, say. The signatures are alternatives, not a set
+     * of conditions to satisfy: one that verifies and is aligned with the From
+     * domain authenticates the message no matter what the other one says. So
+     * the best signature wins here, which is the opposite of combine_statuses()
+     * — that reduces the *mechanisms*, which are independent claims.
+     *
+     * Ties keep the earliest signature, so a single-signature message reports
+     * exactly what it did before.
+     *
+     * @return array|null the winning entry, or null when there is none
+     */
+    private function best_dkim($entries, $from, $sig_domain)
+    {
+        $best = null;
+        $best_rank = null;
+
+        foreach ($entries as $entry) {
+            $domain = ($entry['domain'] ?? null) ?: $sig_domain;
+            $status = $this->method_status('dkim', ['result' => $entry['result'], 'domain' => $domain], $from);
+
+            // An unranked status ('none') sorts last: it says nothing about the
+            // message, so any real signature beside it is the better answer.
+            $rank = array_search($status, self::DKIM_PREFERENCE, true);
+            $rank = $rank === false ? count(self::DKIM_PREFERENCE) : $rank;
+
+            if ($best_rank === null || $rank < $best_rank) {
+                $best = $entry;
+                $best_rank = $rank;
+            }
+        }
+
+        return $best;
+    }
+
+    /**
+     * Demote an SPF failure that DMARC has already forgiven.
+     *
+     * Forwarders and mailing lists relay a message under their own envelope
+     * sender, which breaks SPF for mail that is otherwise entirely genuine.
+     * When DMARC passed, the receiving server has already weighed that failure
+     * and accepted the message on a surviving, aligned DKIM signature — so
+     * reporting it as a failure would be a false alarm for legitimately relayed
+     * mail.
+     *
+     * The demotion is applied to the finding itself, not just to the overall
+     * status, so the SPF row's own glyph and the headline agree on what
+     * happened, and the row explains why it is only a warning.
+     *
+     * @param array<string, array> $security
+     *
+     * @return array<string, array>
+     */
+    private function demote_relayed_spf($security)
+    {
+        if (($security['spf']['verdict'] ?? null) !== 'fail'
+            || ($security['dmarc']['verdict'] ?? null) !== 'pass'
+        ) {
+            return $security;
+        }
+
+        $security['spf']['verdict'] = 'warn';
+        $security['spf']['description'] = $this->gettext('spfrelayed');
+
+        return $security;
     }
 
     /**
@@ -318,7 +481,7 @@ class message_security_info extends rcube_plugin
     {
         switch ($entry['result']) {
             case 'pass':
-                $status = $method === 'dkim' && !$this->aligned($entry['domain'], $from) ? 'warn' : 'pass';
+                $status = $method === 'dkim' && !$this->aligned($entry['domain'] ?? null, $from) ? 'warn' : 'pass';
                 break;
             case 'fail':
                 $status = 'fail';
@@ -425,42 +588,68 @@ class message_security_info extends rcube_plugin
     }
 
     /**
-     * Parsed SPF/DKIM/DMARC rows for the top of the popup.
+     * The popup's top rows: the From address, one row per enabled mechanism,
+     * then the transport line.
      *
-     * @return array<array{label:string, value:string, marker?:string}>
+     * `verdict` is what the row's glyph is drawn from, and is absent on the two
+     * rows that carry no verdict at all — the From address and the transport.
+     *
+     * @param array<string, array> $security
+     *
+     * @return array<array{label:string, value:string, verdict?:string}>
      */
-    private function summary_rows($headers, $auth)
+    private function summary_rows($headers, $security)
     {
-        $from = $this->from_domain($headers);
-        $sigs = $this->normalize($headers->get('DKIM-Signature', false));
-        $sig_domain = !empty($sigs) ? $this->signature_domain($sigs[0]) : null;
-
-        // SPF is often only in a Received-SPF header, not Authentication-Results.
-        $spf = $auth['spf'][0] ?? $this->spf_from_received($headers);
-
-        $rows = [];
         // The sender address the SPF/DKIM/DMARC results are judged against.
-        $rows[] = ['label' => $this->gettext('from'), 'value' => $this->from_address($headers) ?? $this->gettext('notpresent')];
-        if ($this->method_enabled('spf')) {
-            $rows[] = ['label' => $this->gettext('spf'), 'value' => $this->format_method($spf)];
-        }
-        if ($this->method_enabled('dkim')) {
+        $rows = [[
+            'label' => $this->gettext('from'),
+            'value' => $this->from_address($headers) ?? $this->gettext('notpresent'),
+        ]];
+
+        foreach ($security as $method => $entry) {
             $rows[] = [
-                'label' => $this->gettext('dkim'),
-                'value' => $this->format_dkim($auth['dkim'][0] ?? null, $sig_domain, $from),
-                // Same verdict as the From-header marker, so users can tie the
-                // two together visually.
-                'marker' => $this->dkim_from_marker($headers, $auth),
+                'label' => $this->gettext($method),
+                'value' => $this->security_line($entry),
+                'verdict' => $entry['verdict'],
             ];
         }
-        if ($this->method_enabled('dmarc')) {
-            $rows[] = ['label' => $this->gettext('dmarc'), 'value' => $this->format_method($auth['dmarc'][0] ?? null)];
-        }
+
         if ($this->method_enabled('tls')) {
             $rows[] = ['label' => $this->gettext('tls'), 'value' => $this->format_tls($this->tls_info($headers))];
         }
 
         return $rows;
+    }
+
+    /**
+     * One security finding as a display line, e.g. "PASS — example.com".
+     *
+     * An unaligned PASS carries its mismatch note on a second line; any other
+     * noteworthy result carries it parenthesised.
+     */
+    private function security_line($entry)
+    {
+        $description = $entry['description'];
+
+        if ($entry['status'] === null) {
+            // Nothing was verified: either no result at all, or a signature the
+            // server did not check. Either way the description says which.
+            return $entry['domain'] ? $description . ' — ' . $entry['domain'] : $description;
+        }
+
+        $value = $entry['status'];
+        if ($entry['domain']) {
+            $value .= ' — ' . $entry['domain'];
+        }
+
+        if ($description === null || ($entry['status'] === 'PASS' && $entry['aligned'])) {
+            // A clean, aligned PASS needs no further comment.
+            return $value;
+        }
+
+        return $entry['status'] === 'PASS'
+            ? $value . "\n" . $description
+            : $value . ' (' . $description . ')';
     }
 
     /**
@@ -540,66 +729,6 @@ class message_security_info extends rcube_plugin
         }
 
         return $out;
-    }
-
-    /**
-     * Format an SPF/DMARC result line, e.g. "PASS — example.com".
-     */
-    private function format_method($entry)
-    {
-        if (empty($entry)) {
-            return $this->gettext('notpresent');
-        }
-
-        $value = strtoupper($entry['result']);
-
-        return !empty($entry['domain']) ? $value . ' — ' . $entry['domain'] : $value;
-    }
-
-    /**
-     * Format the DKIM result line, including From-alignment.
-     */
-    private function format_dkim($entry, $sig_domain, $from)
-    {
-        if (empty($entry)) {
-            return $sig_domain
-                ? $this->gettext('unverified') . ' — ' . $sig_domain
-                : $this->gettext('notpresent');
-        }
-
-        $domain = $entry['domain'] ?: $sig_domain;
-        $value = strtoupper($entry['result']);
-
-        if ($domain) {
-            $value .= ' — ' . $domain;
-        }
-
-        return $value . $this->dkim_alignment_note($entry['result'], $domain, $from);
-    }
-
-    /**
-     * The From-alignment suffix appended to a DKIM result line: empty for a
-     * clean aligned PASS, a newline-prefixed mismatch note for an unaligned
-     * PASS, or a parenthesised aligned/mismatch note for any non-pass result.
-     */
-    private function dkim_alignment_note($result, $domain, $from)
-    {
-        if (!$from || !$domain) {
-            return '';
-        }
-
-        $aligned = $this->aligned($domain, $from);
-        $mismatch = $this->gettext(['name' => 'notaligned', 'vars' => ['from' => $from]]);
-
-        if (strtolower($result) === 'pass') {
-            // Positive result: a clean, aligned PASS shows nothing further; a
-            // PASS whose signing domain isn't aligned adds the mismatch note on
-            // its own line (no surrounding parentheses).
-            return $aligned ? '' : "\n" . $mismatch;
-        }
-
-        // Non-pass: unchanged — parenthesised alignment note.
-        return $aligned ? ' (' . $this->gettext('aligned') . ')' : ' (' . $mismatch . ')';
     }
 
     /**
@@ -749,34 +878,6 @@ class message_security_info extends rcube_plugin
         }
 
         return $args;
-    }
-
-    /**
-     * From-header marker verdict, DKIM-specific and independent of the overall
-     * icon: 'pass' (a DKIM PASS aligned with the From domain), 'fail' (a PASS
-     * that isn't aligned, or any non-pass DKIM result) or 'none' (no verified
-     * DKIM result to judge).
-     */
-    private function dkim_from_marker($headers, $auth)
-    {
-        $entry = $auth['dkim'][0] ?? null;
-        if (empty($entry)) {
-            return 'none';
-        }
-
-        if (strtolower($entry['result']) !== 'pass') {
-            return 'fail';
-        }
-
-        $from = $this->from_domain($headers);
-        $sigs = $this->normalize($headers->get('DKIM-Signature', false));
-
-        $domain = $entry['domain'];
-        if (!$domain && !empty($sigs)) {
-            $domain = $this->signature_domain($sigs[0]);
-        }
-
-        return ($from && $domain && $this->aligned($domain, $from)) ? 'pass' : 'fail';
     }
 
     /**
