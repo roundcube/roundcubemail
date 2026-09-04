@@ -20,30 +20,17 @@
  * for the JavaScript code in this file.
  */
 
-window.rcmail && rcmail.addEventListener('init', function () {
-    rcube_twostep_login();
-});
-
-function rcube_twostep_login() {
-    var user = document.getElementById('rcmloginuser'),
-        pass = document.getElementById('rcmloginpwd'),
-        host = document.getElementById('rcmloginhost'),
-        submit = document.getElementById('rcmloginsubmit'),
-        form = (user && user.form) || document.getElementById('login-form');
-
-    // If the expected fields are not present (not the login page, or an
-    // unexpected markup), do nothing and leave the default form behaviour.
-    if (!user || !pass || !form) {
-        return;
-    }
+// Wrapped so the DOM helpers below can live outside rcube_twostep_login()
+// without becoming globals on the shared login page.
+(function () {
+    window.rcmail && rcmail.addEventListener('init', function () {
+        rcube_twostep_login();
+    });
 
     // Returns the layout "row" that wraps an input: a table row in the
     // Elastic/Classic skins, otherwise the field's direct parent.
     function row_of(el) {
-        if (!el) {
-            return null;
-        }
-        return (el.closest && el.closest('tr')) || el.parentNode;
+        return el ? (el.closest?.('tr') || el.parentNode) : null;
     }
 
     function show(el, visible) {
@@ -52,160 +39,174 @@ function rcube_twostep_login() {
         }
     }
 
-    var env = rcmail.env.twostep_login || {},
-        pass_row = row_of(pass),
-        host_row = host ? row_of(host) : null,
-        token_field = form.querySelector('input[name="_token"]');
+    function rcube_twostep_login() {
+        var user = document.getElementById('rcmloginuser'),
+            pass = document.getElementById('rcmloginpwd'),
+            host = document.getElementById('rcmloginhost'),
+            submit = document.getElementById('rcmloginsubmit'),
+            form = user?.form || document.getElementById('login-form');
 
-    // Refresh the CSRF token so a valid one is in place by the time the
-    // password is submitted, even if the PHP session expired while the login
-    // page was sitting idle. Best-effort: on failure the existing token is
-    // kept (login still works as long as the session is alive).
-    function refresh_token() {
-        if (!env.token_url) {
+        // If the expected fields are not present (not the login page, or an
+        // unexpected markup), do nothing and leave the default form behaviour.
+        if (!user || !pass || !form) {
             return;
         }
-        fetch(env.token_url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Roundcube-Request': rcmail.env.request_token || '',
-            },
-            credentials: 'same-origin',
-            body: '',
-        })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-                if (data && data.token) {
-                    if (token_field) {
-                        token_field.value = data.token;
-                    }
-                    rcmail.env.request_token = data.token;
-                }
+
+        var env = rcmail.env.twostep_login || {},
+            pass_row = row_of(pass),
+            host_row = host ? row_of(host) : null,
+            token_field = form.querySelector('input[name="_token"]');
+
+        // Refresh the CSRF token so a valid one is in place by the time the
+        // password is submitted, even if the PHP session expired while the login
+        // page was sitting idle. Best-effort: on failure the existing token is
+        // kept (login still works as long as the session is alive).
+        function refresh_token() {
+            if (!env.token_url) {
+                return;
+            }
+            fetch(env.token_url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Roundcube-Request': rcmail.env.request_token || '',
+                },
+                credentials: 'same-origin',
+                body: '',
             })
-            .catch(function () { /* keep the existing token */ });
-    }
-
-    // "Next" button (advances from step 1 to step 2)
-    var next = document.createElement('button');
-    next.type = 'button';
-    next.id = 'twostep-next';
-    next.className = (submit ? submit.className + ' ' : 'button mainaction submit ') + 'twostep-next';
-    next.textContent = rcmail.get_label('next', 'twostep_login');
-
-    if (submit && submit.parentNode) {
-        submit.parentNode.insertBefore(next, submit);
-    } else {
-        form.appendChild(next);
-    }
-
-    // The skin (e.g. Elastic) styles #rcmloginsubmit during its own init,
-    // which may run after us. Mirror the final button look on a later tick so
-    // the "Next" button matches the "Login" button across skins.
-    window.setTimeout(function () {
-        if (submit) {
-            next.className = submit.className + ' twostep-next';
-        }
-    }, 0);
-
-    // "Change" link to go back to step 1 (kept with the buttons so it does not
-    // interfere with the skin's input-group layout around the username field)
-    var change = document.createElement('a');
-    change.href = '#';
-    change.id = 'twostep-change';
-    change.className = 'twostep-change';
-    change.textContent = rcmail.get_label('changeuser', 'twostep_login');
-
-    (next.parentNode || form).appendChild(change);
-
-    function step1() {
-        form.classList.remove('twostep-step2');
-        form.classList.add('twostep-login', 'twostep-step1');
-
-        show(pass_row, false);
-        show(host_row, true);
-        show(submit, false);
-        show(next, true);
-        show(change, false);
-
-        // a hidden required field would block native validation/submit
-        pass.removeAttribute('required');
-        user.removeAttribute('readonly');
-
-        try { user.focus(); } catch (e) {}
-    }
-
-    function step2() {
-        form.classList.remove('twostep-step1');
-        form.classList.add('twostep-login', 'twostep-step2');
-
-        show(pass_row, true);
-        show(host_row, false);
-        show(submit, true);
-        show(next, false);
-        show(change, true);
-
-        if (submit) {
-            submit.disabled = false; // recover if a prior submit disabled it
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data?.token) {
+                        if (token_field) {
+                            token_field.value = data.token;
+                        }
+                        rcmail.env.request_token = data.token;
+                    }
+                })
+                .catch(function () { /* keep the existing token */ });
         }
 
-        pass.setAttribute('required', 'required');
-        // keep the chosen username visible but locked while entering password
-        user.setAttribute('readonly', 'readonly');
+        // "Next" button (advances from step 1 to step 2)
+        var next = document.createElement('button');
+        next.type = 'button';
+        next.id = 'twostep-next';
+        next.className = (submit ? submit.className + ' ' : 'button mainaction submit ') + 'twostep-next';
+        next.textContent = rcmail.get_label('next', 'twostep_login');
 
-        try { pass.focus(); } catch (e) {}
-    }
+        if (submit?.parentNode) {
+            submit.parentNode.insertBefore(next, submit);
+        } else {
+            form.appendChild(next);
+        }
 
-    function advance() {
-        var name = (user.value || '').replace(/^\s+|\s+$/g, '');
+        // The skin (e.g. Elastic) styles #rcmloginsubmit during its own init,
+        // which may run after us. Mirror the final button look on a later tick so
+        // the "Next" button matches the "Login" button across skins.
+        window.setTimeout(function () {
+            if (submit) {
+                next.className = submit.className + ' twostep-next';
+            }
+        }, 0);
 
-        if (!name) {
-            user.classList.add('error');
+        // "Change" link to go back to step 1 (kept with the buttons so it does not
+        // interfere with the skin's input-group layout around the username field)
+        var change = document.createElement('a');
+        change.href = '#';
+        change.id = 'twostep-change';
+        change.className = 'twostep-change';
+        change.textContent = rcmail.get_label('changeuser', 'twostep_login');
+
+        (next.parentNode || form).appendChild(change);
+
+        function step1() {
+            form.classList.remove('twostep-step2');
+            form.classList.add('twostep-login', 'twostep-step1');
+
+            show(pass_row, false);
+            show(host_row, true);
+            show(submit, false);
+            show(next, true);
+            show(change, false);
+
+            // a hidden required field would block native validation/submit
+            pass.removeAttribute('required');
+            user.removeAttribute('readonly');
+
             try { user.focus(); } catch (e) {}
-            return;
         }
 
-        user.classList.remove('error');
-        step2();
-        refresh_token();
-    }
+        function step2() {
+            form.classList.remove('twostep-step1');
+            form.classList.add('twostep-login', 'twostep-step2');
 
-    next.addEventListener('click', function (e) {
-        e.preventDefault();
-        advance();
-    });
+            show(pass_row, true);
+            show(host_row, false);
+            show(submit, true);
+            show(next, false);
+            show(change, true);
 
-    change.addEventListener('click', function (e) {
-        e.preventDefault();
+            if (submit) {
+                submit.disabled = false; // recover if a prior submit disabled it
+            }
+
+            pass.setAttribute('required', 'required');
+            // keep the chosen username visible but locked while entering password
+            user.setAttribute('readonly', 'readonly');
+
+            try { pass.focus(); } catch (e) {}
+        }
+
+        function advance() {
+            var name = (user.value || '').trim();
+
+            if (!name) {
+                user.classList.add('error');
+                try { user.focus(); } catch (e) {}
+                return;
+            }
+
+            user.classList.remove('error');
+            step2();
+            refresh_token();
+        }
+
+        next.addEventListener('click', function (e) {
+            e.preventDefault();
+            advance();
+        });
+
+        change.addEventListener('click', function (e) {
+            e.preventDefault();
+            step1();
+        });
+
+        // Enter in the username field advances instead of submitting the form
+        user.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && form.classList.contains('twostep-step1')) {
+                e.preventDefault();
+                advance();
+            }
+        });
+
+        // Safety net: never let the form submit while still on step 1.
+        //
+        // Roundcube's own login-form handler (program/js/app.js) shows a persistent
+        // "Loading…" message and disables the submit button on every submit event,
+        // without preventing navigation. If we only preventDefault here, that
+        // handler still runs and the page is left stuck on "Loading…" with the
+        // button disabled and no request sent (e.g. when Enter is pressed on the
+        // username step). A capture-phase listener on the document runs before the
+        // form-bound handler, so stopPropagation() suppresses it while on step 1.
+        // Step 2 submits are left to propagate and post normally.
+        document.addEventListener('submit', function (e) {
+            if (e.target === form && form.classList.contains('twostep-step1')) {
+                e.preventDefault();
+                e.stopPropagation();
+                advance();
+            }
+        }, true);
+
+        // start on step 1
         step1();
-    });
-
-    // Enter in the username field advances instead of submitting the form
-    user.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && form.classList.contains('twostep-step1')) {
-            e.preventDefault();
-            advance();
-        }
-    });
-
-    // Safety net: never let the form submit while still on step 1.
-    //
-    // Roundcube's own login-form handler (program/js/app.js) shows a persistent
-    // "Loading…" message and disables the submit button on every submit event,
-    // without preventing navigation. If we only preventDefault here, that
-    // handler still runs and the page is left stuck on "Loading…" with the
-    // button disabled and no request sent (e.g. when Enter is pressed on the
-    // username step). A capture-phase listener on the document runs before the
-    // form-bound handler, so stopPropagation() suppresses it while on step 1.
-    // Step 2 submits are left to propagate and post normally.
-    document.addEventListener('submit', function (e) {
-        if (e.target === form && form.classList.contains('twostep-step1')) {
-            e.preventDefault();
-            e.stopPropagation();
-            advance();
-        }
-    }, true);
-
-    // start on step 1
-    step1();
-}
+    }
+})();

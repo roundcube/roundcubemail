@@ -1,9 +1,9 @@
 {
     "name": "roundcube/message_security_info",
     "type": "roundcube-plugin",
-    "description": "Shows a verdict banner above received messages describing their DKIM status and whether the signing domain aligns with the visible From address. Reads the receiving server's Authentication-Results header; falls back to detecting a raw DKIM-Signature when none is present.",
+    "description": "Shows a Message Security link on received messages, its icon coloured by the sender-authentication verdict (SPF, DKIM, DMARC) and by whether the DKIM signing domain aligns with the visible From address. Clicking it opens a popup with the parsed per-mechanism results, the transport encryption state and the raw authentication headers. Reads the receiving server's Authentication-Results and Received-SPF headers; falls back to reporting a raw DKIM-Signature as present but unverified.",
     "license": "GPL-3.0-or-later",
-    "version": "1.0",
+    "version": "1.1",
     "authors": [
         {
             "name": "Jari Turkia",

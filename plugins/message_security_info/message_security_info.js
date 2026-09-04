@@ -33,7 +33,7 @@ window.rcmail && rcmail.addEventListener('init', function () {
 
     var link = document.createElement('a');
     link.href = '#';
-    link.className = 'msgsec-link msgsec-' + (info.status || 'unknown');
+    link.className = 'msgsec-link msgsec-status msgsec-status-' + (info.status || 'unknown');
     link.textContent = rcmail.get_label('linktitle', 'message_security_info');
     if (info.summary) {
         link.title = info.summary;
@@ -51,9 +51,10 @@ window.rcmail && rcmail.addEventListener('init', function () {
 
     add_from_marker(info.dkim_from);
 
-    // Place a DKIM verdict marker on the message's From header:
-    // green check = signed & aligned, red = signed-but-unaligned or failed,
-    // amber question = unsigned. Independent of the header-links icon.
+    // Place the DKIM verdict on the message's From header, using the same five
+    // glyphs as everything else here: green check = signed & aligned, amber
+    // triangle = signed but not aligned, red cross = verification failed, grey
+    // question = signed but unverified, grey dot = unsigned.
     function add_from_marker(state) {
         if (!state) {
             return;
@@ -64,17 +65,23 @@ window.rcmail && rcmail.addEventListener('init', function () {
             return;
         }
 
-        var marker = document.createElement('span'),
-            tip = rcmail.get_label('frommarker' + state, 'message_security_info');
+        cell.appendChild(glyph(state, 'msgsec-from-marker', 'frommarker' + state));
+    }
 
-        marker.className = 'msgsec-from-marker msgsec-from-' + state;
-        marker.setAttribute('role', 'img');
+    // One verdict glyph. The class always follows the verdict, so a glyph can
+    // never disagree with the finding it is printed beside.
+    function glyph(verdict, extra_class, label) {
+        var span = document.createElement('span'),
+            tip = rcmail.get_label(label, 'message_security_info');
+
+        span.className = extra_class + ' msgsec-status msgsec-status-' + verdict;
+        span.setAttribute('role', 'img');
         if (tip) {
-            marker.title = tip;
-            marker.setAttribute('aria-label', tip);
+            span.title = tip;
+            span.setAttribute('aria-label', tip);
         }
 
-        cell.appendChild(marker);
+        return span;
     }
 
     // Build the popup table: parsed SPF/DKIM/DMARC rows, then raw header lines.
@@ -88,7 +95,7 @@ window.rcmail && rcmail.addEventListener('init', function () {
         table.className = 'msgsec-table';
 
         for (i = 0; i < rows.length; i++) {
-            add_row(table, rows[i].label, rows[i].value, false, rows[i].marker);
+            add_row(table, rows[i].label, rows[i].value, false, rows[i].verdict);
         }
         for (i = 0; i < headers.length; i++) {
             add_row(table, headers[i].name, headers[i].value, true);
@@ -97,26 +104,17 @@ window.rcmail && rcmail.addEventListener('init', function () {
         return table;
     }
 
-    function add_row(table, label, value, raw, marker) {
+    function add_row(table, label, value, raw, verdict) {
         var tr = document.createElement('tr'),
             th = document.createElement('th'),
             td = document.createElement('td');
 
         th.textContent = label;
 
-        // Repeat the From-header verdict marker beside the DKIM label so the
-        // popup and the header cell share the same glyph.
-        if (marker) {
-            var glyph = document.createElement('span'),
-                tip = rcmail.get_label('frommarker' + marker, 'message_security_info');
-
-            glyph.className = 'msgsec-from-marker msgsec-from-' + marker;
-            glyph.setAttribute('role', 'img');
-            if (tip) {
-                glyph.title = tip;
-                glyph.setAttribute('aria-label', tip);
-            }
-            th.appendChild(glyph);
+        // Every mechanism row carries its own verdict glyph, so SPF, DKIM and
+        // DMARC each say where they stand rather than only the headline doing so.
+        if (verdict) {
+            th.appendChild(glyph(verdict, 'msgsec-row-marker', 'verdict' + verdict));
         }
 
         if (raw) {
