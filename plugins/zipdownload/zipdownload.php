@@ -377,7 +377,8 @@ class zipdownload extends rcube_plugin
      */
     private function _convert_filename($str)
     {
-        $str = strtr($str, [':' => '', '/' => '-']);
+        $str = basename(str_replace('\\', '-', $str));
+        $str = preg_replace('/[\x00-\x1F\x7F]/', '', $str);
 
         return rcube_charset::convert($str, RCUBE_CHARSET, $this->charset);
     }
