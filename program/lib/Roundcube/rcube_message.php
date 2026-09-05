@@ -693,6 +693,8 @@ class rcube_message
 
                 if (str_contains($part_body, "\r\n\r\n")) {
                     [$headers] = explode("\r\n\r\n", $part_body, 2);
+                } else {
+                    $headers = $part_body;
                 }
 
                 $structure->headers = rcube_mime::parse_headers($headers);
