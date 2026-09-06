@@ -791,6 +791,7 @@ class rcmail_sendmail
                     $name = \Mail_mimePart::encodeMB($name, $charset, 'base64');
                 } else {
                     $name = stripcslashes($name);
+                    $name = preg_replace('/[\x00-\x1F]+/', ' ', $name);
                 }
 
                 $address = rcube_utils::idn_to_ascii(trim($address, '<>'));

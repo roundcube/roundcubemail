@@ -160,6 +160,11 @@ class SendmailTest extends ActionTestCase
                 'test@xn--e1aybc.xn--p1ai',
                 'UTF-8',
             ],
+            [
+                '"x\rBcc: attacker@evil.example\rX-Pad: p" <victim@example.com>',
+                '"x Bcc: attacker@evil.example X-Pad: p" <victim@example.com>',
+                null,
+            ],
         ];
     }
 
