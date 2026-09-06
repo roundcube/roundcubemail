@@ -79,4 +79,80 @@ class Group_AddmembersTest extends ActionTestCase
 
         $this->assertTrue(!empty($result));
     }
+
+    /**
+     * Test adding a group member and cross-user access
+     */
+    public function test_group_addmembers_cross_user()
+    {
+        $action = new \rcmail_action_contacts_group_addmembers();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'add-members');
+
+        self::initDB('contacts');
+
+        // Create another user and his group/contact
+        $db = \rcmail::get_instance()->get_dbh();
+        $db->query('DELETE FROM `contactgroupmembers`');
+        $db->query("INSERT INTO `users` (`user_id`, `username`, `mail_host`) VALUES (2, 'test2@example.com', 'localhost')");
+        $db->query("INSERT INTO `contactgroups` (`user_id`, `name`) VALUES (2, 'test-group')");
+        $db->query('INSERT INTO `contacts` (`user_id`, `changed`, `del`, `name`, `email`, `firstname`, `surname`, `vcard`, `words`)'
+            . "VALUES (2, '2019-12-31 12:23:33', 0, 'John Doe', 'johndoe@example.org', 'John', 'Doe', '', '')");
+
+        // Test assigning other user's contact to other user's group
+        $query = $db->query("SELECT * FROM `contactgroups` WHERE `user_id` = 2 AND `name` = 'test-group'");
+        $result = $db->fetch_assoc($query);
+        $gid = $result['contactgroup_id'];
+        $query = $db->query('SELECT * FROM `contacts` WHERE `user_id` = 2 LIMIT 1');
+        $result = $db->fetch_assoc($query);
+        $cid = $result['contact_id'];
+
+        $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame('add-members', $result['action']);
+        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+
+        $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ?', $gid);
+        $this->assertCount(0, $query->fetchAll());
+
+        // Test assigning other user's contact to own group
+        $query = $db->query("SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = 'test-group'");
+        $result = $db->fetch_assoc($query);
+        $gid = $result['contactgroup_id'];
+
+        $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame('add-members', $result['action']);
+        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+
+        $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ?', $gid);
+        $this->assertCount(0, $query->fetchAll());
+
+        // Test assigning own contact to other user's group
+        $query = $db->query("SELECT * FROM `contactgroups` WHERE `user_id` = 2 AND `name` = 'test-group'");
+        $result = $db->fetch_assoc($query);
+        $gid = $result['contactgroup_id'];
+        $query = $db->query('SELECT * FROM `contacts` WHERE `user_id` = 1 LIMIT 1');
+        $result = $db->fetch_assoc($query);
+        $cid = $result['contact_id'];
+
+        $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame('add-members', $result['action']);
+        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+
+        $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ?', $gid);
+        $this->assertCount(0, $query->fetchAll());
+    }
 }
