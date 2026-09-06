@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix is_local_url() bypass via trailing-dot FQDN in stylesheet URL
 - Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes
 - Security: Fix remote-content blocker bypass via SVG SMIL src animation
+- Security: Fix SSRF bypass in Roundcube CSS proxy via hexadecimal IPv6-mapped IPv4 addresses
 
 ## Release 1.7.3
 

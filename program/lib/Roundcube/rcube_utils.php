@@ -436,9 +436,6 @@ class rcube_utils
 
             $host = trim($host, '[].');
 
-            // IPLib does not seem to work with IPv6 syntax for IPv4 addresses
-            $host = preg_replace('/^[0:]*:ffff:/i', '', $host);
-
             if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
                 $host = $matches[1];
                 if (preg_match('/([0-9]{1,3}([.-][0-9]{1,3}){3})$/', $host, $m)) {
@@ -464,6 +461,7 @@ class rcube_utils
                     '::1/128',
                     'fc00::/7',
                     'fe80::/10',      // IPv6 link-local
+                    '::ffff:0:0/96',  // RFC5156
                 ];
 
                 return self::is_ip_in_range($address, $nets);
