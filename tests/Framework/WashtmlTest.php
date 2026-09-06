@@ -529,6 +529,10 @@ class WashtmlTest extends TestCase
                 '<svg><rect x-washed="fill" /></svg>',
             ],
             [
+                '<svg><rect fill="u\72l(http://attacker.com"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
                 '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],

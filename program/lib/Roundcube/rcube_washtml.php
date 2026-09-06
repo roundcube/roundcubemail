@@ -52,6 +52,8 @@ use Masterminds\HTML5;
  */
 class rcube_washtml
 {
+    public const CSS_URL_REGEXP = '/(u|\\\0*75|\\\0*55)(r|\\\0*72|\\\0*52)(l|\\\0*6C|\\\0*4C)\(/i';
+
     /**
      * @var array Allowed HTML elements (default)
      */
@@ -317,7 +319,8 @@ class rcube_washtml
                 } elseif ($this->is_link_attribute($node->nodeName, $key)) {
                     $out = $this->wash_link($value);
                 } elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
-                    if (preg_match('/^[a-z:]*url\(/i', $value)) {
+                    if (preg_match(self::CSS_URL_REGEXP, $value, $m)) {
+                        $value = preg_replace(self::CSS_URL_REGEXP, 'url(', $value);
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)?/iu', $value, $match)) {
                             if ($url = $this->wash_uri($match[2])) {
                                 $result .= ' ' . $attr->nodeName . '="' . $match[1]
@@ -551,7 +554,7 @@ class rcube_washtml
 
         $rx = '/^(mask|cursor|fill|filter|stroke|clip-path|marker-start|marker-end|marker-mid)$/i';
         return self::attribute_value($node, 'attributeName', $rx)
-            && self::attribute_value($node, 'values', '/url\(/i');
+            && self::attribute_value($node, 'values', self::CSS_URL_REGEXP);
     }
 
     /**
