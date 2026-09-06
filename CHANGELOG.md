@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Use `X-Content-Type-Options:nosniff` for attachment previews and downloads (#10308)
 - zipdownload: Fix attachment filename sanitisation of backslash and control characters (#10325)
 - Security: Fix CSS declaration smuggling via un-encoded ampersand emission
+- Security: Fix CSS property injection via body `background` attribute
 
 ## Release 1.7.3
 

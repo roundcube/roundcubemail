@@ -429,6 +429,23 @@ class IndexTest extends ActionTestCase
     }
 
     /**
+     * Test evil/invalid code in body attributes
+     */
+    public function test_html_body_attributes_invalid()
+    {
+        $params = ['safe' => true, 'add_comments' => false];
+        $part = $this->get_html_part();
+
+        $part->body = '<body background="http://x.hi/a);position:fixed;background:red">Foo</body>';
+        $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
+        $this->assertSame('<div>Foo</div>', $washed);
+
+        $part->body = '<body bgcolor="red;position:fixed">Foo</body>';
+        $washed = \rcmail_action_mail_index::print_body($part->body, $part, $params);
+        $this->assertSame('<div>Foo</div>', $washed);
+    }
+
+    /**
      * Test handling css style in HTML in wash_html() method
      */
     public function test_wash_html()

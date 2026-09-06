@@ -1179,7 +1179,7 @@ class rcmail_action_mail_index extends rcmail_action
                             break;
                         case 'background':
                             // Get background, we'll set it as background-image of the message container
-                            if (preg_match('/^([^\s]+)$/', $value, $m)) {
+                            if (preg_match('~^(static.php/|https?://)([^\s();]+)$~', $value, $m)) {
                                 $style['background-image'] = "url({$value})";
                             }
                             break;
