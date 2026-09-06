@@ -747,9 +747,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $body = self::prepare_html_body($body);
             }
             else if ($part->ctype_secondary == 'enriched') {
-                $body = rcube_enriched::to_html($body);
-            }
-            else {
+                $body = self::prepare_html_body(rcube_enriched::to_html($body));
+            } else {
                 // try to remove the signature
                 if ($strip_signature) {
                     $body = self::remove_signature($body);

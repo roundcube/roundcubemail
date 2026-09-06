@@ -9,6 +9,7 @@
 - Security: Fix email header injection via C-escape \r in the recipient display name
 - Security: Fix email header injection via identity's organization field
 - Security: Fix zero-click stored XSS via TNEF MIME tag injection in the attachment URL
+- Security: Fix XSS in the HTML editor using text/enriched part content
 
 ## Release 1.6.18
 
