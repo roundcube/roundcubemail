@@ -187,7 +187,7 @@ class rcmail_sendmail
         }
 
         // Don't allow CRLF in subject (#8404)
-        $subject = trim(preg_replace('|\r?\n|', ' ', $subject));
+        $subject = trim(preg_replace('/[\r\n]+/', ' ', $subject));
 
         $this->options['dsn_enabled'] = $dsn_enabled;
         $this->options['keep_formatting_enabled'] = $keep_formatting_enabled;
