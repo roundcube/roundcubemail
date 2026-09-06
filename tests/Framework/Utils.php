@@ -600,6 +600,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ['http://fc00--1.nip.io', true],
             ['http://--1.nip.io', true],
             ['http://127-0-0-1.nip.io', true],
+            ['http://127-0-0-1.nip.io.', true],
             ['http://7F000001.nip.io/', true],
             ['http://metadata.google.internal', true],
             ['http://127.0.0.1.sslip.io/', true],
@@ -611,6 +612,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
             ['http://20.0.0.1.nip.io', false],
+            ['http://20.0.0.1.nip.io.', false],
             ['http://www-20-0-0-1.nip.io', false],
             ['http://40b01609.nip.io/', false],
         ];
