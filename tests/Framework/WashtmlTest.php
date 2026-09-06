@@ -566,6 +566,22 @@ class WashtmlTest extends TestCase
                 '<svg><rect><animate attributeName="style" by="filter:url(http://attacker.example/track)" dur="0s" fill="freeze"/></rect></svg>',
                 '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="by" /></rect></svg>',
             ],
+            [
+                '<svg><image><animate attributeName="src" values="http://attacker.example/a" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="values" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" to="http://attacker.example/b" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="to" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" from="http://attacker.example/c1" to="http://attacker.example/c2" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="from to" /></image></svg>',
+            ],
+            [
+                '<svg><image><set attributeName="src" to="http://attacker.example/d"/></image></svg>',
+                '<svg><image><set attributeName="src" x-washed="to" /></image></svg>',
+            ],
         ];
     }
 
@@ -636,6 +652,23 @@ class WashtmlTest extends TestCase
             [
                 '<html><body><div style="color:red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div>',
                 '<body><div style="color: red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div></body>',
+            ],
+            // cases that should pass w/o changes
+            [
+                '<svg><image><animate attributeName="src" values="http://host/a" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" values="http://host/a" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" to="http://host/b" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" to="http://host/b" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" from="http://host/c1" to="http://host/c2" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" from="http://host/c1" to="http://host/c2" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><set attributeName="src" to="http://host/d" /></image></svg>',
+                '<svg><image><set attributeName="src" to="http://host/d" /></image></svg>',
             ],
         ];
     }

@@ -306,7 +306,7 @@ class rcube_washtml
                 $out = null;
 
                 // in SVG to/from attribs may contain anything, including URIs
-                if ($key == 'to' || $key == 'from') {
+                if ($key == 'to' || $key == 'from' || $key == 'values') {
                     $key = strtolower((string) $node->getAttribute('attributeName'));
                     $key = trim(preg_replace('/^.*:/', '', $key));
                     if ($key && !isset($this->_html_attribs[$key])) {
@@ -487,7 +487,7 @@ class rcube_washtml
         return $attr == 'background'
             || $attr == 'color-profile' // SVG
             || ($attr == 'poster' && $tag == 'video')
-            || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio)$/i', $tag))
+            || ($attr == 'src' && preg_match('/^(img|image|source|input|video|audio|animate|set)$/i', $tag))
             || ($attr == 'href' && preg_match('/^(feimage|image|use)$/i', $tag)); // SVG
     }
 
