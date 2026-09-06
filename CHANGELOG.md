@@ -6,6 +6,7 @@
 - Security: Fix CSS declaration smuggling via un-encoded ampersand emission
 - Security: Fix CSS property injection via body `background` attribute
 - Security: Fix email header injection via bare CR in the subject field
+- Security: Fix email header injection via C-escape \r in the recipient display name
 
 ## Release 1.6.18
 
