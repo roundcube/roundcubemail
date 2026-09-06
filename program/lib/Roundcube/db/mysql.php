@@ -41,7 +41,9 @@ class rcube_db_mysql extends rcube_db
     /**
      * Abstract SQL statement for value concatenation
      *
-     * @return string ...$args Values to concatenate
+     * @param string ...$args Values to concatenate
+     *
+     * @return string
      */
     #[\Override]
     public function concat(...$args)
