@@ -263,7 +263,7 @@ class rcube_washtml
 
         $uri_callback = function ($uri) {
             if ($uri = $this->wash_uri($uri)) {
-                return htmlspecialchars($uri, \ENT_QUOTES, $this->config['charset']);
+                return $uri;
             }
         };
 
@@ -295,7 +295,7 @@ class rcube_washtml
                 $style = '';
                 if ($value === '' || ($style = $this->wash_style($value))) {
                     // replace double quotes to prevent syntax error and XSS issues (#1490227)
-                    $result .= ' ' . $attr->nodeName . '="' . str_replace('"', '&quot;', $style) . '"';
+                    $result .= ' ' . $attr->nodeName . '="' . htmlspecialchars($style, \ENT_QUOTES, $this->config['charset']) . '"';
                 } else {
                     $washed[] = htmlspecialchars($attr->nodeName, \ENT_QUOTES, $this->config['charset']);
                 }
