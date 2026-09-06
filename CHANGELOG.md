@@ -10,6 +10,7 @@
 - Security: Fix email header injection via identity's organization field
 - Security: Fix zero-click stored XSS via TNEF MIME tag injection in the attachment URL
 - Security: Fix XSS in the HTML editor using text/enriched part content
+- Security: Fix cross-user access in contact group membership (add/remove) in the SQL address book
 
 ## Release 1.6.18
 
