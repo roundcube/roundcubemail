@@ -434,7 +434,7 @@ class rcube_utils
                 | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
                 | ParseStringFlag::MAY_INCLUDE_ZONEID;
 
-            $host = trim($host, '[]');
+            $host = trim($host, '[].');
 
             // IPLib does not seem to work with IPv6 syntax for IPv4 addresses
             $host = preg_replace('/^[0:]*:ffff:/i', '', $host);
