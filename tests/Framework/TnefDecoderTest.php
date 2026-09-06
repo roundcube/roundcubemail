@@ -117,6 +117,23 @@ class TnefDecoderTest extends TestCase
     }
 
     /**
+     * Test decoding an attachment with malformed mimetype
+     */
+    public function test_decompress_mimetype()
+    {
+        $body = base64_decode('eJ8+IgEAAQaQCAAEAAAAAAABAAEAAgKQBgAAAAAAAAACBZAGAHwAAAADAAAAHgAHNwEAAAAHAAAA'
+            . 'cG9jLmRhdAAeAA43AQAAADcAAABpbWFnZSZfcGFydD0zJl9ub2NoZWNrPTEmX2Rvd25sb2FkPTEj'
+            . 'cHJvYmUvb2N0ZXQtc3RyZWFtAB4AEjcBAAAAFAAAAHJjLXBvYy1jaWQtMDAwMDAwMDAxsB0CD4AG'
+            . 'AAsAAABwbGFjZWhvbGRlcoME');
+
+        $tnef = new \rcube_tnef_decoder();
+        $result = $tnef->decompress($body);
+
+        $this->assertSame('application', $result['attachments'][0]['type']);
+        $this->assertSame('octet-stream', $result['attachments'][0]['subtype']);
+    }
+
+    /**
      * Test rtf2text()
      */
     public function test_rtf2text()

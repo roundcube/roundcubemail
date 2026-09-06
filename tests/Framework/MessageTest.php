@@ -23,6 +23,20 @@ class MessageTest extends TestCase
     }
 
     /**
+     * Test get_part_url() method
+     */
+    public function test_get_part_url()
+    {
+        $message = new MessageMock(10, 'Test');
+        $message->mime_parts[1] = new \rcube_message_part();
+
+        $url = $message->get_part_url(1, 'test&test=1');
+        $this->assertSame('URL&_part=1&_embed=1&_mimeclass=test%26test%3D1', $url);
+
+        $this->assertFalse($message->get_part_url(10));
+    }
+
+    /**
      * Test tnef_decode() method
      */
     public function test_tnef_decode()

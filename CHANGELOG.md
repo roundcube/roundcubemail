@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix email header injection via bare CR in the subject field
 - Security: Fix email header injection via C-escape \r in the recipient display name
 - Security: Fix email header injection via identity's organization field
+- Security: Fix zero-click stored XSS via TNEF MIME tag injection in the attachment URL
 
 ## Release 1.7.3
 
