@@ -13,6 +13,7 @@
 - Security: Fix cross-user access in contact group membership (add/remove) in the SQL address book
 - Security: Fix is_local_url() bypass via trailing-dot FQDN in stylesheet URL
 - Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes
+- Security: Fix remote-content blocker bypass via SVG SMIL src animation
 
 ## Release 1.6.18
 
