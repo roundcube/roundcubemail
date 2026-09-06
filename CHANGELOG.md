@@ -7,6 +7,7 @@
 - Security: Fix CSS property injection via body `background` attribute
 - Security: Fix email header injection via bare CR in the subject field
 - Security: Fix email header injection via C-escape \r in the recipient display name
+- Security: Fix email header injection via identity's organization field
 
 ## Release 1.6.18
 
