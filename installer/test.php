@@ -273,11 +273,10 @@ if ($pass == '%p') {
 
 ?>
 
-<form action="?_step=3" method="post">
+<br><form action="?_step=3" method="post">
 
-<h3>Test SMTP config</h3>
+<fieldset><legend>Test SMTP config</legend>
 
-<p>
 <table>
 <tbody>
   <tr>
@@ -294,7 +293,6 @@ if ($pass == '%p') {
   </tr>
 </tbody>
 </table>
-</p>
 
 <?php
 
@@ -365,12 +363,12 @@ if (isset($_POST['sendmail'])) {
 </table>
 
 <p><input type="submit" name="sendmail" value="Send test mail" /></p>
-
+</fieldset>
 </form>
 
 <form action="?_step=3" method="post">
 
-<h3>Test IMAP config</h3>
+<fieldset><legend>Test IMAP config</legend>
 
 <?php
 
@@ -441,19 +439,9 @@ if (isset($_POST['imaptest']) && !empty($_POST['_host']) && !empty($_POST['_user
 ?>
 
 <p><input type="submit" name="imaptest" value="Check login" /></p>
-
+</fieldset>
 </form>
 
-<hr />
-
-<p class="warning">
-
-After completing the installation and the final tests please <b>remove</b> the
-installer.php file from the document root of the webserver or make sure that
-<tt>enable_installer</tt> option in <tt>config.inc.php</tt> is disabled.<br />
-<br />
-
-The installer may expose sensitive configuration data like server passwords and encryption keys
-to the public. Make sure you cannot access it from your browser.
-
-</p>
+<form action="?_step=4" method="post">
+  <p><input type="submit" value="NEXT"/></p>
+</form>
