@@ -305,20 +305,20 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
     function test_style_wash_xss()
     {
         $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
-        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = '<img style="aaa: &#039;&quot;/onerror=alert(1)//&#039;" />';
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
+        $this->assertStringContainsString($exp, $washed, 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
-        $exp  = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = '<img style="aaa: &#039;&quot;/onerror=alert(1)//&#039;" />';
 
         $washer = new rcube_washtml;
         $washed = $washer->wash($html);
 
-        $this->assertTrue(strpos($washed, $exp) !== false, "Style quotes XSS issue (#1490227)");
+        $this->assertStringContainsString($exp, $washed, 'Style quotes XSS issue (#1490227)');
 
         $html = '<div style=\'content: "\0026quot;; background: url(//http.cat/418); content:""; width: 100%; height: 100%;\'>test</div>';
 
@@ -610,6 +610,10 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
             [
                 '<html><math><ms HREF="javascript:alert(location);">clickme</ms></math>',
                 '<body><math><ms x-washed="href">clickme</ms></math></body>',
+            ],
+            [
+                '<html><body><div style="color:red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div>',
+                '<body><div style="color: red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div></body>',
             ],
         ];
     }
