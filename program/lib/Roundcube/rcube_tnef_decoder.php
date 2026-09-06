@@ -374,7 +374,6 @@ class rcube_tnef_decoder
 
             // Store any interesting attributes.
             switch ($attr_name) {
-<<<<<<< HEAD
             case self::MAPI_RTF_COMPRESSED:
                 $result['type']    = 'application';
                 $result['subtype'] = 'rtf';
