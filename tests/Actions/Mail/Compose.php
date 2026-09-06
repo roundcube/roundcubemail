@@ -45,7 +45,7 @@ class Actions_Mail_Compose extends ActionTestCase
         $message = new MessageMock(123);
         $set_part = function ($body) use ($message) {
             $part = new rcube_message_part();
-            $part->mime_id = 1;
+            $part->mime_id = '1';
             [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype = 'text/enriched');
             $message->set_part_body(1, $body);
             return $part;
@@ -70,9 +70,9 @@ class Actions_Mail_Compose extends ActionTestCase
     public function test_compose_part_body_markdown()
     {
         $message = new MessageMock(123);
-        $set_part = function ($body) use ($message) {
-            $part = new \rcube_message_part();
-            $part->mime_id = 1;
+        $set_part = static function ($body) use ($message) {
+            $part = new rcube_message_part();
+            $part->mime_id = '1';
             [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype = 'text/markdown');
             $message->set_part_body(1, $body);
             return $part;
