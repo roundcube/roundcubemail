@@ -4,6 +4,7 @@
 
 - Fix PHP Warning: Undefined variable $tmp_command in .../plugins/markasjunk/drivers/cmd_learn.php (#10294)
 - Security: Fix CSS declaration smuggling via un-encoded ampersand emission
+- Security: Fix CSS property injection via body `background` attribute
 
 ## Release 1.6.18
 
