@@ -989,4 +989,12 @@ class rcube_mime
 
         return $type;
     }
+
+    /**
+     * Validate Content-Type name according to RFC4288.4.2
+     */
+    public static function is_mimetype_valid($mimetype)
+    {
+        return is_string($mimetype) && preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $mimetype) === 1;
+    }
 }

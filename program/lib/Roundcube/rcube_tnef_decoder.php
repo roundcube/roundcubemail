@@ -374,6 +374,7 @@ class rcube_tnef_decoder
 
             // Store any interesting attributes.
             switch ($attr_name) {
+<<<<<<< HEAD
             case self::MAPI_RTF_COMPRESSED:
                 $result['type']    = 'application';
                 $result['subtype'] = 'rtf';
@@ -398,10 +399,11 @@ class rcube_tnef_decoder
                 break;
 
             case self::MAPI_ATTACH_MIME_TAG:
-                // Is this ever set, and what is format?
-                $value = explode('/', trim($value));
-                $result['type']    = $value[0];
-                $result['subtype'] = $value[1];
+                $value = trim($value);
+                if (!rcube_mime::is_mimetype_valid($value)) {
+                    $value = 'application/octet-stream';
+                }
+                [$result['type'], $result['subtype']] = explode('/', $value);
                 break;
 
             case self::MAPI_ATTACH_CONTENT_ID:
