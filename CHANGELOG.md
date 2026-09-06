@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix CSS property injection via body `background` attribute
 - Security: Fix email header injection via bare CR in the subject field
 - Security: Fix email header injection via C-escape \r in the recipient display name
+- Security: Fix email header injection via identity's organization field
 
 ## Release 1.7.3
 

@@ -214,7 +214,7 @@ class rcmail_sendmail
         ];
 
         if (!empty($identity_arr['organization'])) {
-            $headers['Organization'] = $identity_arr['organization'];
+            $headers['Organization'] = preg_replace('/[\r\n]+/', ' ', $identity_arr['organization']);
         }
 
         if ($mdn_enabled) {
