@@ -11,9 +11,16 @@
 
 /*** Additional styles for printouts ***/
 
+// Bootstrap's print styles set @page size to a3 and body min-width to 992px,
+// which breaks printing with scaling above 120% (text is cut off) (#10298)
+@page {
+    size: auto;
+}
+
 body {
     overflow: auto;
     height: auto;
+    min-width: 0 !important;
 }
 
 #print-layout {
