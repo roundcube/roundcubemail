@@ -973,7 +973,9 @@ class rcmail_action_mail_index extends rcmail_action
         self::$wash_html_body_attrs = [];
 
         if (!empty($p['inline_html'])) {
-            $washer->add_callback('body', 'rcmail_action_mail_index::washtml_callback');
+            if (empty($p['skip_washer_body_callback'])) {
+                $washer->add_callback('body', 'rcmail_action_mail_index::washtml_callback');
+            }
 
             if ($wash_opts['body_class']) {
                 self::$wash_html_body_attrs['class'] = $wash_opts['body_class'];
