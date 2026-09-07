@@ -65,9 +65,14 @@ html.dark-mode {
         background: unset;
         border-right: 1px solid @color-dark-border;
 
-        .popover-header,
-        .special-buttons {
+        .popover-header {
             background: transparent !important;
+        }
+
+        @media screen and (min-width: (@screen-width-xs + 1px)) {
+            .special-buttons {
+                background: @color-dark-taskmenu-special-buttons-background;
+            }
         }
 
         @media screen and (max-width: @screen-width-xs) {
@@ -76,10 +81,6 @@ html.dark-mode {
             .popover-header {
                 border-bottom: 1px solid @color-dark-border;
             }
-        }
-
-        .special-buttons a:not(:focus) {
-            background: @color-dark-background;
         }
     }
 
