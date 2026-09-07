@@ -22,8 +22,9 @@ only the icon is coloured. A tooltip on the link gives the one-line verdict.
 headers*) with the parsed **SPF / DKIM / DMARC** results — Gmail-style — each
 carrying **its own verdict glyph**, from the same five-glyph table as the link,
 so a reader who sees the amber `!` beside DKIM can read the `!` on the link as
-"the DKIM one won". Below them is a **Transport (TLS)** line showing whether the
-message reached your server over an encrypted SMTP connection, then the raw
+"the DKIM one won". Below them is a **Submission** line, on the mail you sent
+yourself, and a **Transport (TLS)** line showing whether the message reached your
+server over an encrypted SMTP connection, then the raw
 `Authentication-Results` / `Received-SPF` lines plus any administrator-configured
 extra headers.
 
@@ -45,12 +46,41 @@ one that verifies *and* aligns with the From domain authenticates the message
 regardless of what the other says. Ties keep the earliest signature, so a
 singly-signed message reports exactly what it always did.
 
-**One exception, for relayed mail.** Forwarders and mailing lists relay under
-their own envelope sender, which breaks SPF for mail that is otherwise entirely
-genuine. When DMARC passed, the receiving server has already weighed that
-failure and accepted the message on a surviving aligned DKIM signature — so the
-SPF failure is demoted to a warning (and the SPF row says why) instead of
-raising a false alarm on legitimately forwarded mail.
+**Two exceptions, and both are settled on the row rather than on the headline**,
+so the icon still reads as exactly the worst of the lines in the popup.
+
+*Relayed mail.* Forwarders and mailing lists relay under their own envelope
+sender, which breaks SPF for mail that is otherwise entirely genuine. When DMARC
+passed, the receiving server has already weighed that failure and accepted the
+message on a surviving aligned DKIM signature — so the SPF failure is demoted to
+a warning (and the SPF row says why) instead of raising a false alarm on
+legitimately forwarded mail.
+
+*Mail you submitted yourself never travelled*, so SPF and DMARC were not a check
+on it. Handing a message to your own server over an authenticated session is not
+relay, and SPF is a rule about relay: it asks whether the connecting address may
+send for the domain, and for a laptop on your own network the answer is no —
+correctly, and about nothing at all. DMARC then fails as arithmetic on that,
+which is how a user's own outgoing mail comes back "the sender may be forged".
+Both stop counting, and a row names the evidence they were read in the light of:
+
+| | | |
+|---|---|---|
+| SPF | · | FAIL — example.com (submitted from your own server, not relayed) |
+| DMARC | · | FAIL — example.com (submitted from your own server, not relayed) |
+| Submission | | Authenticated as joe.user, from 192.168.8.126 |
+
+This is recognised only when the message has a **single** `Received` hop and your
+server recorded that its client **authenticated** (an RFC 3848 `ESMTPA` /
+`ESMTPSA` transmission type) — so a message that reached you any other way cannot
+claim it, including one re-injected through your own server by a mail client's
+"redirect", which keeps the hops that brought it. Nothing is promoted:
+authenticating proves the account, not the address in `From:`, and a message left
+with nothing to judge reads as a warning rather than a pass.
+
+In both cases the result itself is untouched and still shown as FAIL — only the
+severity read from it changes. Nothing else is ever forgiven: an SPF fail with no
+DMARC pass behind it fails, and a softfail stays a warning.
 
 The **DKIM marker on the message's From header** is the DKIM row's verdict
 itself, lifted out rather than recomputed, so the row glyph, the header marker
@@ -84,6 +114,19 @@ The TLS state is read from the topmost `Received` header (the most recent hop,
 typically your own receiving server): an `ESMTPS`/`ESMTPSA`/`LMTPS` transmission
 type (RFC 3848) or a logged `TLSv…` version means the delivery to you was
 encrypted.
+
+Recognising mail the user submitted themselves has its own toggle, and unlike the
+one above it **does** change the verdict:
+
+```php
+$config['message_security_info_check_submission'] = true;
+```
+
+Turn it off when your server's submission path is not the same trust boundary as
+its inbound one. The SPF and DMARC results are then counted exactly as your
+server stamped them, and the `Submission` row goes with them — the flag is read
+in one place, so the row and the verdict cannot disagree about whether the
+message was submitted.
 
 How it works
 ------------
@@ -156,6 +199,12 @@ Limitations (initial version)
 - **Alignment is not PSL-based.** Subdomain/equality only; it does not compute
   organizational domains via the Public Suffix List, so it is neither a full
   DMARC alignment check nor aware of registrable-domain boundaries.
+- **Submission detection trusts your own server's `Received` header,** and the
+  single-hop rule is what keeps a message from claiming to be yours. A server
+  that hands local mail to a separate delivery agent adds a second hop and is
+  simply not recognised — the safe direction to be wrong in. A server that lets
+  an authenticated user write any `From:` they like is not detectable from the
+  message, which is why nothing is ever promoted to a pass by this route.
 - **The icon is a summary, not a policy decision.** With no DKIM or DMARC result
   to weigh against it, an SPF-only pass is green even though SPF does not
   authenticate the visible From address; the per-check breakdown in the popup
@@ -171,6 +220,29 @@ Installation
    ```
 3. Optionally copy `config.inc.php.dist` to `config.inc.php` and set
    `message_security_info_trusted_authserv`.
+
+Tests
+-----
+
+The suite lives in `tests/`, in the usual Roundcube shape
+(`plugins/<name>/tests/<Name>Test.php`, namespace `Roundcube\Plugins\Tests`).
+It ships its own PHPUnit configuration instead of being listed in the core's
+`tests/phpunit.xml`, so that upstream file stays pristine and keeps merging
+cleanly:
+
+```sh
+vendor/bin/phpunit -c plugins/message_security_info/tests/phpunit.xml
+```
+
+It needs the core's bootstrap, so run it from a Roundcube checkout with the dev
+dependencies installed and `config/config-test.inc.php` in place (copy it from
+`.ci/config-test.inc.php`, as `.ci/run_tests.sh` does).
+
+`MessageSecurityInfoTest` covers the outward surface — the headers fetched from
+IMAP, what a whole message evaluates to, and the rows the popup shows.
+`MessageSecurityInfoVerdictTest` covers the reasoning: how one protocol result
+becomes a severity, how the severities combine, and the two exceptions above,
+including that neither of them can promote anything to a pass.
 
 License
 -------

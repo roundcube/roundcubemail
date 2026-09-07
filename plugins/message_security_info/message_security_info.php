@@ -30,9 +30,15 @@
  *
  * The overall status is the *worst* of the per-mechanism verdicts: SPF, DKIM and
  * DMARC are independent assertions about the same message, so the weakest one
- * governs, and a DMARC pass does not excuse a weaker result beside it. Within
- * DKIM the rule is reversed — several signatures are alternatives, so the best
- * of them is the one reported. `evaluate` and `best_dkim` carry the reasoning.
+ * governs, and a DMARC pass does not excuse a weaker result beside it. Two kinds
+ * of message are the exception, and both are settled on the finding rather than
+ * on the status, so the headline still reads straight off the rows: relayed
+ * mail, whose SPF a mailing list breaks and whose own DMARC policy has already
+ * forgiven that, and mail the user submitted themselves, which never travelled
+ * and so was never the thing SPF and DMARC are a check on. Within DKIM the rule
+ * is reversed — several signatures are alternatives, so the best of them is the
+ * one reported. `evaluate`, `demote_relayed_spf`, `excuse_local_submission` and
+ * `best_dkim` carry the reasoning.
  *
  * @license GNU GPLv3+
  * @author Claude
@@ -177,8 +183,8 @@ class message_security_info extends rcube_plugin
     }
 
     /**
-     * Whether a given check (spf, dkim, dmarc, tls) is enabled by the
-     * administrator. All are on by default.
+     * Whether a given check (spf, dkim, dmarc, tls, submission) is enabled by
+     * the administrator. All are on by default.
      */
     private function method_enabled($method)
     {
@@ -192,8 +198,8 @@ class message_security_info extends rcube_plugin
     {
         $headers = self::BASE_HEADERS;
 
-        // Received lines are only needed for the transport (TLS) check.
-        if ($this->method_enabled('tls')) {
+        // Received lines are what the transport (TLS) and submission checks read.
+        if ($this->method_enabled('tls') || $this->method_enabled('submission')) {
             $headers[] = 'RECEIVED';
         }
 
@@ -285,6 +291,15 @@ class message_security_info extends rcube_plugin
      * passing means the domain owner's policy was met — it does not mean every
      * mechanism agreed, and the disagreement is exactly the interesting part.
      *
+     * The cases where a mechanism is not taken at face value — relayed mail,
+     * whose SPF the sender's own DMARC policy has already forgiven, and the
+     * user's own submitted mail, which SPF and DMARC never judged — are settled
+     * before this method sees them, in demote_relayed_spf() and
+     * excuse_local_submission(), so that the adjusted row is the one the reader
+     * can see. Nothing may be forgiven here: an exception applied at this point
+     * would put a `warn` headline above a visible `✗ FAIL` row, with no rule
+     * connecting the two.
+     *
      * Mechanisms disabled by the administrator are absent from $security and so
      * are excluded entirely.
      *
@@ -330,7 +345,12 @@ class message_security_info extends rcube_plugin
             }
         }
 
-        return $this->demote_relayed_spf($security);
+        // The two cases where a result does not mean what it says. They cannot
+        // both apply — one needs DMARC to have passed and the other reaches
+        // findings DMARC failed — so the order between them carries no meaning.
+        $security = $this->demote_relayed_spf($security);
+
+        return $this->excuse_local_submission($security, $this->submission($headers));
     }
 
     /**
@@ -481,6 +501,125 @@ class message_security_info extends rcube_plugin
     }
 
     /**
+     * submission_info(), or null while the check is switched off.
+     *
+     * The one place the flag is read, so the Submission row and the verdict can
+     * never disagree about whether this message was submitted.
+     *
+     * @return array{user:?string, client:?string}|null
+     */
+    private function submission($headers)
+    {
+        return $this->method_enabled('submission') ? $this->submission_info($headers) : null;
+    }
+
+    /**
+     * Whether the user submitted this message themselves, rather than received it.
+     *
+     * Mail a user hands to their own server over an authenticated SMTP session
+     * never travels the internet, so the SPF and DMARC checks made on it answer
+     * a question that was not asked: SPF is a rule about *relay* from an
+     * arbitrary address, and the client here is one that logged in.
+     * excuse_local_submission() is what acts on that; this method only reads.
+     *
+     * Two conditions, and both are required:
+     *
+     * - The message has exactly one Received hop. A message that reached the
+     *   server any other way carries the hops that brought it, so this is what
+     *   separates a fresh submission from one re-injected through the same
+     *   server — a client's "redirect"/"bounce" keeps the original chain and
+     *   prepends to it, and its inner results must keep their verdict.
+     * - That hop is an authenticated submission: the RFC 3848 transmission type
+     *   ends in "A" (ESMTPA, ESMTPSA, LMTPA, LMTPSA), which is a receiving MTA
+     *   recording that the client authenticated (RFC 4954).
+     *
+     * Both are read from the header the receiving MTA wrote itself, and a forged
+     * Received can only ever appear *below* it, so neither can be claimed by the
+     * message. The reverse is not true: a server that hands local mail to a
+     * separate delivery agent adds a second hop, and this then reports nothing.
+     * That is the safe direction to be wrong in.
+     *
+     * @return array{user:?string, client:?string}|null null when this is not a
+     *                                                  message the user submitted
+     */
+    private function submission_info($headers)
+    {
+        $received = $this->normalize($headers->get('Received', false));
+        if (count($received) !== 1) {
+            return null;
+        }
+
+        $top = preg_replace('/\s+/', ' ', $received[0]);
+
+        // RFC 3848: the trailing "A" is the authenticated form, with an optional
+        // "S" before it for TLS. tls_info() reads the same clause for the "S".
+        if (!preg_match('/\bwith\s+(?:UTF8)?(?:ESMTP|SMTP|LMTP)S?A\b/i', $top)) {
+            return null;
+        }
+
+        // Everything the client is described by precedes the "by <our host>"
+        // clause; past that point the addresses belong to the server itself.
+        $client_part = preg_split('/\bby\s/', $top, 2)[0];
+        $client = preg_match('/\[(?:IPv6:)?([0-9a-fA-F.:]+)\]/', $client_part, $cm) ? $cm[1] : null;
+
+        // Postfix names the account it authenticated. Other MTAs word this
+        // differently or not at all, which is why it is not what we match on.
+        $user = preg_match('/\bAuthenticated sender:\s*([^)\s]+)/i', $top, $um) ? $um[1] : null;
+
+        return ['user' => $user, 'client' => $client];
+    }
+
+    /**
+     * Stop counting SPF and DMARC on a message the user submitted themselves.
+     *
+     * Mail handed to your own server over an authenticated session is not
+     * relayed mail, and SPF is a rule about relay: it asks whether the
+     * connecting address may send for the domain, and the answer for a laptop on
+     * the LAN is no — correctly, and about nothing. DMARC then fails as an
+     * arithmetic consequence of that SPF failure rather than as a finding of its
+     * own. Reporting either as evidence of forgery is a false alarm on the
+     * user's own outgoing mail. submission_info() says what is required before
+     * this applies, and why a message cannot claim it for itself.
+     *
+     * These verdicts become 'none' rather than a softer failure, because the
+     * claim is not that the failure was forgiven — nothing weighed it — but that
+     * the mechanism did not judge this message at all. 'none' is already the
+     * value for that, and combine_statuses() already answers a message with
+     * nothing left to judge with a visible 'warn', so no message can go quiet by
+     * this route. The raw result is untouched and still shown, with a
+     * description saying why it is not counted.
+     *
+     * Only adverse verdicts are dropped. A mechanism that passed is left to
+     * speak for itself: this is here to remove a false alarm, not to withhold
+     * what did hold.
+     *
+     * The user's account, not their identity, is what authenticated — so this
+     * never promotes anything to 'pass'. A server that does not bind the login
+     * to the From address lets an authenticated user write any sender they like,
+     * and nothing in the message says whether yours does.
+     *
+     * @param array<string, array>                     $security
+     * @param array{user:?string, client:?string}|null $submission
+     *
+     * @return array<string, array>
+     */
+    private function excuse_local_submission($security, $submission)
+    {
+        if ($submission === null) {
+            return $security;
+        }
+
+        foreach (['spf', 'dmarc'] as $method) {
+            if (in_array($security[$method]['verdict'] ?? null, ['fail', 'warn'], true)) {
+                $security[$method]['verdict'] = 'none';
+                $security[$method]['description'] = $this->gettext('localsubmission');
+            }
+        }
+
+        return $security;
+    }
+
+    /**
      * Map one SPF/DKIM result to pass / warn / fail / unknown / none (DKIM also
      * weighs From-alignment). "none" means it does not contribute.
      */
@@ -596,7 +735,8 @@ class message_security_info extends rcube_plugin
 
     /**
      * The popup's top rows: the From address, one row per enabled mechanism,
-     * then the transport line.
+     * then — on a message the user submitted themselves — the submission line,
+     * and finally the transport line.
      *
      * `verdict` is what the row's glyph is drawn from, and is absent on the two
      * rows that carry no verdict at all — the From address and the transport.
@@ -619,6 +759,13 @@ class message_security_info extends rcube_plugin
                 'value' => $this->security_line($entry),
                 'verdict' => $entry['verdict'],
             ];
+        }
+
+        // Names the evidence the SPF and DMARC findings above were read in the
+        // light of, so a reader who sees them not counted can see why.
+        $submission = $this->submission($headers);
+        if ($submission !== null) {
+            $rows[] = ['label' => $this->gettext('submission'), 'value' => $this->format_submission($submission)];
         }
 
         if ($this->method_enabled('tls')) {
@@ -736,6 +883,20 @@ class message_security_info extends rcube_plugin
         }
 
         return $out;
+    }
+
+    /**
+     * Format the submission line: who authenticated, and from where.
+     */
+    private function format_submission($submission)
+    {
+        $who = $submission['user'] !== null
+            ? $this->gettext(['name' => 'submissionuser', 'vars' => ['user' => $submission['user']]])
+            : $this->gettext('submissionanon');
+
+        return $submission['client'] !== null
+            ? $this->gettext(['name' => 'submissionfrom', 'vars' => ['what' => $who, 'client' => $submission['client']]])
+            : $who;
     }
 
     /**

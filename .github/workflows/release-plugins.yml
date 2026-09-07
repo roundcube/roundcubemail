@@ -41,8 +41,10 @@ jobs:
         run: |
           # Step into the plugins directory so the internal structure of the zip
           # begins with the plugin folder name itself (e.g. twostep_login/...)
+          # tests/ is excluded: it needs the core's bootstrap and dev
+          # dependencies, so it cannot run from an installed plugin anyway.
           cd plugins
-          zip -r "../${{ steps.get-version.outputs.zip_name }}" "${{ matrix.plugin }}" -x "*.git*"
+          zip -r "../${{ steps.get-version.outputs.zip_name }}" "${{ matrix.plugin }}" -x "*.git*" "*/tests/*"
 
       - name: Upload Asset to Triggering Release
         env:

@@ -31,6 +31,7 @@ $labels['aligned'] = 'aligned with From';
 $labels['notaligned'] = 'does not match From ($from)';
 $labels['unverified'] = 'present, not verified by your server';
 $labels['spfrelayed'] = 'DMARC accepted the message anyway — it was probably forwarded';
+$labels['localsubmission'] = 'submitted from your own server, not relayed';
 
 // Verdict glyph beside each SPF / DKIM / DMARC row in the popup (tooltip)
 $labels['verdictpass'] = 'Passed';
@@ -47,6 +48,13 @@ $labels['frommarkerwarn'] = 'DKIM: signed, but the signature does not match the 
 $labels['frommarkerfail'] = 'DKIM: signature verification failed.';
 $labels['frommarkerunknown'] = 'DKIM: signed, but your server did not verify the signature.';
 $labels['frommarkernone'] = 'DKIM: this message is not signed.';
+
+// How the message was handed to your server (informational; shown only for
+// mail you submitted yourself).
+$labels['submission'] = 'Submission';
+$labels['submissionuser'] = 'Authenticated as $user';
+$labels['submissionanon'] = 'Authenticated client';
+$labels['submissionfrom'] = '$what, from $client';
 
 // Transport encryption (informational; does not affect the icon)
 $labels['tls'] = 'Transport (TLS)';

@@ -1,0 +1,57 @@
+# Unit tests for the plugins that live only in this fork.
+#
+# The upstream "Unit" workflow (tests.yml) runs .ci/run_tests.sh, which runs the
+# core's tests/phpunit.xml. Our plugins are not listed there, and adding them
+# would mean editing an upstream file for no upstream benefit — the same reason
+# phpstan.neon sits beside phpstan.neon.dist. So each plugin ships its own
+# PHPUnit configuration and this workflow runs them.
+#
+# To add a plugin here, give it a tests/phpunit.xml and add its name to the
+# matrix below.
+name: Unit (fork plugins)
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test_plugins:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.head_commit.message, '[ci skip]')"
+
+    strategy:
+      # One plugin failing should not hide the state of the others.
+      fail-fast: false
+      matrix:
+        php: ["8.1", "8.4"]
+        plugin: [message_security_info]
+
+    name: ${{ matrix.plugin }} / PHP ${{ matrix.php }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@fcafdd6392932010c2bd5094439b8e33be2a8a09 # v2.37.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, fileinfo, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, gd, intl
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup problem matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+
+      # The bootstrap needs it, exactly as .ci/run_tests.sh arranges for the core.
+      - name: Create test config
+        run: cp -v .ci/config-test.inc.php config/config-test.inc.php
+
+      - name: Execute tests
+        run: vendor/bin/phpunit -c plugins/${{ matrix.plugin }}/tests/phpunit.xml --fail-on-warning --fail-on-risky --display-deprecations

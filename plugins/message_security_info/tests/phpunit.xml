@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+  This plugin ships its own PHPUnit configuration rather than being listed in
+  the core's tests/phpunit.xml, so the upstream file stays pristine and keeps
+  merging cleanly (the same reason phpstan.neon exists beside phpstan.neon.dist).
+
+  Run from anywhere in the tree:
+
+      vendor/bin/phpunit -c plugins/message_security_info/tests/phpunit.xml
+
+  It needs the core's bootstrap, so it must be run from a Roundcube checkout
+  with the dev dependencies installed and config/config-test.inc.php in place
+  (see .ci/run_tests.sh).
+-->
+<phpunit
+  bootstrap="../../../tests/bootstrap.php"
+  colors="true"
+  failOnDeprecation="true"
+  failOnNotice="true"
+  failOnWarning="true"
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  displayDetailsOnPhpunitDeprecations="true"
+  cacheResult="false"
+>
+  <source>
+    <include>
+      <directory>..</directory>
+    </include>
+  </source>
+  <testsuites>
+    <testsuite name="message_security_info">
+      <directory>.</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

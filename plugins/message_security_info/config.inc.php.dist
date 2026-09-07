@@ -33,6 +33,16 @@ $config['message_security_info_check_dmarc'] = true;
 // to hide the row (and skip fetching Received headers).
 $config['message_security_info_check_tls'] = true;
 
+// Recognise mail you submitted to your own server, and stop counting the SPF
+// and DMARC results made on it — they judged a message that never travelled.
+// Unlike the TLS toggle above this one DOES change the verdict, so it is the one
+// to turn off when your server's submission and inbound paths are not the same
+// trust boundary this assumes. Recognised only on a single-hop message whose
+// topmost Received records an authenticated (RFC 3848 "...A") session, so a
+// message that reached you any other way cannot claim it. Nothing is promoted:
+// a message left with nothing to judge still reads as a warning, never a pass.
+$config['message_security_info_check_submission'] = true;
+
 // Additional raw message headers to show in the details popup, below the
 // parsed SPF / DKIM / DMARC summary and the Authentication-Results /
 // Received-SPF lines. Useful for surfacing whatever an administrator cares to

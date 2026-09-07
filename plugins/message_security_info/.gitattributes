@@ -1,0 +1,8 @@
+# Keep the test suite out of distribution archives. It needs the core's
+# bootstrap and dev dependencies, so it cannot run from an installed plugin
+# anyway. This covers `git archive` and, with it, the tarballs GitHub generates
+# for a tag — which is what `composer require` downloads by default.
+# The release zip built by .github/workflows/release-plugins.yml excludes the
+# same directory, in its own way.
+/tests export-ignore
+/.gitattributes export-ignore
