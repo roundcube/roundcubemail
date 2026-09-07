@@ -97,7 +97,8 @@ class rcmail_attachment_handler
             $file_id = preg_replace('/^rcmfile/', '', $file_id);
             $compose = $_SESSION['compose_data_' . $compose_id] ?? null;
 
-            if ($compose && ($this->upload = $compose['attachments'][$file_id])) {
+            if ($compose && !empty($compose['attachments'][$file_id])) {
+                $this->upload   = $compose['attachments'][$file_id];
                 $this->filename = $this->upload['name'];
                 $this->mimetype = $this->upload['mimetype'];
                 $this->size     = $this->upload['size'];
