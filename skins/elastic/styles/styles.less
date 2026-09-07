@@ -434,6 +434,21 @@ body.task-error-login #layout {
     margin: 1rem 1rem 0 1rem;
 }
 
+// Fix compose headers label column width (#8913). Bootstrap's col-2 (16.66%)
+// makes the labels too far from inputs when the content area is wide.
+#compose-headers {
+    @media screen and (min-width: (@screen-width-small + 1px)) {
+        .col-2 {
+            max-width: 110px;
+        }
+
+        .col-10 {
+            max-width: 100%;
+            flex: 1;
+        }
+    }
+}
+
 .suspicious-address-warning:before {
     .font-icon-class();
     float: none;
