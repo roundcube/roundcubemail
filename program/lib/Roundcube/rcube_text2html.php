@@ -31,15 +31,13 @@ class rcube_text2html
     /** @var array Configuration */
     protected $config = [
         // non-breaking space
-        'space' => "\xC2\xA0",
+        'space' => '&nbsp;',
         // enables format=flowed parser
         'flowed' => false,
         // enables delsp=yes parser
         'delsp' => false,
         // enables wrapping for non-flowed text
         'wrap' => true,
-        // line-break tag
-        'break' => "<br>\n",
         // prefix and suffix (wrapper element)
         'begin' => '<div class="pre">',
         'end' => '</div>',
@@ -240,9 +238,6 @@ class rcube_text2html
         // insert url/mailto links and citation tags
         $text = $replacer->resolve($text);
 
-        // replace line breaks
-        $text = str_replace("\n", $this->config['break'], $text);
-
         return $this->config['begin'] . $text . $this->config['end'];
     }
 
@@ -263,7 +258,7 @@ class rcube_text2html
 
             // replace some whitespace characters
             $table["\r"] = '';
-            $table["\t"] = '    ';
+            $table["\t"] = '&#09;';
         }
 
         // empty line?
@@ -296,6 +291,8 @@ class rcube_text2html
         // replace HTML special and whitespace characters
         $text = strtr($text, $table);
 
+        return $text;
+// REMOVE ..
         $nbsp = $this->config['space'];
         $wrappable = !$this->nowrap && ($this->config['flowed'] || $this->config['wrap']);
 
@@ -328,5 +325,6 @@ class rcube_text2html
         }
 
         return $text;
+// REMOVE ^^
     }
 }
