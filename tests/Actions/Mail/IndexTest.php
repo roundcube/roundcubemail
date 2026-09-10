@@ -4,6 +4,8 @@ namespace Roundcube\Tests\Actions\Mail;
 
 use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\OutputJsonMock;
 
 use function Roundcube\Tests\setProperty;
 
@@ -96,6 +98,103 @@ class IndexTest extends ActionTestCase
         $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
         $this->assertSame('Trash', $output->get_env('trash_mailbox'));
         $this->assertSame('Junk', $output->get_env('junk_mailbox'));
+    }
+
+    /**
+     * Test that a request bound to a search context that does not exist
+     * in the session anymore is aborted (#9671).
+     *
+     * Without this guard e.g. a "select all" (_uid=*) delete request would
+     * resolve '*' to the whole folder and delete all its messages instead of
+     * only the (no longer existing) search result.
+     */
+    public function test_run_aborts_request_on_lost_search_context()
+    {
+        foreach (['delete', 'move', 'refresh', 'check-recent'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', $act);
+
+            $_POST = ['_uid' => '*', '_mbox' => 'INBOX', '_search' => '1234567890'];
+            $_REQUEST = $_POST;
+
+            // The search context is not in the session (e.g. it has been
+            // overwritten by a search in another browser tab)
+            unset($_SESSION['search'], $_SESSION['search_request']);
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading');
+
+            $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+            $result = $output->getOutput();
+
+            $this->assertIsArray($result, "Action '{$act}' was not aborted");
+            $this->assertStringContainsString('display_message', $result['exec']);
+            $this->assertStringContainsString('"error"', $result['exec']);
+        }
+
+        // Same with a search context in the session that does not match the request
+        $action = new \rcmail_action_mail_index();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'delete');
+
+        $_POST = ['_uid' => '*', '_mbox' => 'INBOX', '_search' => '1234567890'];
+        $_REQUEST = $_POST;
+        $_SESSION['search'] = 'fake-search-set';
+        $_SESSION['search_request'] = 'another-search-request';
+
+        self::mockStorage()
+            ->registerFunction('set_folder')
+            ->registerFunction('set_page')
+            ->registerFunction('set_threading');
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('display_message', $result['exec']);
+        $this->assertStringContainsString('"error"', $result['exec']);
+
+        unset($_SESSION['search'], $_SESSION['search_request']);
+
+        // An action is not required, a plain request is redirected to the folder
+        foreach (['', 'compose'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', $act);
+
+            $_POST = [];
+            $_GET = ['_mbox' => 'INBOX', '_search' => '1234567890'];
+            $_REQUEST = $_GET;
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading')
+                ->registerFunction('get_folder', 'INBOX');
+
+            $this->runAndAssert($action, OutputHtmlMock::E_REDIRECT);
+        }
+
+        // In addressbook actions _search is not a message search, they are not affected
+        foreach (['autocomplete', 'list-contacts', 'search-contacts'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', $act);
+
+            $_GET = [];
+            $_POST = ['_mbox' => 'INBOX', '_search' => 'some search string'];
+            $_REQUEST = $_POST;
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading');
+
+            $this->runAndAssert($action, null);
+
+            $this->assertNull($output->getOutput(), "Action '{$act}' was aborted");
+        }
     }
 
     /**

@@ -65,6 +65,25 @@ class rcmail_action_mail_index extends rcmail_action
             $rcmail->output->set_env('search_request', $_REQUEST['_search']);
             $rcmail->output->set_env('search_text', $_SESSION['last_text_search']);
         }
+        // Bail out if the client requested a search context that does not exist
+        // in the session anymore, e.g. it has been overwritten by a search in
+        // another browser tab. Otherwise the request would work on the whole folder
+        // instead of the search result, e.g. a "select all" delete request would
+        // delete all messages in the folder (#9671).
+        // Note: In addressbook actions _search is not a message search reference,
+        // but a search string or a reference to $_SESSION['contact_search'].
+        elseif (
+            !empty($_REQUEST['_search'])
+            && !in_array($rcmail->action, ['autocomplete', 'list-contacts', 'search-contacts'])
+        ) {
+            $rcmail->output->show_message('searchexpired', 'error');
+
+            if ($rcmail->output->ajax_call || $rcmail->output->get_env('framed')) {
+                $rcmail->output->send('iframe');
+            }
+
+            $rcmail->output->redirect(['_mbox' => $rcmail->storage->get_folder()]);
+        }
 
         // remove mbox part from _uid
         $uid = rcube_utils::get_input_string('_uid', rcube_utils::INPUT_GPC);
