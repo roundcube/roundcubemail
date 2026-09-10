@@ -37,7 +37,17 @@ function newmail_notifier_run(prop) {
         newmail_notifier_sound();
     }
     if (prop.desktop) {
-        newmail_notifier_desktop(rcmail.get_label('body', 'newmail_notifier'));
+        var title;
+        var body;
+        if (prop.count === 1) {
+            title = prop.from || rcmail.get_label('title', 'newmail_notifier');
+            body = prop.subject || rcmail.get_label('body', 'newmail_notifier');
+        } else {
+            title = '(' + prop.count + ') ' + rcmail.get_label('title', 'newmail_notifier');
+            body = rcmail.get_label('body', 'newmail_notifier');
+        }
+
+        newmail_notifier_desktop(title, body);
     }
 }
 
@@ -96,11 +106,11 @@ function newmail_notifier_sound() {
 
 // Desktop notification
 // - Require window.Notification API support (Chrome 22+ or Firefox 22+)
-function newmail_notifier_desktop(body, disabled_callback) {
+function newmail_notifier_desktop(title, body, disabled_callback) {
     var timeout = rcmail.env.newmail_notifier_timeout || 10,
         icon = rcmail.assets_path('plugins/newmail_notifier/mail.png'),
         success_callback = function () {
-            var popup = new window.Notification(rcmail.get_label('title', 'newmail_notifier'), {
+            var popup = new window.Notification(title, {
                 dir: 'auto',
                 lang: '',
                 body: body,
