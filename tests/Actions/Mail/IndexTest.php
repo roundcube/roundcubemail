@@ -240,6 +240,11 @@ class IndexTest extends ActionTestCase
 
         $this->assertSame($expected, $result);
 
+        $result = $action->address_string('\"\\\"test.user@domain.tld\\\"\" (via Test Mailing List) <test@domain.tld>', null, false, null, null, null, false, true);
+        $expected = '<span class="adr"><span title="test@domain.tld" class="rcmContactAddress">&quot;test.user@domain.tld&quot; (via Test Mailing List)</span></span>';
+
+        $this->assertSame($expected, $result);
+
         setProperty($action, 'PRINT_MODE', true);
 
         $result = $action->address_string('test@domain.com');
