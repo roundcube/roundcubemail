@@ -613,8 +613,7 @@ class enigma_driver_gnupg extends enigma_driver
                 $record = $db->fetch_assoc($data_result);
                 $data = $record ? base64_decode($record['data']) : null;
 
-                // @phpstan-ignore-next-line
-                if (!is_array($data)) {
+                if ($data === null || $data === false) {
                     rcube::raise_error([
                         'code' => 605,
                         'message' => "Enigma: Failed to sync {$file} ({$file_id}). Decode error.",
