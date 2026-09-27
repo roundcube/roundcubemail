@@ -116,7 +116,7 @@ class rcmail_action_mail_mark extends rcmail_action_mail_index
             } else {
                 $search_request = rcube_utils::get_input_value('_search', rcube_utils::INPUT_GPC);
 
-                // refresh saved search set after moving some messages
+                // refresh saved search set after marking some messages as deleted
                 if ($search_request && $rcmail->storage->get_search_set()) {
                     $_SESSION['search'] = $rcmail->storage->refresh_search();
                 }
