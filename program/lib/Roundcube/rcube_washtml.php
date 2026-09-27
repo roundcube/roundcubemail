@@ -712,12 +712,8 @@ class rcube_washtml
         // Try HTML5 parser available in PHP >= 8.4
         // TODO: Parse XML also with this new PHP parser (?)
         if (!$this->is_xml && class_exists('Dom\HTMLDocument')) {
-            try {
-                $options = constant('Dom\HTML_NO_DEFAULT_NS') | \LIBXML_COMPACT | \LIBXML_NOERROR;
-                $node = HTMLDocument::createFromString($html, $options, $this->config['charset']);
-            } catch (\Exception $e) {
-                // ignore, fallback to other methods
-            }
+            $options = constant('Dom\HTML_NO_DEFAULT_NS') | \LIBXML_COMPACT | \LIBXML_NOERROR;
+            $node = HTMLDocument::createFromString($html, $options, $this->config['charset']);
         }
 
         // DOMDocument does not support HTML5, try Masterminds parser if available
