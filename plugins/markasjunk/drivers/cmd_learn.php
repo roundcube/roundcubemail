@@ -73,7 +73,18 @@ class markasjunk_cmd_learn
 
             if (str_contains($command, '%s')) {
                 $message = new rcube_message($uid);
-                $replace['%s'] = escapeshellarg($message->sender['mailto']);
+                $sender = (string) $message->sender['mailto'];
+
+                // Values from the message must not be parsed as command options
+                if (str_starts_with($sender, '-')) {
+                    if ($debug) {
+                        rcube::write_log('markasjunk', "sender of message {$src_mbox}/{$uid} starts with '-', skipped");
+                    }
+
+                    continue;
+                }
+
+                $replace['%s'] = escapeshellarg($sender);
             }
 
             if (!empty($header_names)) {
@@ -87,6 +98,15 @@ class markasjunk_cmd_learn
                     if ($headers) {
                         $val = $headers->get($header);
                         $val = is_array($val) ? array_first($val) : $val;
+                    }
+
+                    if (!empty($val) && str_starts_with((string) $val, '-')) {
+                        // Values from the message must not be parsed as command options
+                        if ($debug) {
+                            rcube::write_log('markasjunk', "header {$header} in message {$src_mbox}/{$uid} starts with '-', skipped");
+                        }
+
+                        continue 2;
                     }
 
                     if (!empty($val)) {
