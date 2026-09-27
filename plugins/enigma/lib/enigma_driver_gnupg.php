@@ -611,9 +611,9 @@ class enigma_driver_gnupg extends enigma_driver
             if ($mtime < $record['mtime']) {
                 $data_result = $db->query("SELECT `data`, `mtime` FROM {$table} WHERE `file_id` = ?", $file_id);
                 $record = $db->fetch_assoc($data_result);
-                $data = $record ? base64_decode($record['data']) : null;
+                $data = $record ? base64_decode($record['data']) : false;
 
-                if ($data === null || $data === false) {
+                if ($data === false) {
                     rcube::raise_error([
                         'code' => 605,
                         'message' => "Enigma: Failed to sync {$file} ({$file_id}). Decode error.",
@@ -623,7 +623,6 @@ class enigma_driver_gnupg extends enigma_driver
                 }
 
                 // Private keys might be located in 'private-keys-v1.d' subdirectory. Make sure it exists.
-                // @phpstan-ignore-next-line
                 if (strpos($file, '/private-keys-v1.d/')) {
                     if (!file_exists($this->homedir . '/private-keys-v1.d')) {
                         mkdir($this->homedir . '/private-keys-v1.d', 0700);
