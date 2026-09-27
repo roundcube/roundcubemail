@@ -7,6 +7,9 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
 - Installer: Add possibility to detsroy the installer session/cookie
+- Enigma: Fix db_sync() never restoring keyring files (#10343)
+- Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)
+- Password: Replace SQL query placeholders in a single pass (#10345)
 
 ## Release 1.7.4
 
