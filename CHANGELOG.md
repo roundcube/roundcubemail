@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Enigma: Fix db_sync() never restoring keyring files (#10343)
 - Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)
 - Password: Replace SQL query placeholders in a single pass (#10345)
+- Fix extra `<div>` tags accumulating in the HTML body on every "Edit as New" cycle (#9919)
 
 ## Release 1.7.4
 
