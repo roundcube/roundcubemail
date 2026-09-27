@@ -54,32 +54,29 @@ class rcube_sql_password
             return PASSWORD_ERROR;
         }
 
+        // All placeholders are replaced in a single pass (see strtr() below),
+        // so values inserted for one placeholder are never scanned for another.
+        $replace = [];
+
         // new password - default hash method
         if (str_contains($sql, '%P')) {
-            $password = password::hash_password($passwd);
-
-            $sql = str_replace('%P', $db->quote($password), $sql);
+            $replace['%P'] = $db->quote(password::hash_password($passwd));
         }
 
         // old password - default hash method
         if (str_contains($sql, '%O')) {
-            $password = password::hash_password($curpass);
-
-            $sql = str_replace('%O', $db->quote($password), $sql);
+            $replace['%O'] = $db->quote(password::hash_password($curpass));
         }
 
         // Handle clear text passwords securely (#1487034)
         $sql_vars = [];
-        if (preg_match_all('/%[p|o]/', $sql, $m)) {
+        if (preg_match_all('/%[po]/', $sql, $m)) {
             foreach ($m[0] as $var) {
-                if ($var == '%p') {
-                    $sql = preg_replace('/%p/', '?', $sql, 1);
-                    $sql_vars[] = (string) $passwd;
-                } else { // %o
-                    $sql = preg_replace('/%o/', '?', $sql, 1);
-                    $sql_vars[] = (string) $curpass;
-                }
+                $sql_vars[] = (string) ($var == '%p' ? $passwd : $curpass);
             }
+
+            $replace['%p'] = '?';
+            $replace['%o'] = '?';
         }
 
         $local_part = $rcmail->user->get_username('local');
@@ -98,10 +95,12 @@ class rcube_sql_password
         }
 
         // at least we should always have the local part
-        $sql = str_replace('%l', $db->quote($local_part, 'text'), $sql);
-        $sql = str_replace('%d', $db->quote($domain_part, 'text'), $sql);
-        $sql = str_replace('%u', $db->quote($username, 'text'), $sql);
-        $sql = str_replace('%h', $db->quote($host, 'text'), $sql);
+        $replace['%l'] = $db->quote($local_part, 'text');
+        $replace['%d'] = $db->quote($domain_part, 'text');
+        $replace['%u'] = $db->quote($username, 'text');
+        $replace['%h'] = $db->quote($host, 'text');
+
+        $sql = strtr($sql, $replace);
 
         $res = $db->query($sql, $sql_vars);
 
