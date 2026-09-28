@@ -3,6 +3,10 @@
 namespace Roundcube\Plugins\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Roundcube\Tests\StorageMock;
+
+use function Roundcube\Tests\invokeMethod;
+use function Roundcube\Tests\setProperty;
 
 class ArchiveTest extends TestCase
 {
@@ -80,5 +84,53 @@ class ArchiveTest extends TestCase
         $result = $plugin->prefs_save($args);
 
         $this->assertTrue($result['prefs']['read_on_archive']);
+    }
+
+    /**
+     * Test move_messages_worker() with the select-all ('*') set of UIDs (#10107).
+     *
+     * When "select all" is used, $uids is the string '*'. On PHP 8 calling
+     * count() on it throws a TypeError, causing a fatal error while archiving.
+     * The worker must resolve '*' to the real UID list and report the actual
+     * number of moved messages.
+     */
+    public function test_move_messages_worker_select_all()
+    {
+        $rcube = \rcube::get_instance();
+        $plugin = new \archive($rcube->plugins);
+
+        // '*' is resolved via $storage->index()->get() to the real UID list
+        $index = new class {
+            public function get()
+            {
+                return ['1', '2', '3'];
+            }
+        };
+
+        // storage mock that resolves '*' and confirms the move/flag operations
+        $storage = new StorageMock();
+        $storage->registerFunction('index', $index);
+        $storage->registerFunction('set_flag', true);
+        $storage->registerFunction('move_message', true);
+        $rcube->storage = $storage; // @phpstan-ignore-line
+
+        // move_messages_worker() writes into the private $result property
+        setProperty($plugin, 'result', [
+            'reload' => false,
+            'error' => false,
+            'sources' => [],
+            'destinations' => [],
+        ], \archive::class);
+
+        // must not throw a TypeError on count('*') and must report the real count
+        $count = invokeMethod($plugin, 'move_messages_worker', ['*', 'INBOX', 'Archive', true], \archive::class);
+
+        $this->assertSame(3, $count);
+
+        $result = \Roundcube\Tests\getProperty($plugin, 'result', \archive::class);
+
+        $this->assertFalse($result['error']);
+        $this->assertSame(['INBOX'], $result['sources']);
+        $this->assertSame(['Archive'], $result['destinations']);
     }
 }
