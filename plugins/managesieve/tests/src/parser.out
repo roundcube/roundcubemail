@@ -6,7 +6,7 @@ if header :contains "X-DSPAM-Result" "Spam"
 	stop;
 }
 # rule:[test1]
-if header :contains ["From","To"] "test@domain.tld"
+if header :contains :comparator "i;ascii-casemap" ["From","To"] "test@domain.tld"
 {
 	discard;
 	stop;
