@@ -1878,7 +1878,7 @@ function rcube_elastic_ui() {
         buttons.back_list.filter(function () {
             return $(this).parents('#layout-sidebar').length == 0;
         }).hide();
-        $('ul.menu.popupmenu').removeClass('popupmenu');
+        $('ul.menu.popupmenu').removeClass('popupmenu hidden');
     }
 
     function show_content(unsticky) {
