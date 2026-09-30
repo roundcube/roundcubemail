@@ -792,6 +792,39 @@ class WashtmlTest extends TestCase
         }
     }
 
+    /**
+     * Test wash_uri() as the url() callback of rcube_utils::mod_css_styles()
+     */
+    public function test_wash_uri_css()
+    {
+        $css = 'p { background: url(cid:a@b); } div { background: url(http://evil.com/1.gif), url(data:image/png;base64,AAAA); }';
+
+        $washer = new \rcube_washtml(['cid_map' => ['cid:a@b' => 'part_url'], 'blocked_src' => 'blocked.gif']);
+        $mod = \rcube_utils::mod_css_styles($css, 'c', false, '', [$washer, 'wash_uri']);
+
+        $this->assertSame('#c p { background: url(part_url); } #c div { background: url(blocked.gif), url(data:image/png;base64,AAAA); }', $mod);
+        $this->assertTrue($washer->extlinks);
+
+        $washer = new \rcube_washtml(['cid_map' => ['cid:a@b' => 'part_url'], 'allow_remote' => true]);
+        $mod = \rcube_utils::mod_css_styles($css, 'c', true, '', [$washer, 'wash_uri']);
+
+        $this->assertSame('#c p { background: url(part_url); } #c div { background: url(http://evil.com/1.gif), url(data:image/png;base64,AAAA); }', $mod);
+        $this->assertFalse($washer->extlinks);
+    }
+
+    /**
+     * Test url() with spaces inside the parentheses in a style attribute
+     */
+    public function test_style_url_spaces()
+    {
+        $washer = new \rcube_washtml(['cid_map' => ['cid:a@b' => 'part_url']]);
+        $washed = $washer->wash('<p style="background: url( cid:a@b ) no-repeat; color: rgb( 1, 2, 3 )">a</p><p style="background: url( \'http://evil.com/1.gif\' )">b</p>');
+
+        $this->assertStringContainsString('<p style="background: url(part_url) no-repeat; color: rgb( 1, 2, 3 )">a</p>', $washed);
+        $this->assertStringNotContainsString('evil.com', $washed);
+        $this->assertTrue($washer->extlinks);
+    }
+
     public function test_textarea_content_escaping()
     {
         $html = '<textarea><p style="x:</textarea><img src=x onerror=alert(1)>">';
