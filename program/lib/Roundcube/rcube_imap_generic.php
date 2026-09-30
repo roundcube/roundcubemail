@@ -2871,6 +2871,7 @@ class rcube_imap_generic
         $result = false;
         $found = false;
         $mode = 0;
+        $bytes = 0;
 
         do {
             if (!$initiated) {
@@ -2977,6 +2978,7 @@ class rcube_imap_generic
                 // An optimal path for a case when we need the body as-is in a string
                 elseif (!$mode && !$file && !$print) {
                     $result = $this->readBytes($bytes);
+                    $bytes -= strlen($result);
                 } else {
                     $result = '';
                     while ($bytes > 0) {
@@ -3009,6 +3011,12 @@ class rcube_imap_generic
                 }
             }
         } while (!$initiated || !$this->startsWith($line, $key, true)); // @phpstan-ignore-line
+
+        // A part cut short, e.g. by a dropped connection, or with a failed command is not its content.
+        // The literal's own size is the whole of it, also for a partial FETCH.
+        if ($result !== false && ($bytes > 0 || $this->parseResult($line, 'FETCH: ') != self::ERROR_OK)) {
+            $result = false;
+        }
 
         if ($result !== false) {
             if ($file) {

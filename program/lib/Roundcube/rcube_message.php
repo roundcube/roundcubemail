@@ -51,12 +51,29 @@ class rcube_message
     protected $tnef_decode = false;
 
     /**
-     * This holds a list of Content-IDs and Content-Locations by which parts of
-     * this message are referenced (e.g. in HTML parts).
+     * This holds the parts of this message that its displayed HTML parts show,
+     * with their part numbers as keys and the URL of the part shown in their
+     * place as values (null until computed).
      *
-     * @var array
+     * @var array|null
      */
-    protected $replacement_references = [];
+    protected $replacement_references;
+
+    /**
+     * The part whose body get_part_body() keeps in memory for its display,
+     * set while the displayed HTML parts are read for their references.
+     *
+     * @var string|null
+     */
+    private $keep_for_display;
+
+    /**
+     * The parts whose body get_part_body() keeps in memory since they were
+     * read for the references, which is_part_too_big() can release.
+     *
+     * @var array<string>
+     */
+    private $reference_bodies = [];
 
     public $uid;
     public $folder;
@@ -261,8 +278,8 @@ class rcube_message
         // only text parts can be formatted
         $formatted = $formatted && $part->ctype_primary == 'text';
 
-        // part body not fetched yet... save in memory if it's small enough
-        if ($part->body === null && is_numeric($mime_id) && $part->size < self::BODY_MAX_SIZE) {
+        // part body not fetched yet... save in memory if it's small enough and needed whole
+        if ($part->body === null && preg_match('/^[0-9]+(\.[0-9]+)*$/', $mime_id) && $part->size < self::BODY_MAX_SIZE && !$max_bytes) {
             $this->storage->set_folder($this->folder);
             // Warning: body here should be always unformatted
             $body = $this->storage->get_message_part($this->uid, $mime_id, $part, null, null, true, 0, false);
@@ -313,11 +330,43 @@ class rcube_message
             return $body !== false;
         }
 
+        // keep an HTML part read whole for its references for its display too,
+        // if memory allows displaying it with the body kept
+        if ($mime_id === $this->keep_for_display && !$mode && !$max_bytes && is_string($body) && !$this->is_part_too_big($part)) {
+            $part->body = $body;
+        }
+
         if (!$mode && is_string($body) && $formatted) {
             $body = self::format_part_body($body, $part, $charset);
         }
 
         return $body;
+    }
+
+    /**
+     * Checks if a message part is too big to display with the memory left.
+     * The bodies kept in memory since they were read for the references are
+     * released first if that is what makes the difference, as the display
+     * reads them again.
+     *
+     * @param rcube_message_part $part Message part
+     *
+     * @return bool True if the part is too big
+     */
+    public function is_part_too_big(rcube_message_part $part): bool
+    {
+        // #1487424: we need up to 10x more memory than the body
+        $need = $part->size * 10;
+
+        if (!rcube_utils::mem_check($need) && !empty($this->reference_bodies)) {
+            foreach ($this->reference_bodies as $mime_id) {
+                $this->mime_parts[$mime_id]->body = null;
+            }
+
+            $this->reference_bodies = [];
+        }
+
+        return !rcube_utils::mem_check($need);
     }
 
     /**
@@ -580,48 +629,115 @@ class rcube_message
         return false;
     }
 
-    private function parse_html_for_replacement_references(rcube_message_part $part): array
+    private function parse_html_for_replacement_references(): array
     {
-        // Check if the part is actually referenced in a text/html-part sibling
-        // (i.e. that is part of the same `$part`).
-        $html_parts = $this->find_html_parts($part);
+        // Check which parts are actually referenced in a text/html part that
+        // is displayed as HTML, i.e. that shows them inline.
+        $html_parts = $this->find_html_parts();
         if (empty($html_parts)) {
             return [];
         }
-        // Note: There might be more than one HTML part, thus we use a callback
-        // and concatenate the results.
-        $html_content = implode('', array_map(function ($html_part) { return $this->get_part_body($html_part->mime_id); }, $html_parts));
+        // The used Content-Ids and Content-Locations, by the URL of the part they show
+        $shown = [];
+        foreach ($html_parts as $html_part) {
+            // A part too big to display shows no image
+            if ($this->is_part_too_big($html_part)) {
+                continue;
+            }
 
-        $referenced_content_identifiers = [];
-        $replacements = [];
-        // TODO: recursion.
-        // TODO: only get replacements from siblings
-        foreach ($this->mime_parts as $mime_part) {
-            $replacements = array_merge($replacements, array_keys($mime_part->replaces));
+            // Each part shows the parts of its own replaces map, see print_body().
+            // Its body is kept for the display, which reads it again.
+            $this->keep_for_display = $html_part->mime_id;
+            $html_content = $this->read_for_references($html_part);
+            $this->keep_for_display = null;
+            foreach ($html_part->replaces as $content_identifier => $url) {
+                // Is the Content-Id or Content-Location used?
+                // TODO: match Content-Location more strictly. E.g. "image.jpg" is a
+                // valid value here, too, which can easily be matched wrongly
+                // currently.
+                if (preg_match('/' . preg_quote($content_identifier, '/') . '(?![^\s"\'()<>])/', $html_content)) {
+                    $shown[$url][] = $content_identifier;
+                }
+            }
+
+            // is_part_too_big() on the next part can release the body only if nothing else holds it
+            unset($html_content);
         }
-        foreach ($replacements as $content_identifier) {
-            // Is the Content-Id or Content-Location used?
-            // TODO: match Content-Location more strictly. E.g. "image.jpg" is a
-            // valid value here, too, which can easily be matched wrongly
-            // currently.
-            if (str_contains($html_content, $content_identifier)) {
-                $referenced_content_identifiers[] = preg_replace('/^cid:/', '', $content_identifier);
+
+        $referred_parts = [];
+        foreach ($shown as $url => $content_identifiers) {
+            // A Content-Id should be unique (RFC 2392), but several parts can have it.
+            // The replaces map shows one of them, the others are hidden only as copies of it.
+            $shown_part = null;
+            $other_parts = [];
+            foreach ($this->attachments as $attachment) {
+                if ((isset($attachment->content_id) && in_array('cid:' . $attachment->content_id, $content_identifiers, true))
+                    || (!empty($attachment->content_location) && in_array($attachment->content_location, $content_identifiers, true))
+                ) {
+                    if ($this->get_part_url($attachment->mime_id, $attachment->ctype_primary) === $url) {
+                        $shown_part = $attachment;
+                    } else {
+                        $other_parts[] = $attachment;
+                    }
+                }
+            }
+
+            if ($shown_part === null) {
+                continue;
+            }
+
+            $referred_parts[$shown_part->mime_id] = $url;
+            $shown_body = null;
+
+            foreach ($other_parts as $part) {
+                // Read the two parts only if memory allows holding them with what it holds already
+                if (isset($referred_parts[$part->mime_id])
+                    || !rcube_utils::mem_check($part->size + ($shown_body === null ? $shown_part->size : 0))
+                ) {
+                    continue;
+                }
+
+                $shown_body ??= $this->read_for_references($shown_part);
+
+                if (is_string($shown_body) && $this->read_for_references($part) === $shown_body) {
+                    $referred_parts[$part->mime_id] = $url;
+                }
             }
         }
-        return $referenced_content_identifiers;
+
+        return $referred_parts;
     }
 
     /**
-     * Get a cached list of replacement references, which are collected during
-     * parsing from Content-Id and Content-Location headers of mime-parts.
+     * Reads the body of a part for the references, recording it if
+     * get_part_body() keeps it in memory, so is_part_too_big() can release it.
+     *
+     * @return string|false Part content, False on error
      */
-    protected function get_replacement_references(rcube_message_part $part): array
+    private function read_for_references(rcube_message_part $part)
     {
-        if (!isset($this->replacement_references[$part->mime_id])) {
-            $this->replacement_references[$part->mime_id] = $this->parse_html_for_replacement_references($part);
+        $kept = $part->body !== null;
+        $body = $this->get_part_body($part->mime_id);
+
+        if (!$kept && $part->body !== null) {
+            $this->reference_bodies[] = $part->mime_id;
         }
 
-        return $this->replacement_references[$part->mime_id];
+        return $body;
+    }
+
+    /**
+     * Get the cached list of the parts that the displayed HTML parts show,
+     * with their part numbers as keys and the URL of the part shown in their
+     * place as values.
+     */
+    protected function get_replacement_references(): array
+    {
+        if ($this->replacement_references === null) {
+            $this->replacement_references = $this->parse_html_for_replacement_references();
+        }
+
+        return $this->replacement_references;
     }
 
     /**
@@ -637,22 +753,20 @@ class rcube_message
      */
     public function is_referred_attachment(rcube_message_part $part): bool
     {
-        // This code is intentionally verbose to keep it comprehensible.
-        $references = $this->get_replacement_references($part);
+        return isset($this->get_replacement_references()[$part->mime_id]);
+    }
 
-        // Filter out attachments that are referenced by their Content-ID in
-        // another mime-part.
-        if (!empty($part->content_id) && in_array($part->content_id, $references)) {
-            return true;
-        }
-
-        // Filter out attachments that are referenced by their Content-Location
-        // in another mime-part.
-        if (!empty($part->content_location) && in_array($part->content_location, $references)) {
-            return true;
-        }
-
-        return false;
+    /**
+     * Returns the URL by which the displayed HTML parts refer to a part,
+     * which is the URL of the part itself or of the part it is a copy of.
+     *
+     * @param rcube_message_part $part Message part
+     *
+     * @return string|null The URL, Null if the part is not referred to
+     */
+    public function get_referred_url(rcube_message_part $part): ?string
+    {
+        return $this->get_replacement_references()[$part->mime_id] ?? null;
     }
 
     /**
@@ -1113,32 +1227,17 @@ class rcube_message
         }
     }
 
-    private function find_parent_part($child_part, $start_part)
+    private function find_html_parts()
     {
-        $parts = $start_part->mime_parts ?? $start_part->parts;
-        foreach ($parts as $mime_part) {
-            if ($mime_part->mime_id === $child_part->mime_id) {
-                return $start_part;
-            } elseif (!empty($mime_part->parts)) {
-                return $this->find_parent_part($child_part, $mime_part);
-            }
-        }
-    }
-
-    private function find_html_parts($initial_part)
-    {
-        // Find the parent part of the initial part.
-        $parent_part = $this->find_parent_part($initial_part, $this);
-        if (empty($parent_part)) {
-            // Shouldn't happen, but who knows...
-            // TODO: handle this error more explicitly?
+        // Without prefer_html an HTML part is displayed as plain text, without images
+        if (empty($this->opt['prefer_html'])) {
             return [];
         }
 
         $html_parts = [];
-        foreach ($parent_part->parts as $child_part) {
-            if ($child_part->mimetype === 'text/html') {
-                $html_parts[] = $child_part;
+        foreach ($this->parts as $part) {
+            if ($part->mimetype === 'text/html') {
+                $html_parts[] = $part;
             }
         }
 
