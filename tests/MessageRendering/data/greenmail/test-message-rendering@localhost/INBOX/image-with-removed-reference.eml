@@ -1,0 +1,46 @@
+From: <someone@example.net>
+To: <aaa@bbb.cc>
+Date: Wed, 30 Sep 2026 12:00:00 +0000
+Subject: Image referred to only where washing removes the reference
+Message-Id: <removed-reference@example.net>
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="_related_"
+
+--_related_
+Content-Type: multipart/alternative; boundary="_alternative_"
+
+--_alternative_
+Content-Type: text/plain; charset="us-ascii"
+
+Text
+
+--_alternative_
+Content-Type: text/html; charset="us-ascii"
+
+<div style="background-image: image-set(url(cid:bg@example.net) 1x)"><p>Text</p><img src="cid:logo@example.net" width="48" height="48"></div>
+
+--_alternative_--
+
+--_related_
+Content-Type: image/png; name="logo.png"
+Content-Disposition: inline; filename="logo.png"
+Content-ID: <logo@example.net>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAACXBIWXMAAAABAAAAAQBPJcTWAAAA
+ZUlEQVR4nM3OQQkAMAzAwAzi33Fh/xpoTsG9oUViJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZi
+JEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJMbrwPYBEZ4Bu4ey9K0AAAAA
+SUVORK5CYII=
+
+--_related_
+Content-Type: image/png; name="bg.png"
+Content-Disposition: inline; filename="bg.png"
+Content-ID: <bg@example.net>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAACXBIWXMAAAABAAAAAQBPJcTWAAAA
+ZklEQVR4nM3OQQ0AIAzAwC6pfxXoJPwxsJ6Cm3tIkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJ
+kRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJcTvwe5dEAmBL4nCuAAAA
+AElFTkSuQmCC
+
+--_related_--

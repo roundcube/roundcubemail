@@ -218,6 +218,50 @@ class ImapGenericTest extends TestCase
     }
 
     /**
+     * Test handlePartBody() with a response cut short or a failed command
+     */
+    public function test_handlePartBody_incomplete()
+    {
+        $cases = [
+            // complete, also the literal of a partial FETCH, and in chunks (base64)
+            ["* 1 FETCH (UID 10 BODY[2] {6}\r\nABCDEF)\r\nA0001 OK Done\r\n", 'ABCDEF'],
+            ["* 1 FETCH (UID 10 BODY[2]<0> {3}\r\nABC)\r\nA0001 OK Done\r\n", 'ABC', null, 3],
+            ["* 1 FETCH (UID 10 BODY[2] {8}\r\nQUJDREVG)\r\nA0001 OK Done\r\n", 'ABCDEF', 'base64'],
+            // the literal cut short by a dropped connection
+            ["* 1 FETCH (UID 10 BODY[2] {6}\r\nABC", false],
+            ["* 1 FETCH (UID 10 BODY[2] {8}\r\nQUJD", false, 'base64'],
+            // no tagged response, or a failed command
+            ["* 1 FETCH (UID 10 BODY[2] {6}\r\nABCDEF)\r\n", false],
+            ["* 1 FETCH (UID 10 BODY[2] {6}\r\nABCDEF)\r\nA0001 NO Failed\r\n", false],
+        ];
+
+        foreach ($cases as $idx => $case) {
+            $conn = new class extends \rcube_imap_generic {
+                /**
+                 * @return int
+                 */
+                #[\Override]
+                protected function putLine($string, $endln = true, $anonymized = false)
+                {
+                    return strlen($string);
+                }
+            };
+
+            $fp = fopen('php://memory', 'r+');
+            fwrite($fp, $case[0]);
+            rewind($fp);
+
+            \Roundcube\Tests\setProperty($conn, 'fp', $fp, \rcube_imap_generic::class);
+            \Roundcube\Tests\setProperty($conn, 'prefs', ['timeout' => 0], \rcube_imap_generic::class);
+            $conn->selected = 'INBOX';
+
+            $result = $conn->handlePartBody('INBOX', 10, true, '2', $case[2] ?? null, null, null, false, $case[3] ?? 0);
+
+            $this->assertSame($case[1], $result, "Case {$idx}");
+        }
+    }
+
+    /**
      * Helper to execute decodeCOntent() method in multiple variations of an input
      * and assert with the expected output
      */

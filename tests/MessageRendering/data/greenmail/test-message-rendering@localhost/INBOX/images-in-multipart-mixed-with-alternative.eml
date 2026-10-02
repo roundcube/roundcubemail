@@ -1,0 +1,50 @@
+From: <someone@example.net>
+To: <aaa@bbb.cc>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Multipart/mixed with alternative and referenced images
+Message-Id: <10347-mixed-alternative@example.net>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+	boundary="----=_Part_1_1000000001.1790000000001"
+
+------=_Part_1_1000000001.1790000000001
+Content-Type: multipart/alternative;
+	boundary="----=_Part_2_1000000002.1790000000002"
+
+------=_Part_2_1000000002.1790000000002
+Content-Type: text/plain; charset=UTF-8
+
+Two photos
+
+------=_Part_2_1000000002.1790000000002
+Content-Type: text/html; charset=UTF-8
+
+<div>Two photos<br><img src="cid:6F9619FF-8B86-D011-B42D-00C04FC964F1" class="rte-inline-saved-image"><br><img src="cid:6F9619FF-8B86-D011-B42D-00C04FC964F2" class="rte-inline-saved-image"></div>
+
+------=_Part_2_1000000002.1790000000002--
+
+------=_Part_1_1000000001.1790000000001
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename="=?utf-8?b?cGhvdG8xLmpwZw==?="
+Content-ID: <6F9619FF-8B86-D011-B42D-00C04FC964F1>
+
+/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYzLjExLjEwMAD/2wBDAAgQEBMQExYWFhYWFhoY
+GhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xABMAAEB
+AAAAAAAAAAAAAAAAAAAABgEBAQAAAAAAAAAAAAAAAAAAAAYQAQAAAAAAAAAAAAAAAAAAAAARAQAA
+AAAAAAAAAAAAAAAAAAD/wAARCAAwADADASIAAhEAAxEA/9oADAMBAAIRAxEAPwCLASiJAAAAAAAA
+AAAAAAAAf//Z
+------=_Part_1_1000000001.1790000000001
+Content-Type: image/jpeg
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename="=?utf-8?b?cGhvdG8yLmpwZw==?="
+Content-ID: <6F9619FF-8B86-D011-B42D-00C04FC964F2>
+
+/9j/4AAQSkZJRgABAgAAAQABAAD//gAQTGF2YzYzLjExLjEwMAD/2wBDAAgQEBMQExYWFhYWFhoY
+GhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xABNAAEB
+AAAAAAAAAAAAAAAAAAAABwEBAQEAAAAAAAAAAAAAAAAAAAUHEAEAAAAAAAAAAAAAAAAAAAAAEQEA
+AAAAAAAAAAAAAAAAAAAA/8AAEQgAMAAwAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AjgDf0oAAAAAA
+AAAAAAAAAB//2Q==
+------=_Part_1_1000000001.1790000000001--
