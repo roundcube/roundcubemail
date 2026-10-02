@@ -16,4 +16,4 @@ $config['zipdownload_attachments'] = 1;
 $config['zipdownload_selection'] = '50MB';
 
 // Charset to use for filenames inside the zip
-$config['zipdownload_charset'] = 'ISO-8859-1';
+$config['zipdownload_charset'] = 'UTF-8';
