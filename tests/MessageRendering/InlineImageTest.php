@@ -31,4 +31,25 @@ class InlineImageTest extends MessageRenderingTestCase
         $attchNames = $domxpath->query('//span[@class="attachment-name"]');
         $this->assertCount(0, $attchNames, 'Attachments');
     }
+
+    /**
+     * Test that images get the MIME headers of their own part: the Content-Location
+     * an image is referred to by, and an RFC2231 file name (which the IMAP server
+     * may return unjoined in BODYSTRUCTURE)
+     */
+    public function testImagesMimeHeaders()
+    {
+        $domxpath = $this->runAndGetHtmlOutputDomxpath('inline-images-content-location@example.net');
+
+        $this->assertSame('Inline images referred to by Content-Location', $this->getScrubbedSubject($domxpath));
+
+        $images = $domxpath->query('//div[@class="rcmBody"]//img');
+        $this->assertCount(2, $images, 'Body images');
+        $this->assertStringContainsString('&_part=2&_embed=1&_mimeclass=image', $images[0]->attributes->getNamedItem('src')->textContent);
+        $this->assertStringContainsString('&_part=3&_embed=1&_mimeclass=image', $images[1]->attributes->getNamedItem('src')->textContent);
+
+        $attchNames = $domxpath->query('//span[@class="attachment-name"]');
+        $this->assertCount(1, $attchNames, 'Attachments');
+        $this->assertSame('Șir lung de caractere în nume.png', $attchNames[0]->textContent);
+    }
 }
