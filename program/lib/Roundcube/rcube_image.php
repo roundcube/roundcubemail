@@ -171,22 +171,37 @@ class rcube_image
                     // use PHP's Imagick class
                     else {
                         try {
-                            $image = new \Imagick($this->image_file);
+                            // read only the first frame/page
+                            $image = new \Imagick($this->image_file . '[0]');
+                            $image->transformImageColorspace(\Imagick::COLORSPACE_SRGB);
 
                             try {
                                 // it throws exception on formats not supporting these features
                                 $image->setImageBackgroundColor('white');
-                                $image->setImageAlphaChannel(11);
-                                $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+
+                                // ALPHACHANNEL_REMOVE needs ImageMagick 6.7.8
+                                if (\defined('Imagick::ALPHACHANNEL_REMOVE')) {
+                                    $image->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
+                                }
                             } catch (\Exception $e) {
                                 // ignore errors
                             }
 
-                            $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
                             $image->setImageCompressionQuality(75);
                             $image->setImageFormat($type);
                             $image->stripImage();
-                            $image->scaleImage($width, $height);
+
+                            // the decoded size can differ from props(), e.g. for a rotated HEIF image
+                            if ($image->getImageWidth() > $size || $image->getImageHeight() > $size) {
+                                $image->scaleImage($size, $size, true);
+                            }
+
+                            // orient after scaling: rotating the full-size image doubles its memory use
+                            // autoOrient() needs ImageMagick 6.9.2
+                            // @phpstan-ignore-next-line
+                            if (method_exists($image, 'autoOrient')) {
+                                $image->autoOrient();
+                            }
 
                             if ($image->writeImage($filename)) {
                                 $result = '';
@@ -349,7 +364,7 @@ class rcube_image
             try {
                 $image = new \Imagick($this->image_file);
 
-                $image->setImageColorspace(\Imagick::COLORSPACE_SRGB);
+                $image->transformImageColorspace(\Imagick::COLORSPACE_SRGB);
                 $image->setImageCompressionQuality(75);
                 $image->setImageFormat(self::$extensions[$type]);
                 $image->stripImage();
