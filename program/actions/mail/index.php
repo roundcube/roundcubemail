@@ -1341,18 +1341,35 @@ class rcmail_action_mail_index extends rcmail_action
     }
 
     /**
+     * Clean up display names with redundant escaped quotes.
+     */
+    private static function clean_address_display_name($name)
+    {
+        if (preg_match('/^"((?:\\\\.|[^"\\\\])*)"(.*)$/', $name, $matches)) {
+            $quoted = rcube_mime::unquote('"' . $matches[1] . '"');
+
+            if (strlen($quoted) > 1 && $quoted[0] === '"' && $quoted[-1] === '"') {
+                return $quoted . $matches[2];
+            }
+        }
+
+        return $name;
+    }
+
+    /**
      * Decode address string and re-format it as HTML links
      */
     public static function address_string($input, $max = null, $linked = false, $addicon = null,
-        $default_charset = null, $title = null, $spoofcheck = true)
+        $default_charset = null, $title = null, $spoofcheck = true, $show_comments = null)
     {
-        $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset);
+        $rcmail = rcmail::get_instance();
+        $show_comments = $show_comments ?? (bool) $rcmail->config->get('message_show_address_comments');
+        $a_parts = rcube_mime::decode_address_list($input, null, true, $default_charset, false, $show_comments);
 
         if (!count($a_parts)) {
             return null;
         }
 
-        $rcmail = rcmail::get_instance();
         $c = count($a_parts);
         $j = 0;
         $out = '';
@@ -1379,6 +1396,7 @@ class rcmail_action_mail_index extends rcmail_action
             if ($string == $mailto) {
                 $string = rcube_utils::idn_to_utf8($string);
             }
+            $name = self::clean_address_display_name($name);
             $mailto = rcube_utils::idn_to_utf8($mailto);
 
             // Homograph attack detection (#6891),

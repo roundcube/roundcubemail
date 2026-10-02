@@ -553,6 +553,21 @@ class rcmail_action_settings_index extends rcmail_action
                         ];
                     }
 
+                    // show checkbox to preserve comments in address headers
+                    if (!isset($no_override['message_show_address_comments'])) {
+                        if (!$current) {
+                            continue 2;
+                        }
+
+                        $field_id = 'rcmfd_message_show_address_comments';
+                        $input = new html_checkbox(['name' => '_message_show_address_comments', 'id' => $field_id, 'value' => 1]);
+
+                        $blocks['main']['options']['message_show_address_comments'] = [
+                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('showaddresscomments'))),
+                            'content' => $input->show($config['message_show_address_comments'] ? 1 : 0),
+                        ];
+                    }
+
                     // show checkbox for HTML/plaintext messages
                     if (!isset($no_override['prefer_html'])) {
                         if (!$current) {
