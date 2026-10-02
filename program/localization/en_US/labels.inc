@@ -578,6 +578,7 @@ $labels['alwaysbutplain'] = 'always, except when replying to plain text';
 $labels['showinlineimages'] = 'Display attached images below the message';
 $labels['autosavedraft'] = 'Automatically save draft';
 $labels['everynminutes'] = 'every $n minute(s)';
+$labels['everynseconds'] = 'every $n second(s)';
 $labels['refreshinterval'] = 'Refresh (check for new messages, etc.)';
 $labels['never'] = 'never';
 $labels['immediately'] = 'immediately';
