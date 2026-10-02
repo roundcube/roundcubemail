@@ -5,6 +5,7 @@ namespace Roundcube\Tests\Actions\Mail;
 use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\ActionTestCase;
 
+use function Roundcube\Tests\getProperty;
 use function Roundcube\Tests\setProperty;
 
 /**
@@ -475,6 +476,61 @@ class IndexTest extends ActionTestCase
         $washed = \rcmail_action_mail_index::wash_html($html, $params, []);
 
         $this->assertSame('<div id="foo" style="font-size: 11px; background-image: url(http://test.com/image); background-color: #fff; color: #000"><p>test</p></div>', $washed);
+
+        $html = '<body background="cid:bg@test"><p>test</p></body>';
+        $params['safe'] = false;
+        $washed = \rcmail_action_mail_index::wash_html($html, $params, ['cid:bg@test' => 'part_url']);
+
+        $this->assertSame('<div id="foo" style="background-image: url(part_url)"><p>test</p></div>', $washed);
+    }
+
+    /**
+     * Test url() values in style elements in wash_html() method
+     */
+    public function test_wash_html_style_urls()
+    {
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
+
+        $cid_map = ['cid:img@test' => 'part_url_1', 'http://test.com/logo.png' => 'part_url_2'];
+        $blocked = 'static.php/program/resources/blocked.gif';
+        $params = ['container_id' => 'foo', 'add_comments' => false, 'safe' => false];
+
+        $cases = [
+            // a message part, by Content-ID and by Content-Location
+            ['p { background: url(cid:img@test); }', '#foo p { background: url(part_url_1); }', false],
+            ["p { background: url('http://test.com/logo.png'); }", '#foo p { background: url(part_url_2); }', false],
+            // a remote image, also in var() and in upper case
+            ['p { background: url(http://evil.com/1.gif); }', "#foo p { background: url({$blocked}); }", true],
+            ['p { background: var(--x, url(http://evil.com/2.gif)); }', "#foo p { background: var(--x, url({$blocked})); }", true],
+            ['p { background: URL(http://evil.com/3.gif); }', "#foo p { background: url({$blocked}); }", true],
+            // spaces inside url()
+            ['p { background: url( cid:img@test ) no-repeat; }', '#foo p { background: url(part_url_1) no-repeat; }', false],
+            ["p { background: url( 'http://evil.com/5.gif' ); }", "#foo p { background: url({$blocked}); }", true],
+            // both in one element
+            [
+                'p { color: red; background: url(cid:img@test) no-repeat; } div { background: url(http://evil.com/4.gif); }',
+                "#foo p { color: red; background: url(part_url_1) no-repeat; } #foo div { background: url({$blocked}); }",
+                true,
+            ],
+            // any other url() left drops the element
+            ['@namespace svg URL(http://www.w3.org/2000/svg); p { color: red; }', null, true],
+        ];
+
+        foreach ($cases as $case) {
+            $washed = \rcmail_action_mail_index::wash_html("<style>{$case[0]}</style><p>test</p>", $params, $cid_map);
+            $style = preg_match('|<style type="text/css">(.*)</style>|', $washed, $m) ? $m[1] : null;
+
+            $this->assertSame($case[1], $style, "Failed on: {$case[0]}");
+            $this->assertSame($case[2], getProperty(new \rcmail_action_mail_index(), 'REMOTE_OBJECTS'), "Failed on: {$case[0]}");
+        }
+
+        // remote images allowed
+        $params['safe'] = true;
+        $html = '<style>p { background: url(cid:img@test); } div { background: url(http://test.com/bg.gif?a=1); }</style><p>test</p>';
+        $washed = \rcmail_action_mail_index::wash_html($html, $params, $cid_map);
+
+        $this->assertStringContainsString('#foo p { background: url(part_url_1); } #foo div { background: url(http://test.com/bg.gif?a=1); }', $washed);
+        $this->assertFalse(getProperty(new \rcmail_action_mail_index(), 'REMOTE_OBJECTS'));
     }
 
     /**

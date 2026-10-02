@@ -506,14 +506,16 @@ class rcube_utils
      * Replace all css definitions with #container [def]
      * and remove css-inlined scripting, make position style safe
      *
-     * @param string $source       CSS source code
-     * @param string $container_id Container ID to use as prefix
-     * @param bool   $allow_remote Allow remote content
-     * @param string $prefix       Prefix to be added to id/class identifier
+     * @param string    $source       CSS source code
+     * @param string    $container_id Container ID to use as prefix
+     * @param bool      $allow_remote Allow remote content
+     * @param string    $prefix       Prefix to be added to id/class identifier
+     * @param ?callable $url_callback URL validator callback, replaces the default
+     *                                data:image and $allow_remote check
      *
      * @return string Modified CSS source
      */
-    public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '')
+    public static function mod_css_styles($source, $container_id, $allow_remote = false, $prefix = '', $url_callback = null)
     {
         $source = self::xss_entity_decode($source);
 
@@ -543,14 +545,16 @@ class rcube_utils
             return '/* evil! */';
         }
 
-        $url_callback = static function ($url) use ($allow_remote) {
-            if (str_starts_with($url, 'data:image')) {
-                return $url;
-            }
-            if ($allow_remote && preg_match('|^https?://[a-z0-9/._+-]+$|i', $url)) {
-                return $url;
-            }
-        };
+        if (!$url_callback) {
+            $url_callback = static function ($url) use ($allow_remote) {
+                if (str_starts_with($url, 'data:image')) {
+                    return $url;
+                }
+                if ($allow_remote && preg_match('|^https?://[a-z0-9/._+-]+$|i', $url)) {
+                    return $url;
+                }
+            };
+        }
 
         $last_pos = 0;
         $replacements = new rcube_string_replacer();
@@ -649,7 +653,7 @@ class rcube_utils
                 $value = '';
                 foreach (self::explode_css_property_block($rule[1]) as $val) {
                     if ($url_callback && preg_match('/\burl\s*\(/i', $val)) {
-                        if (preg_match_all('/(\b)url\s*\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $matches)) {
+                        if (preg_match_all('/(\b)url\s*\(\s*[\'"]?([^\'"\)]*?)[\'"]?\s*\)/iu', $val, $matches)) {
                             foreach ($matches[2] as $idx => $url) {
                                 if ($url = $url_callback($url)) {
                                     $val = str_replace($matches[0][$idx], $matches[1][$idx] . "url({$url})", $val);
@@ -784,6 +788,7 @@ class rcube_utils
         $result = [];
         $strlen = strlen($style);
         $q = false;
+        $depth = 0;
 
         // explode value
         for ($p = $i = 0; $i < $strlen; $i++) {
@@ -795,7 +800,14 @@ class rcube_utils
                 }
             }
 
-            if (!$q && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i - 1]))) {
+            // a function, e.g. url( cid:a ), is one value
+            if (!$q && $style[$i] == '(') {
+                $depth++;
+            } elseif (!$q && $style[$i] == ')' && $depth) {
+                $depth--;
+            }
+
+            if (!$q && !$depth && $style[$i] == ' ' && ($i == 0 || !preg_match('/[,\(]/', $style[$i - 1]))) {
                 $result[] = substr($style, $p, $i - $p);
                 $p = $i + 1;
             }
