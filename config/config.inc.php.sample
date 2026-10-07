@@ -64,3 +64,8 @@ $config['plugins'] = [
 
 // skin name: folder from skins/
 $config['skin'] = 'elastic';
+// Backend to use for compose_data storage. 
+//Can either be 'session' (default), 'redis', 'memcache', 'apc', or 'db'
+$config['compose_data_storage'] = 'session';
+// Lifetime of compose data storage. Possible units: s, m, h, d, w
+$config['compose_data_storage_ttl'] = '24h'; 
