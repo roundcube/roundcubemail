@@ -121,6 +121,13 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                             foreach ((array) $group_prop['email'] as $email) {
                                 $index = format_email_recipient($email, $group['name']);
 
+                                // skip entries, which only matches a different mail address, e.g. a group with name = test and email = [super, bad]
+                                // and a search for super should only return the pair name = test email = super
+                                if (!str_contains(mb_strtolower($group['name']), $search_lc) &&
+                                    !str_contains(mb_strtolower($email), $search_lc)) {
+                                    continue;
+                                }
+
                                 if (empty($contacts[$index])) {
                                     $sort_keys[$index] = sprintf('%s %03d', $group['name'], $idx++);
                                     $contacts[$index] = [
