@@ -8,6 +8,18 @@ Requirements
 ============
 * php_zip extension (including ZipArchive class)
 
+Optional
+========
+* maennchen/zipstream-php version 3.x (64-bit only)
+
+With this optional package installed, emails will be streamed directly
+from the storage backend, compressed in chunks, and sent to the web client
+without using any temporary disk space. The zipdownload_selection config
+setting may be increased significantly if desired.
+
+Without this optional package, temporary disk space equal to about 130% of
+the zipdownload_selection setting might be used when emails are downloaded.
+
 License
 =======
 This plugin is released under the GNU General Public License Version 3
