@@ -388,7 +388,9 @@ class rcube_mime
                 $name = "{$group_name} {$name}";
             }
 
-            if (!$address && $name && str_contains($name, '@')) {
+            // A name without an address is used as the address (e.g. a local user without a domain), unless it
+            // belongs to a group or is an empty group itself, as in "undisclosed-recipients:;".
+            if (!$address && $name && (str_contains($name, '@') || (!$group_name && !str_ends_with($name, ':')))) {
                 $address = $name;
                 $name = '';
             }
