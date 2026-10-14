@@ -177,7 +177,7 @@ CREATE TABLE `identities` (
  `del` tinyint(1) NOT NULL DEFAULT '0',
  `standard` tinyint(1) NOT NULL DEFAULT '0',
  `name` varchar(128) NOT NULL,
- `organization` varchar(128) NOT NULL DEFAULT '',
+ `organization` varchar(128) DEFAULT NULL,
  `email` varchar(128) NOT NULL,
  `reply-to` varchar(128) NOT NULL DEFAULT '',
  `bcc` varchar(128) NOT NULL DEFAULT '',
@@ -272,4 +272,4 @@ CREATE TABLE `system` (
 
 SET FOREIGN_KEY_CHECKS=1;
 
-INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2025092300');
+INSERT INTO `system` (`name`, `value`) VALUES ('roundcube-version', '2026070500');
