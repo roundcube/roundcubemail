@@ -46,7 +46,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'time_format' => self::prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
                     'prettydate' => isset($_POST['_pretty_date']),
                     'display_next' => isset($_POST['_display_next']),
-                    'refresh_interval' => self::prefs_input_int('refresh_interval') * 60,
+                    'refresh_interval' => self::prefs_input_int('refresh_interval'),
                     'standard_windows' => isset($_POST['_standard_windows']),
                     'skin' => self::prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
                 ];
