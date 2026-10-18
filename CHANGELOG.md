@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again)
 - Security: Fix passing potentally unsafe attachment content into ImageMagick on image resize
 - Security: Fix mail header injection via the From display-name in the Bounce (resend) action
+- Security: Fix mail header injection via References/In-Reply-To/Message-ID/From parameters
 
 ## Release 1.7.4
 
