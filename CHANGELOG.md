@@ -28,6 +28,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix mail header injection via subject of a message forwarded as attachment
 - Security: Fix mail header injection via media type in an inline image data URI
 - Security: Fix bug where Password Modoboa driver could change password for another account
+- Security: Fix unsafe use of a login name in SquirrelMail import file path
 
 ## Release 1.7.4
 
