@@ -82,20 +82,35 @@ class rcube_modoboa_password
         }
 
         // Get user ID (pk)
-        $userid = $decoded[0]->pk;
+        $userid = null;
+        $user = null;
+        foreach ($decoded as $account) {
+            if (isset($account->username) && $account->username === $username) {
+                $userid = $account->pk;
+                $user = [
+                    'username' => $account->username,
+                    'mailbox' => $account->mailbox,
+                    'role' => $account->role,
+                ];
+                break;
+            }
+        }
+
+        if ($user === null) {
+            return PASSWORD_CONNECT_ERROR;
+        }
 
         // Encode json with new password
-        $ret['username'] = $decoded[0]->username;
-        $ret['mailbox']  = $decoded[0]->mailbox;
-        $ret['role']     = $decoded[0]->role;
-        $ret['password'] = $passwd; // new password
-        $encoded         = json_encode($ret);
+        $user['password'] = $passwd;
+        $encoded = json_encode($user);
+
+        $url = "https://{$host}/api/v1/accounts/{$userid}/";
 
         // Call HTTP API Modoboa
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL            => "https://" . $host . "/api/v1/accounts/" . $userid . "/",
+            CURLOPT_URL            => "https://{$host}/api/v1/accounts/{$userid}/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => "",
             CURLOPT_MAXREDIRS      => 10,
