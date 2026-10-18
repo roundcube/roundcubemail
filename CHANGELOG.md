@@ -18,6 +18,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix remote content blocking bypass via SVG SMIL `by` attribute
 - Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again)
 - Security: Fix passing potentally unsafe attachment content into ImageMagick on image resize
+- Security: Fix mail header injection via the From display-name in the Bounce (resend) action
 
 ## Release 1.7.4
 
