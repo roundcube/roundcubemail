@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action
+
+## Release 1.6.19
+
 - Fix PHP Warning: Undefined variable $tmp_command in .../plugins/markasjunk/drivers/cmd_learn.php (#10294)
 - Security: Fix CSS declaration smuggling via un-encoded ampersand emission
 - Security: Fix CSS property injection via body `background` attribute
