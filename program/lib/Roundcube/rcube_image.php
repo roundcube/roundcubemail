@@ -376,7 +376,7 @@ class rcube_image
         $props = $this->props();
 
         // do we have enough memory? (#1489937)
-        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+        if (!$this->mem_check($props)) {
             return false;
         }
 
