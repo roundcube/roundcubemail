@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action
+- Security: Fix bug where an alias login wasn't qualified by IMAP host
 
 ## Release 1.6.19
 
