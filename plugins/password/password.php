@@ -425,7 +425,7 @@ class password extends rcube_plugin
         }
 
         if ($message) {
-            $reason .= ' ' . $message;
+            $reason .= ' ' . rcube::Q($message, 'strict', false);
         }
 
         return $reason;
