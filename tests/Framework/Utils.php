@@ -321,6 +321,23 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $this->assertSame('#rcmbody * { background-color: silver; }', $mod);
         $mod = \rcube_utils::mod_css_styles('//* test */* {background-color: silver;}', 'rcmbody', true);
         $this->assertSame('/* evil! */', $mod);
+
+        // CSS at-rules
+        $style = '@layer a; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a, b; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a, b; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a { div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a { #rcmbody div { display: none; } }', $mod);
+        $style = '@media screen { @layer a; div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@media screen { @layer a; #rcmbody div { display: none; } }', $mod);
+        $style = '::before { color: red; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('#rcmbody ::before { color: red; }', $mod);
     }
 
     /**
