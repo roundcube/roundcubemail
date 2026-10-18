@@ -739,6 +739,11 @@ class UtilsTest extends TestCase
             ['http://[::ffff:7f00:1]/', true],
             ['http://[0:0:0:0:0:ffff:7f00:1]/', true],
             ['http://[::ffff:a9fe:a9fe]/', true],
+            ['http://[::]/', true],
+            ['http://[64:ff9b::]/', true],
+            ['http://[64:ff9b:1::]/', true],
+            ['http://[64:ff9b::a9fe:a9fe]/', true],
+            ['http://[64:ff9b::7f00:1]/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
