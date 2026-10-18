@@ -699,7 +699,7 @@ class rcmail_sendmail
                 $hash      = md5($data) . '@' . $domain;
                 $mime_type = $matches[2][$idx][0];
 
-                if (empty($mime_type)) {
+                if (empty($mime_type) || !rcube_mime::is_mimetype_valid($mime_type)) {
                     $mime_type = rcube_mime::image_content_type($data);
                 }
 

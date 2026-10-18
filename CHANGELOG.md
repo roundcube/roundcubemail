@@ -19,6 +19,7 @@
 - Security: Fix CSRF validation bypass in the mark-as-junk action
 - Security: Fix XSS issue in handling of password driver error responses
 - Security: Fix mail header injection via subject of a message forwarded as attachment
+- Security: Fix mail header injection via media type in an inline image data URI
 
 ## Release 1.6.19
 
