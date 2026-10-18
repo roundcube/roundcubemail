@@ -23,6 +23,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix object injection primitive in rcube_session::unserialize() via "!"-prefixed session keys
 - Security: Fix ImageMagick resource limits bypass by GD fallback during thumbnail generation
 - Security: Fix CSS scoping bypass in HTML messages using at-rules
+- Security: Fix bug where deprecated action aliases bypassed `disabled_actions` setting
 
 ## Release 1.7.4
 
