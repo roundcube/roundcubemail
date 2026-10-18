@@ -8,6 +8,7 @@
 - Security: Fix SSRF filter (is_local_url()) bypass via NAT64 64:ff9b::/96
 - Security: Fix remote content blocking bypass via SVG SMIL `by` attribute
 - Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again)
+- Security: Fix passing potentally unsafe attachment content into ImageMagick on image resize
 
 ## Release 1.6.19
 
