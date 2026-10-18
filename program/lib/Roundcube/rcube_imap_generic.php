@@ -2347,6 +2347,10 @@ class rcube_imap_generic
             $flag = $this->flags[strtoupper($flag)];
         }
 
+        if (preg_match('/[\x00-\x20\x7f(){"*%]/', $flag)) {
+            return false;
+        }
+
         // if PERMANENTFLAGS is not specified all flags are allowed
         if (!empty($this->data['PERMANENTFLAGS'])
             && !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
