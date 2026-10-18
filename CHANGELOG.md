@@ -6,7 +6,8 @@
 - Security: Fix bug where an alias login wasn't qualified by IMAP host
 - Security: Add a size limit to the CSS proxy content processing
 - Security: Fix SSRF filter (is_local_url()) bypass via NAT64 64:ff9b::/96
-- Security: Fix remote-content blocker bypass via SVG SMIL `by` attribute
+- Security: Fix remote content blocking bypass via SVG SMIL `by` attribute
+- Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again)
 
 ## Release 1.6.19
 

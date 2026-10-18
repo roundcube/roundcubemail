@@ -573,6 +573,47 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<svg><image><animate attributeName="fill" by="url(http://attacker.example/a)"/></image></svg>',
                 '<svg><image><animate attributeName="fill" x-washed="by" /></image></svg>',
             ],
+            [
+                // FuncIRI smuggled through 'by' on a presentation attribute
+                '<svg><rect><animate attributeName="fill" by="url(http://attacker.example/f)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+
+            [
+                // FuncIRI smuggled through 'from'
+                '<svg><rect><animate attributeName="fill" from="url(http://attacker.example/g)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+            [
+                // Hex escape terminated by a space (CSS Syntax L3, 4.3.7)
+                '<svg><rect fill="u\72 l(http://attacker.example/h)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Zero-padded hex escape
+                '<svg><rect fill="\000075rl(http://attacker.example/i)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Literal escape: backslash before a non-hex character
+                '<svg><rect fill="u\rl(http://attacker.example/j)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Several literal escapes combined
+                '<svg><rect fill="\u\r\l(http://attacker.example/k)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Escaped url() smuggled through a SMIL 'by' attribute
+                '<svg><rect><animate attributeName="fill" by="u\rl(http://attacker.example/l)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+            [
+                // An escape that does NOT spell url() must not be over-blocked
+                '<svg><rect fill="\23 ff0000"/></svg>',
+                '<svg><rect fill="#ff0000" /></svg>',
+            ],
         ];
     }
 
