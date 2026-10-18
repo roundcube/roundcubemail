@@ -565,6 +565,14 @@ class Framework_Washtml extends PHPUnit\Framework\TestCase
                 '<svg><image><set attributeName="src" to="http://attacker.example/d"/></image></svg>',
                 '<svg><image><set attributeName="src" x-washed="to" /></image></svg>',
             ],
+            [
+                '<svg><image><animate attributeName="src" by="http://attacker.example/a"/></image></svg>',
+                '<svg><image><animate attributeName="src" x-washed="by" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="fill" by="url(http://attacker.example/a)"/></image></svg>',
+                '<svg><image><animate attributeName="fill" x-washed="by" /></image></svg>',
+            ],
         ];
     }
 
