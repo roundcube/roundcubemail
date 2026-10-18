@@ -117,7 +117,8 @@ class rcube_mime
                 $out[$j] = $address;
             }
             else {
-                $name   = trim($val['name']);
+                // Remove any control characters for security reasons
+                $name = trim(preg_replace('/[\x00-\x1F]+/', ' ', $val['name']));
                 $string = '';
 
                 if ($name && $address && $name != $address) {
