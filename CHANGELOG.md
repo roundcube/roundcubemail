@@ -12,6 +12,7 @@
 - Security: Fix mail header injection via the From display-name in the Bounce (resend) action
 - Security: Fix mail header injection via References/In-Reply-To/Message-ID/From parameters
 - Security: Fix object injection primitive in rcube_session::unserialize() via "!"-prefixed session keys
+- Security: Fix ImageMagick resource limits bypass by GD fallback during thumbnail generation
 
 ## Release 1.6.19
 
