@@ -16,6 +16,7 @@
 - Security: Fix CSS scoping bypass in HTML messages using at-rules
 - Security: Fix bug where deprecated action aliases bypassed `disabled_actions` setting
 - Security: Fix IMAP command injection via CRLF in `_flag` parameter of mail/mark action
+- Security: Fix CSRF validation bypass in the mark-as-junk action
 
 ## Release 1.6.19
 
