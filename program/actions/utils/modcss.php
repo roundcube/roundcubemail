@@ -20,6 +20,8 @@
 
 class rcmail_action_utils_modcss extends rcmail_action
 {
+    private const MAX_SIZE = 5 * 1024 * 1024;
+
     /**
      * Request handler.
      *
@@ -48,13 +50,25 @@ class rcmail_action_utils_modcss extends rcmail_action
         $ctype = null;
 
         try {
-            $client = rcube::get_instance()->get_http_client(['allow_redirects' => false]);
-            $response = $client->get($realurl);
+            // Be strict, and limit the response size
+            $options = [
+                'allow_redirects' => false,
+                'read_timeout' => 10,
+                'stream' => true,
+            ];
 
-            $source = $response->getBody();
+            $client = rcube::get_instance()->get_http_client($options);
+            $response = $client->get($realurl);
 
             $ctype = $response->getHeader('Content-Type');
             $ctype = !empty($ctype) ? $ctype[0] : '';
+
+            $stream = $response->getBody();
+            $source = '';
+            while (!$stream->eof() && strlen($source) < self::MAX_SIZE) {
+                $source .= $stream->read(1024);
+            }
+            $stream->close();
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
         }
