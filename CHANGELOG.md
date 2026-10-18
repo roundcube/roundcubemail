@@ -13,6 +13,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix exit code of the healthcheck.sh script (#10337)
 - Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action
 - Security: Fix bug where an alias login wasn't qualified by IMAP host
+- Security: Add a size limit to the CSS proxy content processing
 
 ## Release 1.7.4
 
