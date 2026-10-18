@@ -171,6 +171,21 @@ class MimeTest extends TestCase
     }
 
     /**
+     * Test sanitization of decoded header values
+     * Uses rcube_mime::decode_address_list()
+     */
+    public function test_decode_address_list_sanitization()
+    {
+        $content = "Attacker\r\nX-Injected-By: test\r\nX-Pad: p";
+        $input = '=?UTF-8?B?' . base64_encode($content) . '?= <victim@example.com>';
+        $result = \rcube_mime::decode_address_list($input);
+
+        $content = str_replace("\r\n", ' ', $content);
+        $this->assertSame($content, $result[1]['name']);
+        $this->assertSame("\"{$content}\" <victim@example.com>", $result[1]['string']);
+    }
+
+    /**
      * Test decoding of header values
      * Uses rcube_mime::decode_mime_string()
      */
