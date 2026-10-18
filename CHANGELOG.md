@@ -28,6 +28,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix CSRF validation bypass in the mark-as-junk action
 - Security: Fix XSS issue in handling of password driver error responses
 - Security: Fix mail header injection via subject of a message forwarded as attachment
+- Security: Fix mail header injection via media type in an inline image data URI
 
 ## Release 1.7.4
 
