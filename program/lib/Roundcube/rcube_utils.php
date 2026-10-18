@@ -586,7 +586,8 @@ class rcube_utils
             // Exclude rcube_string_replacer pattern matches, this is needed
             // for cases like @media { body { position: fixed; } } (#5811)
             $excl = '(?!' . substr($replacements->pattern, 1, -1) . ')';
-            $regexp = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $regexp = '/(^\s*|,\s*|\}\s*|\{\s*|@[^;{]*[;{]\s*)'
+                . '(' . $excl . ':?[a-z0-9\._#\*\[:][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = static function ($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 

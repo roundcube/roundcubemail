@@ -20,6 +20,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix mail header injection via References/In-Reply-To/Message-ID/From parameters
 - Security: Fix object injection primitive in rcube_session::unserialize() via "!"-prefixed session keys
 - Security: Fix ImageMagick resource limits bypass by GD fallback during thumbnail generation
+- Security: Fix CSS scoping bypass in HTML messages using at-rules
 
 ## Release 1.7.4
 
