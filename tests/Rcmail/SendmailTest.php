@@ -94,7 +94,25 @@ class SendmailTest extends ActionTestCase
      */
     public function test_extract_inline_images()
     {
-        $this->markTestIncomplete();
+        $message = new \Mail_mime("\r\n");
+        $message->setHTMLBody('<body></body>');
+        \rcmail_sendmail::extract_inline_images($message, 'test@test.com');
+        $this->assertSame('<body></body>', $message->getMessageBody());
+
+        $message = new \Mail_mime("\r\n");
+        $ctype = "test/test\r\nX-Inject:test";
+        $b64 = base64_encode(file_get_contents(__DIR__ . '/../src/logo.jpg'));
+        $message->setHTMLBody('<body><img title="" src="data:' . $ctype . ';base64,' . $b64 . '"></body>');
+        \rcmail_sendmail::extract_inline_images($message, 'test@test.com');
+
+        $body = $message->getMessageBody();
+        $this->assertStringContainsString('Content-Type: image/jpeg', $body);
+        $this->assertStringContainsString('Content-Disposition: inline', $body);
+        $this->assertStringContainsString('size=10549', $body);
+        $this->assertStringContainsString(substr($b64, 0, 32), $body);
+        $this->assertMatchesRegularExpression('/name=[a-f0-9]+\.jpeg/', $body);
+        $this->assertMatchesRegularExpression('/<img title=3D"" src=3D"cid:[a-f0-9]+@test\.com"/', $body);
+        $this->assertMatchesRegularExpression('/Content-ID: <[a-f0-9]+@test\.com>/', $body);
     }
 
     /**
