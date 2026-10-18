@@ -598,8 +598,8 @@ class rcube_user
             $sql_result = $dbh->limitquery('SELECT u.*'
                 . ' FROM ' . $dbh->table_name('users', true) . ' u'
                 . ' JOIN ' . $dbh->table_name('identities', true) . ' i ON (i.`user_id` = u.`user_id`)'
-                . ' WHERE `email` = ? AND `del` <> 1',
-                0, 1, $user
+                . ' WHERE u.`mail_host` = ? AND i.`email` = ? AND i.`del` <> 1',
+                0, 1, $host, $user
             );
 
             $sql_arr = $dbh->fetch_assoc($sql_result);
