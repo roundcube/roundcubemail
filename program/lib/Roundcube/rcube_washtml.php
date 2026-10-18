@@ -306,7 +306,7 @@ class rcube_washtml
                 $out = null;
 
                 // in SVG to/from attribs may contain anything, including URIs
-                if ($key == 'to' || $key == 'from' || $key == 'values') {
+                if ($key == 'to' || $key == 'from' || $key == 'values' || $key == 'by') {
                     $key = strtolower((string) $node->getAttribute('attributeName'));
                     $key = trim(preg_replace('/^.*:/', '', $key));
                     if ($key && !isset($this->_html_attribs[$key])) {
