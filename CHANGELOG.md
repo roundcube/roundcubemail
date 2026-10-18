@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)
 - Password: Replace SQL query placeholders in a single pass (#10345)
 - Fix exit code of the healthcheck.sh script (#10337)
+- Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action
 
 ## Release 1.7.4
 
