@@ -25,6 +25,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix IMAP command injection via CRLF in `_flag` parameter of mail/mark action
 - Security: Fix CSRF validation bypass in the mark-as-junk action
 - Security: Fix XSS issue in handling of password driver error responses
+- Security: Fix mail header injection via subject of a message forwarded as attachment
 
 ## Release 1.7.4
 

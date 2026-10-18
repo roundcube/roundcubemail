@@ -1220,7 +1220,11 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             }
 
             // generate (unique) attachment name
-            $name = strlen($message->subject) ? mb_substr($message->subject, 0, 64) : 'message_rfc822';
+            $name = 'message_rfc822';
+            if (strlen($message->subject)) {
+                // Note: Replace any whitespace characters (most importantly \r and \n)
+                $name = mb_substr(trim(preg_replace('/\s+/', ' ', $message->subject)), 0, 64);
+            }
             if (!empty($names[$name])) {
                 $names[$name]++;
                 $name .= '_' . $names[$name];
