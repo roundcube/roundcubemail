@@ -588,7 +588,7 @@ class WashtmlTest extends TestCase
             ],
             [
                 '<svg><image><animate attributeName="fill" by="url(http://attacker.example/a)"/></image></svg>',
-                '<svg><image><animate attributeName="fill" x-washed="by" /></image></svg>',
+                '<svg><image><!-- animate blocked --></image></svg>',
             ],
             [
                 // FuncIRI smuggled through 'by' on a presentation attribute
