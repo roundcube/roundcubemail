@@ -606,7 +606,7 @@ class rcube_washtml
      */
     public static function css_unescape($value)
     {
-        if (strpos(string) $value, '\\') === false) {
+        if (strpos((string) $value, '\\') === false) {
             return (string) $value;
         }
 
