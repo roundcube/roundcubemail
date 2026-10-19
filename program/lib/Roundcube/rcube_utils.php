@@ -464,7 +464,7 @@ class rcube_utils
                     'fe80::/10',      // IPv6 link-local
                     '::ffff:0:0/96',  // RFC5156
                     '64:ff9b::/96',   // RFC 6052 NAT64 (maps IPv4 incl. private ranges into IPv6)
-                    '64:ff9b:1::/48'  // (RFC 8215 local-use NAT64) 
+                    '64:ff9b:1::/48',  // (RFC 8215 local-use NAT64)
                 ];
 
                 return self::is_ip_in_range($address, $nets);
