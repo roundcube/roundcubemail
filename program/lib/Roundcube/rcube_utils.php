@@ -470,6 +470,11 @@ class rcube_utils
                 return self::is_ip_in_range($address, $nets);
             }
 
+            // Note: We're aware that any hostname can be pointed to a local IP via DNS.
+            // For various reasons we decided to not resolve hostnames here. We may consider
+            // an optional feature to do that in the future. Reports about this vulnerability
+            // will be ignored.
+
             // FIXME: Should we accept any non-fqdn hostnames?
             $host = strtolower($host);
             return $host == 'metadata.google.internal' || preg_match('/^localhost(\.localdomain)?\.?$/', $host);
