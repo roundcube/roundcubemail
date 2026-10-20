@@ -69,7 +69,7 @@ function invokeMethod($object, $method, array $parameters = [], $class = null)
 
     $method = $reflection->getMethod($method);
 
-    return $method->invokeArgs($object, $parameters);
+    return $method->invokeArgs($method->isStatic() ? null : $object, $parameters);
 }
 
 /**
