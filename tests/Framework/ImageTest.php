@@ -16,7 +16,7 @@ class ImageTest extends TestCase
     {
         $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
-        if (!function_exists('getimagesize')) {
+        if (!function_exists('gd_info')) {
             $this->markTestSkipped();
         }
 
@@ -34,7 +34,7 @@ class ImageTest extends TestCase
     {
         $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
-        if (!function_exists('getimagesize')) {
+        if (!function_exists('gd_info')) {
             $this->markTestSkipped();
         }
 
@@ -59,7 +59,7 @@ class ImageTest extends TestCase
     {
         $object = new \rcube_image(INSTALL_PATH . 'skins/elastic/thumbnail.png');
 
-        if (!function_exists('getimagesize')) {
+        if (!function_exists('gd_info')) {
             $this->markTestSkipped();
         }
 
@@ -90,7 +90,7 @@ class ImageTest extends TestCase
         if (class_exists('Imagick', false)) {
             $this->assertTrue($object->is_convertable('image/gif'));
             $this->assertFalse($object->is_convertable('xxx'));
-        } elseif (!function_exists('getimagesize')) {
+        } elseif (!function_exists('gd_info')) {
             $this->markTestSkipped();
         }
 
