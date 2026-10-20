@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
+
+## Release 1.7.5
+
 - Installer: Add possibility to detsroy the installer session/cookie
 - Enigma: Fix db_sync() never restoring keyring files (#10343)
 - Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)

@@ -10,16 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ResultIndexTest extends TestCase
 {
     /**
-     * Class constructor
-     */
-    public function test_class()
-    {
-        $object = new \rcube_result_index();
-
-        $this->assertInstanceOf(\rcube_result_index::class, $object, 'Class constructor');
-    }
-
-    /**
      * SORT result parsing test
      */
     public function test_parse_sort()
@@ -126,5 +116,30 @@ class ResultIndexTest extends TestCase
         $this->assertNull($object->get_element(1), 'Get specified element');
         $this->assertSame('', $object->get_compressed(), 'Get compressed index');
         $this->assertSame('INBOX', $object->get_parameters('MAILBOX'), 'Get parameter');
+    }
+
+    /**
+     * Parsing with extra untagged responses
+     */
+    public function test_parse_untagged()
+    {
+        $object = new \rcube_result_index('INBOX', "* SEARCH\r\n* FLAGS (\\Flagged \\Deleted)\r\n*OK [Test]");
+
+        $this->assertTrue($object->is_empty());
+        $this->assertFalse($object->is_error());
+        $this->assertSame([], $object->get());
+        $this->assertSame('', $object->get_compressed());
+
+        $object = new \rcube_result_index('INBOX', "* SEARCH 1 2\r\n* FLAGS (\\Flagged \\Deleted)\r\n*OK [Test]");
+
+        $this->assertFalse($object->is_empty());
+        $this->assertFalse($object->is_error());
+        $this->assertSame('1:2', $object->get_compressed());
+
+        $object = new \rcube_result_index('INBOX', "* FLAGS (\\Flagged \\Deleted)\r\n* SEARCH 1 2\r\n*OK [Test]");
+
+        $this->assertFalse($object->is_empty());
+        $this->assertFalse($object->is_error());
+        $this->assertSame('1:2', $object->get_compressed());
     }
 }
