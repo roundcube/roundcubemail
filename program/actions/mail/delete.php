@@ -56,11 +56,23 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
 
         if (empty($deleted)) {
             // send error message
-            if ($_POST['_from'] != 'show') {
+            if ($_POST['_from'] != 'show' && $_POST['_from'] != 'compose') {
                 $rcmail->output->command('list_mailbox');
             }
 
             self::display_server_error('errordeleting');
+            $rcmail->output->send();
+        } elseif (!empty($_POST['_from']) && $_POST['_from'] == 'compose') {
+            $COMPOSE_ID = rcube_utils::get_input_string('_compose_id', rcube_utils::INPUT_POST);
+            $COMPOSE = &$_SESSION['compose_data_' . $COMPOSE_ID];
+
+            // Sanity checks
+            if (isset($COMPOSE['id'])) {
+                self::delete_compose_data($COMPOSE_ID);
+            }
+
+            $drafts_mbox = $rcmail->config->get('drafts_mbox');
+            $rcmail->output->command('sent_successfully', 'confirmation', $rcmail->gettext('draftdiscarded'), [$drafts_mbox]);
             $rcmail->output->send();
         } else {
             $rcmail->output->show_message('messagedeleted', 'confirmation');
@@ -135,5 +147,15 @@ class rcmail_action_mail_delete extends rcmail_action_mail_index
 
         // send response
         $rcmail->output->send();
+    }
+
+    public static function delete_compose_data($COMPOSE_ID)
+    {
+        $rcmail = rcmail::get_instance();
+        $rcmail->delete_uploaded_files($COMPOSE_ID);
+        $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
+        $_SESSION['last_compose_session'] = $COMPOSE_ID;
+
+        $rcmail->output->command('remove_compose_data', $COMPOSE_ID);
     }
 }
