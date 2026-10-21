@@ -25,7 +25,7 @@ class ServerTestCase extends TestCase
 
         // Give the server some time before we start testing
         // Wait longer on Windows as the tests were failing there more often
-        usleep(100 * 1000 * (\PHP_OS_FAMILY == 'Windows' ? 2 : 1));
+        usleep(100 * 1000 * (\PHP_OS_FAMILY == 'Windows' ? 10 : 1));
     }
 
     #[\Override]
