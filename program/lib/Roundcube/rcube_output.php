@@ -141,7 +141,7 @@ abstract class rcube_output
 
         $this->header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         $this->header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        $this->header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+        $this->header('Cache-Control: private, no-cache, no-store, must-revalidate');
         $this->header('Pragma: no-cache');
     }
 
