@@ -6,6 +6,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
+- Enable PHP 8.6 support (#10368, #10362)
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
 
 ## Release 1.7.5
