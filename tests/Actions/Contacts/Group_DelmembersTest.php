@@ -81,4 +81,43 @@ class Group_DelmembersTest extends ActionTestCase
 
         $this->assertTrue(empty($result));
     }
+
+    /**
+     * Test removing a group member and cross-user access
+     */
+    public function test_group_delmembers_cross_user()
+    {
+        $action = new \rcmail_action_contacts_group_addmembers();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'del-members');
+
+        self::initDB('contacts');
+
+        // Create another user
+        $db = \rcmail::get_instance()->get_dbh();
+        $db->query("INSERT INTO `users` (`user_id`, `username`, `mail_host`) VALUES (2, 'test2@example.com', 'localhost')");
+        $db->query("INSERT INTO `contactgroups` (`user_id`, `name`) VALUES (2, 'test-group')");
+        $db->query('INSERT INTO `contacts` (`user_id`, `changed`, `del`, `name`, `email`, `firstname`, `surname`, `vcard`, `words`)'
+            . "VALUES (2, '2019-12-31 12:23:33', 0, 'John Doe', 'johndoe@example.org', 'John', 'Doe', '', '')");
+
+        // Test removing other user's group members
+        $query = $db->query("SELECT * FROM `contactgroups` WHERE `user_id` = 2 AND `name` = 'test-group'");
+        $result = $db->fetch_assoc($query);
+        $gid = $result['contactgroup_id'];
+        $query = $db->query('SELECT * FROM `contacts` WHERE `user_id` = 2 LIMIT 1');
+        $result = $db->fetch_assoc($query);
+        $cid = $result['contact_id'];
+        $db->query('INSERT INTO `contactgroupmembers` (`contactgroup_id`, `contact_id`) VALUES (?, ?)', $gid, $cid);
+
+        $_POST = ['_source' => '0', '_gid' => $gid, '_cid' => $cid];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertSame('del-members', $result['action']);
+        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+
+        $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ?', $gid);
+        $this->assertCount(1, $query->fetchAll());
+    }
 }

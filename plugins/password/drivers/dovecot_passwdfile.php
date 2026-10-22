@@ -86,10 +86,12 @@ class rcube_dovecot_passwdfile_password
 
     private static function expand_config_value(string $subject): string
     {
+        $rcmail = rcmail::get_instance();
+
         return strtr($subject, [
             '%l' => self::get_username_part_idn_aware('local'),
             '%d' => self::get_username_part_idn_aware('domain'),
-            '%u' => $_SESSION['username'],
+            '%u' => $rcmail->get_user_name(),
         ]);
     }
 

@@ -42,6 +42,7 @@ const SUPPORTED_TYPES = [
     'webp' => 'image/webp',
     'woff' => 'font/woff',
     'woff2' => 'font/woff2',
+    'ttf' => 'font/ttf',
 ];
 
 /**
@@ -51,12 +52,17 @@ const ALLOWED_PATHS = [
     'installer/',
     'plugins/',
     'program/',
+    'public_html/',
     'skins/',
 ];
 
 define('INSTALL_PATH', realpath(__DIR__ . '/..') . '/');
 
-$path = validateStaticFile($_SERVER['PATH_INFO']);
+$path = !empty($_SERVER['PATH_INFO'])
+    ? $_SERVER['PATH_INFO']
+    : explode('static.php/', $_SERVER['REQUEST_URI'] ?? '')[1] ?? '';
+
+$path = validateStaticFile($path);
 
 if (!$path) {
     http_response_code(404);
@@ -149,10 +155,18 @@ function serveStaticFile($path): void
 
     $headers = [
         'Accept-Ranges' => 'bytes',
+        'Content-Length' => $size,
         'Content-Type' => SUPPORTED_TYPES[strtolower($ext)],
         'Cache-Control' => 'public, max-age=604800',
         'Expires' => gmdate('D, d M Y H:i:s \G\M\T', time() + 30 * 86400),
     ];
+
+    if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
+        foreach ($headers as $k => $v) {
+            header("{$k}: {$v}", true);
+        }
+        exit;
+    }
 
     $start = 0;
     $end = $size - 1;
@@ -173,7 +187,7 @@ function serveStaticFile($path): void
             $start = max(0, $size - (int) $range[1]);
         } else {
             $start = (int) $range[0];
-            $end = $range[1] === '' ? $size - 1 : (int) $range[1];
+            $end = $range[1] === '' || $range[1] > ($size - 1) ? $size - 1 : (int) $range[1];
         }
 
         if ($start < 0 || $end > $size - 1 || $start > $end) {

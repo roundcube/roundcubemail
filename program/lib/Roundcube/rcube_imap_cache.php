@@ -1204,7 +1204,9 @@ class rcube_imap_cache
             [$msg->ctype_primary, $msg->ctype_secondary] = explode('/', $msg->mimetype);
         }
 
-        $msg->replaces = [];
+        if ($msg instanceof rcube_message_part) {
+            $msg->replaces = [];
+        }
 
         if (is_object($msg->structure)) {
             $this->message_object_prepare($msg->structure, $size);

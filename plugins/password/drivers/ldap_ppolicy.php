@@ -28,12 +28,6 @@ class rcube_ldap_ppolicy_password
         $bindPW = $rcmail->config->get('password_ldap_ppolicy_searchPW');
         $cafile = $rcmail->config->get('password_ldap_ppolicy_cafile');
 
-        $log_dir = $rcmail->config->get('log_dir');
-
-        if (empty($log_dir)) {
-            $log_dir = RCUBE_INSTALL_PATH . 'logs';
-        }
-
         $descriptorspec = [
             0 => ['pipe', 'r'], // stdin is a pipe that the child will read from
             1 => ['pipe', 'w'], // stdout is a pipe that the child will write to

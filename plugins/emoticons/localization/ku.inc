@@ -13,4 +13,4 @@
 */
 
 $labels['emoticonsdisplay'] = 'Îmojî di peyamên nivîsê yên sade de nîşan bide';
-$labels['emoticonscompose'] = 'Emojî çalak bike';
+$labels['emoticonscompose'] = 'Îmojî çalak bike';

@@ -12,6 +12,34 @@ use Roundcube\Tests\StderrMock;
 class UtilsTest extends TestCase
 {
     /**
+     * Test for rcube_utils::asort()
+     */
+    public function test_asort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = explode(',', 'b,ą,a,ó,o');
+        $expected = [2 => 'a', 1 => 'ą', 0 => 'b', 4 => 'o', 3 => 'ó'];
+
+        \rcube_utils::asort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
+     * Test for rcube_utils::ksort()
+     */
+    public function test_ksort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = ['b' => 0, 'ą' => 1, 'a' => 2, 'ó' => 3, 'o' => 4];
+        $expected = ['a' => 2, 'ą' => 1, 'b' => 0, 'o' => 4, 'ó' => 3];
+
+        \rcube_utils::ksort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
      * Test for rcube_utils::date_format()
      */
     public function test_date_format()
@@ -359,6 +387,11 @@ class UtilsTest extends TestCase
         $mod = \rcube_utils::mod_css_styles("p { background: url('//data:image&leak'); }", 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);
 
+        $mod = \rcube_utils::mod_css_styles('p { background-image: var(--x, url(http://evil.com/1.gif)) }', 'rcmbody');
+        $this->assertSame('#rcmbody p {}', $mod);
+        $mod = \rcube_utils::mod_css_styles('p { background-image: var(--x, url(http://evil.com/1.gif)) }', 'rcmbody', true);
+        $this->assertSame('#rcmbody p { background-image: var(--x, url(http://evil.com/1.gif)); }', $mod);
+
         // Note: This looks to me like a bug in browsers, for now we don't allow image-set at all
         $mod = \rcube_utils::mod_css_styles("p { background: image-set('//evil.com/img.png' 1x); }", 'rcmbody');
         $this->assertSame('#rcmbody p {}', $mod);
@@ -422,6 +455,23 @@ class UtilsTest extends TestCase
         $this->assertSame('#rcmbody * { background-color: silver; }', $mod);
         $mod = \rcube_utils::mod_css_styles('//* test */* {background-color: silver;}', 'rcmbody', true);
         $this->assertSame('/* evil! */', $mod);
+
+        // CSS at-rules
+        $style = '@layer a; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a, b; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a, b; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a { div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a { #rcmbody div { display: none; } }', $mod);
+        $style = '@media screen { @layer a; div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@media screen { @layer a; #rcmbody div { display: none; } }', $mod);
+        $style = '::before { color: red; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('#rcmbody ::before { color: red; }', $mod);
     }
 
     /**
@@ -712,9 +762,40 @@ class UtilsTest extends TestCase
             ['//127.0.0.1', true],
             ['http://localhost', true],
             ['http://localhost.localdomain', true],
+            ['http://localhost.:8080/', true],
+            ['http://2130706433:8080', true],
+            ['http://0x7f000001:8080', true],
+            ['http://0177.0.0.1:8080', true],
+            ['http://127.1:8080', true],
+            ['http://0.0.0.0:8080', true],
+            ['http://[::ffff:127.0.0.1]:8080', true],
+            ['http://127.0.0.1.nip.io', true],
+            ['http://fc00--1.nip.io', true],
+            ['http://--1.nip.io', true],
+            ['http://127-0-0-1.nip.io', true],
+            ['http://127-0-0-1.nip.io.', true],
+            ['http://7F000001.nip.io/', true],
+            ['http://metadata.google.internal', true],
+            ['http://127.0.0.1.sslip.io/', true],
+            ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
+            ['http://0/', true],
+            ['http://100.64.0.1', true],
+            ['http://[fe80::1]', true],
+            ['http://[::ffff:7f00:1]/', true],
+            ['http://[0:0:0:0:0:ffff:7f00:1]/', true],
+            ['http://[::ffff:a9fe:a9fe]/', true],
+            ['http://[::]/', true],
+            ['http://[64:ff9b::]/', true],
+            ['http://[64:ff9b:1::]/', true],
+            ['http://[64:ff9b::a9fe:a9fe]/', true],
+            ['http://[64:ff9b::7f00:1]/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
+            ['http://20.0.0.1.nip.io', false],
+            ['http://20.0.0.1.nip.io.', false],
+            ['http://www-20-0-0-1.nip.io', false],
+            ['http://40b01609.nip.io/', false],
         ];
     }
 
@@ -723,8 +804,8 @@ class UtilsTest extends TestCase
      */
     public function test_strtotime()
     {
-        // this test depends on system timezone if not set
-        date_default_timezone_set('UTC');
+        // Make sure this does not depend on the system timezone being UTC
+        date_default_timezone_set('Europe/Warsaw');
 
         $test = [
             '1' => 1,
@@ -740,6 +821,8 @@ class UtilsTest extends TestCase
             '20130422' => 1366588800,
             '2013/06/21 12:00:00 UTC' => 1371816000,
             '2013/06/21 12:00:00 Europe/Berlin' => 1371808800,
+            '17-Jul-1996 02:44:25 -0700' => 837596665, // RFC-3501
+            'Wed, 02 Oct 2002 08:00:00 -0700' => 1033570800, // RFC-822
         ];
 
         foreach ($test as $datetime => $ts) {

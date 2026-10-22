@@ -20,6 +20,8 @@
 
 class rcmail_action_utils_modcss extends rcmail_action
 {
+    private const MAX_SIZE = 5 * 1024 * 1024;
+
     /**
      * Request handler.
      *
@@ -48,13 +50,25 @@ class rcmail_action_utils_modcss extends rcmail_action
         $ctype = null;
 
         try {
-            $client = rcube::get_instance()->get_http_client(['allow_redirects' => false]);
-            $response = $client->get($realurl);
+            // Be strict, and limit the response size
+            $options = [
+                'allow_redirects' => false,
+                'read_timeout' => 10,
+                'stream' => true,
+            ];
 
-            $source = $response->getBody();
+            $client = rcube::get_instance()->get_http_client($options);
+            $response = $client->get($realurl);
 
             $ctype = $response->getHeader('Content-Type');
             $ctype = !empty($ctype) ? $ctype[0] : '';
+
+            $stream = $response->getBody();
+            $source = '';
+            while (!$stream->eof() && strlen($source) < self::MAX_SIZE) {
+                $source .= $stream->read(1024);
+            }
+            $stream->close();
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
         }
@@ -64,9 +78,8 @@ class rcmail_action_utils_modcss extends rcmail_action
 
         $container_id = preg_replace('/[^a-z0-9]/i', '', $cid);
         $css_prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
-        $ctype_regexp = '~^text/(css|plain)~i';
 
-        if ($source !== false && $ctype && preg_match($ctype_regexp, $ctype)) {
+        if ($source !== false && self::is_valid_css($source, $ctype)) {
             $rcmail->output->sendExit(
                 rcube_utils::mod_css_styles($source, $container_id, false, $css_prefix),
                 ['Content-Type: text/css']
@@ -74,5 +87,20 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         $rcmail->output->sendExitError(404, 'Invalid response returned by server');
+    }
+
+    /**
+     * Do basic response validation
+     */
+    private static function is_valid_css(string $source, $ctype): bool
+    {
+        // Because we can't block all requests to local services we have to be strict
+        // on what we proxy to the browser. Here we check if we deal with css or not.
+
+        return preg_match('~^text/(css|plain)~i', (string) $ctype)
+            && !preg_match('~^[{<]~', $source) // exclude json and html
+            && str_contains($source, '{')
+            && str_contains($source, '}')
+            && str_contains($source, ':');
     }
 }

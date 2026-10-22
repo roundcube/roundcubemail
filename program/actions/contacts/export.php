@@ -61,7 +61,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
             }
 
             // sort the records
-            ksort($records, \SORT_LOCALE_STRING);
+            rcube_utils::ksort($records);
 
             // create resultset object
             $count = count($records);
@@ -92,7 +92,7 @@ class rcmail_action_contacts_export extends rcmail_action_contacts_index
                 }
             }
 
-            ksort($records, \SORT_LOCALE_STRING);
+            rcube_utils::ksort($records);
 
             // create resultset object
             $count = count($records);

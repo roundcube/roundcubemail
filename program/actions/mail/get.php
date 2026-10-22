@@ -117,8 +117,11 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
             if (!empty($_GET['_thumb'])) {
                 if (is_file($cache_file)) {
                     $rcmail->output->future_expire_header(3600);
-                    header('Content-Type: ' . $mimetype);
-                    header('Content-Length: ' . filesize($cache_file));
+                    $rcmail->output->download_headers($filename, [
+                        'type' => $mimetype,
+                        'disposition' => 'inline',
+                        'length' => filesize($cache_file),
+                    ]);
                     readfile($cache_file);
                 }
 
@@ -207,8 +210,8 @@ class rcmail_action_mail_get extends rcmail_action_mail_index
                             $rcmail->gettext([
                                 'name' => 'attachmentvalidationerror',
                                 'vars' => [
-                                    'expected' => $mimetype . (!empty($file_extension) ? rcube::Q(" (.{$file_extension})") : ''),
-                                    'detected' => $real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : ''),
+                                    'expected' => rcube::Q($mimetype . (!empty($file_extension) ? " (.{$file_extension})" : '')),
+                                    'detected' => rcube::Q($real_mimetype . (!empty($extensions[0]) ? " (.{$extensions[0]})" : '')),
                                 ],
                             ]),
                             $rcmail->gettext('showanyway'),

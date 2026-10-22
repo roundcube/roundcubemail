@@ -308,20 +308,20 @@ class WashtmlTest extends TestCase
     public function test_style_wash_xss()
     {
         $html = "<img style=aaa:'\"/onerror=alert(1)//'>";
-        $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = '<img style="aaa: &#039;&quot;/onerror=alert(1)//&#039;" />';
 
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(str_contains($washed, $exp), 'Style quotes XSS issue (#1490227)');
+        $this->assertStringContainsString($exp, $washed, 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
-        $exp = "<img style=\"aaa: '&quot;/onerror=alert(1)//'\" />";
+        $exp = '<img style="aaa: &#039;&quot;/onerror=alert(1)//&#039;" />';
 
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
 
-        $this->assertTrue(str_contains($washed, $exp), 'Style quotes XSS issue (#1490227)');
+        $this->assertStringContainsString($exp, $washed, 'Style quotes XSS issue (#1490227)');
 
         $html = '<div style=\'content: "\0026quot;; background: url(//http.cat/418); content:""; width: 100%; height: 100%;\'>test</div>';
 
@@ -525,6 +525,14 @@ class WashtmlTest extends TestCase
                 '<svg><defs><filter><feimage x-washed="xlink:href"></feimage></filter></defs></svg>',
             ],
             [
+                '<svg><rect fill="url(http://attacker.com"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                '<svg><rect fill="u\72l(http://attacker.com"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
                 '<svg><animate attributeName="mask" values="url(https://external.site)" fill="freeze" dur="0.1s" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
             ],
@@ -541,6 +549,87 @@ class WashtmlTest extends TestCase
             [
                 '<svg><animate attributeName="fill" values="url(http://external.site)" dur="1s" begin="0s" fill="freeze" /></svg>',
                 '<svg><!-- animate blocked --></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" values="filter:url(http://attacker.com)" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="values" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" values="width:expression(alert(1))" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="values" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" values="position:fixed;top:0;left:0" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" values="position: absolute; top: 0; left: 0" dur="0s" fill="freeze" /></rect></svg>',
+            ],
+            [
+                '<svg><rect><animate attributeName="style" by="filter:url(http://attacker.example/track)" dur="0s" fill="freeze"/></rect></svg>',
+                '<svg><rect><animate attributeName="style" dur="0s" fill="freeze" x-washed="by" /></rect></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" values="http://attacker.example/a" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="values" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" to="http://attacker.example/b" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="to" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" from="http://attacker.example/c1" to="http://attacker.example/c2" dur="1s"/></image></svg>',
+                '<svg><image><animate attributeName="src" dur="1s" x-washed="from to" /></image></svg>',
+            ],
+            [
+                '<svg><image><set attributeName="src" to="http://attacker.example/d"/></image></svg>',
+                '<svg><image><set attributeName="src" x-washed="to" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" by="http://attacker.example/a"/></image></svg>',
+                '<svg><image><animate attributeName="src" x-washed="by" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="fill" by="url(http://attacker.example/a)"/></image></svg>',
+                '<svg><image><!-- animate blocked --></image></svg>',
+            ],
+            [
+                // FuncIRI smuggled through 'by' on a presentation attribute
+                '<svg><rect><animate attributeName="fill" by="url(http://attacker.example/f)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+
+            [
+                // FuncIRI smuggled through 'from'
+                '<svg><rect><animate attributeName="fill" from="url(http://attacker.example/g)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+            [
+                // Hex escape terminated by a space (CSS Syntax L3, 4.3.7)
+                '<svg><rect fill="u\72 l(http://attacker.example/h)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Zero-padded hex escape
+                '<svg><rect fill="\000075rl(http://attacker.example/i)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Literal escape: backslash before a non-hex character
+                '<svg><rect fill="u\rl(http://attacker.example/j)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Several literal escapes combined
+                '<svg><rect fill="\u\r\l(http://attacker.example/k)"/></svg>',
+                '<svg><rect x-washed="fill" /></svg>',
+            ],
+            [
+                // Escaped url() smuggled through a SMIL 'by' attribute
+                '<svg><rect><animate attributeName="fill" by="u\rl(http://attacker.example/l)" dur="1s"/></rect></svg>',
+                '<svg><rect><!-- animate blocked --></rect></svg>',
+            ],
+            [
+                // An escape that does NOT spell url() must not be over-blocked
+                '<svg><rect fill="\23 ff0000"/></svg>',
+                '<svg><rect fill="#ff0000" /></svg>',
             ],
         ];
     }
@@ -608,6 +697,27 @@ class WashtmlTest extends TestCase
             [
                 '<html><math><ms HREF="javascript:alert(location);">clickme</ms></math>',
                 '<body><math><ms x-washed="href">clickme</ms></math></body>',
+            ],
+            [
+                '<html><body><div style="color:red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div>',
+                '<body><div style="color: red&amp;#59background:&amp;#117rl(http://ATTACKER/z.gif)"></div></body>',
+            ],
+            // cases that should pass w/o changes
+            [
+                '<svg><image><animate attributeName="src" values="http://host/a" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" values="http://host/a" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" to="http://host/b" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" to="http://host/b" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><animate attributeName="src" from="http://host/c1" to="http://host/c2" dur="1s" /></image></svg>',
+                '<svg><image><animate attributeName="src" from="http://host/c1" to="http://host/c2" dur="1s" /></image></svg>',
+            ],
+            [
+                '<svg><image><set attributeName="src" to="http://host/d" /></image></svg>',
+                '<svg><image><set attributeName="src" to="http://host/d" /></image></svg>',
             ],
         ];
     }
@@ -705,15 +815,22 @@ class WashtmlTest extends TestCase
             ['<link href="http://TRACKING_URL/">', true],
             ['<link href="src:abc">', false],
             ['<img src="http://TRACKING_URL/">', true],
+            ['<img src="http://127.0.0.1">', true],
             ['<img src="data:image">', false],
             ['<p style="backgr\ound-image: \ur\l(\'http://TRACKING_URL\')"></p>', true],
+            ['<p style="background-image: var(--x, url(http://evil.com/1.gif))"></p>', true],
+            ['<p style="cursor: var(--x, url(http://evil.com/5.gif), auto)"></p>', true],
+            ['<p style="background: var(--a, var(--b, url(http://evil.com/6.gif)))"></p>', true],
+            ['<p style="color: red; background-image: var(--x, url(http://evil.com/7.gif)); font-size: 12px"></p>', true],
+            ['<p style="background: image(url(http://evil.com/8.gif))"></p>', true],
+            ['<p style="background: cross-fade(url(http://evil.com/9a.gif), url(http://evil.com/9b.gif), 50%)"></p>', true],
         ];
 
         foreach ($html as $item) {
             $washer = new \rcube_washtml();
             $washed = $washer->wash($item[0]);
 
-            $this->assertSame($item[1], $washer->extlinks);
+            $this->assertSame($item[1], $washer->extlinks, "Failed on: {$item[0]}");
         }
 
         foreach ($html as $item) {

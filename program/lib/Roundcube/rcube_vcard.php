@@ -562,6 +562,13 @@ class rcube_vcard
                 $vcard_block .= $line . "\n";
             }
 
+            // A folded/continuation line starts with whitespace (RFC 2426) and
+            // must never be mistaken for a block boundary. It is already kept as
+            // content above, so skip the boundary checks for it.
+            if (isset($line[0]) && ($line[0] === ' ' || $line[0] === "\t")) {
+                continue;
+            }
+
             $line = trim($line);
 
             if (preg_match('/^END:VCARD$/i', $line)) {
@@ -605,7 +612,7 @@ class rcube_vcard
                 // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
                 '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
-                '/^item\d*\./mi',         // remove item1.ADR instead of ADR
+                '/^[a-z0-9-]+\./mi',      // strip RFC 6350 group prefix, e.g. item1.ADR or HOME.EMAIL becomes ADR/EMAIL
                 '/\n+/',                  // remove empty lines
                 '/^(N:[^;\r\n]*)$/m',     // if N doesn't have any semicolons, add some
             ],
@@ -680,6 +687,29 @@ class rcube_vcard
     }
 
     /**
+     * Perform vCard line unfolding.
+     *
+     * vCard 3.0/4.0 (RFC 2425/2426) folds a logical line by inserting a CRLF
+     * followed by a single whitespace, and unfolding removes both. vCard 2.1
+     * (RFC 822) instead regards "CRLF immediately followed by a LWSP-char as
+     * equivalent to the LWSP-char", i.e. the folding whitespace is kept. See #9647.
+     *
+     * @param string $vcard vCard block to unfold
+     *
+     * @return string Unfolded vCard block (with CR removed, lines delimited by LF)
+     */
+    private static function unfold($vcard)
+    {
+        $vcard = str_replace("\r", '', $vcard);
+
+        if (preg_match('/^VERSION:2\.1\s*$/im', $vcard)) {
+            return str_replace(["\n ", "\n\t"], [' ', "\t"], $vcard);
+        }
+
+        return str_replace(["\n ", "\n\t"], '', $vcard);
+    }
+
+    /**
      * Decodes a vcard block (vcard 3.0 format, unfolded) into an array structure
      *
      * @param string $vcard vCard block to parse
@@ -688,8 +718,8 @@ class rcube_vcard
      */
     private static function vcard_decode($vcard)
     {
-        // Perform RFC2425 line unfolding and split lines
-        $vcard = str_replace(["\r", "\n ", "\n\t"], '', $vcard);
+        // Perform line unfolding and split lines
+        $vcard = self::unfold($vcard);
         $lines = explode("\n", $vcard);
         $result = [];
 
@@ -992,8 +1022,8 @@ class rcube_vcard
         // Extract the plain text from the vCard, so the detection is more accurate
         // This will for example exclude photos
 
-        // Perform RFC2425 line unfolding and split lines
-        $string = str_replace(["\r", "\n ", "\n\t"], '', $string);
+        // Perform line unfolding and split lines
+        $string = self::unfold($string);
         $lines = explode("\n", $string);
         $string = '';
 

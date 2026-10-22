@@ -112,7 +112,8 @@ class rcube_mime
             if ($addronly) {
                 $out[$j] = $address;
             } else {
-                $name = trim($val['name']);
+                // Remove any control characters for security reasons
+                $name = trim(preg_replace('/[\x00-\x1F]+/', ' ', $val['name']));
                 $string = '';
 
                 if ($name && $address && $name != $address) {
@@ -977,6 +978,14 @@ class rcube_mime
         }
 
         return $type;
+    }
+
+    /**
+     * Validate Content-Type name according to RFC4288.4.2
+     */
+    public static function is_mimetype_valid($mimetype)
+    {
+        return is_string($mimetype) && preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $mimetype) === 1;
     }
 
     /**

@@ -103,6 +103,30 @@ class VCardTest extends TestCase
     }
 
     /**
+     * RFC 6350 allows any group name as a 'group.' prefix on properties
+     * (e.g. HOME.EMAIL or group1.TEL), not only the Apple-style 'item\d.'
+     * prefix. Such grouped properties must be parsed, not silently dropped.
+     */
+    public function test_parse_group_prefix()
+    {
+        $vcard = new \rcube_vcard("BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:Doe;Jane;;;\n"
+            . "FN:Jane Doe\n"
+            . "HOME.EMAIL:jane@example.com\n"
+            . "group1.TEL:+1234567890\n"
+            . 'END:VCARD'
+        );
+
+        $this->assertSame('jane@example.com', $vcard->email[0], 'Parse group-prefixed EMAIL');
+
+        $result = $vcard->get_assoc();
+
+        $this->assertSame('jane@example.com', $result['email:other'][0], 'Group-prefixed EMAIL in assoc data');
+        $this->assertSame('+1234567890', $result['phone:other'][0], 'Group-prefixed TEL in assoc data');
+    }
+
+    /**
      * Extra whitespace at start of continuation line (#9593/1).
      */
     public function test_parse_continuation_line_with_initial_whitespace()
@@ -118,6 +142,28 @@ class VCardTest extends TestCase
             EOF;
 
         $vcard = new \rcube_vcard(str_replace("\n", "\r\n", $vcard_string) . "\r\n");
+
+        $result = $vcard->get_assoc();
+
+        $this->assertSame('an example', $result['notes'][0]);
+    }
+
+    /**
+     * vCard 2.1 unfolds a CRLF followed by a whitespace to that whitespace
+     * (RFC 822), i.e. the folding whitespace is kept - unlike vCard 3.0/4.0
+     * (RFC 2425) which drops it entirely. See #9647.
+     */
+    public function test_parse_v21_continuation_line_keeps_whitespace()
+    {
+        $vcard_string = "BEGIN:VCARD\r\n"
+            . "VERSION:2.1\r\n"
+            . "N:Doe;Jane;;;\r\n"
+            . "FN:Jane Doe\r\n"
+            . "NOTE:an\r\n"
+            . " example\r\n"
+            . "END:VCARD\r\n";
+
+        $vcard = new \rcube_vcard($vcard_string);
 
         $result = $vcard->get_assoc();
 
@@ -227,5 +273,40 @@ class VCardTest extends TestCase
         $result = $vcard->export();
 
         $this->assertSame($result, "BEGIN:VCARD\r\nVERSION:3.0\r\nFN:\r\nN:;;;;\r\nEND:VCARD");
+    }
+
+    /**
+     * A folded continuation line whose content equals END:VCARD (or surrounding
+     * whitespace around the real boundary) must not break block detection (#9593)
+     */
+    public function test_import_continuation_endvcard()
+    {
+        // The NOTE value is folded (RFC 2426) so its continuation line starts
+        // with a space and reads " END:VCARD". It must not end the first card,
+        // and the following card must still be detected.
+        $input = "BEGIN:VCARD\r\n"
+            . "VERSION:3.0\r\n"
+            . "FN:First Card\r\n"
+            . "N:Card;First;;;\r\n"
+            . "NOTE:This note folds onto a line reading\r\n"
+            . " END:VCARD\r\n"
+            . "EMAIL:first@example.com\r\n"
+            . "END:VCARD\r\n"
+            . "BEGIN:VCARD\r\n"
+            . "VERSION:3.0\r\n"
+            . "FN:Second Card\r\n"
+            . "N:Card;Second;;;\r\n"
+            . "END:VCARD\r\n";
+
+        $vcards = \rcube_vcard::import($input);
+
+        $this->assertCount(2, $vcards, 'Both vcards detected despite folded END:VCARD');
+        $this->assertSame('First Card', $vcards[0]->displayname, 'First card parsed fully');
+        $this->assertSame('Second Card', $vcards[1]->displayname, 'Second card still detected');
+
+        $assoc = $vcards[0]->get_assoc();
+        // The folded line is unfolded (RFC 2426 strips the single leading space).
+        $this->assertSame('This note folds onto a line readingEND:VCARD', $assoc['notes'][0], 'Folded NOTE value preserved');
+        $this->assertSame('first@example.com', $assoc['email:other'][0], 'EMAIL after folded line preserved');
     }
 }

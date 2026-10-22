@@ -1,6 +1,7 @@
 <?php
 
 use IPLib\Factory;
+use IPLib\ParseStringFlag;
 
 /*
  +-----------------------------------------------------------------------+
@@ -428,24 +429,55 @@ class rcube_utils
         $host = parse_url($url, \PHP_URL_HOST);
 
         if (is_string($host)) {
+            $options = ParseStringFlag::IPV4_MAYBE_NON_DECIMAL
+                | ParseStringFlag::IPV4SUBNET_MAYBE_COMPACT
+                | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
+                | ParseStringFlag::MAY_INCLUDE_ZONEID;
+
+            $host = trim($host, '[].');
+
+            if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
+                $host = $matches[1];
+                if (preg_match('/([0-9]{1,3}([.-][0-9]{1,3}){3})$/', $host, $m)) {
+                    $host = str_replace('-', '.', $m[1]); // IPv4
+                } elseif (preg_match('/^([0-9a-f]{8})$/i', $host, $m)) {
+                    $host = long2ip(base_convert($m[1], 16, 10)); // Hexadecimal
+                } else {
+                    $host = str_replace('-', ':', $host); // IPv6
+                }
+            }
+
             // TODO: This is pretty fast, but a single message can contain multiple links
             // to the same target, maybe we should do some in-memory caching.
-            if ($address = Factory::parseAddressString($host = trim($host, '[]'))) {
+            if ($address = Factory::parseAddressString($host, $options)) {
                 $nets = [
+                    '0.0.0.0',
                     '127.0.0.0/8',    // loopback
                     '10.0.0.0/8',     // RFC1918
                     '172.16.0.0/12',  // RFC1918
                     '192.168.0.0/16', // RFC1918
                     '169.254.0.0/16', // link-local / cloud metadata
+                    '100.64.0.0/10',  // RFC6598: Shared Address Space (carrier-grade NAT)
                     '::1/128',
+                    '::/128',
                     'fc00::/7',
+                    'fe80::/10',      // IPv6 link-local
+                    '::ffff:0:0/96',  // RFC5156
+                    '64:ff9b::/96',   // RFC 6052 NAT64 (maps IPv4 incl. private ranges into IPv6)
+                    '64:ff9b:1::/48',  // (RFC 8215 local-use NAT64)
                 ];
 
                 return self::is_ip_in_range($address, $nets);
             }
 
+            // Note: We're aware that any hostname can be pointed to a local IP via DNS.
+            // For various reasons we decided to not resolve hostnames here. We may consider
+            // an optional feature to do that in the future. Reports about this vulnerability
+            // will be ignored.
+
             // FIXME: Should we accept any non-fqdn hostnames?
-            return (bool) preg_match('/^localhost(\.localdomain)?$/i', $host);
+            $host = strtolower($host);
+            return $host == 'metadata.google.internal' || preg_match('/^localhost(\.localdomain)?\.?$/', $host);
         }
 
         return false;
@@ -559,7 +591,8 @@ class rcube_utils
             // Exclude rcube_string_replacer pattern matches, this is needed
             // for cases like @media { body { position: fixed; } } (#5811)
             $excl = '(?!' . substr($replacements->pattern, 1, -1) . ')';
-            $regexp = '/(^\s*|,\s*|\}\s*|\{\s*)(' . $excl . ':?[a-z0-9\._#\*\[][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
+            $regexp = '/(^\s*|,\s*|\}\s*|\{\s*|@[^;{]*[;{]\s*)'
+                . '(' . $excl . ':?[a-z0-9\._#\*\[:][a-z0-9\._:\(\)#=~ \[\]"\|\>\+\$\^-]*)/im';
             $callback = static function ($matches) use ($container_id, $prefix) {
                 $replace = $matches[2];
 
@@ -624,10 +657,17 @@ class rcube_utils
             } else {
                 $value = '';
                 foreach (self::explode_css_property_block($rule[1]) as $val) {
-                    if ($url_callback && preg_match('/^url\s*\(/i', $val)) {
-                        if (preg_match('/^url\s*\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $match)) {
-                            if ($url = $url_callback($match[1])) {
-                                $value .= ' url(' . $url . ')';
+                    if ($url_callback && preg_match('/\burl\s*\(/i', $val)) {
+                        if (preg_match_all('/(\b)url\s*\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)/iu', $val, $matches)) {
+                            foreach ($matches[2] as $idx => $url) {
+                                if ($url = $url_callback($url)) {
+                                    $val = str_replace($matches[0][$idx], $matches[1][$idx] . "url({$url})", $val);
+                                } else {
+                                    $val = '';
+                                }
+                            }
+                            if (strlen($val)) {
+                                $value .= ' ' . $val;
                             }
                         }
                     } elseif (preg_match('/;.+/', $val)) {
@@ -1147,10 +1187,9 @@ class rcube_utils
     public static function strtotime($date, $timezone = null)
     {
         $date = self::clean_datestr($date);
-        $tzname = $timezone ? ' ' . $timezone->getName() : '';
 
         // unix timestamp
-        if (is_numeric($date)) {
+        if ($date === '' || is_numeric($date)) {
             return (int) $date;
         }
 
@@ -1158,6 +1197,10 @@ class rcube_utils
         if (strlen($date) > 128) {
             $date = substr($date, 0, 128);
         }
+
+        // Note we prefer UTC, if timezone is unknown, otherwise the result
+        // would depend on PHP/system timezone.
+        $tzname = $timezone ? ' ' . $timezone->getName() : ' UTC';
 
         // if date parsing fails, we have a date in non-rfc format.
         // remove token from the end and try again
@@ -1950,5 +1993,29 @@ class rcube_utils
         }
 
         return '';
+    }
+
+    /**
+     * Array sorting using current locale, maintains index association.
+     */
+    public static function asort(array &$array): void
+    {
+        $collator = collator_create('') ?: collator_create('en_US');
+
+        if ($collator) {
+            $collator->asort($array, \Collator::SORT_STRING);
+        }
+    }
+
+    /**
+     * Array sorting by key using current locale.
+     */
+    public static function ksort(array &$array): void
+    {
+        $collator = collator_create('') ?: collator_create('en_US');
+
+        if ($collator) {
+            uksort($array, static fn ($a, $b) => $collator->compare($a, $b));
+        }
     }
 }

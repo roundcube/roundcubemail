@@ -127,7 +127,7 @@ class rcube_imap extends rcube_storage
                 'version' => RCUBE_VERSION,
                 'php' => \PHP_VERSION,
                 'os' => \PHP_OS,
-                'command' => $_SERVER['REQUEST_URI'] ?? '',
+                'command' => abbreviate_string($_SERVER['REQUEST_URI'] ?? '', 512, '...', true),
             ];
         }
 
@@ -2315,7 +2315,7 @@ class rcube_imap extends rcube_storage
     {
         while (is_array($structure)) {
             if (isset($structure[2]) && is_array($structure[2]) && $structure[2][0] == 'charset') {
-                return $structure[2][1];
+                return $structure[2][1] ?? null;
             }
 
             $structure = $structure[0];
@@ -2416,8 +2416,7 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        return $this->conn->handlePartBody($this->folder, $uid,
-            true, $part, null, false, $fp);
+        return $this->conn->handlePartBody($this->folder, $uid, true, $part, null, false, $fp);
     }
 
     /**
@@ -4399,7 +4398,6 @@ class rcube_imap extends rcube_storage
         }
 
         // sort folders
-        // asort($folders, SORT_LOCALE_STRING) is not properly sorting case sensitive names
         uasort($folders, [$this, 'sort_folder_comparator']);
 
         $folders = array_keys($folders);
@@ -4484,14 +4482,12 @@ class rcube_imap extends rcube_storage
     protected function sort_folder_comparator($str1, $str2)
     {
         if ($this->sort_folder_collator === null) {
-            $this->sort_folder_collator = false;
+            $locale = ($this->options['language'] ?? null) ?: 'en_US';
+            $this->sort_folder_collator = collator_create($locale) ?: false;
+        }
 
-            // strcoll() does not work with UTF8 locale on Windows,
-            // use Collator from the intl extension
-            if (stripos(\PHP_OS, 'win') === 0 && function_exists('collator_compare')) {
-                $locale = ($this->options['language'] ?? null) ?: 'en_US';
-                $this->sort_folder_collator = collator_create($locale) ?: false;
-            }
+        if (!$this->sort_folder_collator) {
+            return 0;
         }
 
         $path1 = explode($this->delimiter, $str1);
@@ -4507,12 +4503,10 @@ class rcube_imap extends rcube_storage
                 continue;
             }
 
-            if ($this->sort_folder_collator) {
-                return collator_compare($this->sort_folder_collator, $folder1, $folder2);
-            }
-
-            return strcoll($folder1, $folder2);
+            return collator_compare($this->sort_folder_collator, $folder1, $folder2);
         }
+
+        return 0;
     }
 
     /**

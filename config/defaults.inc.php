@@ -544,7 +544,7 @@ $config['support_url'] = '';
 $config['blankpage_url'] = '/watermark.html';
 
 // Logo image replacement. Specifies location of the image as:
-// - URL relative to the document root of this Roundcube installation
+// - URL relative to the root directory of the Roundcube installation
 // - full URL with http:// or https:// prefix
 // - URL relative to the current skin folder (when starts with a '/')
 //
@@ -883,9 +883,9 @@ $config['request_path'] = null;
 // One replacement variable is supported: %n (resolves to the value of $_SERVER['SERVER_NAME']).
 $config['request_url'] = null;
 
-// Allows to define separate server/path for image/js/css files
-// Warning: If the domain is different cross-domain access to some
-// resources need to be allowed
+// Allows to define separate URL/path for image/js/css files. It has to be a full URL
+// or an absolute path (starting with /).
+// Warning: If the domain is different cross-domain access to some resources need to be allowed
 // Sample:
 //    <FilesMatch ".(eot|ttf|woff)">
 //    Header set Access-Control-Allow-Origin "*"
@@ -1212,8 +1212,7 @@ $config['ldap_public']['Verisign'] = [
   'sub_fields' => [],
   // Generate values for the following LDAP attributes automatically when creating a new record
   'autovalues' => [
-    // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed
-    // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+    // 'mail' => '{givenname}.{sn}@mydomain.com',  // composite strings with placeholders for existing attributes
   ],
   'sort'           => 'cn',         // The field to sort the listing by.
   'scope'          => 'sub',        // search mode: sub|base|list

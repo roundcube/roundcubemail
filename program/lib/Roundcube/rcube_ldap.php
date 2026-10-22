@@ -344,10 +344,11 @@ class rcube_ldap extends rcube_addressbook
 
                 // Get the pieces needed for variable replacement.
                 if ($fu = ($rcube->get_user_email() ?: ($conf['username'] ?? null))) {
+                    $fu = rcube_ldap_generic::quote_string($fu);
                     [$u, $d] = explode('@', $fu);
                 } else {
                     $u = '';
-                    $d = $this->mail_domain;
+                    $d = rcube_ldap_generic::quote_string($this->mail_domain);
                 }
 
                 $dc = 'dc=' . strtr($d, ['.' => ',dc=']); // hierarchal domain string
@@ -526,7 +527,7 @@ class rcube_ldap extends rcube_addressbook
     #[\Override]
     public function get_name()
     {
-        return $this->prop['name'];
+        return $this->prop['name'] ?? '';
     }
 
     /**
@@ -1581,32 +1582,14 @@ class rcube_ldap extends rcube_addressbook
 
         foreach ($this->prop['autovalues'] as $lf => $templ) {
             if (empty($attrs[$lf])) {
-                if (str_contains($templ, '(')) {
-                    // replace {attr} placeholders with (escaped!) attribute values to be safely eval'd
-                    $code = preg_replace('/\{\w+\}/', '', strtr($templ, array_map('addslashes', $attrvals)));
-                    $res = false;
-
-                    try {
-                        $res = eval("return ({$code});");
-                    } catch (\ParseError $e) {
-                        // ignore
-                    }
-
-                    if ($res === false) {
-                        rcube::raise_error([
-                            'code' => 505,
-                            'message' => "Expression parse error on: ({$code})",
-                        ], true, false);
-                        continue;
-                    }
-
-                    $attrs[$lf] = $res;
-                } else {
-                    // replace {attr} placeholders with concrete attribute values
-                    $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
-                }
+                // replace {attr} placeholders with concrete attribute values
+                $attrs[$lf] = preg_replace('/\{\w+\}/', '', strtr($templ, $attrvals));
             }
         }
+
+        $rcube = rcube::get_instance();
+        $plugin = $rcube->plugins->exec_hook('ldap_autovalues', ['attrs' => $attrs]);
+        $attrs = $plugin['attrs'];
     }
 
     /**
@@ -2234,7 +2217,7 @@ class rcube_ldap extends rcube_addressbook
         }
 
         $base_dn = $this->groups_base_dn;
-        $contact_dn = self::dn_decode($contact_id);
+        $contact_dn = rcube_ldap_generic::quote_string(self::dn_decode($contact_id));
         $name_attr = $this->prop['groups']['name_attr'] ?: 'cn';
         $member_attr = $this->get_group_member_attr();
         $add_filter = '';

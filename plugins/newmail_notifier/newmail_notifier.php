@@ -63,7 +63,7 @@ class newmail_notifier extends rcube_plugin
                 $this->opt['sound'] = $this->rc->config->get('newmail_notifier_sound');
                 $this->opt['desktop'] = $this->rc->config->get('newmail_notifier_desktop');
 
-                if (!empty($this->opt)) {
+                if (array_filter($this->opt) !== []) {
                     // Get folders to skip checking for
                     $exceptions = ['drafts_mbox', 'sent_mbox', 'trash_mbox', 'junk_mbox'];
                     foreach ($exceptions as $folder) {

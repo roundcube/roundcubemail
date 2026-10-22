@@ -84,16 +84,6 @@ class rcmail_sendmail
     }
 
     /**
-     * Object destructor to cleanup temporary files
-     */
-    public function __destruct()
-    {
-        foreach ($this->temp_files as $file) {
-            @unlink($file);
-        }
-    }
-
-    /**
      * Collect input data for message headers
      *
      * @return array Message headers
@@ -196,9 +186,6 @@ class rcmail_sendmail
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
-        // Don't allow CRLF in subject (#8404)
-        $subject = trim(preg_replace('|\r?\n|', ' ', $subject));
-
         $this->options['dsn_enabled'] = $dsn_enabled;
         $this->options['keep_formatting_enabled'] = $keep_formatting_enabled;
         $this->options['from'] = $from;
@@ -276,6 +263,13 @@ class rcmail_sendmail
             }
         }
 
+        // For security reasons do not allow new-line characters in headers
+        foreach ($headers as $idx => $value) {
+            if (is_string($value)) {
+                $headers[$idx] = trim(preg_replace('/[\r\n\t\s]+/', ' ', $value));
+            }
+        }
+
         return array_filter($headers);
     }
 
@@ -294,7 +288,7 @@ class rcmail_sendmail
         // choose encodings for plain/text body and message headers
         if (preg_match('/ISO-2022/i', $text_charset)) {
             $head_encoding = 'base64'; // RFC1468
-        } elseif (preg_match('/[^\x00-\x7F]/', $message->getTXTBody() . $message->getHTMLBody())) {
+        } elseif (preg_match('/[^\x00-\x7F]/', $message->getTXTBody())) {
             $transfer_encoding = $this->rcmail->config->get('force_7bit') ? 'quoted-printable' : '8bit';
         } elseif ($this->options['charset'] == 'UTF-8') {
             $text_charset = 'US-ASCII';
@@ -305,8 +299,9 @@ class rcmail_sendmail
         }
 
         // encoding settings for mail composing
+        // Note: We don't use 8bit for HTML parts because it would not break lines (#10198)
         $message->setParam('text_encoding', $transfer_encoding);
-        $message->setParam('html_encoding', $transfer_encoding);
+        $message->setParam('html_encoding', 'quoted-printable');
         $message->setParam('head_encoding', $head_encoding);
         $message->setParam('head_charset', $this->options['charset']);
         $message->setParam('html_charset', $this->options['charset']);
@@ -467,6 +462,7 @@ class rcmail_sendmail
         // @phpstan-ignore-next-line
         if ($mailbody_file) {
             $this->temp_files[$message->headers()['Message-ID']] = $mailbody_file;
+            $this->rcmail->add_shutdown_function(static function () use ($mailbody_file) { @unlink($mailbody_file); });
         }
 
         // save message sent time
@@ -548,6 +544,7 @@ class rcmail_sendmail
 
                     if (!is_a($msg, 'PEAR_Error')) {
                         $this->temp_files[$msg_id] = $msg_file;
+                        $this->rcmail->add_shutdown_function(static function () use ($msg_file) { @unlink($msg_file); });
                     }
                 }
 
@@ -707,7 +704,7 @@ class rcmail_sendmail
                 $hash = md5($data) . '@' . $domain;
                 $mime_type = $matches[2][$idx][0];
 
-                if (empty($mime_type)) {
+                if (empty($mime_type) || !rcube_mime::is_mimetype_valid($mime_type)) {
                     $mime_type = rcube_mime::image_content_type($data);
                 }
 
@@ -798,6 +795,7 @@ class rcmail_sendmail
                     $name = \Mail_mimePart::encodeMB($name, $charset, 'base64');
                 } else {
                     $name = stripcslashes($name);
+                    $name = preg_replace('/[\x00-\x1F]+/', ' ', $name);
                 }
 
                 $address = rcube_utils::idn_to_ascii(trim($address, '<>'));

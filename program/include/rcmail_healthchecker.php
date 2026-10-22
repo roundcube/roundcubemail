@@ -31,6 +31,8 @@ class rcmail_healthchecker
 
     /**
      * Do the checking
+     *
+     * @return bool True if all checks pass, False otherwise
      */
     public function run()
     {
@@ -76,7 +78,7 @@ class rcmail_healthchecker
             }
         }
 
-        return (int) $status;
+        return $status;
     }
 
     /**

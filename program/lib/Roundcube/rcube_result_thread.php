@@ -53,25 +53,17 @@ class rcube_result_thread
     {
         $this->meta = [];
 
-        $data = explode('*', (string) $data);
+        $data = (string) $data;
 
-        // ...skip unilateral untagged server responses
-        for ($i = 0, $len = count($data); $i < $len; $i++) {
-            if (preg_match('/^ THREAD/i', $data[$i])) {
-                // valid response, initialize raw_data for is_error()
-                $this->raw_data = '';
-                $data[$i] = substr($data[$i], 7);
-                break;
-            }
-
-            unset($data[$i]);
-        }
-
-        if (empty($data)) {
+        if (!preg_match('/(^|\n)\* THREAD/i', $data, $matches, \PREG_OFFSET_CAPTURE)) {
             return;
         }
 
-        $data = array_first($data);
+        $data = substr($data, $matches[0][1] + strlen($matches[0][0]));
+        if ($end_pos = strpos($data, '*')) {
+            $data = substr($data, 0, $end_pos);
+        }
+
         $data = trim($data);
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);

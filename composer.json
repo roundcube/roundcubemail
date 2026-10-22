@@ -3,8 +3,9 @@
     "description": "The Roundcube Webmail suite",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": ">=8.1 <8.6",
+        "php": ">=8.1",
         "bacon/bacon-qr-code": "^3.0.0",
+        "firebase/php-jwt": "^7.0",
         "guzzlehttp/guzzle": "^7.10.0",
         "guzzlehttp/promises": "^2.0",
         "league/commonmark": "^2.7",
@@ -18,6 +19,7 @@
         "pear/pear-core-minimal": "~1.10.15",
         "roundcube/plugin-installer": "~0.3.5",
         "roundcube/rtf-html-php": "^2.1",
+        "symfony/polyfill-php84": "^1.33.0",
         "symfony/polyfill-php85": "^1.33.0"
     },
     "require-dev": {
@@ -25,7 +27,7 @@
         "ergebnis/phpunit-slow-test-detector": "^2.11",
         "friendsofphp/php-cs-fixer": "^3.8",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan": "~2.2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpunit/phpunit": "^10.5.47 || ^11.0",
@@ -67,6 +69,7 @@
         "symfony/process": "^6.4 || ^7.0"
     },
     "suggest": {
+        "ext-sodium": "Support EdDSA (Ed25519) signatures (OAuth)",
         "bjeavons/zxcvbn-php": "^1.0 required for Zxcvbn password strength driver",
         "kolab/net_ldap3": "~1.1.4 required for connecting to LDAP"
     },

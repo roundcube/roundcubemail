@@ -535,7 +535,7 @@ class rcmail_action_contacts_import extends rcmail_action_contacts_index
         $available_fields['birthday-y'] = $rcmail->gettext('birth_year');
 
         // sort by label for easy use
-        asort($available_fields, \SORT_LOCALE_STRING);
+        rcube_utils::asort($available_fields);
 
         return $available_fields;
     }

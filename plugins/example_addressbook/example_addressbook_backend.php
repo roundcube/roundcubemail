@@ -144,6 +144,7 @@ class example_addressbook_backend extends rcube_addressbook
 
                 if ($found) {
                     $result->add($record);
+                    $result->count++;
                 }
             }
         }

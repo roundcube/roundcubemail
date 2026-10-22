@@ -90,6 +90,27 @@ class StaticTest extends ServerTestCase
     }
 
     /**
+     * Test handling of a HEAD request
+     */
+    public function testHead(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+
+        $response = $this->request('HEAD', 'static.php/' . $path);
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame([(string) $size], $response->getHeader('Content-Length'));
+        $this->assertSame(['bytes'], $response->getHeader('Accept-Ranges'));
+        $this->assertSame('', (string) $response->getBody());
+
+        $response = $this->request('HEAD', 'static.php/unknown');
+
+        $this->assertSame(404, $response->getStatusCode());
+    }
+
+    /**
      * Test handling of Range header - invalid requests
      */
     public function testRangeHeaderInvalid(): void
@@ -257,6 +278,28 @@ class StaticTest extends ServerTestCase
 
         $response = $this->request('GET', 'static.php/' . $path, [
             'headers' => ['Range' => 'bytes=0-'],
+        ]);
+
+        $this->assertSame(206, $response->getStatusCode());
+        $this->assertSame([(string) $size], $response->getHeader('Content-Length'));
+        $this->assertSame(
+            ['bytes 0-' . ($size - 1) . '/' . $size],
+            $response->getHeader('Content-Range'),
+        );
+        $this->assertSame($file, (string) $response->getBody());
+    }
+
+    /**
+     * Test full file retrieval where end of range is bigger than the file size
+     */
+    public function testRangeHeaderFullFileViaRangeEndBiggerThanSize(): void
+    {
+        $path = 'program/resources/dummy.pdf';
+        $file = file_get_contents(INSTALL_PATH . $path);
+        $size = strlen($file);
+
+        $response = $this->request('GET', 'static.php/' . $path, [
+            'headers' => ['Range' => 'bytes=0-' . ($size + 1)],
         ]);
 
         $this->assertSame(206, $response->getStatusCode());

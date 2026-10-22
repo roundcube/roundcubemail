@@ -32,4 +32,4 @@ define('ROUNDCUBE_STDERR_DISABLE', true); // Disable STDERR output
 
 $healthchecker = new rcmail_healthchecker($args);
 
-exit($healthchecker->run());
+exit($healthchecker->run() ? 0 : 1);
