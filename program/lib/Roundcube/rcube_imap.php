@@ -4398,7 +4398,6 @@ class rcube_imap extends rcube_storage
         }
 
         // sort folders
-        // asort($folders, SORT_LOCALE_STRING) is not properly sorting case sensitive names
         uasort($folders, [$this, 'sort_folder_comparator']);
 
         $folders = array_keys($folders);
