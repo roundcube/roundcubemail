@@ -12,6 +12,34 @@ use Roundcube\Tests\StderrMock;
 class UtilsTest extends TestCase
 {
     /**
+     * Test for rcube_utils::asort()
+     */
+    public function test_asort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = explode(',', 'b,ą,a,ó,o');
+        $expected = [2 => 'a', 1 => 'ą', 0 => 'b', 4 => 'o', 3 => 'ó'];
+
+        \rcube_utils::asort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
+     * Test for rcube_utils::ksort()
+     */
+    public function test_ksort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = ['b' => 0, 'ą' => 1, 'a' => 2, 'ó' => 3, 'o' => 4];
+        $expected = ['a' => 2, 'ą' => 1, 'b' => 0, 'o' => 4, 'ó' => 3];
+
+        \rcube_utils::ksort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
      * Test for rcube_utils::date_format()
      */
     public function test_date_format()
