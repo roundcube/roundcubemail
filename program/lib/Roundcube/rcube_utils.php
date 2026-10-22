@@ -1989,4 +1989,28 @@ class rcube_utils
 
         return '';
     }
+
+    /**
+     * Array sorting using current locale, maintains index association.
+     */
+    public static function asort(array &$array): void
+    {
+        $collator = collator_create('') ?: collator_create('en_US');
+
+        if ($collator) {
+            $collator->asort($array, \Collator::SORT_STRING);
+        }
+    }
+
+    /**
+     * Array sorting by key using current locale.
+     */
+    public static function ksort(array &$array): void
+    {
+        $collator = collator_create('') ?: collator_create('en_US');
+
+        if ($collator) {
+            uksort($array, static fn ($a, $b) => $collator->compare($a, $b));
+        }
+    }
 }

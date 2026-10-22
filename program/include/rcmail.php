@@ -535,7 +535,7 @@ class rcmail extends rcube
             }
 
             if (!empty($additional)) {
-                ksort($additional, \SORT_LOCALE_STRING);
+                rcube_utils::ksort($additional);
                 $responses = array_merge(array_values($additional), $responses);
             }
         }
