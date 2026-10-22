@@ -32,7 +32,7 @@ class UtilsTest extends TestCase
     {
         ini_set('intl.default_locale', 'pl_PL');
 
-        $array = ['b' => 0, 'ą' => 1, 'a' => 2, 'ó' => 3,'o' => 4];
+        $array = ['b' => 0, 'ą' => 1, 'a' => 2, 'ó' => 3, 'o' => 4];
         $expected = ['a' => 2, 'ą' => 1, 'b' => 0, 'o' => 4, 'ó' => 3];
 
         \rcube_utils::ksort($array);
