@@ -10648,7 +10648,9 @@ function rcube_webmail() {
 
     this.print_dialog = function () {
         // setTimeout for Safari
-        setTimeout('window.print()', 10);
+        setTimeout(function () {
+            window.print();
+        }, 10);
     };
 } // end object rcube_webmail
 
