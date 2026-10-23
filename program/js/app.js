@@ -799,24 +799,24 @@ function rcube_webmail() {
             return;
         }
         input.forEach((args) => {
-            if (!Array.isArray(args)) {
-                this.log("Unexpected data in '#js-calls'! This is not an array: ", args);
+            if (!Array.isArray(args) || typeof args[0] !== 'string' || !args[0]) {
+                this.log('Invalid js_call: ' + JSON.stringify(args));
+                return;
             }
-            var command = args.shift();
+            var command = args.shift(),
+                obj = this;
             if (command.startsWith('parent.')) {
                 command = command.replace(/^parent\./, '');
-                if (typeof parent.rcmail[command] !== 'function') {
-                    this.log("'" + command + "' is not a callable function!");
+                if (!window.parent || !parent.rcmail) {
                     return;
                 }
-                parent.rcmail[command](...args);
-            } else {
-                if (typeof this[command] !== 'function') {
-                    this.log("'" + command + "' is not a callable function!");
-                    return;
-                }
-                this[command](...args);
+                obj = parent.rcmail;
             }
+            if (typeof obj[command] !== 'function') {
+                this.log("'" + command + "' is not a callable function!");
+                return;
+            }
+            obj[command](...args);
         });
     };
 
