@@ -176,8 +176,8 @@ class rcmail_output_json extends rcmail_output
     public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
-        $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
-            self::JS_OBJECT_NAME, $location, $delay));
+        $this->command('redirect', $location, true);
+        $this->remote_response();
         exit;
     }
 
@@ -211,11 +211,9 @@ class rcmail_output_json extends rcmail_output
     }
 
     /**
-     * Send an AJAX response with executable JS code
-     *
-     * @param string $add Additional JS code
+     * Send an AJAX response
      */
-    protected function remote_response($add = '')
+    protected function remote_response()
     {
         if (!$this->header_sent) {
             $this->header_sent = true;
