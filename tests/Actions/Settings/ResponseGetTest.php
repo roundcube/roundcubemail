@@ -42,12 +42,15 @@ class ResponseGetTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
-        $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
-        $data = json_decode($m[1], true);
-        $this->assertSame($responses[0]['id'], $data['id']);
-        $this->assertSame('static 1', $data['name']);
-        $this->assertTrue($data['is_html']);
-        $this->assertSame('<div class="pre">Static Response One</div>', $data['data']);
+        $this->assertSame([
+            ['insert_response', [
+                'id' => $responses[0]['id'],
+                'name' => 'static 1',
+                'data' => '<div class="pre">Static Response One</div>',
+                'is_html' => true,
+                'static' => true,
+            ]],
+        ], $result['js_calls']);
 
         // Test unknown identifier
 
@@ -59,7 +62,7 @@ class ResponseGetTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
-        $this->assertSame('', $result['exec']);
+        $this->assertSame([], $result['js_calls']);
 
         // Test a normal response (html converted to text)
 
@@ -71,11 +74,16 @@ class ResponseGetTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('response-get', $result['action']);
-        $this->assertTrue(preg_match('/this\.insert_response\(([^)]+)\);/', $result['exec'], $m) === 1);
-        $data = json_decode($m[1], true);
-        $this->assertSame($responses[2]['id'], $data['id']);
-        $this->assertSame('response 2', $data['name']);
-        $this->assertFalse($data['is_html']);
-        $this->assertSame('test response 2', $data['data']);
+        $this->assertSame([
+            ['insert_response', [
+                'user_id' => '1',
+                'changed' => '0000-00-00 00:00:00',
+                'del' => '0',
+                'name' => 'response 2',
+                'data' => 'test response 2',
+                'is_html' => false,
+                'id' => $responses[2]['id'],
+            ]],
+        ], $result['js_calls']);
     }
 }
