@@ -792,15 +792,13 @@ function rcube_webmail() {
     };
 
     /**
-     * Handle function calls passed in via #js-calls. Through this, server code
-     * can trigger Javascript-methods to be called.
+     * Handle function calls sent by the server as a list of [method, ...args]
      */
     this.interpret_js_calls = function (input) {
-        if (!input) {
+        if (!Array.isArray(input)) {
             return;
         }
-        var data = JSON.parse(input);
-        data.forEach((args) => {
+        input.forEach((args) => {
             if (!Array.isArray(args)) {
                 this.log("Unexpected data in '#js-calls'! This is not an array: ", args);
             }
