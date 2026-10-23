@@ -24,6 +24,9 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
     protected static $CLIENT_MIMETYPES = [];
 
+    /** @var array<string, string> Images the attachment list skips as the body refers to them, with their MIME type */
+    protected static $INLINE_IMAGES = [];
+
     /**
      * Request handler.
      *
@@ -35,6 +38,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         $rcmail = rcmail::get_instance();
 
         self::$PRINT_MODE = $rcmail->action == 'print';
+        self::$INLINE_IMAGES = [];
 
         // Read browser capabilities and store them in session
         if ($caps = rcube_utils::get_input_string('_caps', rcube_utils::INPUT_GET)) {
@@ -205,6 +209,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
 
             // Skip inline images
             if (str_starts_with($mimetype, 'image/') && self::$MESSAGE->is_referred_attachment($attach_prop)) {
+                self::$INLINE_IMAGES[$attach_prop->mime_id] = $mimetype;
                 continue;
             }
 
@@ -648,8 +653,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         continue;
                     }
                     // Check if we have enough memory to handle the message in it
-                    // #1487424: we need up to 10x more memory than the body
-                    elseif (!rcube_utils::mem_check($part->size * 10)) {
+                    elseif (self::$MESSAGE->is_part_too_big($part)) {
                         $out .= self::part_too_big_message(self::$MESSAGE, $part->mime_id);
                         continue;
                     }
@@ -710,23 +714,42 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
             }
         }
 
+        // Images the attachment list skips but the washed body does not show, e.g. as washing removed the reference
+        $recovered = [];
+        foreach (self::$MESSAGE->attachments as $attach_prop) {
+            $url = self::$MESSAGE->get_referred_url($attach_prop);
+            if ($url !== null && !str_contains($out, $url) && !str_contains($out, rcube::Q($url))
+                && ($mimetype = self::$INLINE_IMAGES[$attach_prop->mime_id] ?? self::part_image_type($attach_prop))
+            ) {
+                $recovered[$attach_prop->mime_id] = $mimetype;
+            }
+        }
+
+        // so that load-attachment opens them as from the attachment list
+        if (!empty($recovered) && !self::$PRINT_MODE) {
+            $rcmail->output->set_env('attachments', (array) $rcmail->output->get_env('attachments') + $recovered);
+        }
+
         // list images after mail body
-        if ($rcmail->config->get('inline_images', true) && !empty(self::$MESSAGE->attachments)) {
-            $thumbnail_size = $rcmail->config->get('image_thumbnail_size', 240);
+        $inline_images = $rcmail->config->get('inline_images', true);
+        if (($inline_images || !empty($recovered)) && !empty(self::$MESSAGE->attachments)) {
+            $thumbnail_size = $inline_images ? $rcmail->config->get('image_thumbnail_size', 240) : 0;
             $show_label = rcube::Q($rcmail->gettext('showattachment'));
             $download_label = rcube::Q($rcmail->gettext('download'));
 
             foreach (self::$MESSAGE->attachments as $attach_prop) {
+                $is_recovered = isset($recovered[$attach_prop->mime_id]);
+
                 // Content-Type: image/*...
-                if ($mimetype = self::part_image_type($attach_prop)) {
+                if (($mimetype = self::part_image_type($attach_prop)) || $is_recovered) {
                     // Skip inline images
-                    if (self::$MESSAGE->is_referred_attachment($attach_prop)) {
+                    if (!$is_recovered && (!$inline_images || self::$MESSAGE->is_referred_attachment($attach_prop))) {
                         continue;
                     }
 
                     // display thumbnails
-                    if ($thumbnail_size) {
-                        $supported = in_array($mimetype, self::$CLIENT_MIMETYPES);
+                    if ($thumbnail_size || $is_recovered) {
+                        $supported = in_array($mimetype ?: $recovered[$attach_prop->mime_id], self::$CLIENT_MIMETYPES);
                         $show_link_attr = [
                             'href' => self::$MESSAGE->get_part_url($attach_prop->mime_id, false),
                             'onclick' => sprintf(
@@ -741,8 +764,8 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         $show_link = html::a($show_link_attr + ['class' => 'open'], $show_label);
                         $download_link = html::a($download_link_attr + ['class' => 'download'], $download_label);
 
-                        $out .= html::p(['class' => 'image-attachment', 'style' => $supported ? '' : 'display:none'],
-                            html::a($show_link_attr + ['class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)],
+                        $out .= html::p(['class' => 'image-attachment', 'style' => $supported || $is_recovered ? '' : 'display:none'],
+                            ($thumbnail_size && $mimetype ? html::a($show_link_attr + ['class' => 'image-link', 'style' => sprintf('width:%dpx', $thumbnail_size)],
                                 html::img([
                                     'class' => 'image-thumbnail',
                                     'src' => self::$MESSAGE->get_part_url($attach_prop->mime_id, 'image') . '&_thumb=1',
@@ -751,7 +774,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                                     'style' => sprintf('max-width:%dpx; max-height:%dpx', $thumbnail_size, $thumbnail_size),
                                     'onload' => $supported ? '' : '$(this).parents(\'p.image-attachment\').show()',
                                 ])
-                            )
+                            ) : '')
                             . html::span('image-filename', rcube::Q($attach_prop->filename))
                             . html::span('image-filesize', rcube::Q(self::message_part_size($attach_prop)))
                             . html::span('attachment-links', ($supported ? $show_link . '&nbsp;' : '') . $download_link)
