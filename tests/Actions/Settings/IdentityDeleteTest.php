@@ -36,8 +36,8 @@ class IdentityDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-identity', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully deleted.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_identity("' . $iid . '")'));
+        $this->assertContains(['display_message', 'Successfully deleted.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['remove_identity', $iid], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `identities` WHERE `identity_id` = ?', $iid);
         $result = $db->fetch_assoc($query);
@@ -56,6 +56,6 @@ class IdentityDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-identity', $result['action']);
-        $this->assertStringContainsString('this.display_message("An error occurred while saving.","error",0);', $result['exec']);
+        $this->assertContains(['display_message', 'An error occurred while saving.', 'error', 0], $result['js_calls']);
     }
 }

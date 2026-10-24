@@ -29,7 +29,7 @@ class Search_DeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
-        $this->assertSame('this.display_message("Could not delete saved search.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not delete saved search.', 'error', 0]], $result['js_calls']);
     }
 
     /**
@@ -58,9 +58,9 @@ class Search_DeleteTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-delete', $result['action']);
         $this->assertSame(0, $result['env']['pagecount']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Saved search deleted successfully.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_search_item("' . $sid . '")'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("No contacts found.");'));
+        $this->assertContains(['display_message', 'Saved search deleted successfully.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['remove_search_item', $sid], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'No contacts found.'], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test\'');
         $result = $db->fetch_assoc($query);

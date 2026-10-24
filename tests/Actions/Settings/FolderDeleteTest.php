@@ -34,10 +34,10 @@ class FolderDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-delete', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Folder successfully deleted.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_folder_row("Test");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.subscription_select();'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_quota('));
+        $this->assertContains(['display_message', 'Folder successfully deleted.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['remove_folder_row', 'Test'], $result['js_calls']);
+        $this->assertContains(['subscription_select'], $result['js_calls']);
+        $this->assertContains(['set_quota', []], $result['js_calls']);
     }
 
     /**
@@ -62,7 +62,7 @@ class FolderDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-delete', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);'));
-        $this->assertTrue(!str_contains($result['exec'], 'this.remove_folder_row("Test");'));
+        $this->assertContains(['display_message', 'Unable to perform operation. Folder is read-only.', 'error', 0], $result['js_calls']);
+        $this->assertNotContains(['remove_folder_row', 'Test'], $result['js_calls']);
     }
 }

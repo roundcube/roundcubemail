@@ -791,6 +791,35 @@ function rcube_webmail() {
         this.start_keepalive();
     };
 
+    /**
+     * Handle function calls sent by the server as a list of [method, ...args]
+     */
+    this.interpret_js_calls = function (input) {
+        if (!Array.isArray(input)) {
+            return;
+        }
+        input.forEach((args) => {
+            if (!Array.isArray(args) || typeof args[0] !== 'string' || !args[0]) {
+                this.log('Invalid js_call: ' + JSON.stringify(args));
+                return;
+            }
+            var command = args.shift(),
+                obj = this;
+            if (command.startsWith('parent.')) {
+                command = command.replace(/^parent\./, '');
+                if (!window.parent || !parent.rcmail) {
+                    return;
+                }
+                obj = parent.rcmail;
+            }
+            if (typeof obj[command] !== 'function') {
+                this.log("'" + command + "' is not a callable function!");
+                return;
+            }
+            obj[command](...args);
+        });
+    };
+
     this.log = function (msg) {
         if (this.env.devel_mode && window.console && console.log) {
             console.log(msg);
@@ -9603,8 +9632,8 @@ function rcube_webmail() {
         }
 
         // if we get javascript code from server -> execute it
-        if (response.exec) {
-            eval(response.exec);
+        if (response.js_calls) {
+            this.interpret_js_calls(response.js_calls);
         }
 
         // execute callback functions of plugins
@@ -10619,7 +10648,9 @@ function rcube_webmail() {
 
     this.print_dialog = function () {
         // setTimeout for Safari
-        setTimeout('window.print()', 10);
+        setTimeout(function () {
+            window.print();
+        }, 10);
     };
 } // end object rcube_webmail
 
