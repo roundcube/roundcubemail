@@ -7,6 +7,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Drop support for IMAP host input on logon (#10315)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
+- Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Enable PHP 8.6 support (#10368, #10362)
 - LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
