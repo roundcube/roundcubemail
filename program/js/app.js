@@ -812,7 +812,7 @@ function rcube_webmail() {
                 }
                 obj = parent.rcmail;
             }
-            if (typeof obj[command] !== 'function') {
+            if (command === 'interpret_js_calls' || command in Object.prototype || typeof obj[command] !== 'function') {
                 this.log("'" + command + "' is not a callable function!");
                 return;
             }
