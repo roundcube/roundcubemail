@@ -535,7 +535,7 @@ class rcmail extends rcube
             }
 
             if (!empty($additional)) {
-                ksort($additional, \SORT_LOCALE_STRING);
+                rcube_utils::ksort($additional);
                 $responses = array_merge(array_values($additional), $responses);
             }
         }
@@ -955,7 +955,7 @@ class rcmail extends rcube
     /**
      * Auto-select IMAP host based on the posted login information
      *
-     * @return string Selected IMAP host
+     * @return ?string Selected IMAP host
      */
     public function autoselect_host()
     {
@@ -990,9 +990,7 @@ class rcmail extends rcube
                 $key = key($default_host);
                 $host = is_numeric($key) ? $default_host[$key] : $key;
             }
-        } elseif (empty($default_host)) {
-            $host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
-        } else {
+        } elseif (!empty($default_host)) {
             $host = rcube_utils::parse_host($default_host);
         }
 
