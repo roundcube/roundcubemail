@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Drop support for IMAP host input on logon (#10315)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
 - Enable PHP 8.6 support (#10368, #10362)

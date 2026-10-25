@@ -2305,7 +2305,6 @@ class rcmail_output_html extends rcmail_output
             + $attrib + $user_attrib);
         $input_pass = new html_passwordfield(['name' => '_pass', 'id' => 'rcmloginpwd', 'required' => 'required']
             + $attrib + $pass_attrib);
-        $input_host = null;
 
         $form_content = [
             'hidden' => [
@@ -2338,23 +2337,18 @@ class rcmail_output_html extends rcmail_output
                     break;
                 }
             }
+
+            if ($input_host) {
+                $form_content['inputs']['host'] = [
+                    'title' => html::label('rcmloginhost', html::quote($this->app->gettext('server'))),
+                    'content' => $input_host->show(rcube_utils::get_input_string('_host', rcube_utils::INPUT_GPC)),
+                ];
+            }
         } elseif (is_array($default_host) && ($host = key($default_host)) !== null) {
             $val = is_numeric($host) ? $default_host[$host] : $host;
             $input_host = new html_hiddenfield(['name' => '_host', 'id' => 'rcmloginhost', 'value' => $val] + $attrib);
 
             $form_content['hidden']['host'] = $input_host->show();
-            $input_host = null;
-        } elseif (empty($default_host)) {
-            $input_host = new html_inputfield(['name' => '_host', 'id' => 'rcmloginhost', 'class' => 'form-control']
-                + $attrib + $host_attrib);
-        }
-
-        // add host selection row
-        if (is_object($input_host)) {
-            $form_content['inputs']['host'] = [
-                'title' => html::label('rcmloginhost', html::quote($this->app->gettext('server'))),
-                'content' => $input_host->show(rcube_utils::get_input_string('_host', rcube_utils::INPUT_GPC)),
-            ];
         }
 
         if (isset($attrib['submit']) && rcube_utils::get_boolean($attrib['submit'])) {
