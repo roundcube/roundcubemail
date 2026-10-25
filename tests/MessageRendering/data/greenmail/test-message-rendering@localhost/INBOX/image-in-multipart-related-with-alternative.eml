@@ -1,0 +1,38 @@
+From: <someone@example.net>
+To: <aaa@bbb.cc>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Multipart/related with alternative and referenced image
+Message-Id: <10347-related-alternative@example.net>
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="000000000000a1b2c3d4e5f6a7b8"
+
+--000000000000a1b2c3d4e5f6a7b8
+Content-Type: multipart/alternative; boundary="000000000000a1b2c3d4e5f6a7b7"
+
+--000000000000a1b2c3d4e5f6a7b7
+Content-Type: text/plain; charset="UTF-8"
+
+Text
+
+--
+Signature
+
+--000000000000a1b2c3d4e5f6a7b7
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">Text<br><br>-- <br><div dir="ltr"><img src="cid:ii_mfk3logo0" alt="logo" width="48" height="48"></div></div>
+
+--000000000000a1b2c3d4e5f6a7b7--
+
+--000000000000a1b2c3d4e5f6a7b8
+Content-Type: image/png; name="logo.png"
+Content-Disposition: inline; filename="logo.png"
+Content-Transfer-Encoding: base64
+Content-ID: <ii_mfk3logo0>
+X-Attachment-Id: ii_mfk3logo0
+
+iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAACXBIWXMAAAABAAAAAQBPJcTWAAAA
+ZUlEQVR4nM3OQQkAMAzAwAzi33Fh/xpoTsG9oUViJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZi
+JEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJEZiJMbrwPYBEZ4Bu4ey9K0AAAAA
+SUVORK5CYII=
+--000000000000a1b2c3d4e5f6a7b8--
