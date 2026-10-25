@@ -40,8 +40,8 @@ class DeleteTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Contact(s) deleted successfully.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 6 of 6")'));
+        $this->assertContains(['display_message', 'Contact(s) deleted successfully.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Contacts 1 to 6 of 6'], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `contacts` WHERE `contact_id` = ?', $cid);
         $result = $db->fetch_assoc($query);

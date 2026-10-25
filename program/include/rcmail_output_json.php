@@ -176,8 +176,8 @@ class rcmail_output_json extends rcmail_output
     public function redirect($p = [], $delay = 1)
     {
         $location = $this->app->url($p);
-        $this->remote_response(sprintf("window.setTimeout(function(){ %s.redirect('%s',true); }, %d);",
-            self::JS_OBJECT_NAME, $location, $delay));
+        $this->command('redirect', $location, true);
+        $this->remote_response();
         exit;
     }
 
@@ -211,11 +211,9 @@ class rcmail_output_json extends rcmail_output
     }
 
     /**
-     * Send an AJAX response with executable JS code
-     *
-     * @param string $add Additional JS code
+     * Send an AJAX response
      */
-    protected function remote_response($add = '')
+    protected function remote_response()
     {
         if (!$this->header_sent) {
             $this->header_sent = true;
@@ -242,7 +240,7 @@ class rcmail_output_json extends rcmail_output
         }
 
         // send function calls
-        $response['exec'] = $this->get_js_commands() . $add;
+        $response['js_calls'] = $this->get_js_commands();
 
         if (!empty($this->callbacks)) {
             $response['callbacks'] = $this->callbacks;
@@ -259,25 +257,10 @@ class rcmail_output_json extends rcmail_output
     }
 
     /**
-     * Return executable javascript code for all registered commands
+     * Return all registered commands as a list of [method, ...args]
      */
     protected function get_js_commands()
     {
-        $out = '';
-
-        foreach ($this->commands as $args) {
-            $method = array_shift($args);
-            foreach ($args as $i => $arg) {
-                $args[$i] = self::json_serialize($arg, $this->devel_mode, false);
-            }
-
-            $out .= sprintf(
-                "this.%s(%s);\n",
-                preg_replace('/^parent\./', '', $method),
-                implode(',', $args)
-            );
-        }
-
-        return $out;
+        return $this->commands;
     }
 }
