@@ -800,7 +800,7 @@ function rcube_webmail() {
         }
         input.forEach((args) => {
             if (!Array.isArray(args) || typeof args[0] !== 'string' || !args[0]) {
-                this.log('Invalid js_call: ' + JSON.stringify(args));
+                this.log('Invalid js_call: ' + args[0]);
                 return;
             }
             var command = args.shift(),
