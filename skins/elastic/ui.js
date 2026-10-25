@@ -1160,6 +1160,11 @@ function rcube_elastic_ui() {
                     icon_name = input.data('icon'),
                     icon = $('<i>').attr('class', 'input-group-text icon ' + input.attr('name').replace('_', ''));
 
+                // Ignore checkboxes, they are prettified well enough by pretty_checkbox() already.
+                if (input.attr('type') === 'checkbox') {
+                    return;
+                }
+
                 if (icon_name) {
                     icon.addClass(icon_name);
                 }
