@@ -5,6 +5,8 @@ namespace Roundcube\Tests\Framework;
 use PHPUnit\Framework\Attributes\RequiresFunction;
 use PHPUnit\Framework\TestCase;
 
+use function Roundcube\Tests\invokeMethod;
+
 /**
  * Test class to test rcube class
  */
@@ -81,5 +83,44 @@ class RcubeTest extends TestCase
         $this->assertSame('', \rcube::exec('which unknown-command-123 2> /dev/null'));
         $this->assertSame("2038\n", \rcube::exec('date --date={date} +%Y', ['date' => '@2147483647']));
         // TODO: More cases
+    }
+
+    /**
+     * rcube::get_user_log_dir()
+     */
+    public function test_get_user_log_dir()
+    {
+        $rcube = \rcube::get_instance();
+        $temp_dir = sys_get_temp_dir() . '/rcube-tests-' . uniqid();
+        $log_dir = $temp_dir . '/logs';
+
+        mkdir($log_dir . '/alice', 0700, true);
+        mkdir($temp_dir . '/elsewhere');
+
+        $default_log_dir = $rcube->config->get('log_dir');
+        $user = $rcube->user;
+
+        $rcube->config->set('log_dir', $log_dir);
+        $rcube->user = null;
+
+        try {
+            $_SESSION['username'] = 'alice';
+            $this->assertSame($log_dir . '/alice', invokeMethod($rcube, 'get_user_log_dir'));
+
+            // The user name must not point outside of the log directory
+            foreach (['../elsewhere', 'alice/../../elsewhere', '..'] as $username) {
+                $_SESSION['username'] = $username;
+                $this->assertFalse(invokeMethod($rcube, 'get_user_log_dir'), $username);
+            }
+        } finally {
+            unset($_SESSION['username']);
+            $rcube->user = $user;
+            $rcube->config->set('log_dir', $default_log_dir);
+
+            rmdir($log_dir . '/alice');
+            rmdir($log_dir);
+            rmdir($temp_dir . '/elsewhere');
+            rmdir($temp_dir);
+        }
     }
 }
