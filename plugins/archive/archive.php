@@ -157,7 +157,10 @@ class archive extends rcube_plugin
         foreach (rcmail_action::get_uids(null, null, $multifolder, rcube_utils::INPUT_POST) as $mbox => $uids) {
             $all = $uids === '*';
             if (!$this->archive_folder || $mbox === $this->archive_folder || str_starts_with($mbox, $archive_prefix)) {
-                $count = count($uids);
+                // $uids is the '*' string for "select all"; count the folder's
+                // messages instead of count()'ing a string (#10107). The value
+                // is only used for the row-refill below, which $all skips.
+                $count = $all ? $storage->index($mbox)->count() : count($uids);
                 continue;
             } elseif (!$archive_type || $archive_type == 'folder') {
                 $folder = $this->archive_folder;
@@ -328,6 +331,13 @@ class archive extends rcube_plugin
     private function move_messages_worker($uids, $from_mbox, $to_mbox, $read_on_move)
     {
         $storage = rcmail::get_instance()->get_storage();
+
+        // "Select all" hands us the '*' string; resolve it to the real UID
+        // list so the messages can be counted (count() on a string is a fatal
+        // error on PHP 8) and the returned count is correct (#10107).
+        if ($uids === '*') {
+            $uids = $storage->index($from_mbox)->get();
+        }
 
         if ($read_on_move) {
             // don't flush cache (4th argument)
