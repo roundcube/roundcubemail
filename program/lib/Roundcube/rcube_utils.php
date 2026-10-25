@@ -1885,6 +1885,8 @@ class rcube_utils
         // Create the file to prevent possible race condition like tempnam() does
         if ($create) {
             touch($temp_path);
+            // touch() honours the umask, make the file private like tempnam() does
+            @chmod($temp_path, 0600);
         }
 
         return $temp_path;
