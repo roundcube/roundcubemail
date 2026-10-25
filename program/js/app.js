@@ -806,11 +806,10 @@ function rcube_webmail() {
             var command = args.shift(),
                 obj = this;
             if (command.startsWith('parent.')) {
-                command = command.replace(/^parent\./, '');
-                if (!window.parent || !parent.rcmail) {
-                    return;
+                command = command.slice('parent.'.length);
+                if (this.is_framed()) {
+                    obj = parent.rcmail;
                 }
-                obj = parent.rcmail;
             }
             if (command === 'interpret_js_calls' || command in Object.prototype || typeof obj[command] !== 'function') {
                 this.log("'" + command + "' is not a callable function!");

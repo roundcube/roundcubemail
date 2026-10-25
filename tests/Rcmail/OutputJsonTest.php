@@ -43,7 +43,7 @@ class OutputJsonTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertSame([['set_quota', ['a' => '</b>']], ['list_contacts']], $result['js_calls']);
+        $this->assertSame([['parent.set_quota', ['a' => '</b>']], ['list_contacts']], $result['js_calls']);
         $this->assertArrayNotHasKey('exec', $result);
     }
 }

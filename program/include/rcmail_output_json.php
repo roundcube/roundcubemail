@@ -261,9 +261,6 @@ class rcmail_output_json extends rcmail_output
      */
     protected function get_js_commands()
     {
-        return array_map(static function ($args) {
-            $args[0] = preg_replace('/^parent\./', '', $args[0]);
-            return $args;
-        }, $this->commands);
+        return $this->commands;
     }
 }
