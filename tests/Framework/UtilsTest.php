@@ -1149,6 +1149,25 @@ class UtilsTest extends TestCase
     }
 
     /**
+     * Test temp_filename()
+     */
+    public function test_temp_filename()
+    {
+        if (\PHP_OS_FAMILY === 'Windows') {
+            $this->markTestSkipped('File permissions are not supported on Windows');
+        }
+
+        $umask = umask(0022);
+        $file = \rcube_utils::temp_filename('tests');
+        umask($umask);
+
+        $perms = sprintf('%o', fileperms($file) & 0777);
+        @unlink($file);
+
+        $this->assertSame('600', $perms);
+    }
+
+    /**
      * Test remove_subject_prefix
      *
      * @dataProvider provide_remove_subject_prefix_cases
