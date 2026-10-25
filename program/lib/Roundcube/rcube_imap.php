@@ -2066,12 +2066,10 @@ class rcube_imap extends rcube_storage
 
             // build parts list for headers pre-fetching
             for ($i = 0; $i < count($part); $i++) {
-                // fetch message headers if message/rfc822 or named part
+                // fetch message headers if message, image or named part
                 if (is_array($part[$i]) && !is_array($part[$i][0])) {
                     $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
-                    if (strtolower($part[$i][0]) == 'message' && strtolower($part[$i][1]) == 'rfc822') {
-                        $mime_part_headers[] = $tmp_part_id;
-                    } elseif ($this->is_attachment_part($part[$i])) {
+                    if ($this->is_attachment_part($part[$i]) || $this->is_location_part($part[$i])) {
                         $mime_part_headers[] = $tmp_part_id;
                     }
                 }
@@ -2094,7 +2092,7 @@ class rcube_imap extends rcube_storage
                 }
                 $tmp_part_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
                 $struct->parts[] = $this->structure_part($part[$i], ++$count, $struct->mime_id,
-                    !empty($mime_part_headers[$tmp_part_id]) ? $mime_part_headers[$tmp_part_id] : null);
+                    $mime_part_headers[$tmp_part_id] ?? null);
             }
 
             return $struct;
@@ -2206,7 +2204,7 @@ class rcube_imap extends rcube_storage
 
                 $subpart_id = $struct->mime_id ? $struct->mime_id . '.' . ($i + 1) : strval($i + 1);
 
-                if ($this->is_attachment_part($part[8][$i])) {
+                if ($this->is_attachment_part($part[8][$i]) || $this->is_location_part($part[8][$i])) {
                     $mime_part_headers[] = $subpart_id;
                 }
 
@@ -2221,7 +2219,7 @@ class rcube_imap extends rcube_storage
             $count = 0;
             foreach ($struct->parts as $idx => $subpart) {
                 $struct->parts[$idx] = $this->structure_part($subpart, ++$count, $struct->mime_id,
-                    !empty($mime_part_headers[$idx]) ? $mime_part_headers[$idx] : null);
+                    $mime_part_headers[$idx] ?? null);
             }
 
             $struct->parts = array_values($struct->parts);
@@ -2238,13 +2236,7 @@ class rcube_imap extends rcube_storage
         }
 
         // fetch message headers if message/rfc822 or image or named part (could contain Content-Location header)
-        if (
-            empty($mime_headers)
-            && (
-                $struct->ctype_primary == 'message' || $struct->ctype_primary == 'image'
-                || (!empty($struct->ctype_parameters['name']) && !empty($struct->content_id))
-            )
-        ) {
+        if ($mime_headers === null && $this->is_location_part($part)) {
             $mime_headers = $this->conn->fetchPartHeader($this->folder, $this->msg_uid, true, $struct->mime_id);
         }
 
@@ -2299,6 +2291,38 @@ class rcube_imap extends rcube_storage
             // "Content-Type: PDF; name=test.pdf" may return text/plain and ignore name argument
             return count(array_intersect($params, $find)) > 0
                 || (isset($part[9]) && is_array($part[9]) && stripos($part[9][0], 'attachment') === 0);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if the mail structure part is a message, an image or a named part
+     * with a Content-ID, i.e. it could contain a Content-Location header,
+     * and requires fetching the MIME headers for further processing.
+     */
+    protected function is_location_part($part)
+    {
+        // Note: structure_part() takes a part with parameters at index 1 as a multipart
+        if (!is_string($part[0] ?? null) || is_array($part[1] ?? null)) {
+            return false;
+        }
+
+        $type = strtolower($part[0]);
+
+        if ($type == 'message' || $type == 'image') {
+            return true;
+        }
+
+        if (is_string($part[3] ?? null) && !empty(trim($part[3])) && is_array($part[2] ?? null)) {
+            $name = null;
+            for ($i = 0; $i < count($part[2]); $i += 2) {
+                if (is_string($part[2][$i]) && strtolower($part[2][$i]) == 'name') {
+                    $name = $part[2][$i + 1] ?? null;
+                }
+            }
+
+            return !empty($name);
         }
 
         return false;

@@ -1,0 +1,41 @@
+MIME-Version: 1.0
+From: <sender@example.net>
+To: <test-message-rendering@localhost>
+Date: Tue, 29 Sep 2026 10:00:00 +0000
+Message-ID: <inline-images-content-location@example.net>
+Subject: Inline images referred to by Content-Location
+Content-Type: multipart/related; boundary="related"
+
+--related
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html><body><p>Two images</p><img src="http://example.net/images/red.png"><img src="http://example.net/images/blue.png"></body></html>
+
+--related
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-ID: <red@example.net>
+Content-Location: http://example.net/images/red.png
+
+iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAIAAAAUMWhjAAAACXBIWXMAAAABAAAAAQBPJcTWAAAAMUlEQVR4nO3QwQkAAAzCQAvdf+NCR8jLX24Ahcyla8v78QCZCJkImQiZCJkImQjVEz2w0QFbHsx0egAAAABJRU5ErkJggg==
+
+--related
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-ID: <blue@example.net>
+Content-Location: http://example.net/images/blue.png
+
+iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAIAAAAUMWhjAAAACXBIWXMAAAABAAAAAQBPJcTWAAAANElEQVR4nGNkYPjHQEvAQlPTGUYtIAKMxgFBMBpEBMFoEBEEo0FEEIwGEUEwGkQEAc2DCAC37AFcLLJMSwAAAABJRU5ErkJggg==
+
+--related
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-ID: <green@example.net>
+Content-Disposition: inline;
+ filename*0*=utf-8''%C8%98ir%20lung%20de%20caractere%20;
+ filename*1*=%C3%AEn%20nume.png
+
+iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAIAAAAUMWhjAAAACXBIWXMAAAABAAAAAQBPJcTWAAAAMklEQVR4nO3RwQkAAAjDwAru7eqOkFd/uQEqxMmlarvz8QDzB8hEyETIRMhEyESonugBNsQA3X2gVggAAAAASUVORK5CYII=
+
+--related--
