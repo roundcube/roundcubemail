@@ -186,9 +186,6 @@ class rcmail_sendmail
             $message_id = $this->rcmail->gen_message_id($from);
         }
 
-        // Don't allow CRLF in subject (#8404)
-        $subject = trim(preg_replace('/[\r\n]+/', ' ', $subject));
-
         $this->options['dsn_enabled'] = $dsn_enabled;
         $this->options['keep_formatting_enabled'] = $keep_formatting_enabled;
         $this->options['from'] = $from;
@@ -214,7 +211,7 @@ class rcmail_sendmail
         ];
 
         if (!empty($identity_arr['organization'])) {
-            $headers['Organization'] = preg_replace('/[\r\n]+/', ' ', $identity_arr['organization']);
+            $headers['Organization'] = $identity_arr['organization'];
         }
 
         if ($mdn_enabled) {
@@ -263,6 +260,13 @@ class rcmail_sendmail
 
             if (!empty($draft_info)) {
                 $headers['X-Draft-Info'] = $this->draftinfo_encode($draft_info);
+            }
+        }
+
+        // For security reasons do not allow new-line characters in headers
+        foreach ($headers as $idx => $value) {
+            if (is_string($value)) {
+                $headers[$idx] = trim(preg_replace('/[\r\n\t\s]+/', ' ', $value));
             }
         }
 
@@ -700,7 +704,7 @@ class rcmail_sendmail
                 $hash = md5($data) . '@' . $domain;
                 $mime_type = $matches[2][$idx][0];
 
-                if (empty($mime_type)) {
+                if (empty($mime_type) || !rcube_mime::is_mimetype_valid($mime_type)) {
                     $mime_type = rcube_mime::image_content_type($data);
                 }
 

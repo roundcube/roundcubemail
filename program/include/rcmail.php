@@ -220,6 +220,9 @@ class rcmail extends rcube
      */
     public function action_handler()
     {
+        // CSRF prevention
+        $this->request_security_check();
+
         // we're ready, user is authenticated and the request is safe
         $plugin = $this->plugins->exec_hook('ready', ['task' => $this->task, 'action' => $this->action]);
 
@@ -235,11 +238,25 @@ class rcmail extends rcube
 
         $task = $this->action == 'save-pref' ? 'utils' : $this->task;
         $task = $task == 'addressbook' ? 'contacts' : $task;
-        $task_class = "rcmail_action_{$task}_index";
+
+        // check access to disabled actions
+        $disabled_actions = (array) $this->config->get('disabled_actions');
+        if (in_array($task . '.' . ($this->action ?: 'index'), $disabled_actions)) {
+            self::raise_error(['code' => 404, 'message' => 'Action disabled'], true, true);
+        }
 
         // execute the action index handler
+        $task_class = "rcmail_action_{$task}_index";
         if (class_exists($task_class)) {
             $task_handler = new $task_class();
+
+            // check access to disabled actions (resolve an alias)
+            if ($this->action && !empty($task_handler::$aliases[$this->action])) {
+                if (in_array($task . '.' . $task_handler::$aliases[$this->action], $disabled_actions)) {
+                    self::raise_error(['code' => 404, 'message' => 'Action disabled'], true, true);
+                }
+            }
+
             $task_handler->run();
         }
 
@@ -518,7 +535,7 @@ class rcmail extends rcube
             }
 
             if (!empty($additional)) {
-                ksort($additional, \SORT_LOCALE_STRING);
+                rcube_utils::ksort($additional);
                 $responses = array_merge(array_values($additional), $responses);
             }
         }
@@ -938,7 +955,7 @@ class rcmail extends rcube
     /**
      * Auto-select IMAP host based on the posted login information
      *
-     * @return string Selected IMAP host
+     * @return ?string Selected IMAP host
      */
     public function autoselect_host()
     {
@@ -973,9 +990,7 @@ class rcmail extends rcube
                 $key = key($default_host);
                 $host = is_numeric($key) ? $default_host[$key] : $key;
             }
-        } elseif (empty($default_host)) {
-            $host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
-        } else {
+        } elseif (!empty($default_host)) {
             $host = rcube_utils::parse_host($default_host);
         }
 

@@ -2347,6 +2347,10 @@ class rcube_imap_generic
             $flag = $this->flags[strtoupper($flag)];
         }
 
+        if (preg_match('/[\x00-\x20\x7f(){"*%]/', $flag)) {
+            return false;
+        }
+
         // if PERMANENTFLAGS is not specified all flags are allowed
         if (!empty($this->data['PERMANENTFLAGS'])
             && !in_array($flag, (array) $this->data['PERMANENTFLAGS'])
@@ -2812,6 +2816,25 @@ class rcube_imap_generic
         }
 
         $parts = (array) $parts;
+
+        if (empty($parts)) {
+            return [];
+        }
+
+        // Split a long request: RFC 7162 (Section 4) recommends command lines of at most
+        // about 8192 octets, Exchange refuses a command over 10240 bytes by default.
+        // An item takes up to 20 bytes plus its part identifier.
+        $limit = max(1, intdiv(8000, 20 + max(array_map('strlen', $parts))));
+
+        if (count($parts) > $limit) {
+            $result = [];
+            foreach (array_chunk($parts, $limit) as $chunk) {
+                $result += $this->fetchMIMEHeaders($mailbox, $uid, $chunk, $mime) ?: [];
+            }
+
+            return $result;
+        }
+
         $key = $this->nextTag();
         $peeks = [];
         $type = $mime ? 'MIME' : 'HEADER';
@@ -2837,6 +2860,14 @@ class rcube_imap_generic
                 $line = ltrim(substr($line, strlen($m[0])));
                 while (preg_match('/^\s*BODY\[([0-9\.]+)\.' . $type . '\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
+
+                    // an empty (or missing) section can be NIL or "", followed by the next item
+                    if (preg_match('/^\s*(NIL|"")/i', $line, $empty)) {
+                        $result[$matches[1]] = '';
+                        $line = substr($line, strlen($empty[0]));
+                        continue;
+                    }
+
                     $result[$matches[1]] = trim($this->multLine($line));
                     $line = $this->readLine(1024);
                 }

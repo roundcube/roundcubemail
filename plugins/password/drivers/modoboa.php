@@ -77,15 +77,27 @@ class rcube_modoboa_password
         }
 
         // Get user ID (pk)
-        $userid = $decoded[0]->pk;
+        $userid = null;
+        $user = null;
+        foreach ($decoded as $account) {
+            if (isset($account->username) && $account->username === $username) {
+                $userid = $account->pk;
+                $user = [
+                    'username' => $account->username,
+                    'mailbox' => $account->mailbox,
+                    'role' => $account->role,
+                ];
+                break;
+            }
+        }
+
+        if ($user === null) {
+            return PASSWORD_CONNECT_ERROR;
+        }
 
         // Encode json with new password
-        $options['body'] = json_encode([
-                'username' => $decoded[0]->username,
-                'mailbox' => $decoded[0]->mailbox,
-                'role' => $decoded[0]->role,
-                'password' => $passwd, // new password
-        ]);
+        $user['password'] = $passwd;
+        $options['body'] = json_encode($user);
 
         $url = "https://{$host}/api/v1/accounts/{$userid}/";
 

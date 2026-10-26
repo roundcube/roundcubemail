@@ -4,13 +4,43 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Drop support for IMAP host input on logon (#10315)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
+- Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
+- Enable PHP 8.6 support (#10368, #10362)
+- LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
+- Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
+- Fix TypeError when archiving all messages via select-all (#10107)
+- Fix temporary files permissions to 0600 (#10328)
+
+## Release 1.7.5
+
 - Installer: Add possibility to detsroy the installer session/cookie
 - Enigma: Fix db_sync() never restoring keyring files (#10343)
 - Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)
 - Password: Replace SQL query placeholders in a single pass (#10345)
 - Fix exit code of the healthcheck.sh script (#10337)
+- Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action [CVE-2026-113386]
+- Security: Fix bug where an alias login wasn't qualified by IMAP host [CVE-2026-114732]
+- Security: Add a size limit to the CSS proxy content processing [CVE-2026-114731]
+- Security: Fix SSRF filter (is_local_url()) bypass via NAT64 64:ff9b::/96 [CVE-2026-114730]
+- Security: Fix remote content blocking bypass via SVG SMIL `by` attribute [CVE-2026-114729]
+- Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again) [CVE-2026-114728]
+- Security: Fix passing potentally unsafe attachment content into ImageMagick on image resize [CVE-2026-114727]
+- Security: Fix mail header injection via the From display-name in the Bounce (resend) action [CVE-2026-114726]
+- Security: Fix mail header injection via References/In-Reply-To/Message-ID/From parameters [CVE-2026-114725]
+- Security: Fix object injection primitive in rcube_session::unserialize() via "!"-prefixed session keys [CVE-2026-114724]
+- Security: Fix ImageMagick resource limits bypass by GD fallback during thumbnail generation [CVE-2026-114723]
+- Security: Fix CSS scoping bypass in HTML messages using at-rules [CVE-2026-114722]
+- Security: Fix bug where deprecated action aliases bypassed `disabled_actions` setting [CVE-2026-114721]
+- Security: Fix IMAP command injection via CRLF in `_flag` parameter of mail/mark action [CVE-2026-114720]
+- Security: Fix CSRF validation bypass in the mark-as-junk action [CVE-2026-114719]
+- Security: Fix XSS issue in handling of password driver error responses [CVE-2026-114718]
+- Security: Fix mail header injection via subject of a message forwarded as attachment [CVE-2026-114717]
+- Security: Fix mail header injection via media type in an inline image data URI [CVE-2026-114716]
+- Security: Fix bug where Password Modoboa driver could change password for another account [CVE-2026-114715]
+- Security: Fix unsafe use of a login name in SquirrelMail import file path [CVE-2026-114714]
 
 ## Release 1.7.4
 

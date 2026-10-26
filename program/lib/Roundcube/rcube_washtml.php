@@ -52,7 +52,13 @@ use Masterminds\HTML5;
  */
 class rcube_washtml
 {
-    public const CSS_URL_REGEXP = '/(u|\\\0*75|\\\0*55)(r|\\\0*72|\\\0*52)(l|\\\0*6C|\\\0*4C)\(/i';
+    /**
+     * Matches the CSS url() token in text that has been normalised by
+     * self::css_unescape(). Kept simple on purpose: every escaped spelling is
+     * resolved before this pattern is applied, so it never has to enumerate
+     * escape variants.
+     */
+    public const CSS_URL_REGEXP = '/(u)(r)(l)\(/i';
 
     /**
      * @var array Allowed HTML elements (default)
@@ -306,7 +312,7 @@ class rcube_washtml
                 $out = null;
 
                 // in SVG to/from attribs may contain anything, including URIs
-                if ($key == 'to' || $key == 'from' || $key == 'values') {
+                if ($key == 'to' || $key == 'from' || $key == 'values' || $key == 'by') {
                     $key = strtolower((string) $node->getAttribute('attributeName'));
                     $key = trim(preg_replace('/^.*:/', '', $key));
                     if ($key && !isset($this->_html_attribs[$key])) {
@@ -319,6 +325,9 @@ class rcube_washtml
                 } elseif ($this->is_link_attribute($node->nodeName, $key)) {
                     $out = $this->wash_link($value);
                 } elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
+                    // Resolve CSS escapes before looking for the url() token, so
+                    // that no spelling of it has to be enumerated (#10325)
+                    $value = self::css_unescape($value);
                     if (preg_match(self::CSS_URL_REGEXP, $value, $m)) {
                         $value = preg_replace(self::CSS_URL_REGEXP, 'url(', $value);
                         if (preg_match('/^([a-z:]*url)\(\s*[\'"]?([^\'"\)]*)[\'"]?\s*\)?/iu', $value, $match)) {
@@ -553,8 +562,64 @@ class rcube_washtml
         }
 
         $rx = '/^(mask|cursor|fill|filter|stroke|clip-path|marker-start|marker-end|marker-mid)$/i';
-        return self::attribute_value($node, 'attributeName', $rx)
-            && self::attribute_value($node, 'values', self::CSS_URL_REGEXP);
+
+        if (!self::attribute_value($node, 'attributeName', $rx)) {
+            return false;
+        }
+
+        // SMIL takes its value from any of these attributes, so all of them have
+        // to be inspected, not just 'values'
+        foreach (['values', 'to', 'from', 'by'] as $attrib) {
+            $value = $node->getAttribute($attrib);
+            if ($value !== '' && preg_match(self::CSS_URL_REGEXP, self::css_unescape($value))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Resolve CSS escape sequences so that a value can be matched against a
+     * plain pattern.
+     *
+     * CSS Syntax Level 3 (4.3.7) defines two escape forms: a backslash followed
+     * by one to six hex digits, optionally terminated by a single whitespace
+     * character, and a backslash followed by any other character, which stands
+     * for that character literally. Both are resolved here, so "u\72 l(",
+     * "\000075rl(" and "u\rl(" all reduce to "url(".
+     *
+     * Resolving first and matching afterwards means the caller does not have to
+     * enumerate spellings, which is what previously allowed new variants to slip
+     * through one at a time.
+     *
+     * @param string $value CSS text
+     *
+     * @return string Text with escape sequences resolved
+     */
+    public static function css_unescape($value)
+    {
+        if (!str_contains((string) $value, '\\')) {
+            return (string) $value;
+        }
+
+        return preg_replace_callback(
+            '/\\\(?:([0-9a-fA-F]{1,6})[ \t\n\r\f]?|([^\n\r\f]))/',
+            static function ($m) {
+                if ($m[1] !== '') {
+                    $cp = hexdec($m[1]);
+                    // Null, out-of-range and surrogate code points become U+FFFD
+                    if ($cp === 0 || $cp > 0x10FFFF || ($cp >= 0xD800 && $cp <= 0xDFFF)) {
+                        return "\u{FFFD}";
+                    }
+
+                    return mb_chr($cp, 'UTF-8');
+                }
+
+                return $m[2];
+            },
+            (string) $value
+        );
     }
 
     /**

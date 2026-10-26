@@ -80,7 +80,7 @@ class rcube_directadmin_password
         }
 
         if (isset($response['error']) && $response['error'] == 1) {
-            return ['code' => PASSWORD_ERROR, 'message' => strip_tags($response['text'])];
+            return ['code' => PASSWORD_ERROR, 'message' => $response['text']];
         }
 
         return PASSWORD_SUCCESS;

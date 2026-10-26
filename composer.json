@@ -3,7 +3,7 @@
     "description": "The Roundcube Webmail suite",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": ">=8.1 <8.6",
+        "php": ">=8.1",
         "bacon/bacon-qr-code": "^3.0.0",
         "firebase/php-jwt": "^7.0",
         "guzzlehttp/guzzle": "^7.10.0",
@@ -27,7 +27,7 @@
         "ergebnis/phpunit-slow-test-detector": "^2.11",
         "friendsofphp/php-cs-fixer": "^3.8",
         "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan": "~2.2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpunit/phpunit": "^10.5.47 || ^11.0",

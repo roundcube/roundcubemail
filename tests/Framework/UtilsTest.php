@@ -12,6 +12,34 @@ use Roundcube\Tests\StderrMock;
 class UtilsTest extends TestCase
 {
     /**
+     * Test for rcube_utils::asort()
+     */
+    public function test_asort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = explode(',', 'b,ą,a,ó,o');
+        $expected = [2 => 'a', 1 => 'ą', 0 => 'b', 4 => 'o', 3 => 'ó'];
+
+        \rcube_utils::asort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
+     * Test for rcube_utils::ksort()
+     */
+    public function test_ksort()
+    {
+        ini_set('intl.default_locale', 'pl_PL');
+
+        $array = ['b' => 0, 'ą' => 1, 'a' => 2, 'ó' => 3, 'o' => 4];
+        $expected = ['a' => 2, 'ą' => 1, 'b' => 0, 'o' => 4, 'ó' => 3];
+
+        \rcube_utils::ksort($array);
+        $this->assertSame($expected, $array);
+    }
+
+    /**
      * Test for rcube_utils::date_format()
      */
     public function test_date_format()
@@ -427,6 +455,23 @@ class UtilsTest extends TestCase
         $this->assertSame('#rcmbody * { background-color: silver; }', $mod);
         $mod = \rcube_utils::mod_css_styles('//* test */* {background-color: silver;}', 'rcmbody', true);
         $this->assertSame('/* evil! */', $mod);
+
+        // CSS at-rules
+        $style = '@layer a; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a, b; div { display: none; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a, b; #rcmbody div { display: none; }', $mod);
+        $style = '@layer a { div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@layer a { #rcmbody div { display: none; } }', $mod);
+        $style = '@media screen { @layer a; div { display: none; } }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('@media screen { @layer a; #rcmbody div { display: none; } }', $mod);
+        $style = '::before { color: red; }';
+        $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);
+        $this->assertSame('#rcmbody ::before { color: red; }', $mod);
     }
 
     /**
@@ -739,6 +784,11 @@ class UtilsTest extends TestCase
             ['http://[::ffff:7f00:1]/', true],
             ['http://[0:0:0:0:0:ffff:7f00:1]/', true],
             ['http://[::ffff:a9fe:a9fe]/', true],
+            ['http://[::]/', true],
+            ['http://[64:ff9b::]/', true],
+            ['http://[64:ff9b:1::]/', true],
+            ['http://[64:ff9b::a9fe:a9fe]/', true],
+            ['http://[64:ff9b::7f00:1]/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],
@@ -1096,6 +1146,25 @@ class UtilsTest extends TestCase
             [['ldapi:///var/run/ldap.sock', 123, 123], ['ldapi:///var/run/ldap.sock', 'ldapi', -1]],
             [['ldapi://', 123, 123], ['ldapi://', 'ldapi', -1]],
         ];
+    }
+
+    /**
+     * Test temp_filename()
+     */
+    public function test_temp_filename()
+    {
+        if (\PHP_OS_FAMILY === 'Windows') {
+            $this->markTestSkipped('File permissions are not supported on Windows');
+        }
+
+        $umask = umask(0022);
+        $file = \rcube_utils::temp_filename('tests');
+        umask($umask);
+
+        $perms = sprintf('%o', fileperms($file) & 0777);
+        @unlink($file);
+
+        $this->assertSame('600', $perms);
     }
 
     /**
