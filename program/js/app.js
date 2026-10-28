@@ -6240,7 +6240,7 @@ function rcube_webmail() {
         }
 
         // display search results
-        var i, id, len, ul, text, type,
+        var i, id, len, ul, text, type, photo,
             is_framed = this.is_framed(),
             value = this.ksearch_value,
             maxlen = this.env.autocomplete_max ? this.env.autocomplete_max : 15;
@@ -6314,9 +6314,10 @@ function rcube_webmail() {
                 text = typeof results[i] === 'object' ? (results[i].display || results[i].name) : results[i];
                 fields = typeof results[i] === 'object' && results[i].fields ? results[i].fields : { name: text };
                 type = typeof results[i] === 'object' ? results[i].type : '';
+                photo = typeof results[i] === 'object' ? results[i].photo : null;
                 id = i + this.env.contacts.length;
                 $('<li>').attr({ id: 'rcmkSearchItem' + id, role: 'option' })
-                    .html(this.ksearch_results_display(fields, value))
+                    .html(this.ksearch_results_display(fields, value, photo))
                     .addClass(type || '')
                     .appendTo(ul)
                     .mouseover(function () {
@@ -6352,8 +6353,10 @@ function rcube_webmail() {
         }
     };
 
-    this.ksearch_results_display = function (fields, search_term) {
-        line = "<i class='icon'></i>{name} &lt;{email}&gt;";
+    this.ksearch_results_display = function (fields, search_term, photo) {
+        var icon = photo ? '<img class="icon contact-photo" src="' + this.quote_html(photo) + '" alt="" />' : "<i class='icon'></i>";
+
+        line = icon + '{name} &lt;{email}&gt;';
 
         $.each(fields, function (key, data) {
             line = line.replace('{' + key + '}', data ? ref.ksearch_results_highlight(data, search_term) : '');
