@@ -50,6 +50,8 @@ class MimeTest extends TestCase
             // invalid addr-spec (#8164)
             26 => '"Test.org"<test@domain.tld',
             27 => '<test@domain.tld',
+            28 => 'root@domain.tld (Cron Daemon)',
+            29 => 'root',
         ];
 
         $results = [
@@ -82,6 +84,8 @@ class MimeTest extends TestCase
             25 => [1, '', 'user@domain.tld'],
             26 => [1, 'Test.org', 'test@domain.tld'],
             27 => [1, '', 'test@domain.tld'],
+            28 => [1, '', 'root@domain.tld'],
+            29 => [1, '', 'root'],
         ];
 
         foreach ($headers as $idx => $header) {
@@ -90,6 +94,27 @@ class MimeTest extends TestCase
             $this->assertSame($results[$idx][0], count($res), 'Rows number in result for header: ' . $header);
             $this->assertSame($results[$idx][1], $res[1]['name'], 'Name part decoding for header: ' . $header);
             $this->assertSame($results[$idx][2], $res[1]['mailto'], 'Email part decoding for header: ' . $header);
+        }
+    }
+
+    /**
+     * Test decoding address comments when requested for display
+     * Uses rcube_mime::decode_address_list()
+     */
+    public function test_decode_address_comments_for_display()
+    {
+        $headers = [
+            'Test User (test@domain.tld) <list@domain.tld>' => 'Test User (test@domain.tld)',
+            'root@domain.tld (Cron Daemon)' => 'root@domain.tld (Cron Daemon)',
+            'Test User (via Test Mailing List) <list@domain.tld>' => 'Test User (via Test Mailing List)',
+            'Test User (via: Test, Mailing List) <list@domain.tld>' => 'Test User (via: Test, Mailing List)',
+            '"\\"test.user@domain.tld\\"" (via Test Mailing List) <test@domain.tld>' => '"\\"test.user@domain.tld\\"" (via Test Mailing List)',
+        ];
+
+        foreach ($headers as $header => $name) {
+            $res = \rcube_mime::decode_address_list($header, null, true, null, false, true);
+
+            $this->assertSame($name, $res[1]['name'], 'Name part with comments for header: ' . $header);
         }
     }
 
