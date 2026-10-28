@@ -1845,7 +1845,10 @@ class rcube_ldap extends rcube_addressbook
 
         if ($search) {
             foreach ($group_cache as $group) {
-                if ($this->compare_search_value('name', $group['name'], mb_strtolower($search), $mode)) {
+                if ($this->compare_search_value('name', $group['name'], mb_strtolower($search), $mode) || (
+                        array_key_exists('email', $group) &&
+                        $this->compare_search_value('email', $group['email'], mb_strtolower($search), $mode))
+                    ) {
                     $groups[] = $group;
                 }
             }
@@ -1927,7 +1930,8 @@ class rcube_ldap extends rcube_addressbook
                     $wp = '*';
                 }
             }
-            $filter = "(&{$filter}({$name_attr}={$wp}" . rcube_ldap_generic::quote_string($search) . "{$ws}))";
+            $filter = "(&{$filter}(|({$name_attr}={$wp}" . rcube_ldap_generic::quote_string($search) . "{$ws})" .
+                "({$email_attr}={$wp}" . rcube_ldap_generic::quote_string($search) . "{$ws})))";
             $props['search'] = $wp . $search . $ws;
         }
 
