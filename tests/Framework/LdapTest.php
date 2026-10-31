@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Roundcube\Tests\StderrMock;
 
@@ -79,5 +80,58 @@ class LdapTest extends TestCase
             $this->assertContains('memberURL', $attributes);
             $this->assertContains('uniqueMember', $attributes);
         }
+    }
+
+    /**
+     * Test the LDAP filter of an "All fields" search with the search_fields option (#10256)
+     *
+     * @dataProvider provide_search_all_fields_cases
+     */
+    #[DataProvider('provide_search_all_fields_cases')]
+    public function test_search_all_fields($search_fields, $expected)
+    {
+        if (!class_exists('Net_LDAP3')) {
+            $this->markTestSkipped('The Net_LDAP3 package not available.');
+        }
+
+        if (!extension_loaded('ldap')) {
+            $this->markTestSkipped('The ldap extension is not available.');
+        }
+
+        $config = [
+            'search_fields' => $search_fields,
+            'fieldmap' => [
+                'name' => 'cn',
+                'surname' => 'sn',
+                'firstname' => 'givenName',
+                'email' => 'mail:*',
+                'organization' => 'o',
+            ],
+        ];
+
+        StderrMock::start();
+        $object = new \rcube_ldap($config);
+        StderrMock::stop();
+
+        $object->search('*', 'john', \rcube_addressbook::SEARCH_STRICT, false);
+
+        $this->assertSame($expected, $object->get_search_set());
+    }
+
+    /**
+     * Data for test_search_all_fields()
+     */
+    public static function provide_search_all_fields_cases(): iterable
+    {
+        return [
+            // LDAP attribute names, as documented
+            [['mail', 'cn', 'o'], '(|(mail=john)(cn=john)(o=john))'],
+            // address book field names (fieldmap keys)
+            [['email', 'name', 'organization'], '(|(mail=john)(cn=john)(o=john))'],
+            // both, with an attribute that is not in the fieldmap
+            [['email', 'uid'], '(|(mail=john)(uid=john))'],
+            // not configured
+            [[], '(|(cn=john)(sn=john)(givenname=john)(mail=john))'],
+        ];
     }
 }
