@@ -13,6 +13,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
 - Fix TypeError when archiving all messages via select-all (#10107)
 - Fix temporary files permissions to 0600 (#10328)
+- Fix non-ASCII special folder names displayed in UTF7-IMAP encoding when real names are shown (#10375)
 
 ## Release 1.7.5
 
