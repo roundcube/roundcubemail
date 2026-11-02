@@ -6,6 +6,7 @@ class rcube_net_smtp extends \Net_SMTP
     public function __construct(...$args)
     {
         parent::__construct(...$args);
-        $this->socket = new rcube_net_socket();
+        // Net_SMTP's PHPDoc says resource, but its constructor stores a Net_Socket object.
+        $this->socket = new rcube_net_socket(); // @phpstan-ignore assign.propertyType
     }
 }

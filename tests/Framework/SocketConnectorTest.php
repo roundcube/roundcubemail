@@ -10,10 +10,10 @@ class SocketConnectorTest extends TestCase
     public function testSchedulingAndCleanup(): void
     {
         foreach ([
-            ['delayed-ipv6', [INF, 0.01], true, 0.26, 2],
+            ['delayed-ipv6', [\INF, 0.01], true, 0.26, 2],
             ['fast-ipv6', [0.01, 0.01], true, 0.01, 1],
             ['immediate-failure', [-1, 0.01], true, 0.01, 2],
-            ['overall-timeout', [INF, INF], false, 1.0, 2],
+            ['overall-timeout', [\INF, \INF], false, 1.0, 2],
         ] as [$label, $delays, $expected, $elapsed, $attempts]) {
             $connector = new SocketConnectorSimulator($delays);
             $stream = $connector->run();
@@ -81,11 +81,13 @@ class SocketConnectorSimulator extends \rcube_socket_connector
         return $this->race(['::1', '127.0.0.1'], 993, 1.0, [], $errno, $errstr);
     }
 
+    #[\Override]
     protected function now()
     {
         return $this->clock;
     }
 
+    #[\Override]
     protected function start($address, $port, array $options, &$errno, &$errstr)
     {
         $this->started[] = [$address, $this->clock];
@@ -95,6 +97,7 @@ class SocketConnectorSimulator extends \rcube_socket_connector
         return $stream;
     }
 
+    #[\Override]
     protected function ready(array $streams, $timeout)
     {
         $this->clock = min($this->clock + $timeout,
@@ -103,11 +106,13 @@ class SocketConnectorSimulator extends \rcube_socket_connector
             fn ($s) => $this->events[(int) $s][0] <= $this->clock));
     }
 
+    #[\Override]
     protected function complete($stream, &$errno)
     {
         return $this->events[(int) $stream][1];
     }
 
+    #[\Override]
     protected function close($stream)
     {
         $this->closed[] = (int) $stream;

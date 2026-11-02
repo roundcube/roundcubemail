@@ -14,7 +14,7 @@ class rcube_socket_connector
     private const ATTEMPT_DELAY = 0.250;
 
     /**
-     * @return resource|false|null Null means use the existing transport path.
+     * @return resource|false|null null means use the existing transport path
      */
     public function connect($host, $port, $timeout, array $options, &$errno, &$errstr)
     {
@@ -42,7 +42,7 @@ class rcube_socket_connector
         if ($timeout <= 0) {
             return null;
         }
-        $options['ssl']['peer_name'] = $options['ssl']['peer_name'] ?? $host;
+        $options['ssl']['peer_name'] ??= $host;
         $deadline = $this->now() + $timeout;
         $stream = $this->race(self::interleave($addresses), $port, $deadline, $options, $errno, $errstr);
         if (!$stream) {
@@ -53,7 +53,7 @@ class rcube_socket_connector
         $remaining = max(0.001, $deadline - $this->now());
         stream_set_timeout($stream, (int) $remaining, (int) (($remaining - (int) $remaining) * 1000000));
         if ($scheme === 'ssl') {
-            $method = $options['ssl']['crypto_method'] ?? STREAM_CRYPTO_METHOD_TLS_CLIENT;
+            $method = $options['ssl']['crypto_method'] ?? \STREAM_CRYPTO_METHOD_TLS_CLIENT;
             // Never select another address to work around a TLS failure.
             if (@stream_socket_enable_crypto($stream, true, $method) !== true) {
                 $this->close($stream);
@@ -69,11 +69,11 @@ class rcube_socket_connector
 
     protected function resolve($host, $port)
     {
-        if (filter_var($host, FILTER_VALIDATE_IP)) {
+        if (filter_var($host, \FILTER_VALIDATE_IP)) {
             return [$host];
         }
         $records = @socket_addrinfo_lookup($host, (string) $port, [
-            'ai_socktype' => SOCK_STREAM, 'ai_protocol' => getprotobyname('tcp'),
+            'ai_socktype' => \SOCK_STREAM, 'ai_protocol' => getprotobyname('tcp'),
         ]);
         $addresses = [];
         foreach ($records ?: [] as $record) {
@@ -92,10 +92,10 @@ class rcube_socket_connector
         if (!$addresses) {
             return [];
         }
-        $first = strpos($addresses[0], ':') !== false;
+        $first = str_contains($addresses[0], ':');
         $groups = [[], []];
         foreach ($addresses as $address) {
-            $groups[(strpos($address, ':') !== false) === $first ? 0 : 1][] = $address;
+            $groups[str_contains($address, ':') === $first ? 0 : 1][] = $address;
         }
         $ordered = [];
         while ($groups[0] || $groups[1]) {
@@ -152,9 +152,9 @@ class rcube_socket_connector
 
     protected function start($address, $port, array $options, &$errno, &$errstr)
     {
-        $address = strpos($address, ':') !== false ? '[' . $address . ']' : $address;
+        $address = str_contains($address, ':') ? '[' . $address . ']' : $address;
         $stream = @stream_socket_client('tcp://' . $address . ':' . $port, $errno, $errstr, 0,
-            STREAM_CLIENT_CONNECT | STREAM_CLIENT_ASYNC_CONNECT, stream_context_create($options));
+            \STREAM_CLIENT_CONNECT | \STREAM_CLIENT_ASYNC_CONNECT, stream_context_create($options));
         if ($stream) {
             stream_set_blocking($stream, false);
         }
@@ -167,7 +167,7 @@ class rcube_socket_connector
         $except = $streams;
         $seconds = (int) $timeout;
         $count = @stream_select($read, $streams, $except, $seconds, (int) (($timeout - $seconds) * 1000000));
-        return $count === false ? false : array_unique(array_merge($streams, $except), SORT_REGULAR);
+        return $count === false ? false : array_unique(array_merge($streams, $except), \SORT_REGULAR);
     }
 
     protected function complete($stream, &$errno)
@@ -176,7 +176,7 @@ class rcube_socket_connector
         if (!$socket) {
             return false;
         }
-        $errno = socket_get_option($socket, SOL_SOCKET, SO_ERROR);
+        $errno = socket_get_option($socket, \SOL_SOCKET, \SO_ERROR);
         return $errno === 0 && @stream_socket_get_name($stream, true) !== false;
     }
 
