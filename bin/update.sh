@@ -40,6 +40,8 @@ if (empty($opts['version'])) {
 $RCI = rcmail_install::get_instance();
 $RCI->load_config();
 
+$failed = false;
+
 if ($RCI->configured) {
     $success = true;
 
@@ -168,7 +170,10 @@ if ($RCI->configured) {
     // check database schema
     if (!empty($RCI->config['db_dsnw'])) {
         echo "Executing database schema update.\n";
-        $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true]);
+        if (!rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true])) {
+            $success = false;
+            $failed = true;
+        }
     }
 
     // update composer dependencies
@@ -255,7 +260,10 @@ if ($RCI->configured) {
 
         // write updated composer.json back to disk
         if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
-            $success &= (bool) file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
+            if (!file_put_contents(INSTALL_PATH . 'composer.json', $composer_json)) {
+                $success = false;
+                $failed = true;
+            }
         } else {
             echo "WARNING: unable to update composer.json!\n";
             echo "Please, copy 'version' and 'autoload' sections from composer.json-dist\n";
@@ -276,6 +284,10 @@ if ($RCI->configured) {
             if ($composer_bin = find_composer()) {
                 echo 'Executing ' . $composer_bin . " to update dependencies...\n";
                 echo system("{$composer_bin} update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
+
+                if ($exit_code != 0) {
+                    $failed = true;
+                }
             }
             if ($exit_code != 0) {
                 echo "-----------------------------------------------------------------------------\n";
@@ -298,6 +310,9 @@ if ($RCI->configured) {
     echo "This instance of Roundcube is not yet configured!\n";
     echo "Open http://url-to-roundcube/installer.php in your browser and follow the instructions.\n";
 }
+
+// Exit with a non-zero status on failure, so automated deployments can detect it (#10326)
+exit($failed ? 1 : 0);
 
 function repo_key($repo)
 {

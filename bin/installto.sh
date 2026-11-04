@@ -27,6 +27,16 @@ if (!function_exists('system')) {
     rcube::raise_error('PHP system() function is required. Check disable_functions in php.ini.', false, true);
 }
 
+/**
+ * Execute a shell command, abort with a non-zero exit status on failure
+ */
+function run_command($command)
+{
+    if (system($command, $ret) === false || $ret > 0) {
+        rcube::raise_error("Failed to execute command: {$command}", false, true);
+    }
+}
+
 $target_dir = unslashify(end($_SERVER['argv']));
 $accept = in_array('-y', $_SERVER['argv']) ? 'y' : null;
 
@@ -76,11 +86,8 @@ if (strtolower($input) == 'y') {
     foreach ($dirs as $dir) {
         // @FIXME: should we use --delete for all directories?
         $delete = in_array($dir, ['program', 'vendor', 'installer']) ? '--delete ' : '';
-        $command = 'rsync -aC --out-format=%n ' . $delete . INSTALL_PATH . "{$dir}/ {$target_dir}/{$dir}/";
-
-        if (system($command, $ret) === false || $ret > 0) {
-            rcube::raise_error("Failed to execute command: {$command}", false, true);
-        }
+        run_command('rsync -aC --out-format=%n ' . $delete
+            . escapeshellarg(INSTALL_PATH . "{$dir}/") . ' ' . escapeshellarg("{$target_dir}/{$dir}/"));
     }
 
     $files = [
@@ -96,10 +103,9 @@ if (strtolower($input) == 'y') {
     ];
 
     foreach ($files as $file) {
-        $command = 'rsync -a --out-format=%n ' . INSTALL_PATH . "{$file} {$target_dir}/{$file}";
-
-        if (file_exists(INSTALL_PATH . $file) && (system($command, $ret) === false || $ret > 0)) {
-            rcube::raise_error("Failed to execute command: {$command}", false, true);
+        if (file_exists(INSTALL_PATH . $file)) {
+            run_command('rsync -a --out-format=%n '
+                . escapeshellarg(INSTALL_PATH . $file) . ' ' . escapeshellarg("{$target_dir}/{$file}"));
         }
     }
 
@@ -146,11 +152,12 @@ if (strtolower($input) == 'y') {
 
     if (is_dir("{$target_dir}/skins/default")) {
         echo 'Removing old default skin...';
-        system("rm -rf {$target_dir}/skins/default {$target_dir}/plugins/jqueryui/themes/default");
+        run_command('rm -rf ' . escapeshellarg("{$target_dir}/skins/default")
+            . ' ' . escapeshellarg("{$target_dir}/plugins/jqueryui/themes/default"));
         foreach (glob(INSTALL_PATH . 'plugins/*/skins') as $plugin_skin_dir) {
             $plugin_skin_dir = preg_replace('!^.*' . INSTALL_PATH . '!', '', $plugin_skin_dir);
             if (is_dir("{$target_dir}/{$plugin_skin_dir}/classic")) {
-                system("rm -rf {$target_dir}/{$plugin_skin_dir}/default");
+                run_command('rm -rf ' . escapeshellarg("{$target_dir}/{$plugin_skin_dir}/default"));
             }
         }
         echo "done.\n\n";
@@ -169,7 +176,8 @@ if (strtolower($input) == 'y') {
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
             echo 'Installing JavaScript dependencies...';
-            system("cd {$target_dir} && " . \PHP_BINARY . ' bin/install-jsdeps.sh');
+            run_command('cd ' . escapeshellarg($target_dir) . ' && '
+                . escapeshellarg(\PHP_BINARY) . ' bin/install-jsdeps.sh');
             echo "done.\n\n";
         }
     }
@@ -179,7 +187,14 @@ if (strtolower($input) == 'y') {
     }
 
     echo "Running update script at target...\n";
-    system("cd {$target_dir} && " . \PHP_BINARY . " bin/update.sh --version={$oldversion}" . ($accept ? ' -y' : ''));
+    system('cd ' . escapeshellarg($target_dir) . ' && ' . escapeshellarg(\PHP_BINARY)
+        . ' bin/update.sh ' . escapeshellarg("--version={$oldversion}") . ($accept ? ' -y' : ''), $ret);
+
+    if ($ret !== 0) {
+        echo "Update script failed with exit status {$ret}.\n";
+        exit(1);
+    }
+
     echo "All done.\n";
 } else {
     echo "Update cancelled. See ya!\n";
