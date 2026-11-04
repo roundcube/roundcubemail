@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -121,6 +122,120 @@ class ImapGenericTest extends TestCase
 
         $result = \rcube_imap_generic::tokenizeResponse($response, 1);
         $this->assertSame(['item1', 'item2'], $result);
+    }
+
+    /**
+     * Test for fetchMIMEHeaders() splitting a long request
+     *
+     * @dataProvider provide_fetchMIMEHeaders_cases
+     */
+    #[DataProvider('provide_fetchMIMEHeaders_cases')]
+    public function test_fetchMIMEHeaders($parts)
+    {
+        // A connection that records the commands and answers each part with a header of its own,
+        // except the parts in $missing, which it leaves out
+        $conn = new class extends \rcube_imap_generic {
+            public $commands = [];
+            public $response = [];
+            public $missing = [];
+
+            /**
+             * @return int
+             */
+            #[\Override]
+            protected function putLine($string, $endln = true, $anonymized = false)
+            {
+                $this->commands[] = $string;
+
+                preg_match_all('/BODY\.PEEK\[([0-9.]+)\.MIME\]/', $string, $matches);
+                $prefix = '* 1 FETCH (UID 10 ';
+                foreach (array_diff($matches[1], $this->missing) as $part) {
+                    $this->response[] = "{$prefix}BODY[{$part}.MIME] X-Part: {$part}\r\n";
+                    $prefix = ' ';
+                }
+                $this->response[] = ")\r\n";
+
+                return strlen($string);
+            }
+
+            #[\Override]
+            protected function readLine($size = 1024)
+            {
+                return (string) array_shift($this->response);
+            }
+        };
+        $conn->selected = 'INBOX';
+        $conn->missing = array_slice($parts, 1, 1);
+
+        $result = $conn->fetchMIMEHeaders('INBOX', 10, $parts);
+
+        // every command stays within the length RFC 7162 recommends, and each part is asked for once
+        $requested = [];
+        foreach ($conn->commands as $command) {
+            $this->assertLessThanOrEqual(8192, strlen($command));
+            preg_match_all('/BODY\.PEEK\[([0-9.]+)\.MIME\]/', $command, $matches);
+            $requested = array_merge($requested, $matches[1]);
+        }
+        $this->assertSame(array_map('strval', $parts), $requested);
+
+        // every part gets its own headers, and the parts left out get none
+        $expected = array_combine($parts, array_map(static fn ($id) => "X-Part: {$id}", $parts));
+        $this->assertSame(array_diff_key($expected, array_flip($conn->missing)), $result);
+    }
+
+    /**
+     * Data for test_fetchMIMEHeaders(): part identifiers
+     */
+    public static function provide_fetchMIMEHeaders_cases(): iterable
+    {
+        return [
+            'no parts' => [[]],
+            'many parts' => [range(1, 1000)],
+            'deep parts' => [array_map(static fn ($i) => str_repeat('1.', 20) . $i, range(1, 200))],
+        ];
+    }
+
+    /**
+     * Test for fetchMIMEHeaders() with empty sections, answered as "" or NIL (e.g. Cyrus)
+     */
+    public function test_fetchMIMEHeaders_empty()
+    {
+        $conn = new class extends \rcube_imap_generic {
+            public $response = [
+                "* 1 FETCH (UID 10 BODY[1.MIME] \"\" BODY[2.MIME] {11}\r\n",
+                "X-Part: 2\r\n",
+                " BODY[3.MIME] NIL BODY[4.MIME] {11}\r\n",
+                "X-Part: 4\r\n",
+                ")\r\n",
+                "A0001 OK Completed\r\n",
+            ];
+
+            /**
+             * @return int
+             */
+            #[\Override]
+            protected function putLine($string, $endln = true, $anonymized = false)
+            {
+                return strlen($string);
+            }
+
+            #[\Override]
+            protected function readLine($size = 1024)
+            {
+                return (string) array_shift($this->response);
+            }
+
+            #[\Override]
+            protected function readBytes($bytes)
+            {
+                return (string) array_shift($this->response);
+            }
+        };
+        $conn->selected = 'INBOX';
+
+        $result = $conn->fetchMIMEHeaders('INBOX', 10, [1, 2, 3, 4]);
+
+        $this->assertSame(['1' => '', '2' => 'X-Part: 2', '3' => '', '4' => 'X-Part: 4'], $result);
     }
 
     /**

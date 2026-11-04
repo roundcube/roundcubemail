@@ -145,7 +145,8 @@ class rcube_image
             if ($scale >= 1 && $p['intype'] == $type) {
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
             } else {
-                $valid_types = 'bmp,eps,gif,jp2,jpg,png,svg,tif';
+                // Note: We don't support types like svg or eps for security reasons
+                $valid_types = 'bmp,gif,jp2,jpg,png,tif';
 
                 if (in_array($type, explode(',', $valid_types))) { // Valid type?
                     if ($scale >= 1) {
@@ -192,6 +193,14 @@ class rcube_image
                                 $result = '';
                             }
                         } catch (\Exception $e) {
+                            // Free resources
+                            if (!empty($image)) {
+                                try {
+                                    $image->clear();
+                                } catch (\Exception $e) {
+                                    // Ignore errors
+                                }
+                            }
                             rcube::raise_error($e, true, false);
                         }
                     }
@@ -351,6 +360,14 @@ class rcube_image
                     return true;
                 }
             } catch (\Exception $e) {
+                // Free resources
+                if (!empty($image)) {
+                    try {
+                        $image->clear();
+                    } catch (\Exception $e) {
+                        // Ignore errors
+                    }
+                }
                 rcube::raise_error($e, true, false);
             }
         }
@@ -359,7 +376,7 @@ class rcube_image
         $props = $this->props();
 
         // do we have enough memory? (#1489937)
-        if (strtoupper(substr(\PHP_OS, 0, 3)) == 'WIN' && !$this->mem_check($props)) {
+        if (!$this->mem_check($props)) {
             return false;
         }
 

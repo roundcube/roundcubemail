@@ -71,7 +71,7 @@ class rcmail_action_mail_search_contacts extends rcmail_action_mail_list_contact
         $group_count = count($jsresult);
 
         // sort the records
-        ksort($records, \SORT_LOCALE_STRING);
+        rcube_utils::ksort($records);
 
         // create resultset object
         $count = count($records);

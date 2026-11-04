@@ -127,7 +127,7 @@ class acl extends rcube_plugin
 
         if (count($users)) {
             // sort users index
-            asort($keys, \SORT_LOCALE_STRING);
+            rcube_utils::asort($keys);
             // re-sort users according to index
             foreach ($keys as $idx => $val) {
                 $keys[$idx] = $users[$idx];

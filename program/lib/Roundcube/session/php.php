@@ -81,8 +81,11 @@ class rcube_session_php extends rcube_session
     #[\Override]
     public function write_close()
     {
+        // Do not set a modification-time variable here. It is not read anywhere,
+        // and changing session data on every request defeats session.lazy_write,
+        // forcing a storage write per request. Session keep-alive is handled by
+        // PHP natively via the save handler's updateTimestamp().
         $_SESSION['__IP'] = $this->ip;
-        $_SESSION['__MTIME'] = time();
 
         parent::write_close();
     }

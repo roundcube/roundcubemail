@@ -31,7 +31,7 @@ class rcube_tinycp_password
 {
     public function save($currpass, $newpass, $username)
     {
-        require_once __DIR__ . '/TinyCPConnector.php';
+        require_once __DIR__ . '/TinyCPConnector.php'; // @phpstan-ignore-line
 
         $tinycp_host = rcmail::get_instance()->config->get('password_tinycp_host');
         $tinycp_port = rcmail::get_instance()->config->get('password_tinycp_port');

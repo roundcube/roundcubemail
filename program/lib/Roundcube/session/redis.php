@@ -152,7 +152,7 @@ class rcube_session_redis extends rcube_session
     {
         $ts = microtime(true);
 
-        if ($newvars !== $oldvars || $this->expires_at - $ts > $this->lifetime / 3) {
+        if ($newvars !== $oldvars || $this->expires_at - $ts < $this->lifetime / 2) {
             $data = serialize(['expires_at' => time() + $this->lifetime, 'ip' => $this->ip, 'vars' => $newvars]);
             $result = false;
 

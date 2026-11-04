@@ -997,7 +997,7 @@ class rcube_contacts extends rcube_addressbook
     }
 
     /**
-     * Add the given contact records the a certain group
+     * Add the given contact records to a certain group
      *
      * @param string       $group_id Group identifier
      * @param array|string $ids      List of contact identifiers to be added
@@ -1011,25 +1011,31 @@ class rcube_contacts extends rcube_addressbook
             $ids = explode(self::SEPARATOR, $ids);
         }
 
-        $added = 0;
-        $exists = [];
+        // Validate that the group belongs to the current user
+        if (empty($ids) || !$this->get_group($group_id)) {
+            return 0;
+        }
 
-        // get existing assignments ...
+        $added = 0;
+        $contacts = [];
+
+        // Validate that the requested contacts belong to the current user
+        // and get the ones that are not yet assigned to the group
         $sql_result = $this->db->query(
-            'SELECT `contact_id` FROM ' . $this->db->table_name($this->db_groupmembers, true)
-            . ' WHERE `contactgroup_id` = ?'
-                . ' AND `contact_id` IN (' . $this->db->array2list($ids, 'integer') . ')',
-            $group_id
+            'SELECT c.`contact_id` FROM ' . $this->db->table_name($this->db_name, true) . ' AS c'
+            . ' LEFT JOIN ' . $this->db->table_name($this->db_groupmembers, true) . ' AS gm'
+                . ' ON (c.`contact_id` = gm.`contact_id` AND gm.`contactgroup_id` = ?)'
+            . ' WHERE c.`contact_id` IN (' . $this->db->array2list($ids, 'integer') . ')'
+            . ' AND c.`user_id` = ?'
+            . ' AND gm.`contact_id` IS NULL',
+            $group_id, $this->user_id
         );
 
         while ($sql_result && ($sql_arr = $this->db->fetch_assoc($sql_result))) {
-            $exists[] = $sql_arr['contact_id'];
+            $contacts[] = $sql_arr['contact_id'];
         }
 
-        // ... and remove them from the list
-        $ids = array_diff($ids, $exists);
-
-        foreach ($ids as $contact_id) {
+        foreach ($contacts as $contact_id) {
             $this->db->query(
                 'INSERT INTO ' . $this->db->table_name($this->db_groupmembers, true)
                 . ' (`contactgroup_id`, `contact_id`, `created`)'
@@ -1061,6 +1067,11 @@ class rcube_contacts extends rcube_addressbook
     {
         if (!is_array($ids)) {
             $ids = explode(self::SEPARATOR, $ids);
+        }
+
+        // Validate that the group belongs to the current user
+        if (empty($ids) || !$this->get_group($group_id)) {
+            return 0;
         }
 
         $ids = $this->db->array2list($ids, 'integer');

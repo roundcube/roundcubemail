@@ -4,25 +4,141 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
-- Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
-- Fix so "has:attachment" search uses $HasAttachment/$HasNoAttachment keywords (#10168)
+- Drop support for IMAP host input on logon (#10315)
+- Preserve the original message date on import of EML messages (#5559, #10251)
+- OAuth: Validate JWT token signature (#10210)
+- Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
+- Enable PHP 8.6 support (#10368, #10362)
+- LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
+- Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
+- Fix TypeError when archiving all messages via select-all (#10107)
+- Fix temporary files permissions to 0600 (#10328)
 
-## 1.7.0
+## Release 1.7.5
+
+- Installer: Add possibility to detsroy the installer session/cookie
+- Enigma: Fix db_sync() never restoring keyring files (#10343)
+- Markasjunk: Skip messages whose %s/%h values start with '-' (#10344)
+- Password: Replace SQL query placeholders in a single pass (#10345)
+- Fix exit code of the healthcheck.sh script (#10337)
+- Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action [CVE-2026-113386]
+- Security: Fix bug where an alias login wasn't qualified by IMAP host [CVE-2026-114732]
+- Security: Add a size limit to the CSS proxy content processing [CVE-2026-114731]
+- Security: Fix SSRF filter (is_local_url()) bypass via NAT64 64:ff9b::/96 [CVE-2026-114730]
+- Security: Fix remote content blocking bypass via SVG SMIL `by` attribute [CVE-2026-114729]
+- Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes (again) [CVE-2026-114728]
+- Security: Fix passing potentally unsafe attachment content into ImageMagick on image resize [CVE-2026-114727]
+- Security: Fix mail header injection via the From display-name in the Bounce (resend) action [CVE-2026-114726]
+- Security: Fix mail header injection via References/In-Reply-To/Message-ID/From parameters [CVE-2026-114725]
+- Security: Fix object injection primitive in rcube_session::unserialize() via "!"-prefixed session keys [CVE-2026-114724]
+- Security: Fix ImageMagick resource limits bypass by GD fallback during thumbnail generation [CVE-2026-114723]
+- Security: Fix CSS scoping bypass in HTML messages using at-rules [CVE-2026-114722]
+- Security: Fix bug where deprecated action aliases bypassed `disabled_actions` setting [CVE-2026-114721]
+- Security: Fix IMAP command injection via CRLF in `_flag` parameter of mail/mark action [CVE-2026-114720]
+- Security: Fix CSRF validation bypass in the mark-as-junk action [CVE-2026-114719]
+- Security: Fix XSS issue in handling of password driver error responses [CVE-2026-114718]
+- Security: Fix mail header injection via subject of a message forwarded as attachment [CVE-2026-114717]
+- Security: Fix mail header injection via media type in an inline image data URI [CVE-2026-114716]
+- Security: Fix bug where Password Modoboa driver could change password for another account [CVE-2026-114715]
+- Security: Fix unsafe use of a login name in SquirrelMail import file path [CVE-2026-114714]
+
+## Release 1.7.4
+
+- Use `X-Content-Type-Options:nosniff` for attachment previews and downloads (#10308)
+- zipdownload: Fix attachment filename sanitisation of backslash and control characters (#10325)
+- Security: Fix CSS declaration smuggling via un-encoded ampersand emission
+- Security: Fix CSS property injection via body `background` attribute
+- Security: Fix email header injection via bare CR in the subject field
+- Security: Fix email header injection via C-escape \r in the recipient display name
+- Security: Fix email header injection via identity's organization field
+- Security: Fix zero-click stored XSS via TNEF MIME tag injection in the attachment URL
+- Security: Fix XSS in the HTML editor using text/enriched part content
+- Security: Fix cross-user access in contact group membership (add/remove) in the SQL address book
+- Security: Fix is_local_url() bypass via trailing-dot FQDN in stylesheet URL
+- Security: Fix remote content blocking bypass via CSS escapes in FuncIRI attributes
+- Security: Fix remote-content blocker bypass via SVG SMIL src animation
+- Security: Fix SSRF bypass in Roundcube CSS proxy via hexadecimal IPv6-mapped IPv4 addresses
+
+## Release 1.7.3
+
+- OAuth: Don't log an error when a refreshed token's TTL is below refresh_interval (#10213)
+- Fix out-of-bounds string reads on truncated compressed-RTF in the TNEF decoder (#10269)
+- Fix bug where searching in example_addressbook plugin was reporting zero results despite matches (#9022)
+- Fix vCard import mis-detecting folded continuation lines as BEGIN/END:VCARD (#9593)
+- Fix bug where the php session driver practically disabled session.lazy_write optimization (#9885, #10248)
+- Fix bug where dates could get displayed shifted back one day in some places (#9403)
+- Fix regression where it wasn't possible to hide a skin logo image anymore (#10254)
+- Fix decoding of multi-segment RFC2231 extended attachment filenames (#10268)
+- Fix vCard import silently dropping properties with a non-item group prefix (#10271)
+- Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is empty in static.php (#10181)
+- Security: Add basic validation for content proxied by the css proxy [CVE-2026-74998]
+- Security: Fix SSRF bypass via specific local address URLs using 100.64.0.0/10 and fe80::/10 nets [CVE-2026-75006]
+- Security: Fix SSRF filter bypass via various forms of nip.io/sslip.io hostnames evading is_local_url() check [CVE-2026-75006]
+- Security: Fix remote content blocking bypass via unclosed url() in a FuncIRI attribute [CVE-2026-75003]
+- Security: Fix LDAP filter injection via unescaped %u/%fu/%d substitution into the `search_filter` [CVE-2026-75007]
+- Security: Fix arbitrary Sieve script injection via a filter rule name bypassing `managesieve_disabled_actions` [CVE-2026-75004]
+- Security: Fix RCE via `cmd_learn` driver of markasjunk plugin [CVE-2026-74997]
+- Security: Fix IMAP command injection via mail search and LITERAL+ byte-count desynchronization [CVE-2026-75002]
+- Security: Fix password's modoboa driver leak of an authentication token to a user-controlled host [CVE-2026-75010]
+- Security: Fix stored XSS in "Add to address book" action [CVE-2026-74999]
+- Security: Fix HTML/CSS sanitization bypass via SVG animate `by` attribute [CVE-2026-75000]
+
+## Release 1.7.2
+
+- Add HEAD request handler to the `static.php`
+- Fix so the `oauth_password_claim` claim is retrieved via token or userinfo request (#9631)
+- Fix bug where `static.php` would return a 416 error on a specific `Range` request (#10194)
+- Fix bug where configured skin logo wasn't loaded via `static.php` resulting in 404 error (#10191)
+- Fix bug where installto.sh would fail if public_html folder does not exist in the target directory (#10202)
+- Revert "Prefer 8bit over quoted-printable for HTML parts, when force_7bit is disabled (#8477)" (#10198)
+- Fix incorrect unfolding of folded lines when importing vCard 2.1 contacts (#9647)
+- Fix bug where Imagick could leave large temporary files on failure (#10230)
+- Fix bug where redis/memcache session could have been updated more often than needed
+- Fix support for untyped tokens in OIDC backchannel logout, require unset `nonce` (#10097)
+- Security: Fix an infinite loop in TNEF (winmail.dat) decoder (#10193) [CVE-2026-62642]
+- Security: Fix various vulnerabilities in the password plugin using session-injected username [CVE-2026-62644]
+- Security: Fix stored XSS via unescaped attachment MIME type on the attachment-validation warning page [CVE-2026-54432]
+- Security: Fix SSRF bypass via specific local address URLs - two new cases [CVE-2026-62643]
+- Security: Fix zero-click stored XSS in plain-text rendering [CVE-2026-54433]
+- Security: Fix DoS via crafted compressed-RTF size in the TNEF (winmail.dat) file [CVE-2026-62641]
+
+## Release 1.7.1
+
+- Enigma: Support automatic public key lookup (import) using HKP v1 protocol (#5314)
+- Managesieve: Fix error when a mail message contains duplicate List-Id header (#10186)
+- Clarified Elastic installation instructions (#10163)
+- Fix so "has:attachment" search uses $HasAttachment/$HasNoAttachment keywords (#10168)
+- Fix potential too long value in IMAP ID command (#10136)
+- Fix redis/memcache disconnection in rcube::sleep() (#10127)
+- Fix so static resources, e.g. skin_logo can be put inside the public_html directory (#10160)
+- Fix so `REQUEST_URI` is used as a fallback if `PATH_INFO` is not set in static.php (#10181)
+- Fix `assets_path` feature and remove dependency on `PATH_INFO` (#10185)
+- Fix MySQL upgrade on MySQL < 8.0 and MariaDB < 10.5.3 (#10188)
+- Security: Fix stored XSS/HTML/CSS injection in subject field of the draft restore dialog [CVE-2026-48849]
+- Security: Fix CSS injection bypass in HTML sanitizer via SVG `<animate attributeName="style">` [CVE-2026-48848]
+- Security: Fix pre-auth SQL injection in `virtuser_query` plugin via preg_replace backslash escape bypass [CVE-2026-48842]
+- Security: Fix SSRF bypass via specific local address URLs [CVE-2026-48843]
+- Security: Fix bypass of remote image blocking via CSS var() [CVE-2026-48846]
+- Security: Fix local/private URL fetch bypass when remote resources were not allowed [CVE-2026-48845]
+- Security: Fix pre-auth arbitrary file delete via redis/memcache session poisoning bypass [CVE-2026-48847]
+- Security: Fix code injection vulnerability - remove support for code evaluation in LDAP `autovalues` option [CVE-2026-48844]
+
+## Release 1.7.0
 
 - Bump OpenPGPjs version to 6.3.0
 - Allow cidr (subnets) in proxy_whitelist (#7103)
 - Zipdownload: Fix message date time zone in mbox export (#10147)
 
-## 1.7-rc6
+## Release 1.7-rc6
 
 - Added support for arrays in `smtp_user` and `smtp_pass` config options (#10083)
 - Added system health checker CLI script (#10106)
 - Stricter recognition of an Ajax request (#10118)
 - Password: Added Stalwart driver (#10114)
 - Fix regression where some data url images could get ignored/lost (#10128)
-- Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
+- Security: Fix SVG Animate FUNCIRI Attribute Bypass — Remote Image Loading via fill/filter/stroke [CVE-2026-35545]
 
-## 1.7-rc5
+## Release 1.7-rc5
 
 - Password: Add nt-binary hashing method (#10096)
 - Fix URL matching for domain names with port numbers (#10105)
@@ -38,12 +154,12 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix XSS issue in a HTML attachment preview [CVE-2026-35539]
 - Security: Fix SSRF + Information Disclosure via stylesheet links to a local network hosts [CVE-2026-35540]
 
-## 1.7-rc4
+## Release 1.7-rc4
 
 - Ensure correct file permissions when building a release.
 - Installer: Fix broken link to download the created configuration file (#10092)
 
-## 1.7-rc3
+## Release 1.7-rc3
 
 - Support `request_url` config option for resolving relative URLs (#9868)
 - Support X-Forwarded-Host/X-Forwarded-Port in self URLs generation (#9952)
@@ -54,17 +170,17 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Password: Extend Dovecot passwdfile driver with dynamic file path support (#10036)
 - Fix a UI issue on using browser Back button after allowing remote resources (#10062)
 - Fix syntax error in DDL scripts for Postgres (#10070)
-- Fix remote image blocking bypass via SVG content reported by nullcathedral [CVE-2026-25916]
-- Fix CSS injection vulnerability reported by CERT Polska [CVE-2026-26079]
+- Security: Fix remote image blocking bypass via SVG content reported by nullcathedral [CVE-2026-25916]
+- Security: Fix CSS injection vulnerability reported by CERT Polska [CVE-2026-26079]
 
-## 1.7-rc2
+## Release 1.7-rc2
 
 - Fix syntax error in DDL scripts for Postgres (#10052)
-- Fix Cross-Site-Scripting vulnerability via SVG's animate tag [CVE-2025-68461]
-- Fix Information Disclosure vulnerability in the HTML style sanitizer [CVE-2025-68460]
+- Security: Fix Cross-Site-Scripting vulnerability via SVG's animate tag [CVE-2025-68461]
+- Security: Fix Information Disclosure vulnerability in the HTML style sanitizer [CVE-2025-68460]
 - Support $HasAttachment/$HasNoAttachment keywords for "With attachment" search filter (#10053)
 
-## 1.7-rc
+## Release 1.7-rc
 
 - Move autocomplete list rendering to client-side (#9832)
 - Remove `contact_search_name` option in favor of `contactlist_name_template` (#9832)

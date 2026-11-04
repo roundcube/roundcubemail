@@ -35,10 +35,12 @@ class rcube_cache_memcache extends rcube_cache
     {
         parent::__construct($userid, $prefix, $ttl, $packed, $indexed);
 
-        $this->type = 'memcache';
-        $this->debug = rcube::get_instance()->config->get('memcache_debug');
+        $rcube = rcube::get_instance();
 
-        self::engine();
+        $this->type = 'memcache';
+        $this->debug = $rcube->config->get('memcache_debug');
+
+        $rcube->get_memcache();
     }
 
     /**
@@ -115,6 +117,20 @@ class rcube_cache_memcache extends rcube_cache
     }
 
     /**
+     * Destroy global handle for memcache connection
+     */
+    public static function engineDestroy()
+    {
+        if (self::$memcache !== null) {
+            if (self::$memcache !== false) {
+                self::$memcache->close();
+            }
+
+            self::$memcache = null;
+        }
+    }
+
+    /**
      * Remove cache records older than ttl
      */
     #[\Override]
@@ -142,11 +158,11 @@ class rcube_cache_memcache extends rcube_cache
     #[\Override]
     protected function get_item($key)
     {
-        if (!self::$memcache) {
+        if (!($memcache = rcube::get_instance()->get_memcache())) {
             return false;
         }
 
-        $data = self::$memcache->get($key);
+        $data = $memcache->get($key);
 
         if ($this->debug) {
             $this->debug('get', $key, $data);
@@ -166,14 +182,14 @@ class rcube_cache_memcache extends rcube_cache
     #[\Override]
     protected function add_item($key, $data)
     {
-        if (!self::$memcache) {
+        if (!($memcache = rcube::get_instance()->get_memcache())) {
             return false;
         }
 
-        $result = self::$memcache->replace($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
+        $result = $memcache->replace($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
 
         if (!$result) {
-            $result = self::$memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
+            $result = $memcache->set($key, $data, \MEMCACHE_COMPRESSED, $this->ttl);
         }
 
         if ($this->debug) {
@@ -193,12 +209,12 @@ class rcube_cache_memcache extends rcube_cache
     #[\Override]
     protected function delete_item($key)
     {
-        if (!self::$memcache) {
+        if (!($memcache = rcube::get_instance()->get_memcache())) {
             return false;
         }
 
         // #1488592: use 2nd argument
-        $result = self::$memcache->delete($key, 0);
+        $result = $memcache->delete($key, 0);
 
         if ($this->debug) {
             $this->debug('delete', $key, null, $result);

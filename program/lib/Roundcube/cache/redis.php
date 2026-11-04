@@ -40,7 +40,7 @@ class rcube_cache_redis extends rcube_cache
         $this->type = 'redis';
         $this->debug = $rcube->config->get('redis_debug');
 
-        self::engine();
+        $rcube->get_redis();
     }
 
     /**
@@ -145,6 +145,20 @@ class rcube_cache_redis extends rcube_cache
     }
 
     /**
+     * Destroy global handle for redis connection
+     */
+    public static function engineDestroy()
+    {
+        if (self::$redis !== null) {
+            if (self::$redis !== false) {
+                self::$redis->close();
+            }
+
+            self::$redis = null;
+        }
+    }
+
+    /**
      * Remove cache records older than ttl
      */
     #[\Override]
@@ -172,12 +186,12 @@ class rcube_cache_redis extends rcube_cache
     #[\Override]
     protected function get_item($key)
     {
-        if (!self::$redis) {
+        if (!($redis = rcube::get_instance()->get_redis())) {
             return false;
         }
 
         try {
-            $data = self::$redis->get($key);
+            $data = $redis->get($key);
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
@@ -201,12 +215,15 @@ class rcube_cache_redis extends rcube_cache
     #[\Override]
     protected function add_item($key, $data)
     {
-        if (!self::$redis) {
+        if (!($redis = rcube::get_instance()->get_redis())) {
             return false;
         }
 
         try {
-            $result = self::$redis->setex($key, $this->ttl, $data);
+            $result = $redis->setex($key, $this->ttl, $data);
+            if ($result === false) {
+                throw new \Exception('Redis SETEX failed: ' . $redis->getLastError());
+            }
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
@@ -229,13 +246,16 @@ class rcube_cache_redis extends rcube_cache
     #[\Override]
     protected function delete_item($key)
     {
-        if (!self::$redis) {
+        if (!($redis = rcube::get_instance()->get_redis())) {
             return false;
         }
 
         try {
             // @phpstan-ignore-next-line
-            $result = method_exists(self::$redis, 'del') ? self::$redis->del($key) : self::$redis->delete($key);
+            $result = method_exists($redis, 'del') ? $redis->del($key) : $redis->delete($key);
+            if ($result === false) {
+                throw new \Exception('Redis DELETE failed: ' . $redis->getLastError());
+            }
         } catch (\Exception $e) {
             rcube::raise_error($e, true, false);
             return false;
@@ -245,6 +265,6 @@ class rcube_cache_redis extends rcube_cache
             $this->debug('delete', $key, null, $result);
         }
 
-        return $result;
+        return true;
     }
 }

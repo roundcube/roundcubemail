@@ -672,13 +672,14 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                         ['part' => $part, 'prefix' => '', 'message' => self::$MESSAGE]);
 
                     // Set attributes of the part container
-                    $container_class = $part->ctype_secondary == 'html' ? 'message-htmlpart' : 'message-part';
+                    $prefer_html = $rcmail->config->get('prefer_html');
+                    $container_class = ($part->ctype_secondary == 'html' && $prefer_html) ? 'message-htmlpart' : 'message-part';
                     $container_id = $container_class . (++$part_no);
                     $container_attrib = ['class' => $container_class, 'id' => $container_id];
 
                     $body_args = [
                         'safe' => $safe_mode,
-                        'plain' => !$rcmail->config->get('prefer_html'),
+                        'plain' => !$prefer_html,
                         'css_prefix' => 'v' . $part_no,
                         'body_class' => 'rcmBody',
                         'container_id' => $container_id,
@@ -705,8 +706,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
                 $plugin = $rcmail->plugins->exec_hook('message_body_prefix',
                     ['part' => self::$MESSAGE, 'prefix' => '']);
 
-                $out .= html::div('message-part',
-                    $plugin['prefix'] . self::plain_body(self::$MESSAGE->body));
+                $out .= html::div('message-part', $plugin['prefix'] . self::plain_body(self::$MESSAGE->body));
             }
         }
 

@@ -141,7 +141,7 @@ abstract class rcube_output
 
         $this->header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         $this->header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        $this->header('Cache-Control: private, no-cache, no-store, must-revalidate, post-check=0, pre-check=0');
+        $this->header('Cache-Control: private, no-cache, no-store, must-revalidate');
         $this->header('Pragma: no-cache');
     }
 
@@ -267,6 +267,7 @@ abstract class rcube_output
         // Use strict security policy to make sure no javascript content is executed
         // img-src is needed to be able to print attachment preview page
         $this->header("Content-Security-Policy: default-src 'none'; img-src 'self'");
+        $this->header('X-Content-Type-Options: nosniff');
 
         // don't kill the connection if download takes more than 30 sec.
         if (!array_key_exists('time_limit', $params)) {

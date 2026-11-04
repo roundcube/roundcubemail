@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       # Set up a matrix so we can add more versions to build with in the future.
       matrix:
-        php: ["8.3", "8.4", "8.5-rc"]
+        php: ["8.3", "8.4", "8.5"]
 
     name: build and push with PHP ${{ matrix.php }}
     runs-on: ubuntu-latest

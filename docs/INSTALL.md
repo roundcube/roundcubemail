@@ -16,14 +16,14 @@ REQUIREMENTS
    - Iconv, Zip, Fileinfo, Exif (recommended)
    - LDAP for LDAP addressbook support (optional)
    - GD, Imagick, XMLWriter (optional: thumbnails generation, QR-code)
+   - Sodium (optional: OAuth EdDSA (Ed25519) signatures support)
 * PEAR and PEAR packages distributed with Roundcube or external.
   See composer.json for the list of required packages.
 * php.ini options:
    - memory_limit > 16MB
-   - file_uploads enabled (for uploading attachments and import files)
+   - file_uploads enabled (for uploading attachments and other files)
    - session.auto_start disabled
    - suhosin.session.encrypt disabled
-   - mbstring.func_overload disabled
    - pcre.backtrack_limit >= 100000
 * A MySQL, PostgreSQL, or SQLite v3 support in PHP - with permission to create tables
 * Composer installed either locally or globally ([getcomposer.org][getcomposer])

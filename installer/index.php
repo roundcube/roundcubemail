@@ -83,6 +83,20 @@ if (
     exit;
 }
 
+if (!empty($_POST['_destroy'])) {
+    if ($_POST['_destroy'] == session_id()) {
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params['path'], $params['domain'], $params['secure'], $params['httponly']
+            );
+        }
+        session_destroy();
+    }
+}
+
 // go to 'check env' step if we have a local configuration
 if ($RCI->configured && empty($_REQUEST['_step'])) {
     header('Location: ?_step=1');
@@ -142,13 +156,14 @@ $include_steps = [
     1 => __DIR__ . '/check.php',
     2 => __DIR__ . '/config.php',
     3 => __DIR__ . '/test.php',
+    4 => __DIR__ . '/close.php',
 ];
 
 if (!in_array($RCI->step, array_keys($include_steps))) {
     $RCI->step = 1;
 }
 
-foreach (['Check environment', 'Create config', 'Test config'] as $i => $item) {
+foreach (['Check environment', 'Create config', 'Test config', 'Close'] as $i => $item) {
     $j = $i + 1;
     $link = ($RCI->step >= $j || $RCI->configured) ? '<a href="?_step=' . $j . '">' . rcube::Q($item) . '</a>' : rcube::Q($item);
     printf('<li class="step%d%s">%s</li>', $j + 1, $RCI->step > $j ? ' passed' : ($RCI->step == $j ? ' current' : ''), $link);

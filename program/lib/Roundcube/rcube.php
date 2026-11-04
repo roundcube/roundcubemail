@@ -841,13 +841,10 @@ class rcube
         elseif ($lang && !isset($rcube_languages[$lang])) {
             $short = substr($lang, 0, 2);
 
-            // check if we have an alias for the short language code
-            if (!isset($rcube_languages[$short]) && isset($rcube_language_aliases[$short])) {
-                $lang = $rcube_language_aliases[$short];
-            }
-            // expand 'nn' to 'nn_NN'
-            elseif (!isset($rcube_languages[$short])) {
-                $lang = $short . '_' . strtoupper($short);
+            if (isset($rcube_languages[$short])) {
+                $lang = $short;
+            } else {
+                $lang = $rcube_language_aliases[$short] ?? ($short . '_' . strtoupper($short));
             }
         }
 
@@ -1158,20 +1155,23 @@ class rcube
             $this->db->closeConnection();
         }
 
-        if ($this->memcache) {
-            $this->memcache->close();
+        if ($this->memcache !== null) {
+            rcube_cache_memcache::engineDestroy();
+            $this->memcache = null;
         }
 
-        if ($this->memcached) {
-            $this->memcached->quit();
+        if ($this->memcached !== null) {
+            rcube_cache_memcached::engineDestroy();
+            $this->memcached = null;
+        }
+
+        if ($this->redis !== null) {
+            rcube_cache_redis::engineDestroy();
+            $this->redis = null;
         }
 
         if ($this->smtp) {
             $this->smtp->disconnect();
-        }
-
-        if ($this->redis) {
-            $this->redis->close();
         }
     }
 

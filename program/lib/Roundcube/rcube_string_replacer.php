@@ -61,7 +61,7 @@ class rcube_string_replacer
         $this->mailto_pattern = '/('
             . '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*' // local-part
             . '@' . $utf_domain                                       // domain-part
-            . '(\?\S+)?'                                              // e.g. ?subject=test...
+            . '(\?[^<>\s]+)?'                                         // e.g. ?subject=test...
             . ')/';
     }
 

@@ -56,21 +56,35 @@ class markasjunk_cmd_learn
 
         // backwards compatibility %xds removed in markasjunk v1.12
         $command = str_replace('%xds', '%h:x-dspam-signature', $command);
-        $command = str_replace('%u', escapeshellarg($_SESSION['username']), $command);
-        $command = str_replace('%l', escapeshellarg($rcube->user->get_username('local')), $command);
-        $command = str_replace('%d', escapeshellarg($rcube->user->get_username('domain')), $command);
+
+        $vars = [
+            '%u' => escapeshellarg($rcube->get_user_name()),
+            '%l' => escapeshellarg($rcube->user->get_username('local')),
+            '%d' => escapeshellarg($rcube->user->get_username('domain')),
+        ];
+
         if (str_contains($command, '%i')) {
             $identity = $rcube->user->get_identity();
-            $command = str_replace('%i', escapeshellarg($identity['email']), $command);
+            $vars['%i'] = escapeshellarg($identity['email']);
         }
 
         foreach ($uids as $uid) {
-            // reset command for next message
-            $tmp_command = $command;
+            $replace = $vars;
 
-            if (str_contains($tmp_command, '%s')) {
+            if (str_contains($command, '%s')) {
                 $message = new rcube_message($uid);
-                $tmp_command = str_replace('%s', escapeshellarg($message->sender['mailto']), $tmp_command);
+                $sender = (string) $message->sender['mailto'];
+
+                // Values from the message must not be parsed as command options
+                if (str_starts_with($sender, '-')) {
+                    if ($debug) {
+                        rcube::write_log('markasjunk', "sender of message {$src_mbox}/{$uid} starts with '-', skipped");
+                    }
+
+                    continue;
+                }
+
+                $replace['%s'] = escapeshellarg($sender);
             }
 
             if (!empty($header_names)) {
@@ -86,8 +100,17 @@ class markasjunk_cmd_learn
                         $val = is_array($val) ? array_first($val) : $val;
                     }
 
+                    if (!empty($val) && str_starts_with((string) $val, '-')) {
+                        // Values from the message must not be parsed as command options
+                        if ($debug) {
+                            rcube::write_log('markasjunk', "header {$header} in message {$src_mbox}/{$uid} starts with '-', skipped");
+                        }
+
+                        continue 2;
+                    }
+
                     if (!empty($val)) {
-                        $tmp_command = str_replace('%h:' . $header, escapeshellarg($val), $tmp_command);
+                        $replace['%h:' . $header] = escapeshellarg($val);
                     } else {
                         if ($debug) {
                             rcube::write_log('markasjunk', "header {$header} not found in message {$src_mbox}/{$uid}");
@@ -101,9 +124,10 @@ class markasjunk_cmd_learn
             if (str_contains($command, '%f')) {
                 $tmpfname = tempnam($temp_dir, 'rcmSALearn');
                 file_put_contents($tmpfname, $rcube->storage->get_raw_body($uid));
-                $tmp_command = str_replace('%f', escapeshellarg($tmpfname), $tmp_command);
+                $replace['%f'] = escapeshellarg($tmpfname);
             }
 
+            $tmp_command = strtr($command, $replace);
             $output = shell_exec($tmp_command);
 
             if ($debug) {

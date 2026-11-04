@@ -296,7 +296,7 @@ if ($RCI->configured) {
     }
 } else {
     echo "This instance of Roundcube is not yet configured!\n";
-    echo "Open http://url-to-roundcube/installer/ in your browser and follow the instructions.\n";
+    echo "Open http://url-to-roundcube/installer.php in your browser and follow the instructions.\n";
 }
 
 function repo_key($repo)
@@ -317,13 +317,13 @@ function repo_key($repo)
 function find_composer()
 {
     if (is_file(INSTALL_PATH . 'composer.phar')) {
-        return 'php composer.phar';
+        return \PHP_BINARY . ' composer.phar';
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
         $which = trim(rcube::exec("which {$check_file}"));
         if (!empty($which)) {
-            return $which;
+            return \PHP_BINARY . " {$which}";
         }
     }
 

@@ -12,4 +12,4 @@
  +-----------------------------------------------------------------------+
 */
 
-$labels['useimapsubscriptions']  = 'Abonetiyên IMAPê bi kar bîne';
+$labels['useimapsubscriptions']  = 'Endametiyên IMAP bi kar bîne';

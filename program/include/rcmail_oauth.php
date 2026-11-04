@@ -19,6 +19,8 @@
  +-----------------------------------------------------------------------+
 */
 
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\MessageFormatter;
@@ -255,6 +257,8 @@ class rcmail_oauth
      */
     protected function fetch_jwks(): void
     {
+        // TODO: Use Firebase\JWT\CachedKeySet?
+
         if (!$this->options['jwks_uri']) {
             // not activated
             return;
@@ -417,45 +421,26 @@ class rcmail_oauth
      * @param string $jwt
      *
      * @return array Hash array with decoded body
+     *
+     * @throws \Exception
      */
     public function jwt_decode($jwt)
     {
-        [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
-
-        $header = json_decode(static::base64url_decode($headb64), true);
-        $body = json_decode(static::base64url_decode($bodyb64), true);
-        // $crypto = static::base64url_decode($cryptob64);
-
         // jwks_uri defined, will check JWT signature
         if ($this->options['jwks_uri']) {
+            // TODO: If jwks is not available we could get the public key from config
             $this->fetch_jwks();
-            $jwk = null;
 
-            // FIXME: As far as I understand JWT tokens may not include 'kid' claim (it's optional)
-            if (!isset($header['kid']) && count($this->jwks['keys']) == 1) {
-                $jwk = $this->jwks['keys'][0];
-            } else {
-                $kid = $header['kid'] ?? null;
-                $alg = $header['alg'];
+            // Validate the token (throws exceptions)
+            $header = new \stdClass();
+            $body = (array) JWT::decode($jwt, JWK::parseKeySet($this->jwks), $header);
+            $header = (array) $header;
+        } else {
+            [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
 
-                foreach ($this->jwks['keys'] as $current_jwk) {
-                    if ($current_jwk['kid'] === $kid) {
-                        $jwk = $current_jwk;
-                        break;
-                    }
-                }
-            }
-
-            if ($jwk === null) {
-                throw new \RuntimeException('JWS key to verify JWT not found');
-            }
-
-            // check algorithm matches ('alg' is optional)
-            if (isset($jwk['alg']) && isset($header['alg']) && $jwk['alg'] != $header['alg']) {
-                throw new \RuntimeException('JWS key verification failed. Wrong algorithm.');
-            }
-
-            // TODO should check signature, note will use https://github.com/firebase/php-jwt later as it requires ^php7.4
+            $header = json_decode(static::base64url_decode($headb64), true);
+            $body = json_decode(static::base64url_decode($bodyb64), true);
+            // $crypto = static::base64url_decode($cryptob64);
         }
 
         // FIXME depends on body type: ID, Logout, Bearer, Refresh,
@@ -476,6 +461,8 @@ class rcmail_oauth
         if (isset($body['exp']) && (time() > $body['exp'])) {
             throw new \RuntimeException('Failed to validate JWT: expired message');
         }
+
+        $body['header'] = $header;
 
         $this->log_debug('jwt: %s', json_encode($body));
 
@@ -585,7 +572,11 @@ class rcmail_oauth
             ],
         ]);
 
-        return json_decode($identity_response->getBody(), true);
+        $identity = (string) $identity_response->getBody();
+
+        $this->log_debug('fetched identity: %s', $identity);
+
+        return json_decode($identity, true);
     }
 
     /**
@@ -637,6 +628,7 @@ class rcmail_oauth
             [$authorization, $identity] = $this->parse_tokens('authorization_code', $data);
 
             $username = null;
+            $pass_claim = $this->options['password_claim'];
 
             if ($identity) {
                 // note that id_token values depend on scopes
@@ -649,12 +641,8 @@ class rcmail_oauth
             }
 
             // request user identity (email)
-            if (empty($username)) {
-                $fetched_identity = $this->fetch_userinfo($authorization);
-
-                $this->log_debug('fetched identity: %s', json_encode($fetched_identity, true));
-
-                if (!empty($fetched_identity)) {
+            if (empty($username) || ($pass_claim && empty($identity[$pass_claim]))) {
+                if ($fetched_identity = $this->fetch_userinfo($authorization)) {
                     $identity = $fetched_identity;
 
                     foreach ($this->options['identity_fields'] as $field) {
@@ -669,7 +657,7 @@ class rcmail_oauth
             $data['auth_type'] = $this->options['auth_type'];
 
             // Backends with no XOAUTH2/OAUTHBEARER support
-            if ($pass_claim = $this->options['password_claim']) {
+            if ($pass_claim) {
                 if (empty($identity[$pass_claim])) {
                     throw new \Exception("Password claim ({$pass_claim}) not found");
                 }
@@ -766,9 +754,17 @@ class rcmail_oauth
             [$authorization, $identity] = $this->parse_tokens('refresh_token', $data, $token);
 
             // Backends with no XOAUTH2/OAUTHBEARER support
-            if (($pass_claim = $this->options['password_claim']) && isset($identity[$pass_claim])) {
-                $authorization = $identity[$pass_claim];
-                unset($identity[$pass_claim]);
+            if ($pass_claim = $this->options['password_claim']) {
+                if (empty($identity[$pass_claim])) {
+                    if ($fetched_identity = $this->fetch_userinfo($authorization)) {
+                        $identity = $fetched_identity;
+                    }
+                }
+
+                if (isset($identity[$pass_claim])) {
+                    $authorization = $identity[$pass_claim];
+                    unset($identity[$pass_claim]);
+                }
             }
 
             // update access token stored as password
@@ -909,7 +905,9 @@ class rcmail_oauth
             // refresh_token is optional, there will be no refreshes
             $data['expires'] = time() + $data['expires_in'] - 5;
         } elseif ($data['expires_in'] <= $refresh_interval) {
-            rcube::raise_error(sprintf('Token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval), true);
+            // short-lived token: it expires before the next refresh interval would trigger.
+            // This is an expected case, so only log it at debug level (not as an error).
+            $this->log_debug('token TTL (%s) is smaller than refresh_interval (%s)', $data['expires_in'], $refresh_interval);
             // note: remove 10 sec by security (avoid tangent issues)
             $data['expires'] = time() + $data['expires_in'] - 10;
         } else {
@@ -1346,7 +1344,9 @@ class rcmail_oauth
         // We store just the query string (not full URL) so it can be used directly with $_POST['_url']
         if (!empty($_SERVER['QUERY_STRING']) && !$this->rcmail->output->ajax_call) {
             // Only store if it's not a login or oauth action (prevents redirect loops)
-            if (!preg_match('/(_task=login|_task=logout|_action=oauth)/', $_SERVER['QUERY_STRING'])) {
+            if (!preg_match('/(_task=login|_task=logout|_action=oauth)/', $_SERVER['QUERY_STRING'])
+                && rcmail_output::path_info() != 'login/oauth'
+            ) {
                 $_SESSION['oauth_redirect_uri'] = $_SERVER['QUERY_STRING'];
                 $this->log_debug('storing original query string for post-auth redirect: %s', $_SERVER['QUERY_STRING']);
             }

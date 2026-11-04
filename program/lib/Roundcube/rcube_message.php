@@ -187,8 +187,12 @@ class rcube_message
     public function get_part_url($mime_id, $embed = false)
     {
         if (!empty($this->mime_parts[$mime_id])) {
-            return $this->opt['get_url'] . '&_part=' . $mime_id
-                . ($embed ? '&_embed=1&_mimeclass=' . $embed : '');
+            $query = ['_part' => $mime_id];
+            if ($embed) {
+                $query['_embed'] = 1;
+                $query['_mimeclass'] = $embed;
+            }
+            return $this->opt['get_url'] . '&' . http_build_query($query);
         }
 
         return false;
@@ -693,6 +697,8 @@ class rcube_message
 
                 if (str_contains($part_body, "\r\n\r\n")) {
                     [$headers] = explode("\r\n\r\n", $part_body, 2);
+                } else {
+                    $headers = $part_body;
                 }
 
                 $structure->headers = rcube_mime::parse_headers($headers);
@@ -1046,7 +1052,7 @@ class rcube_message
                     // Any non-inline attachment
                     if (!preg_match('/^inline/i', $mail_part->disposition) || empty($mail_part->headers['content-id'])) {
                         // Content-Type name regexp according to RFC4288.4.2
-                        if (!preg_match('/^[a-z0-9!#$&.+^_-]+\/[a-z0-9!#$&.+^_-]+$/i', $part_mimetype)) {
+                        if (!rcube_mime::is_mimetype_valid($part_mimetype)) {
                             // replace malformed content type with application/octet-stream (#1487767)
                             $mail_part->ctype_primary = 'application';
                             $mail_part->ctype_secondary = 'octet-stream';

@@ -128,7 +128,7 @@ class rcmail_action_mail_move extends rcmail_action_mail_index
         $rcmail->output->set_env('current_page', $page);
         $rcmail->output->set_env('pagecount', $pages);
         $rcmail->output->set_env('exists', $exists);
-        $rcmail->output->command('set_quota', self::quota_content(null, $multifolder ? $sources[0] : 'INBOX'));
+        $rcmail->output->command('set_quota', self::quota_content(null, $multifolder && !empty($sources) ? $sources[0] : 'INBOX'));
         $rcmail->output->command('set_rowcount', self::get_messagecount_text($msg_count), $mbox);
 
         if ($threading) {

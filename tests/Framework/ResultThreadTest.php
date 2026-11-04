@@ -10,16 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ResultThreadTest extends TestCase
 {
     /**
-     * Class constructor
-     */
-    public function test_class()
-    {
-        $object = new \rcube_result_thread();
-
-        $this->assertInstanceOf(\rcube_result_thread::class, $object, 'Class constructor');
-    }
-
-    /**
      * thread parser test
      */
     public function test_parse_thread()
@@ -110,5 +100,29 @@ class ResultThreadTest extends TestCase
         $this->assertNull($object->get_element('FIRST'), 'Get first element');
         $this->assertNull($object->get_element('LAST'), 'Get last element');
         $this->assertNull($object->get_element(2), 'Get specified element');
+    }
+
+    /**
+     * thread parser test with multiple untagged responses
+     */
+    public function test_parse_untagged()
+    {
+        $object = new \rcube_result_thread('INBOX', "* THREAD\r\n* FLAGS (\\Flagged \\Deleted)\r\n*OK [Test]");
+
+        $this->assertTrue($object->is_empty(), 'Object is empty');
+        $this->assertFalse($object->is_error(), 'Object is error');
+        $this->assertSame('', $object->get_compressed());
+
+        $object = new \rcube_result_thread('INBOX', "* THREAD (1)(2)\r\n* FLAGS (\\Flagged \\Deleted)\r\n*OK [Test]");
+
+        $this->assertFalse($object->is_empty(), 'Object is empty');
+        $this->assertFalse($object->is_error(), 'Object is error');
+        $this->assertSame('1:2', $object->get_compressed());
+
+        $object = new \rcube_result_thread('INBOX', "* FLAGS (\\Flagged \\Deleted)\r\n* THREAD (1)(2)\r\n*OK [Test]");
+
+        $this->assertFalse($object->is_empty(), 'Object is empty');
+        $this->assertFalse($object->is_error(), 'Object is error');
+        $this->assertSame('1:2', $object->get_compressed());
     }
 }

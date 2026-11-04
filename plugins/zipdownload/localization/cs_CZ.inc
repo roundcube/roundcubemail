@@ -13,8 +13,10 @@
 */
 
 $labels['downloadall'] = 'Stáhnout všechny přílohy';
+$labels['export'] = 'Exportovat...';
 $labels['downloadmbox'] = 'Formát mbox (.zip)';
 $labels['downloadmaildir'] = 'Formát maildir (.zip)';
 $labels['downloademl'] = 'Zdroj (.eml)';
 $labels['sizelimiterror'] = 'Velikost vybraných zpráv byla překročena ($size)';
+$labels['exportmenu'] = 'Menu nastavení pro export zprávy';
 $labels['download'] = 'Stáhnout...';

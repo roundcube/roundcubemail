@@ -53,69 +53,52 @@ class rcube_result_index
     {
         $this->meta = [];
 
-        $data = explode('*', (string) $data);
+        $data = (string) $data;
 
-        // ...skip unilateral untagged server responses
-        for ($i = 0, $len = count($data); $i < $len; $i++) {
-            $data_item = &$data[$i];
-            if (preg_match('/^ SORT/i', $data_item)) {
-                // valid response, initialize raw_data for is_error()
-                $this->raw_data = '';
-                $data_item = substr($data_item, 5);
-                break;
-            } elseif (preg_match('/^ (E?SEARCH)/i', $data_item, $m)) {
-                // valid response, initialize raw_data for is_error()
-                $this->raw_data = '';
-                $data_item = substr($data_item, strlen($m[0]));
-
-                if (strtoupper($m[1]) == 'ESEARCH') {
-                    $data_item = trim($data_item);
-                    // remove MODSEQ response
-                    if (preg_match('/\(MODSEQ ([0-9]+)\)$/i', $data_item, $m)) {
-                        $data_item = substr($data_item, 0, -strlen($m[0]));
-                        $this->params['MODSEQ'] = $m[1];
-                    }
-                    // remove TAG response part
-                    if (preg_match('/^\(TAG ["a-z0-9]+\)\s*/i', $data_item, $m)) {
-                        $data_item = substr($data_item, strlen($m[0]));
-                    }
-                    // remove UID
-                    $data_item = preg_replace('/^UID\s*/i', '', $data_item);
-
-                    // ESEARCH parameters
-                    while (preg_match('/^([a-z]+) ([0-9:,]+)\s*/i', $data_item, $m)) {
-                        $param = strtoupper($m[1]);
-                        $value = $m[2];
-
-                        $this->params[$param] = $value;
-                        $data_item = substr($data_item, strlen($m[0]));
-
-                        if (in_array($param, ['COUNT', 'MIN', 'MAX'])) {
-                            $this->meta[strtolower($param)] = (int) $value;
-                        }
-                    }
-
-                    // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
-                    // @TODO: work with compressed result?!
-                    if (isset($this->params['ALL'])) {
-                        $data_item = implode(self::SEPARATOR_ELEMENT,
-                            rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
-                    }
-                }
-
-                break;
-            }
-
-            unset($data[$i]);
-        }
-
-        $data = array_filter($data);
-
-        if (empty($data)) {
+        if (!preg_match('/(^|\n)\* (SEARCH|ESEARCH|SORT)/i', $data, $matches, \PREG_OFFSET_CAPTURE)) {
             return;
         }
 
-        $data = array_first($data);
+        $data = substr($data, $matches[0][1] + strlen($matches[0][0]));
+        if ($end_pos = strpos($data, '*')) {
+            $data = substr($data, 0, $end_pos);
+        }
+
+        if (strtoupper($matches[2][0]) == 'ESEARCH') {
+            $data = trim($data);
+            // remove MODSEQ response
+            if (preg_match('/\(MODSEQ ([0-9]+)\)$/i', $data, $m)) {
+                $data = substr($data, 0, -strlen($m[0]));
+                $this->params['MODSEQ'] = $m[1];
+            }
+            // remove TAG response part
+            if (preg_match('/^\(TAG ["a-z0-9]+\)\s*/i', $data, $m)) {
+                $data = substr($data, strlen($m[0]));
+            }
+            // remove UID
+            $data = preg_replace('/^UID\s*/i', '', $data);
+
+            // ESEARCH parameters
+            while (preg_match('/^([a-z]+) ([0-9:,]+)\s*/i', $data, $m)) {
+                $param = strtoupper($m[1]);
+                $value = $m[2];
+
+                $this->params[$param] = $value;
+                $data = substr($data, strlen($m[0]));
+
+                if (in_array($param, ['COUNT', 'MIN', 'MAX'])) {
+                    $this->meta[strtolower($param)] = (int) $value;
+                }
+            }
+
+            // @TODO: Implement compression using compressMessageSet() in __sleep() and __wakeup() ?
+            // @TODO: work with compressed result?!
+            if (isset($this->params['ALL'])) {
+                $data = implode(self::SEPARATOR_ELEMENT,
+                    rcube_imap_generic::uncompressMessageSet($this->params['ALL']));
+            }
+        }
+
         $data = trim($data);
         $data = preg_replace('/[\r\n]/', '', $data);
         $data = preg_replace('/\s+/', ' ', $data);

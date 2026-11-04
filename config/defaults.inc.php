@@ -130,8 +130,7 @@ $config['redis_debug'] = false;
 // ----------------------------------
 
 // The IMAP host (and optionally port number) chosen to perform the log-in.
-// Leave blank to show a textbox at login, give a list of hosts
-// to display a pulldown menu or set one host as string.
+// You can use a list to display a host selector on the logon screen.
 // Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 993 (for ssl://) or 143 otherwise.
 // Supported replacement variables:
@@ -544,7 +543,7 @@ $config['support_url'] = '';
 $config['blankpage_url'] = '/watermark.html';
 
 // Logo image replacement. Specifies location of the image as:
-// - URL relative to the document root of this Roundcube installation
+// - URL relative to the root directory of the Roundcube installation
 // - full URL with http:// or https:// prefix
 // - URL relative to the current skin folder (when starts with a '/')
 //
@@ -883,9 +882,9 @@ $config['request_path'] = null;
 // One replacement variable is supported: %n (resolves to the value of $_SERVER['SERVER_NAME']).
 $config['request_url'] = null;
 
-// Allows to define separate server/path for image/js/css files
-// Warning: If the domain is different cross-domain access to some
-// resources need to be allowed
+// Allows to define separate URL/path for image/js/css files. It has to be a full URL
+// or an absolute path (starting with /).
+// Warning: If the domain is different cross-domain access to some resources need to be allowed
 // Sample:
 //    <FilesMatch ".(eot|ttf|woff)">
 //    Header set Access-Control-Allow-Origin "*"
@@ -1212,8 +1211,7 @@ $config['ldap_public']['Verisign'] = [
   'sub_fields' => [],
   // Generate values for the following LDAP attributes automatically when creating a new record
   'autovalues' => [
-    // 'uid'  => 'md5(microtime())',               // You may specify PHP code snippets which are then eval'ed
-    // 'mail' => '{givenname}.{sn}@mydomain.com',  // or composite strings with placeholders for existing attributes
+    // 'mail' => '{givenname}.{sn}@mydomain.com',  // composite strings with placeholders for existing attributes
   ],
   'sort'           => 'cn',         // The field to sort the listing by.
   'scope'          => 'sub',        // search mode: sub|base|list
