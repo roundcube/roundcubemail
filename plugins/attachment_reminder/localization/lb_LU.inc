@@ -13,4 +13,4 @@
 
 $messages['forgotattachment'] = "Hues du vergiess e Fichier drunzehänken?";
 $messages['reminderoption'] = "U vergiessen Unhäng erënneren";
-$messages['keywords'] = "Attachment,Fichier,Unhank,Unhang,Unhäng,ugehaangen,unhänken,attachment,file,attach,attached,attaching,enclosed,CV,cover letter,fichier joint";
+$messages['keywords'] = "Fichier,Unhank,Unhang,Unhäng,ugehaangen,unhänken,attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s),fichier joint";

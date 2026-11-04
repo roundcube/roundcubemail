@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "¿Falta archivo?";
 $messages['forgotattachment'] = "¿Olvidó adjuntar un fichero al mensaje?";
 $messages['reminderoption'] = "Recordatorio sobre adjuntos olvidados";
-$messages['keywords'] = "adjunto, archivo, adjuntar, unido, adjuntando, cerrado, CV, carta de presentación";
+$messages['keywords'] = "adjunt*,archivo(s),CV,carta de presentaci(ó|o)n";

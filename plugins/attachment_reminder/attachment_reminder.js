@@ -31,6 +31,49 @@ function rcmail_get_compose_message() {
     return msg;
 }
 
+/**
+ * Convert one keyword to a regular expression.
+ *
+ * Keyword syntax:
+ *   *      any number of word characters, e.g. "attach*" matches "attach", "attached", "attachments"
+ *   (...)  optional letters, e.g. "attachment(s)" matches "attachment" and "attachments"
+ *   |      choice inside (...), e.g. "attach(ed|ing|ment)" matches "attach", "attached", "attaching", "attachment"
+ * All other characters match literally. A "|" outside (...) matches literally too. If the parentheses do not balance, they match literally too.
+ * Returns null if the keyword has no required characters (e.g. "*" or "(s)"), because it would match everything.
+ */
+function rcmail_keyword_pattern(keyword, word) {
+    var i, c, depth = 0, required = 0, out = '';
+
+    for (i = 0; i < keyword.length; i++) {
+        c = keyword.charAt(i);
+
+        if (c == '(') {
+            depth++;
+            out += '(?:';
+        } else if (c == ')') {
+            if (--depth < 0) {
+                break;
+            }
+            out += ')?';
+        } else if (c == '|' && depth) {
+            out += '|';
+        } else if (c == '*') {
+            out += word + '*';
+        } else {
+            out += RegExp.escape(c);
+            if (!depth) {
+                required++;
+            }
+        }
+    }
+
+    if (depth !== 0) {
+        return RegExp.escape(keyword);
+    }
+
+    return required ? out : null;
+}
+
 function rcmail_check_message(msg) {
     // A "word character" is any letter, combining mark, digit or underscore, in any script
     var word = '[\\p{L}\\p{M}\\p{N}_]',
@@ -45,11 +88,19 @@ function rcmail_check_message(msg) {
                 return null; // drop empty items (e.g. a trailing comma), they would match everything
             }
 
-            var first = n.charAt(0), last = n.charAt(n.length - 1);
+            // Edge characters decide the whole-word check. A "*" counts as a word character.
+            var plain = n.replace(/[()|]/g, '').replace(/\*/g, 'a'),
+                first = plain.charAt(0),
+                last = plain.charAt(plain.length - 1),
+                pattern = rcmail_keyword_pattern(n, word);
+
+            if (!pattern) {
+                return null;
+            }
 
             // Match whole words only: "CV" matches "CV", "CV." or "(CV)", but not "CVE"
             return (is_word.test(first) && !no_boundary.test(first) ? '(?<!' + word + ')' : '')
-                + RegExp.escape(n)
+                + pattern
                 + (is_word.test(last) && !no_boundary.test(last) ? '(?!' + word + ')' : '');
         });
 
