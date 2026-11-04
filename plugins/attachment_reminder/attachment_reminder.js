@@ -32,14 +32,31 @@ function rcmail_get_compose_message() {
 }
 
 function rcmail_check_message(msg) {
-    var i, rx, keywords = rcmail.get_label('keywords', 'attachment_reminder').split(',').concat(['.doc', '.pdf']);
+    // A "word character" is any letter, combining mark, digit or underscore, in any script
+    var word = '[\\p{L}\\p{M}\\p{N}_]',
+        // Scripts that do not separate words with spaces (or attach particles to words),
+        // where a whole-word match would miss most real uses of a keyword
+        no_boundary = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Thai}]/u,
+        is_word = new RegExp(word, 'u'),
+        keywords = $.map(rcmail.get_label('keywords', 'attachment_reminder').split(','), function (n) {
+            n = n.trim();
 
-    keywords = $.map(keywords, function (n) {
-        return RegExp.escape(n);
-    });
-    rx = new RegExp('(' + keywords.join('|') + ')', 'i');
+            if (!n) {
+                return null; // drop empty items (e.g. a trailing comma), they would match everything
+            }
 
-    return msg.search(rx) != -1;
+            var first = n.charAt(0), last = n.charAt(n.length - 1);
+
+            // Match whole words only: "CV" matches "CV", "CV." or "(CV)", but not "CVE"
+            return (is_word.test(first) && !no_boundary.test(first) ? '(?<!' + word + ')' : '')
+                + RegExp.escape(n)
+                + (is_word.test(last) && !no_boundary.test(last) ? '(?!' + word + ')' : '');
+        });
+
+    // File extensions match anywhere, e.g. "report.pdf" or "letter.docx"
+    keywords = keywords.concat([RegExp.escape('.doc'), RegExp.escape('.pdf')]);
+
+    return new RegExp('(' + keywords.join('|') + ')', 'iu').test(msg);
 }
 
 function rcmail_have_attachments() {
