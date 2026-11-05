@@ -16,6 +16,7 @@ CREATE TABLE `passkey_login` (
  `public_key` text NOT NULL,
  `alg` int(11) NOT NULL DEFAULT 0,
  `sign_count` int(10) UNSIGNED NOT NULL DEFAULT 0,
+ `description` varchar(255) NOT NULL DEFAULT '',
  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
  PRIMARY KEY (`user_id`, `cred_id`),
  UNIQUE `cred_id_uniqueness` (`cred_id`),

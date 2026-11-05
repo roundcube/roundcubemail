@@ -17,6 +17,7 @@ CREATE TABLE "passkey_login" (
     public_key text NOT NULL,
     alg integer NOT NULL DEFAULT 0,
     sign_count integer NOT NULL DEFAULT 0,
+    description varchar(255) NOT NULL DEFAULT '',
     created timestamp with time zone DEFAULT now() NOT NULL,
     PRIMARY KEY (user_id, cred_id),
     CONSTRAINT passkey_login_cred_id UNIQUE (cred_id)

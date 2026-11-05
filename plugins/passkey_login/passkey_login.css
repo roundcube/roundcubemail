@@ -57,3 +57,71 @@
     cursor: default;
     opacity: .85;
 }
+
+/* --- Settings: passkey management ----------------------------------- */
+
+#passkey-manage .passkey-manage-toolbar {
+    margin-bottom: .75em;
+}
+
+.passkey-manage-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.passkey-manage-table td {
+    padding: .35em .5em;
+    vertical-align: middle;
+}
+
+.passkey-manage-table thead td {
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+.passkey-manage-table .passkey-desc-cell {
+    width: 60%;
+}
+
+.passkey-manage-table input.passkey-desc {
+    width: 100%;
+    box-sizing: border-box;
+    transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.passkey-manage-table input.passkey-desc.passkey-saved {
+    border-color: #1a7f37;
+    box-shadow: 0 0 3px rgba(26, 127, 55, .6);
+}
+
+.passkey-manage-table input.passkey-desc.passkey-error {
+    border-color: #d2322d;
+    box-shadow: 0 0 3px rgba(210, 50, 45, .5);
+}
+
+.passkey-manage-table .passkey-created {
+    white-space: nowrap;
+    opacity: .8;
+}
+
+.passkey-manage-table .passkey-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.passkey-add-dialog label {
+    display: block;
+    margin: .5em 0 .25em;
+    font-weight: bold;
+}
+
+.passkey-add-dialog input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.passkey-add-dialog .hint {
+    margin: .25em 0 .5em;
+    font-size: .9em;
+    opacity: .85;
+}

@@ -17,6 +17,7 @@ CREATE TABLE passkey_login (
     public_key text NOT NULL,
     alg integer NOT NULL DEFAULT 0,
     sign_count integer NOT NULL DEFAULT 0,
+    description varchar(255) NOT NULL DEFAULT '',
     created datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, cred_id)
 );
