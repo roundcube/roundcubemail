@@ -126,6 +126,7 @@ class markasjunk extends rcube_plugin
             $this->rcube->output->set_env('markasjunk_move_ham', $this->rcube->config->get('markasjunk_move_ham', false));
             $this->rcube->output->set_env('markasjunk_permanently_remove', $this->rcube->config->get('markasjunk_permanently_remove', false));
             $this->rcube->output->set_env('markasjunk_spam_only', $this->rcube->config->get('markasjunk_spam_only', false));
+            $this->rcube->output->set_env('markasjunk_learn_in_all_folders', $this->rcube->config->get('markasjunk_learn_in_all_folders', false));
         }
 
         // init learning driver
@@ -152,8 +153,16 @@ class markasjunk extends rcube_plugin
 
         $result = $is_spam ? $this->_spam($messageset, $dest_mbox) : $this->_ham($messageset, $dest_mbox);
         if ($result) {
-            if ($dest_mbox && ($mbox_name !== $dest_mbox || $multifolder)) {
-                $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($messageset, $multifolder));
+            $move_messageset = $this->_get_move_messageset(
+                $messageset,
+                $is_spam,
+                $mbox_name,
+                $multifolder,
+                $this->rcube->config->get('markasjunk_learn_in_all_folders', false)
+            );
+
+            if (count($move_messageset) > 0) {
+                $this->rcube->output->command('markasjunk_move', $dest_mbox, $this->_messageset_to_uids($move_messageset, $multifolder));
             } else {
                 $this->rcube->output->command('command', 'list', $mbox_name);
             }
@@ -251,6 +260,38 @@ class markasjunk extends rcube_plugin
         }
 
         return empty($this->driver->is_error);
+    }
+
+    private function _get_move_messageset($messageset, $is_spam, $mbox_name, $multifolder, $learn_in_all_folders)
+    {
+        $dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
+        $result = [];
+
+        foreach ($messageset as $source_mbox => $uids) {
+            if ($learn_in_all_folders) {
+                $move = $this->_is_move_required($source_mbox, $is_spam);
+            } else {
+                $move = $dest_mbox && ($mbox_name !== $dest_mbox || $multifolder);
+            }
+
+            if ($move) {
+                $result[$source_mbox] = $uids;
+            }
+        }
+
+        return $result;
+    }
+
+    private function _is_move_required($source_mbox, $is_spam)
+    {
+        $dest_mbox = $is_spam ? $this->spam_mbox : $this->ham_mbox;
+
+        if (!$dest_mbox || $source_mbox === $dest_mbox) {
+            return false;
+        }
+
+        // Ham messages are only moved from the spam mailbox
+        return $is_spam || (!empty($this->spam_mbox) && $source_mbox === $this->spam_mbox);
     }
 
     private function _messageset_to_uids($messageset, $multifolder)
