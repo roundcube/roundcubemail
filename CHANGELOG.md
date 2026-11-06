@@ -14,6 +14,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix installto.sh and update.sh reporting success when an upgrade step fails (#10326)
 - Newmail_notifier: Fix restoring skin favicons defined with rel="icon" (#9575)
 - LDAP: Fix website link including the labeledURI label (#8816)
+- Fix non-ASCII special folder names displayed in UTF7-IMAP encoding when real names are shown (#10375)
 
 ## Release 1.7.5
 
