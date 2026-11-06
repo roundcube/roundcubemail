@@ -13,6 +13,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
 - Fix TypeError when archiving all messages via select-all (#10107)
 - Fix temporary files permissions to 0600 (#10328)
+- Fix refresh interval setting showing "never" when the configured value is not one of the predefined intervals (#10292)
+- Fix installto.sh and update.sh reporting success when an upgrade step fails (#10326)
+- Newmail_notifier: Fix restoring skin favicons defined with rel="icon" (#9575)
+- LDAP: Fix website link including the labeledURI label (#8816)
 - Fix non-ASCII special folder names displayed in UTF7-IMAP encoding when real names are shown (#10375)
 
 ## Release 1.7.5
