@@ -44,8 +44,12 @@ function newmail_notifier_run(prop) {
 // Stops notification
 function newmail_notifier_stop(prop) {
     // revert original favicon
-    if (rcmail.env.favicon_href && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
-        $('<link rel="shortcut icon" href="' + rcmail.env.favicon_href + '"/>').replaceAll('link[rel="shortcut icon"]');
+    if (rcmail.env.favicon_links && rcmail.env.favicon_changed && (!prop || prop.action != 'check-recent')) {
+        var w = rcmail.is_framed() ? window.parent : window,
+            links = $('link[rel~="icon"]', w.document);
+
+        rcmail.env.favicon_links.insertBefore(links.first());
+        links.remove();
         rcmail.env.favicon_changed = 0;
     }
 
@@ -65,15 +69,18 @@ function newmail_notifier_basic() {
     w.focus();
 
     // we cannot simply change a href attribute, we must to replace the link element (at least in FF)
+    // a skin can define multiple icons, with rel="icon" or rel="shortcut icon", replace all of them
     var link = $('<link rel="shortcut icon">').attr('href', path + '/favicon.ico'),
-        oldlink = $('link[rel="shortcut icon"]', w.document);
+        oldlinks = $('link[rel~="icon"]', w.document);
 
-    if (!rcmail.env.favicon_href) {
-        rcmail.env.favicon_href = oldlink.attr('href');
+    // remember the original icons, so they can be restored later
+    if (!rcmail.env.favicon_changed) {
+        rcmail.env.favicon_links = oldlinks;
     }
 
     rcmail.env.favicon_changed = 1;
-    link.replaceAll(oldlink);
+    link.insertBefore(oldlinks.first());
+    oldlinks.detach();
 
     // Add IE icon overlay if we're pinned to Taskbar
     try {
