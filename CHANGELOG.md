@@ -12,6 +12,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix temporary files permissions to 0600 (#10328)
 - Fix refresh interval setting showing "never" when the configured value is not one of the predefined intervals (#10292)
 - Fix installto.sh and update.sh reporting success when an upgrade step fails (#10326)
+- Newmail_notifier: Fix restoring skin favicons defined with rel="icon" (#9575)
 
 ## Release 1.7.5
 
