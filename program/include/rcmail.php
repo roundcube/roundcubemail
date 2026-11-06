@@ -1644,17 +1644,16 @@ class rcmail extends rcube
 
         // define date format depending on current time
         if (!$format) {
-            $now = time();
-            $now_date = getdate($now);
-            $today_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'], $now_date['year']);
-            $week_limit = mktime(0, 0, 0, $now_date['mon'], $now_date['mday'] - 6, $now_date['year']);
+            $now = new \DateTimeImmutable('now', $date->getTimezone());
+            $today_limit = $now->setTime(0, 0)->getTimestamp();
+            $week_limit = $now->setTime(0, 0)->modify('-6 days')->getTimestamp();
             $pretty_date = $this->config->get('prettydate');
-            $timestamp = $date->format('U');
+            $timestamp = $date->getTimestamp();
 
-            if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now) {
+            if ($pretty_date && $timestamp > $today_limit && $timestamp <= $now->getTimestamp()) {
                 $format = $this->config->get('date_today', $this->config->get('time_format', 'H:i'));
                 $today = true;
-            } elseif ($pretty_date && $timestamp > $week_limit && $timestamp <= $now) {
+            } elseif ($pretty_date && $timestamp > $week_limit && $timestamp <= $now->getTimestamp()) {
                 $format = $this->config->get('date_short', 'D H:i');
             } else {
                 $format = $this->config->get('date_long', 'Y-m-d H:i');
