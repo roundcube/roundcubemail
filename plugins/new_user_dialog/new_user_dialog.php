@@ -49,6 +49,13 @@ class new_user_dialog extends rcube_plugin
 
             $identity = $rcmail->user->get_identity();
             $identities_level = intval($rcmail->config->get('identities_level', 0));
+            $signature        = $identity['signature'] ?? '';
+
+            if (empty($signature)) {
+                $this->load_config();
+                $signature_text = $rcmail->config->get('new_user_dialog_signature_text', '');
+                $signature      = str_replace('@EMAIL@', rcube_utils::idn_to_utf8($identity['email']), $signature_text);
+            }
 
             // compose user-identity dialog
             $table = new html_table(['cols' => 2, 'class' => 'propform']);
@@ -89,7 +96,7 @@ class new_user_dialog extends rcube_plugin
                     'name' => '_signature',
                     'rows' => '5',
                 ],
-                $identity['signature']
+                rcube::Q($signature, 'strict', false)
             ));
 
             // add overlay input box to html page
