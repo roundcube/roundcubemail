@@ -690,9 +690,10 @@ function rule_header_select(id) {
         mime_part = document.getElementById('rule_mime_part' + id),
         datepart = document.getElementById('rule_date_part' + id),
         dateheader = document.getElementById('rule_date_header_div' + id),
+        time_zone = document.getElementById('rule_time_zone' + id),
         rule = $('#rule_op' + id),
         h = obj.value,
-        set = [op, header, custstr, mod, trans, comp, size, mime, mime_part];
+        set = [op, header, custstr, mod, trans, comp, size, mime, mime_part, time_zone];
 
     if (h == 'size') {
         if (msg) {
@@ -736,6 +737,7 @@ function rule_header_select(id) {
         comp.style.display = '';
         mod.style.display = is_header ? '' : 'none';
         trans.style.display = h == 'body' ? '' : 'none';
+        time_zone.style.display = h == 'date' || h == 'currentdate' ? '' : 'none';
         if (spamtest) {
             spamtest.style.display = 'none';
         }
