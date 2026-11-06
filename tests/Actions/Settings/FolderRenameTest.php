@@ -35,7 +35,7 @@ class FolderRenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-rename', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.replace_folder_row("Test","Test2","Test2","Test2",false,"mailbox");'));
+        $this->assertContains(['replace_folder_row', 'Test', 'Test2', 'Test2', 'Test2', false, 'mailbox'], $result['js_calls']);
     }
 
     /**
@@ -60,6 +60,6 @@ class FolderRenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-rename', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);'));
+        $this->assertContains(['display_message', 'Unable to perform operation. Folder is read-only.', 'error', 0], $result['js_calls']);
     }
 }
