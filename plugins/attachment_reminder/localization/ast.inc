@@ -13,4 +13,4 @@
 
 $messages['forgotattachment'] = "¿Escaecisti axuntar un ficheru?";
 $messages['reminderoption'] = "Recordar alrodiu d'axuntos escaecíos";
-$messages['keywords'] = "axuntu,ficheru,axuntar,axuntáu,axuntando,axuntao,axuntada,CV,carta de presentación";
+$messages['keywords'] = "axunt(u|ar|áu|ando|ao|ada),ficheru,CV,carta de presentación";

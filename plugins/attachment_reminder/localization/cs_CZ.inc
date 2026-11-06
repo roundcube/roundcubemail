@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Chybějící příloha?";
 $messages['forgotattachment'] = "Nezapomněli jste připojit přílohu?";
 $messages['reminderoption'] = "Upozorňovat na zapomenuté přílohy";
-$messages['keywords'] = "příloha,přílohy,příloze,přílohu,přiloženém,připojeném,CV,životopis";
+$messages['keywords'] = "příloha*,přílohy,příloze,přílohu,přiloženém,připojeném,CV,životopis*";

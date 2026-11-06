@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Eranskina falta da?";
 $messages['forgotattachment'] = "Ahaztu zaizu fitxategia eranstea?";
 $messages['reminderoption'] = "Ohartarazi ahaztutako erankinez";
-$messages['keywords'] = "eranskin,fitxategia,erantzi,erantzita,eransten,atxikita";
+$messages['keywords'] = "eranskin*,fitxategi*,erantzi,erantzita,erants*,eransten,atxiki*";

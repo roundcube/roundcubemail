@@ -13,4 +13,4 @@
 
 $messages['forgotattachment'] = "Да ли сте заборавили да приложите фајл?";
 $messages['reminderoption'] = "Подсетник на заборављене прилоге";
-$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter,прилог,фајл,приложи,приложен,прилажем,пропратно писмо";
+$messages['keywords'] = "attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s),прилог*,фајл*,приложи*,приложен*,прилажем*,пропратно писмо*";

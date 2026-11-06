@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Няма далучанага файла?";
 $messages['forgotattachment'] = "Забыліся далучыць файл?";
 $messages['reminderoption'] = "Нагадваць пра файлы, якія забыліся далучыць";
-$messages['keywords'] = "далучаны файл,файл,далучыць,далучаны,далучаецца,укладзены,CV,cover letter";
+$messages['keywords'] = "далучаны файл,файл*,далучыць,далучаны,далучаецца,укладзены,CV,cover letter(s)";
