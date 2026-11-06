@@ -1690,10 +1690,16 @@ class rcube
     protected function get_user_log_dir()
     {
         $log_dir = $this->config->get('log_dir', RCUBE_INSTALL_PATH . 'logs');
-        $user_name = $this->get_user_name();
+        $user_name = (string) $this->get_user_name();
+
+        // The user name must be a directory name inside the log directory
+        if (in_array($user_name, ['', '.', '..']) || strpbrk($user_name, '/' . \DIRECTORY_SEPARATOR) !== false) {
+            return false;
+        }
+
         $user_log_dir = $log_dir . '/' . $user_name;
 
-        return !empty($user_name) && is_writable($user_log_dir) ? $user_log_dir : false;
+        return is_writable($user_log_dir) ? $user_log_dir : false;
     }
 
     /**
