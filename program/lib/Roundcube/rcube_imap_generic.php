@@ -1060,12 +1060,16 @@ class rcube_imap_generic
             $this->debug("Connecting to {$_host}...");
         }
 
-        if (!empty($this->prefs['socket_options'])) {
+        $connector = new rcube_socket_connector();
+        $options = array_intersect_key($this->prefs['socket_options'] ?? [], ['ssl' => 1, 'socket' => 1]);
+        $this->fp = $connector->connect($host, $port, $this->prefs['timeout'], $options, $errno, $errstr);
+
+        if ($this->fp === null && !empty($this->prefs['socket_options'])) {
             $options = array_intersect_key($this->prefs['socket_options'], ['ssl' => 1, 'socket' => 1]);
             $context = stream_context_create($options);
             $this->fp = stream_socket_client($host . ':' . $port, $errno, $errstr,
                 $this->prefs['timeout'], \STREAM_CLIENT_CONNECT, $context);
-        } else {
+        } elseif ($this->fp === null) {
             $this->fp = @fsockopen($host, $port, $errno, $errstr, $this->prefs['timeout']);
         }
 
