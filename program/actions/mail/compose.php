@@ -1094,15 +1094,18 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 // Note: Apple Mail sends PDF files marked as inline (#7382)
                 // Note: Apple clients send inline images even if there's no HTML body (#7414)
                 if ($has_html && $part->disposition == 'inline' && $part->mimetype != 'application/pdf') {
-                    if (!$bodyIsHtml) {
-                        continue;
-                    }
-
                     $idx = $part->content_id ? ('cid:' . $part->content_id) : $part->content_location;
 
-                    if ($idx && isset(self::$CID_MAP[$idx]) && str_contains($message_body, self::$CID_MAP[$idx])) {
+                    if ($bodyIsHtml && $idx && isset(self::$CID_MAP[$idx]) && str_contains($message_body, self::$CID_MAP[$idx])) {
                         $replace = self::$CID_MAP[$idx];
-                    } else {
+                    }
+                    // Skip unused inline images and body parts, but keep other inline
+                    // attachments, e.g. text files (#8650). On Reply skip them all.
+                    elseif (
+                        $part->ctype_primary == 'image'
+                        || !$message->is_attachment($part)
+                        || self::$COMPOSE['mode'] == rcmail_sendmail::MODE_REPLY
+                    ) {
                         continue;
                     }
                 }
