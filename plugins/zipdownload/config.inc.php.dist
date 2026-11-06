@@ -12,7 +12,8 @@ $config['zipdownload_attachments'] = 1;
 // Zip selection of mail messages
 // This option enables downloading of multiple messages as one zip archive.
 // The number or string value specifies maximum total size of all messages
-// in the archive (not the size of the archive itself).
+// in the archive (not the size of the archive itself). Please see the
+// README file for more details before making large changes to this limit.
 $config['zipdownload_selection'] = '50MB';
 
 // Charset to use for filenames inside the zip
