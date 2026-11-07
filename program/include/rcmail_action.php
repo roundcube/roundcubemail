@@ -1093,7 +1093,7 @@ abstract class rcmail_action
         $pos = strpos($folder, $delm);
 
         if ($is_special) {
-            $name = $pos !== false ? substr($folder, $pos + 1) : $folder;
+            $name = rcube_charset::convert($pos !== false ? substr($folder, $pos + 1) : $folder, 'UTF7-IMAP');
         } elseif ($pos !== false) {
             $tokens = explode($delm, $folder);
             $subFolders = array_pop($tokens);
