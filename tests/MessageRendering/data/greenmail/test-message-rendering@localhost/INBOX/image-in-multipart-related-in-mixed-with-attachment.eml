@@ -1,0 +1,49 @@
+From: <someone@example.net>
+To: <aaa@bbb.cc>
+Date: Tue, 29 Sep 2026 12:00:00 +0000
+Subject: Multipart/related with alternative and referenced image, and an attachment
+Message-Id: <10347-mixed-related-alternative@example.net>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="_004_mixed_"
+
+--_004_mixed_
+Content-Type: multipart/related; boundary="_003_related_"; type="multipart/alternative"
+
+--_003_related_
+Content-Type: multipart/alternative; boundary="_000_alternative_"
+
+--_000_alternative_
+Content-Type: text/plain; charset="us-ascii"
+
+See the file.
+
+--_000_alternative_
+Content-Type: text/html; charset="us-ascii"
+
+<html><body><p>See the file.</p><p><img width="48" height="48" id="Picture_x0020_1" src="cid:image001.png@01DB3200.5A6B7C80"></p></body></html>
+
+--_000_alternative_--
+
+--_003_related_
+Content-Type: image/png; name="image001.png"
+Content-Description: image001.png
+Content-Disposition: inline; filename="image001.png"; size=180
+Content-ID: <image001.png@01DB3200.5A6B7C80>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAIAAADYYG7QAAAACXBIWXMAAAABAAAAAQBPJcTWAAAA
+ZklEQVR4nM3OQQ0AIAzAwC6pfxXoJPwxsJ6Cm3tIkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJ
+kRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJkRiJcTvwe5dEAmBL4nCuAAAA
+AElFTkSuQmCC
+
+--_003_related_--
+
+--_004_mixed_
+Content-Type: text/plain; name="notes.txt"
+Content-Description: notes.txt
+Content-Disposition: attachment; filename="notes.txt"; size=6
+Content-Transfer-Encoding: base64
+
+bm90ZXMK
+
+--_004_mixed_--
