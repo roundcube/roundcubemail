@@ -99,6 +99,39 @@ class ManagesieveScriptTest extends TestCase
         ];
     }
 
+    /**
+     * An explicitly selected 'i;ascii-casemap' comparator must be preserved
+     * on output and survive a round-trip (#9981).
+     */
+    public function test_explicit_ascii_casemap_comparator()
+    {
+        $input = "require [\"comparator-i;ascii-casemap\"];\r\n"
+            . "if header :comparator \"i;ascii-casemap\" :contains \"Subject\" \"test\"\r\n{\r\n\tdiscard;\r\n}\r\n";
+
+        $script = new \rcube_sieve_script($input, ['comparator-i;ascii-casemap']);
+        $result = $script->as_text();
+
+        // The explicit comparator must be emitted, not silently dropped
+        $this->assertStringContainsString(':comparator "i;ascii-casemap"', $result);
+
+        // And it must survive a round-trip (re-parse of the generated text)
+        $script2 = new \rcube_sieve_script($result, ['comparator-i;ascii-casemap']);
+        $this->assertStringContainsString(':comparator "i;ascii-casemap"', $script2->as_text());
+    }
+
+    /**
+     * When no comparator is explicitly set, none is emitted (#9981).
+     */
+    public function test_default_comparator_not_emitted()
+    {
+        $input = "if header :contains \"Subject\" \"test\"\r\n{\r\n\tdiscard;\r\n}\r\n";
+
+        $script = new \rcube_sieve_script($input);
+        $result = $script->as_text();
+
+        $this->assertStringNotContainsString(':comparator', $result);
+    }
+
     public function test_escape_string()
     {
         $output = \rcube_sieve_script::escape_string([]);
