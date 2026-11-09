@@ -33,6 +33,11 @@ class rcmail_action_mail_folder_expunge extends rcmail_action
         $rcmail = rcmail::get_instance();
         $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
 
+        if ($mbox === '') {
+            $rcmail->output->show_message('internalerror', 'error');
+            $rcmail->output->send();
+        }
+
         $success = $rcmail->storage->expunge_folder($mbox);
 
         // reload message list if current mailbox
