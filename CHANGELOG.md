@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Security: Fix open redirect via IMAP error recovery on attachment get
+
 ## Release 1.6.20
 
 - Security: Fix IMAP command injection via CRLF in `_uid` parameter of mail/headers and mail/viewsource action
