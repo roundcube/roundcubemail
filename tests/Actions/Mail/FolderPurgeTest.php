@@ -3,6 +3,7 @@
 namespace Roundcube\Tests\Actions\Mail;
 
 use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputJsonMock;
 
 /**
  * Test class to test rcmail_action_mail_folder_purge
@@ -10,12 +11,23 @@ use Roundcube\Tests\ActionTestCase;
 class FolderPurgeTest extends ActionTestCase
 {
     /**
-     * Class constructor
+     * Test security check (folder is required)
      */
-    public function test_class()
+    public function test_run_empty_post()
     {
-        $object = new \rcmail_action_mail_folder_purge();
+        $action = new \rcmail_action_mail_folder_purge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'purge');
 
-        $this->assertInstanceOf(\rcmail_action::class, $object);
+        $this->assertTrue($action->checks());
+
+        $_POST = [];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
+        $this->assertSame('purge', $result['action']);
+        $this->assertStringContainsString('this.display_message("An internal error occurred', $result['exec']);
     }
 }

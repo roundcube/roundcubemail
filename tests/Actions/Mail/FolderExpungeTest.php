@@ -108,4 +108,25 @@ class FolderExpungeTest extends ActionTestCase
         $this->assertSame('expunge', $result['action']);
         $this->assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
     }
+
+    /**
+     * Test security check (folder is required)
+     */
+    public function test_run_empty_post()
+    {
+        $action = new \rcmail_action_mail_folder_expunge();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'expunge');
+
+        $this->assertTrue($action->checks());
+
+        $_POST = [];
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
+        $this->assertSame('expunge', $result['action']);
+        $this->assertStringContainsString('this.display_message("An internal error occurred', $result['exec']);
+    }
 }
