@@ -14,6 +14,7 @@
 - Security: Fix SSRF in CSS proxy via incomplete is_local_url() nip.io/sslip.io bypass
 - Security: Fix CSRF validation bypass for file-only POST requests
 - Security: Fix `disabled_actions` restriction bypass by writing '_' instead of '-' in the action name
+- Security: Fix CSRF validation bypass for mail purge/expunge commands
 
 ## Release 1.6.20
 

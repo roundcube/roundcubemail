@@ -29,11 +29,19 @@ class rcmail_action_mail_folder_purge extends rcmail_action_mail_index
      */
     public function run($args = [])
     {
-        $rcmail       = rcmail::get_instance();
-        $storage      = $rcmail->get_storage();
-        $delimiter    = $storage->get_hierarchy_delimiter();
-        $mbox         = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
-        $trash_mbox   = $rcmail->config->get('trash_mbox');
+        $rcmail = rcmail::get_instance();
+        $mbox = rcube_utils::get_input_string('_mbox', rcube_utils::INPUT_POST, true);
+
+        if ($mbox === '') {
+            $rcmail->output->show_message('internalerror', 'error');
+            $rcmail->output->send();
+        }
+
+        $storage = $rcmail->get_storage();
+        $delimiter = $storage->get_hierarchy_delimiter();
+        $trash_mbox = (string) $rcmail->config->get('trash_mbox');
+        $junk_mbox = (string) $rcmail->config->get('junk_mbox');
+        $delete_junk = $rcmail->config->get('delete_junk');
         $trash_regexp = '/^' . preg_quote($trash_mbox . $delimiter, '/') . '/';
 
         // we should only be purging trash (or their subfolders)
