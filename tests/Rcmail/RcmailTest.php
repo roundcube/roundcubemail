@@ -132,6 +132,7 @@ class RcmailTest extends ActionTestCase
         $rcmail = \rcmail::get_instance();
         $rcmail->config->set('request_url', '');
         $rcmail->config->set('proxy_whitelist', ['127.0.0.1']);
+        $rcmail->config->set('trusted_host_patterns', []);
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test',
