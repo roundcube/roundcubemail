@@ -1,5 +1,6 @@
 <?php
 
+use IPLib\Address\AddressInterface;
 use IPLib\Factory;
 use IPLib\ParseStringFlag;
 
@@ -465,19 +466,49 @@ class rcube_utils
                     '64:ff9b:1::/48'  // (RFC 8215 local-use NAT64) 
                 ];
 
-                foreach ($nets as $net) {
-                    $range = Factory::parseRangeString($net);
-                    if ($range->contains($address)) {
-                        return true;
-                    }
+                // Extract embedded IPv4 address
+                if ($address instanceof \IPLib\Address\IPv6 && ($embedded = $address->toIPv4())) {
+                    $address = $embedded;
                 }
 
-                return false;
+                return self::is_ip_in_range($address, $nets);
             }
 
             // FIXME: Should we accept any non-fqdn hostnames?
             $host = strtolower($host);
             return $host == 'metadata.google.internal' || preg_match('/^localhost(\.localdomain)?\.?$/', $host);
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if an IP address matches an entry in the given whitelist.
+     * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
+     *
+     * @param string|AddressInterface $ip        IP address to check
+     * @param array                   $whitelist List of IPs or CIDR ranges
+     */
+    private static function is_ip_in_range($ip, array $whitelist): bool
+    {
+        if (empty($whitelist)) {
+            return false;
+        }
+
+        if ($ip instanceof AddressInterface) {
+            $address = $ip;
+            $ip = (string) $ip;
+        } else {
+            $address = Factory::parseAddressString($ip);
+        }
+
+        foreach ($whitelist as $entry) {
+            if ($entry === $ip) {
+                return true;
+            }
+            if ($address && ($range = Factory::parseRangeString($entry)) && $range->contains($address)) {
+                return true;
+            }
         }
 
         return false;
