@@ -29,6 +29,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix HTTP request injection via the spellcheck ATD backend
 - Security: Fix IMAP command injection via CRLF in _uid parameter with messages_cache enabled
 - Security: Fix SSRF in CSS proxy via incomplete is_local_url() nip.io/sslip.io bypass
+- Security: Fix CSRF validation bypass for file-only POST requests
 
 ## Release 1.7.5
 
