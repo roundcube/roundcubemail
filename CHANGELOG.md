@@ -20,6 +20,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - LDAP: Fix website link including the labeledURI label (#8816)
 - Fix non-ASCII special folder names displayed in UTF7-IMAP encoding when real names are shown (#10375)
 - Security: Fix open redirect via IMAP error recovery on attachment get
+- Security: Fix so Received: header includes only trusted hostname and forwarded IP from a trusted proxy
 
 ## Release 1.7.5
 

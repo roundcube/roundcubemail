@@ -591,25 +591,29 @@ class rcmail_sendmail
     public function header_received()
     {
         if ($this->rcmail->config->get('http_received_header')) {
-            $nldlm = "\r\n\t";
             $http_header = 'from ';
+            $host = rcube_utils::server_name('HTTP_HOST');
+
+            // Only trusted hosts
+            if (!$this->rcmail->config->get('trusted_host_patterns')) {
+                $host = 'localhost';
+            }
 
             // FROM/VIA
-            if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $hosts = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
-                $http_header .= $this->received_host($hosts[0]) . $nldlm . ' via ';
+            if (($addr = rcube_utils::remote_addr()) && $addr != $_SERVER['REMOTE_ADDR']) {
+                $http_header .= $this->received_host($addr) . ' via ';
             }
 
             $http_header .= $this->received_host($_SERVER['REMOTE_ADDR']);
 
             // BY
-            $http_header .= $nldlm . 'by ' . rcube_utils::server_name('HTTP_HOST');
+            $http_header .= ' by ' . $host;
 
             // WITH
-            $http_header .= $nldlm . 'with HTTP (' . $_SERVER['SERVER_PROTOCOL']
+            $http_header .= ' with HTTP (' . $_SERVER['SERVER_PROTOCOL']
                 . ' ' . $_SERVER['REQUEST_METHOD'] . '); ' . date('r');
 
-            return wordwrap($http_header, 69, $nldlm);
+            return wordwrap($http_header, 69, "\r\n\t");
         }
 
         return null;
