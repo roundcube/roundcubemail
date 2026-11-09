@@ -63,6 +63,20 @@ class RcmailTest extends ActionTestCase
     }
 
     /**
+     * Test is_action_disabled() method
+     */
+    public function test_is_action_disabled()
+    {
+        $rcmail = \rcmail::get_instance();
+        $rcmail->config->set('disabled_actions', ['mail.test-action']);
+
+        $this->assertFalse($rcmail->is_action_disabled('mail', 'index'));
+        $this->assertFalse($rcmail->is_action_disabled('contacts', 'test-action'));
+        $this->assertTrue($rcmail->is_action_disabled('mail', 'test-action'));
+        $this->assertTrue($rcmail->is_action_disabled('mail', 'test_action'));
+    }
+
+    /**
      * Test rcmail::get_address_book()
      */
     public function test_get_address_book()
