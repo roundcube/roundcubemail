@@ -33,6 +33,14 @@ class rcmail_action_utils_spell_html extends rcmail_action
         $rcmail = rcmail::get_instance();
         $method = rcube_utils::get_input_string('method', rcube_utils::INPUT_POST);
         $lang = rcube_utils::get_input_string('lang', rcube_utils::INPUT_POST);
+
+        if (!rcube_utils::is_simple_string($lang)) {
+            rcube::raise_error('Spellcheck error: Invalid language code', true);
+
+            echo json_encode(['error' => $rcmail->gettext('internalerror')]);
+            exit;
+        }
+
         $result = [];
 
         $spellchecker = new rcube_spellchecker($lang);
