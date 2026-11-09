@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Allegato mancante?";
 $messages['forgotattachment'] = "Sembra che tu abbia dimenticato di allegare un file!\nPremere Annulla per inviare lo stesso.\nOK per tornare al messaggio senza inviare.";
 $messages['reminderoption'] = "Ricorda per gli allegati dimenticati";
-$messages['keywords'] = "allegato,allegati,allegata,allegate,allega,allego,alleghi,attaccato,file,attachment,attach";
+$messages['keywords'] = "allegato,allegati,allegata,allegate,allega,allego,alleghi,attaccato,file(s),attach(ment(s))";

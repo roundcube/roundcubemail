@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Nedostaje privitak?";
 $messages['forgotattachment'] = "Jeste li zaboravili dodati privitak?";
 $messages['reminderoption'] = "Podsjeti na zaboravljen privitak";
-$messages['keywords'] = "privitak,datoteka,dodati,dodano,dodajem,u privitku,CV,motivacijsko pismo";
+$messages['keywords'] = "privitak,datoteka*,dodati,dodano,dodajem*,u privitku,CV,motivacijsko pismo*";
