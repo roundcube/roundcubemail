@@ -704,6 +704,8 @@ class UtilsTest extends TestCase
     public function test_is_simple_string()
     {
         $this->assertTrue(\rcube_utils::is_simple_string('some-thing.123_'));
+        $this->assertTrue(\rcube_utils::is_simple_string('AAAA.BBBB-cccc_ddd'));
+        $this->assertFalse(\rcube_utils::is_simple_string("test\n"));
         $this->assertFalse(\rcube_utils::is_simple_string(''));
         $this->assertFalse(\rcube_utils::is_simple_string(' '));
         $this->assertFalse(\rcube_utils::is_simple_string('some–thing'));
@@ -775,6 +777,14 @@ class UtilsTest extends TestCase
             ['http://127-0-0-1.nip.io', true],
             ['http://127-0-0-1.nip.io.', true],
             ['http://7F000001.nip.io/', true],
+            ['http://127.0.0.1.2.nip.io', true], // 127.0.0.1
+            ['http://0.0.0.0.0.ffff.7f00.1.backname.io', true],
+            ['http://x.127.0.0.1.nip.io', true],
+            ['http://x.0a000001.nip.io/', true],
+            ['http://x.c0a80101.nip.io/', true],
+            ['http://x.a9fea9fe.nip.io/', true],
+            ['http://x.0-0-0-0-0-0-0-0-1.sslip.io/', true],
+            ['http://0-0-0-0-0-0-0-0-1.sslip.io/', true],
             ['http://metadata.google.internal', true],
             ['http://127.0.0.1.sslip.io/', true],
             ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
@@ -789,6 +799,8 @@ class UtilsTest extends TestCase
             ['http://[64:ff9b:1::]/', true],
             ['http://[64:ff9b::a9fe:a9fe]/', true],
             ['http://[64:ff9b::7f00:1]/', true],
+            ['http://[2002:a9fe:a9fe::]/', true],
+            ['http://[2002:7f00:1::]/', true],
             // Non-local hosts
             ['http://[2001:470::76:0:0:0:2]', false],
             ['http://domain.tld', false],

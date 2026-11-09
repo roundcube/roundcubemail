@@ -22,6 +22,9 @@
 
 class rcube_sieve_script
 {
+    public const SET_OPTIONS = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
+    public const INCLUDE_OPTIONS = ['once', 'optional', 'global', 'personal'];
+
     public $content = []; // script rules array
 
     private $vars = []; // "global" variables
@@ -466,18 +469,12 @@ class rcube_sieve_script
                             break;
                         case 'include':
                             array_push($exts, 'include');
-                            $action_script .= 'include ';
-                            foreach (array_diff(array_keys($action), ['target', 'type']) as $opt) {
-                                $action_script .= ":{$opt} ";
-                            }
+                            $action_script .= 'include ' . $this->bool_options($action, self::INCLUDE_OPTIONS);
                             $action_script .= self::escape_string($action['target']);
                             break;
                         case 'set':
                             array_push($exts, 'variables');
-                            $action_script .= 'set ';
-                            foreach (array_diff(array_keys($action), ['name', 'value', 'type']) as $opt) {
-                                $action_script .= ":{$opt} ";
-                            }
+                            $action_script .= 'set ' . $this->bool_options($action, self::SET_OPTIONS);
                             $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
                             break;
                         case 'replace':
@@ -972,15 +969,13 @@ class rcube_sieve_script
                     break;
                 case 'include':
                     $action = ['type' => 'include', 'target' => array_pop($tokens)];
-                    $args = ['once', 'optional', 'global', 'personal'];
-                    $action += $this->action_arguments($tokens, $args);
+                    $action += $this->action_arguments($tokens, self::INCLUDE_OPTIONS);
 
                     $result[] = $action;
                     break;
                 case 'set':
                     $action = ['type' => 'set', 'value' => array_pop($tokens), 'name' => array_pop($tokens)];
-                    $args = ['lower', 'upper', 'lowerfirst', 'upperfirst', 'quotewildcard', 'length', 'encodeurl'];
-                    $action += $this->action_arguments($tokens, $args);
+                    $action += $this->action_arguments($tokens, self::SET_OPTIONS);
 
                     $result[] = $action;
                     break;
@@ -1099,7 +1094,7 @@ class rcube_sieve_script
      */
     private function add_operator($test, &$out, &$exts)
     {
-        if (empty($test['type'])) {
+        if (empty($test['type']) || !preg_match('/^[a-z-]+$/', $test['type'])) {
             return;
         }
 
@@ -1117,6 +1112,22 @@ class rcube_sieve_script
         }
 
         $this->add_comparator($test, $out, $exts);
+    }
+
+    /**
+     * Create command options string
+     */
+    private function bool_options($options, $keys)
+    {
+        $out = '';
+
+        foreach ($keys as $opt) {
+            if (isset($options[$opt])) {
+                $out .= ":{$opt} ";
+            }
+        }
+
+        return $out;
     }
 
     /**

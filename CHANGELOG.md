@@ -8,11 +8,38 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
+- Fix Imagick thumbnail orientation, colors and transparency (#10350)
+
+## Release 1.7.6
+
 - Enable PHP 8.6 support (#10368, #10362)
 - LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
+- Fix/Improve handling of IMAP literal strings
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
 - Fix TypeError when archiving all messages via select-all (#10107)
 - Fix temporary files permissions to 0600 (#10328)
+- Fix refresh interval setting showing "never" when the configured value is not one of the predefined intervals (#10292)
+- Fix installto.sh and update.sh reporting success when an upgrade step fails (#10326)
+- Newmail_notifier: Fix restoring skin favicons defined with rel="icon" (#9575)
+- LDAP: Fix website link including the labeledURI label (#8816)
+- Fix non-ASCII special folder names displayed in UTF7-IMAP encoding when real names are shown (#10375)
+- Security: Fix open redirect via IMAP error recovery on attachment get
+- Security: Fix so Received: header includes only trusted hostname and forwarded IP from a trusted proxy
+- Security: Fix bug where some managesieve destructive actions could have been triggered cross-site via GET
+- Security: Fix Sieve script injection via a rule operator
+- Security: Fix Sieve script injection via set/include modifiers
+- Security: Fix bug where resolve_url() ignored trusted host setting
+- Security: Fix mail header injection via a MDN subject
+- Security: Fix HTTP request injection via the spellcheck ATD backend
+- Security: Fix IMAP command injection via CRLF in _uid parameter with messages_cache enabled
+- Security: Fix SSRF in CSS proxy via incomplete is_local_url() nip.io/sslip.io bypass
+- Security: Fix CSRF validation bypass for file-only POST requests
+- Security: Fix `disabled_actions` restriction bypass by writing '_' instead of '-' in the action name
+- Security: Fix CSRF validation bypass for mail purge/expunge commands
+- Security: Fix passing potentally unsafe attachment content into ImageMagick on image type conversion
+- Security: Fix Unbounded CPU loop/DoS in rcube_session::unserialize() via a negative length token
+- Security: Fix SSRF filter (is_local_url()) bypass via 6to4 (2002::/16) addresses
+- Security: Fix so IMAP host input is validated more strictly
 
 ## Release 1.7.5
 

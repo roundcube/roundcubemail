@@ -1,4 +1,5 @@
 #!/usr/bin/env php
+# shellcheck disable=all
 <?php
 
 /*
@@ -64,6 +65,7 @@ if (strtolower($input) == 'y') {
     }
 
     $adds = [];
+    $errors = [];
     $dirs = ['bin', 'SQL', 'plugins', 'skins', 'program', 'docs'];
 
     if (is_dir(INSTALL_PATH . 'vendor') && (!is_file("{$target_dir}/composer.json") || rcmail_install::vendor_dir_untouched($target_dir))) {
@@ -169,7 +171,13 @@ if (strtolower($input) == 'y') {
 
         if (!file_exists($dest_file) || sha1_file($dest_file) !== $package->sha1) {
             echo 'Installing JavaScript dependencies...';
-            system("cd {$target_dir} && " . \PHP_BINARY . ' bin/install-jsdeps.sh');
+            $command = "cd {$target_dir} && " . \PHP_BINARY . ' bin/install-jsdeps.sh';
+
+            // Don't stop here, the update script below still has to run
+            if (system($command, $ret) === false || $ret > 0) {
+                $errors[] = "Failed to execute command: {$command}";
+            }
+
             echo "done.\n\n";
         }
     }
@@ -179,7 +187,16 @@ if (strtolower($input) == 'y') {
     }
 
     echo "Running update script at target...\n";
-    system("cd {$target_dir} && " . \PHP_BINARY . " bin/update.sh --version={$oldversion}" . ($accept ? ' -y' : ''));
+    $command = "cd {$target_dir} && " . \PHP_BINARY . " bin/update.sh --version={$oldversion}" . ($accept ? ' -y' : '');
+
+    if (system($command, $ret) === false || $ret > 0) {
+        $errors[] = "Failed to execute command: {$command}";
+    }
+
+    if (!empty($errors)) {
+        rcube::raise_error(implode("\n", $errors), false, true);
+    }
+
     echo "All done.\n";
 } else {
     echo "Update cancelled. See ya!\n";

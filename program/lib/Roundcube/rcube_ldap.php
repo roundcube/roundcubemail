@@ -1331,6 +1331,22 @@ class rcube_ldap extends rcube_addressbook
             }
         }
 
+        // keep the label of unchanged labeledURI values
+        if (!empty($ldap_data['labeleduri']) && !empty($old_data['labeleduri'])) {
+            $labeled = [];
+            foreach ((array) $old_data['labeleduri'] as $value) {
+                $labeled[self::labeled_uri($value)] = $value;
+            }
+
+            if (is_array($ldap_data['labeleduri'])) {
+                foreach ($ldap_data['labeleduri'] as $idx => $value) {
+                    $ldap_data['labeleduri'][$idx] = $labeled[$value] ?? $value;
+                }
+            } else {
+                $ldap_data['labeleduri'] = $labeled[$ldap_data['labeleduri']] ?? $ldap_data['labeleduri'];
+            }
+        }
+
         foreach ($this->fieldmap as $fld) {
             if ($fld) {
                 $val = $ldap_data[$fld];
@@ -1647,6 +1663,11 @@ class rcube_ldap extends rcube_addressbook
                 [$col, $subtype] = rcube_utils::explode(':', $rf);
                 $out['_raw_attrib'][$lf][$i] = $value;
 
+                // labeledURI value is a URI optionally followed by a label (RFC 2079)
+                if ($lf == 'labeleduri') {
+                    $value = self::labeled_uri($value);
+                }
+
                 if ($col == 'email' && $this->mail_domain && !strpos($value, '@')) {
                     $out[$rf][] = sprintf('%s@%s', $value, $this->mail_domain);
                 } elseif (in_array($col, ['street', 'zipcode', 'locality', 'country', 'region'])) {
@@ -1752,6 +1773,14 @@ class rcube_ldap extends rcube_addressbook
         }
 
         return $ldap_data;
+    }
+
+    /**
+     * Returns the URI part of a labeledURI attribute value
+     */
+    private static function labeled_uri($value)
+    {
+        return explode(' ', trim($value), 2)[0];
     }
 
     /**

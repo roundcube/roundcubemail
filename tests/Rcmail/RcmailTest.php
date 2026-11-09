@@ -63,6 +63,20 @@ class RcmailTest extends ActionTestCase
     }
 
     /**
+     * Test is_action_disabled() method
+     */
+    public function test_is_action_disabled()
+    {
+        $rcmail = \rcmail::get_instance();
+        $rcmail->config->set('disabled_actions', ['mail.test-action']);
+
+        $this->assertFalse($rcmail->is_action_disabled('mail', 'index'));
+        $this->assertFalse($rcmail->is_action_disabled('contacts', 'test-action'));
+        $this->assertTrue($rcmail->is_action_disabled('mail', 'test-action'));
+        $this->assertTrue($rcmail->is_action_disabled('mail', 'test_action'));
+    }
+
+    /**
      * Test rcmail::get_address_book()
      */
     public function test_get_address_book()
@@ -132,6 +146,7 @@ class RcmailTest extends ActionTestCase
         $rcmail = \rcmail::get_instance();
         $rcmail->config->set('request_url', '');
         $rcmail->config->set('proxy_whitelist', ['127.0.0.1']);
+        $rcmail->config->set('trusted_host_patterns', []);
 
         $this->assertSame(
             '/sub/?_task=cli&_action=test',
@@ -321,5 +336,56 @@ class RcmailTest extends ActionTestCase
         date_default_timezone_set('Europe/Warsaw');
         $this->assertSame('2026-07-20', $rcmail->format_date('2026-07-20', 'Y-m-d', false));
         $this->assertSame('2026-07-20', $rcmail->format_date('2026-07-20', 'Y-m-d', true));
+    }
+
+    /**
+     * Test that relative dates are calculated in the user's timezone.
+     */
+    public function test_format_date_relative_labels_use_user_timezone()
+    {
+        $rcmail = \rcmail::get_instance();
+        $config = $rcmail->config;
+        $system_timezone = date_default_timezone_get();
+        $config_values = [];
+
+        foreach (['timezone', 'prettydate', 'date_today', 'date_short'] as $name) {
+            $config_values[$name] = $config->get($name);
+        }
+
+        try {
+            date_default_timezone_set('UTC');
+            $config->set('timezone', 'America/Chicago');
+            $config->set('prettydate', true);
+            $config->set('date_today', 'H:i');
+            $config->set('date_short', 'Y-m-d H:i');
+
+            $utc = new \DateTimeZone('UTC');
+            $user_timezone = new \DateTimeZone('America/Chicago');
+            $now = new \DateTime('now', $utc);
+            $now_in_user_timezone = clone $now;
+            $now_in_user_timezone->setTimezone($user_timezone);
+
+            if ($now_in_user_timezone->format('Y-m-d') !== $now->format('Y-m-d')) {
+                // Yesterday in UTC, but today in the user's timezone.
+                $date = $now->setTime(0, 0)->modify('-1 second');
+                $expected_date = clone $date;
+                $expected_date->setTimezone($user_timezone);
+                $expected = 'Today ' . $expected_date->format('H:i');
+            } else {
+                // Today in UTC, but yesterday in the user's timezone.
+                $date = $now->setTime(0, 1);
+                $expected_date = clone $date;
+                $expected_date->setTimezone($user_timezone);
+                $expected = $expected_date->format('Y-m-d H:i');
+            }
+
+            $this->assertSame($expected, $rcmail->format_date($date));
+        } finally {
+            date_default_timezone_set($system_timezone);
+
+            foreach ($config_values as $name => $value) {
+                $config->set($name, $value);
+            }
+        }
     }
 }

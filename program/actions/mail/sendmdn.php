@@ -119,6 +119,13 @@ class rcmail_action_mail_sendmdn extends rcmail_action
                 $report .= "Reporting-UA: {$agent}\r\n";
             }
 
+            // For security reasons do not allow new-line characters in headers
+            foreach ($headers as $idx => $value) {
+                if (is_string($value)) {
+                    $headers[$idx] = trim(preg_replace('/[\r\n\t\s]+/', ' ', $value));
+                }
+            }
+
             $to = rcube_mime::decode_mime_string($message->headers->to, $charset);
             $date = $rcmail->format_date($message->headers->date, $rcmail->config->get('date_long'));
             $body = $rcmail->gettext('yourmessage') . "\r\n\r\n"
