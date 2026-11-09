@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Security: Fix open redirect via IMAP error recovery on attachment get
+- Security: Fix so Received: header includes only trusted hostname and forwarded IP from a trusted proxy
 
 ## Release 1.6.20
 
