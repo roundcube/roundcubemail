@@ -24,6 +24,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix bug where some managesieve destructive actions could have been triggered cross-site via GET
 - Security: Fix Sieve script injection via a rule operator
 - Security: Fix Sieve script injection via set/include modifiers
+- Security: Fix bug where resolve_url() ignored trusted host setting
 
 ## Release 1.7.5
 

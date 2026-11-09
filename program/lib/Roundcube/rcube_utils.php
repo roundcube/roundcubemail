@@ -1667,7 +1667,7 @@ class rcube_utils
             if (!empty($_SERVER['HTTP_X_FORWARDED_HOST']) && self::check_proxy_whitelist_ip()) {
                 $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
             } else {
-                $host = $_SERVER['HTTP_HOST'] ?? '';
+                $host = self::server_name('HTTP_HOST', false);
             }
 
             $port = parse_url($host, \PHP_URL_PORT);
