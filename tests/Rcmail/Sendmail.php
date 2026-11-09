@@ -88,7 +88,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         );
 
         // With whitelisted proxy
-        $config->set('proxy_whitelist', ['1.0.0.0/8']);
+        $config->set('proxy_whitelist', ['1.2.3.4']);
         $this->assertStringStartsWith(
             "from [203.0.113.5] via [1.2.3.4] by localhost with HTTP (HTTP/1.0\r\n\tGET);",
             $sendmail->header_received()
