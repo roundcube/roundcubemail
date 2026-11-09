@@ -1643,8 +1643,8 @@ class rcube_utils
                 $default_port = 443;
             }
 
-            $host = $_SERVER['HTTP_HOST'] ?? '';
-            $port = $_SERVER['SERVER_PORT'] ?? 0;
+            $host = self::server_name('HTTP_HOST', false);
+            $port = parse_url($host, \PHP_URL_PORT);
 
             $prefix = $schema . '://' . preg_replace('/:\d+$/', '', $host);
             if ($port && $port != $default_port && $port != 80) {
