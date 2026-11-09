@@ -21,6 +21,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix Sieve script injection via a rule operator
 - Security: Fix Sieve script injection via set/include modifiers
 - Security: Fix bug where resolve_url() ignored trusted host setting
+- Security: Fix mail header injection via a MDN subject
 
 ## Release 1.7.5
 
