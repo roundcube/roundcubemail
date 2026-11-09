@@ -436,15 +436,8 @@ class rcube_utils
 
             $host = trim($host, '[].');
 
-            if (preg_match('/([0-9a-f.-]+)\.(nip|sslip)\.io$/i', $host, $matches)) {
-                $host = $matches[1];
-                if (preg_match('/([0-9]{1,3}([.-][0-9]{1,3}){3})$/', $host, $m)) {
-                    $host = str_replace('-', '.', $m[1]); // IPv4
-                } elseif (preg_match('/^([0-9a-f]{8})$/i', $host, $m)) {
-                    $host = long2ip(base_convert($m[1], 16, 10)); // Hexadecimal
-                } else {
-                    $host = str_replace('-', ':', $host); // IPv6
-                }
+            if ($xip = self::xip_ip($host)) {
+                $host = $xip;
             }
 
             // TODO: This is pretty fast, but a single message can contain multiple links
@@ -503,6 +496,64 @@ class rcube_utils
         }
 
         return false;
+    }
+
+    /**
+     * Extract IP address from a nip.io/sslip.io-style fqdn
+     *
+     * @return ?string IP address if found
+     */
+    private static function xip_ip(string $host)
+    {
+        if (!preg_match('/\.(backname\.io|fdns\.uk|ipq\.co|nip\.io|sslip\.io|traefik\.me)$/i', $host)) {
+            return null;
+        }
+
+        // IPv4 dash-separated
+        $ipv4REDashes = '/(^|[.-])(((25[0-5]|(2[0-4]|1\d|[1-9])?\d)\-){3}(25[0-5]|(2[0-4]|1\d|[1-9])?\d))($|[.-])/';
+        if (preg_match($ipv4REDashes, $host, $m)) {
+            return str_replace('-', '.', $m[2]);
+        }
+
+        // IPv4 dot-separated
+        $ipv4REDots = '/(^|[.-])(((25[0-5]|(2[0-4]|1\d|[1-9])?\d)\.){3}(25[0-5]|(2[0-4]|1\d|[1-9])?\d))($|[.-])/';
+        if (preg_match($ipv4REDots, $host, $m)) {
+            return str_replace('-', '.', $m[2]);
+        }
+
+        // IPv4 hex
+        $ipv4REHex = '/(^|[.-])([[:xdigit:]]{8})($|[.-])/';
+        if (preg_match($ipv4REHex, $host, $m)) {
+            return long2ip(base_convert($m[2], 16, 10));
+        }
+
+        // IPv6 dash-separated
+        $ipv6RE = '/(^|[.-])(([[:xdigit:]]{1,4}-){7}[[:xdigit:]]{1,4}|([[:xdigit:]]{1,4}-){1,7}-'
+            . '|([[:xdigit:]]{1,4}-){1,6}-[[:xdigit:]]{1,4}|([[:xdigit:]]{1,4}-){1,5}(-[[:xdigit:]]{1,4}){1,2}'
+            . '|([[:xdigit:]]{1,4}-){1,4}(-[[:xdigit:]]{1,4}){1,3}|([[:xdigit:]]{1,4}-){1,3}(-[[:xdigit:]]{1,4}){1,4}'
+            . '|([[:xdigit:]]{1,4}-){1,2}(-[[:xdigit:]]{1,4}){1,5}|[[:xdigit:]]{1,4}-((-[[:xdigit:]]{1,4}){1,6})'
+            . '|-((-[[:xdigit:]]{1,4}){1,7}|-)|fe80-(-[[:xdigit:]]{0,4}){0,4}%[\da-zA-Z]+'
+            . '|--(ffff(-0{1,4})?-)?((25[0-5]|(2[0-4]|1?\d)?\d)\.){3}(25[0-5]|(2[0-4]|1?\d)?\d)'
+            . '|([[:xdigit:]]{1,4}-){1,4}-((25[0-5]|(2[0-4]|1?\d)?\d)\.){3}(25[0-5]|(2[0-4]|1?\d)?\d))($|[.-])/';
+        if (preg_match($ipv6RE, $host, $m)) {
+            return str_replace('-', ':', $m[2]);
+        }
+
+        // IPv6 dot-separated (backname.io)
+        $ipv6REDots = '/(^|\.)(([[:xdigit:]]{1,4}\.){7}[[:xdigit:]]{1,4})($|\.)/';
+        if (preg_match($ipv6REDots, $host, $m)) {
+            return str_replace('.', ':', $m[2]);
+        }
+
+        // IPv6 hex
+        $ipv6REHex = '/(^|\.)([[:xdigit:]]{32})($|\.)/';
+        if (preg_match($ipv6REHex, $host, $m)) {
+            $words = str_split($m[2], 2);
+            $words = array_map('hex2bin', $words);
+            return (string) \IPLib\Address\IPv6::fromWords($words);
+        }
+
+        return null;
     }
 
     /**
