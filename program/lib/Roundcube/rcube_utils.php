@@ -1,5 +1,6 @@
 <?php
 
+use IPLib\Address\AddressInterface;
 use IPLib\Factory;
 use IPLib\ParseStringFlag;
 
@@ -460,6 +461,11 @@ class rcube_utils
                     '64:ff9b:1::/48',  // (RFC 8215 local-use NAT64)
                 ];
 
+                // Extract embedded IPv4 address
+                if ($address instanceof \IPLib\Address\IPv6 && ($embedded = $address->toIPv4())) {
+                    $address = $embedded;
+                }
+
                 return self::is_ip_in_range($address, $nets);
             }
 
@@ -475,16 +481,21 @@ class rcube_utils
      * Check if an IP address matches an entry in the given whitelist.
      * Entries may be exact IP addresses or CIDR ranges (e.g. '10.0.0.0/8', 'fc00::/7').
      *
-     * @param string $ip        IP address to check
-     * @param array  $whitelist List of IPs or CIDR ranges
+     * @param string|AddressInterface $ip        IP address to check
+     * @param array                   $whitelist List of IPs or CIDR ranges
      */
-    private static function is_ip_in_range(string $ip, array $whitelist): bool
+    private static function is_ip_in_range($ip, array $whitelist): bool
     {
         if (empty($whitelist)) {
             return false;
         }
 
-        $address = Factory::parseAddressString($ip);
+        if ($ip instanceof AddressInterface) {
+            $address = $ip;
+            $ip = (string) $ip;
+        } else {
+            $address = Factory::parseAddressString($ip);
+        }
 
         foreach ($whitelist as $entry) {
             if ($entry === $ip) {
