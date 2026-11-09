@@ -67,6 +67,7 @@ class Rcmail_RcmailSendmail extends ActionTestCase
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '203.0.113.5';
         $_SERVER['HTTP_X_REAL_IP'] = '';
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.0';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
 
         $sendmail = new \rcmail_sendmail();
         $config = \rcmail::get_instance()->config;

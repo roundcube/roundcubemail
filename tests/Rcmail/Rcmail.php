@@ -125,6 +125,7 @@ class Rcmail_Rcmail extends ActionTestCase
     function test_url()
     {
         $rcmail = rcmail::get_instance();
+        $rcmail->config->set('trusted_host_patterns', []);
 
         $this->assertEquals(
             '/sub/?_task=cli&_action=test',
@@ -187,9 +188,8 @@ class Rcmail_Rcmail extends ActionTestCase
         $rcmail->config->set('request_path', null);
 
         $_SERVER['HTTPS'] = false;
-        $_SERVER['SERVER_PORT'] = '8080';
         $this->assertEquals(
-            'http://mail.example.org:8080/?_task=cli&_action=test&_mode=ABS',
+            'http://mail.example.org/?_task=cli&_action=test&_mode=ABS',
             $rcmail->url(['_action' => 'test', '_mode' => 'ABS'], true, true),
             "Full URL with port"
         );
