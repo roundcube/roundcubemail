@@ -548,6 +548,8 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
     function test_is_simple_string()
     {
         $this->assertTrue(rcube_utils::is_simple_string('some-thing.123_'));
+        $this->assertTrue(rcube_utils::is_simple_string('AAAA.BBBB-cccc_ddd'));
+        $this->assertFalse(rcube_utils::is_simple_string("test\n"));
         $this->assertFalse(rcube_utils::is_simple_string(''));
         $this->assertFalse(rcube_utils::is_simple_string(' '));
         $this->assertFalse(rcube_utils::is_simple_string('some–thing'));
@@ -557,7 +559,7 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $this->assertFalse(rcube_utils::is_simple_string('%20'));
         $this->assertFalse(rcube_utils::is_simple_string('\0000'));
         $this->assertFalse(rcube_utils::is_simple_string(1));
-        $this->assertFalse(rcube_utils::is_simple_string(new stdClass()));
+        $this->assertFalse(rcube_utils::is_simple_string(new \stdClass()));
         $this->assertFalse(rcube_utils::is_simple_string(null));
     }
 
