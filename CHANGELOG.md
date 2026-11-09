@@ -10,6 +10,7 @@
 - Security: Fix bug where resolve_url() ignored trusted host setting
 - Security: Fix mail header injection via a MDN subject
 - Security: Fix HTTP request injection via the spellcheck ATD backend
+- Security: Fix IMAP command injection via CRLF in _uid parameter with messages_cache enabled
 
 ## Release 1.6.20
 

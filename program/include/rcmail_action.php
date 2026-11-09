@@ -894,7 +894,7 @@ abstract class rcmail_action
                 if ($uid == '*') {
                     $result[$mbox] = $uid;
                 }
-                else if (preg_match('/^[0-9:.]+$/', $uid)) {
+                elseif (preg_match('/^[0-9:.]+\z/', $uid)) {
                     $result[$mbox][] = $uid;
                 }
             }
