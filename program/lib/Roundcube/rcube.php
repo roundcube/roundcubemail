@@ -1052,7 +1052,7 @@ class rcube
         }
 
         // skip empty requests
-        if (($mode == rcube_utils::INPUT_POST && empty($_POST))
+        if (($mode == rcube_utils::INPUT_POST && empty($_POST) && empty($_FILES))
             || ($mode == rcube_utils::INPUT_GET && empty($_GET))
         ) {
             return true;
