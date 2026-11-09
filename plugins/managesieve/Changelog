@@ -8,6 +8,9 @@
 - Fix infinite loop when parsing a malformed script (#9562)
 - Fix current script state after initial scripts creation in managesieve_kolab_master mode
 - Fix match-type selector (remove unsupported options) in delete header action (#9610)
+- Fix bug where some managesieve destructive actions could have been triggered cross-site via GET
+- Fix Sieve script injection via a rule operator
+- Fix Sieve script injection via set/include modifiers
 
 * version 9.4 [2021-06-06]
 -----------------------------------------------------------
