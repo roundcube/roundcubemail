@@ -1139,7 +1139,7 @@ class rcube_sieve_script
      */
     private function add_operator($test, &$out, &$exts)
     {
-        if (empty($test['type'])) {
+        if (empty($test['type']) || !preg_match('/^[a-z-]+$/', $test['type'])) {
             return;
         }
 

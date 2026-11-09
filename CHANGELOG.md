@@ -5,6 +5,7 @@
 - Security: Fix open redirect via IMAP error recovery on attachment get
 - Security: Fix so Received: header includes only trusted hostname and forwarded IP from a trusted proxy
 - Security: Fix bug where some managesieve destructive actions could have been triggered cross-site via GET
+- Security: Fix Sieve script injection via a rule operator
 
 ## Release 1.6.20
 
