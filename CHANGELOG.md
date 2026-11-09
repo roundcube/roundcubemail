@@ -30,6 +30,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix IMAP command injection via CRLF in _uid parameter with messages_cache enabled
 - Security: Fix SSRF in CSS proxy via incomplete is_local_url() nip.io/sslip.io bypass
 - Security: Fix CSRF validation bypass for file-only POST requests
+- Security: Fix `disabled_actions` restriction bypass by writing '_' instead of '-' in the action name
 
 ## Release 1.7.5
 
