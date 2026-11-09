@@ -489,7 +489,7 @@ class rcube_sieve_script
 
                     case 'set':
                         array_push($exts, 'variables');
-                        $action_script .= 'include ' . $this->bool_options($action, self::SET_OPTIONS);
+                        $action_script .= 'set ' . $this->bool_options($action, self::SET_OPTIONS);
                         $action_script .= self::escape_string($action['name']) . ' ' . self::escape_string($action['value']);
                         break;
 
