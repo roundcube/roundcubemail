@@ -2087,7 +2087,7 @@ class rcube_imap_generic
             if ($message_set === '' || $message_set === 'INVALID') {
                 return false;
             }
-        } elseif (empty($message_set)) {
+        } elseif (empty($message_set) || preg_match('/[^0-9:,*]/', (string) $message_set)) {
             return false;
         } elseif (strpos($message_set, ':')) {
             [$from_idx, $to_idx] = explode(':', $message_set);
@@ -2811,6 +2811,10 @@ class rcube_imap_generic
      */
     public function fetchMIMEHeaders($mailbox, $uid, $parts, $mime = true)
     {
+        if (preg_match('/[^0-9:,*]/', (string) $uid)) {
+            return false;
+        }
+
         if (!$this->select($mailbox)) {
             return false;
         }
@@ -2841,6 +2845,7 @@ class rcube_imap_generic
 
         // format request
         foreach ($parts as $part) {
+            $part = preg_replace('/[\r\n]+/', ' ', (string) $part); // sanitize input
             $peeks[] = "BODY.PEEK[{$part}.{$type}]";
         }
 
@@ -2893,6 +2898,10 @@ class rcube_imap_generic
     public function handlePartBody($mailbox, $id, $is_uid = false, $part = '', $encoding = null, $print = null,
         $file = null, $formatted = false, $max_bytes = 0)
     {
+        if (preg_match('/[^0-9:,*]/', (string) $id)) {
+            return false;
+        }
+
         if (!$this->select($mailbox)) {
             return false;
         }
@@ -2902,6 +2911,7 @@ class rcube_imap_generic
         $result = false;
         $found = false;
         $mode = 0;
+        $part = preg_replace('/[\r\n]+/', ' ', (string) $part); // sanitize input
 
         do {
             if (!$initiated) {
@@ -2923,7 +2933,7 @@ class rcube_imap_generic
                 }
 
                 // Use BINARY extension when possible (and safe)
-                $binary = $binary && $mode && preg_match('/^[0-9.]+$/', (string) $part) && $this->hasCapability('BINARY');
+                $binary = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
                 $fetch_mode = $binary ? 'BINARY' : 'BODY';
                 $partial = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 
