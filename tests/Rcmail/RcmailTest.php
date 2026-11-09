@@ -77,6 +77,25 @@ class RcmailTest extends ActionTestCase
     }
 
     /**
+     * Test rcmail::autoselect_host()
+     */
+    public function test_autoselect_host()
+    {
+        $rcmail = \rcmail::get_instance();
+        $rcmail->config->set('imap_host', '');
+
+        $_POST = ['_host' => 'test.domain.tld:143'];
+        $this->assertSame('test.domain.tld:143', $rcmail->autoselect_host());
+        $_POST = ['_host' => 'test.domain.tld'];
+        $this->assertSame('test.domain.tld', $rcmail->autoselect_host());
+        $_POST = ['_host' => 'tls://test.domain.tld:143'];
+        $this->assertSame('tls://test.domain.tld:143', $rcmail->autoselect_host());
+
+        $_POST = ['_host' => 'test.domain.tld@example.com:143'];
+        $this->assertNull($rcmail->autoselect_host());
+    }
+
+    /**
      * Test rcmail::get_address_book()
      */
     public function test_get_address_book()

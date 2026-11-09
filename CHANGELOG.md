@@ -30,6 +30,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix CSRF validation bypass for mail purge/expunge commands
 - Security: Fix passing potentally unsafe attachment content into ImageMagick on image type conversion
 - Security: Fix Unbounded CPU loop/DoS in rcube_session::unserialize() via a negative length token
+- Security: Fix so IMAP host input is validated more strictly
 
 ## Release 1.7.5
 
