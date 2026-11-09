@@ -1020,6 +1020,9 @@ class rcmail extends rcube
         }
         else if (empty($default_host)) {
             $host = rcube_utils::get_input_string('_host', rcube_utils::INPUT_POST);
+            if (!preg_match('~^((imap|imaps|tls|ssl)://)?[\w.-]+(:[0-9]+)?\z~', $host)) {
+                $host = null;
+            }
         }
         else {
             $host = rcube_utils::parse_host($default_host);
