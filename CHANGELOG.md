@@ -9,8 +9,12 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - OAuth: Validate JWT token signature (#10210)
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
+
+## Release 1.7.6
+
 - Enable PHP 8.6 support (#10368, #10362)
 - LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
+- Fix/Improve handling of IMAP literal strings
 - Fix fatal error when a SORT/THREAD/SEARCH/ESEARCH command response includes untagged responses (#10361)
 - Fix TypeError when archiving all messages via select-all (#10107)
 - Fix temporary files permissions to 0600 (#10328)
@@ -35,6 +39,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix passing potentally unsafe attachment content into ImageMagick on image type conversion
 - Security: Fix Unbounded CPU loop/DoS in rcube_session::unserialize() via a negative length token
 - Security: Fix SSRF filter (is_local_url()) bypass via 6to4 (2002::/16) addresses
+- Security: Fix so IMAP host input is validated more strictly
 
 ## Release 1.7.5
 
