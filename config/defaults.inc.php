@@ -783,7 +783,9 @@ $config['generic_message_footer'] = '';
 // paths are relative to the Roundcube root folder
 $config['generic_message_footer_html'] = '';
 
-// add a received header to outgoing mails containing the creators IP and hostname
+// Add a Received: header to outgoing mails containing the creators IP and hostname.
+// For security, only trusted hosts are used. It is recommended to use 'proxy_whitelist'
+// and 'trusted_host_patterns' to control this.
 $config['http_received_header'] = false;
 
 // Whether or not to encrypt the IP address and the host name
