@@ -15,6 +15,7 @@
 - Security: Fix CSRF validation bypass for file-only POST requests
 - Security: Fix `disabled_actions` restriction bypass by writing '_' instead of '-' in the action name
 - Security: Fix CSRF validation bypass for mail purge/expunge commands
+- Security: Fix passing potentally unsafe attachment content into ImageMagick on image type conversion
 
 ## Release 1.6.20
 

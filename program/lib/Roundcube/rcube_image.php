@@ -318,6 +318,14 @@ class rcube_image
         $rcube   = rcube::get_instance();
         $convert = self::getCommand('im_convert_path');
 
+        $props = $this->props();
+
+        // Note: We don't support types like svg or eps for security reasons
+        $valid_types = 'bmp,gif,ico,jp2,jpg,jpeg,png,png8,png24,png32,tif,tiff,webp';
+        if (!in_array($props['type'] ?? '', explode(',', $valid_types))) {
+            return false;
+        }
+
         if (!$filename) {
             $filename = $this->image_file;
 
@@ -362,8 +370,6 @@ class rcube_image
         }
 
         // use GD extension (TIFF isn't supported)
-        $props = $this->props();
-
         // do we have enough memory? (#1489937)
         if (!$this->mem_check($props)) {
             return false;
@@ -413,6 +419,14 @@ class rcube_image
     public static function is_convertable($mimetype = null)
     {
         $rcube = rcube::get_instance();
+        $mimetype = preg_replace('|^image/|i', '', $mimetype);
+        $mimetype = strtoupper($mimetype);
+        $mimetype = strtr($mimetype, ['PS' => 'EPS', 'EPT' => 'EPS']);
+
+        // For security reasons we do not support SVG and EPS
+        if ($mimetype == 'EPS' || $mimetype == 'SVG') {
+            return false;
+        }
 
         // @TODO: check if specified mimetype is really supported
         return class_exists('Imagick', false) || self::getCommand('im_convert_path');
