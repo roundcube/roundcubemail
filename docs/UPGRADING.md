@@ -20,6 +20,15 @@ target location and check and update the configuration and database schema.
 After all is done, the temporary folder with the new Roundcube files can be
 removed again.
 
+If the installation's dependencies are managed by Composer (i.e. `vendor/` was
+created or modified by Composer), the update script does not copy the vendor
+directory from the release package. It updates `composer.json` and runs
+`composer update --no-dev` before the database schema update, then restarts
+itself so the updated dependencies are loaded. Composer has to be available
+(locally as `composer.phar` or in `PATH`). If it is not, the script prints
+instructions and continues; update the dependencies manually as described in
+the next section.
+
 _***WARNING:*** Make sure files have proper owner/group for your setup. If you use
          tar to extract the package, `--no-same-owner` option might be helpful._
 

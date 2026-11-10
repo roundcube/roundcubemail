@@ -44,6 +44,167 @@ $RCI->load_config();
 if ($RCI->configured) {
     $success = true;
 
+    // update composer dependencies first, the code executed below may need them
+    $composer_ok = true;
+    $composer_updated = false;
+
+    if (
+        !getenv('RCUBE_UPDATE_SKIP_COMPOSER')
+        && is_file(INSTALL_PATH . 'composer.json')
+        && is_readable(INSTALL_PATH . 'composer.json-dist')
+    ) {
+        $composer_data = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
+        $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
+        $composer_json = null;
+        $composer_parsed = is_array($composer_data) && is_array($composer_template)
+            && !empty($composer_data['require']) && is_array($composer_data['require'])
+            && !empty($composer_template['require']) && is_array($composer_template['require']);
+
+        if (!$composer_parsed) {
+            echo "WARNING: unable to parse composer.json or composer.json-dist!\n";
+            $composer_ok = false;
+            $composer_data = [];
+            $composer_template = [];
+        }
+
+        // update the require section with the new dependencies
+        if ($composer_parsed) {
+            $composer_data['require'] = array_merge($composer_data['require'], $composer_template['require']);
+
+            // remove obsolete packages
+            $old_packages = [
+                'pear-pear.php.net/net_socket',
+                'pear-pear.php.net/auth_sasl',
+                'pear-pear.php.net/net_idna2',
+                'pear-pear.php.net/mail_mime',
+                'pear-pear.php.net/net_smtp',
+                'pear-pear.php.net/crypt_gpg',
+                'pear-pear.php.net/net_sieve',
+                'pear/mail_mime-decode',
+                'roundcube/net_sieve',
+                'endroid/qrcode',
+                'endroid/qr-code',
+            ];
+
+            foreach ($old_packages as $pkg) {
+                if (array_key_exists($pkg, $composer_data['require'])) {
+                    unset($composer_data['require'][$pkg]);
+                }
+            }
+        }
+
+        // update the repositories section with the new dependencies
+        if (!empty($composer_template['repositories']) && is_array($composer_template['repositories'])) {
+            if (empty($composer_data['repositories']) || !is_array($composer_data['repositories'])) {
+                $composer_data['repositories'] = [];
+            }
+
+            foreach ($composer_template['repositories'] as $repo) {
+                $rkey = repo_key($repo);
+                $existing = false;
+
+                foreach ($composer_data['repositories'] as $k => $_repo) {
+                    if ($rkey == repo_key($_repo)) {
+                        // switch to https://
+                        if (isset($_repo['url']) && str_starts_with($_repo['url'], 'http://')) {
+                            $composer_data['repositories'][$k]['url'] = 'https:' . substr($_repo['url'], 5);
+                        }
+
+                        $existing = true;
+                        break;
+                    }
+
+                    // remove old repos
+                    if (isset($_repo['url']) && str_starts_with($_repo['url'], 'git://git.kolab.org')) {
+                        unset($composer_data['repositories'][$k]);
+                    } elseif (
+                        $_repo['type'] == 'package'
+                        && !empty($_repo['package']['name'])
+                        && $_repo['package']['name'] == 'Net_SMTP'
+                    ) {
+                        unset($composer_data['repositories'][$k]);
+                    }
+                }
+
+                if (!$existing) {
+                    $composer_data['repositories'][] = $repo;
+                }
+            }
+
+            $composer_data['repositories'] = array_values($composer_data['repositories']);
+        }
+
+        // update some other sections
+        foreach (['autoload', 'version'] as $key) {
+            if (!empty($composer_template[$key])) {
+                $composer_data[$key] = $composer_template[$key];
+            }
+        }
+
+        if ($composer_parsed) {
+            $composer_json = json_encode($composer_data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
+        }
+
+        // write updated composer.json back to disk
+        if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
+            if (!file_put_contents(INSTALL_PATH . 'composer.json', $composer_json)) {
+                echo "WARNING: unable to write composer.json!\n";
+                $composer_ok = false;
+            }
+        } else {
+            $composer_ok = false;
+
+            if ($composer_parsed) {
+                echo "WARNING: unable to update composer.json!\n";
+                echo "Please, copy 'version' and 'autoload' sections from composer.json-dist\n";
+                echo "Please, replace the 'require' section in your composer.json with the following:\n";
+
+                $require_json = '';
+                foreach ($composer_data['require'] as $pkg => $ver) {
+                    $require_json .= sprintf('        "%s": "%s",' . "\n", $pkg, $ver);
+                }
+
+                echo '    "require": {' . "\n";
+                echo rtrim($require_json, ",\n");
+                echo "\n    }\n\n";
+            }
+        }
+
+        if (!rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
+            $exit_code = 1;
+
+            if (!$composer_parsed) {
+                echo "WARNING: unable to update dependencies, invalid composer.json!\n";
+                $composer_ok = false;
+            } elseif ($composer_ok && ($composer_bin = find_composer())) {
+                echo 'Executing ' . $composer_bin . " to update dependencies...\n";
+                echo system("{$composer_bin} update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
+                $composer_ok = $exit_code == 0;
+                $composer_updated = $composer_ok;
+            }
+
+            if ($exit_code != 0) {
+                echo "-----------------------------------------------------------------------------\n";
+                echo "ATTENTION: Update dependencies by running `php composer.phar update --no-dev`\n";
+                echo "-----------------------------------------------------------------------------\n";
+            }
+        }
+    }
+
+    // Restart the script to load the dependencies installed above. The autoloader
+    // is already loaded at this point, so updated files in vendor/ would be ignored.
+    if ($composer_updated) {
+        putenv('RCUBE_UPDATE_SKIP_COMPOSER=1');
+
+        $command = escapeshellarg(\PHP_BINARY) . ' ' . escapeshellarg(__FILE__)
+            . ' --version=' . escapeshellarg($opts['version'])
+            . (!empty($opts['accept']) ? ' -y' : '');
+
+        system($command, $ret);
+
+        exit($ret);
+    }
+
     if (($messages = $RCI->check_config($opts['version'])) || $RCI->legacy_config) {
         $success = false;
         $err = 0;
@@ -172,120 +333,8 @@ if ($RCI->configured) {
         $success = rcmail_utils::db_update(INSTALL_PATH . 'SQL', 'roundcube', $opts['version'], ['errors' => true]);
     }
 
-    // update composer dependencies
-    if (is_file(INSTALL_PATH . 'composer.json') && is_readable(INSTALL_PATH . 'composer.json-dist')) {
-        $composer_data = json_decode(file_get_contents(INSTALL_PATH . 'composer.json'), true);
-        $composer_template = json_decode(file_get_contents(INSTALL_PATH . 'composer.json-dist'), true);
-        $composer_json = null;
-
-        // update the require section with the new dependencies
-        if (!empty($composer_data['require']) && !empty($composer_template['require'])) {
-            $composer_data['require'] = array_merge($composer_data['require'], $composer_template['require']);
-
-            // remove obsolete packages
-            $old_packages = [
-                'pear-pear.php.net/net_socket',
-                'pear-pear.php.net/auth_sasl',
-                'pear-pear.php.net/net_idna2',
-                'pear-pear.php.net/mail_mime',
-                'pear-pear.php.net/net_smtp',
-                'pear-pear.php.net/crypt_gpg',
-                'pear-pear.php.net/net_sieve',
-                'pear/mail_mime-decode',
-                'roundcube/net_sieve',
-                'endroid/qrcode',
-                'endroid/qr-code',
-            ];
-
-            foreach ($old_packages as $pkg) {
-                if (array_key_exists($pkg, $composer_data['require'])) {
-                    unset($composer_data['require'][$pkg]);
-                }
-            }
-        }
-
-        // update the repositories section with the new dependencies
-        if (!empty($composer_template['repositories'])) {
-            if (empty($composer_data['repositories'])) {
-                $composer_data['repositories'] = [];
-            }
-
-            foreach ($composer_template['repositories'] as $repo) {
-                $rkey = repo_key($repo);
-                $existing = false;
-
-                foreach ($composer_data['repositories'] as $k => $_repo) {
-                    if ($rkey == repo_key($_repo)) {
-                        // switch to https://
-                        if (isset($_repo['url']) && str_starts_with($_repo['url'], 'http://')) {
-                            $composer_data['repositories'][$k]['url'] = 'https:' . substr($_repo['url'], 5);
-                        }
-
-                        $existing = true;
-                        break;
-                    }
-
-                    // remove old repos
-                    if (isset($_repo['url']) && str_starts_with($_repo['url'], 'git://git.kolab.org')) {
-                        unset($composer_data['repositories'][$k]);
-                    } elseif (
-                        $_repo['type'] == 'package'
-                        && !empty($_repo['package']['name'])
-                        && $_repo['package']['name'] == 'Net_SMTP'
-                    ) {
-                        unset($composer_data['repositories'][$k]);
-                    }
-                }
-
-                if (!$existing) {
-                    $composer_data['repositories'][] = $repo;
-                }
-            }
-
-            $composer_data['repositories'] = array_values($composer_data['repositories']);
-        }
-
-        // update some other sections
-        foreach (['autoload', 'version'] as $key) {
-            if (!empty($composer_template[$key])) {
-                $composer_data[$key] = $composer_template[$key];
-            }
-        }
-
-        $composer_json = json_encode($composer_data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES);
-
-        // write updated composer.json back to disk
-        if ($composer_json && is_writable(INSTALL_PATH . 'composer.json')) {
-            $success &= (bool) file_put_contents(INSTALL_PATH . 'composer.json', $composer_json);
-        } else {
-            echo "WARNING: unable to update composer.json!\n";
-            echo "Please, copy 'version' and 'autoload' sections from composer.json-dist\n";
-            echo "Please, replace the 'require' section in your composer.json with the following:\n";
-
-            $require_json = '';
-            foreach ($composer_data['require'] as $pkg => $ver) {
-                $require_json .= sprintf('        "%s": "%s",' . "\n", $pkg, $ver);
-            }
-
-            echo '    "require": {' . "\n";
-            echo rtrim($require_json, ",\n");
-            echo "\n    }\n\n";
-        }
-
-        if (!rcmail_install::vendor_dir_untouched(INSTALL_PATH)) {
-            $exit_code = 1;
-            if ($composer_bin = find_composer()) {
-                echo 'Executing ' . $composer_bin . " to update dependencies...\n";
-                echo system("{$composer_bin} update -d " . escapeshellarg(INSTALL_PATH) . ' --no-dev', $exit_code);
-                $success &= $exit_code == 0;
-            }
-            if ($exit_code != 0) {
-                echo "-----------------------------------------------------------------------------\n";
-                echo "ATTENTION: Update dependencies by running `php composer.phar update --no-dev`\n";
-                echo "-----------------------------------------------------------------------------\n";
-            }
-        }
-    }
+    // a failed dependency update must fail the whole upgrade
+    $success = $success && $composer_ok;
 
     // index contacts for fulltext searching
     if ($opts['version'] && version_compare(version_parse($opts['version']), '0.6.0', '<')) {
@@ -321,13 +370,13 @@ function repo_key($repo)
 function find_composer()
 {
     if (is_file(INSTALL_PATH . 'composer.phar')) {
-        return \PHP_BINARY . ' composer.phar';
+        return \PHP_BINARY . ' ' . escapeshellarg(INSTALL_PATH . 'composer.phar');
     }
 
     foreach (['composer', 'composer.phar'] as $check_file) {
         $which = trim(rcube::exec("which {$check_file}"));
         if (!empty($which)) {
-            return \PHP_BINARY . " {$which}";
+            return \PHP_BINARY . ' ' . escapeshellarg($which);
         }
     }
 
