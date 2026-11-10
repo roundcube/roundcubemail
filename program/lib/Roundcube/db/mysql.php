@@ -1,7 +1,5 @@
 <?php
 
-use Pdo\Mysql;
-
 /*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
@@ -106,31 +104,31 @@ class rcube_db_mysql extends rcube_db
         $result = parent::dsn_options($dsn);
 
         if (!empty($dsn['key'])) {
-            $result[Mysql::ATTR_SSL_KEY] = $dsn['key'];
+            $result[self::attr('SSL_KEY')] = $dsn['key'];
         }
 
         if (!empty($dsn['cipher'])) {
-            $result[Mysql::ATTR_SSL_CIPHER] = $dsn['cipher'];
+            $result[self::attr('SSL_CIPHER')] = $dsn['cipher'];
         }
 
         if (!empty($dsn['cert'])) {
-            $result[Mysql::ATTR_SSL_CERT] = $dsn['cert'];
+            $result[self::attr('SSL_CERT')] = $dsn['cert'];
         }
 
         if (!empty($dsn['capath'])) {
-            $result[Mysql::ATTR_SSL_CAPATH] = $dsn['capath'];
+            $result[self::attr('SSL_CAPATH')] = $dsn['capath'];
         }
 
         if (!empty($dsn['ca'])) {
-            $result[Mysql::ATTR_SSL_CA] = $dsn['ca'];
+            $result[self::attr('SSL_CA')] = $dsn['ca'];
         }
 
         if (isset($dsn['verify_server_cert'])) {
-            $result[Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = rcube_utils::get_boolean($dsn['verify_server_cert']);
+            $result[self::attr('SSL_VERIFY_SERVER_CERT')] = rcube_utils::get_boolean($dsn['verify_server_cert']);
         }
 
         // Always return matching (not affected only) rows count
-        $result[Mysql::ATTR_FOUND_ROWS] = true;
+        $result[self::attr('FOUND_ROWS')] = true;
 
         // Enable AUTOCOMMIT mode (#1488902)
         $result[\PDO::ATTR_AUTOCOMMIT] = true;
@@ -143,6 +141,20 @@ class rcube_db_mysql extends rcube_db
         }
 
         return $result;
+    }
+
+    /**
+     * Returns a PDO MySQL driver attribute constant.
+     *
+     * The Pdo\Mysql class with the ATTR_* constants exists since PHP 8.4.
+     * On older versions the class may be provided by a polyfill, otherwise
+     * use PDO::MYSQL_ATTR_* which is not deprecated there.
+     */
+    private static function attr(string $name): int
+    {
+        $constant = \defined('Pdo\Mysql::ATTR_' . $name) ? 'Pdo\Mysql::ATTR_' . $name : 'PDO::MYSQL_ATTR_' . $name;
+
+        return (int) \constant($constant);
     }
 
     /**

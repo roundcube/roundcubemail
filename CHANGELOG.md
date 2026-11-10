@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix "Pdo\Mysql" class not found on upgrade with Composer-managed dependencies (#10399)
 - Enable PHP 8.6 support (#10368, #10362)
 - LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
 - Fix/Improve handling of IMAP literal strings
