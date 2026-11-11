@@ -5166,6 +5166,7 @@ function rcube_webmail() {
                     .append(prompt_value),
                 save_func = function () {
                     input_subject.val(prompt_value.val());
+                    ref.env.nosubject_warned = true;
                     dialog.dialog('close');
                     if (ref.check_compose_input(cmd)) {
                         ref.command(cmd, { nocheck: true });
@@ -5192,7 +5193,6 @@ function rcube_webmail() {
                 { dialogClass: 'warning' }
             );
 
-            this.env.nosubject_warned = true;
             return false;
         }
 
