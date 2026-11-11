@@ -144,6 +144,57 @@ class UserTest extends ActionTestCase
     }
 
     /**
+     * Test that NULL values for optional text columns do not depend on the database engine
+     *
+     * @dataProvider provide_identity_null_text_columns_cases
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provide_identity_null_text_columns_cases')]
+    public function test_identity_null_text_columns($column)
+    {
+        self::initDB('init');
+
+        $user = new \rcube_user(1);
+
+        // insert with an explicit NULL (as a hook may supply it)
+        $id = $user->insert_identity([
+            'name' => 'name',
+            'email' => 'null-insert@ident.com',
+            $column => null,
+        ]);
+
+        $this->assertTrue(is_numeric($id), "insert with NULL in {$column}");
+        $this->assertSame('', $user->get_identity($id)[$column], "stored value of {$column} after insert");
+
+        // update to NULL
+        $id2 = $user->insert_identity([
+            'name' => 'name2',
+            'email' => 'null-update@ident.com',
+            $column => 'value',
+        ]);
+
+        $this->assertSame('value', $user->get_identity($id2)[$column]);
+        $this->assertTrue($user->update_identity($id2, [$column => null]));
+        $this->assertSame('', $user->get_identity($id2)[$column], "stored value of {$column} after update");
+
+        // control: ordinary values are stored unchanged
+        $this->assertTrue($user->update_identity($id2, [$column => 'again']));
+        $this->assertSame('again', $user->get_identity($id2)[$column]);
+    }
+
+    /**
+     * Data provider for test_identity_null_text_columns()
+     */
+    public static function provide_identity_null_text_columns_cases(): iterable
+    {
+        return [
+            ['organization'],
+            ['reply-to'],
+            ['bcc'],
+            ['signature'],
+        ];
+    }
+
+    /**
      * Test failed_login() and is_locked()
      */
     public function test_failed_login()

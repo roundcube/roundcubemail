@@ -352,6 +352,27 @@ class rcube_user
     }
 
     /**
+     * Replace NULL with an empty string in the optional text columns of the identities table.
+     *
+     * These columns are defined differently per database engine: some of them accept NULL on one engine and
+     * are NOT NULL on another. Storing an empty string works the same everywhere.
+     *
+     * @param array $data Identity record
+     *
+     * @return array Identity record
+     */
+    private static function normalize_identity_data($data)
+    {
+        foreach (['organization', 'reply-to', 'bcc', 'signature'] as $col) {
+            if (array_key_exists($col, $data) && $data[$col] === null) {
+                $data[$col] = '';
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Update a specific identity record
      *
      * @param int   $iid  Identity ID
@@ -365,6 +386,7 @@ class rcube_user
             return false;
         }
 
+        $data = self::normalize_identity_data((array) $data);
         $query_cols = $query_params = [];
 
         foreach ((array) $data as $col => $value) {
@@ -404,6 +426,7 @@ class rcube_user
 
         unset($data['user_id']);
 
+        $data = self::normalize_identity_data((array) $data);
         $insert_cols = [];
         $insert_values = [];
 
