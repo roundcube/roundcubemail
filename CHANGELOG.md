@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - OAuth: Validate JWT token signature (#10210)
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
+- Fix missing subject warning not shown again after it was cancelled (#10403)
 
 ## Release 1.7.6
 
