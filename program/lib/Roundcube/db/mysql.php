@@ -149,6 +149,8 @@ class rcube_db_mysql extends rcube_db
      * The Pdo\Mysql class with the ATTR_* constants exists since PHP 8.4.
      * On older versions the class may be provided by a polyfill, otherwise
      * use PDO::MYSQL_ATTR_* which is not deprecated there.
+     *
+     * @TODO: Use Pdo\Mysql::ATTR_* directly when PHP < 8.4 is no longer supported.
      */
     private static function attr(string $name): int
     {
