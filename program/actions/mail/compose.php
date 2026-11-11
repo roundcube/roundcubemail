@@ -511,8 +511,19 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
                 $lang = strtolower(substr($lang, 0, 2));
             }
 
+            // if not found, select the default language
             if (empty($spellcheck_langs[$lang])) {
-                $lang = 'en';
+                foreach ([$rcmail->config->get('language') ?? 'en', 'en', 'en_US'] as $l) {
+                    if (!empty($spellcheck_langs[$l])) {
+                        $lang = $l;
+
+                        break;
+                    }
+                }
+                // if still not found on the list, select the first language on the list
+                if (empty($spellcheck_langs[$lang])) {
+                    $lang = array_key_first($spellcheck_langs);
+                }
             }
 
             // include GoogieSpell
