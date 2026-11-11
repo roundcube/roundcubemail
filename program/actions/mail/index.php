@@ -1137,24 +1137,34 @@ class rcmail_action_mail_index extends rcmail_action
                 $decoded = rcube_utils::xss_entity_decode($content);
                 $stripped = preg_replace('/[^a-zA-Z\(:;]/', '', $decoded);
 
-                // now check for evil strings like expression, behavior or url()
+                // now check for evil strings like expression or behavior
                 if (!preg_match('/expression|behavior|javascript:|import[^a]/i', $stripped)) {
-                    if (!$washtml->get_config('allow_remote') && preg_match('/url\((?!data:image)/', $stripped)) {
-                        $washtml->extlinks = true;
-                    } else {
-                        $out = $decoded;
-                    }
-                }
-
-                if (strlen($out)) {
                     $css_prefix = $washtml->get_config('css_prefix');
                     $is_safe = $washtml->get_config('allow_remote');
                     $body_class = $washtml->get_config('body_class') ?: '';
                     $cont_id = $washtml->get_config('container_id') ?: '';
                     $cont_id = trim($cont_id . ($body_class ? " div.{$body_class}" : ''));
 
-                    $out = rcube_utils::mod_css_styles($out, $cont_id, $is_safe, $css_prefix);
+                    // wash url() values as in style attributes: resolve references
+                    // to the message's parts, replace remote images with blocked_src
+                    $out = rcube_utils::mod_css_styles($decoded, $cont_id, $is_safe, $css_prefix, [$washtml, 'wash_uri']);
 
+                    // drop the styles if any other url() is left
+                    if (!$is_safe) {
+                        $refs = array_merge((array) $washtml->get_config('cid_map'), [$washtml->get_config('blocked_src')]);
+                        $refs = array_map(static function ($ref) {
+                            return "url({$ref})";
+                        }, array_filter($refs));
+                        $rest = preg_replace('/[^a-zA-Z\(:;]/', '', str_replace($refs, '', $out));
+
+                        if (preg_match('/url\((?!data:image)/i', $rest)) {
+                            $washtml->extlinks = true;
+                            $out = '';
+                        }
+                    }
+                }
+
+                if (strlen($out)) {
                     $out = html::tag('style', ['type' => 'text/css'], $out);
                 }
 
@@ -1179,7 +1189,9 @@ class rcmail_action_mail_index extends rcmail_action
                             break;
                         case 'background':
                             // Get background, we'll set it as background-image of the message container
-                            if (preg_match('~^(static.php/|https?://)([^\s();]+)$~', $value, $m)) {
+                            if (preg_match('~^(static.php/|https?://)([^\s();]+)$~', $value, $m)
+                                || in_array($value, (array) $washtml->get_config('cid_map'), true)
+                            ) {
                                 $style['background-image'] = "url({$value})";
                             }
                             break;
