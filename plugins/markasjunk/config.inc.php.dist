@@ -52,6 +52,13 @@ $config['markasjunk_permanently_remove'] = false;
 // Display only a mark as spam button
 $config['markasjunk_spam_only'] = false;
 
+// Show both the spam and ham buttons in all folders and allow learning in any folder.
+// When enabled:
+// - "mark as ham" only moves messages to the ham mailbox from the spam mailbox
+// - "mark as spam" only moves messages to the spam mailbox when not already there
+// Default: false (legacy folder-dependent behavior)
+$config['markasjunk_learn_in_all_folders'] = false;
+
 // Activate markasjunk for selected mail hosts only. If this is not set all mail hosts are allowed.
 // Example: $config['markasjunk_allowed_hosts'] = ['mail1.domain.tld', 'mail2.domain.tld'];
 $config['markasjunk_allowed_hosts'] = null;

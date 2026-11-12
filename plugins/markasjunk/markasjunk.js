@@ -27,14 +27,25 @@ rcube_webmail.prototype.markasjunk_mark = function (is_spam) {
 };
 
 rcube_webmail.prototype.markasjunk_move = function (mbox, uids) {
-    var prev_uid = this.env.uid;
+    var prev_uid = this.env.uid,
+        prev_select_all = this.select_all_mode;
 
     if (this.message_list && uids.length == 1 && !this.message_list.in_selection(uids[0])) {
         this.env.uid = uids[0];
     }
 
     if (mbox) {
-        this.move_messages(mbox);
+        if (this.env.markasjunk_learn_in_all_folders) {
+            // Make sure an explicit filtered uid list is not replaced with '*'
+            if (uids && uids.length) {
+                this.select_all_mode = false;
+            }
+
+            this.move_messages(mbox, null, uids && uids.length ? uids : null);
+            this.select_all_mode = prev_select_all;
+        } else {
+            this.move_messages(mbox);
+        }
     } else if (this.env.markasjunk_permanently_remove == true) {
         this.permanently_remove_messages();
     } else {
@@ -51,7 +62,7 @@ rcube_webmail.prototype.markasjunk_toggle_button = function () {
 
     if (this.env.markasjunk_spam_only) {
         disp.ham = false;
-    } else if (!this.is_multifolder_listing() && this.env.markasjunk_spam_mailbox) {
+    } else if (!this.env.markasjunk_learn_in_all_folders && !this.is_multifolder_listing() && this.env.markasjunk_spam_mailbox) {
         if (this.env.mailbox != this.env.markasjunk_spam_mailbox) {
             disp.ham = false;
         } else {
@@ -95,19 +106,23 @@ rcube_webmail.prototype.markasjunk_is_spam_mbox = function () {
     return !this.is_multifolder_listing() && this.env.mailbox == this.env.markasjunk_spam_mailbox;
 };
 
+rcube_webmail.prototype.markasjunk_can_mark_spam = function () {
+    return this.env.markasjunk_learn_in_all_folders || !this.markasjunk_is_spam_mbox();
+};
+
 if (window.rcmail) {
     rcmail.addEventListener('init', function () {
         // register command (directly enable in message view mode)
         rcmail.register_command('plugin.markasjunk.junk', function () {
             rcmail.markasjunk_mark(true);
-        }, !rcmail.markasjunk_is_spam_mbox() && rcmail.env.uid);
+        }, rcmail.markasjunk_can_mark_spam() && rcmail.env.uid);
         rcmail.register_command('plugin.markasjunk.not_junk', function () {
             rcmail.markasjunk_mark(false);
         }, rcmail.env.uid);
 
         if (rcmail.message_list) {
             rcmail.message_list.addEventListener('select', function (list) {
-                rcmail.enable_command('plugin.markasjunk.junk', !rcmail.markasjunk_is_spam_mbox() && list.get_selection(false).length > 0);
+                rcmail.enable_command('plugin.markasjunk.junk', rcmail.markasjunk_can_mark_spam() && list.get_selection(false).length > 0);
                 rcmail.enable_command('plugin.markasjunk.not_junk', list.get_selection(false).length > 0);
             });
         }

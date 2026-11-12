@@ -28,8 +28,22 @@ class MailTest extends TestCase
         $this->browse(static function ($browser) {
             $browser->go('mail');
 
-            // Toolbar menu (Spam button inactive)
-            $browser->assertToolbarMenu([], ['junk']);
+            // Toolbar menu (both buttons inactive)
+            $browser->assertToolbarMenu([], ['junk', 'notjunk']);
+
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
+                $browser->ctrlClick('tr:last-child');
+            });
+
+            // Both buttons are active in INBOX
+            $browser->assertToolbarMenu(['junk', 'notjunk'], []);
+
+            // Mark as ham in INBOX only feeds the learning backend, no move
+            $browser->clickToolbarMenuItem('notjunk')
+                ->waitForMessage('confirmation', 'Successfully reported as not junk')
+                ->closeMessage('confirmation')
+                ->waitUntilNotBusy()
+                ->assertElementsCount('#messagelist tbody tr', 1);
 
             $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->ctrlClick('tr:last-child');
@@ -54,13 +68,27 @@ class MailTest extends TestCase
                     ->waitUntilNotBusy();
             });
 
-            // Toolbar menu (Non-Junk button inactive)
-            $browser->assertToolbarMenu([], ['notjunk']);
+            // Toolbar menu (both buttons inactive)
+            $browser->assertToolbarMenu([], ['junk', 'notjunk']);
 
             // Messages list contains the moved message
             $browser->whenAvailable('#messagelist tbody', static function ($browser) {
                 $browser->assertElementsCount('tr', 1)
                     ->ctrlClick('tr:last-child');
+            });
+
+            // Both buttons are active in Junk
+            $browser->assertToolbarMenu(['junk', 'notjunk'], []);
+
+            // Mark as spam in Junk only feeds the learning backend, no move
+            $browser->clickToolbarMenuItem('junk')
+                ->waitForMessage('confirmation', 'Successfully reported as junk')
+                ->closeMessage('confirmation')
+                ->waitUntilNotBusy()
+                ->assertElementsCount('#messagelist tbody tr', 1);
+
+            $browser->whenAvailable('#messagelist tbody', static function ($browser) {
+                $browser->ctrlClick('tr:last-child');
             });
 
             $browser->clickToolbarMenuItem('notjunk')
@@ -107,7 +135,10 @@ class MailTest extends TestCase
             $browser->waitFor('#messagecontframe')
                 ->waitUntilMissing('#messagestack');
 
-            // Toolbar menu (Junk button active), click it
+            // Both buttons are active in the message view
+            $browser->assertToolbarMenu(['junk', 'notjunk'], []);
+
+            // Move the message to Junk
             $browser->clickToolbarMenuItem('junk')
                 ->waitFor('#messagelist')
                 ->waitUntilNotBusy()
@@ -130,7 +161,10 @@ class MailTest extends TestCase
             $browser->waitFor('#messagecontframe')
                 ->waitUntilMissing('#messagestack', 10);
 
-            // Toolbar menu (Junk button active), click it
+            // Both buttons are active in the message view
+            $browser->assertToolbarMenu(['junk', 'notjunk'], []);
+
+            // Move the message back to INBOX
             $browser->clickToolbarMenuItem('notjunk')
                 ->waitFor('#messagelist')
                 ->waitUntilNotBusy()

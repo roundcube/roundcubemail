@@ -1,14 +1,23 @@
 Roundcube Webmail MarkAsJunk Plugin
 ===================================
-This plugin adds "mark as spam" or "mark as not spam" button to the message
-menu.
+This plugin adds "mark as spam" and "mark as not spam" buttons to the message
+menu or toolbar.
+
+By default the buttons follow the current mailbox:
 
 When not in the Junk mailbox:
-  Messages are moved into the Junk mailbox and marked as read
+  The "mark as spam" button is shown. Messages are moved into the Junk mailbox
+  and marked as read.
 
 When in the Junk mailbox:
-  The buttons are changed to "mark as not spam" or "this message is not spam"
-  and the message is moved to the Inbox
+  The "mark as not spam" button is shown and the message is moved to the Inbox.
+
+Optionally, set `markasjunk_learn_in_all_folders` to `true` to show both buttons
+in every mailbox and always pass messages to the learning driver. In this mode:
+
+  - "Mark as spam" moves messages to the Junk mailbox unless they are already there.
+  - "Mark as not spam" moves messages to the Inbox only from the Junk mailbox.
+    In all other mailboxes the message is learned as ham but not moved.
 
 
 License
