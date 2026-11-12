@@ -42,6 +42,12 @@ If you're updating an older version of Roundcube please follow the steps
 described in the [UPGRADING.md](docs/UPGRADING.md) file.
 
 
+ONE-CLICK DEPLOY
+----------------
+
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/Roundcube/)
+
+
 BROWSER SUPPORT
 ---------------
 Roundcube uses jQuery 3.x (and other libs) for its client and therefore
