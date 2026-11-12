@@ -548,6 +548,7 @@ $labels['htmlonreply'] = 'on reply to HTML message';
 $labels['htmlonreplyandforward'] = 'on forward or reply to HTML message';
 $labels['htmlsignature'] = 'HTML signature';
 $labels['showemail'] = 'Show email address with display name';
+$labels['showaddresscomments'] = 'Show comments in address headers';
 $labels['previewpane'] = 'Show preview pane';
 $labels['skin'] = 'Interface skin';
 $labels['logoutclear'] = 'Clear Trash on logout';
