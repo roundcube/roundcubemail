@@ -55,13 +55,13 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.unselect_directory();'));
-        $this->assertTrue(str_contains($result['exec'], 'this.enable_command("search-create",true);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
-        $this->assertTrue(!str_contains($result['exec'], 'this.list_contacts_clear();'));
+        $this->assertContains(['add_contact_row', '4-0', ['name' => 'George Bush'], 'person', ['name' => 'George Bush', 'email' => 'g.bush@gov.com', 'ID' => '4-0']], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Contacts 1 to 1 of 1'], $result['js_calls']);
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['unselect_directory'], $result['js_calls']);
+        $this->assertContains(['enable_command', 'search-create', true], $result['js_calls']);
+        $this->assertContains(['update_group_commands'], $result['js_calls']);
+        $this->assertNotContains(['list_contacts_clear'], $result['js_calls']);
     }
 
     /**
@@ -82,9 +82,9 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
-        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+        $this->assertContains(['display_message', '2 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '7-0', ['name' => 'Target Personal'], 'person', ['name' => 'Target Personal', 'email' => 'target@personal.com', 'ID' => '7-0']], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '2-1', ['name' => 'target collected'], 'person', ['name' => 'target collected', 'email' => 'target@collected.com', 'ID' => '2-1']], $result['js_calls']);
 
         $_GET = ['_q' => 'target', '_scope' => '0'];
 
@@ -92,8 +92,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '7-0', ['name' => 'Target Personal'], 'person', ['name' => 'Target Personal', 'email' => 'target@personal.com', 'ID' => '7-0']], $result['js_calls']);
 
         $_GET = ['_q' => 'target', '_scope' => \rcube_addressbook::TYPE_RECIPIENT];
 
@@ -101,8 +101,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '2-1', ['name' => 'target collected'], 'person', ['name' => 'target collected', 'email' => 'target@collected.com', 'ID' => '2-1']], $result['js_calls']);
     }
 
     /**
@@ -127,13 +127,13 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.unselect_directory();'));
-        $this->assertTrue(str_contains($result['exec'], 'this.enable_command("search-create",true);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
-        $this->assertTrue(str_contains($result['exec'], 'this.list_contacts_clear();'));
+        $this->assertContains(['add_contact_row', '1-0', ['name' => 'John Doe'], 'person', ['name' => 'John Doe', 'email' => 'johndoe@example.org', 'ID' => '1-0']], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Contacts 1 to 1 of 1'], $result['js_calls']);
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['unselect_directory'], $result['js_calls']);
+        $this->assertContains(['enable_command', 'search-create', true], $result['js_calls']);
+        $this->assertContains(['update_group_commands'], $result['js_calls']);
+        $this->assertContains(['list_contacts_clear'], $result['js_calls']);
     }
 
     public function test_run_search_scope()
@@ -151,9 +151,9 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("2 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
-        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+        $this->assertContains(['display_message', '2 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '7-0', ['name' => 'Target Personal'], 'person', ['name' => 'Target Personal', 'email' => 'target@personal.com', 'ID' => '7-0']], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '2-1', ['name' => 'target collected'], 'person', ['name' => 'target collected', 'email' => 'target@collected.com', 'ID' => '2-1']], $result['js_calls']);
 
         $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => '0'];
 
@@ -161,8 +161,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@personal.com'));
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '7-0', ['name' => 'Target Personal'], 'person', ['name' => 'Target Personal', 'email' => 'target@personal.com', 'ID' => '7-0']], $result['js_calls']);
 
         $_POST = ['_adv' => '1', '_search_email' => 'target', '_scope' => (string) \rcube_addressbook::TYPE_RECIPIENT];
 
@@ -170,8 +170,8 @@ class SearchTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'target@collected.com'));
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['add_contact_row', '2-1', ['name' => 'target collected'], 'person', ['name' => 'target collected', 'email' => 'target@collected.com', 'ID' => '2-1']], $result['js_calls']);
     }
 
     /**
@@ -203,11 +203,11 @@ class SearchTest extends ActionTestCase
         $this->assertSame('search', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertMatchesRegularExpression('/^[0-9a-z]{32}$/', $result['env']['search_request']);
-        $this->assertTrue(str_contains($result['exec'], 'this.add_contact_row'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Contacts 1 to 1 of 1");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 contacts found.","confirmation",0);'));
-        $this->assertTrue(!str_contains($result['exec'], 'this.unselect_directory();'));
-        $this->assertTrue(!str_contains($result['exec'], 'this.enable_command("search-create",true);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.update_group_commands()'));
+        $this->assertContains(['add_contact_row', '4-0', ['name' => 'George Bush'], 'person', ['name' => 'George Bush', 'email' => 'g.bush@gov.com', 'ID' => '4-0']], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Contacts 1 to 1 of 1'], $result['js_calls']);
+        $this->assertContains(['display_message', '1 contacts found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertNotContains(['unselect_directory'], $result['js_calls']);
+        $this->assertNotContains(['enable_command', 'search-create', true], $result['js_calls']);
+        $this->assertContains(['update_group_commands'], $result['js_calls']);
     }
 }

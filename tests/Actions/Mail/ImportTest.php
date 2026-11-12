@@ -31,7 +31,7 @@ class ImportTest extends ActionTestCase
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('import', $result['action']);
         // TODO: Assert error message
-        // $this->assertTrue(strpos($result['exec'], '') !== false);
+        // $this->assertContains(['display_message', ''], $result['js_calls']);
 
         // Upload a EML file
         $_POST = [
@@ -55,8 +55,10 @@ class ImportTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'Successfully imported 1 messages'));
-        $this->assertTrue(str_contains($result['exec'], 'this.command("list")'));
+        $this->assertSame([
+            ['display_message', 'Successfully imported 1 messages', 'confirmation', 0],
+            ['command', 'list'],
+        ], $result['js_calls']);
 
         $args = $storage->methodCalls[1]['args'];
         $this->assertSame('Test', $args[0]);
@@ -86,8 +88,10 @@ class ImportTest extends ActionTestCase
 
         $result = $output->getOutput();
 
-        $this->assertTrue(str_contains($result['exec'], 'Successfully imported 3 messages'));
-        $this->assertTrue(str_contains($result['exec'], 'this.command("list")'));
+        $this->assertSame([
+            ['display_message', 'Successfully imported 3 messages', 'confirmation', 0],
+            ['command', 'list'],
+        ], $result['js_calls']);
 
         $args = $storage->methodCalls[1]['args'];
         $this->assertSame('Test', $args[0]);

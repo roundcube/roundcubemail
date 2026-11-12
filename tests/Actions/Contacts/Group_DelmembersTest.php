@@ -30,7 +30,7 @@ class Group_DelmembersTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
-        $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'An error occurred while saving.', 'error', 0]], $result['js_calls']);
 
         // Readonly addressbook
         $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'test'];
@@ -41,7 +41,7 @@ class Group_DelmembersTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
-        $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'This address source is read only.', 'warning', 0]], $result['js_calls']);
     }
 
     /**
@@ -73,8 +73,8 @@ class Group_DelmembersTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('del-members', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully removed contacts from this group.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_group_contacts({"source":"0","gid":"' . $gid . '"});'));
+        $this->assertContains(['display_message', 'Successfully removed contacts from this group.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['remove_group_contacts', ['source' => '0', 'gid' => $gid]], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ? AND `contact_id` = ?', $gid, $cid);
         $result = $db->fetch_assoc($query);
@@ -115,7 +115,7 @@ class Group_DelmembersTest extends ActionTestCase
         $result = $output->getOutput();
 
         $this->assertSame('del-members', $result['action']);
-        $this->assertSame('this.display_message("No group assignments changed.","notice",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'No group assignments changed.', 'notice', 0]], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `contactgroupmembers` WHERE `contactgroup_id` = ?', $gid);
         $this->assertCount(1, $query->fetchAll());

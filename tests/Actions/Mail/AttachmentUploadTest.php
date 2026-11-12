@@ -36,8 +36,8 @@ class AttachmentUploadTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_from_attachment_list("upload123");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.auto_save_start(false);'));
+        $this->assertContains(['remove_from_attachment_list', 'upload123'], $result['js_calls']);
+        $this->assertContains(['auto_save_start', false], $result['js_calls']);
 
         // Upload a file
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
@@ -50,8 +50,17 @@ class AttachmentUploadTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.add2attachment_list("rcmfile' . $file['id'] . '"'));
-        $this->assertTrue(str_contains($result['exec'], 'this.auto_save_start(false);'));
+
+        $attachment = $result['js_calls'][0];
+        unset($attachment[2]['html']);
+
+        $this->assertSame(['add2attachment_list', 'rcmfile' . $file['id'], [
+            'name' => 'test.gif',
+            'mimetype' => 'image/gif',
+            'classname' => 'image gif',
+            'complete' => true,
+        ], 'upload123'], $attachment);
+        $this->assertContains(['auto_save_start', false], $result['js_calls']);
 
         $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
@@ -69,8 +78,10 @@ class AttachmentUploadTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("The uploaded file exceeds the maximum size'));
-        $this->assertTrue(str_contains($result['exec'], 'this.auto_save_start(false);'));
+        $this->assertSame('display_message', $result['js_calls'][0][0]);
+        $this->assertStringMatchesFormat('The uploaded file exceeds the maximum size of %s.', $result['js_calls'][0][1]);
+        $this->assertSame('error', $result['js_calls'][0][2]);
+        $this->assertContains(['auto_save_start', false], $result['js_calls']);
 
         // TODO: Test max_message_size handling
     }

@@ -41,8 +41,8 @@ class ResponseDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Successfully deleted.","confirmation");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.remove_response("' . $rid . '")'));
+        $this->assertContains(['display_message', 'Successfully deleted.', 'confirmation'], $result['js_calls']);
+        $this->assertContains(['remove_response', $rid], $result['js_calls']);
 
         $responses = $rcmail->get_compose_responses();
 
@@ -58,7 +58,7 @@ class ResponseDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-response', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("An error occurred while saving.","error"'));
+        $this->assertSame([['display_message', 'An error occurred while saving.', 'error', 0]], $result['js_calls']);
 
         $this->assertCount(1, $rcmail->get_compose_responses());
     }

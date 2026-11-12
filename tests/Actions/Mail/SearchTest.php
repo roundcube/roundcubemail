@@ -50,10 +50,10 @@ class SearchTest extends ActionTestCase
         $this->assertSame(0, $result['env']['messagecount']);
         $this->assertSame(0, $result['env']['pagecount']);
         $this->assertSame(0, $result['env']['exists']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Search returned no matches.","notice",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Mailbox is empty","INBOX");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_quota'));
+        $this->assertContains(['display_message', 'Search returned no matches.', 'notice', 0], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Mailbox is empty', 'INBOX'], $result['js_calls']);
+        $this->assertContains(['set_pagetitle', 'Roundcube Webmail :: Search result'], $result['js_calls']);
+        $this->assertContains(['set_quota', []], $result['js_calls']);
     }
 
     /**
@@ -111,9 +111,9 @@ class SearchTest extends ActionTestCase
         $this->assertSame(1, $result['env']['messagecount']);
         $this->assertSame(1, $result['env']['pagecount']);
         $this->assertSame(1, $result['env']['exists']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("1 messages found.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_rowcount("Messages 1 to 1 of 1","INBOX");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.set_pagetitle("Roundcube Webmail :: Search result");'));
+        $this->assertContains(['display_message', '1 messages found.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['set_rowcount', 'Messages 1 to 1 of 1', 'INBOX'], $result['js_calls']);
+        $this->assertContains(['set_pagetitle', 'Roundcube Webmail :: Search result'], $result['js_calls']);
     }
 
     /**
