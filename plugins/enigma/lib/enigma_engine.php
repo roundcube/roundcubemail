@@ -190,6 +190,8 @@ class enigma_engine
 
         // replace message body
         if ($pgp_mode == \Crypt_GPG::SIGN_MODE_CLEAR) {
+            $eol = $message->getParam('eol') ?: "\r\n";
+            $body = preg_replace('/\r?\n/', $eol, $body);
             $message->setTXTBody($body);
             if (!empty($text_charset)) {
                 $message->setParam('text_charset', $text_charset);
@@ -303,6 +305,8 @@ class enigma_engine
 
         // replace message body
         if ($encrypt_mode == self::ENCRYPT_MODE_BODY) {
+            $eol = $message->getParam('eol') ?: "\r\n";
+            $body = preg_replace('/\r?\n/', $eol, $body);
             $message->setTXTBody($body);
         } else {
             $mime->setPGPEncryptedBody($body);
@@ -330,6 +334,8 @@ class enigma_engine
             $pubkey_armor = $this->export_key($key->id);
 
             if (!$pubkey_armor instanceof enigma_error) {
+                $eol = $message->getParam('eol') ?: "\r\n";
+                $pubkey_armor = preg_replace('/\r?\n/', $eol, $pubkey_armor);
                 $pubkey_name = '0x' . enigma_key::format_id($key->id) . '.asc';
                 $message->addAttachment($pubkey_armor, 'application/pgp-keys', $pubkey_name, false, '7bit');
                 return true;

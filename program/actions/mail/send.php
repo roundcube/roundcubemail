@@ -190,6 +190,8 @@ class rcmail_action_mail_send extends rcmail_action
 
         // compose PGP/Mime message
         if (!empty($pgp_mime)) {
+            $pgp_mime = preg_replace('/\r?\n/', "\r\n", $pgp_mime);
+
             $MAIL_MIME->addAttachment(new \Mail_mimePart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
                 'description' => 'PGP/MIME version identification',

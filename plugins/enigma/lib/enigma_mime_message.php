@@ -175,11 +175,13 @@ class enigma_mime_message extends \Mail_mime
 
         $this->checkParams();
 
+        $eol = $this->build_params['eol'] ?: "\r\n";
+
         if ($this->type == self::PGP_SIGNED) {
             $params = [
                 'preamble' => 'This is an OpenPGP/MIME signed message (RFC 4880 and 3156)',
                 'content_type' => 'multipart/signed; protocol="application/pgp-signature"',
-                'eol' => $this->build_params['eol'],
+                'eol' => $eol,
             ];
 
             if ($this->micalg) {
@@ -190,7 +192,10 @@ class enigma_mime_message extends \Mail_mime
 
             if (!empty($this->body)) {
                 $headers = $this->message->headers();
-                $params = ['content_type' => $headers['Content-Type']];
+                $params = [
+                    'content_type' => $headers['Content-Type'],
+                    'eol' => $eol,
+                ];
 
                 if (!empty($headers['Content-Transfer-Encoding'])
                     && stripos($headers['Content-Type'], 'multipart') === false
@@ -206,18 +211,21 @@ class enigma_mime_message extends \Mail_mime
             }
 
             if (!empty($this->signature)) {
-                $message->addSubpart($this->signature, [
+                $signature = preg_replace('/\r?\n/', $eol, $this->signature);
+
+                $message->addSubpart($signature, [
                     'filename' => 'signature.asc',
                     'content_type' => 'application/pgp-signature',
                     'disposition' => 'attachment',
                     'description' => 'OpenPGP digital signature',
+                    'eol' => $eol,
                 ]);
             }
         } elseif ($this->type == self::PGP_ENCRYPTED) {
             $params = [
                 'preamble' => 'This is an OpenPGP/MIME encrypted message (RFC 4880 and 3156)',
                 'content_type' => 'multipart/encrypted; protocol="application/pgp-encrypted"',
-                'eol' => $this->build_params['eol'],
+                'eol' => $eol,
             ];
 
             $message = new \Mail_mimePart('', $params);
@@ -225,13 +233,17 @@ class enigma_mime_message extends \Mail_mime
             $message->addSubpart('Version: 1', [
                 'content_type' => 'application/pgp-encrypted',
                 'description' => 'PGP/MIME version identification',
+                'eol' => $eol,
             ]);
 
-            $message->addSubpart($this->encrypted, [
+            $encrypted = $this->encrypted !== null ? preg_replace('/\r?\n/', $eol, $this->encrypted) : '';
+
+            $message->addSubpart($encrypted, [
                 'content_type' => 'application/octet-stream',
                 'description' => 'PGP/MIME encrypted message',
                 'disposition' => 'inline',
                 'filename' => 'encrypted.asc',
+                'eol' => $eol,
             ]);
         } else {
             throw new \Exception('Unexpected message type');
