@@ -1,0 +1,33 @@
+<roundcube:include file="includes/layout.html" />
+
+<h1 class="voice"><roundcube:object name="productname" /> <roundcube:label name="login" /></h1>
+
+<div id="layout-content" class="selected no-navbar redmono-auth-shell" role="main" style="flex: 0 1 440px; max-width: 440px;">
+  <div class="redmono-auth-card">
+    <div class="redmono-brand-lockup">
+      <roundcube:object name="logo" src="/images/redmono-mark.svg?v=1.0.0" id="logo" alt="Logo" />
+      <div>
+        <p class="redmono-eyebrow">DAAK · REDMONO</p>
+        <p class="redmono-product"><roundcube:object name="productname" /></p>
+      </div>
+    </div>
+    <div class="redmono-auth-copy">
+      <h2 id="daak-login-title"><roundcube:label name="welcome" /></h2>
+      <p id="daak-login-subtitle">Sign in to access your inbox cleanly across every device.</p>
+    </div>
+    <roundcube:form id="login-form" name="login-form" method="post" class="propform">
+      <roundcube:object name="loginform" form="login-form" size="40" submit="true" class="form-control" />
+      <div id="login-footer" role="contentinfo">
+        <span><roundcube:object name="productname" /></span>
+        <span class="redmono-secure-state" id="daak-login-secure">Secure connection</span>
+        <roundcube:container name="loginfooter" id="login-footer" />
+      </div>
+    </form>
+  </div>
+</div>
+
+<noscript>
+  <p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
+</noscript>
+
+<roundcube:include file="includes/footer.html" />

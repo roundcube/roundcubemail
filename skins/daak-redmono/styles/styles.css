@@ -1,0 +1,2218 @@
+@import url("../../elastic/styles/styles.min.css");
+
+/* ==========================================================================
+   DAAK-REDMONO MAIL UI (v1.0.0)
+   Modern Soft-Sage Floating Workspace Skin for Roundcube (extends Elastic)
+   Soft cool-gray floating canvas, unified sage/mint pastel sidebar,
+   vertical full-width folder pills, crisp aligned horizontal pill toolbars,
+   centered compact Maham auth card, and cohesive internal/iframed views.
+   ========================================================================== */
+
+:root {
+  --rm-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+  --rm-canvas: #dfe5ec;
+  --rm-sidebar-grad: linear-gradient(180deg, #e1eded 0%, #ebf4f4 48%, #f4f8f8 100%);
+  --rm-ink: #0f172a;
+  --rm-ink-soft: #3f515c;
+  --rm-muted: #64748b;
+  --rm-label: #8496a1;
+  --rm-border: #e2e8f0;
+  --rm-border-light: #f1f5f9;
+  --rm-red: #ff0000;
+  --rm-red-grad: linear-gradient(135deg, #ff2626 0%, #bf0000 100%);
+  color-scheme: light !important;
+}
+
+/* 1. Outer Canvas & Floating Rounded Frame */
+html, body {
+  height: 100% !important;
+  min-height: 100vh !important;
+  background: var(--rm-canvas) !important;
+  background-color: var(--rm-canvas) !important;
+  font-family: var(--rm-font) !important;
+  color: var(--rm-ink) !important;
+  overflow: hidden !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+#layout {
+  height: 100% !important;
+  width: 100% !important;
+  background: var(--rm-canvas) !important;
+  overflow: hidden !important;
+}
+
+@media screen and (min-width: 601px) {
+  #layout {
+    padding: 10px !important;
+    gap: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #layout-menu {
+    border-radius: 22px 0 0 22px !important;
+    box-shadow: -4px 12px 36px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  #layout-content {
+    border-radius: 0 22px 22px 0 !important;
+    overflow: hidden !important;
+    box-shadow: 4px 12px 36px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  #layout-sidebar.sidebar-right {
+    border-radius: 0 22px 22px 0 !important;
+    overflow: hidden !important;
+    box-shadow: 4px 12px 36px rgba(15, 23, 42, 0.05) !important;
+  }
+
+  #layout-sidebar.sidebar-right ~ #layout-content {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border-right: 1px solid var(--rm-border) !important;
+  }
+
+  #layout-list:last-child {
+    border-radius: 0 22px 22px 0 !important;
+  }
+}
+
+/* 2. Unified Maham Sidebar (#layout-menu) */
+@media screen and (min-width: 481px) {
+  #layout-menu,
+  #layout-menu.popover {
+    width: 224px !important;
+    min-width: 224px !important;
+    max-width: 224px !important;
+    background: var(--rm-sidebar-grad) !important;
+    background-color: #e8f2f2 !important;
+    border: 0 !important;
+    border-right: 1px solid #dde6ea !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: 100 !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    left: auto !important;
+  }
+
+  #layout-menu .popover-header,
+  .popover-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    line-height: normal !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    padding: 0 18px !important;
+    margin: 0 !important;
+    text-align: left !important;
+  }
+
+  #layout-menu .popover-header a.cancel {
+    display: none !important;
+  }
+}
+
+.maham-brand-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+#layout-menu .popover-header img,
+#layout-menu .popover-header #logo,
+#layout-menu #logo,
+.task-mail #layout-menu #logo {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+  border-radius: 7px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  background: #ff0000 !important;
+  background-color: #ff0000 !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.24) !important;
+}
+
+.maham-brand-name {
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.15 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* 3. Taskmenu Flex Container & Group Labels */
+#taskmenu {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 4px 0 12px !important;
+  position: static !important;
+  background: transparent !important;
+  white-space: normal !important;
+  text-align: left !important;
+}
+
+.maham-group-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--rm-label) !important;
+  padding: 10px 20px 4px !important;
+  letter-spacing: 0.02em !important;
+  text-align: left !important;
+  line-height: 1.2 !important;
+  user-select: none;
+}
+
+.maham-nav-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+/* Compose CTA Pill Button */
+#taskmenu .action-buttons {
+  display: block !important;
+  padding: 4px 14px 10px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+#taskmenu .action-buttons a.compose,
+#taskmenu .action-buttons a.compose:focus,
+a.button.compose {
+  width: 100% !important;
+  max-width: none !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  min-width: 0 !important;
+  float: none !important;
+  border-radius: 999px !important;
+  background: var(--rm-ink) !important;
+  background-color: var(--rm-ink) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 0 16px !important;
+  margin: 0 !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.14) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease !important;
+}
+
+#taskmenu .action-buttons a.compose:hover {
+  transform: translateY(-1px) !important;
+  background: #1e293b !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2) !important;
+}
+
+#taskmenu .action-buttons a.compose.selected {
+  background: var(--rm-red-grad) !important;
+  color: #ffffff !important;
+}
+
+#taskmenu .action-buttons a.compose::before {
+  float: none !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 13.5px !important;
+  color: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#taskmenu .action-buttons a.compose span.inner {
+  display: inline-block !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+
+/* 4. Docked Folders inside Left Sidebar (#taskmenu #maham-folders-slot) */
+#taskmenu #maham-folders-slot,
+#taskmenu #maham-folders-slot #folderlist-content,
+#taskmenu #maham-folders-slot ul.treelist,
+#taskmenu #maham-folders-slot .folderlist,
+#taskmenu #maham-folders-slot ul {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  text-align: left !important;
+  float: none !important;
+  height: auto !important;
+}
+
+body:not(.maham-folders-docked) #taskmenu #maham-folders-slot,
+body:not(.maham-folders-docked) #maham-folders-slot {
+  display: none !important;
+}
+
+#taskmenu #maham-folders-slot #folderlist-content {
+  overflow-y: auto !important;
+  max-height: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex: none !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist,
+#taskmenu #maham-folders-slot .folderlist {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li,
+#taskmenu #maham-folders-slot .folderlist li,
+#taskmenu #maham-folders-slot li {
+  display: block !important;
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: normal !important;
+  border: 0 !important;
+  background: transparent !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li div.treetoggle {
+  display: none !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li a,
+#taskmenu #maham-folders-slot .folderlist li a {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  float: none !important;
+  width: calc(100% - 24px) !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 24px) !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  line-height: 36px !important;
+  padding: 0 14px !important;
+  margin: 1px 12px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  color: var(--rm-ink-soft) !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li ul li a,
+#taskmenu #maham-folders-slot .folderlist li ul li a {
+  padding-left: 26px !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li a::before,
+#taskmenu #maham-folders-slot .folderlist li a::before {
+  float: none !important;
+  margin: 0 !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #5c707d !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li a:hover,
+#taskmenu #maham-folders-slot .folderlist li a:hover {
+  background: rgba(255, 255, 255, 0.58) !important;
+  color: var(--rm-ink) !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li.selected > a,
+#taskmenu #maham-folders-slot .folderlist li.selected > a {
+  background: #ffffff !important;
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li.selected > a::before,
+#taskmenu #maham-folders-slot .folderlist li.selected > a::before {
+  color: var(--rm-ink) !important;
+}
+
+#taskmenu #maham-folders-slot ul.treelist li.unread > a,
+#taskmenu #maham-folders-slot .folderlist li.mailbox.unread > a {
+  padding-right: 14px !important;
+  font-weight: 600 !important;
+  color: var(--rm-ink) !important;
+}
+
+#taskmenu #maham-folders-slot .treelist li a span.unreadcount,
+#taskmenu #maham-folders-slot .folderlist li.mailbox .unreadcount {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  margin: 0 0 0 auto !important;
+  background: var(--rm-ink) !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  padding: 2px 8px !important;
+  min-width: 22px !important;
+  height: 20px !important;
+  line-height: 16px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.14) !important;
+}
+
+/* Hide redundant #layout-sidebar once folders are docked inside #layout-menu */
+body.maham-folders-docked #layout-sidebar {
+  display: none !important;
+}
+
+body.maham-folders-docked a.back-sidebar-button.folders {
+  display: none !important;
+}
+
+/* Internal #layout-sidebar (Settings, Addressbook, Compose options) */
+#layout-sidebar,
+#layout-sidebar.listbox,
+#layout-sidebar .scroller,
+#layout-sidebar .footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border-right: 1px solid var(--rm-border) !important;
+}
+
+#layout-sidebar.sidebar-right {
+  border-right: 0 !important;
+  border-left: 1px solid var(--rm-border) !important;
+}
+
+#layout-sidebar > .header {
+  height: 60px !important;
+  min-height: 60px !important;
+  line-height: normal !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  color: var(--rm-ink) !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+#layout-sidebar > .header > .header-title,
+#layout-sidebar > .header > .header-title:not(.all-sizes) {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+  text-align: left !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#layout-sidebar > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.hidden) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  float: none !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  background: #f4f7f9 !important;
+  border: 1px solid var(--rm-border) !important;
+  color: #334155 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+}
+
+#layout-sidebar > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.hidden):hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: var(--rm-ink) !important;
+}
+
+#layout-sidebar > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button)::before {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 13.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#layout-sidebar > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button) span.inner {
+  display: none !important;
+}
+
+/* Settings & Addressbook Listing Columns (#settings-menu, #sections-table, #directorylist, #contacts-table, #subscription-table, #identities-table) */
+#layout-sidebar .listing,
+#layout-list .listing:not(#messagelist),
+#settings-menu,
+#sections-table,
+#directorylist,
+#savedsearchlist,
+#subscription-table,
+#identities-table,
+#contacts-table,
+#responses-table,
+#filterslist,
+#filtersetslist {
+  background: #ffffff !important;
+}
+
+#layout-sidebar .scroller,
+#layout-list .scroller {
+  padding-top: 6px !important;
+}
+
+#messagelist-content.scroller {
+  padding-top: 0 !important;
+}
+
+#layout-sidebar .listing tbody tr,
+#layout-list .listing:not(#messagelist) tbody tr,
+#layout-sidebar .listing li,
+#layout-list .listing:not(#messagelist) li {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#layout-sidebar .listing li > a,
+#layout-list .listing:not(#messagelist) li > a,
+#layout-sidebar .listing li > div > a,
+#layout-list .listing:not(#messagelist) li > div > a {
+  display: flex !important;
+  align-items: center !important;
+  width: calc(100% - 20px) !important;
+  margin: 2px 10px !important;
+  padding: 9px 14px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  color: #334155 !important;
+  background: transparent !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+  text-decoration: none !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#subscription-table li.mailbox > a {
+  padding-right: 48px !important;
+}
+
+#subscription-table li.mailbox .custom-switch,
+#subscription-table li.mailbox > input + label {
+  right: 18px !important;
+}
+
+#layout-sidebar .listing tbody td,
+#layout-list .listing:not(#messagelist) tbody td {
+  display: flex !important;
+  align-items: center !important;
+  width: calc(100% - 20px) !important;
+  margin: 2px 10px !important;
+  padding: 9px 14px !important;
+  border-radius: 12px !important;
+  border: 0 !important;
+  color: #334155 !important;
+  background: transparent !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#layout-sidebar .listing tbody tr:hover td,
+#layout-list .listing:not(#messagelist) tbody tr:hover td,
+#layout-sidebar .listing li > a:hover,
+#layout-list .listing:not(#messagelist) li > a:hover,
+#layout-sidebar .listing li > div > a:hover,
+#layout-list .listing:not(#messagelist) li > div > a:hover {
+  background: #f1f5f9 !important;
+  color: var(--rm-ink) !important;
+}
+
+#layout-sidebar .listing tbody tr.selected td,
+#layout-list .listing:not(#messagelist) tbody tr.selected td,
+#layout-sidebar .listing li.selected > a,
+#layout-list .listing:not(#messagelist) li.selected > a,
+#layout-sidebar .listing li.selected > div > a,
+#layout-list .listing:not(#messagelist) li.selected > div > a {
+  background: #eff6ff !important;
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+#layout-sidebar .listing.iconized li > a::before,
+#layout-list .listing:not(#messagelist).iconized li > a::before,
+#layout-sidebar .listing.iconized tr td::before,
+#layout-list .listing:not(#messagelist).iconized tr td::before {
+  float: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  height: auto !important;
+  margin: 0 10px 0 0 !important;
+  color: #5c707d !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+}
+
+#layout-sidebar .listing.iconized li.selected > a::before,
+#layout-list .listing:not(#messagelist).iconized li.selected > a::before,
+#layout-sidebar .listing.iconized tr.selected td::before,
+#layout-list .listing:not(#messagelist).iconized tr.selected td::before {
+  color: var(--rm-ink) !important;
+}
+
+/* 5. App Navigation Links (.maham-apps-group) */
+#taskmenu .maham-apps-group a,
+#taskmenu .special-buttons a {
+  float: none !important;
+  width: calc(100% - 24px) !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  line-height: 36px !important;
+  margin: 1px 12px !important;
+  padding: 0 14px !important;
+  border-radius: 999px !important;
+  border: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  color: var(--rm-ink-soft) !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease !important;
+}
+
+#taskmenu .maham-apps-group a::before,
+#taskmenu .special-buttons a::before {
+  float: none !important;
+  margin: 0 !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #5c707d !important;
+}
+
+#taskmenu .maham-apps-group a span.inner,
+#taskmenu .special-buttons a span.inner {
+  display: inline-block !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#taskmenu .maham-apps-group a:hover,
+#taskmenu .special-buttons a:hover {
+  background: rgba(255, 255, 255, 0.58) !important;
+  color: var(--rm-ink) !important;
+}
+
+body:not(.maham-folders-docked) #taskmenu .maham-apps-group a.selected {
+  background: #ffffff !important;
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
+}
+
+body:not(.maham-folders-docked) #taskmenu .maham-apps-group a.selected span.inner,
+body:not(.maham-folders-docked) #taskmenu .maham-apps-group a.selected::before {
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+}
+
+body.maham-folders-docked #taskmenu .maham-apps-group a.selected {
+  background: rgba(255, 255, 255, 0.55) !important;
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+}
+
+body.maham-folders-docked #taskmenu .maham-apps-group a.selected span.inner,
+body.maham-folders-docked #taskmenu .maham-apps-group a.selected::before {
+  color: var(--rm-ink) !important;
+}
+
+/* 6. Bottom Account Section (#taskmenu .special-buttons) */
+@media screen and (min-width: 1px) {
+  #taskmenu .special-buttons {
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin-top: auto !important;
+    padding: 8px 0 4px !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.06) !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 2px !important;
+  }
+}
+
+#maham-account-badge {
+  display: none;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 4px 12px 6px !important;
+  padding: 8px 10px !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+}
+
+.maham-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  border-radius: 50% !important;
+  background: var(--rm-ink) !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14) !important;
+}
+
+.maham-account-meta {
+  min-width: 0 !important;
+  flex: 1 !important;
+}
+
+.maham-account-name {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--rm-ink) !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.maham-account-role {
+  font-size: 11px !important;
+  color: var(--rm-muted) !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#taskmenu .special-buttons a.theme {
+  display: none !important;
+}
+
+#taskmenu .special-buttons a.logout {
+  color: #b91c1c !important;
+}
+
+#taskmenu .special-buttons a.logout::before {
+  color: #b91c1c !important;
+}
+
+#taskmenu .special-buttons a.logout:hover {
+  color: #dc2626 !important;
+  background: rgba(239, 68, 68, 0.09) !important;
+}
+
+/* 7. Messages List Column (#layout-list) & Header Bar (#messagelist-header) */
+#layout-list,
+#layout-list.listbox,
+#layout-list .scroller,
+#layout-list .footer {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border-right: 1px solid var(--rm-border) !important;
+}
+
+#messagelist-header,
+#layout-list > .header {
+  height: 60px !important;
+  min-height: 60px !important;
+  line-height: normal !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  color: var(--rm-ink) !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+#layout-list > .header > .header-title,
+#layout-list > .header > .header-title:not(.all-sizes),
+#messagelist-header .header-title {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 4px !important;
+  text-align: left !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu),
+#messagelist-header > .toolbar.menu:not(.popupmenu),
+#messagelist-header > #toolbar-list-menu:not(.popupmenu) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  list-style: none !important;
+  flex-shrink: 0 !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) > li,
+#messagelist-header > .toolbar.menu:not(.popupmenu) > li {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  float: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a:not(.hidden):not(.hidden-big):not(.hidden-large):not(.hidden-lbs),
+#layout-list > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.hidden),
+#messagelist-header > .toolbar.menu:not(.popupmenu) a:not(.hidden):not(.hidden-big):not(.hidden-large):not(.hidden-lbs),
+#messagelist-header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.hidden) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  float: none !important;
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  background: #f4f7f9 !important;
+  border: 1px solid var(--rm-border) !important;
+  color: #334155 !important;
+  line-height: 1 !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a.disabled:not(.hidden),
+#layout-list > .header > a.button.disabled:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.hidden),
+#messagelist-header > .toolbar.menu:not(.popupmenu) a.disabled:not(.hidden),
+#messagelist-header > a.button.disabled:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.hidden) {
+  background: #f8fafc !important;
+  color: #94a3b8 !important;
+  cursor: default !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a:not(.disabled):hover,
+#layout-list > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.disabled):hover,
+#messagelist-header > .toolbar.menu:not(.popupmenu) a:not(.disabled):hover,
+#messagelist-header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button):not(.disabled):hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: var(--rm-ink) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a::before,
+#layout-list > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button)::before,
+#messagelist-header > .toolbar.menu:not(.popupmenu) a::before,
+#messagelist-header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button)::before {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 13.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: inherit !important;
+}
+
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a span.inner,
+#layout-list > .header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button) span.inner,
+#messagelist-header > .toolbar.menu:not(.popupmenu) a span.inner,
+#messagelist-header > a.button:not(.task-menu-button):not(.back-sidebar-button):not(.back-list-button):not(.back-content-button):not(.toolbar-menu-button):not(.toolbar-list-button) span.inner {
+  display: none !important;
+}
+
+/* Fixed Single-Pill Searchbar (zero nested form box) */
+.searchbar {
+  height: 40px !important;
+  min-height: 40px !important;
+  line-height: normal !important;
+  margin: 10px 14px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  background: #f3f6f8 !important;
+  border: 1px solid var(--rm-border) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+.searchbar:focus-within {
+  background: #ffffff !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05) !important;
+}
+
+.searchbar form,
+#mailsearchform {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  box-shadow: none !important;
+}
+
+.searchbar form::before {
+  height: auto !important;
+  line-height: 1 !important;
+  width: auto !important;
+  margin: 0 6px 0 2px !important;
+  float: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  color: var(--rm-muted) !important;
+}
+
+.searchbar input,
+.searchbar .form-control {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--rm-ink) !important;
+  box-shadow: none !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
+  font-size: 13px !important;
+  flex: 1 !important;
+  width: 100% !important;
+  outline: 0 !important;
+}
+
+.searchbar input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.searchbar a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 28px !important;
+  width: 26px !important;
+  color: var(--rm-muted) !important;
+}
+
+.searchbar a.reset,
+.searchbar a.search {
+  display: none !important;
+}
+
+.searchbar.active a.reset {
+  display: inline-flex !important;
+}
+
+.searchbar a::before {
+  float: none !important;
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 13px !important;
+}
+
+/* Message List Table */
+#messagelist {
+  background: #ffffff !important;
+}
+
+#messagelist tr {
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  transition: background-color 0.14s ease !important;
+}
+
+#messagelist tr:hover {
+  background: #f8fafc !important;
+}
+
+#messagelist tr.selected {
+  background: #eff6ff !important;
+  border-left: 3px solid var(--rm-ink) !important;
+}
+
+#messagelist tr.selected td {
+  background: #eff6ff !important;
+  color: var(--rm-ink) !important;
+}
+
+#messagelist td {
+  color: #334155 !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  padding: 10px 12px !important;
+}
+
+#messagelist tr.unread td {
+  color: var(--rm-ink) !important;
+  font-weight: 700 !important;
+}
+
+.listing-info,
+.listbox .scroller p,
+#messagelist .emptylist {
+  color: #94a3b8 !important;
+  font-size: 13.5px !important;
+}
+
+/* 8. Reading Pane & Horizontal Pill Top Toolbar (#layout-content) */
+#layout-content,
+#layout-content.selected,
+#layout-content > .content,
+#layout-content .scroller {
+  background: #fafbfc !important;
+  background-color: #fafbfc !important;
+}
+
+#layout-content > .header {
+  height: 60px !important;
+  min-height: 60px !important;
+  line-height: normal !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  color: var(--rm-ink) !important;
+  padding: 0 18px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu),
+#layout-content > .header > #toolbar-menu:not(.popupmenu),
+#mailtoolbar:not(.popupmenu) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 5px !important;
+  flex-wrap: nowrap !important;
+  height: 60px !important;
+  min-height: 60px !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  list-style: none !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu)::-webkit-scrollbar,
+#mailtoolbar:not(.popupmenu)::-webkit-scrollbar {
+  display: none !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  float: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  flex-shrink: 0 !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li.spacer,
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .spacer,
+#mailtoolbar:not(.popupmenu) .spacer,
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li.hidden,
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li:has(> a.hidden) {
+  display: none !important;
+}
+
+/* Standalone Action Pills (Targets ALL <a> elements, not only a.button) */
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a:not(.dropdown):not(.hidden):not(.hidden-big):not(.hidden-large):not(.hidden-lbs):not([style*="display: none"]):not([style*="display:none"]),
+#mailtoolbar:not(.popupmenu) a:not(.dropdown):not(.hidden):not(.hidden-big):not(.hidden-large):not(.hidden-lbs):not([style*="display: none"]):not([style*="display:none"]) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  float: none !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  line-height: 1 !important;
+  padding: 0 11px !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  background: #f4f7f9 !important;
+  border: 1px solid var(--rm-border) !important;
+  color: #334155 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a.disabled:not(.dropdown):not(.hidden),
+#mailtoolbar:not(.popupmenu) a.disabled:not(.dropdown):not(.hidden) {
+  background: #f8fafc !important;
+  color: #94a3b8 !important;
+  cursor: default !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a:not(.disabled):hover,
+#mailtoolbar:not(.popupmenu) a:not(.disabled):hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: var(--rm-ink) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a::before,
+#mailtoolbar:not(.popupmenu) a::before {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 12.5px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: inherit !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a span.inner,
+#mailtoolbar:not(.popupmenu) a span.inner {
+  display: inline-block !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  max-width: none !important;
+  color: inherit !important;
+  white-space: nowrap !important;
+}
+
+/* Split Action Pills (.dropbutton) */
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton:not([style*="display: none"]):not([style*="display:none"]),
+#mailtoolbar:not(.popupmenu) .dropbutton:not([style*="display: none"]):not([style*="display:none"]) {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  float: none !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  background: #f4f7f9 !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 999px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton:has(> a.disabled),
+#mailtoolbar:not(.popupmenu) .dropbutton:has(> a.disabled) {
+  background: #f8fafc !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton:not(.disabled):hover,
+#mailtoolbar:not(.popupmenu) .dropbutton:not(.disabled):hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a:not(.dropdown),
+#mailtoolbar:not(.popupmenu) .dropbutton > a:not(.dropdown) {
+  border: 0 !important;
+  background: transparent !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  padding: 0 8px 0 11px !important;
+  margin: 0 !important;
+  border-radius: 999px 0 0 999px !important;
+  box-shadow: none !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a.disabled:not(.dropdown),
+#mailtoolbar:not(.popupmenu) .dropbutton > a.disabled:not(.dropdown) {
+  background: transparent !important;
+  color: #94a3b8 !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a:not(.dropdown):not(.disabled):hover,
+#mailtoolbar:not(.popupmenu) .dropbutton > a:not(.dropdown):not(.disabled):hover {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a.dropdown,
+#mailtoolbar:not(.popupmenu) .dropbutton > a.dropdown {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  float: none !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  max-width: 22px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-left: 1px solid var(--rm-border) !important;
+  border-radius: 0 999px 999px 0 !important;
+  background: transparent !important;
+  line-height: 1 !important;
+  color: #64748b !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a.dropdown:hover,
+#mailtoolbar:not(.popupmenu) .dropbutton > a.dropdown:hover {
+  background: rgba(15, 23, 42, 0.04) !important;
+  color: var(--rm-ink) !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a.dropdown::before,
+#mailtoolbar:not(.popupmenu) .dropbutton > a.dropdown::before {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 11px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton > a.dropdown span.inner,
+#mailtoolbar:not(.popupmenu) .dropbutton > a.dropdown span.inner {
+  display: none !important;
+}
+
+/* Preserve Responsive Visibility Rules */
+.hidden,
+html.layout-large .hidden-large,
+html.layout-large .hidden-big,
+html.layout-large li:has(> a.hidden-large),
+html.layout-large li:has(> a.hidden-big),
+html.layout-normal .hidden-big,
+html.layout-normal .hidden-lbs,
+html.layout-normal li:has(> a.hidden-big),
+html.layout-large #layout #layout-list > .header > a.button.toolbar-list-button,
+html.layout-large #layout-list > #messagelist-header > a.button.toolbar-list-button,
+html.layout-large #layout #layout-list > .header > a.button.toolbar-menu-button,
+html.layout-large #layout-list > #messagelist-header > a.button.toolbar-menu-button,
+html.layout-large #layout-content > .header > a.button.toolbar-menu-button,
+html.layout-normal #layout #layout-list > .header > a.button.toolbar-menu-button,
+html.layout-normal #layout-list > #messagelist-header > a.button.toolbar-menu-button,
+html.layout-normal #layout-content > .header > a.button.toolbar-menu-button,
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li[style*="display: none"],
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li[style*="display:none"],
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li:has(> a[style*="display: none"]),
+#layout-content > .header > .toolbar.menu:not(.popupmenu) > li:has(> a[style*="display:none"]),
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a[style*="display: none"],
+#layout-content > .header > .toolbar.menu:not(.popupmenu) a[style*="display:none"],
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton[style*="display: none"],
+#layout-content > .header > .toolbar.menu:not(.popupmenu) .dropbutton[style*="display:none"],
+#layout-list > .header > .toolbar.menu:not(.popupmenu) > li[style*="display: none"],
+#layout-list > .header > .toolbar.menu:not(.popupmenu) > li[style*="display:none"],
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a[style*="display: none"],
+#layout-list > .header > .toolbar.menu:not(.popupmenu) a[style*="display:none"],
+html.layout-large #layout-content > .header > .toolbar.menu:not(.popupmenu) a[data-hidden*="big"],
+html.layout-normal #layout-content > .header > .toolbar.menu:not(.popupmenu) a[data-hidden*="big"],
+html.layout-large #layout-content > .header > .toolbar.menu:not(.popupmenu) a.options {
+  display: none !important;
+}
+
+@media screen and (min-width: 769px) {
+  #layout #layout-list > .header > a.button.toolbar-menu-button,
+  #layout-list > #messagelist-header > a.button.toolbar-menu-button,
+  #layout-content > .header > a.button.toolbar-menu-button,
+  a.toolbar-menu-button {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  #layout #layout-list > .header > a.button.toolbar-list-button,
+  #layout-list > #messagelist-header > a.button.toolbar-list-button,
+  a.toolbar-list-button {
+    display: none !important;
+  }
+}
+
+#layout-content .iframe-wrapper,
+#messagecontframe,
+.iframe-wrapper,
+.content.watermarked,
+#mailview-right,
+.watermark {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 9. Footer Bars & Centered Pagination Controls */
+#layout > div > .footer,
+.listbox .footer {
+  height: 46px !important;
+  min-height: 46px !important;
+  line-height: normal !important;
+  background: #ffffff !important;
+  border-top: 1px solid var(--rm-border-light) !important;
+  color: var(--rm-muted) !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+}
+
+#layout > div > .footer:empty,
+.listbox .footer:empty,
+#layout > div > .footer.small:has(> .hidden:only-child) {
+  display: none !important;
+}
+
+@media screen and (min-width: 769px) {
+  html:not(.iframe) #layout-content > .footer:not(.formbuttons) {
+    display: none !important;
+  }
+}
+
+.pagenav.menu a,
+.pagenav.menu.toolbar a {
+  float: none !important;
+  flex-grow: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  line-height: 1 !important;
+  border: 0 !important;
+  color: #475569 !important;
+}
+
+.pagenav.menu a::before,
+.pagenav.menu.toolbar a::before {
+  height: auto !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.footer a,
+.footer button,
+.pagenav a {
+  color: #475569 !important;
+}
+
+/* 10. Popups, Alerts & Dialogs */
+.popupmenu,
+.ui-dialog,
+.popover:not(#layout-menu),
+.modal-content {
+  background: #ffffff !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10) !important;
+  color: var(--rm-ink) !important;
+}
+
+.popupmenu .menu li a,
+.popover:not(#layout-menu) .menu li a {
+  color: #334155 !important;
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+}
+
+.popupmenu .menu li a:hover,
+.popover:not(#layout-menu) .menu li a:hover {
+  color: var(--rm-ink) !important;
+  background: #f1f5f9 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  color: var(--rm-ink) !important;
+  border-radius: 18px 18px 0 0 !important;
+  padding: 14px 18px !important;
+}
+
+.ui-dialog .ui-dialog-title {
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+  background: #ffffff !important;
+  border-top: 1px solid var(--rm-border-light) !important;
+  border-radius: 0 0 18px 18px !important;
+  padding: 12px 18px !important;
+}
+
+#messagestack div {
+  border-radius: 14px !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14) !important;
+}
+
+/* 11. Internal Iframed Views (Preferences, Identities, Folders, Filters, Contacts, Message Reader) & Compose */
+html.iframe,
+html.iframe body {
+  background: #fafbfc !important;
+  background-color: #fafbfc !important;
+  color: var(--rm-ink) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: auto !important;
+  min-height: 100% !important;
+}
+
+html.iframe #layout,
+html.iframe #layout-content {
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #fafbfc !important;
+  background-color: #fafbfc !important;
+  height: auto !important;
+  min-height: 100% !important;
+  overflow: visible !important;
+}
+
+html.iframe .formcontent:not(.popupmenu),
+html.iframe #layout-content > .formcontent:not(.popupmenu),
+html.iframe #layout-content > .content > .formcontent:not(.popupmenu) {
+  background: #ffffff !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 18px !important;
+  padding: 24px 28px !important;
+  margin: 18px !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03) !important;
+  width: auto !important;
+  height: auto !important;
+  flex: 0 0 auto !important;
+}
+
+html.iframe .formcontent:not(.popupmenu) fieldset,
+.formcontent:not(.popupmenu) fieldset {
+  border: 0 !important;
+  margin: 0 0 22px !important;
+  padding: 0 !important;
+}
+
+html.iframe .formcontent:not(.popupmenu) legend,
+.formcontent:not(.popupmenu) legend {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  padding: 0 0 10px !important;
+  margin: 0 0 16px !important;
+  width: 100% !important;
+}
+
+.formcontent .form-control,
+.formcontent .custom-select,
+.formcontent input[type="text"],
+.formcontent input[type="password"],
+.formcontent input[type="email"],
+.formcontent textarea,
+.ui-dialog .form-control,
+.ui-dialog .custom-select {
+  border-radius: 10px !important;
+  border: 1px solid var(--rm-border) !important;
+  background-color: #f8fafc !important;
+  color: var(--rm-ink) !important;
+  box-shadow: none !important;
+}
+
+.formcontent .form-control:focus,
+.formcontent .custom-select:focus,
+.formcontent input[type="text"]:focus,
+.formcontent input[type="password"]:focus,
+.formcontent input[type="email"]:focus,
+.formcontent textarea:focus,
+.ui-dialog .form-control:focus,
+.ui-dialog .custom-select:focus {
+  background-color: #ffffff !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05) !important;
+  outline: none !important;
+}
+
+.formcontent .input-group-append .btn,
+.formcontent .input-group-append .input-group-text {
+  border-radius: 0 10px 10px 0 !important;
+  border: 1px solid var(--rm-border) !important;
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  box-shadow: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.formcontent .input-group-append .btn:hover,
+.formcontent .input-group-append .input-group-text:hover {
+  background: #e2e8f0 !important;
+  color: var(--rm-ink) !important;
+}
+
+.formcontent .nav-tabs,
+#contacttabs .nav-tabs {
+  border-bottom: 1px solid var(--rm-border-light) !important;
+  gap: 6px !important;
+  margin-bottom: 18px !important;
+}
+
+.formcontent .nav-tabs .nav-link,
+#contacttabs .nav-tabs .nav-link {
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 6px 14px !important;
+  color: var(--rm-muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.formcontent .nav-tabs .nav-link.active,
+#contacttabs .nav-tabs .nav-link.active {
+  background: #eff6ff !important;
+  color: var(--rm-ink) !important;
+  font-weight: 600 !important;
+}
+
+.formcontent .form-check-input,
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--rm-ink);
+}
+
+.btn.btn-primary,
+button.btn-primary,
+button.mainaction:not(#rcmloginsubmit),
+.formbuttons .btn-primary,
+.ui-dialog-buttonpane .btn-primary {
+  border-radius: 999px !important;
+  background: var(--rm-ink) !important;
+  background-color: var(--rm-ink) !important;
+  border: 0 !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14) !important;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease !important;
+}
+
+.btn.btn-primary:hover,
+button.btn-primary:hover,
+button.mainaction:not(#rcmloginsubmit):hover,
+.formbuttons .btn-primary:hover,
+.ui-dialog-buttonpane .btn-primary:hover {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2) !important;
+}
+
+.btn.btn-secondary,
+button.btn-secondary,
+.formbuttons .btn-secondary,
+.ui-dialog-buttonpane .btn-secondary {
+  border-radius: 999px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid var(--rm-border) !important;
+  color: #334155 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 18px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+.btn.btn-secondary:hover,
+button.btn-secondary:hover,
+.ui-dialog-buttonpane .btn-secondary:hover {
+  background: #e2e8f0 !important;
+  color: var(--rm-ink) !important;
+}
+
+.btn::before,
+button.btn::before {
+  float: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  font-size: 13.5px !important;
+}
+
+html.iframe .formbuttons,
+html.iframe #layout-content > .footer,
+#layout-content > .footer.formbuttons {
+  background: transparent !important;
+  border-top: 0 !important;
+  padding: 0 18px 24px !important;
+  height: auto !important;
+  min-height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+}
+
+/* Message Reader & Contact Card Views */
+#message-header {
+  background: #ffffff !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 18px !important;
+  padding: 18px 22px !important;
+  margin: 14px 18px 10px !important;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+}
+
+#message-header > .subject {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--rm-ink) !important;
+  margin: 0 0 10px !important;
+}
+
+#message-header .header-links a {
+  color: #334155 !important;
+  font-weight: 500 !important;
+}
+
+#message-header .header-links a:hover {
+  color: var(--rm-ink) !important;
+}
+
+#message-content {
+  background: #ffffff !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 18px !important;
+  padding: 20px 24px !important;
+  margin: 0 18px 18px !important;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03) !important;
+}
+
+.message-partheaders {
+  background: #f8fafc !important;
+  border: 1px solid var(--rm-border-light) !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  margin: 12px 0 !important;
+}
+
+#attachment-list li,
+.attachmentslist li {
+  border-radius: 10px !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--rm-border) !important;
+  margin-bottom: 6px !important;
+}
+
+.contact-header {
+  padding-bottom: 16px !important;
+  margin-bottom: 16px !important;
+  border-bottom: 1px solid var(--rm-border-light) !important;
+}
+
+#contacthead .name {
+  color: var(--rm-ink) !important;
+  font-weight: 700 !important;
+}
+
+/* Compose View (body.action-compose) */
+body.action-compose #layout-content,
+body.action-compose #compose-content {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+body.action-compose #compose-content > .formcontent {
+  background: #ffffff !important;
+  padding: 18px 24px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+body.action-compose #compose-content > .formbuttons {
+  background: #ffffff !important;
+  border-top: 1px solid var(--rm-border-light) !important;
+  padding: 12px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.compose-headers .input-group {
+  display: flex !important;
+  align-items: center !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 12px !important;
+  min-height: 40px !important;
+  padding: 2px 6px !important;
+  box-shadow: none !important;
+  transition: background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease !important;
+}
+
+.compose-headers .input-group:focus-within {
+  background: #ffffff !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05) !important;
+}
+
+.compose-headers .recipient-input,
+.compose-headers .recipient-input.focus,
+.compose-headers .recipient-input input,
+.compose-headers .recipient-input input[type="text"],
+.compose-headers .input-group .form-control,
+.compose-headers .input-group .form-control:focus,
+.compose-headers .input-group select.form-control {
+  border: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+}
+
+.compose-headers input#compose-subject {
+  border-radius: 12px !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--rm-border) !important;
+  padding: 8px 12px !important;
+  height: 40px !important;
+  box-shadow: none !important;
+}
+
+.compose-headers input#compose-subject:focus {
+  background: #ffffff !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05) !important;
+}
+
+.recipient-input .recipient {
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--rm-ink) !important;
+  padding: 2px 10px !important;
+  margin: 2px 4px 2px 0 !important;
+}
+
+.compose-headers .input-group-text,
+.compose-headers .input-group-append a.input-group-text {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--rm-muted) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#compose-attachments {
+  padding: 14px !important;
+}
+
+#compose-attachments .upload-form {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 6px 4px 10px !important;
+  text-align: center !important;
+}
+
+#compose-attachments.droptarget {
+  border: 1.5px dashed #cbd5e1 !important;
+  border-radius: 16px !important;
+  background: #f8fafc !important;
+  padding: 16px !important;
+  text-align: center !important;
+}
+
+#compose-attachments.droptarget::after {
+  font-size: 2rem !important;
+  opacity: 0.2 !important;
+  margin-top: 1.25rem !important;
+}
+
+#compose-options {
+  padding: 0 14px 18px !important;
+}
+
+#composebodycontainer .tox.tox-tinymce,
+#composebodycontainer textarea#composebody {
+  border-radius: 14px !important;
+  border: 1px solid var(--rm-border) !important;
+  overflow: hidden !important;
+}
+
+/* 12. Login Screen (Maham Centered Card — Bulletproof Elastic Reset) */
+.task-login #layout {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+  height: 100% !important;
+  padding: 24px !important;
+  background: var(--rm-sidebar-grad) !important;
+  overflow-y: auto !important;
+}
+
+.task-login #layout-content,
+.task-login #layout-content.redmono-auth-shell {
+  flex: 0 1 440px !important;
+  width: min(100%, 440px) !important;
+  max-width: 440px !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 28px !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  display: block !important;
+  text-align: left !important;
+}
+
+.redmono-auth-card {
+  position: relative !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  padding: 40px 36px 32px !important;
+  border-radius: 28px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--rm-border) !important;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.08) !important;
+  color: var(--rm-ink) !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
+}
+
+.redmono-brand-lockup {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 22px !important;
+  text-align: left !important;
+}
+
+.task-login #logo,
+.task-login img#logo,
+.redmono-brand-lockup #logo {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  display: block !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  max-height: 38px !important;
+  border-radius: 9px !important;
+  background: #ff0000 !important;
+  background-color: #ff0000 !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.25) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.redmono-eyebrow {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #ff0000 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.16em !important;
+  line-height: 1.1 !important;
+  margin: 0 0 2px !important;
+}
+
+.redmono-product {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #0f172a !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.1 !important;
+  margin: 0 !important;
+}
+
+.redmono-auth-copy {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 0 24px !important;
+  text-align: left !important;
+}
+
+.redmono-auth-copy h2 {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #0f172a !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+  margin: 0 0 6px !important;
+}
+
+.redmono-auth-copy p {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #64748b !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}
+
+.task-login #login-form {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.task-login #login-form table,
+.task-login #login-form tbody,
+.task-login #login-form tr {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.task-login #login-form td.title {
+  display: none !important;
+}
+
+.task-login #login-form tr + tr {
+  margin-top: 12px !important;
+}
+
+.task-login #login-form td.input,
+.task-login #login-form .input-group {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 14px 0 8px !important;
+  background: #f8fafc !important;
+  border: 1px solid var(--rm-border) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+  overflow: hidden !important;
+}
+
+.task-login #login-form td.input:focus-within,
+.task-login #login-form .input-group:focus-within {
+  background: #ffffff !important;
+  border-color: var(--rm-ink) !important;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06) !important;
+}
+
+.task-login #login-form td.input .input-group-prepend {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  height: 48px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.task-login #login-form td.input .input-group-text {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: #94a3b8 !important;
+  width: 34px !important;
+  height: 48px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.task-login #login-form .form-control,
+.task-login #login-form .form-control:focus {
+  flex: 1 1 auto !important;
+  width: 1% !important;
+  min-width: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: var(--rm-ink) !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  padding: 0 8px 0 4px !important;
+  margin: 0 !important;
+  font-size: 14.5px !important;
+}
+
+.task-login #login-form .formbuttons {
+  margin: 18px 0 0 !important;
+  padding: 0 !important;
+}
+
+.task-login #rcmloginsubmit {
+  min-height: 48px !important;
+  width: 100% !important;
+  border-radius: 999px !important;
+  background: var(--rm-ink) !important;
+  border: 0 !important;
+  color: #ffffff !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18) !important;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease !important;
+}
+
+.task-login #rcmloginsubmit:hover {
+  transform: translateY(-1px) !important;
+  background: #1e293b !important;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.24) !important;
+}
+
+.task-login #login-footer {
+  position: static !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 22px 0 0 !important;
+  padding: 16px 0 0 !important;
+  border-top: 1px solid #f1f5f9 !important;
+  color: #64748b !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}

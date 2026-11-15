@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAAK-Redmono Mail</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #fafbfc !important;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .maham-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 48px 60px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 28px;
+    box-shadow: 0 16px 50px rgba(15, 23, 42, 0.06);
+    text-align: center;
+    max-width: 440px;
+  }
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.10em;
+  }
+  .brand-badge span.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff0000;
+  }
+  .icon-square {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ff2626 0%, #bf0000 100%);
+    box-shadow: 0 8px 22px rgba(255, 0, 0, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-square svg {
+    width: 26px;
+    height: 26px;
+    fill: #ffffff;
+  }
+  p.title {
+    margin: 4px 0 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+  }
+  p.subtitle {
+    margin: 0;
+    font-size: 13.5px;
+    color: #64748b;
+    line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+  <div class="maham-card">
+    <div class="brand-badge">
+      <span class="dot"></span>
+      DAAK · REDMONO
+    </div>
+    <div class="icon-square">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </div>
+    <p class="title">Select a message</p>
+    <p class="subtitle">Choose an email from the list on the left to read or reply</p>
+  </div>
+  <script>
+    (function () {
+      var lang = (window.parent && window.parent.document && window.parent.document.documentElement.lang) || navigator.language || "";
+      if (lang.toLowerCase().indexOf("tr") === 0) {
+        document.querySelector("p.title").textContent = "Bir e-posta seçin";
+        document.querySelector("p.subtitle").textContent = "Okumak veya yanıtlamak için soldaki listeden bir e-postaya tıklayın";
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+	"name": "DAAK-Redmono Mail UI",
+	"author": "Firat Dasdogen (DAAK / Redmono)",
+	"extends": "elastic",
+	"license": "GPL-3.0-or-later",
+	"license-url": "https://www.gnu.org/licenses/gpl-3.0.html",
+	"config": {
+		"supported_layouts": ["widescreen"],
+		"jquery_ui_colors_theme": "bootstrap",
+		"embed_css_location": "/styles/embed.css",
+		"editor_css_location": "/styles/embed.css",
+		"dark_mode_support": false,
+		"media_browser_css_location": "none",
+		"additional_logo_types": ["dark", "small", "small-dark"]
+	},
+	"meta": {
+		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
+		"theme-color": "#e3ebe9",
+		"msapplication-navbutton-color": "#e3ebe9"
+	}
+}
