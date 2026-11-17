@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix handling of multiple responses for the same message in a single IMAP FETCH command (#10045)
+
+## Release 1.7.6
+
 - Enable PHP 8.6 support (#10368, #10362)
 - LDAP: Fix TypeError on group members listing with PHP 8 (#10364)
 - Fix/Improve handling of IMAP literal strings

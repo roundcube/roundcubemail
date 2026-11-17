@@ -2512,11 +2512,15 @@ class rcube_imap_generic
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id = intval($m[1]);
 
-                $result[$id] = new rcube_message_header();
-                $result[$id]->id = $id;
-                $result[$id]->subject = '';
-                $result[$id]->messageID = 'mid:' . $id;
-                $result[$id]->folder = $mailbox;
+                // A later unsolicited FETCH may contain only updated flags.
+                // Keep the message data already received for this sequence number.
+                if (!isset($result[$id])) {
+                    $result[$id] = new rcube_message_header();
+                    $result[$id]->id = $id;
+                    $result[$id]->subject = '';
+                    $result[$id]->messageID = 'mid:' . $id;
+                    $result[$id]->folder = $mailbox;
+                }
 
                 $headers = null;
                 $line = substr($line, strlen($m[0]) + 2);
@@ -2534,6 +2538,8 @@ class rcube_imap_generic
                         $result[$id]->date = $value;
                         $result[$id]->timestamp = rcube_utils::strtotime($value);
                     } elseif ($name == 'FLAGS') {
+                        // FLAGS is a complete replacement, including an empty list.
+                        $result[$id]->flags = [];
                         if (!empty($value)) {
                             foreach ((array) $value as $flag) {
                                 $flag = str_replace(['$', '\\'], '', $flag);
