@@ -782,7 +782,7 @@ class rcube_contacts extends rcube_addressbook
             $fulltext = in_array($field, $this->fulltext_cols);
 
             // avoid casting DateTime objects to array
-            if (is_object($values) && is_a($values, 'DateTime')) {
+            if ($values instanceof \DateTime) {
                 $values = [$values];
             }
             foreach ((array) $values as $value) {

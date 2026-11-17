@@ -72,7 +72,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if (!is_object($message) || !is_a($message, 'rcube_message')) {
+        if (!$message instanceof rcube_message) {
             $message = new rcube_message($message);
         }
 

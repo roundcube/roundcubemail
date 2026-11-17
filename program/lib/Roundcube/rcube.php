@@ -1812,7 +1812,7 @@ class rcube
             $body_file = rcube_utils::temp_filename('msg');
             $mime_result = $message->saveMessageBody($body_file);
 
-            if (is_a($mime_result, 'PEAR_Error')) {
+            if ($mime_result instanceof \PEAR_Error) {
                 self::raise_error([
                     'code' => 650,
                     'message' => 'Could not create message: ' . $mime_result->getMessage(),
