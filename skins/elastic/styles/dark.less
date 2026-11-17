@@ -576,6 +576,44 @@ html.dark-mode {
         background: @color-dark-list-selected-background;
     }
 
+    .CodeMirror-cursor {
+        border-left-color: @color-dark-input;
+    }
+
+    // Syntax highlighting (the default CodeMirror theme is meant for light backgrounds)
+    .cm-s-default {
+        .cm-keyword {
+            color: @color-dark-code-keyword;
+        }
+
+        .cm-atom,
+        .cm-builtin,
+        .cm-def {
+            color: @color-dark-code-atom;
+        }
+
+        .cm-number {
+            color: @color-dark-code-number;
+        }
+
+        .cm-operator,
+        .cm-variable-2 {
+            color: @color-dark-code-operator;
+        }
+
+        .cm-string {
+            color: @color-dark-code-string;
+        }
+
+        .cm-string-2 {
+            color: @color-dark-code-string-2;
+        }
+
+        .cm-comment {
+            color: @color-dark-code-comment;
+        }
+    }
+
     .skinselection .skinthumbnail {
         border-color: @color-dark-input-border;
         background: transparent;
