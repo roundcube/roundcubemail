@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - OAuth: Validate JWT token signature (#10210)
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
+- Fix handling of multiple responses for the same message in a single IMAP FETCH command (#10045)
 
 ## Release 1.7.6
 
