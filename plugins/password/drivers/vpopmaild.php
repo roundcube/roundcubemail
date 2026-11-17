@@ -35,7 +35,7 @@ class rcube_vpopmaild_password
         $port = $rcmail->config->get('password_vpopmaild_port');
 
         $result = $vpopmaild->connect($host, $port, null);
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return PASSWORD_CONNECT_ERROR;
         }
 

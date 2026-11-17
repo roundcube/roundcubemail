@@ -833,7 +833,7 @@ class rcube_imap_cache
     private function validate($mailbox, $index, &$exists = true)
     {
         $object = $index['object'];
-        $is_thread = is_a($object, 'rcube_result_thread');
+        $is_thread = $object instanceof rcube_result_thread;
 
         // sanity check
         if (empty($object)) {

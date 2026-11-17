@@ -80,7 +80,7 @@ class rcube_sieve
 
         $result = $this->sieve->connect($host, $port, $options, $usetls);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $this->_set_error(self::ERROR_CONNECTION);
             return;
         }
@@ -103,7 +103,7 @@ class rcube_sieve
 
         $result = $this->sieve->login($username, $password, $auth_type ? strtoupper($auth_type) : null, $authz);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $this->_set_error(self::ERROR_LOGIN);
             return;
         }
@@ -159,7 +159,7 @@ class rcube_sieve
         }
 
         $result = $this->sieve->installScript($name, $script);
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return $this->_set_error(self::ERROR_INSTALL);
         }
 
@@ -181,7 +181,7 @@ class rcube_sieve
 
         $result = $this->sieve->installScript($name, $content);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $rawErrorMessage = $result->getMessage();
             $errMessages = preg_split("/{$name}:/", $rawErrorMessage);
 
@@ -224,7 +224,7 @@ class rcube_sieve
 
         $result = $this->sieve->setActive($name);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return $this->_set_error(self::ERROR_ACTIVATE);
         }
 
@@ -244,7 +244,7 @@ class rcube_sieve
 
         $result = $this->sieve->setActive('');
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return $this->_set_error(self::ERROR_DEACTIVATE);
         }
 
@@ -270,7 +270,7 @@ class rcube_sieve
         if ($name == $this->sieve->getActive()) {
             $result = $this->sieve->setActive('');
 
-            if (is_a($result, 'PEAR_Error')) {
+            if ($result instanceof \PEAR_Error) {
                 return $this->_set_error(self::ERROR_DELETE);
             }
 
@@ -279,7 +279,7 @@ class rcube_sieve
 
         $result = $this->sieve->removeScript($name);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return $this->_set_error(self::ERROR_DELETE);
         }
 
@@ -309,7 +309,7 @@ class rcube_sieve
 
         $ext = $this->sieve->getExtensions();
 
-        if (is_a($ext, 'PEAR_Error')) {
+        if ($ext instanceof \PEAR_Error) {
             return [];
         }
 
@@ -339,7 +339,7 @@ class rcube_sieve
             $active = null;
             $list = $this->sieve->listScripts($active);
 
-            if (is_a($list, 'PEAR_Error')) {
+            if ($list instanceof \PEAR_Error) {
                 return $this->_set_error(self::ERROR_OTHER);
             }
 
@@ -447,7 +447,7 @@ class rcube_sieve
 
         $content = $this->sieve->getScript($name);
 
-        if (is_a($content, 'PEAR_Error')) {
+        if ($content instanceof \PEAR_Error) {
             return $this->_set_error(self::ERROR_OTHER);
         }
 
@@ -468,7 +468,7 @@ class rcube_sieve
         if ($copy) {
             $content = $this->sieve->getScript($copy);
 
-            if (is_a($content, 'PEAR_Error')) {
+            if ($content instanceof \PEAR_Error) {
                 return $this->_set_error(self::ERROR_OTHER);
             }
         }

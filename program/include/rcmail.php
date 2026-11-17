@@ -78,7 +78,7 @@ class rcmail extends rcube
     #[\Override]
     public static function get_instance($mode = 0, $env = '')
     {
-        if (!self::$instance || !is_a(self::$instance, 'rcmail')) {
+        if (!self::$instance instanceof self) {
             // In cli-server mode env=test
             if ($env === null && \PHP_SAPI == 'cli-server') {
                 $env = 'test';
@@ -1206,7 +1206,7 @@ class rcmail extends rcube
         parent::shutdown();
 
         foreach ($this->address_books as $book) {
-            if (is_a($book, 'rcube_addressbook')) {
+            if ($book instanceof rcube_addressbook) {
                 $book->close();
             }
         }

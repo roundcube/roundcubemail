@@ -47,7 +47,7 @@ class rcube_poppassd_password
 
         $result = $poppassd->connect($host, $port, null);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             return $this->format_error_result(PASSWORD_CONNECT_ERROR, $result->getMessage());
         }
 

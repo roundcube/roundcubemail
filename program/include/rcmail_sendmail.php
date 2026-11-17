@@ -542,7 +542,7 @@ class rcmail_sendmail
                     $msg_file = rcube_utils::temp_filename('msg');
                     $msg = $message->saveMessageBody($msg_file);
 
-                    if (!is_a($msg, 'PEAR_Error')) {
+                    if (!$msg instanceof \PEAR_Error) {
                         $this->temp_files[$msg_id] = $msg_file;
                         $this->rcmail->add_shutdown_function(static function () use ($msg_file) { @unlink($msg_file); });
                     }
@@ -555,7 +555,7 @@ class rcmail_sendmail
                     $msg = $message->getMessage();
                 }
 
-                if (is_a($msg, 'PEAR_Error')) {
+                if ($msg instanceof \PEAR_Error) {
                     rcube::raise_error([
                         'code' => 650,
                         'message' => 'Could not create message: ' . $msg->getMessage(),

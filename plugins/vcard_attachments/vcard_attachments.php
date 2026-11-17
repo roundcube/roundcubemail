@@ -362,12 +362,12 @@ class vcard_attachments extends rcube_plugin
                     $section = strtoupper($section ?? '');
                     // avoid unwanted casting of DateTime objects to an array
                     // (same as in rcube_contacts::convert_save_data())
-                    if (is_object($values) && is_a($values, 'DateTime')) {
+                    if ($values instanceof \DateTime) {
                         $values = [$values];
                     }
 
                     foreach ((array) $values as $value) {
-                        if (is_array($value) || is_a($value, 'DateTime') || @strlen($value)) {
+                        if (is_array($value) || $value instanceof \DateTime || @strlen($value)) {
                             $vcard->set($field, $value, $section);
                         }
                     }
