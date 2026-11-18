@@ -193,4 +193,38 @@ class EnigmaMimeMessageTest extends TestCase
             str_replace("\r\n", "\n", $message->txtHeaders())
         );
     }
+
+    /**
+     * Test that LF-delimited PGP blocks > 998 bytes are preserved intact (#10413)
+     */
+    public function test_get_large_pgp_payloads()
+    {
+        $pgp_encrypted = "-----BEGIN PGP MESSAGE-----\n\n"
+            . chunk_split(str_repeat('A', 1200), 64, "\n")
+            . "=abcd\n-----END PGP MESSAGE-----\n";
+
+        $mime = new \Mail_mime();
+        $mime->setTXTBody('test body');
+        $message = new \enigma_mime_message($mime, \enigma_mime_message::PGP_ENCRYPTED);
+        $message->setPGPEncryptedBody($pgp_encrypted);
+
+        $body = $message->get();
+
+        $this->assertStringContainsString($pgp_encrypted, $body);
+        $this->assertStringContainsString('size=' . strlen($pgp_encrypted), $body);
+
+        $pgp_signature = "-----BEGIN PGP SIGNATURE-----\n\n"
+            . chunk_split(str_repeat('B', 1200), 64, "\n")
+            . "=efgh\n-----END PGP SIGNATURE-----\n";
+
+        $mime = new \Mail_mime();
+        $mime->setTXTBody('test body');
+        $message = new \enigma_mime_message($mime, \enigma_mime_message::PGP_SIGNED);
+        $message->addPGPSignature($pgp_signature, 'sha256');
+
+        $body = $message->get();
+
+        $this->assertStringContainsString($pgp_signature, $body);
+        $this->assertStringContainsString('size=' . strlen($pgp_signature), $body);
+    }
 }
