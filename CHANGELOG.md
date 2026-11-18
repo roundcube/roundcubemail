@@ -12,6 +12,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix handling of multiple responses for the same message in a single IMAP FETCH command (#10045)
 - Fix unreadable syntax colors and invisible cursor in the raw sieve script editor in dark mode (#10382)
 - Password: Support alias username in the hmail driver (#10411)
+- Fix hide_blockquote plugin adding a quadratic number of text nodes on messages with many quote blocks
 
 ## Release 1.7.6
 
