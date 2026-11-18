@@ -806,6 +806,11 @@ function rcube_elastic_ui() {
                 rcmail.set_cookie('colorMode', '', new Date()); // delete the cookie
             },
             switch_iframe_color_mode = function () {
+                // Skip the HTML editor, it does not support dark mode yet (#9940)
+                if ($(this).is('.tox-edit-area__iframe')) {
+                    return;
+                }
+
                 try {
                     $(this.contentWindow.document).find('html')[color_mode == 'dark' ? 'addClass' : 'removeClass']('dark-mode');
                 } catch (e) { /* ignore */ }
