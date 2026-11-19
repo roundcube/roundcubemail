@@ -65,6 +65,26 @@ class SearchTest extends ActionTestCase
     }
 
     /**
+     * Test empty quick-search request (#8996)
+     */
+    public function test_run_quick_search_empty()
+    {
+        $action = new \rcmail_action_contacts_search();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'contacts', 'search');
+
+        $this->assertTrue($action->checks());
+
+        $_SESSION['page'] = 3;
+        $_GET = ['_q' => ' '];
+
+        $action->run();
+
+        $this->assertNull($output->getOutput());
+        $this->assertSame('list', \rcmail::get_instance()->action);
+        $this->assertSame(1, $_SESSION['page']);
+    }
+
+    /**
      * Test search scope
      */
     public function test_run_quick_search_scope()
