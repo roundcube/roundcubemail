@@ -50,6 +50,8 @@ class MimeTest extends TestCase
             // invalid addr-spec (#8164)
             26 => '"Test.org"<test@domain.tld',
             27 => '<test@domain.tld',
+            // local address without a domain, e.g. from cron or other system mail (#10290)
+            28 => 'foo',
         ];
 
         $results = [
@@ -82,6 +84,7 @@ class MimeTest extends TestCase
             25 => [1, '', 'user@domain.tld'],
             26 => [1, 'Test.org', 'test@domain.tld'],
             27 => [1, '', 'test@domain.tld'],
+            28 => [1, '', 'foo'],
         ];
 
         foreach ($headers as $idx => $header) {
@@ -113,6 +116,8 @@ class MimeTest extends TestCase
             10 => '"Test Foo:" <attacker@example.org>:<admin@example.net>',
             11 => '<attacker@example.org>:<admin@example.net>',
             12 => 'attacker@example.org:<admin@example.net>',
+            // a group member without a domain is not turned into an address (#10290)
+            13 => 'group: foo;',
         ];
 
         $results = [
@@ -159,6 +164,7 @@ class MimeTest extends TestCase
             12 => [
                 1 => ['name' => 'attacker@example.org', 'mailto' => 'admin@example.net', 'string' => '"attacker@example.org" <admin@example.net>'],
             ],
+            13 => [],
         ];
 
         // Note: For now we expect group names ignored, and members handled as independent addresses
