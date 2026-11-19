@@ -3165,13 +3165,14 @@ function rcube_elastic_ui() {
     function message_list_hover_menu_init(list_element) {
         var record,
             menu = $('<div class="menu listing-hover-menu">'
-                + '<span class="txt"></span>'
+                + '<span class="txt date"></span>'
+                + '<span class="txt size"></span>'
                 // + '<a class="button read" data-flag="read" title="' + rcmail.gettext('markasread') + '"></a>'
                 // + '<a class="button unread d-none" data-flag="unread" title="' + rcmail.gettext('markasunread') + '"></a>'
-                + '<a class="button flag" data-flag="flagged" title="' + rcmail.gettext('markasflagged') + '"></a>'
-                + '<a class="button unflag d-none" data-flag="unflagged" title="' + rcmail.gettext('markasunflagged') + '"></a>'
                 + '<a class="button delete" data-flag="delete" title="' + rcmail.gettext('deletemessage') + '"></a>'
                 + '<a class="button undo d-none" data-flag="undelete" title="' + rcmail.gettext('undeletemessage') + '"></a>'
+                + '<a class="button flag" data-flag="flagged" title="' + rcmail.gettext('markasflagged') + '"></a>'
+                + '<a class="button unflag d-none" data-flag="unflagged" title="' + rcmail.gettext('markasunflagged') + '"></a>'
                 + '</div>'
             ),
             hide_menu = function () {
@@ -3230,12 +3231,15 @@ function rcube_elastic_ui() {
         menu.css({ top: top + 'px' });
 
         // Show/hide buttons according to the hovered message state
+        menu[message.flagged ? 'addClass' : 'removeClass']('flagged');
+        menu[message.deleted ? 'addClass' : 'removeClass']('deleted');
         Object.keys(buttons).forEach(function (btn) {
             menu.find('a.' + btn)[buttons[btn] ? 'removeClass' : 'addClass']('d-none');
         });
 
-        // Update the txt element in the menu
-        menu.find('span.txt').text(element.closest('table').is('.sort-size') ? message.date : message.size);
+        // Update the txt elements in the menu
+        menu.find('span.txt.date')[element.closest('table').is('.sort-size') ? 'removeClass' : 'addClass']('d-none').text(message.date);
+        menu.find('span.txt.size')[!element.closest('table').is('.sort-size') ? 'removeClass' : 'addClass']('d-none').text(message.size);
 
         rcmail.triggerEvent('skin-message-list-hover-menu', { menu: menu, record: record });
     }
