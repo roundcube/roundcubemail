@@ -30,7 +30,7 @@ class Group_RenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-rename', $result['action']);
-        $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'An error occurred while saving.', 'error', 0]], $result['js_calls']);
 
         // Readonly addressbook
         $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_gid' => 'aaa', '_name' => 'new-test'];
@@ -41,7 +41,7 @@ class Group_RenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-rename', $result['action']);
-        $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'This address source is read only.', 'warning', 0]], $result['js_calls']);
     }
 
     /**
@@ -69,8 +69,8 @@ class Group_RenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-rename', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Group renamed successfully.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.update_contact_group({"source":"0","id":"' . $gid . '","name":"new-name"'));
+        $this->assertContains(['display_message', 'Group renamed successfully.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['update_contact_group', ['source' => '0', 'id' => $gid, 'name' => 'new-name', 'newid' => null]], $result['js_calls']);
 
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `contactgroup_id` = ? AND `name` = ?', $gid, 'new-name');
         $result = $db->fetch_assoc($query);

@@ -44,7 +44,7 @@ class RcmailTest extends ActionTestCase
         $result = $output->getOutput();
 
         $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        $this->assertTrue(empty($result['exec']));
+        $this->assertEmpty($result['js_calls']);
 
         // Test refresh action handler
         $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'settings', 'refresh');
@@ -57,7 +57,7 @@ class RcmailTest extends ActionTestCase
         $result = $output->getOutput();
 
         $this->assertSame(OutputJsonMock::E_EXIT, $e->getCode());
-        $this->assertTrue(empty($result['exec']));
+        $this->assertEmpty($result['js_calls']);
 
         // TODO: Test non-existing action handler
     }

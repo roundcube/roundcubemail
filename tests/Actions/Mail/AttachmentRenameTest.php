@@ -36,7 +36,7 @@ class AttachmentRenameTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('rename-attachment', $result['action']);
-        $this->assertSame('this.rename_attachment_handler("rcmfile' . $file['id'] . '","mod.gif");', trim($result['exec']));
+        $this->assertSame([['rename_attachment_handler', 'rcmfile' . $file['id'], 'mod.gif']], $result['js_calls']);
 
         $upload = $rcmail->get_uploaded_file($file['id']);
         $this->assertSame($_POST['_name'], $upload['name']);

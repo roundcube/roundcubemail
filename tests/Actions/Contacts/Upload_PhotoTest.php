@@ -30,7 +30,7 @@ class Upload_PhotoTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload-photo', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.photo_upload_end();'));
+        $this->assertContains(['photo_upload_end'], $result['js_calls']);
 
         // Upload a file
         $file = $this->fakeUpload('_photo', false);
@@ -41,8 +41,8 @@ class Upload_PhotoTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('upload-photo', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.replace_contact_photo("' . $file['id'] . '");'));
-        $this->assertTrue(str_contains($result['exec'], 'this.photo_upload_end();'));
+        $this->assertContains(['replace_contact_photo', $file['id']], $result['js_calls']);
+        $this->assertContains(['photo_upload_end'], $result['js_calls']);
 
         $upload = \rcmail::get_instance()->get_uploaded_file($file['id']);
         $this->assertSame($file['name'], $upload['name']);
