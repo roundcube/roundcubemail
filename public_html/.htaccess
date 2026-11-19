@@ -5,15 +5,21 @@ RewriteEngine On
 RewriteRule ^favicon\.ico$ static.php/skins/elastic/images/favicon.ico
 </IfModule>
 
+# https://httpd.apache.org/docs/2.4/env.html#cgilike
+SetEnv ap_trust_cgilike_cl 1
+
 <IfModule mod_deflate.c>
 SetOutputFilter DEFLATE
+# some assets have been compressed, so no need to do it again
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|web[pm]|woff2?)$ no-gzip
+SetEnvIfExpr "%{QUERY_STRING} =~ /(?:^|&)_action=plugin\.zipdownload\.(?:attachments|messages)(?:&|$)/" no-gzip
 </IfModule>
 
 # prefer to brotli over gzip if brotli is available
 <IfModule mod_brotli.c>
 SetOutputFilter BROTLI_COMPRESS
-# some assets have been compressed, so no need to do it again
 SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|web[pm]|woff2?)$ no-brotli
+SetEnvIfExpr "%{QUERY_STRING} =~ /(?:^|&)_action=plugin\.zipdownload\.(?:attachments|messages)(?:&|$)/" no-brotli
 </IfModule>
 
 <IfModule mod_expires.c>
