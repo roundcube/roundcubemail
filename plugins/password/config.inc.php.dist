@@ -28,8 +28,9 @@ $config['password_minimum_score'] = 0;
 // Enables logging of password changes into logs/password
 $config['password_log'] = false;
 
-// Array of login exceptions for which password change
+// Array of username exceptions for which password change
 // will be not available (no Password tab in Settings)
+// or PCRE patterns (including // delimiters e.g. '/@domain.com$/').
 $config['password_login_exceptions'] = null;
 
 // Array of hosts that support password changing.
