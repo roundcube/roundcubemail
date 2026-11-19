@@ -13,4 +13,4 @@
 
 $messages['forgotattachment'] = "តើអ្នក​ភ្លេច​ភ្ជាប់​ឯកសារ​ឬ?";
 $messages['reminderoption'] = "រំលឹង​អំពី​ឯកសារ​ភ្ជាប់​ដែល​បាន​ភ្លេច";
-$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter";
+$messages['keywords'] = "attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s)";

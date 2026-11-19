@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Atodiad ar goll?";
 $messages['forgotattachment'] = "Wedi anghofio atodi ffeil?";
 $messages['reminderoption'] = "Atgoffa am atodiadau ar goll";
-$messages['keywords'] = "atodiad,atodi,atodaf,atodwyd,atodir,amgaedig,amgaeaf,dogfen,llythyr,ffeil,attachment,file,attach,attached,attaching,enclosed,CV,cover letter,";
+$messages['keywords'] = "atod(iad|i|af|wyd|ir),amgae(dig|af),dogfen,llythyr,ffeil,attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s)";

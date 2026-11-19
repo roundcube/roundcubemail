@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Забыли вложение?";
 $messages['forgotattachment'] = "Вы не забыли прикрепить файл?";
 $messages['reminderoption'] = "Напоминать о забытых вложениях";
-$messages['keywords'] = "вложение,файл, вложенный, прикрепленный,резюме,документ";
+$messages['keywords'] = "вложение*,файл*, вложенный, прикрепленный,резюме,документ*";

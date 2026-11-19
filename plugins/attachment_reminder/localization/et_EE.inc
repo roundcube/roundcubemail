@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Manus puudu?";
 $messages['forgotattachment'] = "Unustasid faili lisada?";
 $messages['reminderoption'] = "Tuleta mulle meelde kui unustasin manuse lisada";
-$messages['keywords'] = "manus,manuses,lisatud,lisasin,fail,file,failis,attachment,file,attach,attached,attaching,enclosed,CV,cover letter";
+$messages['keywords'] = "manus(es|ed|ena),lisatud,lisasin,fail(is|id|i),attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s)";
