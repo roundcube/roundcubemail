@@ -38,6 +38,8 @@ $config['plugins'] = [
     'zipdownload',
 ];
 
+$config['markasjunk_learn_in_all_folders'] = true; // Test all-folders learning mode
+
 $config['archive_mbox'] = 'Archive';
 
 $config['enable_spellcheck'] = true;
