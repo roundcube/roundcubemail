@@ -2714,9 +2714,10 @@ function rcube_elastic_ui() {
         $('select[name="sort_col"]', dialog).val(rcmail.env.sort_col || '');
         $('select[name="sort_ord"]', dialog).val(rcmail.env.sort_order || 'ASC');
         $('select[name="mode"]', dialog).val(rcmail.env.threading ? 'threads' : 'list');
+        $('input[name="hover_menu"]', dialog).prop('checked', rcmail.env.list_hover_menu);
 
         // Fix id/for attributes
-        $('select', dialog).each(function () {
+        $('select,input', dialog).each(function () {
             this.id = this.id + '-clone';
         });
         $('label', dialog).each(function () {
@@ -2730,9 +2731,10 @@ function rcube_elastic_ui() {
 
             var col = $('select[name="sort_col"]', dialog).val(),
                 ord = $('select[name="sort_ord"]', dialog).val(),
-                mode = $('select[name="mode"]', dialog).val();
+                mode = $('select[name="mode"]', dialog).val(),
+                hmenu = $('input[name="hover_menu"]', dialog).is(':checked');
 
-            rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0);
+            rcmail.set_list_options([], col, ord, mode == 'threads' ? 1 : 0, null, hmenu ? 1 : 0);
             return true;
         };
 
@@ -3182,7 +3184,7 @@ function rcube_elastic_ui() {
         // Append the menu to the list wrapper, handle events to show/hide menu on hover
         list_element.append(menu)
             .on('mouseenter', 'tr', function (e) {
-                if (record != e.currentTarget) {
+                if (rcmail.env.list_hover_menu && record != e.currentTarget) {
                     message_list_hover_menu(menu, record = e.currentTarget);
                 }
             })
