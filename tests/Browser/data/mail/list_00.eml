@@ -21,6 +21,7 @@ Content-Type: text/plain; charset=UTF-8;
  format=flowed
 
 Plain text message body.
+From line which needs to be escaped in mbox format.
 
 -- 
 Developer of Free Software
