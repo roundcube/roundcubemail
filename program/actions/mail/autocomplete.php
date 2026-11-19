@@ -88,6 +88,19 @@ class rcmail_action_mail_autocomplete extends rcmail_action
                                 // groups with defined email address will not be expanded to its members' addresses
                                 if ($contact['type'] == 'group') {
                                     $contact['email'] = $email;
+                                } elseif (!empty($record['photo'])) {
+                                    $photo = is_array($record['photo']) ? $record['photo'][0] : $record['photo'];
+
+                                    // skip photos stored as an external URL to avoid triggering
+                                    // an automatic, silent request to a third-party host on every keystroke
+                                    if (!empty($photo) && !preg_match('!^https?://!i', $photo)) {
+                                        $contact['photo'] = $rcmail->url([
+                                            '_task' => 'addressbook',
+                                            '_action' => 'photo',
+                                            '_source' => $abook_id,
+                                            '_cid' => $record['ID'],
+                                        ]);
+                                    }
                                 }
 
                                 $name = !empty($contact['fields']['name']) ? $contact['fields']['name'] : $name;
