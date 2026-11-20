@@ -117,6 +117,10 @@ $map['Family Name'] = 'surname';
 $map['Name'] = 'name';
 $map['Name Prefix'] = 'prefix';
 $map['Name Suffix'] = 'suffix';
+$map['Labels'] = 'groups';
+$map['Organization Name'] = 'organization';
+$map['Organization Title'] = 'jobtitle';
+$map['Organization Department'] = 'department';
 
 // Roundcube fields
 $map['Email Home'] = 'email:home';
