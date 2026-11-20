@@ -43,9 +43,7 @@ class rcube_hmail_password
             return PASSWORD_ERROR;
         }
 
-        if (strstr($username, '@')) {
-            [, $domain] = explode('@', $username);
-        } else {
+        if (!strstr($username, '@')) {
             $domain = $rcmail->config->get('username_domain', false);
             if (!$domain) {
                 rcube::raise_error('Password plugin: $config[\'username_domain\'] is not defined.', true);
@@ -55,10 +53,7 @@ class rcube_hmail_password
         }
 
         try {
-            $obApp->Authenticate($username, $curpass); // @phpstan-ignore-line
-
-            $obDomain = $obApp->Domains->ItemByName($domain); // @phpstan-ignore-line
-            $obAccount = $obDomain->Accounts->ItemByAddress($username);
+            $obAccount = $obApp->Authenticate($username, $curpass); // @phpstan-ignore-line
             $obAccount->Password = $passwd;
             $obAccount->Save();
 
