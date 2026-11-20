@@ -223,7 +223,7 @@ class rcmail_oauth
 
                 // sanity check
                 if (!isset($data['issuer'])) {
-                    throw new \RuntimeException('incorrect response from %s', $config_uri);
+                    throw new \RuntimeException('Invalid response');
                 }
 
                 // cache answer
@@ -246,7 +246,7 @@ class rcmail_oauth
                 }
             }
         } catch (\Exception $e) {
-            rcube::raise_error("Error fetching {$config_uri} : {$e->getMessage()}", true);
+            rcube::raise_error("Error fetching {$config_uri}: {$e->getMessage()}", true);
         }
     }
 
