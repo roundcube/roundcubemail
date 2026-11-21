@@ -975,20 +975,12 @@ class rcube_vcard
         // return strtr($str, ["\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';']);
 
         $str = str_replace("\r", '', $str);
-        $pos = 0;
 
-        while (($pos = strpos($str, '\\', $pos)) !== false) {
-            $next = substr($str, $pos + 1, 1);
-            if ($next == 'n' || $next == 'N') {
-                $str = substr_replace($str, "\n", $pos, 2);
-            } else {
-                $str = substr_replace($str, '', $pos, 1);
-            }
-
-            $pos++;
-        }
-
-        return $str;
+        // "\n" and "\N" are line breaks, other backslashes are removed and the next
+        // character is kept as is; a backslash at the end of the value is dropped
+        return preg_replace_callback('/\\\(.?)/s', static function ($matches) {
+            return $matches[1] == 'n' || $matches[1] == 'N' ? "\n" : $matches[1];
+        }, $str);
     }
 
     /**
