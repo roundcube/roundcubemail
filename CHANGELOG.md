@@ -8,6 +8,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix unreadable syntax colors and invisible cursor in the raw sieve script editor in dark mode (#10382)
 - Password: Support alias username in the hmail driver (#10411)
 - Fix hide_blockquote plugin adding a quadratic number of text nodes on messages with many quote blocks
+- Fix bug where deleting a search result with "select all" could delete all messages in the folder (#9671)
 
 ## Release 1.7.6
 
