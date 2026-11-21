@@ -301,22 +301,17 @@ class rcube_text2html
 
         // make the line wrappable
         if ($wrappable) {
-            $pos = 0;
-            $diff = 0;
-            $last = -2;
-            $len = strlen($nbsp);
-            $copy = $text;
+            // Use a non-breaking space for the 2nd, 4th, ... space of a run of spaces,
+            // and for the 1st, 3rd, ... space of a run at the start of the line.
+            // Do it in one pass, so the time does not grow with runs times line length.
+            $prefix = '';
 
-            while (($pos = strpos($text, ' ', $pos)) !== false) {
-                if (($pos == 0 || $text[$pos - 1] == ' ') && $pos - 1 != $last) {
-                    $last = $pos;
-                    $copy = substr_replace($copy, $nbsp, $pos + $diff, 1);
-                    $diff += $len - 1;
-                }
-                $pos++;
+            if (str_starts_with($text, ' ')) {
+                $prefix = $nbsp;
+                $text = substr($text, 1);
             }
 
-            $text = $copy;
+            $text = $prefix . str_replace('  ', ' ' . $nbsp, $text);
         }
         // make the whole line non-breakable if needed
         elseif ($text !== '' && preg_match('/[^a-zA-Z0-9_]/', $text)) {
