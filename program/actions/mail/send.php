@@ -331,7 +331,8 @@ class rcmail_action_mail_send extends rcmail_action
             $file = !empty($attachment['path']) ? $attachment['path'] : ($attachment['data'] ?? '');
 
             if ($isHtml) {
-                $dispurl = '/[\'"]\S+display-attachment\S+file=rcmfile' . preg_quote($attachment['id']) . '[\'"]/';
+                // the URL is quoted in attributes, and may be unquoted in CSS url()
+                $dispurl = '/([\'"(])[^\s\'"()]+display-attachment[^\s\'"()]+file=rcmfile' . preg_quote($attachment['id']) . '([\'")])/';
                 $message_body = $message->getHTMLBody();
                 $is_inline = preg_match($dispurl, $message_body);
             }
@@ -351,7 +352,7 @@ class rcmail_action_mail_send extends rcmail_action
                 }
 
                 if ($dispurl && !empty($message_body)) {
-                    $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
+                    $message_body = preg_replace($dispurl, '${1}cid:' . $cid . '${2}', $message_body);
 
                     rcube_utils::preg_error([
                         'message' => 'Could not replace an image reference!',
