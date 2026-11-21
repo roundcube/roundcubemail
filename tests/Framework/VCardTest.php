@@ -84,6 +84,29 @@ class VCardTest extends TestCase
     }
 
     /**
+     * A single backslash at the end of a value has nothing to escape
+     */
+    public function test_parse_trailing_backslash()
+    {
+        $input = "BEGIN:VCARD\nVERSION:3.0\nN:last;first\\\nFN:test\\\nNOTE:a\\\\\\\nURL:http://domain.tld\\\nEND:VCARD\n";
+
+        $vcards = \rcube_vcard::import($input);
+
+        $this->assertCount(1, $vcards, 'Detected 1 vcard');
+
+        $vcard = $vcards[0]->get_assoc();
+
+        $this->assertSame('test', $vcard['name'], 'Drop trailing backslash');
+        $this->assertSame('first', $vcard['firstname'], 'Drop trailing backslash');
+        $this->assertSame('a\\', $vcard['notes'][0], 'Decode backslash character, drop trailing backslash');
+        $this->assertSame('http://domain.tld', $vcard['website:other'][0], 'Drop trailing backslash');
+
+        $vcard = new \rcube_vcard($input);
+
+        $this->assertSame($vcards[0]->get_assoc(), $vcard->get_assoc());
+    }
+
+    /**
      * Some Apple vCard quirks (#1489993)
      */
     public function test_parse_six()
