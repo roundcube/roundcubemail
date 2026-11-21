@@ -909,6 +909,7 @@ class rcube_ldap extends rcube_addressbook
             $filter .= ')';
         } else {
             $attributes = [];
+            $raw_attributes = false;
 
             if ($fields == '*') {
                 $fields = (array) ($this->prop['search_fields'] ?? []);
@@ -916,6 +917,9 @@ class rcube_ldap extends rcube_addressbook
                 // If search fields aren't configured use some common fields
                 if (empty($fields)) {
                     $fields = ['name', 'surname', 'firstname', 'email'];
+                } else {
+                    // search_fields can contain LDAP attribute names, not only fieldmap keys
+                    $raw_attributes = true;
                 }
             }
 
@@ -923,6 +927,8 @@ class rcube_ldap extends rcube_addressbook
             foreach ((array) $fields as $field) {
                 if (!empty($this->coltypes[$field]) && !empty($this->coltypes[$field]['attributes'])) {
                     $attributes = array_merge($attributes, (array) $this->coltypes[$field]['attributes']);
+                } elseif ($raw_attributes && !isset($this->coltypes[$field])) {
+                    $attributes[] = $field;
                 }
             }
 
