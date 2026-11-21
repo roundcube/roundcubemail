@@ -9,6 +9,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Password: Support alias username in the hmail driver (#10411)
 - Fix hide_blockquote plugin adding a quadratic number of text nodes on messages with many quote blocks
 - Fix bug where deleting a search result with "select all" could delete all messages in the folder (#9671)
+- Fix run time growing with the square of the input in rcube_text2html and rcube_vcard (#10423)
 - Fix contact import error on a vCard value that ends with a single backslash
 
 ## Release 1.7.6

@@ -88,6 +88,10 @@ class Text2HtmlTest extends TestCase
         $data[] = [">aaaa\n>aaaa", '<blockquote>aaaa<br>aaaa</blockquote>', $options];
         $data[] = [">aaaa \n>bbbb\ncccc dddd", '<blockquote>aaaa bbbb</blockquote>cccc dddd', $options];
         $data[] = ["\x02\x03", "\x02\x03", $options];
+        $data[] = ['    aaaa', '_ _aaaa', $options];
+        $data[] = ['aaaa    aaaa', 'aaaa _ _aaaa', $options];
+        $data[] = ["aaaa\t\taaaa", 'aaaa _ _ _ _aaaa', $options];
+        $data[] = ['aaaa  bbbb   cccc', 'aaaa _bbbb _ cccc', $options];
 
         $options['flowed'] = true;
         $options['delsp'] = true;
@@ -121,6 +125,24 @@ class Text2HtmlTest extends TestCase
             '<br><blockquote><blockquote>aaaa</blockquote></blockquote><br>dddd', $options];
         $data[] = ["aaaa\n>bbbb\n>cccc\n\ndddd\n>>test",
             'aaaa<blockquote>bbbb<br>cccc</blockquote><br>dddd<blockquote><blockquote>test</blockquote></blockquote>', $options];
+        $data[] = [' ', '_', $options];
+        $data[] = ['  ', '_ ', $options];
+        $data[] = ['   ', '_ _', $options];
+        $data[] = [' aaaa', '_aaaa', $options];
+        $data[] = ['  aaaa', '_ aaaa', $options];
+        $data[] = ['   aaaa', '_ _aaaa', $options];
+        $data[] = ['aaaa aaaa', 'aaaa aaaa', $options];
+        $data[] = ['aaaa  aaaa', 'aaaa _aaaa', $options];
+        $data[] = ['aaaa   aaaa', 'aaaa _ aaaa', $options];
+        $data[] = ['aaaa    aaaa', 'aaaa _ _aaaa', $options];
+        $data[] = ["aaaa\taaaa", 'aaaa _ _aaaa', $options];
+        $data[] = ["\taaaa", '_ _ aaaa', $options];
+        $data[] = ["aaaa \t aaaa", 'aaaa _ _ _aaaa', $options];
+        $data[] = ['aaaa  bbbb   cccc', 'aaaa _bbbb _ cccc', $options];
+        $data[] = ['aaaa  ', 'aaaa _', $options];
+        $data[] = ['-- ', '--_', $options];
+        $data[] = ["aaaa\r  bbbb", 'aaaa _bbbb', $options];
+        $data[] = ['<a>  &', '&lt;a&gt; _&amp;', $options];
 
         return $data;
     }
@@ -209,6 +231,25 @@ class Text2HtmlTest extends TestCase
         $html = preg_replace('/ (rel|target)="(noreferrer noopener|_blank)"/', '', $html);
 
         $this->assertSame($expected, $html);
+    }
+
+    /**
+     * Test long runs of spaces and tabs in one line (#10423)
+     */
+    public function test_text2html_long_whitespace_runs()
+    {
+        $options = ['begin' => '', 'end' => '', 'links' => false, 'space' => '_'];
+
+        $t2h = new \rcube_text2html(str_repeat("\t", 1000), false, $options);
+        $this->assertSame(str_repeat('_ ', 2000), $t2h->get_html());
+
+        $t2h = new \rcube_text2html('a' . str_repeat(' ', 2001) . 'b', false, $options);
+        $this->assertSame('a' . str_repeat(' _', 1000) . ' b', $t2h->get_html());
+
+        $options['flowed'] = true;
+
+        $t2h = new \rcube_text2html('a' . str_repeat("\t", 1000) . 'b', false, $options);
+        $this->assertSame('a' . str_repeat(' _', 2000) . 'b', $t2h->get_html());
     }
 
     /**
