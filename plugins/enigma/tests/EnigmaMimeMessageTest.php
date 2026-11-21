@@ -193,4 +193,44 @@ class EnigmaMimeMessageTest extends TestCase
             str_replace("\r\n", "\n", $message->txtHeaders())
         );
     }
+
+    /**
+     * Test PGP armor preservation when LF-delimited PGP blocks exceed 998 bytes (#10413)
+     */
+    public function test_get_pgp_armor_line_endings()
+    {
+        $pgp_encrypted = "-----BEGIN PGP MESSAGE-----\n\n"
+            . chunk_split(str_repeat('A', 1200), 64, "\n")
+            . "=abcd\n-----END PGP MESSAGE-----\n";
+        $expected_encrypted = preg_replace('/\r?\n/', "\r\n", $pgp_encrypted);
+
+        $mime = new \Mail_mime();
+        $mime->setTXTBody('test body');
+        $message = new \enigma_mime_message($mime, \enigma_mime_message::PGP_ENCRYPTED);
+        $message->setPGPEncryptedBody($pgp_encrypted);
+
+        $body = $message->get();
+
+        $this->assertStringContainsString("-----BEGIN PGP MESSAGE-----\r\n", $body);
+        $this->assertStringContainsString("-----END PGP MESSAGE-----\r\n", $body);
+        $this->assertStringContainsString('size=' . strlen($expected_encrypted), $body);
+        $this->assertDoesNotMatchRegularExpression('/(?<!\r)\n/', $body);
+
+        $pgp_signature = "-----BEGIN PGP SIGNATURE-----\n\n"
+            . chunk_split(str_repeat('B', 1200), 64, "\n")
+            . "=efgh\n-----END PGP SIGNATURE-----\n";
+        $expected_signature = preg_replace('/\r?\n/', "\r\n", $pgp_signature);
+
+        $mime = new \Mail_mime();
+        $mime->setTXTBody('test body');
+        $message = new \enigma_mime_message($mime, \enigma_mime_message::PGP_SIGNED);
+        $message->addPGPSignature($pgp_signature, 'sha256');
+
+        $body = $message->get();
+
+        $this->assertStringContainsString("-----BEGIN PGP SIGNATURE-----\r\n", $body);
+        $this->assertStringContainsString("-----END PGP SIGNATURE-----\r\n", $body);
+        $this->assertStringContainsString('size=' . strlen($expected_signature), $body);
+        $this->assertDoesNotMatchRegularExpression('/(?<!\r)\n/', $body);
+    }
 }
