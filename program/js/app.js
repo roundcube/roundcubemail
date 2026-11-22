@@ -2513,9 +2513,18 @@ function rcube_webmail() {
                     html = '<span class="' + flags.attachmentClass + '" title="' + label + '"></span>';
                 } else if (flags.ctype == 'multipart/report') {
                     html = '<span class="report"></span>';
-                } else if (flags.ctype == 'multipart/encrypted' || flags.ctype == 'application/pkcs7-mime' || flags.ctype == 'application/x-pkcs7-mime') {
+                } else if (flags.ctype == 'multipart/encrypted'
+                    // S/MIME signed-data is not encrypted, see the next branch
+                    || ((flags.ctype == 'application/pkcs7-mime' || flags.ctype == 'application/x-pkcs7-mime') && flags.smime_type != 'signed-data')
+                ) {
                     html = '<span class="encrypted"></span>';
-                } else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(mixed|signed|report)/.test(flags.ctype))) {
+                } else if (flags.ctype == 'multipart/signed'
+                    || ((flags.ctype == 'application/pkcs7-mime' || flags.ctype == 'application/x-pkcs7-mime') && flags.smime_type == 'signed-data')
+                ) {
+                    // Signed messages: the signature is not an attachment, and whether there are attachments
+                    // inside is not known here (servers set $HasAttachment for the signature part, too)
+                    html = '<span class="signed"></span>';
+                } else if (flags.hasattachment || (!flags.hasnoattachment && /application\/|multipart\/(mixed|report)/.test(flags.ctype))) {
                     html = '<span class="attachment" title="' + label + '"></span>';
                 } else {
                     html = '&nbsp;';

@@ -2649,6 +2649,10 @@ class rcube_imap_generic
                                 if (preg_match('/charset\s*=\s*"?([a-z0-9\-\.\_]+)"?/i', $string, $regs)) {
                                     $result[$id]->charset = $regs[1];
                                 }
+                                // tells signed from encrypted S/MIME messages
+                                if (preg_match('/;\s*smime-type\s*=\s*"?([a-z\-]+)/i', $string, $regs)) {
+                                    $result[$id]->smime_type = strtolower($regs[1]);
+                                }
 
                                 break;
                             case 'in-reply-to':

@@ -779,6 +779,9 @@ table.fixedcopy {
         &.encrypted:before {
             content: @fa-var-lock;
         }
+        &.signed:before {
+            content: @fa-var-signature;
+        }
         &.vcard:before {
             .font-icon-regular(@fa-var-user); // vcard_attachments plugin
         }
