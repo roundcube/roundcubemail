@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:anna.schmidt@gmail.com
+N:Schmidt;Anna;;;
+ORG:ACME GmbH
+TITLE:Engineer
+BDAY;VALUE=date:1990-04-12
+CATEGORIES:myContacts
+EMAIL;TYPE=home:anna.schmidt@gmail.com
+EMAIL;TYPE=work:anna@acme.example
+TEL;TYPE=cell:+49 151 1234567
+ADR;TYPE=home:;;Hauptstr. 5;Berlin;;10115;DE
+END:VCARD
