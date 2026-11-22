@@ -168,5 +168,15 @@ class EnigmaMimeMessageTest extends TestCase
 
         $this->assertStringMatchesFormat($encrypted, $message->get());
         $this->assertStringMatchesFormat($encrypted_headers, $message->txtHeaders());
+
+        // Test that Mail_Mime does not break the encrypted content with its word wrapping
+        $mime = new \Mail_mime();
+        $mime->setTXTBody('test body');
+        $message = new \enigma_mime_message($mime, \enigma_mime_message::PGP_ENCRYPTED);
+        $message->setPGPEncryptedBody($expected = "-----BEGIN PGP MESSAGE-----\n\n"
+            . chunk_split(str_repeat('E', 1400), 64, "\n")
+            . "=1234\n-----END PGP MESSAGE-----\n");
+
+        $this->assertStringContainsString($expected, $message->get());
     }
 }
