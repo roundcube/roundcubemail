@@ -102,16 +102,8 @@ class EnigmaMimeMessageTest extends TestCase
             . " protocol=\"application/pgp-signature\";\r\n"
             . " boundary=\"=_%x\"\r\n";
 
-        // Note: The str_replace() below is for phpunit <= 6.5
-
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $expected),
-            str_replace("\r\n", "\n", $message->get())
-        );
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $signed_headers),
-            str_replace("\r\n", "\n", $message->txtHeaders())
-        );
+        $this->assertStringMatchesFormat($expected, $message->get());
+        $this->assertStringMatchesFormat($signed_headers, $message->txtHeaders());
 
         $mime = new \Mail_mime();
         $mime->setTXTBody('test body');
@@ -143,16 +135,8 @@ class EnigmaMimeMessageTest extends TestCase
             . " boundary=\"=_%x\";\r\n"
             . " micalg=pgp-algorithm\r\n";
 
-        // Note: The str_replace() below is for phpunit <= 6.5
-
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $signed),
-            str_replace("\r\n", "\n", $message->get())
-        );
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $signed_headers),
-            str_replace("\r\n", "\n", $message->txtHeaders())
-        );
+        $this->assertStringMatchesFormat($signed, $message->get());
+        $this->assertStringMatchesFormat($signed_headers, $message->txtHeaders());
 
         $mime = new \Mail_mime();
         $mime->setTXTBody('test body');
@@ -182,15 +166,7 @@ class EnigmaMimeMessageTest extends TestCase
             . " protocol=\"application/pgp-encrypted\";\r\n"
             . " boundary=\"=_%x\"\r\n";
 
-        // Note: The str_replace() below is for phpunit <= 6.5
-
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $encrypted),
-            str_replace("\r\n", "\n", $message->get())
-        );
-        $this->assertStringMatchesFormat(
-            str_replace("\r\n", "\n", $encrypted_headers),
-            str_replace("\r\n", "\n", $message->txtHeaders())
-        );
+        $this->assertStringMatchesFormat($encrypted, $message->get());
+        $this->assertStringMatchesFormat($encrypted_headers, $message->txtHeaders());
     }
 }
