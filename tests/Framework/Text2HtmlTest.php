@@ -188,8 +188,50 @@ class Text2HtmlTest extends TestCase
     {
         $input = 'a@a.co?]<img/src="x"/onerror=alert(document.domain)>';
         $expected = '<div class="pre">'
-            . '<a href="mailto:a@a.co?">a@a.co?</a>'
+            . '<a href="mailto:a@a.co">a@a.co</a>'
+            . '?]&lt;img/src=&quot;x&quot;/onerror=alert(document.domain)&gt;'
+            . '</div>';
+
+        $t2h = new \rcube_text2html($input);
+        $html = $t2h->get_html();
+
+        $this->assertSame($expected, $html);
+
+        $input = 'mailto:' . $input;
+        $expected = '<div class="pre">'
+            . '<a href="mailto:a@a.co?">mailto:a@a.co?</a>'
             . ']&lt;img/src=&quot;x&quot;/onerror=alert(document.domain)&gt;'
+            . '</div>';
+
+        $t2h = new \rcube_text2html($input);
+        $html = $t2h->get_html();
+
+        $this->assertSame($expected, $html);
+    }
+
+    /**
+     * Test e-mail addresses and mailto: URIs followed by a query with a link (#10428)
+     */
+    public function test_text2html_mailto_query()
+    {
+        $input = "user@example.com?body=http://example.com/x\n"
+            . 'mailto:user@example.com?body=http://example.com/x';
+        $expected = '<div class="pre">'
+            . '<a href="mailto:user@example.com">user@example.com</a>?body='
+            . '<a rel="noreferrer noopener" target="_blank" href="http://example.com/x">http://example.com/x</a>'
+            . "<br>\n"
+            . '<a href="mailto:user@example.com?body=http://example.com/x">mailto:user@example.com?body=http://example.com/x</a>'
+            . '</div>';
+
+        $t2h = new \rcube_text2html($input);
+        $html = $t2h->get_html();
+
+        $this->assertSame($expected, $html);
+
+        // the text after a closing bracket is escaped
+        $input = 'mailto:user@example.com?body=http://example.com/a)&lt;';
+        $expected = '<div class="pre">'
+            . '<a href="mailto:user@example.com?body=http://example.com/a">mailto:user@example.com?body=http://example.com/a</a>)&amp;lt;'
             . '</div>';
 
         $t2h = new \rcube_text2html($input);
