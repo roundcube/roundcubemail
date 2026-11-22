@@ -1358,6 +1358,11 @@ $config['addressbook_sort_col'] = 'surname';
 // 3: surname, firstname middlename
 $config['addressbook_name_listing'] = 0;
 
+// Show contact photos that are stored as a URL (e.g. PHOTO;VALUE=uri in a vCard).
+// The browser loads such a photo from the server in the URL. If disabled,
+// the contact is shown like a contact without a photo. Default: false.
+$config['show_photo_urls'] = false;
+
 // use this timezone to display date/time
 // valid timezone identifiers are listed here: php.net/manual/en/timezones.php
 // 'auto' will use the browser's timezone settings

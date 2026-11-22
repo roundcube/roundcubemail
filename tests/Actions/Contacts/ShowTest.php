@@ -5,6 +5,8 @@ namespace Roundcube\Tests\Actions\Contacts;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 
+use function Roundcube\Tests\getHTMLNodes;
+
 /**
  * Test class to test rcmail_action_contacts_show
  */
@@ -42,6 +44,43 @@ class ShowTest extends ActionTestCase
         $this->assertFalse($output->get_env('readonly'));
         $this->assertSame('Personal Addresses', $output->get_env('sourcename'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
+    }
+
+    /**
+     * Test run() method with a contact photo URL
+     */
+    public function test_run_photo_url()
+    {
+        $action = new \rcmail_action_contacts_show();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'show');
+        $rcmail = \rcmail::get_instance();
+
+        self::initDB('contacts');
+        $cid = PhotoTest::import_contact('url.photo@example.com', 'PHOTO;VALUE=uri:' . PhotoTest::PHOTO_URL);
+
+        $_GET = ['_cid' => $cid, '_source' => '0'];
+
+        // External photos not allowed: the placeholder is shown, like for a contact without a photo
+        $rcmail->config->set('show_photo_urls', false);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $result = $output->getOutput();
+        $img = getHTMLNodes($result, "//div[@id='contactpic']/img");
+
+        $this->assertCount(1, $img);
+        $this->assertSame($output->get_env('photo_placeholder'), $img[0]->getAttribute('src'));
+        $this->assertStringNotContainsString('photos.example.com', $result);
+
+        // External photos allowed: the photo is loaded from the URL
+        $rcmail->config->set('show_photo_urls', true);
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $img = getHTMLNodes($output->getOutput(), "//div[@id='contactpic']/img");
+
+        $this->assertCount(1, $img);
+        $this->assertSame(PhotoTest::PHOTO_URL, $img[0]->getAttribute('src'));
+
+        $rcmail->config->set('show_photo_urls', false);
     }
 
     /**

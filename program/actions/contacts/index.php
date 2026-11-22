@@ -1302,7 +1302,8 @@ class rcmail_action_contacts_index extends rcmail_action
 
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
             'record' => $record,
-            'data' => $record['photo'] ?? null,
+            // a photo URL the user does not allow is handled like no photo
+            'data' => self::photo_url_blocked($record['photo'] ?? null) ? null : ($record['photo'] ?? null),
             'attrib' => $attrib,
         ]);
 
@@ -1321,6 +1322,8 @@ class rcmail_action_contacts_index extends rcmail_action
 
         if (!empty($plugin['url'])) {
             $photo_img = $plugin['url'];
+        } elseif (self::photo_url_blocked($record['photo'] ?? null)) {
+            // show the placeholder, but keep the stored URL when the form is saved
         } elseif (!empty($record['photo']) && preg_match('!^https?://!i', $record['photo'])) {
             $photo_img = $record['photo'];
         } elseif (!empty($record['photo'])) {
@@ -1345,6 +1348,28 @@ class rcmail_action_contacts_index extends rcmail_action
         }
 
         return $content;
+    }
+
+    /**
+     * Check if a contact photo is a URL that must not be loaded,
+     * because the user does not allow external photos (show_photo_urls).
+     *
+     * @param mixed $photo Contact photo (image data or URL)
+     *
+     * @return bool True if the photo is a URL and external photos are not allowed
+     */
+    public static function photo_url_blocked($photo)
+    {
+        if (is_array($photo)) {
+            $photo = $photo[0] ?? null;
+        }
+
+        if (!is_string($photo) || $photo === '' || rcmail::get_instance()->config->get('show_photo_urls')) {
+            return false;
+        }
+
+        return preg_match('!^https?://!i', $photo)
+            || (strlen($photo) < 1024 && filter_var($photo, \FILTER_VALIDATE_URL));
     }
 
     public static function format_date_col($val)

@@ -56,7 +56,8 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
                     $abook = $rcmail->get_address_book($s['id']);
                     $result = $abook->search(['email'], $email, 1, true, true, 'photo');
                     foreach ($result as $record) {
-                        if (!empty($record['photo'])) {
+                        // a photo URL the user does not allow counts as no photo
+                        if (!empty($record['photo']) && !self::photo_url_blocked($record['photo'])) {
                             break 2;
                         }
                     }
@@ -79,6 +80,12 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             }
         }
 
+        // a photo URL the user does not allow is handled like no photo
+        if (self::photo_url_blocked($data ?? null)) {
+            $data = null;
+            $url_blocked = true;
+        }
+
         // let plugins do fancy things with contact photos
         $plugin = $rcmail->plugins->exec_hook('contact_photo', [
             'record' => $record ?? null,
@@ -98,8 +105,9 @@ class rcmail_action_contacts_photo extends rcmail_action_contacts_index
             $rcmail->output->redirect($data);
         }
 
-        // cache for one day if requested by email
-        if (!$cid && !empty($email)) {
+        // cache for one day if requested by email, but not a blocked photo URL,
+        // so that allowing external photos takes effect at once
+        if (!$cid && !empty($email) && empty($url_blocked)) {
             $rcmail->output->future_expire_header(86400);
         }
 

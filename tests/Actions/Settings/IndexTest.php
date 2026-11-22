@@ -48,6 +48,36 @@ class IndexTest extends ActionTestCase
     }
 
     /**
+     * Test user_prefs() method - show_photo_urls in the address book section
+     */
+    public function test_user_prefs_show_photo_urls()
+    {
+        $rcmail = \rcmail::get_instance();
+
+        foreach ([true, false] as $value) {
+            $rcmail->config->set('show_photo_urls', $value);
+
+            $result = \rcmail_action_settings_index::user_prefs('addressbook');
+            $option = $result[0]['addressbook']['blocks']['main']['options']['show_photo_urls'];
+            $input = getHTMLNodes($option['content'], "//input[@name='_show_photo_urls']");
+
+            $this->assertSame('<label for="rcmfd_show_photo_urls">Allow external photos</label>', $option['title']);
+            $this->assertCount(1, $input);
+            $this->assertSame('checkbox', $input[0]->getAttribute('type'));
+            $this->assertSame($value, $input[0]->hasAttribute('checked'));
+        }
+
+        // Not shown if the user must not change it
+        $rcmail->config->set('dont_override', ['show_photo_urls']);
+
+        $result = \rcmail_action_settings_index::user_prefs('addressbook');
+
+        $this->assertArrayNotHasKey('show_photo_urls', $result[0]['addressbook']['blocks']['main']['options']);
+
+        $rcmail->config->set('dont_override', []);
+    }
+
+    /**
      * Test get_skins() method
      */
     public function test_get_skins()

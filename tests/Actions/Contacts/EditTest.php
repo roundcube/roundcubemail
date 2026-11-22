@@ -5,6 +5,8 @@ namespace Roundcube\Tests\Actions\Contacts;
 use Roundcube\Tests\ActionTestCase;
 use Roundcube\Tests\OutputHtmlMock;
 
+use function Roundcube\Tests\getHTMLNodes;
+
 /**
  * Test class to test rcmail_action_contacts_edit
  */
@@ -41,6 +43,35 @@ class EditTest extends ActionTestCase
         $this->assertSame($contact['contact_id'], $output->get_env('cid'));
         $this->assertTrue(stripos($result, '<!DOCTYPE html>') === 0);
         $this->assertTrue(str_contains($result, "rcmail.gui_object('contactphoto', 'contactpic');"));
+    }
+
+    /**
+     * Test run() method in edit mode with a contact photo URL, external photos not allowed
+     */
+    public function test_run_edit_mode_photo_url()
+    {
+        $action = new \rcmail_action_contacts_edit();
+        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
+
+        self::initDB('contacts');
+        $cid = PhotoTest::import_contact('url.photo@example.com', 'PHOTO;VALUE=uri:' . PhotoTest::PHOTO_URL);
+
+        \rcmail::get_instance()->config->set('show_photo_urls', false);
+
+        $_GET = ['_cid' => $cid, '_source' => '0'];
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $result = $output->getOutput();
+        $img = getHTMLNodes($result, "//div[@id='contactpic']/img");
+        $field = getHTMLNodes($result, "//input[@id='ff_photo']");
+
+        $this->assertCount(1, $img);
+        $this->assertSame($output->get_env('photo_placeholder'), $img[0]->getAttribute('src'));
+        $this->assertStringNotContainsString('photos.example.com', $result);
+        // The stored photo is kept when the form is saved ('-del-' would delete it)
+        $this->assertCount(1, $field);
+        $this->assertSame('', $field[0]->getAttribute('value'));
     }
 
     /**
