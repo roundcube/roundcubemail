@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix bug where deleting a search result with "select all" could delete all messages in the folder (#9671)
 - Fix run time growing with the square of the input in rcube_text2html and rcube_vcard (#10423)
 - Fix contact import error on a vCard value that ends with a single backslash (#10427)
+- Fix import of contact e-mails, phones and addresses from current Google CSV exports (#10410)
 
 ## Release 1.7.6
 
