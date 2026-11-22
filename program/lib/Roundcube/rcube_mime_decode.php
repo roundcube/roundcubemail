@@ -174,7 +174,10 @@ class rcube_mime_decode
 
                     for ($i = 0; $i < count($parts); $i++) {
                         [$part_header, $part_body] = $this->splitBodyHeader($parts[$i]);
-                        $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype);
+                        // keep a broken part (e.g. multipart without boundary) as an empty part, so the MIME IDs
+                        // of the next parts do not change
+                        $return->parts[] = $this->do_decode($part_header, $part_body, $default_ctype)
+                            ?: $this->do_decode('', '');
                     }
 
                     break;
@@ -281,18 +284,19 @@ class rcube_mime_decode
      */
     protected function parseHeaderValue($input)
     {
-        $parts = preg_split('/;\s*/', $input);
+        // split at semicolons, but not inside quoted strings, e.g. name="a;b.txt"
+        $parts = array_map('trim', rcube_mime::explode_header_string(';', $input));
         $return = [];
 
         if (!empty($parts)) {
             $return['value'] = trim($parts[0]);
 
             for ($n = 1; $n < count($parts); $n++) {
-                if (preg_match('/^([[:alnum:]]+)="?([^"]*)"?+/', $parts[$n], $matches)) {
+                if (preg_match('/^([[:alnum:]_.-]+)="?([^"]*)"?+/', $parts[$n], $matches)) {
                     $return['other'][strtolower($matches[1])] = $matches[2];
                 }
                 // Support RFC2231 encoding
-                elseif (preg_match('/^([[:alnum:]]+)\*([0-9]*)(\*?)="*([^"]+)"*/', $parts[$n], $matches)) {
+                elseif (preg_match('/^([[:alnum:]_.-]+)\*([0-9]*)(\*?)="*([^"]+)"*/', $parts[$n], $matches)) {
                     $key = strtolower($matches[1]);
                     $val = $matches[4];
                     // A trailing '*' marks an extended (percent-encoded) parameter

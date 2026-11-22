@@ -399,6 +399,60 @@ class MimeTest extends TestCase
     }
 
     /**
+     * Test is_smime_signed_data()
+     */
+    public function test_is_smime_signed_data()
+    {
+        $oid = "\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x07";
+
+        // DER with a long and a short length, BER with indefinite length
+        $this->assertTrue(\rcube_mime::is_smime_signed_data("\x30\x82\x06\x4D{$oid}\x02\xA0\x82"));
+        $this->assertTrue(\rcube_mime::is_smime_signed_data("\x30\x7F{$oid}\x02\xA0\x7D"));
+        $this->assertTrue(\rcube_mime::is_smime_signed_data("\x30\x80{$oid}\x02\xA0\x80"));
+
+        // enveloped-data, data (not encapsulated), base64 text, too short
+        $this->assertFalse(\rcube_mime::is_smime_signed_data("\x30\x82\x02\x0C{$oid}\x03\xA0\x82"));
+        $this->assertFalse(\rcube_mime::is_smime_signed_data("\x30\x82\x02\x0C{$oid}\x01\xA0\x82"));
+        $this->assertFalse(\rcube_mime::is_smime_signed_data('MIAGCSqGSIb3DQEHAqCAMIACAQExDTALBglghkgBZQMEAgEwgAYJ'));
+        $this->assertFalse(\rcube_mime::is_smime_signed_data("\x30\x82\x06\x4D{$oid}"));
+        $this->assertFalse(\rcube_mime::is_smime_signed_data(''));
+        $this->assertFalse(\rcube_mime::is_smime_signed_data(false));
+    }
+
+    /**
+     * Test smime_signed_content()
+     */
+    public function test_smime_signed_content()
+    {
+        $dir = TESTS_DIR . 'MessageRendering/data/greenmail/test-message-rendering@localhost/INBOX/';
+        $data = static function ($file) use ($dir) {
+            [, $body] = explode("\r\n\r\n", file_get_contents($dir . $file), 2);
+
+            return base64_decode($body);
+        };
+        $temp_dir = \rcube::get_instance()->config->get('temp_dir');
+        $temp_files = count(glob($temp_dir . '/' . RCUBE_TEMP_FILE_PREFIX . 'smime*'));
+
+        // BER encoded (indefinite lengths)
+        $content = \rcube_mime::smime_signed_content($data('smime-signed-data.eml'));
+        $this->assertStringStartsWith("MIME-Version: 1.0\r\nContent-Type: multipart/mixed;\r\n", $content);
+        $this->assertStringEndsWith("------=_NextPart_000_0001_01DD0001--\r\n", $content);
+
+        // DER encoded
+        $content = \rcube_mime::smime_signed_content($data('smime-signed-text.eml'));
+        $this->assertSame("Content-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\nA signed plain text message.\r\n", $content);
+
+        // encrypted, broken and other data
+        $this->assertNull(\rcube_mime::smime_signed_content($data('smime-enveloped-data.eml')));
+        $this->assertNull(\rcube_mime::smime_signed_content(substr($data('smime-signed-text.eml'), 0, 300)));
+        $this->assertNull(\rcube_mime::smime_signed_content('test'));
+
+        // no temp files and OpenSSL errors left
+        $this->assertCount($temp_files, glob($temp_dir . '/' . RCUBE_TEMP_FILE_PREFIX . 'smime*'));
+        $this->assertFalse(openssl_error_string());
+    }
+
+    /**
      * Test file_content_type()
      */
     public function test_file_content_type()

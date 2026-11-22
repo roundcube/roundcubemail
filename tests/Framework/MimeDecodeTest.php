@@ -77,4 +77,65 @@ class MimeDecodeTest extends TestCase
         // Plain continuations are literal; the "%20" must NOT be decoded
         $this->assertSame('a%20b', $result->filename);
     }
+
+    /**
+     * Test parameter names with a hyphen and quoted parameter values with a semicolon
+     */
+    public function test_decode_parameters()
+    {
+        $mail = "Content-Type: application/pkcs7-mime; smime-type=signed-data;\r\n"
+            . " name=\"a;b.p7m\"\r\n"
+            . "Content-Disposition: attachment; filename=\"a;b.p7m\"\r\n"
+            . "\r\n"
+            . "body\r\n";
+
+        $decoder = new \rcube_mime_decode();
+        $result = $decoder->decode($mail);
+
+        $this->assertSame(['smime-type' => 'signed-data', 'name' => 'a;b.p7m'], $result->ctype_parameters);
+        $this->assertSame(['filename' => 'a;b.p7m'], $result->d_parameters);
+        $this->assertSame('a;b.p7m', $result->filename);
+    }
+
+    /**
+     * Test that a broken part (multipart without boundary) does not break the other parts
+     */
+    public function test_decode_broken_part()
+    {
+        $mail = "Content-Type: multipart/mixed; boundary=\"b1\"\r\n"
+            . "\r\n"
+            . "--b1\r\n"
+            . "Content-Type: text/plain\r\n"
+            . "\r\n"
+            . "text\r\n"
+            . "--b1\r\n"
+            . "Content-Type: multipart/alternative\r\n"
+            . "\r\n"
+            . "no boundary\r\n"
+            . "--b1\r\n"
+            . "Content-Type: application/pdf; name=\"a.pdf\"\r\n"
+            . "\r\n"
+            . "pdf\r\n"
+            . "--b1--\r\n";
+
+        $warnings = [];
+        set_error_handler(static function ($no, $str) use (&$warnings) {
+            $warnings[] = $str;
+
+            return true;
+        });
+
+        $decoder = new \rcube_mime_decode();
+        $result = $decoder->decode($mail);
+
+        restore_error_handler();
+
+        $this->assertSame([], $warnings);
+        $this->assertCount(3, $result->parts);
+        $this->assertSame('2', $result->parts[1]->mime_id);
+        $this->assertSame('text/plain', $result->parts[1]->mimetype);
+        $this->assertSame('', $result->parts[1]->body);
+        $this->assertSame('3', $result->parts[2]->mime_id);
+        $this->assertSame('a.pdf', $result->parts[2]->filename);
+    }
 }

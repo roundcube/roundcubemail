@@ -1,0 +1,20 @@
+From: Signer Test <signer@example.test>
+To: Recipient Test <recipient@example.test>
+Subject: S/MIME encrypted message
+Date: Sun, 22 Nov 2026 10:00:00 +0000
+Message-ID: <smime-enveloped-data@example.test>
+MIME-Version: 1.0
+Content-Type: application/pkcs7-mime; smime-type=enveloped-data; name="smime.p7m"
+Content-Disposition: attachment; filename="smime.p7m"
+Content-Transfer-Encoding: base64
+
+MIICDAYJKoZIhvcNAQcDoIIB/TCCAfkCAQAxggF0MIIBcAIBADBYMEAxFzAVBgNVBAMMDlJlY2lw
+aWVudCBUZXN0MSUwIwYJKoZIhvcNAQkBFhZyZWNpcGllbnRAZXhhbXBsZS50ZXN0AhRaHuXGBI6L
+ZshCHjhvcpOo+u8+kTANBgkqhkiG9w0BAQEFAASCAQBYDjq9T3vbPfMUsX4viYDKgQeYJ4SjL12K
+rKry82cnEKqXe4rUdzmBsoxABgocpMUgptHkaQLdJJbZwA4zx4liiKfuhETE6RF4+uDfvws54RG8
+HY3Gl9va7J36NSOi5OyjO99XR9xhWY60r/SUsyb9uza4neL5H7t805fVX/22Qqk9rAyVD3xKfdaH
+EXySLBvwdAIYJrcPXEPFyCUb9SOvxsedIArYMq0pg435tDmZzZLx4F7LR4aJWr9u8SHrMBteguR8
+CI5dNr4R5nZogqT5vkR7OR0hwy1Ku6j1VB/fMvXY3DTpJgegpTgjwiUkJVTHQiv7LarV1+cc2C4Y
+RXj+MHwGCSqGSIb3DQEHATAdBglghkgBZQMEASoEEIwJLeheDrRUpXldKMF5YjSAUON9JznecCkv
+GaEZbcHbkPZOTTh9+YlTKpAmLjxsjTE8ZyV4HO0dvEd1HbqPR7jLZYrfD9J4Frboh7WO6aPB05UB
+C017bHP5y8cLFAJQ0F3v
