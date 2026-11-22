@@ -138,4 +138,66 @@ class MimeDecodeTest extends TestCase
         $this->assertSame('3', $result->parts[2]->mime_id);
         $this->assertSame('a.pdf', $result->parts[2]->filename);
     }
+
+    /**
+     * Test boundaries that start like another boundary, a missing last boundary,
+     * other multipart types and repeated headers
+     */
+    public function test_decode_multipart()
+    {
+        $mail = "Content-Type: multipart/mixed; boundary=\"XYZ\"\r\n"
+            . "\r\n"
+            . "--XYZ\r\n"
+            . "Content-Type: multipart/alternative; boundary=\"XYZ-alt\"\r\n"
+            . "\r\n"
+            . "--XYZ-alt\r\n"
+            . "Content-Type: text/plain\r\n"
+            . "\r\n"
+            . "text\r\n"
+            . "--XYZ-alt\r\n"
+            . "Content-Type: text/html\r\n"
+            . "\r\n"
+            . "<b>html</b>\r\n"
+            . "--XYZ-alt--\r\n"
+            . "\r\n"
+            . "--XYZ  \r\n"
+            . "Content-Type: application/pdf; name=\"first.pdf\"\r\n"
+            . "Content-Type: application/pdf; name=\"second.pdf\"\r\n"
+            . "\r\n"
+            . "pdf --XYZ\r\n"
+            . "--XYZ--\r\n"
+            . "epilogue\r\n";
+
+        $decoder = new \rcube_mime_decode();
+        $result = $decoder->decode($mail);
+
+        $this->assertCount(2, $result->parts);
+        $this->assertSame('multipart/alternative', $result->parts[0]->mimetype);
+        $this->assertCount(2, $result->parts[0]->parts);
+        $this->assertSame('1.2', $result->parts[0]->parts[1]->mime_id);
+        $this->assertSame('<b>html</b>', $result->parts[0]->parts[1]->body);
+        $this->assertSame('first.pdf', $result->parts[1]->filename);
+        $this->assertSame('pdf --XYZ', $result->parts[1]->body);
+
+        // missing last boundary, multipart/report and an unknown multipart type
+        foreach (['report; report-type=delivery-status', 'x-unknown'] as $type) {
+            $mail = "Content-Type: multipart/{$type}; boundary=b1\r\n"
+                . "\r\n"
+                . "--b1\r\n"
+                . "Content-Type: text/plain\r\n"
+                . "\r\n"
+                . "text\r\n"
+                . "--b1\r\n"
+                . "Content-Type: application/pdf; name=\"a.pdf\"\r\n"
+                . "\r\n"
+                . "pdf\r\n";
+
+            $result = $decoder->decode($mail);
+
+            $this->assertCount(2, $result->parts);
+            $this->assertSame('text', $result->parts[0]->body);
+            $this->assertSame('a.pdf', $result->parts[1]->filename);
+            $this->assertSame('pdf', $result->parts[1]->body);
+        }
+    }
 }

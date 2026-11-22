@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
 - Fix display of base64/quoted-printable messages without a MIME-Version header when IMAP server reports 7bit encoding (#10417)
 - Show the content of opaque signed S/MIME messages (smime-type=signed-data) instead of the encrypted message notice (#10398)
+- Fix local MIME parsing of nested boundaries, a missing last boundary and multipart/report (#10398)
 
 ## Release 1.7.7
 

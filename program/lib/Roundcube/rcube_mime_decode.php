@@ -100,14 +100,20 @@ class rcube_mime_decode
 
         foreach ($headers as $value) {
             $header_name = strtolower($value['name']);
+            $repeated = isset($return->headers[$header_name]);
 
-            if (isset($return->headers[$header_name]) && !is_array($return->headers[$header_name])) {
+            if ($repeated && !is_array($return->headers[$header_name])) {
                 $return->headers[$header_name] = [$return->headers[$header_name]];
                 $return->headers[$header_name][] = $value['value'];
-            } elseif (isset($return->headers[$header_name])) {
+            } elseif ($repeated) {
                 $return->headers[$header_name][] = $value['value'];
             } else {
                 $return->headers[$header_name] = $value['value'];
+            }
+
+            // If a header occurs more than once use the first one, like IMAP servers do
+            if ($repeated) {
+                continue;
             }
 
             switch ($header_name) {
@@ -142,7 +148,7 @@ class rcube_mime_decode
         if (isset($content_type)) {
             $ctype = strtolower($content_type['value']);
 
-            switch ($ctype) {
+            switch (str_starts_with($ctype, 'multipart/') ? 'multipart' : $ctype) {
                 case 'text/plain':
                     $encoding = $content_transfer_encoding['value'] ?? '7bit';
 
@@ -159,12 +165,8 @@ class rcube_mime_decode
                     }
 
                     break;
-                case 'multipart/digest':
-                case 'multipart/alternative':
-                case 'multipart/related':
-                case 'multipart/mixed':
-                case 'multipart/signed':
-                case 'multipart/encrypted':
+                case 'multipart':
+                    // all multipart types, unknown types like multipart/mixed (RFC 2046, section 5.1.3)
                     if (!isset($content_type['other']['boundary'])) {
                         return false;
                     }
@@ -334,11 +336,26 @@ class rcube_mime_decode
      */
     protected function boundarySplit($input, $boundary)
     {
-        $tmp = explode('--' . $boundary, $input);
+        // A delimiter is "--" and the boundary at the beginning of a line, and nothing else on that line but
+        // white space. The last one ends with "--". This way a boundary that is the beginning of another
+        // boundary does not split the parts of the other one (RFC 2046, section 5.1.1).
+        $regexp = '/(?:^|(?<=\n))--' . preg_quote($boundary, '/') . '(--|)[\t ]*(?=\r?\n|$)/D';
+        $tmp = preg_split($regexp, $input, -1, \PREG_SPLIT_DELIM_CAPTURE);
+
+        if ($tmp === false) {
+            return array_slice(explode('--' . $boundary, $input), 1, -1);
+        }
+
         $parts = [];
 
-        for ($i = 1; $i < count($tmp) - 1; $i++) {
-            $parts[] = $tmp[$i];
+        // $tmp is: preamble, delimiter type, part, delimiter type, part, ...
+        // Parts end at the last delimiter, or at the end of the body if the last delimiter is missing.
+        for ($i = 1; $i < count($tmp) - 1; $i += 2) {
+            if ($tmp[$i] === '--') {
+                break;
+            }
+
+            $parts[] = $tmp[$i + 1];
         }
 
         return $parts;
