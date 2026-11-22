@@ -28,6 +28,10 @@ if (!function_exists('system')) {
     rcube::raise_error('PHP system() function is required. Check disable_functions in php.ini.', false, true);
 }
 
+if (system('command -v rsync > /dev/null 2>&1', $ret) === false || $ret > 0) {
+    rcube::raise_error('rsync command is required. Make sure it is installed and in your PATH.', false, true);
+}
+
 $target_dir = unslashify(end($_SERVER['argv']));
 $accept = in_array('-y', $_SERVER['argv']) ? 'y' : null;
 
