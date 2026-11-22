@@ -33,6 +33,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix XML injection in XIMSS driver of the password plugin
 - Security: Fix falling back to insecure IMAP/SMTP/Managesieve connection when TLS is configured but no capability reported
 - Security: Fix Sieve script injection via the body/address/envelope part fields
+- Fix attachments removed from the temp folder while the compose window is still open (#9732)
 
 ## Release 1.7.6
 
