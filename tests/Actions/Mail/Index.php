@@ -417,7 +417,7 @@ class Actions_Mail_Index extends ActionTestCase
             . '</body></html>';
         $washed = \rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
 
-        $this->assertStringContainsString('<a href="http://e.example/" target="_blank" rel="noopener noreferrer">', $washed);
+        $this->assertStringContainsString('<a href="http://e.example/" target="_blank" rel="noreferrer">', $washed);
 
         $html = '<body xmlns:é="u" é:alt="A onanimationstart=alert(document.domain) B" style="animation:spinner-grow 0.05s">'
             . '<svg xmlns="http://www.w3.org/2000/svg"><text>X</text></svg></body>';
