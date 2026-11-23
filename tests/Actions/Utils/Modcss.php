@@ -61,8 +61,9 @@ class Actions_Utils_Modcss extends ActionTestCase
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
-        $this->assertSame(null, $output->getProperty('errorCode'));
-        $this->assertSame(['Content-Type: text/css'], $output->getProperty('headers'));
+        $this->assertNull($output->getProperty('errorCode'));
+        $this->assertContains('Content-Type: text/css', $output->getProperty('headers'));
+        $this->assertContains('X-Content-Type-Options: nosniff', $output->getProperty('headers'));
         $this->assertStringContainsString('#cid div.prefixpre', $output->getOutput());
     }
 }

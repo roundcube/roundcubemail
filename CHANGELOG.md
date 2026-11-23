@@ -6,6 +6,7 @@
 - Security: Fix CSS-scoping bypass via html comments in inline style
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
 - Security: Fix CSS-scoping bypass via a direct access to CSS proxy and multiple style links
+- Security: Fix response disclosure in the CSS proxy using leading whitespace/BOM
 
 ## Release 1.6.21
 
