@@ -428,6 +428,22 @@ body.task-error-login #layout {
         // Reset Bootstrap defaults that may interfere with HTML message content (#9727)
         box-sizing: initial;
     }
+
+    // Show HTML messages with the line height and the spacing of paragraphs and lists that
+    // the HTML editor and other mail clients use (the browser defaults), not with the ones of
+    // Bootstrap. Only the message content, not the notices of plugins above it.
+    // The message's own styles are more specific and win.
+    div.rcmBody {
+        line-height: normal;
+
+        p,
+        ul,
+        ol,
+        dl {
+            margin-top: revert;
+            margin-bottom: revert;
+        }
+    }
 }
 
 #compose-attachments {
