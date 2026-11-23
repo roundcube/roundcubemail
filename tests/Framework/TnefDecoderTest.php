@@ -148,7 +148,7 @@ class TnefDecoderTest extends TestCase
             . pack('V', 20000000);
 
         $t = microtime(true);
-        invokeMethod($tnef, '_extractMapiAttributes', [$payload, $result]);
+        invokeMethod($tnef, '_extractMapiAttributes', [$payload, &$result]);
         $this->assertTrue(microtime(true) - $t < 1);
     }
 
