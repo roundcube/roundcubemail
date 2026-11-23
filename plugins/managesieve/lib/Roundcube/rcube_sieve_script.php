@@ -1081,8 +1081,11 @@ class rcube_sieve_script
             array_push($exts, 'relational');
             array_push($exts, 'comparator-i;ascii-numeric');
         }
-        else if (!in_array($test['comparator'], ['i;octet', 'i;ascii-casemap'])) {
+        else if (preg_match('/^[a-z.;-]+\z/i', $test['comparator'])
+            && !in_array($test['comparator'], ['i;octet', 'i;ascii-casemap'])
+        ) {
             array_push($exts, 'comparator-' . $test['comparator']);
+            $exts[] = 'comparator-' . $test['comparator'];
         }
 
         // skip default comparator
