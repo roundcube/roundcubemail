@@ -404,6 +404,30 @@ class Actions_Mail_Index extends ActionTestCase
     }
 
     /**
+     * Test the elimination of some XSS vulnerabilities
+     */
+    public function test_html_xss4()
+    {
+        // Note: The issue reproducible using PHP < 8.4 and libxml2 <= 2.13
+
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
+
+        $html = '<html><body>'
+            . '<a xmlns:é="urn:x" é:alt="A onclick=alert(document.domain) B" href="http://e.example/">link</a>'
+            . '</body></html>';
+        $washed = \rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
+
+        $this->assertStringContainsString('<a href="http://e.example/" target="_blank" rel="noopener noreferrer">', $washed);
+
+        $html = '<body xmlns:é="u" é:alt="A onanimationstart=alert(document.domain) B" style="animation:spinner-grow 0.05s">'
+            . '<svg xmlns="http://www.w3.org/2000/svg"><text>X</text></svg></body>';
+        $washed = \rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
+
+        $this->assertStringNotContainsString('onanimationstart', $washed);
+        $this->assertStringNotContainsString('alert', $washed);
+    }
+
+    /**
      * Test that HTML sanitization does not change attribute (evil) values
      */
     public function test_html_body_attributes()

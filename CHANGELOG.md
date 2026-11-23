@@ -7,6 +7,7 @@
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
 - Security: Fix CSS-scoping bypass via a direct access to CSS proxy and multiple style links
 - Security: Fix response disclosure in the CSS proxy using leading whitespace/BOM
+- Security: Fix namespace-prefixed attribute bypass of the washtml attribute allowlist (PHP < 8.4)
 
 ## Release 1.6.21
 

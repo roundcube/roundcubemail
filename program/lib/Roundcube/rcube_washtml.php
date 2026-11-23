@@ -357,8 +357,16 @@ class rcube_washtml
                 ) {
                     $out = preg_replace('/(\S+)/', $this->_css_prefix . '\1', $value);
                 }
+                else if ($key == 'xmlns' && !strpos($value, '://')) {
+                    continue;
+                }
                 else if ($key) {
-                   $out = $value;
+                    // Namespace-prefixed attribute bypass prevention for DOMDocument and libxml2 < 2.14
+                    if (preg_match('/[^a-z:-]/i', $attr->nodeName)) {
+                        continue;
+                    }
+
+                    $out = $value;
                 }
 
                 if ($out !== null && $out !== '') {
