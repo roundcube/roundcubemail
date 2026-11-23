@@ -408,16 +408,12 @@ body.task-error-login #layout {
         font-size: 13px;
     }
 
-    // This is needed for proper display of quoted plain text
+    // Quoted plain text is at least as wide as the message, and wider if it has lines
+    // that do not wrap (patches). Unlike an inline block, a block can be split across
+    // pages when printed, so the printout keeps the spacing seen on the screen.
     blockquote {
-        display: inline-block;
+        width: fit-content;
         min-width: 100%;
-
-        & + br {
-            // compensate the spacing "removed" by the inline-block style above
-            display: block;
-            margin-top: 1em;
-        }
     }
 }
 
