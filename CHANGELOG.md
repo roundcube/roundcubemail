@@ -11,6 +11,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
 - Fix display of base64/quoted-printable messages without a MIME-Version header when IMAP server reports 7bit encoding (#10417)
 - Fix page break before a long quote, preformatted text or table in the print view (#10317)
+- Print the background colors of HTML messages, like on the screen
 
 ## Release 1.7.7
 
