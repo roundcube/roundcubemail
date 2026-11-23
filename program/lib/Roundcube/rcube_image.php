@@ -146,7 +146,7 @@ class rcube_image
                 $result = ($this->image_file == $filename || copy($this->image_file, $filename)) ? '' : false;
             } else {
                 // Note: We don't support types like svg or eps for security reasons
-                $valid_types = explode(',', 'bmp,gif,heic,jp2,jpg,png,tif');
+                $valid_types = explode(',', 'bmp,gif,heic,heif,jp2,jpg,png,tif');
 
                 if (in_array($type, $valid_types) && in_array($p['intype'], $valid_types)) {
                     if ($scale >= 1) {
