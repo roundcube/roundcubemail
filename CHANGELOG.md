@@ -5,6 +5,7 @@
 - Security: Fix (again) HTTP request injection via the spellcheck ATD backend
 - Security: Fix CSS-scoping bypass via html comments in inline style
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
+- Security: Fix CSS-scoping bypass via a direct access to CSS proxy and multiple style links
 
 ## Release 1.6.21
 
