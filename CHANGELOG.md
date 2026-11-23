@@ -10,6 +10,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
 - Fix display of base64/quoted-printable messages without a MIME-Version header when IMAP server reports 7bit encoding (#10417)
+- Keep the quotes of HTML replies marked as quotes (`type="cite"`) in drafts, so other mail clients recognize them
 
 ## Release 1.7.7
 
