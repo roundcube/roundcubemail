@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Security: Fix (again) HTTP request injection via the spellcheck ATD backend
+- Security: Fix CSS-scoping bypass via html comments in inline style
 
 ## Release 1.6.21
 

@@ -322,6 +322,9 @@ class Framework_Utils extends PHPUnit\Framework\TestCase
         $mod = \rcube_utils::mod_css_styles('//* test */* {background-color: silver;}', 'rcmbody', true);
         $this->assertSame('/* evil! */', $mod);
 
+        $mod = \rcube_utils::mod_css_styles('-->* { color:red; }-->p { color: blue; }', 'rcmbody', true);
+        $this->assertSame('/* evil! */', $mod);
+
         // CSS at-rules
         $style = '@layer a; div { display: none; }';
         $mod = \rcube_utils::mod_css_styles($style, 'rcmbody', true);

@@ -611,7 +611,7 @@ class rcube_utils
         // If after removing comments there are still comments it's most likely a hack
         // Note: In <=1.6 comments are being removed by xss_entity_decode() above
         // $source = self::remove_css_comments($source);
-        if (strpos($source, '/*') !== false || strpos($source, '<!--') !== false) {
+        if (strpos($source, '/*') !== false || strpos($source, '<!--') !== false || strpos($source, '-->') !== false) {
             return '/* evil! */';
         }
 
