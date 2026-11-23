@@ -13,6 +13,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Fix contact import error on a vCard value that ends with a single backslash (#10427)
 - Fix import of contact e-mails, phones and addresses from current Google CSV exports (#10410)
 - Security: Fix (again) HTTP request injection via the spellcheck ATD backend
+- Security: Fix CSS-scoping bypass via html comments in inline style
 
 ## Release 1.7.6
 

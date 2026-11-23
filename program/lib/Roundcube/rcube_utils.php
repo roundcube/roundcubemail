@@ -604,7 +604,7 @@ class rcube_utils
         }
 
         // If after removing comments there are still comments it's most likely a hack
-        if (str_contains($source, '/*') || str_contains($source, '<!--')) {
+        if (str_contains($source, '/*') || str_contains($source, '<!--') || str_contains($source, '-->')) {
             return '/* evil! */';
         }
 
