@@ -24,6 +24,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix response disclosure in the CSS proxy using leading whitespace/BOM
 - Security: Fix namespace-prefixed attribute bypass of the washtml attribute allowlist (PHP < 8.4)
 - Security: Fix (again) bug where insecure attachment content (PDF/PostScript/SVG) was passed to ImageMagick
+- Security: Fix sieve script injection via a comparator name
 
 ## Release 1.7.6
 
