@@ -318,6 +318,9 @@ class rcube_tnef_decoder
                 case self::MAPI_BOOLEAN:
                     for ($i = 0; $i < $num_mval; $i++) {
                         $value = $this->_geti($data, 32);
+                        if ($value === null) {
+                            break;
+                        }
                     }
 
                     break;
