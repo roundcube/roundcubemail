@@ -54,7 +54,7 @@ services:
     image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
     environment:
       COMPOSER_ARGS: ${COMPOSER_ARGS:-}
-      RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
+      RC_CONFIG_IMAP_HOST: 'mailhost:3143'
     volumes:
       - '..:/app'
     command:
