@@ -474,4 +474,18 @@ body.task-error-login #layout {
     @import "dark";
 }
 
+/*** Watermark frame ***/
+
+body.watermark {
+    background-color: @color-layout-content-background;
+}
+
+html:not(.dark-mode) body.watermark:before {
+    background: fade(@color-layout-content-background, 85%);
+}
+
+html.dark-mode > body.watermark {
+    background-color: @color-dark-background;
+}
+
 @import (optional) "_styles";
