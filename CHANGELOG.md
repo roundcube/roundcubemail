@@ -17,6 +17,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
 - Security: Fix CSS-scoping bypass via a direct access to CSS proxy and multiple style links
 - Security: Fix response disclosure in the CSS proxy using leading whitespace/BOM
+- Security: Fix namespace-prefixed attribute bypass of the washtml attribute allowlist (PHP < 8.4)
 
 ## Release 1.7.6
 
