@@ -9,14 +9,17 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - OAuth: Validate JWT token signature (#10210)
 - Fix PostgreSQL schema to confine IMAP UID values to the standard (#10258)
 - Fix Imagick thumbnail orientation, colors and transparency (#10350)
+
+## Release 1.7.7
+
 - Fix handling of multiple responses for the same message in a single IMAP FETCH command (#10045)
 - Fix unreadable syntax colors and invisible cursor in the raw sieve script editor in dark mode (#10382)
-- Password: Support alias username in the hmail driver (#10411)
 - Fix hide_blockquote plugin adding a quadratic number of text nodes on messages with many quote blocks (#10422)
 - Fix bug where deleting a search result with "select all" could delete all messages in the folder (#9671)
 - Fix run time growing with the square of the input in rcube_text2html and rcube_vcard (#10423)
 - Fix contact import error on a vCard value that ends with a single backslash (#10427)
 - Fix import of contact e-mails, phones and addresses from current Google CSV exports (#10410)
+- Password: Support alias username in the hmail driver (#10411)
 - Security: Fix (again) HTTP request injection via the spellcheck ATD backend
 - Security: Fix CSS-scoping bypass via html comments in inline style
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
