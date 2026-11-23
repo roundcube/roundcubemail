@@ -167,7 +167,11 @@ class rcube_smtp
         if ($use_tls) {
             $result = $this->conn->starttls();
 
-            if ($result instanceof \PEAR_Error) {
+            if ($result !== true) {
+                if (!$result instanceof \PEAR_Error) {
+                    $result = new \Exception('STARTTLS is not available', 454);
+                }
+
                 $this->_conn_error('smtpconnerror', 'STARTTLS failed', [], $result);
                 $this->disconnect();
                 return false;
