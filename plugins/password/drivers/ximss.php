@@ -45,9 +45,9 @@ class rcube_ximss_password
         }
 
         // send all requests at once(pipelined)
-        fwrite($sock, '<login id="A001" authData="'.$username.'" password="'.$pass.'" />'."\0");
-        fwrite($sock, '<passwordModify id="A002" oldPassword="'.$pass.'" newPassword="'.$newpass.'"  />'."\0");
-        fwrite($sock, '<bye id="A003" />'."\0");
+        fwrite($sock, self::xml_tag('login', ['id' => 'A001', 'authData' => $username, 'password' => $pass]) . "\0");
+        fwrite($sock, self::xml_tag('passwordModify', ['id' => 'A002', 'oldPassword' => $pass, 'newPassword' => $newpass]) . "\0");
+        fwrite($sock, self::xml_tag('bye', ['id' => 'A003']) . "\0");
 
   //example responses
   //  <session id="A001" urlID="4815-vN2Txjkggy7gjHRD10jw" userName="user@example.com"/>\0
@@ -86,5 +86,22 @@ class rcube_ximss_password
         }
 
         return PASSWORD_SUCCESS;
+    }
+
+    /**
+     * Create output for an XML element
+     */
+    private static function xml_tag($tag, $attributes = [])
+    {
+        $doc = new \DOMDocument('1.0', RCUBE_CHARSET);
+
+        $fragment = $doc->createDocumentFragment();
+        $fragment->appendChild($elem = $doc->createElement($tag));
+
+        foreach ($attributes as $name => $value) {
+            $elem->setAttribute($name, $value);
+        }
+
+        return $doc->saveXML($fragment);
     }
 }

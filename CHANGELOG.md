@@ -11,6 +11,7 @@
 - Security: Fix (again) bug where insecure attachment content (PDF/PostScript/SVG) was passed to ImageMagick
 - Security: Fix sieve script injection via a comparator name
 - Security: Fix DoS via uncapped MAPI multi-value loop in rcube_tnef_decoder
+- Security: Fix XML injection in XIMSS driver of the password plugin
 
 ## Release 1.6.21
 
