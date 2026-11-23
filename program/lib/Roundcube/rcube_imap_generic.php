@@ -1105,7 +1105,13 @@ class rcube_imap_generic
         }
 
         // TLS connection
-        if ($ssl_mode == 'tls' && $this->getCapability('STARTTLS')) {
+        if ($ssl_mode == 'tls') {
+            if (!$this->getCapability('STARTTLS')) {
+                $this->setError(self::ERROR_BAD, 'STARTTLS is not supported by the server');
+                $this->closeConnection();
+                return false;
+            }
+
             $res = $this->execute('STARTTLS');
 
             if (empty($res) || $res[0] != self::ERROR_OK) {
