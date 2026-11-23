@@ -23,7 +23,7 @@
 		label="delete" title="deletemessage" innerclass="inner" />
 	<roundcube:if condition="template:name == 'message'" />
 		<roundcube:button command="print" type="link" class="print disabled" classAct="print"
-			label="print" title="printmessage" innerclass="inner" data-hidden="small"  />
+			label="print" title="printmessage" innerclass="inner" />
 	<roundcube:endif />
 	<roundcube:container name="toolbar" id="mailtoolbar" />
 	<roundcube:button name="markmenulink" id="markmessagemenulink" type="link" class="markmessage"
@@ -61,7 +61,7 @@
 <div id="message-menu" class="popupmenu">
 	<h3 id="aria-label-message-menu" class="voice"><roundcube:label name="arialabelmoremessageactions" /></h3>
 	<ul class="menu listing" role="menu" aria-labelledby="aria-label-message-menu">
-		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print disabled" classAct="print active" data-hidden="small"/>
+		<roundcube:button type="link-menuitem" command="print" label="printmessage" class="print disabled" classAct="print active" />
 		<roundcube:if condition="template:name != 'message'" />
 			<roundcube:button type="link-menuitem" command="import-messages" label="import" class="import disabled" classAct="import active"
 				name="messageimport" onclick="UI.import_dialog()" />
