@@ -41,6 +41,12 @@ class rcube_spellchecker
      */
     public function __construct($lang = 'en')
     {
+        // Sanity check the language code, so spellcheck drivers don't have to
+        // and can pass it to the backend safely
+        if ($lang && !rcube_utils::is_simple_string($lang)) {
+            $lang = 'en';
+        }
+
         $this->rc = rcube::get_instance();
         $this->engine = $this->rc->config->get('spellcheck_engine', 'googie');
         $this->lang = $lang ?: 'en';
