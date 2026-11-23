@@ -606,8 +606,11 @@ class rcube_washtml
      */
     public static function css_unescape($value)
     {
-        if (strpos((string) $value, '\\') === false) {
-            return (string) $value;
+        // Remove comments
+        $value = preg_replace('#/\*.*\*/#Ums', '', (string) $value);
+
+        if (strpos($value, '\\') === false) {
+            return $value;
         }
 
         return preg_replace_callback(
@@ -625,7 +628,7 @@ class rcube_washtml
 
                 return $m[2];
             },
-            (string) $value
+            $value
         );
     }
 
