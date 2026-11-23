@@ -10,6 +10,7 @@
 - Security: Fix namespace-prefixed attribute bypass of the washtml attribute allowlist (PHP < 8.4)
 - Security: Fix (again) bug where insecure attachment content (PDF/PostScript/SVG) was passed to ImageMagick
 - Security: Fix sieve script injection via a comparator name
+- Security: Fix DoS via uncapped MAPI multi-value loop in rcube_tnef_decoder
 
 ## Release 1.6.21
 

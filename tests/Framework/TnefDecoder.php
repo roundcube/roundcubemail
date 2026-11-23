@@ -130,6 +130,25 @@ class Framework_TnefDecoder extends PHPUnit\Framework\TestCase
     }
 
     /**
+     * Test decoding with uncapped MAPI bool/int attribute value
+     */
+    public function test_decompress_uncapped_bool_or_int()
+    {
+        $tnef = new \rcube_tnef_decoder();
+        $result = [];
+
+        // VULNERABLE: MAPI_INT with MAPI_MV_FLAG set, num_mval=20M, buffer depleted
+        $payload = pack('V', 1)
+            . pack('v', 0x1003)
+            . pack('v', 0x0037)
+            . pack('V', 20000000);
+
+        $t = microtime(true);
+        invokeMethod($tnef, '_extractMapiAttributes', [$payload, $result]);
+        $this->assertTrue(microtime(true) - $t < 1);
+    }
+
+    /**
      * Test rtf2text()
      */
     function test_rtf2text()
