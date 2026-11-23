@@ -313,7 +313,7 @@ class rcube_sieve_script
                         }
 
                         // :all address-part is optional, skip it
-                        if (!empty($test['part']) && $test['part'] != 'all') {
+                        if (preg_match('/^(localpart|domain|user|detail)$/i', $test['part'] ?? '')) {
                             $tests[$i] .= ' :' . $test['part'];
                             if ($test['part'] == 'user' || $test['part'] == 'detail') {
                                 array_push($exts, 'subaddress');
@@ -331,7 +331,7 @@ class rcube_sieve_script
 
                         $tests[$i] .= (!empty($test['not']) ? 'not ' : '') . 'body';
 
-                        if (!empty($test['part'])) {
+                        if (preg_match('/^(raw|content|text)$/i', $test['part'] ?? '')) {
                             $tests[$i] .= ' :' . $test['part'];
 
                             if (!empty($test['content']) && $test['part'] == 'content') {

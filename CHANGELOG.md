@@ -13,6 +13,7 @@
 - Security: Fix DoS via uncapped MAPI multi-value loop in rcube_tnef_decoder
 - Security: Fix XML injection in XIMSS driver of the password plugin
 - Security: Fix falling back to insecure IMAP/SMTP/Managesieve connection when TLS is configured but no capability reported
+- Security: Fix Sieve script injection via the body/address/envelope part fields
 
 ## Release 1.6.21
 
