@@ -16,6 +16,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 - Security: Fix CSS-scoping bypass via html comments in inline style
 - Security: Fix remote content blocking bypass via CSS comments in SVG FuncIRI attributes
 - Security: Fix CSS-scoping bypass via a direct access to CSS proxy and multiple style links
+- Security: Fix response disclosure in the CSS proxy using leading whitespace/BOM
 
 ## Release 1.7.6
 
