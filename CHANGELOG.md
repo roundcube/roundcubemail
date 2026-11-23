@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Security: Fix (again) HTTP request injection via the spellcheck ATD backend
+
+## Release 1.6.21
+
 - Security: Fix open redirect via IMAP error recovery on attachment get
 - Security: Fix so Received: header includes only trusted hostname and forwarded IP from a trusted proxy
 - Security: Fix bug where some managesieve destructive actions could have been triggered cross-site via GET
