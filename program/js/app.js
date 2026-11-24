@@ -2996,6 +2996,13 @@ function rcube_webmail() {
         }
     };
 
+    // remove all rows from the message list (called from server responses)
+    this.message_list_clear = function (sel) {
+        if (this.message_list) {
+            this.message_list.clear(sel);
+        }
+    };
+
     // send remote request to load message list
     this.list_mailbox_remote = function (mbox, page, url) {
         var lock = this.set_busy(true, 'loading');
