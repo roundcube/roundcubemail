@@ -621,6 +621,7 @@ $labels['alwayskeepformatting'] = 'Always keep original text formatting';
 $labels['replysamefolder'] = 'Place replies in the folder of the message being replied to';
 $labels['defaultabook'] = 'Default address book';
 $labels['autocompletesingle'] = 'Skip alternative email addresses in autocompletion';
+$labels['allowexternalphotos'] = 'Allow external photos';
 $labels['listnamedisplay'] = 'List contacts as';
 $labels['contactformmode'] = 'Contact form mode';
 $labels['privatemode'] = 'Private (Home)';

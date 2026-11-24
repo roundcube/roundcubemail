@@ -120,6 +120,7 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'collected_recipients' => rcube_utils::get_input_string('_collected_recipients', rcube_utils::INPUT_POST, true),
                     'collected_senders' => rcube_utils::get_input_string('_collected_senders', rcube_utils::INPUT_POST, true),
                     'autocomplete_single' => isset($_POST['_autocomplete_single']),
+                    'show_photo_urls' => isset($_POST['_show_photo_urls']),
                     'addressbook_sort_col' => self::prefs_input('addressbook_sort_col', '/^[a-z_]+$/'),
                     'addressbook_name_listing' => self::prefs_input_int('addressbook_name_listing'),
                     'addressbook_pagesize' => max(2, self::prefs_input_int('addressbook_pagesize')),

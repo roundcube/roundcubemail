@@ -1236,6 +1236,20 @@ class rcmail_action_settings_index extends rcmail_action
                         ];
                     }
 
+                    if (!isset($no_override['show_photo_urls'])) {
+                        if (!$current) {
+                            continue 2;
+                        }
+
+                        $field_id = 'rcmfd_show_photo_urls';
+                        $checkbox = new html_checkbox(['name' => '_show_photo_urls', 'id' => $field_id, 'value' => 1]);
+
+                        $blocks['main']['options']['show_photo_urls'] = [
+                            'title' => html::label($field_id, rcube::Q($rcmail->gettext('allowexternalphotos'))),
+                            'content' => $checkbox->show($config['show_photo_urls'] ? 1 : 0),
+                        ];
+                    }
+
                     if (!isset($no_override['collected_recipients'])) {
                         if (!$current) {
                             continue 2;
