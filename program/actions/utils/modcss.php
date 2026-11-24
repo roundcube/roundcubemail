@@ -142,7 +142,7 @@ class rcmail_action_utils_modcss extends rcmail_action
             }
 
             // Find IPv6 address (ignore warnings)
-            set_error_handler(function () {}, \E_WARNING);
+            set_error_handler(static function () {}, \E_WARNING);
             $dns = dns_get_record($host, \DNS_AAAA);
             restore_error_handler();
 
