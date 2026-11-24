@@ -33,7 +33,17 @@ class rcmail_action_settings_identity_delete extends rcmail_action
         $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
         $deleted = false;
 
-        if ($iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid)) {
+        $valid = $iid && preg_match('/^[0-9]+(,[0-9]+)*$/', $iid);
+
+        // The identities have to belong to the current user before plugins see them
+        foreach ($valid ? explode(',', $iid) : [] as $id) {
+            $identity = $rcmail->user->get_identity($id);
+            if (empty($identity) || (string) $identity['identity_id'] !== $id) {
+                $valid = false;
+            }
+        }
+
+        if ($valid) {
             $plugin = $rcmail->plugins->exec_hook('identity_delete', ['id' => $iid]);
 
             $deleted = !$plugin['abort'] ? $rcmail->user->delete_identity($iid) : $plugin['result'];

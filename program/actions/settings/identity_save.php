@@ -113,10 +113,17 @@ class rcmail_action_settings_identity_save extends rcmail_action_settings_index
         // update an existing identity
         if (!empty($_POST['_iid'])) {
             $iid = rcube_utils::get_input_string('_iid', rcube_utils::INPUT_POST);
+            $identity = $rcmail->user->get_identity($iid);
+
+            // The identity has to belong to the current user before plugins see it
+            if (empty($identity) || (string) $identity['identity_id'] !== $iid) {
+                $rcmail->output->show_message('errorsaving', 'error', null, false);
+                $rcmail->overwrite_action('edit-identity');
+                return;
+            }
 
             if (in_array($IDENTITIES_LEVEL, [1, 3, 4])) {
                 // merge with old identity data, fixes #1488834
-                $identity = $rcmail->user->get_identity($iid);
                 $save_data = array_merge($identity, $save_data);
 
                 unset($save_data['changed'], $save_data['del'], $save_data['user_id'], $save_data['identity_id']);
