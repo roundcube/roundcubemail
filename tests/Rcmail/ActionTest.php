@@ -239,6 +239,22 @@ class ActionTest extends ActionTestCase
      */
     public function test_folder_selector()
     {
-        $this->markTestIncomplete();
+        $rcmail = \rcmail::get_instance();
+        $sent_mbox = $rcmail->config->get('sent_mbox');
+        $rcmail->config->set('sent_mbox', 'Envoy&AOk-s');
+
+        self::mockStorage()
+            ->registerFunction('list_folders_subscribed', ['INBOX', 'Envoy&AOk-s', 'Archiv&AOk-'])
+            ->registerFunction('mod_folder', 'INBOX')
+            ->registerFunction('mod_folder', 'Envoy&AOk-s')
+            ->registerFunction('mod_folder', 'Archiv&AOk-');
+
+        $select = \rcmail_action::folder_selector(['realnames' => true]);
+        $html = $select->show();
+
+        $rcmail->config->set('sent_mbox', $sent_mbox);
+
+        $this->assertStringContainsString('<option value="Envoy&amp;AOk-s">Envoyés</option>', $html);
+        $this->assertStringContainsString('<option value="Archiv&amp;AOk-">Archivé</option>', $html);
     }
 }

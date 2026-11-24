@@ -584,6 +584,9 @@ abstract class rcube_session implements \SessionHandlerInterface
                             for (; ($q < $endptr) && ($str[$q] != ':'); $q++) {
                                 $length .= $str[$q];
                             }
+                            if (((int) $length) < 0) {
+                                throw new \Exception('Invalid session data');
+                            }
                             $q += 2;
                             $q += (int) $length + 2;
                             $serialized .= substr($str, $p, $q - $p);

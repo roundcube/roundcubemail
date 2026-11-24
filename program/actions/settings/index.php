@@ -298,17 +298,33 @@ class rcmail_action_settings_index extends rcmail_action
                             'class' => 'custom-select',
                         ]);
 
-                        $select->add($rcmail->gettext('never'), 0);
+                        $intervals = [];
                         foreach ([1, 3, 5, 10, 15, 30, 60] as $min) {
                             if (!$config['min_refresh_interval'] || $config['min_refresh_interval'] <= $min * 60) {
-                                $label = $rcmail->gettext(['name' => 'everynminutes', 'vars' => ['n' => $min]]);
-                                $select->add($label, $min);
+                                $intervals[] = $min;
                             }
+                        }
+
+                        // Make sure the current value is on the list, even if it is not one
+                        // of the predefined intervals, e.g. a custom value set in config (#10292)
+                        $current_interval = (int) $config['refresh_interval'];
+                        $current_interval = $current_interval % 60
+                            ? round($current_interval / 60, 2)
+                            : intdiv($current_interval, 60);
+                        if ($current_interval > 0 && !in_array($current_interval, $intervals)) {
+                            $intervals[] = $current_interval;
+                            sort($intervals);
+                        }
+
+                        $select->add($rcmail->gettext('never'), 0);
+                        foreach ($intervals as $min) {
+                            $label = $rcmail->gettext(['name' => 'everynminutes', 'vars' => ['n' => $min]]);
+                            $select->add($label, $min);
                         }
 
                         $blocks['main']['options']['refresh_interval'] = [
                             'title' => html::label($field_id, rcube::Q($rcmail->gettext('refreshinterval'))),
-                            'content' => $select->show($config['refresh_interval'] / 60),
+                            'content' => $select->show($current_interval > 0 ? $current_interval : 0),
                         ];
                     }
 

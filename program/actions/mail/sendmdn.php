@@ -72,7 +72,7 @@ class rcmail_action_mail_sendmdn extends rcmail_action
     {
         $rcmail = rcmail::get_instance();
 
-        if (!is_object($message) || !is_a($message, 'rcube_message')) {
+        if (!$message instanceof rcube_message) {
             $message = new rcube_message($message);
         }
 
@@ -117,6 +117,13 @@ class rcmail_action_mail_sendmdn extends rcmail_action
             if ($agent = $rcmail->config->get('useragent')) {
                 $headers['User-Agent'] = $agent;
                 $report .= "Reporting-UA: {$agent}\r\n";
+            }
+
+            // For security reasons do not allow new-line characters in headers
+            foreach ($headers as $idx => $value) {
+                if (is_string($value)) {
+                    $headers[$idx] = trim(preg_replace('/[\r\n\t\s]+/', ' ', $value));
+                }
             }
 
             $to = rcube_mime::decode_mime_string($message->headers->to, $charset);

@@ -4,6 +4,8 @@ namespace Roundcube\Tests\Actions\Mail;
 
 use PHPUnit\Framework\Attributes\Group;
 use Roundcube\Tests\ActionTestCase;
+use Roundcube\Tests\OutputHtmlMock;
+use Roundcube\Tests\OutputJsonMock;
 
 use function Roundcube\Tests\setProperty;
 
@@ -96,6 +98,103 @@ class IndexTest extends ActionTestCase
         $this->assertSame('Drafts', $output->get_env('drafts_mailbox'));
         $this->assertSame('Trash', $output->get_env('trash_mailbox'));
         $this->assertSame('Junk', $output->get_env('junk_mailbox'));
+    }
+
+    /**
+     * Test that a request bound to a search context that does not exist
+     * in the session anymore is aborted (#9671).
+     *
+     * Without this guard e.g. a "select all" (_uid=*) delete request would
+     * resolve '*' to the whole folder and delete all its messages instead of
+     * only the (no longer existing) search result.
+     */
+    public function test_run_aborts_request_on_lost_search_context()
+    {
+        foreach (['delete', 'move', 'refresh', 'check-recent'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', $act);
+
+            $_POST = ['_uid' => '*', '_mbox' => 'INBOX', '_search' => '1234567890'];
+            $_REQUEST = $_POST;
+
+            // The search context is not in the session (e.g. it has been
+            // overwritten by a search in another browser tab)
+            unset($_SESSION['search'], $_SESSION['search_request']);
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading');
+
+            $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+            $result = $output->getOutput();
+
+            $this->assertIsArray($result, "Action '{$act}' was not aborted");
+            $this->assertStringContainsString('display_message', $result['exec']);
+            $this->assertStringContainsString('"error"', $result['exec']);
+        }
+
+        // Same with a search context in the session that does not match the request
+        $action = new \rcmail_action_mail_index();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'delete');
+
+        $_POST = ['_uid' => '*', '_mbox' => 'INBOX', '_search' => '1234567890'];
+        $_REQUEST = $_POST;
+        $_SESSION['search'] = 'fake-search-set';
+        $_SESSION['search_request'] = 'another-search-request';
+
+        self::mockStorage()
+            ->registerFunction('set_folder')
+            ->registerFunction('set_page')
+            ->registerFunction('set_threading');
+
+        $this->runAndAssert($action, OutputJsonMock::E_EXIT);
+
+        $result = $output->getOutput();
+
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('display_message', $result['exec']);
+        $this->assertStringContainsString('"error"', $result['exec']);
+
+        unset($_SESSION['search'], $_SESSION['search_request']);
+
+        // An action is not required, a plain request is redirected to the folder
+        foreach (['', 'compose'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', $act);
+
+            $_POST = [];
+            $_GET = ['_mbox' => 'INBOX', '_search' => '1234567890'];
+            $_REQUEST = $_GET;
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading')
+                ->registerFunction('get_folder', 'INBOX');
+
+            $this->runAndAssert($action, OutputHtmlMock::E_REDIRECT);
+        }
+
+        // In addressbook actions _search is not a message search, they are not affected
+        foreach (['autocomplete', 'list-contacts', 'search-contacts'] as $act) {
+            $action = new \rcmail_action_mail_index();
+            $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', $act);
+
+            $_GET = [];
+            $_POST = ['_mbox' => 'INBOX', '_search' => 'some search string'];
+            $_REQUEST = $_POST;
+
+            self::mockStorage()
+                ->registerFunction('set_folder')
+                ->registerFunction('set_page')
+                ->registerFunction('set_threading');
+
+            $this->runAndAssert($action, null);
+
+            $this->assertNull($output->getOutput(), "Action '{$act}' was aborted");
+        }
     }
 
     /**
@@ -355,7 +454,7 @@ class IndexTest extends ActionTestCase
         $this->assertMatchesRegularExpression('/<style [^>]+>/', $html, 'Allow styles in safe mode');
         $this->assertMatchesRegularExpression('#src="http://evilsite.net/mailings/ex3.jpg"#', $html, 'Allow external images in HTML (safe mode)');
         $this->assertMatchesRegularExpression("#url\\('?http://evilsite.net/newsletter/image/bg/bg-64.jpg'?\\)#", $html, 'Allow external images in CSS (safe mode)');
-        $css = '<link rel="stylesheet" .+_action=modcss.+_u=tmp-[a-z0-9]+\.css';
+        $css = '<link rel="stylesheet" .+_action=modcss.+_u=[a-z0-9]{16}';
         $this->assertMatchesRegularExpression('#' . $css . '#Ui', $html, 'Filter (anonymized) external stylesheets with utils/modcss.php');
     }
 
@@ -407,6 +506,30 @@ class IndexTest extends ActionTestCase
 
         $this->assertDoesNotMatchRegularExpression('/data:text/', $washed, 'Remove data:text/html links');
         $this->assertDoesNotMatchRegularExpression('/vbscript:/', $washed, 'Remove vbscript: links');
+    }
+
+    /**
+     * Test the elimination of some XSS vulnerabilities
+     */
+    public function test_html_xss4()
+    {
+        // Note: The issue reproducible using PHP < 8.4 and libxml2 <= 2.13
+
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
+
+        $html = '<html><body>'
+            . '<a xmlns:é="urn:x" é:alt="A onclick=alert(document.domain) B" href="http://e.example/">link</a>'
+            . '</body></html>';
+        $washed = \rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
+
+        $this->assertStringContainsString('<a href="http://e.example/" target="_blank" rel="noopener noreferrer">', $washed);
+
+        $html = '<body xmlns:é="u" é:alt="A onanimationstart=alert(document.domain) B" style="animation:spinner-grow 0.05s">'
+            . '<svg xmlns="http://www.w3.org/2000/svg"><text>X</text></svg></body>';
+        $washed = \rcmail_action_mail_index::wash_html($html, ['safe' => true], []);
+
+        $this->assertStringNotContainsString('onanimationstart', $washed);
+        $this->assertStringNotContainsString('alert', $washed);
     }
 
     /**

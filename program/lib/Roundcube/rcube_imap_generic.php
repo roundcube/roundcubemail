@@ -1115,7 +1115,13 @@ class rcube_imap_generic
         }
 
         // TLS connection
-        if ($ssl_mode == 'tls' && $this->getCapability('STARTTLS')) {
+        if ($ssl_mode == 'tls') {
+            if (!$this->getCapability('STARTTLS')) {
+                $this->setError(self::ERROR_BAD, 'STARTTLS is not supported by the server');
+                $this->closeConnection();
+                return false;
+            }
+
             $res = $this->execute('STARTTLS');
 
             if (empty($res) || $res[0] != self::ERROR_OK) {
@@ -2087,7 +2093,7 @@ class rcube_imap_generic
             if ($message_set === '' || $message_set === 'INVALID') {
                 return false;
             }
-        } elseif (empty($message_set)) {
+        } elseif (empty($message_set) || preg_match('/[^0-9:,*]/', (string) $message_set)) {
             return false;
         } elseif (strpos($message_set, ':')) {
             [$from_idx, $to_idx] = explode(':', $message_set);
@@ -2512,11 +2518,15 @@ class rcube_imap_generic
             if (preg_match('/^\* ([0-9]+) FETCH/', $line, $m)) {
                 $id = intval($m[1]);
 
-                $result[$id] = new rcube_message_header();
-                $result[$id]->id = $id;
-                $result[$id]->subject = '';
-                $result[$id]->messageID = 'mid:' . $id;
-                $result[$id]->folder = $mailbox;
+                // A later unsolicited FETCH may contain only updated flags.
+                // Keep the message data already received for this sequence number.
+                if (!isset($result[$id])) {
+                    $result[$id] = new rcube_message_header();
+                    $result[$id]->id = $id;
+                    $result[$id]->subject = '';
+                    $result[$id]->messageID = 'mid:' . $id;
+                    $result[$id]->folder = $mailbox;
+                }
 
                 $headers = null;
                 $line = substr($line, strlen($m[0]) + 2);
@@ -2534,6 +2544,8 @@ class rcube_imap_generic
                         $result[$id]->date = $value;
                         $result[$id]->timestamp = rcube_utils::strtotime($value);
                     } elseif ($name == 'FLAGS') {
+                        // FLAGS is a complete replacement, including an empty list.
+                        $result[$id]->flags = [];
                         if (!empty($value)) {
                             foreach ((array) $value as $flag) {
                                 $flag = str_replace(['$', '\\'], '', $flag);
@@ -2811,17 +2823,41 @@ class rcube_imap_generic
      */
     public function fetchMIMEHeaders($mailbox, $uid, $parts, $mime = true)
     {
+        if (preg_match('/[^0-9:,*]/', (string) $uid)) {
+            return false;
+        }
+
         if (!$this->select($mailbox)) {
             return false;
         }
 
         $parts = (array) $parts;
+
+        if (empty($parts)) {
+            return [];
+        }
+
+        // Split a long request: RFC 7162 (Section 4) recommends command lines of at most
+        // about 8192 octets, Exchange refuses a command over 10240 bytes by default.
+        // An item takes up to 20 bytes plus its part identifier.
+        $limit = max(1, intdiv(8000, 20 + max(array_map('strlen', $parts))));
+
+        if (count($parts) > $limit) {
+            $result = [];
+            foreach (array_chunk($parts, $limit) as $chunk) {
+                $result += $this->fetchMIMEHeaders($mailbox, $uid, $chunk, $mime) ?: [];
+            }
+
+            return $result;
+        }
+
         $key = $this->nextTag();
         $peeks = [];
         $type = $mime ? 'MIME' : 'HEADER';
 
         // format request
         foreach ($parts as $part) {
+            $part = preg_replace('/[\r\n]+/', ' ', (string) $part); // sanitize input
             $peeks[] = "BODY.PEEK[{$part}.{$type}]";
         }
 
@@ -2841,6 +2877,14 @@ class rcube_imap_generic
                 $line = ltrim(substr($line, strlen($m[0])));
                 while (preg_match('/^\s*BODY\[([0-9\.]+)\.' . $type . '\]/', $line, $matches)) {
                     $line = substr($line, strlen($matches[0]));
+
+                    // an empty (or missing) section can be NIL or "", followed by the next item
+                    if (preg_match('/^\s*(NIL|"")/i', $line, $empty)) {
+                        $result[$matches[1]] = '';
+                        $line = substr($line, strlen($empty[0]));
+                        continue;
+                    }
+
                     $result[$matches[1]] = trim($this->multLine($line));
                     $line = $this->readLine(1024);
                 }
@@ -2866,6 +2910,10 @@ class rcube_imap_generic
     public function handlePartBody($mailbox, $id, $is_uid = false, $part = '', $encoding = null, $print = null,
         $file = null, $formatted = false, $max_bytes = 0)
     {
+        if (preg_match('/[^0-9:,*]/', (string) $id)) {
+            return false;
+        }
+
         if (!$this->select($mailbox)) {
             return false;
         }
@@ -2875,6 +2923,7 @@ class rcube_imap_generic
         $result = false;
         $found = false;
         $mode = 0;
+        $part = preg_replace('/[\r\n]+/', ' ', (string) $part); // sanitize input
 
         do {
             if (!$initiated) {
@@ -2896,7 +2945,7 @@ class rcube_imap_generic
                 }
 
                 // Use BINARY extension when possible (and safe)
-                $binary = $binary && $mode && preg_match('/^[0-9.]+$/', (string) $part) && $this->hasCapability('BINARY');
+                $binary = $binary && $mode && preg_match('/^[0-9.]+$/', $part) && $this->hasCapability('BINARY');
                 $fetch_mode = $binary ? 'BINARY' : 'BODY';
                 $partial = $max_bytes ? sprintf('<0.%d>', $max_bytes) : '';
 

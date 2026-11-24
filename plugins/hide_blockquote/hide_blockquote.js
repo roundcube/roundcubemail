@@ -28,13 +28,12 @@ function hide_blockquote() {
         return;
     }
 
+    // Add new-line character before each blockquote, once. This fixes counting lines of text,
+    // it also prevents from merging lines from different quoting level
+    $('blockquote').before(document.createTextNode('\n'));
+
     $('div.message-part div.pre > blockquote', $('#messagebody')).each(function () {
         var res, text, div, link, q = $(this);
-
-        // Add new-line character before each blockquote
-        // This fixes counting lines of text, it also prevents
-        // from merging lines from different quoting level
-        $('blockquote').before(document.createTextNode('\n'));
 
         text = q.text().trim();
         res = text.split(/\n/);

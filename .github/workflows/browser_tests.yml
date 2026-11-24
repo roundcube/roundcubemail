@@ -41,7 +41,7 @@ jobs:
       SERVER_BIND: '0.0.0.0:8000'
       BROWSER_DOWNLOADS_DIR: '/roundcubemail/tests/Browser/downloads'
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
-      RC_CONFIG_IMAP_HOST: 'tls://localhost:3143'
+      RC_CONFIG_IMAP_HOST: 'localhost:3143'
       RC_CONFIG_SMTP_HOST: 'localhost:3025'
 
     steps:

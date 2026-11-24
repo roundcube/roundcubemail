@@ -601,23 +601,22 @@ class rcube_vcard
     public static function cleanup($vcard)
     {
         // convert Apple X-ABRELATEDNAMES into X-* fields for better compatibility
-        $vcard = preg_replace_callback(
-            '/item(\d+)\.(X-ABRELATEDNAMES)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./s',
-            ['rcube_vcard', 'x_abrelatednames_callback'],
-            $vcard);
+        $vcard = self::item_label_replace($vcard, 'X-ABRELATEDNAMES', '', ['rcube_vcard', 'x_abrelatednames_callback']);
+
+        // convert special types (like Skype) to normal type='skype' classes
+        $vcard = self::item_label_replace($vcard, 'TEL|EMAIL|URL', 'i', static function ($matches) {
+            return $matches[2] . ';type=' . $matches[5] . $matches[3] . ':' . $matches[4];
+        });
 
         // Cleanup
         $vcard = preg_replace(
             [
-                // convert special types (like Skype) to normal type='skype' classes with this simple regex ;)
-                '/item(\d+)\.(TEL|EMAIL|URL)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./si',
                 '/^item\d*\.X-AB.*$/mi',  // remove cruft like item1.X-AB*
                 '/^[a-z0-9-]+\./mi',      // strip RFC 6350 group prefix, e.g. item1.ADR or HOME.EMAIL becomes ADR/EMAIL
                 '/\n+/',                  // remove empty lines
                 '/^(N:[^;\r\n]*)$/m',     // if N doesn't have any semicolons, add some
             ],
             [
-                '\2;type=\5\3:\4',
                 '',
                 '',
                 "\n",
@@ -645,6 +644,89 @@ class rcube_vcard
     private static function x_abrelatednames_callback($matches)
     {
         return 'X-' . strtoupper($matches[5]) . $matches[3] . ':' . $matches[4];
+    }
+
+    /**
+     * Apply Apple item labels: replace each itemN.<property> that has an itemN.X-ABLabel
+     * further on, using the callback.
+     *
+     * Gives the same result as preg_replace_callback() with the regular expression
+     * '/item(\d+)\.(<properties>)([^:]*?):(.*?)item\1.X-ABLabel:(?:_\$!<)?([\w() -]*)(?:>!\$_)?./s<flags>'.
+     * With that expression each property without a label further on searches to the end of the text,
+     * so the time grows with the number of such properties times the text size. Here the labels
+     * are found once, and each property only looks up the next label of its item number.
+     *
+     * @param string   $vcard      vCard block
+     * @param string   $properties Property names, separated with |
+     * @param string   $flags      Regular expression flags ('i' or '')
+     * @param callable $callback   Function that gets the matches array and returns the replacement
+     *
+     * @return string vCard block
+     */
+    private static function item_label_replace($vcard, $properties, $flags, $callback)
+    {
+        // find all labels, with their start and end position, by item number
+        $labels = [];
+        if (preg_match_all('/item(\d+).X-ABLabel:/s' . $flags, $vcard, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER)) {
+            foreach ($matches as $m) {
+                $labels[$m[1][0]][] = [$m[0][1], $m[0][1] + strlen($m[0][0])];
+            }
+        }
+
+        $result = '';
+        $offset = 0;
+        $pos = 0;
+        $colon = -1;
+        $next = [];
+
+        while ($labels && preg_match('/item(\d+)\.(' . $properties . ')/s' . $flags, $vcard, $m, \PREG_OFFSET_CAPTURE, $pos)) {
+            $start = $m[0][1];
+            $num = $m[1][0];
+            $name_end = $start + strlen($m[0][0]);
+            $pos = $start + 1;
+
+            if (empty($labels[$num])) {
+                continue;
+            }
+
+            // the property parameters end at the first colon
+            if ($colon < $name_end && ($colon = strpos($vcard, ':', $name_end)) === false) {
+                break;
+            }
+
+            // the first label of the same item number after the colon
+            $idx = $next[$num] ?? 0;
+            while (isset($labels[$num][$idx]) && $labels[$num][$idx][0] <= $colon) {
+                $idx++;
+            }
+            $next[$num] = $idx;
+
+            if (!isset($labels[$num][$idx])) {
+                continue;
+            }
+
+            [$label_start, $label_end] = $labels[$num][$idx];
+
+            // the label value, and one more character (fails only at the end of the text)
+            if (!preg_match('/(?:_\$!<)?([\w() -]*)(?:>!\$_)?./As', $vcard, $value, 0, $label_end)) {
+                continue;
+            }
+
+            $end = $label_end + strlen($value[0]);
+            $args = [
+                substr($vcard, $start, $end - $start),
+                $num,
+                $m[2][0],
+                substr($vcard, $name_end, $colon - $name_end),
+                substr($vcard, $colon + 1, $label_start - $colon - 1),
+                $value[1],
+            ];
+
+            $result .= substr($vcard, $offset, $start - $offset) . $callback($args);
+            $offset = $pos = $end;
+        }
+
+        return $result . substr($vcard, $offset);
     }
 
     /**
@@ -975,20 +1057,12 @@ class rcube_vcard
         // return strtr($str, ["\r" => '', '\\\\' => '\\', '\n' => "\n", '\N' => "\n", '\,' => ',', '\;' => ';']);
 
         $str = str_replace("\r", '', $str);
-        $pos = 0;
 
-        while (($pos = strpos($str, '\\', $pos)) !== false) {
-            $next = substr($str, $pos + 1, 1);
-            if ($next == 'n' || $next == 'N') {
-                $str = substr_replace($str, "\n", $pos, 2);
-            } else {
-                $str = substr_replace($str, '', $pos, 1);
-            }
-
-            $pos++;
-        }
-
-        return $str;
+        // "\n" and "\N" are line breaks, other backslashes are removed and the next
+        // character is kept as is; a backslash at the end of the value is dropped
+        return preg_replace_callback('/\\\(.?)/s', static function ($matches) {
+            return $matches[1] == 'n' || $matches[1] == 'N' ? "\n" : $matches[1];
+        }, $str);
     }
 
     /**

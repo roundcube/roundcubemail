@@ -32,4 +32,108 @@ class LdapTest extends TestCase
         $this->assertInstanceOf(\rcube_ldap::class, $object, 'Class constructor');
         $this->assertSame('ERROR: Could not connect to any LDAP server', trim(StderrMock::$output));
     }
+
+    /**
+     * Test that the group member attribute list sent to the server has no null entries (#10364)
+     */
+    public function test_list_group_members_attributes()
+    {
+        if (!class_exists('Net_LDAP3')) {
+            $this->markTestSkipped('The Net_LDAP3 package not available.');
+        }
+
+        $requested = [];
+        $ldap = $this->createMock(\rcube_ldap_generic::class);
+        $ldap->method('read_entries')->willReturnCallback(
+            static function ($dn, $filter, $attributes = null) use (&$requested) {
+                $requested[] = $attributes;
+
+                if ($dn == 'cn=list,dc=example,dc=org') {
+                    return [
+                        'count' => 1,
+                        0 => [
+                            'dn' => $dn,
+                            'objectclass' => ['count' => 1, 0 => 'groupOfNames'],
+                            'member' => ['count' => 1, 0 => 'uid=user,dc=example,dc=org'],
+                        ],
+                    ];
+                }
+
+                return ['count' => 0];
+            }
+        );
+
+        $object = (new \ReflectionClass(\rcube_ldap::class))->newInstanceWithoutConstructor();
+        $prop = new \ReflectionProperty(\rcube_ldap::class, 'ldap');
+        $prop->setValue($object, $ldap);
+        $prop = new \ReflectionProperty(\rcube_ldap::class, 'prop');
+        $prop->setValue($object, ['list_attributes' => ['dn', 'objectClass', 'mail']]);
+
+        $object->list_group_members('cn=list,dc=example,dc=org');
+
+        // the group itself and its member
+        $this->assertCount(2, $requested);
+        foreach ($requested as $attributes) {
+            $this->assertNotContains(null, $attributes);
+            $this->assertSame(array_values($attributes), $attributes);
+            $this->assertContains('memberURL', $attributes);
+            $this->assertContains('uniqueMember', $attributes);
+        }
+    }
+
+    /**
+     * Test that the label of a labeledURI value is not used as part of the website (#8816)
+     */
+    public function test_labeled_uri()
+    {
+        if (!class_exists('Net_LDAP3')) {
+            $this->markTestSkipped('The Net_LDAP3 package not available.');
+        }
+
+        $dn = 'uid=john,dc=example,dc=org';
+        $replaced = [];
+        $ldap = $this->createMock(\rcube_ldap_generic::class);
+        $ldap->method('get_entry')->willReturn([
+            'objectclass' => ['count' => 1, 0 => 'inetOrgPerson'],
+            'cn' => ['count' => 1, 0 => 'John Doe'],
+            'labeleduri' => ['count' => 2, 0 => 'https://example.org Home page', 1 => 'https://example.com'],
+            'jpegphoto' => ['count' => 1, 0 => 'photo'],
+        ]);
+        $ldap->method('mod_replace')->willReturnCallback(
+            static function ($dn, $entry) use (&$replaced) {
+                $replaced[] = $entry;
+                return true;
+            }
+        );
+
+        $object = (new \ReflectionClass(\rcube_ldap::class))->newInstanceWithoutConstructor();
+        $object->ready = true;
+        $prop = new \ReflectionProperty(\rcube_ldap::class, 'ldap');
+        $prop->setValue($object, $ldap);
+        $prop = new \ReflectionProperty(\rcube_ldap::class, 'prop');
+        $prop->setValue($object, ['attributes' => ['cn', 'labeleduri', 'jpegphoto'], 'LDAP_rdn' => 'cn']);
+        $prop = new \ReflectionProperty(\rcube_ldap::class, 'fieldmap');
+        $prop->setValue($object, ['name' => 'cn', 'website' => 'labeleduri', 'photo' => 'jpegphoto']);
+
+        $id = \rcube_ldap::dn_encode($dn);
+        $record = $object->get_record($id, true);
+
+        $this->assertSame(['https://example.org', 'https://example.com'], $record['website']);
+
+        // saving the contact unchanged keeps the label
+        $save = ['name' => 'John Doe', 'website' => ['https://example.org', 'https://example.com'], 'photo' => 'photo'];
+        $this->assertTrue($object->update($id, $save));
+        $this->assertSame([], $replaced);
+
+        // a changed value is saved, the label of an unchanged one is kept
+        $save['website'][1] = 'https://example.net';
+        $this->assertTrue($object->update($id, $save));
+        $this->assertSame([['labeleduri' => ['https://example.org Home page', 'https://example.net']]], $replaced);
+
+        // also for a single value
+        $replaced = [];
+        $save['website'] = 'https://example.org';
+        $this->assertTrue($object->update($id, $save));
+        $this->assertSame([['labeleduri' => 'https://example.org Home page']], $replaced);
+    }
 }

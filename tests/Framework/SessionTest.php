@@ -44,5 +44,9 @@ class SessionTest extends TestCase
             ['ok' => true, 'name' => 'me', 'int' => 34],
             $session->unserialize('ok|b:1;name|s:2:"me";int|i:34;')
         );
+
+        // Infinit loop fix
+        $this->expectException(\Exception::class);
+        $this->assertSame([], $session->unserialize('k1|s:-100:"x";'));
     }
 }

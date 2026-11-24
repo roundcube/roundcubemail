@@ -2,6 +2,7 @@
 
 namespace Roundcube\Tests\Framework;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function Roundcube\Tests\invokeMethod;
@@ -236,5 +237,185 @@ class ImapTest extends TestCase
         $this->assertSame('multipart/mixed', $part->real_mimetype);
         $this->assertSame(3953, $part->size);
         $this->assertCount(1, $part->parts);
+    }
+
+    /**
+     * Fetching MIME headers of message parts in structure_part()
+     *
+     * @dataProvider provide_structure_part_mime_headers_cases
+     */
+    #[DataProvider('provide_structure_part_mime_headers_cases')]
+    public function test_structure_part_mime_headers($str, $grouped, $single)
+    {
+        $structure = \rcube_imap_generic::tokenizeResponse($str, 1);
+        $fetched = ['grouped' => [], 'single' => []];
+
+        $conn = $this->createStub(\rcube_imap_generic::class);
+        $conn->method('fetchMIMEHeaders')->willReturnCallback(
+            static function ($mailbox, $uid, $parts) use (&$fetched) {
+                $fetched['grouped'][] = $parts;
+                return array_combine($parts, array_map(static fn ($id) => "Content-Location: part-{$id}", $parts));
+            }
+        );
+        $conn->method('fetchPartHeader')->willReturnCallback(
+            static function ($mailbox, $id, $is_uid, $part) use (&$fetched) {
+                $fetched['single'][] = $part;
+                return "Content-Location: part-{$part}";
+            }
+        );
+
+        $imap = new \rcube_imap();
+        $imap->conn = $conn;
+
+        $result = invokeMethod($imap, 'structure_part', [$structure]);
+
+        $this->assertSame(['grouped' => $grouped, 'single' => $single], $fetched);
+
+        // every part got its own headers, and only these parts got headers
+        $locations = [];
+        $collect = static function ($part) use (&$collect, &$locations) {
+            if (isset($part->headers['content-location'])) {
+                $locations[$part->mime_id] = $part->headers['content-location'];
+            }
+            foreach ($part->parts as $subpart) {
+                $collect($subpart);
+            }
+        };
+        $collect($result);
+
+        $ids = array_merge($single, ...$grouped);
+        $expected = array_combine($ids, array_map(static fn ($id) => "part-{$id}", $ids));
+        ksort($expected, \SORT_STRING);
+        ksort($locations, \SORT_STRING);
+
+        $this->assertSame($expected, $locations);
+    }
+
+    /**
+     * Data for test_structure_part_mime_headers(): BODYSTRUCTURE, the part lists
+     * of fetchMIMEHeaders() calls, the parts of fetchPartHeader() calls
+     */
+    public static function provide_structure_part_mime_headers_cases(): iterable
+    {
+        $alternative = '(("text" "plain" ("charset" "utf-8") NIL NIL "7bit" 10 1 NIL NIL NIL NIL)'
+            . '("text" "html" ("charset" "utf-8") NIL NIL "quoted-printable" 50 2 NIL NIL NIL NIL)'
+            . ' "alternative" ("boundary" "alt") NIL NIL NIL)';
+        $envelope = '("Tue, 29 Sep 2026 10:00:00 +0000" "Forwarded" (("Sender" NIL "sender" "example.org"))'
+            . ' (("Sender" NIL "sender" "example.org")) (("Sender" NIL "sender" "example.org"))'
+            . ' (("Recipient" NIL "rcpt" "example.net")) NIL NIL NIL "<fwd@example.org>")';
+
+        return [
+            // Yahoo Mail: images with a Content-ID, the file name only in Content-Disposition
+            'inline images' => [
+                '(' . $alternative
+                    . '("image" "jpeg" NIL "<i1@example.org>" NIL "base64" 100 NIL ("inline" ("filename" "IMG_0001.jpg")) NIL NIL)'
+                    . '("image" "jpeg" NIL "<i2@example.org>" NIL "base64" 100 NIL ("inline" ("filename" "IMG_0002.jpg")) NIL NIL)'
+                    . ' "mixed" ("boundary" "mix") NIL NIL NIL)',
+                [['2', '3']],
+                [],
+            ],
+            // Gmail: a named image and a named attachment with a Content-ID, a named attachment without
+            'named parts' => [
+                '((' . $alternative
+                    . '("image" "png" ("name" "image.png") "<ii_1>" NIL "base64" 100 NIL ("inline" ("filename" "image.png")) NIL NIL)'
+                    . ' "related" ("boundary" "rel") NIL NIL NIL)'
+                    . '("application" "pdf" ("name" "a.pdf") "<f_1>" NIL "base64" 100 NIL ("attachment" ("filename" "a.pdf")) NIL NIL)'
+                    . '("image" "jpeg" ("name" "b.jpg") NIL NIL "base64" 100 NIL ("attachment" ("filename" "b.jpg")) NIL NIL)'
+                    . ' "mixed" ("boundary" "mix") NIL NIL NIL)',
+                [['2', '3'], ['1.2']],
+                [],
+            ],
+            // Parts of a message/rfc822 part, on each level
+            'forwarded message' => [
+                '(("text" "plain" ("charset" "utf-8") NIL NIL "7bit" 10 1 NIL NIL NIL NIL)'
+                    . '("message" "rfc822" NIL NIL NIL "7bit" 1000 ' . $envelope . ' ('
+                        . '(("text" "html" ("charset" "utf-8") NIL NIL "7bit" 50 2 NIL NIL NIL NIL)'
+                        . '("image" "png" NIL "<i1@example.org>" NIL "base64" 100 NIL NIL NIL NIL)'
+                        . ' "related" ("boundary" "rel") NIL NIL NIL)'
+                        . '("image" "jpeg" NIL "<i2@example.org>" NIL "base64" 100 NIL ("inline" NIL) NIL NIL)'
+                        . '("application" "pdf" ("name" "a.pdf") NIL NIL "base64" 100 NIL ("attachment" ("filename" "a.pdf")) NIL NIL)'
+                        . ' "mixed" ("boundary" "fwd") NIL NIL NIL) 30 NIL ("attachment" ("filename" "fwd.eml")) NIL NIL)'
+                    . ' "mixed" ("boundary" "mix") NIL NIL NIL)',
+                [['2'], ['2.2', '2.3'], ['2.1.2']],
+                [],
+            ],
+            // The single part of a message/rfc822 part: only an image, not a named attachment
+            'forwarded single parts' => [
+                '(("text" "plain" ("charset" "utf-8") NIL NIL "7bit" 10 1 NIL NIL NIL NIL)'
+                    . '("message" "rfc822" NIL NIL NIL "7bit" 1000 ' . $envelope
+                        . ' ("image" "png" NIL "<i1@example.org>" NIL "base64" 100 NIL NIL NIL NIL) 30 NIL NIL NIL NIL)'
+                    . '("message" "rfc822" NIL NIL NIL "7bit" 1000 ' . $envelope
+                        . ' ("application" "pdf" ("name" "a.pdf") NIL NIL "base64" 100 NIL ("attachment" ("filename" "a.pdf")) NIL NIL) 30 NIL NIL NIL NIL)'
+                    . ' "mixed" ("boundary" "mix") NIL NIL NIL)',
+                [['2', '3']],
+                ['2.1'],
+            ],
+            // Text parts, a part with a Content-ID but no parameters, and malformed parts (#9689, #9896)
+            'no headers' => [
+                '(' . $alternative
+                    . '("application" "octet-stream" NIL "<x1@example.org>" NIL "base64" 100 NIL NIL NIL NIL)'
+                    . '("application" "octet-stream" (("name") "x.bin") "<x2@example.org>" NIL "base64" 100 NIL NIL NIL NIL)'
+                    . '("image" ("name" "x.png") NIL NIL "base64" 100 NIL NIL NIL NIL)'
+                    . '(NIL NIL NIL NIL NIL "7bit" 100 NIL NIL NIL NIL)'
+                    . ' "mixed" ("boundary" "mix") NIL NIL NIL)',
+                [],
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * Parts without MIME headers (in a multipart/digest), whose empty headers the grouped fetch returns
+     *
+     * @dataProvider provide_structure_part_empty_mime_headers_cases
+     */
+    #[DataProvider('provide_structure_part_empty_mime_headers_cases')]
+    public function test_structure_part_empty_mime_headers($str, $grouped)
+    {
+        $structure = \rcube_imap_generic::tokenizeResponse($str, 1);
+        $fetched = ['grouped' => [], 'single' => []];
+
+        $conn = $this->createStub(\rcube_imap_generic::class);
+        $conn->method('fetchMIMEHeaders')->willReturnCallback(
+            static function ($mailbox, $uid, $parts) use (&$fetched) {
+                $fetched['grouped'][] = $parts;
+                return array_fill_keys($parts, '');
+            }
+        );
+        $conn->method('fetchPartHeader')->willReturnCallback(
+            static function ($mailbox, $id, $is_uid, $part) use (&$fetched) {
+                $fetched['single'][] = $part;
+                return '';
+            }
+        );
+
+        $imap = new \rcube_imap();
+        $imap->conn = $conn;
+
+        invokeMethod($imap, 'structure_part', [$structure]);
+
+        $this->assertSame(['grouped' => $grouped, 'single' => []], $fetched);
+    }
+
+    /**
+     * Data for test_structure_part_empty_mime_headers(): BODYSTRUCTURE, the part lists of fetchMIMEHeaders() calls
+     */
+    public static function provide_structure_part_empty_mime_headers_cases(): iterable
+    {
+        $envelope = '(NIL "one" ((NIL NIL "a" "example.org")) ((NIL NIL "a" "example.org"))'
+            . ' ((NIL NIL "a" "example.org")) NIL NIL NIL NIL NIL)';
+        $message = '("message" "rfc822" NIL NIL NIL "7bit" 47 ' . $envelope
+            . ' ("text" "plain" ("charset" "us-ascii") NIL NIL "7bit" 8 0 NIL NIL NIL NIL) 3 NIL NIL NIL NIL)';
+        $digest = '(' . $message . $message . ' "digest" ("boundary" "d") NIL NIL NIL)';
+
+        return [
+            'digest' => [$digest, [['1', '2']]],
+            'forwarded digest' => [
+                '(("text" "plain" ("charset" "us-ascii") NIL NIL "7bit" 8 0 NIL NIL NIL NIL)'
+                    . '("message" "rfc822" NIL NIL NIL "7bit" 200 ' . $envelope . ' ' . $digest . ' 10 NIL NIL NIL NIL)'
+                    . ' "mixed" ("boundary" "m") NIL NIL NIL)',
+                [['2'], ['2.1', '2.2']],
+            ],
+        ];
     }
 }

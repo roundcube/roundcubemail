@@ -46,7 +46,8 @@ class rcmail_action_settings_prefs_save extends rcmail_action
                     'time_format' => self::prefs_input('time_format', '/^[a-zA-Z0-9: ]+$/'),
                     'prettydate' => isset($_POST['_pretty_date']),
                     'display_next' => isset($_POST['_display_next']),
-                    'refresh_interval' => self::prefs_input_int('refresh_interval') * 60,
+                    // the value is in minutes, but can be a fraction of a minute (#10292)
+                    'refresh_interval' => (int) round(self::prefs_input_float('refresh_interval') * 60),
                     'standard_windows' => isset($_POST['_standard_windows']),
                     'skin' => self::prefs_input('skin', '/^[a-zA-Z0-9_.-]+$/'),
                 ];
@@ -272,6 +273,16 @@ class rcmail_action_settings_prefs_save extends rcmail_action
         }
 
         return $value;
+    }
+
+    /**
+     * Get numeric (float) option value from POST
+     */
+    public static function prefs_input_float($name)
+    {
+        $value = rcube_utils::get_input_value('_' . $name, rcube_utils::INPUT_POST);
+
+        return is_string($value) && is_numeric($value) ? max(0, (float) $value) : 0;
     }
 
     /**

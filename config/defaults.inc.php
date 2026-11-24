@@ -130,8 +130,7 @@ $config['redis_debug'] = false;
 // ----------------------------------
 
 // The IMAP host (and optionally port number) chosen to perform the log-in.
-// Leave blank to show a textbox at login, give a list of hosts
-// to display a pulldown menu or set one host as string.
+// You can use a list to display a host selector on the logon screen.
 // Enter hostname with prefix ssl:// to use Implicit TLS, or tls:// for STARTTLS.
 // If port number is omitted it will be set to 993 (for ssl://) or 143 otherwise.
 // Supported replacement variables:
@@ -783,7 +782,9 @@ $config['generic_message_footer'] = '';
 // paths are relative to the Roundcube root folder
 $config['generic_message_footer_html'] = '';
 
-// add a received header to outgoing mails containing the creators IP and hostname
+// Add a Received: header to outgoing mails containing the creators IP and hostname.
+// For security, only trusted hosts are used. It is recommended to use 'proxy_whitelist'
+// and 'trusted_host_patterns' to control this.
 $config['http_received_header'] = false;
 
 // Whether or not to encrypt the IP address and the host name

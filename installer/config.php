@@ -337,7 +337,7 @@ foreach ($default_hosts as $host) {
 <div><a href="javascript:addhostfield()" class="addlink" title="Add another field">add</a></div>
 
 <div>The IMAP host(s) chosen to perform the log-in</div>
-<p class="hint">Leave blank to show a textbox at login. To use SSL/STARTTLS connection add ssl:// or tls:// prefix. It can also contain the port number, e.g. tls://imap.domain.tld:143.
+<p class="hint">To use SSL/STARTTLS connection add ssl:// or tls:// prefix. It can also contain the port number, e.g. tls://imap.domain.tld:143.
 </dd>
 
 <dt class="propname">username_domain</dt>

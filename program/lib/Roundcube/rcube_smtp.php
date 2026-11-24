@@ -141,7 +141,7 @@ class rcube_smtp
         // try to connect to server and exit on failure
         $result = $this->conn->connect($CONFIG['smtp_timeout']);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $this->_conn_error('smtpconnerror', 'Connection failed', [], $result);
             $this->conn = null;
             return false;
@@ -158,7 +158,7 @@ class rcube_smtp
         // XCLIENT extension
         $result = $this->_process_xclient($use_tls, $helo_host);
 
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $this->_conn_error('smtpconnerror', 'XCLIENT failed', [], $result);
             $this->disconnect();
             return false;
@@ -167,7 +167,11 @@ class rcube_smtp
         if ($use_tls) {
             $result = $this->conn->starttls();
 
-            if (is_a($result, 'PEAR_Error')) {
+            if ($result !== true) {
+                if (!$result instanceof \PEAR_Error) {
+                    $result = new \Exception('STARTTLS is not available', 454);
+                }
+
                 $this->_conn_error('smtpconnerror', 'STARTTLS failed', [], $result);
                 $this->disconnect();
                 return false;
@@ -199,7 +203,7 @@ class rcube_smtp
 
             $result = $this->conn->auth($smtp_user, $smtp_pass, $smtp_auth_type, false, $smtp_authz);
 
-            if (is_a($result, 'PEAR_Error')) {
+            if ($result instanceof \PEAR_Error) {
                 $this->_conn_error('smtpautherror', 'Authentication failure', [], $result);
                 $this->disconnect();
                 return false;
@@ -289,7 +293,7 @@ class rcube_smtp
 
         // set From: address
         $result = $this->conn->mailFrom($from, $from_params);
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $this->_conn_error('smtpfromerror', "Failed to set sender '{$from}'", ['from' => $from]);
             $this->reset();
             return false;
@@ -298,7 +302,7 @@ class rcube_smtp
         // set mail recipients
         foreach ($recipients as $recipient) {
             $result = $this->conn->rcptTo($recipient, $recipient_params);
-            if (is_a($result, 'PEAR_Error')) {
+            if ($result instanceof \PEAR_Error) {
                 $this->_conn_error('smtptoerror', "Failed to add recipient '{$recipient}'", ['to' => $recipient]);
                 $this->reset();
                 return false;
@@ -319,7 +323,7 @@ class rcube_smtp
 
         // Send the message's headers and the body as SMTP data.
         $result = $this->conn->data($body, $text_headers);
-        if (is_a($result, 'PEAR_Error')) {
+        if ($result instanceof \PEAR_Error) {
             $err = $this->conn->getResponse();
             $err_label = 'smtperror';
             $err_vars = [];

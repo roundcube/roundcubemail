@@ -91,6 +91,9 @@ class rcube_message
      */
     public function __construct($uid, $folder = null, $is_safe = false)
     {
+        // Sanitize the input for security
+        $uid = preg_replace('/[\r\n]+/', ' ', (string) $uid);
+
         // decode combined UID-folder identifier
         if (preg_match('/^[0-9.]+-.+/', $uid)) {
             [$uid, $folder] = explode('-', $uid, 2);

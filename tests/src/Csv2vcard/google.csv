@@ -1,0 +1,4 @@
+First Name,Middle Name,Last Name,Phonetic First Name,Phonetic Middle Name,Phonetic Last Name,Name Prefix,Name Suffix,Nickname,File As,Organization Name,Organization Title,Organization Department,Birthday,Notes,Photo,Labels,E-mail 1 - Label,E-mail 1 - Value,E-mail 2 - Label,E-mail 2 - Value,Phone 1 - Label,Phone 1 - Value,Phone 2 - Label,Phone 2 - Value,Address 1 - Label,Address 1 - Formatted,Address 1 - Street,Address 1 - City,Address 1 - PO Box,Address 1 - Region,Address 1 - Postal Code,Address 1 - Country,Address 1 - Extended Address,Website 1 - Label,Website 1 - Value
+Anna,,Schmidt,,,,,,,,ACME GmbH,Engineer,,1990-04-12,,,* myContacts,* Home,anna.schmidt@gmail.com,Work,anna@acme.example,Mobile,+49 151 1234567,,,Home,"Hauptstr. 5
+10115 Berlin
+DE",Hauptstr. 5,Berlin,,,10115,DE,,,

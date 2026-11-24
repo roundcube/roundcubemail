@@ -336,28 +336,24 @@ class rcmail_attachment_handler
      */
     public static function check_storage_status()
     {
-        $error = rcmail::get_instance()->storage->get_error_code();
+        $rcmail = rcmail::get_instance();
+        $error = $rcmail->storage->get_error_code();
 
         // Check if we have a connection error
         if ($error == rcube_imap_generic::ERROR_BAD) {
             ob_end_clean();
 
-            // Get action is often executed simultaneously.
-            // Some servers have MAXPERIP or other limits.
-            // To workaround this we'll wait for some time
-            // and try again (once).
-            // Note: Random sleep interval is used to minimize concurrency
-            // in getting message parts
+            // Get action is often executed simultaneously. Some servers have MAXPERIP or other limits.
+            // To workaround this we'll wait for some time and try again (once).
 
-            if (!isset($_GET['_redirected'])) {
-                usleep(rand(10, 30) * 100000); // 1-3 sec.
-                header('Location: ' . $_SERVER['REQUEST_URI'] . '&_redirected=1');
-            } else {
-                rcube::raise_error('Unable to get/display message part. IMAP connection error', true, true);
+            if (!empty($_GET['_redirected'])) {
+                $rcmail->raise_error('Unable to get/display message part. IMAP connection error', true, true);
             }
 
-            // Don't kill session, just quit (#1486995)
-            exit;
+            // Note: Random sleep interval is used to minimize concurrency in getting message parts
+            usleep(rand(10, 30) * 100000); // 1-3 sec.
+            parse_str($_SERVER['QUERY_STRING'], $req);
+            $rcmail->output->redirect($req + ['_redirected' => '1']);
         }
     }
 

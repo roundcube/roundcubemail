@@ -84,6 +84,29 @@ class VCardTest extends TestCase
     }
 
     /**
+     * A single backslash at the end of a value has nothing to escape
+     */
+    public function test_parse_trailing_backslash()
+    {
+        $input = "BEGIN:VCARD\nVERSION:3.0\nN:last;first\\\nFN:test\\\nNOTE:a\\\\\\\nURL:http://domain.tld\\\nEND:VCARD\n";
+
+        $vcards = \rcube_vcard::import($input);
+
+        $this->assertCount(1, $vcards, 'Detected 1 vcard');
+
+        $vcard = $vcards[0]->get_assoc();
+
+        $this->assertSame('test', $vcard['name'], 'Drop trailing backslash');
+        $this->assertSame('first', $vcard['firstname'], 'Drop trailing backslash');
+        $this->assertSame('a\\', $vcard['notes'][0], 'Decode backslash character, drop trailing backslash');
+        $this->assertSame('http://domain.tld', $vcard['website:other'][0], 'Drop trailing backslash');
+
+        $vcard = new \rcube_vcard($input);
+
+        $this->assertSame($vcards[0]->get_assoc(), $vcard->get_assoc());
+    }
+
+    /**
      * Some Apple vCard quirks (#1489993)
      */
     public function test_parse_six()
@@ -308,5 +331,93 @@ class VCardTest extends TestCase
         // The folded line is unfolded (RFC 2426 strips the single leading space).
         $this->assertSame('This note folds onto a line readingEND:VCARD', $assoc['notes'][0], 'Folded NOTE value preserved');
         $this->assertSame('first@example.com', $assoc['email:other'][0], 'EMAIL after folded line preserved');
+    }
+
+    /**
+     * Apple item labels (itemN.X-ABLabel) become the type of the itemN property
+     * before them, X-ABRELATEDNAMES becomes an X-<label> property (#10423)
+     */
+    public function test_cleanup_item_labels()
+    {
+        $input = "BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:Doe;Jane;;;\n"
+            . "FN:Jane Doe\n"
+            . "item1.TEL;type=pref:+49 1** 0000001\n"
+            . "item2.EMAIL;type=INTERNET:jane@example.com\n"
+            . "item1.X-ABLabel:_\$!<Mobile>!\$_\n"
+            . "item3.Url:http\\://example.com\n"
+            . "item4.TEL:+49 1** 0000004\n"
+            . "ITEM3.x-ablabel:blog\n"
+            . "item5.X-ABLabel:early\n"
+            . "item5.TEL:+49 1** 0000005\n"
+            . "item10.TEL:+49 1** 0000010\n"
+            . "item6.TEL:+49 1** 0000006\n"
+            . "item6.X-ABLabel:first\n"
+            . "item6.TEL:+49 1** 0000007\n"
+            . "item6.X-ABLabel:second\n"
+            . "item7.EMAIL:a@example.com\n"
+            . "item7.EMAIL:b@example.com\n"
+            . "item7.X-ABLabel:work\n"
+            . "item8.X-ABRELATEDNAMES;type=pref:Bob Doe\n"
+            . "item8.X-ABLabel:_\$!<Spouse>!\$_\n"
+            . "item9.X-ABRELATEDNAMES:Ann Doe\n"
+            . "END:VCARD\n";
+
+        $expected = "BEGIN:VCARD\n"
+            . "VERSION:3.0\n"
+            . "N:Doe;Jane;;;\n"
+            . "FN:Jane Doe\n"
+            . "TEL;type=Mobile;type=pref:+49 1** 0000001\n"
+            . "EMAIL;type=INTERNET:jane@example.com\n"
+            . "Url;type=blog:http\\://example.com\n"
+            . "TEL:+49 1** 0000004\n"
+            . "TEL:+49 1** 0000005\n"
+            . "TEL:+49 1** 0000010\n"
+            . "TEL;type=first:+49 1** 0000006\n"
+            . "TEL;type=second:+49 1** 0000007\n"
+            . "EMAIL;type=work:a@example.com\n"
+            . "EMAIL:b@example.com\n"
+            . "X-SPOUSE;type=pref:Bob Doe\n"
+            . "END:VCARD\n";
+
+        $this->assertSame($expected, \rcube_vcard::cleanup($input));
+        $this->assertSame(str_replace("\n", "\r\n", $expected), \rcube_vcard::cleanup(str_replace("\n", "\r\n", $input)));
+
+        $result = (new \rcube_vcard($input))->get_assoc();
+
+        $this->assertSame(['+49 1** 0000001'], $result['phone:mobile']);
+        $this->assertSame(['+49 1** 0000004', '+49 1** 0000005', '+49 1** 0000010'], $result['phone:other']);
+        $this->assertSame(['+49 1** 0000006'], $result['phone:first']);
+        $this->assertSame(['+49 1** 0000007'], $result['phone:second']);
+        $this->assertSame(['http://example.com'], $result['website:blog']);
+        $this->assertSame(['a@example.com'], $result['email:work']);
+        $this->assertSame(['b@example.com'], $result['email:other']);
+        $this->assertSame(['Bob Doe'], $result['spouse:pref']);
+    }
+
+    /**
+     * Many itemN properties without a label are kept as they are (#10423)
+     */
+    public function test_parse_unlabeled_items()
+    {
+        $phones = [];
+        $input = "BEGIN:VCARD\nVERSION:3.0\nN:Doe;Jane;;;\nFN:Jane Doe\n";
+
+        for ($i = 1; $i <= 50; $i++) {
+            $phones[] = sprintf('+49 1** %07d', $i);
+            $input .= 'item1.TEL:' . end($phones) . "\n";
+        }
+
+        $input .= "item1.X-ABRELATEDNAMES:Ann Doe\n"
+            . "item2.EMAIL:jane@example.com\n"
+            . "item2.X-ABLabel:_\$!<Work>!\$_\n"
+            . "END:VCARD\n";
+
+        $result = (new \rcube_vcard($input))->get_assoc();
+
+        $this->assertSame($phones, $result['phone:other']);
+        $this->assertSame(['jane@example.com'], $result['email:work']);
+        $this->assertSame(['name', 'firstname', 'surname', 'phone:other', 'email:work'], array_keys($result));
     }
 }

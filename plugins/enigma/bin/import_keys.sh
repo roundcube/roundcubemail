@@ -1,4 +1,5 @@
 #!/usr/bin/env php
+# shellcheck disable=all
 <?php
 
 /*

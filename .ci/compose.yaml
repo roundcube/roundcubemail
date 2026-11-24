@@ -31,7 +31,7 @@ services:
       SERVER_BIND: '0.0.0.0:8000'
       BROWSER_DOWNLOADS_DIR: '/downloads'
       TESTRUNNER_DOWNLOADS_DIR: './tests/Browser/downloads'
-      RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
+      RC_CONFIG_IMAP_HOST: 'mailhost:3143'
       RC_CONFIG_SMTP_HOST: 'mailhost:3025'
       COMPOSER_ARGS: ${COMPOSER_ARGS:-}
     working_dir: /work
@@ -54,7 +54,7 @@ services:
     image: ${ROUNDCUBEMAIL_IMAGE_TESTRUNNER:-ghcr.io/roundcube/roundcubemail-testrunner:php8.3}
     environment:
       COMPOSER_ARGS: ${COMPOSER_ARGS:-}
-      RC_CONFIG_IMAP_HOST: 'tls://mailhost:3143'
+      RC_CONFIG_IMAP_HOST: 'mailhost:3143'
     volumes:
       - '..:/app'
     command:
