@@ -142,10 +142,11 @@ class rcmail_action_utils_modcss extends rcmail_action
             }
 
             // Find IPv6 address
-            $dns = dns_get_record($host, \DNS_AAAA);
-            foreach ($dns as $record) {
-                if ($record['type'] == 'AAAA') {
-                    return $record['ipv6'];
+            if ($dns = dns_get_record($host, \DNS_AAAA)) {
+                foreach ($dns as $record) {
+                    if ($record['type'] == 'AAAA') {
+                        return $record['ipv6'];
+                    }
                 }
             }
         }
