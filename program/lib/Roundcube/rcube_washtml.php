@@ -379,14 +379,18 @@ class rcube_washtml
     /**
      * Wash URI value
      *
-     * @param string $uri            URI
-     * @param bool   $blocked_source Block remote source
-     * @param bool   $is_image       URI points to an image
+     * @param ?string $uri            URI
+     * @param bool    $blocked_source Block remote source
+     * @param bool    $is_image       URI points to an image
      *
      * @return string Washed URI
      */
     private function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
+        if ($uri === null) {
+            return '';
+        }
+
         if (!empty($this->config['cid_map'][$uri])) {
             return $this->config['cid_map'][$uri];
         }
@@ -397,7 +401,7 @@ class rcube_washtml
         }
 
         // allow url(#id) used in SVG
-        if (isset($uri[0]) && $uri[0] == '#') {
+        if (str_starts_with($uri, '#')) {
             if ($this->_css_prefix !== null) {
                 $uri = '#' . $this->_css_prefix . substr($uri, 1);
             }
