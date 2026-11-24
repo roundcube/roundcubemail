@@ -84,7 +84,7 @@ class ModcssTest extends ActionTestCase
         $this->assertSame('Local network host', $output->getProperty('errorMessage'));
 
         // Local network host (localhost)
-        $_SESSION['modcssurls'][$key] = 'http://localhost.localdomain/test.css';
+        $_SESSION['modcssurls'][$key] = 'http://localhost/test.css';
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
