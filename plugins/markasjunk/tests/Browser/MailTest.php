@@ -109,7 +109,7 @@ class MailTest extends TestCase
 
             // Toolbar menu (Junk button active), click it
             $browser->clickToolbarMenuItem('junk')
-                ->waitFor('#messagelist')
+                ->waitFor('#messagelist-content')
                 ->waitUntilNotBusy()
                 ->assertElementsCount('#messagelist tbody tr', 0); // empty list
 

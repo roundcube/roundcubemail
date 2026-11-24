@@ -158,7 +158,8 @@ class GroupsTest extends TestCase
                 $browser->click('a.back-sidebar-button');
             }
 
-            $browser->click('#directorylist ul.groups > li:first-child');
+            $browser->waitFor('#directorylist ul.groups > li:first-child')
+                ->click('#directorylist ul.groups > li:first-child');
 
             if (!$browser->isDesktop()) {
                 $browser->click('a.back-sidebar-button');
