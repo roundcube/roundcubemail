@@ -261,6 +261,10 @@ class rcmail_output_json extends rcmail_output
      */
     protected function get_js_commands()
     {
-        return $this->commands;
+        // AJAX responses are always handled by the requesting window
+        return array_map(static function ($args) {
+            $args[0] = preg_replace('/^parent\./', '', $args[0]);
+            return $args;
+        }, $this->commands);
     }
 }

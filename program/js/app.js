@@ -803,19 +803,12 @@ function rcube_webmail() {
                 this.log('Invalid js_call: ' + args[0]);
                 return;
             }
-            var command = args.shift(),
-                obj = this;
-            if (command.startsWith('parent.')) {
-                command = command.slice('parent.'.length);
-                if (this.is_framed()) {
-                    obj = parent.rcmail;
-                }
-            }
-            if (command === 'interpret_js_calls' || command in Object.prototype || typeof obj[command] !== 'function') {
+            var command = args.shift();
+            if (command === 'interpret_js_calls' || command in Object.prototype || typeof this[command] !== 'function') {
                 this.log("'" + command + "' is not a callable function!");
                 return;
             }
-            obj[command](...args);
+            this[command](...args);
         });
     };
 
