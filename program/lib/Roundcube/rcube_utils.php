@@ -419,64 +419,41 @@ class rcube_utils
     }
 
     /**
-     * Check if an URL point to a local network location.
-     *
-     * @param string $url
-     *
-     * @return bool
+     * Check if IPv4 or IPv6 address is a local network address.
      */
-    public static function is_local_url($url)
+    public static function is_local_ip(string $ip): bool
     {
-        $host = parse_url($url, \PHP_URL_HOST);
+        $options = ParseStringFlag::IPV4_MAYBE_NON_DECIMAL
+            | ParseStringFlag::IPV4SUBNET_MAYBE_COMPACT
+            | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
+            | ParseStringFlag::MAY_INCLUDE_ZONEID;
 
-        if (is_string($host)) {
-            $options = ParseStringFlag::IPV4_MAYBE_NON_DECIMAL
-                | ParseStringFlag::IPV4SUBNET_MAYBE_COMPACT
-                | ParseStringFlag::IPV4ADDRESS_MAYBE_NON_QUAD_DOTTED
-                | ParseStringFlag::MAY_INCLUDE_ZONEID;
+        $ip = trim($ip, '[].');
 
-            $host = trim($host, '[].');
+        if ($address = Factory::parseAddressString($ip, $options)) {
+            $nets = [
+                '0.0.0.0',
+                '127.0.0.0/8',    // loopback
+                '10.0.0.0/8',     // RFC1918
+                '172.16.0.0/12',  // RFC1918
+                '192.168.0.0/16', // RFC1918
+                '169.254.0.0/16', // link-local / cloud metadata
+                '100.64.0.0/10',  // RFC6598: Shared Address Space (carrier-grade NAT)
+                '::1/128',
+                '::/128',
+                'fc00::/7',
+                'fe80::/10',      // IPv6 link-local
+                '::ffff:0:0/96',  // RFC5156
+                '64:ff9b::/96',   // RFC 6052 NAT64 (maps IPv4 incl. private ranges into IPv6)
+                '64:ff9b:1::/48',  // (RFC 8215 local-use NAT64)
+            ];
 
-            if ($xip = self::xip_ip($host)) {
-                $host = $xip;
+            // Extract embedded IPv4 address
+            if ($address instanceof \IPLib\Address\IPv6 && ($embedded = $address->toIPv4())) {
+                $address = $embedded;
             }
 
-            // TODO: This is pretty fast, but a single message can contain multiple links
-            // to the same target, maybe we should do some in-memory caching.
-            if ($address = Factory::parseAddressString($host, $options)) {
-                $nets = [
-                    '0.0.0.0',
-                    '127.0.0.0/8',    // loopback
-                    '10.0.0.0/8',     // RFC1918
-                    '172.16.0.0/12',  // RFC1918
-                    '192.168.0.0/16', // RFC1918
-                    '169.254.0.0/16', // link-local / cloud metadata
-                    '100.64.0.0/10',  // RFC6598: Shared Address Space (carrier-grade NAT)
-                    '::1/128',
-                    '::/128',
-                    'fc00::/7',
-                    'fe80::/10',      // IPv6 link-local
-                    '::ffff:0:0/96',  // RFC5156
-                    '64:ff9b::/96',   // RFC 6052 NAT64 (maps IPv4 incl. private ranges into IPv6)
-                    '64:ff9b:1::/48',  // (RFC 8215 local-use NAT64)
-                ];
-
-                // Extract embedded IPv4 address
-                if ($address instanceof \IPLib\Address\IPv6 && ($embedded = $address->toIPv4())) {
-                    $address = $embedded;
-                }
-
-                return self::is_ip_in_range($address, $nets);
-            }
-
-            // Note: We're aware that any hostname can be pointed to a local IP via DNS.
-            // For various reasons we decided to not resolve hostnames here. We may consider
-            // an optional feature to do that in the future. Reports about this vulnerability
-            // will be ignored.
-
-            // FIXME: Should we accept any non-fqdn hostnames?
-            $host = strtolower($host);
-            return $host == 'metadata.google.internal' || preg_match('/^localhost(\.localdomain)?\.?$/', $host);
+            return self::is_ip_in_range($address, $nets);
         }
 
         return false;
@@ -512,64 +489,6 @@ class rcube_utils
         }
 
         return false;
-    }
-
-    /**
-     * Extract IP address from a nip.io/sslip.io-style fqdn
-     *
-     * @return ?string IP address if found
-     */
-    private static function xip_ip(string $host)
-    {
-        if (!preg_match('/\.(backname\.io|fdns\.uk|ipq\.co|nip\.io|sslip\.io|traefik\.me)$/i', $host)) {
-            return null;
-        }
-
-        // IPv4 dash-separated
-        $ipv4REDashes = '/(^|[.-])(((25[0-5]|(2[0-4]|1\d|[1-9])?\d)\-){3}(25[0-5]|(2[0-4]|1\d|[1-9])?\d))($|[.-])/';
-        if (preg_match($ipv4REDashes, $host, $m)) {
-            return str_replace('-', '.', $m[2]);
-        }
-
-        // IPv4 dot-separated
-        $ipv4REDots = '/(^|[.-])(((25[0-5]|(2[0-4]|1\d|[1-9])?\d)\.){3}(25[0-5]|(2[0-4]|1\d|[1-9])?\d))($|[.-])/';
-        if (preg_match($ipv4REDots, $host, $m)) {
-            return str_replace('-', '.', $m[2]);
-        }
-
-        // IPv4 hex
-        $ipv4REHex = '/(^|[.-])([[:xdigit:]]{8})($|[.-])/';
-        if (preg_match($ipv4REHex, $host, $m)) {
-            return long2ip(base_convert($m[2], 16, 10));
-        }
-
-        // IPv6 dash-separated
-        $ipv6RE = '/(^|[.-])(([[:xdigit:]]{1,4}-){7}[[:xdigit:]]{1,4}|([[:xdigit:]]{1,4}-){1,7}-'
-            . '|([[:xdigit:]]{1,4}-){1,6}-[[:xdigit:]]{1,4}|([[:xdigit:]]{1,4}-){1,5}(-[[:xdigit:]]{1,4}){1,2}'
-            . '|([[:xdigit:]]{1,4}-){1,4}(-[[:xdigit:]]{1,4}){1,3}|([[:xdigit:]]{1,4}-){1,3}(-[[:xdigit:]]{1,4}){1,4}'
-            . '|([[:xdigit:]]{1,4}-){1,2}(-[[:xdigit:]]{1,4}){1,5}|[[:xdigit:]]{1,4}-((-[[:xdigit:]]{1,4}){1,6})'
-            . '|-((-[[:xdigit:]]{1,4}){1,7}|-)|fe80-(-[[:xdigit:]]{0,4}){0,4}%[\da-zA-Z]+'
-            . '|--(ffff(-0{1,4})?-)?((25[0-5]|(2[0-4]|1?\d)?\d)\.){3}(25[0-5]|(2[0-4]|1?\d)?\d)'
-            . '|([[:xdigit:]]{1,4}-){1,4}-((25[0-5]|(2[0-4]|1?\d)?\d)\.){3}(25[0-5]|(2[0-4]|1?\d)?\d))($|[.-])/';
-        if (preg_match($ipv6RE, $host, $m)) {
-            return str_replace('-', ':', $m[2]);
-        }
-
-        // IPv6 dot-separated (backname.io)
-        $ipv6REDots = '/(^|\.)(([[:xdigit:]]{1,4}\.){7}[[:xdigit:]]{1,4})($|\.)/';
-        if (preg_match($ipv6REDots, $host, $m)) {
-            return str_replace('.', ':', $m[2]);
-        }
-
-        // IPv6 hex
-        $ipv6REHex = '/(^|\.)([[:xdigit:]]{32})($|\.)/';
-        if (preg_match($ipv6REHex, $host, $m)) {
-            $words = str_split($m[2], 2);
-            $words = array_map('hex2bin', $words);
-            return (string) \IPLib\Address\IPv6::fromWords($words);
-        }
-
-        return null;
     }
 
     /**
