@@ -1,0 +1,4 @@
+<?php
+
+// Type of IMAP indexes cache. Supported values: 'db', 'apc' and 'memcache' or 'memcached'.
+$config['bimi_cache'] = 'db';
