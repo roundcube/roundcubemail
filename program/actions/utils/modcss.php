@@ -40,14 +40,22 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         $realurl = $_SESSION['modcssurls'][$url];
+        $parsed = parse_url($realurl);
 
-        // don't allow any other connections than http(s)
-        if (!preg_match('~^https?://~i', $realurl, $matches)) {
+        if (empty($parsed) || empty($parsed['host'])) {
+            $rcmail->output->sendExitError(403, 'Invalid URL');
+        }
+
+        $scheme = strtolower($parsed['scheme'] ?? 'http');
+        $host = $parsed['host'];
+        $port = $parsed['port'] ?? ($scheme == 'https' ? 443 : 80);
+
+        // validate URL and don't allow any other connections than http(s)
+        if ($scheme != 'http' && $scheme != 'https') {
             $rcmail->output->sendExitError(403, 'Invalid URL');
         }
 
         // allow only hosts that resolve to an IP address
-        $host = parse_url($realurl, \PHP_URL_HOST);
         if (!($ip = self::host2ip($host))) {
             $rcmail->output->sendExitError(403, 'Invalid URL host');
         }
@@ -70,7 +78,7 @@ class rcmail_action_utils_modcss extends rcmail_action
                 'stream' => true,
                 'curl' => [
                     // Use the host's IP address
-                    \CURLOPT_RESOLVE => [$host . ':' . (str_contains($ip, ':') ? "[{$ip}]" : $ip)],
+                    \CURLOPT_RESOLVE => ["{$host}:{$port}:" . (str_contains($ip, ':') ? "[{$ip}]" : $ip)],
                 ],
             ];
 
