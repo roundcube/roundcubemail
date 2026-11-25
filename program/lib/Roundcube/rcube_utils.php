@@ -1194,11 +1194,7 @@ class rcube_utils
             $key = 'HTTP_' . strtoupper(strtr($name, '-', '_'));
         }
 
-        if (!empty($headers)) {
-            $headers = array_change_key_case($headers, \CASE_UPPER);
-        }
-
-        return $headers[$key] ?? null;
+        return array_find($headers, static fn ($v, $k) => strtoupper($k) === $key);
     }
 
     /**
