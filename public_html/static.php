@@ -62,14 +62,33 @@ $path = !empty($_SERVER['PATH_INFO'])
     ? $_SERVER['PATH_INFO']
     : explode('static.php/', $_SERVER['REQUEST_URI'] ?? '')[1] ?? '';
 
-$path = validateStaticFile($path);
+$validated_path = validateStaticFile($path);
 
-if (!$path) {
+$real_path = realpath(INSTALL_PATH . $validated_path);
+
+if (!$validated_path || !$real_path) {
     http_response_code(404);
     exit;
 }
 
-serveStaticFile($path);
+
+// Detect if web-server is Nginx with X-ACCEL config and let it do content delivery part
+if (
+    !empty($_SERVER['SERVER_SOFTWARE']) &&
+    stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false &&
+    !empty($_SERVER['X-ACCEL_PREFIX'])
+) {
+    $accel_prefix = rtrim($_SERVER['X-ACCEL_PREFIX'], '/');
+
+    // let nginx take care about mime type
+    header("Content-Type: ");
+    header('X-Accel-Redirect: ' . $accel_prefix . '/' . $validated_path);
+    exit;
+}
+
+
+// server file's content via script
+serveStaticFile($real_path);
 
 /**
  * Validate that the file exists and can be served
@@ -121,11 +140,6 @@ function validateStaticFile(string $path): ?string
         return null;
     }
 
-    $path = realpath(INSTALL_PATH . $path);
-
-    if ($path === false) {
-        return null;
-    }
 
     return $path;
 }
