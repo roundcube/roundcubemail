@@ -418,4 +418,55 @@ class ImapTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Single-part message whose BODYSTRUCTURE lacks the Content-Transfer-Encoding
+     * of the message headers (e.g. Courier-IMAP 6 without a MIME-Version header)
+     *
+     * @dataProvider provide_get_message_header_encoding_cases
+     */
+    #[DataProvider('provide_get_message_header_encoding_cases')]
+    public function test_get_message_header_encoding($structure, $header_encoding, $expected)
+    {
+        $headers = new \rcube_message_header();
+        $headers->uid = 1;
+        $headers->ctype = 'text/plain';
+        $headers->charset = 'utf-8';
+        $headers->encoding = $header_encoding;
+
+        $conn = $this->createStub(\rcube_imap_generic::class);
+        $conn->method('connected')->willReturn(true);
+        $conn->method('fetchHeader')->willReturn($headers);
+        $conn->method('getStructure')->willReturn(\rcube_imap_generic::tokenizeResponse($structure, 1));
+
+        $imap = new \rcube_imap();
+        $imap->conn = $conn;
+
+        $message = $imap->get_message(1, 'INBOX');
+
+        $this->assertSame($expected, $message->structure->encoding);
+        $this->assertSame($expected, $message->structure->headers['content-transfer-encoding']);
+        $this->assertSame('utf-8', $message->structure->charset);
+    }
+
+    /**
+     * Data for test_get_message_header_encoding(): BODYSTRUCTURE, the Content-Transfer-Encoding
+     * header of the message, the expected encoding of the part
+     */
+    public static function provide_get_message_header_encoding_cases(): iterable
+    {
+        $plain = '("text" "plain" NIL NIL NIL "%s" 22 1 NIL NIL NIL)';
+
+        return [
+            'base64 header, 7bit structure' => [sprintf($plain, '7bit'), 'base64', 'base64'],
+            'header in other case and spaces' => [sprintf($plain, '7bit'), ' Quoted-Printable ', 'quoted-printable'],
+            'base64 header, 8bit structure' => [sprintf($plain, '8bit'), 'base64', 'base64'],
+            // header absent or not an encoding that needs decoding: keep the structure
+            'no header' => [sprintf($plain, '7bit'), null, '7bit'],
+            '8bit header' => [sprintf($plain, '7bit'), '8bit', '7bit'],
+            'unknown header' => [sprintf($plain, '7bit'), 'x-uuencode', '7bit'],
+            // the server already reports an encoding that needs decoding: keep it
+            'structure already base64' => [sprintf($plain, 'base64'), 'quoted-printable', 'base64'],
+        ];
+    }
 }
