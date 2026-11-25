@@ -28,7 +28,8 @@ class rcmail_string_replacer extends rcube_string_replacer
      *
      * This also adds an onclick-handler to open the Roundcube compose message screen on such links
      *
-     * @param array $matches Matches result from preg_replace_callback
+     * @param array $matches Matches result from preg_replace_callback: $matches[1] is the e-mail
+     *                       address with an optional query, $matches['mailto'] is set for mailto: URIs
      *
      * @return string Replacement string
      *
@@ -47,7 +48,7 @@ class rcmail_string_replacer extends rcube_string_replacer
 
         // skip invalid emails
         if (!rcube_utils::check_email($email, false)) {
-            return $matches[1];
+            return $matches[0];
         }
 
         $attribs = [
@@ -58,7 +59,8 @@ class rcmail_string_replacer extends rcube_string_replacer
             ),
         ];
 
-        $i = $this->add(html::a($attribs, rcube::Q($href)) . $suffix);
+        $text = ($matches['mailto'] ?? '') . $href;
+        $i = $this->add(html::a($attribs, rcube::Q($text)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
     }

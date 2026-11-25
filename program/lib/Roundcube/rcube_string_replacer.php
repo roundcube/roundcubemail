@@ -24,6 +24,7 @@ class rcube_string_replacer
 {
     public $pattern;
     public $mailto_pattern;
+    public $mailto_uri_pattern;
     public $link_pattern;
     public $linkref_index;
     public $linkref_pattern;
@@ -32,6 +33,7 @@ class rcube_string_replacer
     protected $options = [];
     protected $linkrefs = [];
     protected $urls = [];
+    protected $link_texts = [];
     protected $noword = '[^\w@.#-]';
 
     /**
@@ -58,11 +60,15 @@ class rcube_string_replacer
         $this->linkref_index = '/\[([^<>\]#]+)\](:?\s*' . substr($this->pattern, 1, -1) . ')/';
         $this->linkref_pattern = '/\[([^<>\]#]+)\]/';
         $this->link_pattern = "/({$link_prefix})(({$ip_address}|{$utf_domain})(:[0-9]{1,5})?([\\/?#][^\\s<>\"']*[^\\s.:;,<>\"'])*[\\/?#]?)/";
-        $this->mailto_pattern = '/('
-            . '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*' // local-part
-            . '@' . $utf_domain                                       // domain-part
-            . '(\?[^<>\s]+)?'                                         // e.g. ?subject=test...
-            . ')/';
+        $email = '[-\w!\#$%&*+~\/^`|{}=]+(?:\.[-\w!\#$%&*+~\/^`|{}=]+)*' // local-part
+            . '@' . $utf_domain;                                     // domain-part
+
+        // E-mail address, a query after it (e.g. ?subject=test) is not a part of it
+        $this->mailto_pattern = '/(' . $email . ')/';
+        // mailto: URI with an optional query, the query ends like a link
+        // (it is searched after links, so the address or the query may hold their replacement strings)
+        $this->mailto_uri_pattern = '/\b(?<mailto>[Mm][Aa][Ii][Ll][Tt][Oo]:)'
+            . '(?<href>' . $email . '(\?[^\s<>"\']*[^\s.:;,<>"\'])?)/';
     }
 
     /**
@@ -120,6 +126,7 @@ class rcube_string_replacer
 
             $i = $this->add(html::a($attrib, rcube::Q($url)) . $suffix);
             $this->urls[$i] = $attrib['href'];
+            $this->link_texts[$i] = substr($matches[0], strlen($prefix));
         }
 
         return $i >= 0 ? $prefix . $this->get_replacement($i) : $matches[0];
@@ -180,7 +187,8 @@ class rcube_string_replacer
     /**
      * Callback function used to build mailto: links around e-mail strings
      *
-     * @param array $matches Matches result from preg_replace_callback
+     * @param array $matches Matches result from preg_replace_callback: $matches[1] is the e-mail
+     *                       address with an optional query, $matches['mailto'] is set for mailto: URIs
      *
      * @return string Replacement string
      */
@@ -188,9 +196,37 @@ class rcube_string_replacer
     {
         $href = $matches[1];
         $suffix = $this->parse_url_brackets($href);
-        $i = $this->add(html::a('mailto:' . $href, rcube::Q($href)) . $suffix);
+        $text = ($matches['mailto'] ?? '') . $href;
+        $i = $this->add(html::a('mailto:' . $href, rcube::Q($text)) . $suffix);
 
         return $i >= 0 ? $this->get_replacement($i) : '';
+    }
+
+    /**
+     * Callback function used to build mailto: links around mailto: URIs,
+     * a link found in the URI before is a part of it
+     *
+     * @param array $matches Matches result from preg_replace_callback
+     *
+     * @return string Replacement string
+     */
+    protected function mailto_uri_callback($matches)
+    {
+        // put back the original text of the links found in the URI
+        $text = preg_replace_callback($this->pattern, function ($m) {
+            return $this->link_texts[$m[1]] ?? $m[0];
+        }, $matches['href']);
+
+        // the URI ends at an unpaired bracket, search the rest for links again
+        $href = $text;
+        $this->parse_url_brackets($href);
+        $suffix = preg_replace_callback($this->link_pattern, [$this, 'link_callback'], substr($text, strlen($href)));
+
+        $uri = $matches['mailto'] . $href;
+        $result = $this->mailto_callback([$uri, $href, 'mailto' => $matches['mailto']]);
+
+        // the e-mail address was not accepted, keep the links found in the URI
+        return $result === $uri ? $matches[0] : $result . $suffix;
     }
 
     /**
@@ -222,7 +258,19 @@ class rcube_string_replacer
 
         // search for patterns like links and e-mail addresses
         $str = preg_replace_callback($this->link_pattern, [$this, 'link_callback'], $str);
-        $str = preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $str);
+
+        // search for mailto: URIs, a link in the query of a mailto: URI is a part of it
+        $str = preg_replace_callback($this->mailto_uri_pattern, [$this, 'mailto_uri_callback'], $str);
+
+        // search for e-mail addresses only between the replacement strings,
+        // so that an e-mail address never takes in (a part of) a replacement string
+        $parts = preg_split($this->pattern, $str, -1, \PREG_SPLIT_DELIM_CAPTURE);
+        $str = '';
+
+        foreach ($parts as $idx => $part) {
+            $str .= $idx % 2 ? $this->get_replacement($part)
+                : preg_replace_callback($this->mailto_pattern, [$this, 'mailto_callback'], $part);
+        }
 
         // resolve link references
         $str = preg_replace_callback($this->linkref_index,

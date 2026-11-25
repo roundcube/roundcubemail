@@ -84,6 +84,66 @@ class StringReplacerTest extends TestCase
             ['<a href="https://example.com/">click here</a>', '<a href="<a href="https://example.com/">https://example.com/</a>">click here</a>'],
             ['<img src="https://example.com/img.png"/>', '<img src="<a href="https://example.com/img.png">https://example.com/img.png</a>"/>'],
             ['<https://example.com/>', '<<a href="https://example.com/">https://example.com/</a>>'],
+            // #10428: an e-mail address does not take in a query, a link after it is a link of its own
+            ['user@example.com?body=http://example.com/x', '<a href="mailto:user@example.com">user@example.com</a>?body=<a href="http://example.com/x">http://example.com/x</a>'],
+            ['user@example.com?http://example.com/x', '<a href="mailto:user@example.com">user@example.com</a>?<a href="http://example.com/x">http://example.com/x</a>'],
+            ['user@example.com?subject=Hi', '<a href="mailto:user@example.com">user@example.com</a>?subject=Hi'],
+            ['git clone https://user@example.com/team/repo.git', 'git clone <a href="https://user">https://user</a>@example.com/team/repo.git'],
+            // #10428: a mailto: URI with its query is one link, the query ends like a link
+            ['mailto:user@example.com?body=http://example.com/x', '<a href="mailto:user@example.com?body=http://example.com/x">mailto:user@example.com?body=http://example.com/x</a>'],
+            ['MAILTO:user@example.com?subject=Hi', '<a href="mailto:user@example.com?subject=Hi">MAILTO:user@example.com?subject=Hi</a>'],
+            ['mailto:user@example.com?cc=other@example.org&body=http://example.com/x',
+                '<a href="mailto:user@example.com?cc=other@example.org&amp;body=http://example.com/x">mailto:user@example.com?cc=other@example.org&amp;body=http://example.com/x</a>',
+            ],
+            ['Write to mailto:user@example.com.', 'Write to <a href="mailto:user@example.com">mailto:user@example.com</a>.'],
+            ['mailto:user@example.com?subject=Hi.', '<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>.'],
+            ['mailto:user@example.com?subject=Hi, end', '<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>, end'],
+            ['mailto:user@example.com?subject=Hi; end', '<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>; end'],
+            ['mailto:user@example.com?subject=Hi: end', '<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>: end'],
+            ['mailto:user@example.com?', '<a href="mailto:user@example.com">mailto:user@example.com</a>?'],
+            ['(mailto:user@example.com?subject=Hi)', '(<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>)'],
+            ['[mailto:user@example.com?subject=Hi]', '[<a href="mailto:user@example.com?subject=Hi">mailto:user@example.com?subject=Hi</a>]'],
+            ['(mailto:user@example.com?body=http://example.com/x)', '(<a href="mailto:user@example.com?body=http://example.com/x">mailto:user@example.com?body=http://example.com/x</a>)'],
+            ['mailto:user@example.com?subject=a)b+https://example.com/x',
+                '<a href="mailto:user@example.com?subject=a">mailto:user@example.com?subject=a</a>)b+<a href="https://example.com/x">https://example.com/x</a>',
+            ],
+            ['mailto:user@example.com?body=www.example.com]www.example.org',
+                '<a href="mailto:user@example.com?body=www.example.com">mailto:user@example.com?body=www.example.com</a>]<a href="http://www.example.org">www.example.org</a>',
+            ],
+            ['mailto:user@example.com;https://example.com/x', '<a href="mailto:user@example.com">mailto:user@example.com</a>;<a href="https://example.com/x">https://example.com/x</a>'],
+            ['mailto:user+www.example.com@example.org', '<a href="mailto:user+www.example.com@example.org">mailto:user+www.example.com@example.org</a>'],
+            ['http://example.com/mailto:user@example.com', '<a href="http://example.com/mailto:user@example.com">http://example.com/mailto:user@example.com</a>'],
+        ];
+    }
+
+    /**
+     * An e-mail address next to a link must not take in the replacement string of the link (#10428)
+     *
+     * @dataProvider provide_replace_mailto_next_to_link_cases
+     */
+    #[DataProvider('provide_replace_mailto_next_to_link_cases')]
+    public function test_replace_mailto_next_to_link($input)
+    {
+        $replacer = new \rcube_string_replacer();
+        $result = $replacer->resolve($replacer->replace($input));
+
+        $this->assertDoesNotMatchRegularExpression($replacer->pattern, $result);
+        $this->assertStringNotContainsString('##', $result);
+    }
+
+    /**
+     * Data for test_replace_mailto_next_to_link()
+     */
+    public static function provide_replace_mailto_next_to_link_cases(): iterable
+    {
+        return [
+            ['user@example.com?body=http://example.com/x'],
+            ['user@example.com?subject=www.example.com'],
+            ['git clone https://user@example.com/team/repo.git'],
+            ['user+www.example.com@example.org'],
+            ['mailto:user@example.com?body=http://example.com/x'],
+            ['mailto:user@example.com?cc=other@example.org&body=www.example.com'],
+            ['mailto:user+www.example.com@example.org'],
         ];
     }
 
