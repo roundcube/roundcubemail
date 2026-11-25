@@ -168,7 +168,7 @@ class rcmail_output_json extends rcmail_output
      * Redirect to a certain url
      *
      * @param mixed $p     Either a string with the action or url parameters as key-value pairs
-     * @param int   $delay Delay in seconds
+     * @param int   $delay Unused, the redirect is not delayed
      *
      * @see rcmail::url()
      */
