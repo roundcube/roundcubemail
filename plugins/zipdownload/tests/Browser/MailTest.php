@@ -65,7 +65,10 @@ class MailTest extends TestCase
                     $files = $this->getFilesFromZip($browser, $filename);
                     $browser->removeDownloadedFile($filename);
 
-                    $this->assertSame(['INBOX.mbox'], $files);
+                    $this->assertSame(['INBOX.mbox'], array_keys($files));
+                    $this->assertStringStartsWith('From test-from', array_first($files));
+                    $this->assertStringContainsString("\nFrom thomas", array_first($files));
+                    $this->assertStringContainsString("\n>From line which needs to be escaped", array_first($files));
                 });
 
             // Test More > Download > Maildir format (two messages selected)
@@ -82,6 +85,11 @@ class MailTest extends TestCase
                     $files = $this->getFilesFromZip($browser, $filename);
                     $browser->removeDownloadedFile($filename);
                     $this->assertCount(2, $files);
+                    $this->assertStringContainsString(' Test ', array_key_first($files));
+                    $this->assertStringEndsWith('.eml', array_key_first($files));
+                    $this->assertStringEndsWith(' Lines.eml', array_key_last($files));
+                    $this->assertStringContainsString('Attached image:', array_first($files));
+                    $this->assertStringContainsString("\nFrom line which needs to be escaped in mbox format.", array_last($files));
                 });
 
             // Test attachments download
@@ -98,12 +106,14 @@ class MailTest extends TestCase
             $files = $this->getFilesFromZip($browser, $filename);
             $browser->removeDownloadedFile($filename);
             $expected = ['lines.txt', 'lines_lf.txt'];
-            $this->assertSame($expected, $files);
+            $this->assertSame($expected, array_keys($files));
+            $this->assertStringContainsString("foo\r\nbar\r\ngna", array_first($files));
+            $this->assertStringContainsString("foo\nbar\ngna", array_last($files));
         });
     }
 
     /**
-     * Helper to extract files list from downloaded zip file
+     * Helper to extract filenames and contents from downloaded zip file
      */
     private function getFilesFromZip($browser, $filename)
     {
@@ -138,7 +148,7 @@ class MailTest extends TestCase
 
         if ($zip->open($filename)) {
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $files[] = $zip->getNameIndex($i);
+                $files[$zip->getNameIndex($i)] = $zip->getFromIndex($i);
             }
         }
 
