@@ -241,7 +241,12 @@ class rcmail_oauth
         if (!empty($oauth_token_uri) && !empty($oauth_client_secret)) {
             try {
                 // validate state parameter against $_SESSION['oauth_state']
-                if (!empty($_SESSION['oauth_state']) && $_SESSION['oauth_state'] !== $state) {
+                // the state must always be present in the session - a request
+                // without a session-issued state (e.g. a cookieless browser
+                // prefetch of the callback URL) must not proceed to the token
+                // endpoint, where it would consume the single-use auth code
+                // @see RFC 6749 section 10.12
+                if (empty($_SESSION['oauth_state']) || $_SESSION['oauth_state'] !== $state) {
                     throw new RuntimeException('Invalid state parameter');
                 }
 
