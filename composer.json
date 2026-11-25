@@ -7,7 +7,7 @@
         "bacon/bacon-qr-code": "^3.0.0",
         "firebase/php-jwt": "^7.0",
         "guzzlehttp/guzzle": "^7.10.0",
-        "guzzlehttp/promises": "^2.0",
+        "guzzlehttp/promises": "^2.6",
         "league/commonmark": "^2.7",
         "masterminds/html5": "~2.9.0",
         "mlocati/ip-lib": "^1.22.0",
