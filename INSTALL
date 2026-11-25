@@ -135,10 +135,15 @@ simple steps, which have to be done as the postgres system user (or
 which ever is the database superuser):
 
 $ createuser -P roundcube
-$ createdb -O roundcube -E UNICODE roundcubemail
+$ createdb -O roundcube -E UTF8 roundcubemail
 
 Note: in some system configurations you might need to add '-U postgres' to
 createuser and createdb commands.
+
+Note: most newer versions of PostgreSQL default to UTF8, albeit with a few
+exceptions (e.g., an Operating System sets the default for the "template1"
+database to a non-Unicode encoding), which is why we're careful to
+explicitly specify the UTF8 database encoding ("-E" command-line option).
 
 Now you can run the Installer or configure the database access options in
 'config/config.inc.php' and run: `bin/initdb.sh --dir=SQL`.
