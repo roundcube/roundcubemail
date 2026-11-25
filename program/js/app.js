@@ -805,7 +805,7 @@ function rcube_webmail() {
             }
             var command = args.shift();
             if (command === 'interpret_js_calls' || command in Object.prototype || typeof this[command] !== 'function') {
-                this.log("'" + command + "' is not a callable function!");
+                console.error("'" + command + "' is not a callable function!");
                 return;
             }
             this[command](...args);
