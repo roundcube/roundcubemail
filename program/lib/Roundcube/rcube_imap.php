@@ -2002,9 +2002,23 @@ class rcube_imap extends rcube_storage
 
             // ...and charset (there's a case described in #1488968 where invalid content-type
             // results in invalid charset in BODYSTRUCTURE)
-            if (!empty($headers->charset) && $headers->charset != $struct->ctype_parameters['charset']) {
+            if (!empty($headers->charset) && $headers->charset != ($struct->ctype_parameters['charset'] ?? null)) {
                 $struct->charset = $headers->charset;
                 $struct->ctype_parameters['charset'] = $headers->charset;
+            }
+
+            // ...and encoding (e.g. Courier-IMAP 6 reports "7bit" for a message
+            // that has Content-Transfer-Encoding, but no MIME-Version header)
+            if (!empty($headers->encoding)) {
+                $encoding = strtolower(trim($headers->encoding));
+
+                if (
+                    in_array($encoding, ['base64', 'quoted-printable'], true)
+                    && in_array($struct->encoding, ['', '7bit', '8bit', 'binary'], true)
+                ) {
+                    $struct->encoding = $encoding;
+                    $struct->headers['content-transfer-encoding'] = $encoding;
+                }
             }
         }
 

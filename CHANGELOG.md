@@ -4,6 +4,10 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix display of base64/quoted-printable messages without a MIME-Version header when IMAP server reports 7bit encoding (#10417)
+
+## Release 1.7.7
+
 - Fix handling of multiple responses for the same message in a single IMAP FETCH command (#10045)
 - Fix unreadable syntax colors and invisible cursor in the raw sieve script editor in dark mode (#10382)
 - Password: Support alias username in the hmail driver (#10411)
