@@ -1599,6 +1599,41 @@ rcube_list_widget.prototype = {
 
 
     /**
+     * Get the first row in view and its offset, to keep the list scrolled
+     * to it with scroll_to_anchor() after the list was rebuilt
+     */
+    scroll_anchor: function () {
+        var i, row, anchor = null,
+            top = this.frame && this.tbody.rows ? this.frame.scrollTop : 0;
+
+        // hidden rows (e.g. in collapsed threads) have no position and never match
+        for (i = 0; top && !anchor && i < this.tbody.rows.length; i++) {
+            row = this.tbody.rows[i];
+            if (row.offsetTop + row.offsetHeight > top) {
+                anchor = { uid: row.uid, offset: row.offsetTop - top, top: top };
+            }
+        }
+
+        return anchor;
+    },
+
+
+    /**
+     * Scroll the list so that the row from scroll_anchor() is where it was,
+     * or to the same position if that row is gone
+     */
+    scroll_to_anchor: function (anchor) {
+        var row = this.rows[anchor.uid] ? this.rows[anchor.uid].obj : null,
+            top = row && row.offsetHeight ? row.offsetTop - anchor.offset : anchor.top;
+
+        // don't touch an unchanged list, it would stop a scroll in progress
+        if (Math.abs(top - this.frame.scrollTop) >= 1) {
+            this.frame.scrollTop = top;
+        }
+    },
+
+
+    /**
      * Try to scroll the list to make the specified row visible
      */
     scrollto: function (id) {

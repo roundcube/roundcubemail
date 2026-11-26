@@ -9602,9 +9602,17 @@ function rcube_webmail() {
             }
         }
 
+        // keep the message list scrolled where it was when a refresh rebuilds it (#6551)
+        var list_anchor = this.message_list && (response.action == 'refresh' || response.action == 'check-recent')
+            ? this.message_list.scroll_anchor() : null;
+
         // if we get javascript code from server -> execute it
         if (response.exec) {
             eval(response.exec);
+        }
+
+        if (list_anchor) {
+            this.message_list.scroll_to_anchor(list_anchor);
         }
 
         // execute callback functions of plugins
