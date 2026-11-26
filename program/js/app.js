@@ -689,6 +689,33 @@ function rcube_webmail() {
                     ref.display_message('', 'loading');
                 });
 
+                // a logon form older than its session would fail on submit, reload it before (#8194)
+                if (this.env.session_lifetime && input_user.length) {
+                    var loaded = Date.now(),
+                        reload_stale = function (force) {
+                            // the server keeps a session for at least 120 seconds,
+                            // and a submitted form must not be interrupted
+                            if (Date.now() - loaded > Math.max(120, ref.env.session_lifetime) * 900
+                                && !$('[type=submit]', input_user[0].form).prop('disabled')
+                                && (force === true || (!input_user.val() && !$('#rcmloginpwd').val()))
+                            ) {
+                                // keep the page the user wanted to reach (_url)
+                                location.replace(location.pathname + '?' + ($('#rcmloginurl').val() || '_task=login'));
+                            }
+                        };
+
+                    // on return to the page (even if the fields were filled), and every minute while they are empty
+                    $(document).on('visibilitychange', function () {
+                        if (!document.hidden) {
+                            reload_stale(true);
+                        }
+                    });
+                    $(window).on('focus', function () {
+                        reload_stale(true);
+                    });
+                    setInterval(reload_stale, 60000);
+                }
+
                 break;
         }
 
