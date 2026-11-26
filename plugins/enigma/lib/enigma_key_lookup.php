@@ -104,7 +104,7 @@ class enigma_key_lookup
             $ctype = $response->getHeader('Content-Type');
             $ctype = !empty($ctype) ? $ctype[0] : '';
         } catch (\Exception $e) {
-            if (!($e instanceof RequestException) || $e->getResponse()->getStatusCode() != 404) {
+            if (!($e instanceof RequestException) || $e->getResponse()?->getStatusCode() != 404) {
                 rcube::raise_error($e, true, false);
             }
         }
@@ -148,7 +148,7 @@ class enigma_key_lookup
                     $output[] = $source;
                 }
             } catch (\Exception $e) {
-                if (!($e instanceof RequestException) || $e->getResponse()->getStatusCode() != 404) {
+                if (!($e instanceof RequestException) || $e->getResponse()?->getStatusCode() != 404) {
                     rcube::raise_error($e, true, false);
                 }
             }
