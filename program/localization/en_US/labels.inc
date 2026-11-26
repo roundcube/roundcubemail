@@ -21,6 +21,7 @@ $labels['password'] = 'Password';
 $labels['server'] = 'Server';
 $labels['login'] = 'Login';
 $labels['oauthlogin'] = 'Login with $provider';
+$labels['session_lifetime_extension_switch_text'] = 'Remember login for up to # days';
 
 // taskbar
 $labels['menu'] = 'Menu';
