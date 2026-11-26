@@ -420,7 +420,7 @@ class rcmail_oauth
      */
     public function jwt_decode($jwt)
     {
-        [$headb64, $bodyb64/* $cryptob64*/] = explode('.', $jwt);
+        [$headb64, $bodyb64/* $cryptob64 */] = explode('.', $jwt);
 
         $header = json_decode(static::base64url_decode($headb64), true);
         $body = json_decode(static::base64url_decode($bodyb64), true);
@@ -436,7 +436,6 @@ class rcmail_oauth
                 $jwk = $this->jwks['keys'][0];
             } else {
                 $kid = $header['kid'] ?? null;
-                $alg = $header['alg'];
 
                 foreach ($this->jwks['keys'] as $current_jwk) {
                     if ($current_jwk['kid'] === $kid) {
