@@ -25,6 +25,8 @@
  */
 class rcube_session_db extends rcube_session
 {
+    private const MAX_WRITE_ATTEMPTS = 8;
+
     /** @var rcube_db Database handler */
     private $db;
 
@@ -164,6 +166,18 @@ class rcube_session_db extends rcube_session
         return true;
     }
 
+    #[\Override]
+    protected function get_cache($key)
+    {
+        // Compare the write with the snapshot this request actually read, even for slow requests.
+        if ($this->supports_concurrent_update()
+            && $key === $this->key && $this->vars !== null) {
+            return $this->vars;
+        }
+
+        return parent::get_cache($key);
+    }
+
     /**
      * Update session data
      *
@@ -182,6 +196,10 @@ class rcube_session_db extends rcube_session
         // if new and old data are not the same, update data
         // else update expire timestamp only when certain conditions are met
         if ($newvars !== $oldvars) {
+            if ($this->supports_concurrent_update()) {
+                return $this->update_concurrent($key, $newvars, $oldvars, $expires_at_str);
+            }
+
             $this->db->query("UPDATE {$this->table_name} "
                 . "SET `expires_at` = {$expires_at_str}, `vars` = ? WHERE `sess_id` = ?",
                 base64_encode($newvars), $key);
@@ -191,6 +209,68 @@ class rcube_session_db extends rcube_session
         }
 
         return true;
+    }
+
+    private function supports_concurrent_update(): bool
+    {
+        return !$this->db->is_replicated() && in_array($this->db->db_provider, ['mysql', 'sqlite'], true);
+    }
+
+    private function update_concurrent(string $key, string $newvars, string $oldvars, string $expires): bool
+    {
+        // MySQL's default collation is case insensitive even for base64 session data.
+        $column = $this->db->db_provider === 'mysql' ? 'BINARY `vars`' : '`vars`';
+        $expected = $oldvars;
+        $desired = $newvars;
+        for ($attempt = 0; $attempt < self::MAX_WRITE_ATTEMPTS; ++$attempt) {
+            $result = $this->db->query("UPDATE {$this->table_name} SET `expires_at` = {$expires}, `vars` = ?"
+                . " WHERE `sess_id` = ? AND {$column} = ? AND `expires_at` >= " . $this->db->now(),
+                base64_encode($desired), $key, base64_encode($expected));
+            if (!$result) {
+                return false;
+            }
+            if ($this->db->affected_rows($result) === 1) {
+                return true;
+            }
+
+            $result = $this->db->query("SELECT `vars` FROM {$this->table_name} WHERE `sess_id` = ?"
+                . ' AND `expires_at` >= ' . $this->db->now(), $key);
+            if (!$result) {
+                return false;
+            }
+            $row = $this->db->fetch_assoc($result);
+            if (!$row) {
+                return true; // A closed or expired session must stay closed.
+            }
+
+            $expected = base64_decode($row['vars'], true);
+            if ($expected === false) {
+                return false;
+            }
+            $current = $this->unserialize($expected);
+            $original ??= $this->unserialize($oldvars);
+            $edited ??= $this->unserialize($newvars);
+            if (!is_array($current) || !is_array($original) || !is_array($edited)) {
+                return false;
+            }
+
+            // Keep independent changes from other requests. Never reintroduce a retired editor.
+            $current = array_diff_key($current, array_diff_key($original, $edited));
+            foreach ($edited as $name => $value) {
+                if (array_key_exists($name, $original)) {
+                    if (serialize($value) === serialize($original[$name]) || !array_key_exists($name, $current)) {
+                        continue;
+                    }
+                }
+                $current[$name] = $value;
+            }
+            $desired = $this->serialize($current);
+            if ($desired === $expected) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
