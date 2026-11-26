@@ -89,12 +89,12 @@ class EditTest extends ActionTestCase
     public function test_photo_drop_area()
     {
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
-        $result = \rcmail_action_contacts_edit::photo_drop_area([]);
+        \rcmail_action_contacts_edit::photo_drop_area([]);
 
         $this->assertNull($output->get_env('filedrop'));
 
         $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', 'edit');
-        $result = \rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
+        \rcmail_action_contacts_edit::photo_drop_area(['id' => 'test']);
 
         $scripts = $output->getProperty('scripts');
         $filedrop = $output->get_env('filedrop');

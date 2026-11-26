@@ -93,7 +93,6 @@ class Text2HtmlTest extends TestCase
         $data[] = ["aaaa\t\taaaa", 'aaaa _ _ _ _aaaa', $options];
         $data[] = ['aaaa  bbbb   cccc', 'aaaa _bbbb _ cccc', $options];
 
-        $options['flowed'] = true;
         $options['delsp'] = true;
 
         $data[] = [' aaaa', 'aaaa', $options];

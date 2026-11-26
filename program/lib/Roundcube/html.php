@@ -900,7 +900,7 @@ class html_table extends html
         // include <thead>
         if (!empty($this->header)) {
             $rowcontent = '';
-            foreach ($this->header->cells as $c => $col) {
+            foreach ($this->header->cells as $col) {
                 $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
             $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib))
@@ -909,7 +909,7 @@ class html_table extends html
 
         foreach ($this->rows as $r => $row) {
             $rowcontent = '';
-            foreach ($row->cells as $c => $col) {
+            foreach ($row->cells as $col) {
                 if ($row_tagname == 'li' && empty($col->attrib) && count($row->cells) == 1) {
                     $rowcontent .= $col->content;
                 } else {

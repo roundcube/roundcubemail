@@ -49,6 +49,7 @@ class rcmail_action_mail_bounce extends rcmail_action
             }
 
             // Initialize helper class to build the UI
+            // @phpstan-ignore assign.overwritten
             $SENDMAIL = new rcmail_sendmail(
                 ['mode' => rcmail_sendmail::MODE_FORWARD],
                 ['message' => $MESSAGE]

@@ -49,7 +49,7 @@ class ResponsesTest extends ActionTestCase
         self::initDB('responses');
 
         $action = new \rcmail_action_settings_responses();
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'responses');
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'responses');
 
         $result = $action->responses_list([]);
         $expected = '<table id="rcmresponseslist"><thead><tr><th class="name">Display Name</th></tr></thead><tbody>'

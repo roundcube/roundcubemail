@@ -346,7 +346,7 @@ class rcube_contacts extends rcube_addressbook
             $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? [$value] : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
                 $groups = [];
-                foreach ((array) $fields as $idx => $col) {
+                foreach ((array) $fields as $col) {
                     // table column
                     if (in_array($col, $this->table_cols)) {
                         $groups[] = $this->fulltext_sql_where($word, $mode, $col);
@@ -1097,9 +1097,8 @@ class rcube_contacts extends rcube_addressbook
     {
         $checkname = $name;
         $num = 2;
-        $hit = false;
 
-        do {
+        while (true) {
             $sql_result = $this->db->query(
                 'SELECT 1 FROM ' . $this->db->table_name($this->db_groups, true)
                 . ' WHERE `del` <> 1'
@@ -1109,10 +1108,12 @@ class rcube_contacts extends rcube_addressbook
                 $checkname);
 
             // append number to make name unique
-            if ($hit = $this->db->fetch_array($sql_result)) {
-                $checkname = $name . ' ' . $num++;
+            if (!$this->db->fetch_array($sql_result)) {
+                break;
             }
-        } while ($hit);
+
+            $checkname = $name . ' ' . $num++;
+        }
 
         return $checkname;
     }

@@ -59,7 +59,6 @@ class HideBlockquoteTest extends TestCase
         $this->assertSame(0, $result['prefs']['hide_blockquote_limit']);
 
         $_POST = ['_hide_blockquote_limit' => '10'];
-        $args = ['section' => 'mailview', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

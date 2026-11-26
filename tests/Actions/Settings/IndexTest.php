@@ -24,8 +24,6 @@ class IndexTest extends ActionTestCase
 
         $action->run();
 
-        $result = $output->getOutput();
-
         $this->assertSame('Preferences', $output->getProperty('pagetitle'));
     }
 

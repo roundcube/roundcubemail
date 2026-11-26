@@ -103,8 +103,7 @@ class rcube_modoboa_password
 
         // Call HTTP API Modoboa
         try {
-            $response = $client->put($url, $options);
-            $response = $response->getBody()->getContents();
+            $client->put($url, $options);
         } catch (\Exception $e) {
             rcube::raise_error("Password plugin: Error on {$url} : {$e->getMessage()}", true);
             return PASSWORD_CONNECT_ERROR;

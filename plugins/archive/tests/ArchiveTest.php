@@ -65,7 +65,6 @@ class ArchiveTest extends TestCase
         $this->assertSame('', $result['prefs']['archive_type']);
 
         $_POST = ['_archive_type' => 'aaa'];
-        $args = ['section' => 'folders', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 
@@ -79,7 +78,6 @@ class ArchiveTest extends TestCase
         $this->assertFalse($result['prefs']['read_on_archive']);
 
         $_POST = ['_read_on_archive' => 1];
-        $args = ['section' => 'server', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

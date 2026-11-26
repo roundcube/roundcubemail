@@ -58,7 +58,6 @@ class AttachmentReminderTest extends TestCase
         $this->assertFalse($result['prefs']['attachment_reminder']);
 
         $_POST = ['_attachment_reminder' => 1];
-        $args = ['section' => 'compose', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

@@ -258,7 +258,7 @@ class rcube_message
         $part = $this->mime_parts[$mime_id];
 
         // allow plugins to modify part body
-        $plugin = $this->app->plugins->exec_hook('message_part_body',
+        $this->app->plugins->exec_hook('message_part_body',
             ['object' => $this, 'part' => $part]);
 
         // only text parts can be formatted
@@ -396,8 +396,6 @@ class rcube_message
                 }
 
                 $level = explode('.', $part->mime_id);
-                $depth = count($level);
-                $last = '';
 
                 // Check if the part does not belong to a message/rfc822 part
                 // @phpstan-ignore-next-line
@@ -954,7 +952,7 @@ class rcube_message
                     }
 
                     $mail_part = $plugin['structure'];
-                    [$primary_type, $secondary_type] = explode('/', $plugin['mimetype']);
+                    [, $secondary_type] = explode('/', $plugin['mimetype']);
 
                     // add text part if it matches the prefs
                     if (!$this->parse_alternative

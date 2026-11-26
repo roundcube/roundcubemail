@@ -290,7 +290,6 @@ class rcmail_action_settings_prefs_save extends rcmail_action
      */
     public static function prefs_input_int($name)
     {
-        $rcmail = rcmail::get_instance();
         $value = rcube_utils::get_input_value('_' . $name, rcube_utils::INPUT_POST);
 
         return (int) $value;

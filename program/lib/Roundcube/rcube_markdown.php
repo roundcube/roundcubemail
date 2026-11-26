@@ -38,14 +38,13 @@ class rcube_markdown
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
         ];
+
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkCoreExtension());
         // GFM bundles some commonly used syntax extensions as well as protects against some raw HTML elements that can
         // breaks things easily.
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
 
-        $converter = new MarkdownConverter($environment);
-        $converter = new MarkdownConverter($environment);
-        return $converter;
+        return new MarkdownConverter($environment);
     }
 }

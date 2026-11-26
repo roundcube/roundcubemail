@@ -104,7 +104,6 @@ class rcube_image
     public function resize($size, $filename = null, $browser_compat = false)
     {
         $result = false;
-        $rcube = rcube::get_instance();
         $convert = self::getCommand('im_convert_path');
         $props = $this->props();
 
@@ -332,7 +331,6 @@ class rcube_image
      */
     public function convert($type, $filename = null)
     {
-        $rcube = rcube::get_instance();
         $convert = self::getCommand('im_convert_path');
 
         $props = $this->props();
@@ -446,7 +444,6 @@ class rcube_image
      */
     public static function is_convertable($mimetype)
     {
-        $rcube = rcube::get_instance();
         $mimetype = preg_replace('|^image/|i', '', $mimetype);
         $mimetype = strtoupper($mimetype);
         $mimetype = strtr($mimetype, ['PS' => 'EPS', 'EPT' => 'EPS']);
@@ -476,8 +473,6 @@ class rcube_image
      */
     private function identify()
     {
-        $rcube = rcube::get_instance();
-
         // use ImageMagick in command line
         if ($cmd = self::getCommand('im_identify_path')) {
             $args = ['in' => $this->image_file, 'format' => '%m %[fx:w] %[fx:h]'];

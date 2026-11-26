@@ -455,7 +455,7 @@ class rcube_result_thread
             if ($root) {
                 $result[$root] = $root;
                 foreach ($items as $item) {
-                    [$lv, $id] = explode(self::SEPARATOR_LEVEL, $item);
+                    [, $id] = explode(self::SEPARATOR_LEVEL, $item);
                     $result[$id] = $root;
                 }
             }

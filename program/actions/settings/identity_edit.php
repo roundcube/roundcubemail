@@ -193,7 +193,6 @@ class rcmail_action_settings_identity_edit extends rcmail_action
                 continue;
             }
 
-            $content = '';
             if (is_array($fieldset['content'])) {
                 $table = new html_table(['cols' => 2]);
 

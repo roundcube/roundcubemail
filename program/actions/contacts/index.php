@@ -684,8 +684,6 @@ class rcmail_action_contacts_index extends rcmail_action
                                 ],
                                 '&raquo;'
                             );
-                        } else {
-                            $val = null;
                         }
 
                         break;
@@ -1226,7 +1224,7 @@ class rcmail_action_contacts_index extends rcmail_action
 
     public static function contact_field_values($record, $field_name, $colprop)
     {
-        [$field, $subtype] = explode(':', $field_name);
+        [$field] = explode(':', $field_name);
 
         $subtypes = [];
         $values = [];

@@ -38,7 +38,6 @@ class markasjunk_sa_detach
         $new_uids = [];
 
         foreach ($uids as $uid) {
-            $saved = false;
             $message = new rcube_message($uid);
 
             foreach ($message->attachments as $part) {

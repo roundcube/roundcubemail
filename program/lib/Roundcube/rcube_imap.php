@@ -2270,12 +2270,12 @@ class rcube_imap extends rcube_storage
             }
             // multi-part
             else {
-                for ($n = 0; $n < count($part[8]); $n++) {
-                    if (!is_array($part[8][$n])) {
+                for ($p = 0; $p < count($part[8]); $p++) {
+                    if (!is_array($part[8][$p])) {
+                        $struct->real_mimetype = 'multipart/' . strtolower($part[8][$p]);
                         break;
                     }
                 }
-                $struct->real_mimetype = 'multipart/' . strtolower($part[8][$n]);
             }
         }
 
@@ -3529,8 +3529,8 @@ class rcube_imap extends rcube_storage
             return false;
         }
 
-        $folders = $this->get_special_folders(true);
-        $old = isset($this->icache['special-use']) ? (array) $this->icache['special-use'] : [];
+        $this->get_special_folders(true);
+        $old = $this->icache['special-use'] ?? [];
 
         foreach ($specials as $type => $folder) {
             if (in_array($type, rcube_storage::$folder_types)) {

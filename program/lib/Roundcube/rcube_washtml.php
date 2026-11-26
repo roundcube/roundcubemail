@@ -261,8 +261,6 @@ class rcube_washtml
      */
     private function wash_style($style)
     {
-        $result = [];
-
         // Decode insecure character sequences
         $style = rcube_utils::xss_entity_decode($style);
 
@@ -321,7 +319,7 @@ class rcube_washtml
                 }
 
                 if ($this->is_image_attribute($node->nodeName, $key)) {
-                    $out = $this->wash_uri($value, true);
+                    $out = $this->wash_uri($value);
                 } elseif ($this->is_link_attribute($node->nodeName, $key)) {
                     $out = $this->wash_link($value);
                 } elseif ($this->is_funciri_attribute($node->nodeName, $key)) {
@@ -379,13 +377,12 @@ class rcube_washtml
     /**
      * Wash URI value
      *
-     * @param ?string $uri            URI
-     * @param bool    $blocked_source Block remote source
-     * @param bool    $is_image       URI points to an image
+     * @param ?string $uri      URI
+     * @param bool    $is_image URI points to an image
      *
      * @return string Washed URI
      */
-    private function wash_uri($uri, $blocked_source = false, $is_image = true)
+    private function wash_uri($uri, $is_image = true)
     {
         if ($uri === null) {
             return '';
@@ -487,7 +484,7 @@ class rcube_washtml
      *
      * @return bool True if attribute may contain an URI, False otherwise
      */
-    private function is_link_attribute($tag, $attr)
+    private function is_link_attribute(/* @phpstan-ignore method.unusedParameter */ $tag, $attr)
     {
         return $attr === 'href';
     }
@@ -517,7 +514,7 @@ class rcube_washtml
      *
      * @return bool True if attribute may contain a FUNCIRI value, False otherwise
      */
-    private function is_funciri_attribute($tag, $attr)
+    private function is_funciri_attribute(/* @phpstan-ignore method.unusedParameter */ $tag, $attr)
     {
         return in_array($attr, ['fill', 'filter', 'stroke', 'marker-start',
             'marker-end', 'marker-mid', 'clip-path', 'mask', 'cursor']);
@@ -674,7 +671,7 @@ class rcube_washtml
                     $tagName = strtolower($node->nodeName);
 
                     if ($tagName == 'link') {
-                        $uri = $this->wash_uri($node->getAttribute('href'), false, false);
+                        $uri = $this->wash_uri($node->getAttribute('href'), false);
                         if (!$uri) {
                             if ($this->config['add_comments']) {
                                 $dump .= '<!-- link ignored -->';

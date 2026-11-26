@@ -84,7 +84,7 @@ class rcmail_action_settings_about extends rcmail_action
         }
 
         // load info from required plugins, too
-        foreach ($plugin_info as $name => $info) {
+        foreach ($plugin_info as $info) {
             if (!empty($info['require']) && is_array($info['require'])) {
                 foreach ($info['require'] as $req_name) {
                     if (!isset($plugin_info[$req_name]) && ($req_info = $rcmail->plugins->get_info($req_name))) {

@@ -16,7 +16,8 @@ class SavePrefTest extends ActionTestCase
     public function test_run()
     {
         $action = new \rcmail_action_utils_save_pref();
-        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'utils', 'save_pref');
+
+        $this->initOutput(\rcmail_action::MODE_AJAX, 'utils', 'save_pref');
 
         $this->assertInstanceOf(\rcmail_action::class, $action);
         $this->assertTrue($action->checks());
@@ -30,8 +31,6 @@ class SavePrefTest extends ActionTestCase
         ];
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
-
-        $result = $output->getOutput();
 
         $user = new \rcube_user($rcmail->user->ID);
         $prefs = $user->get_prefs();

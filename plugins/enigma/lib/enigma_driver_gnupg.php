@@ -312,7 +312,7 @@ class enigma_driver_gnupg extends enigma_driver
             $keys = $this->gpg->getKeys($pattern);
             $result = [];
 
-            foreach ($keys as $idx => $key) {
+            foreach ($keys as $key) {
                 $result[] = $this->parse_key($key);
             }
 
@@ -652,8 +652,8 @@ class enigma_driver_gnupg extends enigma_driver
 
         // Remove files not in database
         if (!$db->is_error($result)) {
-            foreach (array_diff($this->db_files_list(), $files) as $file) {
-                $file = $this->homedir . '/' . $file;
+            foreach (array_diff($this->db_files_list(), $files) as $filename) {
+                $file = $this->homedir . '/' . $filename;
 
                 if (unlink($file)) {
                     if ($this->debug) {

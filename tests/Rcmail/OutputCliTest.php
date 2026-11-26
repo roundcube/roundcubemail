@@ -14,7 +14,6 @@ class OutputCliTest extends ActionTestCase
      */
     public function test_show_message()
     {
-        $rcmail = \rcube::get_instance();
         $output = new \rcmail_output_cli();
 
         ob_start();

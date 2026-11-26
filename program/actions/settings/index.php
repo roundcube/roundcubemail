@@ -178,7 +178,7 @@ class rcmail_action_settings_index extends rcmail_action
                         $select->add($rcmail->gettext('autodetect'), 'auto');
 
                         $zones = [];
-                        foreach (\DateTimeZone::listIdentifiers() as $i => $tzs) {
+                        foreach (\DateTimeZone::listIdentifiers() as $tzs) {
                             if ($data = self::timezone_standard_time_data($tzs)) {
                                 $zones[$data['key']] = [$tzs, $data['offset']];
                             }
@@ -735,7 +735,7 @@ class rcmail_action_settings_index extends rcmail_action
                         ]);
 
                         $select->add($rcmail->gettext('never'), 0);
-                        foreach ([1, 3, 5, 10] as $i => $min) {
+                        foreach ([1, 3, 5, 10] as $min) {
                             $label = $rcmail->gettext(['name' => 'everynminutes', 'vars' => ['n' => $min]]);
                             $select->add($label, $min * 60);
                         }

@@ -63,7 +63,7 @@ class Browser extends \Laravel\Dusk\Browser
      */
     public function assertHasClass($selector, $class_name)
     {
-        $fullSelector = $this->resolver->format($selector);
+        $this->resolver->format($selector);
         $element = $this->resolver->findOrFail($selector);
         $classes = explode(' ', (string) $element->getAttribute('class'));
 

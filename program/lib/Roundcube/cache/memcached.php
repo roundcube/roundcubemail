@@ -74,7 +74,7 @@ class rcube_cache_memcached extends rcube_cache
         $rcube = rcube::get_instance();
         $pconnect = $rcube->config->get('memcache_pconnect', true);
         $timeout = $rcube->config->get('memcache_timeout', 1);
-        $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
+        // $retry_interval = $rcube->config->get('memcache_retry_interval', 15);
         $hosts = $rcube->config->get('memcache_hosts');
         $persistent_id = $pconnect ? ('rc' . md5(serialize($hosts))) : null;
 

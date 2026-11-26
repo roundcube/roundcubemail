@@ -180,8 +180,6 @@ class OauthTest extends ActionTestCase
      */
     public function test_login_redirect()
     {
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'login', '');
-
         $oauth = new \rcmail_oauth($this->config);
         $oauth->init();
 
@@ -197,7 +195,7 @@ class OauthTest extends ActionTestCase
         $this->assertSame(OutputHtmlMock::E_REDIRECT, $ecode);
         $this->assertMatchesRegularExpression('|^Location: https://test/auth\?.*|', $result);
 
-        [$base, $query] = explode('?', substr($result, 10));
+        [, $query] = explode('?', substr($result, 10));
         parse_str($query, $map);
 
         $this->assertSame($this->config['scope'], $map['scope']);
@@ -542,7 +540,7 @@ class OauthTest extends ActionTestCase
         // Initialize $_POST with known shape (value will be overwritten by authenticate)
         $_POST = ['_url' => null];
 
-        $result = $oauth->authenticate([]);
+        $oauth->authenticate([]);
 
         // Verify $_POST['_url'] was set
         $this->assertSame('_task=mail&_action=compose&_extwin=1', $_POST['_url']);
@@ -566,7 +564,7 @@ class OauthTest extends ActionTestCase
         // Initialize $_POST with known shape (value will be overwritten by authenticate)
         $_POST = ['_url' => null];
 
-        $result = $oauth->authenticate([]);
+        $oauth->authenticate([]);
 
         // Verify $_POST['_url'] was set with array params
         $this->assertSame('_task=mail&_action=compose&_extwin=1&_files[]=file1.txt&_files[]=file2.txt', $_POST['_url']);

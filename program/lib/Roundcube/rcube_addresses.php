@@ -145,7 +145,7 @@ class rcube_addresses extends rcube_contacts
             $required = [$required];
         }
 
-        $where = $post_search = [];
+        $where = [];
         $mode = intval($mode);
 
         // direct ID search
@@ -180,7 +180,7 @@ class rcube_addresses extends rcube_contacts
             $words = ($mode & rcube_addressbook::SEARCH_STRICT) ? [$value] : rcube_utils::tokenize_string($value, 1);
             foreach ($words as $word) {
                 $groups = [];
-                foreach ((array) $fields as $idx => $col) {
+                foreach ((array) $fields as $col) {
                     if ($col == 'email' && ($mode & rcube_addressbook::SEARCH_STRICT)) {
                         $groups[] = $this->db->ilike($col, $word);
                     } elseif (in_array($col, $this->table_cols)) {

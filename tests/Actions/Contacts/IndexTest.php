@@ -117,7 +117,7 @@ class IndexTest extends ActionTestCase
      */
     public function test_rowcount_display()
     {
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
         $result = \rcmail_action_contacts_index::rowcount_display([]);
 
         $this->assertSame('<span id="rcmcountdisplay">Loading...</span>', $result);
@@ -136,7 +136,7 @@ class IndexTest extends ActionTestCase
      */
     public function test_get_type_label()
     {
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
         $result = \rcmail_action_contacts_index::get_type_label('home');
 
         $this->assertSame('Home', $result);
@@ -179,8 +179,7 @@ class IndexTest extends ActionTestCase
      */
     public function test_source_selector()
     {
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
-
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'contacts', '');
         $result = \rcmail_action_contacts_index::source_selector([]);
         $expected = '<span>Personal Addresses<input type="hidden" name="_source" value="0"></span>';
 

@@ -1730,7 +1730,6 @@ class rcube
     public function gen_message_id($sender = null)
     {
         $local_part = md5(uniqid('rcube' . mt_rand(), true));
-        $domain_part = '';
 
         if ($sender && preg_match('/@([^\s]+\.[a-z0-9-]+)/', $sender, $m)) {
             $domain_part = $m[1];
@@ -1904,6 +1903,6 @@ class rcube_dummy_plugin_api
             $args = ['arg' => $args];
         }
 
-        return $args += ['abort' => false];
+        return $args + ['abort' => false];
     }
 }

@@ -436,7 +436,7 @@ class rcmail_oauth
             $body = (array) JWT::decode($jwt, JWK::parseKeySet($this->jwks), $header);
             $header = (array) $header;
         } else {
-            [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
+            [$headb64, $bodyb64/* $cryptob64 */] = explode('.', $jwt);
 
             $header = json_decode(static::base64url_decode($headb64), true);
             $body = json_decode(static::base64url_decode($bodyb64), true);

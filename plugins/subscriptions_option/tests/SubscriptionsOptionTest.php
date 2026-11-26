@@ -61,7 +61,6 @@ class SubscriptionsOptionTest extends ActionTestCase
         $storage = self::mockStorage()->registerFunction('clear_cache', true);
 
         $_POST = [];
-        $args = ['section' => 'server', 'prefs' => []];
 
         $result = $plugin->prefs_save($args);
 

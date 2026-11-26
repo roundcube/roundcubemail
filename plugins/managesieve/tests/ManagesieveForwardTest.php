@@ -14,7 +14,7 @@ class ManagesieveForwardTest extends ActionTestCase
     public function test_vacation_form()
     {
         $rcube = \rcube::get_instance();
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'managesieve');
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'managesieve');
 
         $plugin = new \managesieve($rcube->plugins);
         $forward = new \rcube_sieve_forward($plugin);

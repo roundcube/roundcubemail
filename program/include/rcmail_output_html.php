@@ -1028,7 +1028,6 @@ class rcmail_output_html extends rcmail_output
      */
     protected function file_mod($file)
     {
-        $fs = false;
         $ext = substr($file, strrpos($file, '.') + 1);
 
         // use minified file if exists (not in development mode)
@@ -2290,7 +2289,6 @@ class rcmail_output_html extends rcmail_output
 
         // set autocomplete attribute
         $user_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
-        $host_attrib = $autocomplete > 0 ? [] : ['autocomplete' => 'off'];
         $pass_attrib = $autocomplete > 1 ? [] : ['autocomplete' => 'off'];
 
         if ($username_filter && strtolower($username_filter) == 'email') {

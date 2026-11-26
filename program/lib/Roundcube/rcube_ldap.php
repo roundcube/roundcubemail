@@ -288,11 +288,11 @@ class rcube_ldap extends rcube_addressbook
      */
     private function _connect()
     {
-        $rcube = rcube::get_instance();
-
         if ($this->ready) {
             return true;
         }
+
+        $rcube = rcube::get_instance();
 
         if (empty($this->prop['hosts'])) {
             $this->prop['hosts'] = [];
@@ -322,7 +322,6 @@ class rcube_ldap extends rcube_addressbook
             }
 
             // trigger post-connect hook
-            $rcube = rcube::get_instance();
             $conf = $rcube->plugins->exec_hook('ldap_connected', $this->prop + ['host' => $host]);
 
             $bind_pass = $conf['bind_pass'] ?? null;
@@ -721,7 +720,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @return array Accumulated group members
      */
-    private function _list_group_members($dn, $entry, $attr, $count)
+    private function _list_group_members(/* @phpstan-ignore method.unusedParameter */ $dn, $entry, $attr, $count)
     {
         // Use the member attributes to return an array of member ldap objects
         // NOTE that the member attribute is supposed to contain a DN
@@ -766,7 +765,7 @@ class rcube_ldap extends rcube_addressbook
      *
      * @return array Accumulated group members
      */
-    private function _list_group_memberurl($dn, $entry, $count)
+    private function _list_group_memberurl(/* @phpstan-ignore method.unusedParameter */ $dn, $entry, $count)
     {
         $group_members = [];
 

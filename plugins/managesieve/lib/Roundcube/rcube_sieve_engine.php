@@ -2884,9 +2884,9 @@ class rcube_sieve_engine
             foreach ((array) $this->list as $idx => $name) {
                 $_name = strtoupper($name);
                 if ($_name == 'MASTER') {
-                    $master_script = $name;
+                    // $master_script = $name;
                 } elseif ($_name == 'MANAGEMENT') {
-                    $management_script = $name;
+                    // $management_script = $name;
                 } elseif ($_name == 'USER') {
                     $user_script = $name;
                 } else {
@@ -3025,7 +3025,7 @@ class rcube_sieve_engine
                     ];
 
                     // get all active scripts for sorting
-                    foreach ($script as $rid => $rules) {
+                    foreach ($script as $rules) {
                         foreach ($rules['actions'] as $action) {
                             if ($action['type'] == 'include' && empty($action['global'])) {
                                 $target = $extension ? preg_replace($regexp, '', $action['target']) : $action['target'];
@@ -3402,7 +3402,7 @@ class rcube_sieve_engine
             // otherwise put the rule on top
             else {
                 array_unshift($this->script, $rule);
-                $rule_index = 0;
+                // $rule_index = 0;
             }
 
             // if the script is not active, but the rule is, we need to de-activate

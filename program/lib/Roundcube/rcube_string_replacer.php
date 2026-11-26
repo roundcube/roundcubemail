@@ -268,7 +268,8 @@ class rcube_string_replacer
 
         if (preg_match('/(\[|\])/', $url)) {
             $in = false;
-            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
+            $len = strlen($url);
+            for ($i = 0; $i < $len; $i++) {
                 if ($url[$i] == '[') {
                     if ($in) {
                         break;
@@ -291,7 +292,9 @@ class rcube_string_replacer
         // Do the same for parentheses
         if (preg_match('/(\(|\))/', $url)) {
             $in = false;
-            for ($i = 0, $len = strlen($url); $i < $len; $i++) {
+            $len = strlen($url);
+            $i = 0;
+            for (; $i < $len; $i++) {
                 if ($url[$i] == '(') {
                     if ($in) {
                         break;

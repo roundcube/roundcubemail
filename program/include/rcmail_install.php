@@ -115,8 +115,6 @@ class rcmail_install
             $this->defaults = $this->config;
         }
 
-        $config = null;
-
         // config
         if ($config = $this->load_config_file(RCUBE_CONFIG_DIR . 'config.inc.php')) {
             $this->config = array_merge($this->config, $config);
@@ -659,7 +657,7 @@ class rcmail_install
         } elseif ($expected === '-VALID-') {
             if ($var == 'date.timezone') {
                 try {
-                    $tz = new \DateTimeZone($status);
+                    new \DateTimeZone($status);
                     $this->pass($var);
                 } catch (\Exception $e) {
                     $this->optfail($var, empty($status) ? 'not set' : "invalid value detected: {$status}");

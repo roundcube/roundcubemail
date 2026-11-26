@@ -222,6 +222,11 @@ class SearchTest extends ActionTestCase
                 ['test', 'from,to', 'UNSEEN', '-1W'],
                 "UNSEEN BEFORE {$weekDate} OR HEADER FROM test HEADER TO test",
             ],
+            // test Gmail option aliases
+            [
+                'newer_than:2022-12-31 older_than:2022-11-30',
+                'SINCE 31-Dec-2022 BEFORE 30-Nov-2022',
+            ],
             // test OR-operator and AND-operator
             [
                 '"OR"',

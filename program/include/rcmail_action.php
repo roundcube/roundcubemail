@@ -1115,7 +1115,7 @@ abstract class rcmail_action
 
             // sometimes folder has a delimiter as the last character
             if (!strlen($subFolders)) {
-                $virtual = false;
+                // $virtual = false;
             } elseif (!isset($arrFolders[$currentFolder])) {
                 $virtual = true;
             } else {
@@ -1150,7 +1150,6 @@ abstract class rcmail_action
         $storage = $rcmail->get_storage();
 
         $maxlength = intval($attrib['maxlength']);
-        $realnames = (bool) $attrib['realnames'];
         $msgcounts = $storage->get_cache('messagecount');
         $collapsed = (string) $rcmail->config->get('collapsed_folders');
         $realnames = (bool) $rcmail->config->get('show_real_foldernames');

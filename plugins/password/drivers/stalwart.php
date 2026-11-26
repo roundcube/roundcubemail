@@ -122,7 +122,7 @@ class rcube_stalwart_password
             ]);
 
             $code = $response->getStatusCode();
-            $resp = (string) $response->getBody();
+            // $resp = (string) $response->getBody();
 
             if ($code !== 200) {
                 return PASSWORD_ERROR;

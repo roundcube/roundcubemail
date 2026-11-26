@@ -107,7 +107,8 @@ class database_attachments extends filesystem_attachments
     public function remove($args)
     {
         $cache = $this->get_cache();
-        $status = $cache->remove($args['id']);
+
+        $cache->remove($args['id']);
 
         $args['status'] = true;
 

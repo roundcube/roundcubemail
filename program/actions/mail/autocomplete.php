@@ -42,7 +42,6 @@ class rcmail_action_mail_autocomplete extends rcmail_action
 
         if (strlen($search) && ($book_types = self::autocomplete_addressbooks())) {
             $sort_keys = [];
-            $books_num = count($book_types);
             $search_lc = mb_strtolower($search);
             $mode |= rcube_addressbook::SEARCH_GROUPS;
             $fields = $rcmail->config->get('contactlist_fields');

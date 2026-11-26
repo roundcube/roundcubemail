@@ -20,7 +20,7 @@ class AboutTest extends TestCase
                     ->assertButton('cancel', 'Close')
                     ->assertVisible('@content #aboutframe');
 
-                if ($url = \rcmail::get_instance()->config->get('support_url')) {
+                if (\rcmail::get_instance()->config->get('support_url')) {
                     $browser->assertButton('mainaction.help', 'Get support');
                 }
             });
