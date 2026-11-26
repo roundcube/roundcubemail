@@ -385,7 +385,7 @@ class rcube_washtml
      *
      * @return string Washed URI
      */
-    private function wash_uri($uri, $blocked_source = false, $is_image = true)
+    public function wash_uri($uri, $blocked_source = false, $is_image = true)
     {
         if ($uri === null) {
             return '';
