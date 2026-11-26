@@ -334,7 +334,6 @@ class rcube_smtp
                 $msg = $result->getMessage();
 
                 if (strpos($msg, 'size exceeds')) {
-                    $err_label = 'smtpsizeerror';
                     $exts = $this->conn->getServiceExtensions();
 
                     if (!empty($exts['SIZE'])) {

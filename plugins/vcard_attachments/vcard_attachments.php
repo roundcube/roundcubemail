@@ -324,7 +324,7 @@ class vcard_attachments extends rcube_plugin
     public function attach_vcard($args)
     {
         if (preg_match('|^vcard://(.+)$|', $args['uri'], $m)) {
-            [$source, $cid, $email] = explode('-', $m[1]);
+            [$source, $cid /* , $email */] = explode('-', $m[1]);
 
             $vcard = $this->get_contact_vcard($source, $cid, $filename);
 

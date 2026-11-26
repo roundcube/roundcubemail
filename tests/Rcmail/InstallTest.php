@@ -67,7 +67,6 @@ class InstallTest extends ActionTestCase
      */
     public function test_check_mime_detection()
     {
-        $rcmail = \rcmail::get_instance();
         $install = \rcmail_install::get_instance();
 
         $result = $install->check_mime_detection();
@@ -85,7 +84,6 @@ class InstallTest extends ActionTestCase
     #[RequiresOperatingSystemFamily('Linux')]
     public function test_check_mime_extensions()
     {
-        $rcmail = \rcmail::get_instance();
         $install = \rcmail_install::get_instance();
 
         $result = $install->check_mime_extensions();
@@ -98,7 +96,6 @@ class InstallTest extends ActionTestCase
      */
     public function test_list_skins()
     {
-        $rcmail = \rcmail::get_instance();
         $install = \rcmail_install::get_instance();
 
         $result = $install->list_skins();
@@ -111,7 +108,6 @@ class InstallTest extends ActionTestCase
      */
     public function test_list_plugins()
     {
-        $rcmail = \rcmail::get_instance();
         $install = \rcmail_install::get_instance();
 
         $result = $install->list_plugins();

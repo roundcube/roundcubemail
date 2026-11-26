@@ -85,7 +85,6 @@ class rcube_base_replacer
         }
 
         $host_url = $base_url;
-        $abs_path = $path;
 
         // cut base_url to the last directory
         if (strrpos($base_url, '/') > 7) {

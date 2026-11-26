@@ -1487,7 +1487,7 @@ class rcmail_sendmail
         }
 
         $out = $form_start ? "{$form_start}\n" : '';
-        $out .= $selector->show((int) $sel);
+        $out .= $selector->show($sel);
         $out .= $form_end ? "\n{$form_end}" : '';
 
         return $out;

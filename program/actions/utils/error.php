@@ -133,7 +133,6 @@ class rcmail_action_utils_error extends rcmail_action
             $rcmail->output->send('error');
         }
 
-        $skin = $rcmail->config->get('skin', 'default');
         $product = $rcmail->config->get('product_name', 'Roundcube Webmail');
 
         $output = '<!doctype html><html><head>'

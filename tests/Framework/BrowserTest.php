@@ -168,7 +168,7 @@ class BrowserTest extends TestCase
 
         $extracted = [];
 
-        foreach ($browser as $label => $data) {
+        foreach ($browser as $data) {
             foreach ($keys as $key) {
                 $extracted[$data['useragent']][] = $data[$key];
             }

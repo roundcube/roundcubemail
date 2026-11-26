@@ -61,7 +61,7 @@ class AttachmentUploadTest extends ActionTestCase
 
         // Upload error case
         $_SESSION = ['compose_data_123' => ['test' => 'test']];
-        $file = $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
+        $this->fakeUpload('_attachments', true, \UPLOAD_ERR_INI_SIZE);
 
         $this->runAndAssert($action, OutputJsonMock::E_EXIT);
 

@@ -293,8 +293,7 @@ class rcube_tnef_decoder
                     case self::MAPI_NAMED_TYPE_STRING:
                         $attr_name = 0x9999;
                         $idlen = $this->_geti($data, 32);
-                        $name = $this->_getx($data, $idlen + ((4 - ($idlen % 4)) % 4));
-                        // $name      = $this->convertString(substr($name, 0, $idlen));
+                        $this->_getx($data, $idlen + ((4 - ($idlen % 4)) % 4));
                         break;
                     case self::MAPI_NAMED_TYPE_NONE:
                     default:
@@ -420,7 +419,7 @@ class rcube_tnef_decoder
                 $this->codepage = $value[1];
                 break;
             case self::AMCLASS:
-                $value = trim(str_replace('Microsoft Mail v3.0 ', '', $value));
+                // $value = trim(str_replace('Microsoft Mail v3.0 ', '', $value));
                 // Normal message will be that with prefix 'IPM.Microsoft Mail.
                 break;
             case self::ASUBJECT:
@@ -495,10 +494,10 @@ class rcube_tnef_decoder
      */
     protected function _decodeRTF($data)
     {
-        $c_size = $this->_geti($data, 32);
+        $this->_geti($data, 32);
         $size = $this->_geti($data, 32);
         $magic = $this->_geti($data, 32);
-        $crc = $this->_geti($data, 32);
+        $this->_geti($data, 32); // crc
 
         if ($magic == self::RTF_COMPRESSED) {
             $data = $this->_decompressRTF($data, $size);

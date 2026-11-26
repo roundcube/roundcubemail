@@ -26,8 +26,6 @@ class OauthTest extends ActionTestCase
 
         $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
 
-        $result = $output->getOutput();
-
         $this->assertSame("ERROR: Missing required OAuth config options 'oauth_auth_uri', 'oauth_client_id'", trim(StderrMock::$output));
         $this->assertNull($output->getOutput());
     }

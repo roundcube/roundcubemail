@@ -74,7 +74,7 @@ class squirrelmail_usercopy extends rcube_plugin
             ) {
                 for ($i = 1; $i < $this->prefs['identities']; $i++) {
                     unset($ident_data);
-                    $ident_data = ['name' => '', 'email' => '']; // required data
+                    $ident_data = ['name' => '', 'email' => '']; // @phpstan-ignore-line required data
 
                     if (!empty($this->prefs['full_name' . $i])) {
                         $ident_data['name'] = $this->prefs['full_name' . $i];

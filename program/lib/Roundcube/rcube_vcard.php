@@ -196,7 +196,7 @@ class rcube_vcard
                 continue;
             }
 
-            foreach ((array) $this->raw[$tag] as $i => $raw) {
+            foreach ((array) $this->raw[$tag] as $raw) {
                 if (is_array($raw)) {
                     $key = $col;
                     $subtype = '';
@@ -289,7 +289,7 @@ class rcube_vcard
         // handle special IM fields as used by Apple
         foreach ($this->immap as $tag => $type) {
             if (!empty($this->raw[$tag])) {
-                foreach ((array) $this->raw[$tag] as $i => $raw) {
+                foreach ((array) $this->raw[$tag] as $raw) {
                     $out['im:' . $type][] = $raw[0];
                 }
             }
@@ -819,8 +819,7 @@ class rcube_vcard
 
             // convert 2.1-style "EMAIL;internet;home:" to 3.0-style "EMAIL;TYPE=internet;TYPE=home:"
             if (
-                !empty($result['VERSION'])
-                && $result['VERSION'][0] == '2.1'
+                in_array('2.1', $result['VERSION'] ?? [])
                 && preg_match('/^([^;]+);([^:]+)/', $prefix, $regs2)
                 && !preg_match('/^TYPE=/i', $regs2[2])
             ) {

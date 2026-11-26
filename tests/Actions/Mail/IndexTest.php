@@ -266,7 +266,7 @@ class IndexTest extends ActionTestCase
     public function test_options_menu_link()
     {
         $action = new \rcmail_action_mail_index();
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
+        $this->initOutput(\rcmail_action::MODE_HTTP, 'mail', '');
 
         $link = $action->options_menu_link(['icon' => 'ico.png']);
 

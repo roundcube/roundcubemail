@@ -287,7 +287,7 @@ class rcmail_attachment_handler
      */
     public function html()
     {
-        [$type, $subtype] = explode('/', $this->mimetype);
+        [, $subtype] = explode('/', $this->mimetype);
         $part = (object) [
             'charset' => $this->charset,
             'ctype_secondary' => $subtype,

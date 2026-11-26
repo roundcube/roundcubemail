@@ -258,13 +258,12 @@ class acl extends rcube_plugin
         // depending on server capability either use 'te' or 'd' for deleting msgs
         $deleteright = implode('', array_intersect(str_split('ted'), $supported));
 
-        $out = '';
         $ul = '';
         $input = new html_checkbox();
 
         // Advanced rights
         $attrib['id'] = 'advancedrights';
-        foreach ($supported as $key => $val) {
+        foreach ($supported as $val) {
             $id = "acl{$val}";
             $ul .= html::tag('li', null,
                 $input->show('', ['name' => "acl[{$val}]", 'value' => $val, 'id' => $id])
@@ -711,7 +710,7 @@ class acl extends rcube_plugin
         $self = $this->rc->get_user_name();
 
         // find realm in username of logged user (?)
-        [$name, $domain] = rcube_utils::explode('@', $self);
+        [, $domain] = rcube_utils::explode('@', $self);
 
         // Use (always existent) ACL entry on the INBOX for the user to determine
         // whether or not the user ID in ACL entries need to be qualified and how

@@ -124,7 +124,7 @@ class UserTest extends ActionTestCase
 
         $this->assertCount(3, $idents);
 
-        $ident = $user->set_default($id);
+        $user->set_default($id);
 
         $idents = $user->list_identities();
 
@@ -136,7 +136,7 @@ class UserTest extends ActionTestCase
         $this->assertSame('test@example.org', $idents[2]['email']);
         $this->{'assertEquals'}(0, $idents[2]['standard']);
 
-        $ident = $user->delete_identity($default);
+        $user->delete_identity($default);
 
         $idents = $user->list_identities();
 

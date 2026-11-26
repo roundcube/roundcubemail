@@ -257,7 +257,7 @@ class rcube_imap_cache
             }
 
             // insert/update
-            $this->add_index_row($mailbox, $sort_field, $data, $mbox_data, $exists, $modseq);
+            $this->add_index_row($mailbox, $sort_field, $data, $mbox_data, $modseq);
         }
 
         $this->icache[$mailbox]['index'] = [
@@ -319,7 +319,7 @@ class rcube_imap_cache
             $index['object'] = $this->get_thread_data($mailbox, $mbox_data);
 
             // insert/update
-            $this->add_thread_row($mailbox, $index['object'], $mbox_data, !empty($exists));
+            $this->add_thread_row($mailbox, $index['object'], $mbox_data);
         }
 
         $this->icache[$mailbox]['thread'] = $index;
@@ -774,7 +774,7 @@ class rcube_imap_cache
     /**
      * Saves index data into database
      */
-    private function add_index_row($mailbox, $sort_field, $data, $mbox_data = [], $exists = false, $modseq = null)
+    private function add_index_row($mailbox, $sort_field, $data, $mbox_data = [], $modseq = null)
     {
         if (!($this->mode & self::MODE_INDEX)) {
             return;
@@ -803,7 +803,7 @@ class rcube_imap_cache
     /**
      * Saves thread data into database
      */
-    private function add_thread_row($mailbox, $data, $mbox_data = [], $exists = false)
+    private function add_thread_row($mailbox, $data, $mbox_data = [])
     {
         if (!($this->mode & self::MODE_INDEX)) {
             return;
@@ -1127,7 +1127,7 @@ class rcube_imap_cache
         }
 
         // update index and/or HIGHESTMODSEQ value
-        $this->add_index_row($mailbox, $sort_field, $data, $mbox_data, $exists);
+        $this->add_index_row($mailbox, $sort_field, $data, $mbox_data);
 
         // update internal cache for get_index()
         $this->icache[$mailbox]['index']['object'] = $data;

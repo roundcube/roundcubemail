@@ -299,7 +299,7 @@ class rcube_charset
         try {
             $out = mb_convert_encoding($str, $to, $from);
         } catch (\Throwable $e) {
-            $out = false;
+            // $out = false;
         }
 
         mb_substitute_character($mbstring_sc);
@@ -332,7 +332,7 @@ class rcube_charset
             try {
                 $out = iconv($from, $to . $iconv_options, $str);
             } catch (\Throwable $e) {
-                $out = false;
+                // $out = false;
             }
 
             restore_error_handler();

@@ -683,7 +683,7 @@ class rcube_imap_generic
                 $gssapicontext->acquireCredentials($ccache);
 
                 $token = '';
-                $success = $gssapicontext->initSecContext($this->prefs['gssapi_context'], '', 0, 0, $token);
+                $gssapicontext->initSecContext($this->prefs['gssapi_context'], '', 0, 0, $token);
                 $token = base64_encode($token);
             } catch (\Exception $e) {
                 trigger_error($e->getMessage(), \E_USER_WARNING);
@@ -1357,7 +1357,7 @@ class rcube_imap_generic
             $result = [];
             $response = substr($response, 9); // remove prefix "* STATUS "
 
-            [$mbox, $items] = $this->tokenizeResponse($response, 2);
+            [/* mbox */, $items] = $this->tokenizeResponse($response, 2);
 
             // Fix for #1487859. Some buggy server returns not quoted
             // folder name with spaces. Let's try to handle this situation
@@ -2949,7 +2949,6 @@ class rcube_imap_generic
             }
 
             // handle UNKNOWN-CTE response - RFC 3516, try again with standard BODY request
-            // @phpstan-ignore-next-line
             if ($binary && !$found && preg_match('/^' . $key . ' NO \[(UNKNOWN-CTE|PARSE)\]/i', $line)) {
                 $binary = $initiated = false;
                 continue;
@@ -3034,7 +3033,7 @@ class rcube_imap_generic
                     }
                 }
             }
-        } while (!$initiated || !$this->startsWith($line, $key, true)); // @phpstan-ignore-line
+        } while (!$initiated || !$this->startsWith($line, $key, true));
 
         if ($result !== false) {
             if ($file) {
@@ -3453,7 +3452,7 @@ class rcube_imap_generic
             // Parse server response (remove "* ACL ")
             $response = substr($response, 6);
             $ret = $this->tokenizeResponse($response);
-            $mbox = array_shift($ret);
+            array_shift($ret); // mbox
             $size = count($ret);
 
             // Create user-rights hash array
@@ -3493,8 +3492,8 @@ class rcube_imap_generic
             // Parse server response (remove "* LISTRIGHTS ")
             $response = substr($response, 13);
 
-            $ret_mbox = $this->tokenizeResponse($response, 1);
-            $ret_user = $this->tokenizeResponse($response, 1);
+            $this->tokenizeResponse($response, 1); // mbox
+            $this->tokenizeResponse($response, 1); // user
             $granted = $this->tokenizeResponse($response, 1);
             $optional = trim($response);
 
@@ -3522,7 +3521,7 @@ class rcube_imap_generic
             // Parse server response (remove "* MYRIGHTS ")
             $response = substr($response, 11);
 
-            $ret_mbox = $this->tokenizeResponse($response, 1);
+            $this->tokenizeResponse($response, 1); // mbox
             $rights = $this->tokenizeResponse($response, 1);
 
             return str_split($rights);
@@ -4074,6 +4073,7 @@ class rcube_imap_generic
                     // we need to strip slashes for a quoted string
                     $result[] = stripslashes(substr($str, 1, $pos - 1));
                     $str = substr($str, $pos + 1);
+                    unset($pos);
                     break;
                     // Parenthesized list (<< reindent once https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7179 is fixed)
                 case '(':

@@ -34,7 +34,7 @@ class new_user_identity extends rcube_plugin
      */
     public function lookup_user_name($args)
     {
-        if ($this->init_ldap($args['host'], $args['user'])) {
+        if ($this->init_ldap($args['host'])) {
             $results = $this->ldap->search('*', $args['user'], true);
 
             if (count($results->records) == 1) {
@@ -122,7 +122,7 @@ class new_user_identity extends rcube_plugin
     /**
      * Initialize LDAP backend connection
      */
-    private function init_ldap($host, $user)
+    private function init_ldap($host)
     {
         if ($this->ldap) {
             return $this->ldap->ready;

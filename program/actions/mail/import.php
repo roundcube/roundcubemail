@@ -47,7 +47,7 @@ class rcmail_action_mail_import extends rcmail_action
                 if (!$err) {
                     // check file content type first
                     $ctype = rcube_mime::file_content_type($filepath, $_FILES['_file']['name'][$i], $_FILES['_file']['type'][$i]);
-                    [$mtype_primary, $mtype_secondary] = explode('/', $ctype);
+                    [$mtype_primary] = explode('/', $ctype);
 
                     if (in_array($ctype, ['application/zip', 'application/x-zip'])) {
                         $filepath = self::zip_extract($filepath);
@@ -141,7 +141,6 @@ class rcmail_action_mail_import extends rcmail_action
             $line = fgets($fp);
         } while ($line !== false && trim($line) == '');
 
-        $format = null;
         if (str_starts_with($line, 'From ')) {
             $format = 'mbox';
         } elseif (preg_match('/^[a-z-_]+:\s+.+/i', $line)) {
@@ -163,7 +162,6 @@ class rcmail_action_mail_import extends rcmail_action
                 }
 
                 $message = $line;
-                $lastline = '';
                 continue;
             }
 

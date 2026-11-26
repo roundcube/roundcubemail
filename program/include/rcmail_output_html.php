@@ -1028,7 +1028,6 @@ class rcmail_output_html extends rcmail_output
      */
     protected function file_mod($file)
     {
-        $fs = false;
         $ext = substr($file, strrpos($file, '.') + 1);
 
         // use minified file if exists (not in development mode)

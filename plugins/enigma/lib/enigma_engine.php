@@ -164,7 +164,7 @@ class enigma_engine
 
             // We can't use format=flowed for signed messages
             if (strpos($text_charset, 'format=flowed')) {
-                [$charset, $params] = explode(';', $text_charset);
+                [$charset] = explode(';', $text_charset);
                 $body = rcube_mime::unfold_flowed($body);
                 $body = rcube_mime::wordwrap($body, $line_length, "\r\n", false, $charset);
 
@@ -644,7 +644,7 @@ class enigma_engine
         $struct = $p['structure'];
 
         $msg_part = $struct->parts[0];
-        $sig_part = $struct->parts[1];
+        // $sig_part = $struct->parts[1];
 
         // Get bodies
         if ($body === null) {
@@ -683,6 +683,7 @@ class enigma_engine
      * @param array  &$p   Reference to hook's parameters
      * @param string $body Part body (will be set if used internally)
      */
+    // @phpstan-ignore-next-line
     private function parse_smime_signed(&$p, $body = null)
     {
         if (!$this->rc->config->get('enigma_signatures', true)) {
@@ -841,7 +842,7 @@ class enigma_engine
      *
      * @param array &$p Reference to hook's parameters
      */
-    private function parse_smime_encrypted(&$p)
+    private function parse_smime_encrypted(/* @phpstan-ignore method.unusedParameter */ &$p)
     {
         if (!$this->rc->config->get('enigma_decryption', true)) {
             return;

@@ -730,7 +730,7 @@ class rcube_html2text
                 else {
                     break;
                 }
-            } while ($end || $next);
+            } while ($next);
         }
     }
 

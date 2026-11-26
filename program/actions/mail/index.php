@@ -550,7 +550,6 @@ class rcmail_action_mail_index extends rcmail_action
             }
 
             $a_msg_cols = [];
-            $a_msg_flags = [];
 
             // format each col; similar as in self::message_list()
             foreach ($allcols as $col) {

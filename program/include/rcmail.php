@@ -758,6 +758,7 @@ class rcmail extends rcube
         // Convert username to lowercase. If storage backend
         // is case-insensitive we need to store always the same username (#1487113)
         if ($login_lc) {
+            // @phpstan-ignore identical.alwaysFalse
             if ($login_lc == 2 || $login_lc === true) {
                 $username = mb_strtolower($username);
             } elseif (strpos($username, '@')) {

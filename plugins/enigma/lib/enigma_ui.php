@@ -475,7 +475,6 @@ class enigma_ui
                 $filename = (is_object($list[0]) ? $list[0]->id : $list[0]) . '.pgp';
             }
 
-            $status = null;
             foreach ($list as $key) {
                 $keyid = is_object($key) ? $key->id : $key;
                 $status = $engine->export_key($keyid, $fp, (bool) $priv);
@@ -1218,11 +1217,10 @@ class enigma_ui
         $engine = $this->enigma->load_engine();
 
         // skip: message has no signed/encoded content
-        if (!$this->enigma->engine) {
+        if (!$engine) {
             return $p;
         }
 
-        $engine = $this->enigma->engine;
         $locks = (array) $this->rc->config->get('enigma_options_lock');
 
         // Decryption status

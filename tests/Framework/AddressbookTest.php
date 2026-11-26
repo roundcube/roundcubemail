@@ -24,7 +24,6 @@ class AddressbookTest extends TestCase
 
         $this->assertSame(['test@test.com'], $result);
 
-        $data = ['email:home' => 'test@test.com', 'other' => 'test'];
         $result = \rcube_addressbook::get_col_values('email', $data, false);
 
         $this->assertSame(['home' => ['test@test.com']], $result);

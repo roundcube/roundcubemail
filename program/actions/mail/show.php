@@ -189,7 +189,7 @@ class rcmail_action_mail_show extends rcmail_action_mail_index
         }
 
         $rcmail = rcmail::get_instance();
-        $out = $ol = '';
+        $ol = '';
         $attachments = [];
 
         foreach (self::$MESSAGE->attachments as $attach_prop) {

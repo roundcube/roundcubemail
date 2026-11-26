@@ -322,7 +322,7 @@ class rcmail_action_mail_send extends rcmail_action
         $rcmail = rcmail::get_instance();
         $folding = (int) $rcmail->config->get('mime_param_folding');
 
-        foreach ($attachments as $id => $attachment) {
+        foreach ($attachments as $attachment) {
             // This hook retrieves the attachment contents from the file storage backend
             $attachment = $rcmail->plugins->exec_hook('attachment_get', $attachment);
             $is_inline = false;
@@ -350,16 +350,13 @@ class rcmail_action_mail_send extends rcmail_action
                     $cid .= '@localhost';
                 }
 
-                if ($dispurl && !empty($message_body)) {
-                    $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
+                $message_body = preg_replace($dispurl, '"cid:' . $cid . '"', $message_body);
 
-                    rcube_utils::preg_error([
-                        'message' => 'Could not replace an image reference!',
-                    ], true);
+                rcube_utils::preg_error([
+                    'message' => 'Could not replace an image reference!',
+                ], true);
 
-                    $message->setHTMLBody($message_body);
-                }
-
+                $message->setHTMLBody($message_body);
                 $message->addHTMLImage($file, $ctype, $attachment['name'], $is_file, $cid);
             } else {
                 $message->addAttachment($file,

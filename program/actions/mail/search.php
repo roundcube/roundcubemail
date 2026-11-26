@@ -132,7 +132,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
             }
         }
         // handle IMAP errors (e.g. #1486905)
-        elseif ($err_code = $rcmail->storage->get_error_code()) {
+        elseif ($rcmail->storage->get_error_code()) {
             $count = 0;
             self::display_server_error();
         }
@@ -252,7 +252,7 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
             $not = '';
 
-            if (preg_match('/^(-?[a-zA-Z-]+):(.*)$/', $part, $matches)) {
+            if (preg_match('/^(-?[a-zA-Z_-]+):(.*)$/', $part, $matches)) {
                 $option = $matches[1];
                 $value = $value_function($matches[2]);
 
@@ -368,9 +368,8 @@ class rcmail_action_mail_search extends rcmail_action_mail_index
 
                 break;
             case 'older_than': // GMail alias
-                $option = 'before';
             case 'newer_than': // GMail alias
-                $option = 'since';
+                $option = $option == 'older_than' ? 'before' : 'since';
             case 'since':
             case 'before':
                 if (preg_match('/^[0-9]+[WMY]$/i', $value)) {

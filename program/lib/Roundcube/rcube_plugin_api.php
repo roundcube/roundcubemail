@@ -361,7 +361,7 @@ class rcube_plugin_api
             if (!isset($composer_lock)) {
                 $composer_lock = @json_decode(@file_get_contents(INSTALL_PATH . '/composer.lock'), true);
                 if ($composer_lock && !empty($composer_lock['packages'])) {
-                    foreach ($composer_lock['packages'] as $i => $package) {
+                    foreach ($composer_lock['packages'] as $package) {
                         $composer_lock['installed'][$package['name']] = $package;
                     }
                 }

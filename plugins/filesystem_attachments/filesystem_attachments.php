@@ -71,7 +71,6 @@ class filesystem_attachments extends rcube_plugin
     public function upload($args)
     {
         $args['status'] = false;
-        $group = $args['group'];
 
         // use common temp dir for file uploads
         $tmpfname = rcube_utils::temp_filename('attmnt');
@@ -91,7 +90,6 @@ class filesystem_attachments extends rcube_plugin
      */
     public function save($args)
     {
-        $group = $args['group'];
         $args['status'] = false;
 
         if (empty($args['path'])) {

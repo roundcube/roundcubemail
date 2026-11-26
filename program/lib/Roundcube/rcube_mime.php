@@ -356,8 +356,8 @@ class rcube_mime
                 $address = rtrim($m[2], '>');
                 $name = trim($m[1]);
             } elseif (preg_match('/^(' . $email_rx . ')$/', $val, $m)) {
+                // $name = '';
                 $address = $m[1];
-                $name = '';
             }
             // special case (#1489092)
             elseif (preg_match('/(\s*<MAILER-DAEMON>)$/', $val, $m)) {
@@ -851,8 +851,7 @@ class rcube_mime
 
             $mime = $matches[1];
 
-            foreach (explode(' ', $matches[2]) as $ext) {
-                $ext = trim($ext);
+            foreach (array_map('trim', explode(' ', $matches[2])) as $ext) {
                 $mime_types[$mime][] = $ext;
                 $mime_extensions[$ext] = $mime;
             }

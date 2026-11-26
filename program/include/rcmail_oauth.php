@@ -420,7 +420,7 @@ class rcmail_oauth
      */
     public function jwt_decode($jwt)
     {
-        [$headb64, $bodyb64, $cryptob64] = explode('.', $jwt);
+        [$headb64, $bodyb64/* $cryptob64*/] = explode('.', $jwt);
 
         $header = json_decode(static::base64url_decode($headb64), true);
         $body = json_decode(static::base64url_decode($bodyb64), true);

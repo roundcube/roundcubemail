@@ -81,7 +81,7 @@ class enigma_key_lookup
         $recipient = strtolower($recipient);
 
         if (is_array($keyserver)) {
-            [$local, $domain] = explode('@', $recipient);
+            [, $domain] = explode('@', $recipient);
 
             if (!empty($keyserver[$domain])) {
                 $keyserver = $keyserver[$domain];
@@ -101,8 +101,6 @@ class enigma_key_lookup
             $response = $client->get($keyserver . '/pks/lookup?op=index&options=mr&search=' . rawurlencode($recipient));
 
             $source = $response->getBody();
-            $ctype = $response->getHeader('Content-Type');
-            $ctype = !empty($ctype) ? $ctype[0] : '';
         } catch (\Exception $e) {
             if (!($e instanceof RequestException) || $e->getResponse()?->getStatusCode() != 404) {
                 rcube::raise_error($e, true, false);

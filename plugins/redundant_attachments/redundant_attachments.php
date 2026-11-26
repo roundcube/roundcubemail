@@ -167,7 +167,7 @@ class redundant_attachments extends filesystem_attachments
         $status = $this->cache->remove($args['id']);
 
         if (!$status && $this->mem_cache) {
-            $status = $this->cache->remove($args['id']);
+            $this->cache->remove($args['id']);
         }
 
         // we cannot trust the result of any of the methods above

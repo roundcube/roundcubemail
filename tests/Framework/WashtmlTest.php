@@ -316,7 +316,6 @@ class WashtmlTest extends TestCase
         $this->assertStringContainsString($exp, $washed, 'Style quotes XSS issue (#1490227)');
 
         $html = "<img style=aaa:'&quot;/onerror=alert(1)//'>";
-        $exp = '<img style="aaa: &#039;&quot;/onerror=alert(1)//&#039;" />';
 
         $washer = new \rcube_washtml();
         $washed = $washer->wash($html);
@@ -832,14 +831,14 @@ class WashtmlTest extends TestCase
 
         foreach ($html as $item) {
             $washer = new \rcube_washtml();
-            $washed = $washer->wash($item[0]);
+            $washer->wash($item[0]);
 
             $this->assertSame($item[1], $washer->extlinks, "Failed on: {$item[0]}");
         }
 
         foreach ($html as $item) {
             $washer = new \rcube_washtml(['allow_remote' => true]);
-            $washed = $washer->wash($item[0]);
+            $washer->wash($item[0]);
 
             $this->assertFalse($washer->extlinks);
         }

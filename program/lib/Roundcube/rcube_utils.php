@@ -1439,7 +1439,6 @@ class rcube_utils
         // Note that in PHP 7.2/7.3 calling idn_to_* functions with default arguments
         // throws a warning, so we have to set the variant explicitly (#6075)
         $variant = \INTL_IDNA_VARIANT_UTS46;
-        $options = 0;
 
         // Because php-intl extension lowercases domains and return false
         // on invalid input (#6224), we skip conversion when not needed
@@ -1605,7 +1604,7 @@ class rcube_utils
                     $key = substr($key, 0, $sp - 2);
                     $value = substr($arg, $sp + 1);
                 } elseif (in_array($key, $bool)) {
-                    $value = true;
+                    // $value = true;
                 } elseif (
                     isset($_SERVER['argv'][$i + 1])
                     && strlen($_SERVER['argv'][$i + 1])

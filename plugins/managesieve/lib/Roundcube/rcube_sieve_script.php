@@ -213,7 +213,6 @@ class rcube_sieve_script
     {
         $output = '';
         $exts = [];
-        $idx = 0;
 
         if (!empty($this->vars)) {
             if (in_array('variables', (array) $this->supported)) {
@@ -575,7 +574,6 @@ class rcube_sieve_script
 
             if ($script) {
                 $output .= $script . (!empty($tests) ? "}\r\n" : '');
-                $idx++;
             }
         }
 

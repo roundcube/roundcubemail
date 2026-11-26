@@ -40,7 +40,6 @@ class IdentitiesTest extends ActionTestCase
     public function test_identities_list()
     {
         $action = new \rcmail_action_settings_identities();
-        $output = $this->initOutput(\rcmail_action::MODE_HTTP, 'settings', 'identities');
 
         self::initDB('identities');
 
