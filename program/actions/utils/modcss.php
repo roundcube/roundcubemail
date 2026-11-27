@@ -40,11 +40,32 @@ class rcmail_action_utils_modcss extends rcmail_action
         }
 
         $realurl = $_SESSION['modcssurls'][$url];
+        $parsed = parse_url($realurl);
 
-        // don't allow any other connections than http(s)
-        if (!preg_match('~^https?://~i', $realurl, $matches)) {
+        if (empty($parsed) || empty($parsed['host'])) {
             $rcmail->output->sendExitError(403, 'Invalid URL');
         }
+
+        $scheme = strtolower($parsed['scheme'] ?? 'http');
+        $host = $parsed['host'];
+        $port = $parsed['port'] ?? ($scheme == 'https' ? 443 : 80);
+
+        // validate URL and don't allow any other connections than http(s)
+        if ($scheme != 'http' && $scheme != 'https') {
+            $rcmail->output->sendExitError(403, 'Invalid URL');
+        }
+
+        // allow only hosts that resolve to an IP address
+        if (!($ip = self::host2ip($host))) {
+            $rcmail->output->sendExitError(403, 'Invalid URL host');
+        }
+
+        // do not reach to a local network for security
+        if (rcube_utils::is_local_ip($ip)) {
+            $rcmail->output->sendExitError(403, 'Local network host');
+        }
+
+        // TODO: block access to self ($_SERVER['HTTP_HOST']?)
 
         $source = false;
         $ctype = null;
@@ -55,6 +76,10 @@ class rcmail_action_utils_modcss extends rcmail_action
                 'allow_redirects' => false,
                 'read_timeout' => 10,
                 'stream' => true,
+                'curl' => [
+                    // Use the host's IP address
+                    \CURLOPT_RESOLVE => ["{$host}:{$port}:" . (str_contains($ip, ':') ? "[{$ip}]" : $ip)],
+                ],
             ];
 
             $client = rcube::get_instance()->get_http_client($options);
@@ -106,5 +131,38 @@ class rcmail_action_utils_modcss extends rcmail_action
             && str_contains($source, '{')
             && str_contains($source, '}')
             && str_contains($source, ':');
+    }
+
+    /**
+     * Resolve hostname into an IP address
+     */
+    private static function host2ip($host): ?string
+    {
+        if (!empty($host)) {
+            // Is it already a valid IP address?
+            if (inet_pton($host) !== false) {
+                return $host;
+            }
+
+            // Find IPv4 address
+            if (($ip = gethostbyname($host)) && $ip !== $host) {
+                return $ip;
+            }
+
+            // Find IPv6 address (ignore warnings)
+            set_error_handler(static function () {}, \E_WARNING);
+            $dns = dns_get_record($host, \DNS_AAAA);
+            restore_error_handler();
+
+            if ($dns) {
+                foreach ($dns as $record) {
+                    if ($record['type'] == 'AAAA') {
+                        return $record['ipv6'];
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }

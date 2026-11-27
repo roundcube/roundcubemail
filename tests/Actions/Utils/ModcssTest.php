@@ -74,5 +74,45 @@ class ModcssTest extends ActionTestCase
         $this->assertContains('Content-Type: text/css', $output->getProperty('headers'));
         $this->assertContains('X-Content-Type-Options: nosniff', $output->getProperty('headers'));
         $this->assertStringContainsString('#cid div.prefixpre', $output->getOutput());
+
+        // Local network host (IPv4)
+        $_SESSION['modcssurls'][$key] = 'http://127.0.0.1/test.css';
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $this->assertSame(403, $output->getProperty('errorCode'));
+        $this->assertSame('Local network host', $output->getProperty('errorMessage'));
+
+        // Local network host (localhost)
+        $_SESSION['modcssurls'][$key] = 'http://localhost/test.css';
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $this->assertSame(403, $output->getProperty('errorCode'));
+        $this->assertSame('Local network host', $output->getProperty('errorMessage'));
+
+        // Unresolvable host
+        $_SESSION['modcssurls'][$key] = 'http://unknown.unknown/test.css';
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $this->assertSame(403, $output->getProperty('errorCode'));
+        $this->assertSame('Invalid URL host', $output->getProperty('errorMessage'));
+
+        // Local network host (IPv6)
+        $_SESSION['modcssurls'][$key] = 'http://fc00--1.nip.io/test.css';
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $this->assertSame(403, $output->getProperty('errorCode'));
+        $this->assertSame('Local network host', $output->getProperty('errorMessage'));
+
+        // Unsupported schema
+        $_SESSION['modcssurls'][$key] = 'ftp://raw.githubusercontent.com/test.css';
+
+        $this->runAndAssert($action, OutputHtmlMock::E_EXIT);
+
+        $this->assertSame(403, $output->getProperty('errorCode'));
+        $this->assertSame('Invalid URL', $output->getProperty('errorMessage'));
     }
 }

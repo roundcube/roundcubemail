@@ -740,77 +740,49 @@ class UtilsTest extends TestCase
     }
 
     /**
-     * Test is_local_url()
+     * Test is_local_ip()
      *
-     * @dataProvider provide_is_local_url_cases
+     * @dataProvider provide_is_local_ip_cases
      */
-    #[DataProvider('provide_is_local_url_cases')]
-    public function test_is_local_url($input, $output)
+    #[DataProvider('provide_is_local_ip_cases')]
+    public function test_is_local_ip($input, $output)
     {
-        $this->assertSame($output, \rcube_utils::is_local_url($input));
+        $this->assertSame($output, \rcube_utils::is_local_ip($input));
     }
 
     /**
-     * Test-Cases for is_local_url() test
+     * Test-Cases for is_local_ip() test
      */
-    public static function provide_is_local_url_cases(): iterable
+    public static function provide_is_local_ip_cases(): iterable
     {
         return [
             // Local hosts
-            ['https://127.0.0.1', true],
-            ['https://10.1.1.1', true],
-            ['https://172.16.0.1', true],
-            ['https://192.168.0.100', true],
-            ['https://169.254.0.200', true],
-            ['http://[fc00::1]', true],
-            ['ftp://[::1]:8080', true],
-            ['//127.0.0.1', true],
-            ['http://localhost', true],
-            ['http://localhost.localdomain', true],
-            ['http://localhost.:8080/', true],
-            ['http://2130706433:8080', true],
-            ['http://0x7f000001:8080', true],
-            ['http://0177.0.0.1:8080', true],
-            ['http://127.1:8080', true],
-            ['http://0.0.0.0:8080', true],
-            ['http://[::ffff:127.0.0.1]:8080', true],
-            ['http://127.0.0.1.nip.io', true],
-            ['http://fc00--1.nip.io', true],
-            ['http://--1.nip.io', true],
-            ['http://127-0-0-1.nip.io', true],
-            ['http://127-0-0-1.nip.io.', true],
-            ['http://7F000001.nip.io/', true],
-            ['http://127.0.0.1.2.nip.io', true], // 127.0.0.1
-            ['http://0.0.0.0.0.ffff.7f00.1.backname.io', true],
-            ['http://x.127.0.0.1.nip.io', true],
-            ['http://x.0a000001.nip.io/', true],
-            ['http://x.c0a80101.nip.io/', true],
-            ['http://x.a9fea9fe.nip.io/', true],
-            ['http://x.0-0-0-0-0-0-0-0-1.sslip.io/', true],
-            ['http://0-0-0-0-0-0-0-0-1.sslip.io/', true],
-            ['http://metadata.google.internal', true],
-            ['http://127.0.0.1.sslip.io/', true],
-            ['http://[0:0:0:0:0:ffff:127.0.0.1]/', true],
-            ['http://0/', true],
-            ['http://100.64.0.1', true],
-            ['http://[fe80::1]', true],
-            ['http://[::ffff:7f00:1]/', true],
-            ['http://[0:0:0:0:0:ffff:7f00:1]/', true],
-            ['http://[::ffff:a9fe:a9fe]/', true],
-            ['http://[::]/', true],
-            ['http://[64:ff9b::]/', true],
-            ['http://[64:ff9b:1::]/', true],
-            ['http://[64:ff9b::a9fe:a9fe]/', true],
-            ['http://[64:ff9b::7f00:1]/', true],
-            ['http://[2002:a9fe:a9fe::]/', true],
-            ['http://[2002:7f00:1::]/', true],
+            ['127.0.0.1', true],
+            ['10.1.1.1', true],
+            ['172.16.0.1', true],
+            ['192.168.0.100', true],
+            ['169.254.0.200', true],
+            ['[fc00::1]', true],
+            ['[::1]', true],
+            ['0.0.0.0', true],
+            ['::ffff:127.0.0.1', true],
+            ['0:0:0:0:0:ffff:127.0.0.1', true],
+            ['100.64.0.1', true],
+            ['fe80::1', true],
+            ['::ffff:7f00:1', true],
+            ['0:0:0:0:0:ffff:7f00:1', true],
+            ['::ffff:a9fe:a9fe', true],
+            ['[::]', true],
+            ['64:ff9b::', true],
+            ['64:ff9b:1::', true],
+            ['64:ff9b::a9fe:a9fe', true],
+            ['64:ff9b::7f00:1', true],
+            ['2002:a9fe:a9fe::', true],
+            ['2002:7f00:1::', true],
             // Non-local hosts
-            ['http://[2001:470::76:0:0:0:2]', false],
-            ['http://domain.tld', false],
-            ['http://20.0.0.1.nip.io', false],
-            ['http://20.0.0.1.nip.io.', false],
-            ['http://www-20-0-0-1.nip.io', false],
-            ['http://40b01609.nip.io/', false],
+            ['2001:470::76:0:0:0:2', false],
+            ['invalid', false],
+            ['20.0.0.1', false],
         ];
     }
 
