@@ -1,0 +1,34 @@
+From: someone@example.com
+To: buddy@example.com
+Subject: test raw
+Content-Type: multipart/mixed; boundary="NextPart"
+
+--NextPart
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><br>html message bla bla bla<br>
+</body></html>
+
+--NextPart
+Content-Type: text/plain; name="file1.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+dGVzdCBhdHRhY2htZW50IDE=
+
+--NextPart
+Content-Type: text/plain; name=file2.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+dGVzdCBhdHRhY2htZW50IDI=
+
+--NextPart
+Content-Type: application/octet-stream; name=file3.pdf
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+JVBERi0xLjQKJXRlc3QgYXR0YWNobWVudCAzCg==
+
+--NextPart--
