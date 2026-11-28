@@ -1577,6 +1577,9 @@ $config['available_font_sizes'] = ['8pt', '9pt', '10pt', '11pt', '12pt', '14pt',
 // Enables display of email address with name instead of a name (and address in title)
 $config['message_show_email'] = false;
 
+// Enables display of address comments in message headers and the message list
+$config['message_show_address_comments'] = false;
+
 // Default behavior of Reply-All button:
 // 0 - Reply-All always
 // 1 - Reply-List if mailing list is detected
