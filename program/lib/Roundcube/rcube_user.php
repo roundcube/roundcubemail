@@ -478,20 +478,14 @@ class rcube_user
     public function set_default($iid)
     {
         if ($this->ID && $iid) {
+            // Clear the old default and set the new one in a single statement, so that
+            // two concurrent requests can not leave the user with two (or no) defaults
             $this->db->query(
                 'UPDATE ' . $this->db->table_name('identities', true)
-                . " SET `standard` = '0'"
-                . ' WHERE `user_id` = ? AND `identity_id` <> ?',
-                $this->ID,
-                $iid
-            );
-
-            $this->db->query(
-                'UPDATE ' . $this->db->table_name('identities', true)
-                . " SET `standard` = '1'"
-                . ' WHERE `user_id` = ? AND `identity_id` = ?',
-                $this->ID,
-                $iid
+                . " SET `standard` = CASE WHEN `identity_id` = ? THEN '1' ELSE '0' END"
+                . ' WHERE `user_id` = ?',
+                $iid,
+                $this->ID
             );
 
             $this->identities = [];
