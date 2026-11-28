@@ -144,6 +144,55 @@ class UserTest extends ActionTestCase
     }
 
     /**
+     * Test that set_default() changes the default identity with a single statement
+     */
+    public function test_set_default_is_one_statement()
+    {
+        self::initDB('init');
+
+        $user = new \rcube_user(1);
+
+        $first = $user->insert_identity(['name' => 'first', 'email' => 'first@ident.com']);
+        $second = $user->insert_identity(['name' => 'second', 'email' => 'second@ident.com']);
+
+        $rcmail = \rcmail::get_instance();
+        $spy = new class($rcmail->config->get('db_dsnw')) extends \rcube_db_sqlite {
+            public $queries = [];
+
+            #[\Override]
+            public function query($query, ...$params)
+            {
+                $this->queries[] = $query;
+
+                return parent::query($query, ...$params);
+            }
+        };
+
+        $property = new \ReflectionProperty(\rcube_user::class, 'db');
+        $property->setAccessible(true);
+        $property->setValue($user, $spy);
+
+        $user->set_default($second);
+
+        $this->assertCount(1, $spy->queries);
+
+        $spy->queries = [];
+        $user->set_default($first);
+
+        $this->assertCount(1, $spy->queries);
+
+        $user = new \rcube_user(1);
+        $standard = [];
+        foreach ($user->list_identities() as $ident) {
+            $standard[$ident['email']] = (int) $ident['standard'];
+        }
+
+        $this->assertSame(1, $standard['first@ident.com']);
+        $this->assertSame(0, $standard['second@ident.com']);
+        $this->assertSame(1, array_sum($standard));
+    }
+
+    /**
      * Test failed_login() and is_locked()
      */
     public function test_failed_login()
