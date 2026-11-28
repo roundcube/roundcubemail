@@ -4,6 +4,7 @@ This file includes only changes we consider noteworthy for users, admins and plu
 
 ## Unreleased
 
+- Fix "Pdo\Mysql" class not found on upgrade with Composer-managed dependencies (#10399)
 - Drop support for IMAP host input on logon (#10315)
 - Preserve the original message date on import of EML messages (#5559, #10251)
 - OAuth: Validate JWT token signature (#10210)
