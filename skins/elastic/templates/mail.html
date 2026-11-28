@@ -213,6 +213,14 @@
 		</div>
 	</div>
 	<roundcube:endif />
+	<roundcube:if condition="!in_array('list_hover_menu', (array)config:dont_override)" />
+	<div class="form-group row">
+		<label for="listoptions-hovermenu" class="col-form-label col-sm-4"><roundcube:label name="listhovermenu" /></label>
+		<div class="col-sm-8">
+            <input type="checkbox" id="listoptions-hovermenu" name="hover_menu" value="1" />
+		</div>
+	</div>
+	<roundcube:endif />
 	<roundcube:container name="listoptions" id="listoptionsmenu" />
 	<roundcube:add_label name="listoptionstitle" />
 </div>
