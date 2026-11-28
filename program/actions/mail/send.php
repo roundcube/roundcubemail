@@ -298,11 +298,7 @@ class rcmail_action_mail_send extends rcmail_action
 
                 $save_error = true;
             } else {
-                $rcmail->delete_uploaded_files($COMPOSE_ID);
-                $rcmail->session->remove('compose_data_' . $COMPOSE_ID);
-                $_SESSION['last_compose_session'] = $COMPOSE_ID;
-
-                $rcmail->output->command('remove_compose_data', $COMPOSE_ID);
+                rcmail_action_mail_delete::delete_compose_data($COMPOSE_ID);
 
                 if ($store_folder) {
                     $folders[] = $store_target;

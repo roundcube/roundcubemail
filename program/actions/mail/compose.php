@@ -106,7 +106,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             'selectimportfile', 'messageissent', 'loadingdata', 'nopubkeyfor', 'nopubkeyforsender',
             'encryptnoattachments', 'encryptedsendialog', 'searchpubkeyservers', 'importpubkeys',
             'encryptpubkeysfound', 'search', 'close', 'import', 'keyid', 'keylength', 'keyexpired',
-            'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename'
+            'keyrevoked', 'keyimportsuccess', 'keyservererror', 'attaching', 'namex', 'attachmentrename',
+            'deletingmessage', 'discardmessage', 'draftdiscarded', 'discarddraftwarning'
         );
 
         $rcmail->output->set_pagetitle($rcmail->gettext('compose'));
