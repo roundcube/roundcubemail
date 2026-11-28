@@ -66,6 +66,19 @@ class ImageTest extends TestCase
     }
 
     /**
+     * Test resize() with Imagick on a JPEG that libjpeg decodes at a reduced scale (jpeg:size)
+     */
+    public function test_resize_imagick_jpeg_reduced_scale()
+    {
+        // 512x256, decoded at 1/4 (128x64) for a 32 pixel thumbnail: left half red, right half blue
+        $thumb = $this->imagick_resize('large.jpg', 32, 'jpg');
+
+        $this->assert_image_size($thumb, 32, 16);
+        $this->assert_pixel_color($thumb, 2, 2, [1, 0, 0]);
+        $this->assert_pixel_color($thumb, 29, 13, [0, 0, 1]);
+    }
+
+    /**
      * Test resize() with Imagick on a CMYK JPEG
      */
     public function test_resize_imagick_cmyk()

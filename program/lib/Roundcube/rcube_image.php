@@ -171,8 +171,16 @@ class rcube_image
                     // use PHP's Imagick class
                     else {
                         try {
+                            $image = new \Imagick();
+
+                            // libjpeg decodes at the smallest scale (1/8 to 8/8) that still covers
+                            // twice the thumbnail, not the whole photo
+                            if ($p['intype'] == 'jpg') {
+                                $image->setOption('jpeg:size', ($size * 2) . 'x' . ($size * 2));
+                            }
+
                             // read only the first frame/page
-                            $image = new \Imagick($this->image_file . '[0]');
+                            $image->readImage($this->image_file . '[0]');
                             $image->transformImageColorspace(\Imagick::COLORSPACE_SRGB);
 
                             try {
