@@ -682,39 +682,50 @@ function rcube_webmail() {
 
                 input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
 
-                // display 'loading' message on form submit, lock submit button
-                $('form').submit(function () {
-                    $('[type=submit]', this).prop('disabled', true);
-                    ref.clear_messages();
-                    ref.display_message('', 'loading');
-                });
+                var loaded = Date.now();
 
-                // a logon form older than its session would fail on submit, reload it before (#8194)
-                if (this.env.session_lifetime && input_user.length) {
-                    var loaded = Date.now(),
-                        reload_stale = function (force) {
-                            // the server keeps a session for at least 120 seconds,
-                            // and a submitted form must not be interrupted
-                            if (Date.now() - loaded > Math.max(120, ref.env.session_lifetime) * 900
-                                && !$('[type=submit]', input_user[0].form).prop('disabled')
-                                && (force === true || (!input_user.val() && !$('#rcmloginpwd').val()))
-                            ) {
-                                // keep the page the user wanted to reach (_url)
-                                location.replace(location.pathname + '?' + ($('#rcmloginurl').val() || '_task=login'));
+                // display 'loading' message on form submit, lock submit button
+                $('form').submit(function (e) {
+                    var form = this, done = false,
+                        submit = function () {
+                            if (!done) {
+                                done = true;
+                                // submit again, so other submit handlers still run (and can cancel)
+                                $(form).trigger('submit');
                             }
                         };
 
-                    // on return to the page (even if the fields were filled), and every minute while they are empty
-                    $(document).on('visibilitychange', function () {
-                        if (!document.hidden) {
-                            reload_stale(true);
-                        }
-                    });
-                    $(window).on('focus', function () {
-                        reload_stale(true);
-                    });
-                    setInterval(reload_stale, 60000);
-                }
+                    $('[type=submit]', this).prop('disabled', true);
+                    ref.clear_messages();
+                    ref.display_message('', 'loading');
+
+                    // a logon form older than its session would fail (#8194), so first load
+                    // the form again in the background for a new session and token. The server
+                    // keeps a session for at least 120 seconds, but an unchanged session may
+                    // expire after half of its lifetime.
+                    if (input_user.length && form == input_user[0].form
+                        && Date.now() - loaded > Math.max(120, ref.env.session_lifetime || 0) * 450
+                    ) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        loaded = Date.now();
+                        // fetch(), not $.ajax(), which would get a JSON reply instead of the page
+                        fetch(location.pathname + '?_task=login', { credentials: 'same-origin' })
+                            .then(function (response) {
+                                return response.text();
+                            })
+                            .then(function (html) {
+                                var token = $('input[name="_token"]', new DOMParser().parseFromString(html, 'text/html')).val();
+                                if (token) {
+                                    $('input[name="_token"]', form).val(token);
+                                }
+                            })
+                            .catch(function () {})
+                            .then(submit);
+                        // don't keep the user waiting if the request hangs
+                        setTimeout(submit, 10000);
+                    }
+                });
 
                 break;
         }
