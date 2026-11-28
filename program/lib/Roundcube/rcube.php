@@ -524,16 +524,31 @@ class rcube
             $temp_dir_ttl = 6 * 3600;   // 6 hours sensible lower bound.
         }
 
-        // Uploaded files metadata
+        // Uploaded files metadata, skip uploads of sessions that are still alive (#9732)
         $db = $this->get_dbh();
-        $db->query('DELETE FROM ' . $db->table_name('uploads', true)
-            . ' WHERE `created` < ' . $db->now($temp_dir_ttl * -1));
+        $uploads_table = $db->table_name('uploads', true);
+        $expired = '`created` < ' . $db->now($temp_dir_ttl * -1);
+
+        $db->query("DELETE FROM {$uploads_table} WHERE {$expired}"
+            . ' AND NOT EXISTS (SELECT 1 FROM ' . $db->table_name('session', true)
+            . " WHERE `sess_id` = {$uploads_table}.`session_id` AND `expires_at` > " . $db->now() . ')');
+
+        // Files of the uploads that were kept
+        $keep = [];
+        $sql_result = $db->query("SELECT `metadata` FROM {$uploads_table} WHERE {$expired}");
+
+        while ($sql_arr = $db->fetch_assoc($sql_result)) {
+            $metadata = json_decode($sql_arr['metadata'], true);
+            if (!empty($metadata['path'])) {
+                $keep[basename($metadata['path'])] = true;
+            }
+        }
 
         $expire = time() - $temp_dir_ttl;
 
         if ($tmp && ($dir = opendir($tmp))) {
             while (($fname = readdir($dir)) !== false) {
-                if (!str_starts_with($fname, RCUBE_TEMP_FILE_PREFIX)) {
+                if (!str_starts_with($fname, RCUBE_TEMP_FILE_PREFIX) || isset($keep[$fname])) {
                     continue;
                 }
 

@@ -123,4 +123,61 @@ class RcubeTest extends TestCase
             rmdir($temp_dir);
         }
     }
+
+    /**
+     * rcube::gc_temp()
+     */
+    public function test_gc_temp()
+    {
+        $rcube = \rcube::get_instance();
+        $db = $rcube->get_dbh();
+        $temp_dir = sys_get_temp_dir() . '/rcube-tests-' . uniqid();
+        $live_file = $temp_dir . '/' . RCUBE_TEMP_FILE_PREFIX . 'live';
+        $dead_file = $temp_dir . '/' . RCUBE_TEMP_FILE_PREFIX . 'dead';
+        $created = $db->now(-8 * 3600);
+
+        $default_temp_dir = $rcube->config->get('temp_dir');
+        $default_temp_dir_ttl = $rcube->config->get('temp_dir_ttl');
+
+        mkdir($temp_dir);
+        touch($live_file, time() - 8 * 3600);
+        touch($dead_file, time() - 8 * 3600);
+
+        $rcube->config->set('temp_dir', $temp_dir);
+        $rcube->config->set('temp_dir_ttl', '6h');
+
+        $db->query('INSERT INTO ' . $db->table_name('session', true)
+            . ' (`sess_id`, `vars`, `ip`, `expires_at`)'
+            . " VALUES ('live-session', '', '127.0.0.1', " . $db->now(3600) . ')');
+
+        foreach (['live' => $live_file, 'dead' => $dead_file] as $name => $path) {
+            $db->query('INSERT INTO ' . $db->table_name('uploads', true)
+                . ' (`created`, `session_id`, `upload_id`, `group`, `metadata`)'
+                . " VALUES ({$created}, ?, ?, 'compose', ?)",
+                "{$name}-session", "{$name}-upload", json_encode(['path' => $path]));
+        }
+
+        try {
+            $rcube->gc_temp();
+
+            // Uploads of a session that is still alive are kept (#9732)
+            $this->assertFileExists($live_file);
+            $this->assertFileDoesNotExist($dead_file);
+
+            $sql_result = $db->query('SELECT `upload_id` FROM ' . $db->table_name('uploads', true)
+                . " WHERE `upload_id` IN ('live-upload', 'dead-upload')");
+            $this->assertSame(['upload_id' => 'live-upload'], $db->fetch_assoc($sql_result));
+            $this->assertFalse($db->fetch_assoc($sql_result));
+        } finally {
+            $rcube->config->set('temp_dir', $default_temp_dir);
+            $rcube->config->set('temp_dir_ttl', $default_temp_dir_ttl);
+
+            $db->query('DELETE FROM ' . $db->table_name('uploads', true) . " WHERE `upload_id` = 'live-upload'");
+            $db->query('DELETE FROM ' . $db->table_name('session', true) . " WHERE `sess_id` = 'live-session'");
+
+            @unlink($live_file);
+            @unlink($dead_file);
+            rmdir($temp_dir);
+        }
+    }
 }
