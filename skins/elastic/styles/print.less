@@ -16,6 +16,28 @@ body {
     height: auto;
 }
 
+// Print the colors of the message, like on the screen. Browsers leave out background
+// colors and images by default, which makes white text on a colored banner of an HTML
+// message disappear on paper.
+#messagebody {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+// Print quotes and preformatted text without the gray borders that Bootstrap's print
+// styles add, like on the screen. The message's own styles are more specific and win.
+.message-part,
+.message-htmlpart {
+    blockquote {
+        border-top: 0;
+        border-bottom: 0;
+    }
+
+    pre {
+        border: 0;
+    }
+}
+
 #print-layout {
     margin: 1rem;
 
@@ -43,7 +65,12 @@ body {
         padding-left: .1rem;
     }
 
-    blockquote {
+    // Bootstrap's print styles keep these in one piece. If one does not fit on the rest
+    // of the page, the browser starts it on the next page and leaves a gap; Firefox
+    // does this even when it is longer than a page (#8181)
+    blockquote,
+    pre,
+    tr {
         page-break-inside: auto;
     }
 
