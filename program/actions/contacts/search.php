@@ -32,6 +32,15 @@ class rcmail_action_contacts_search extends rcmail_action_contacts_index
         $rcmail = rcmail::get_instance();
 
         if (empty($_GET['_form'])) {
+            // empty quick-search, list the selected address book instead (#8996)
+            if (!isset($_POST['_adv']) && empty($_GET['_sid'])
+                && !strlen(trim(rcube_utils::get_input_string('_q', rcube_utils::INPUT_GET, true)))
+            ) {
+                $_SESSION['page'] = 1;
+                $rcmail->overwrite_action('list');
+                return;
+            }
+
             self::contact_search();
         }
 
