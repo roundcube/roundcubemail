@@ -4,6 +4,8 @@ namespace Roundcube\Tests\Framework;
 
 use Roundcube\Tests\ActionTestCase;
 
+use function Roundcube\Tests\setProperty;
+
 /**
  * Test class to test rcube_user class
  */
@@ -168,9 +170,7 @@ class UserTest extends ActionTestCase
             }
         };
 
-        $property = new \ReflectionProperty(\rcube_user::class, 'db');
-        $property->setAccessible(true);
-        $property->setValue($user, $spy);
+        setProperty($user, 'db', $spy, \rcube_user::class);
 
         $user->set_default($second);
 
