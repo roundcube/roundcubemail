@@ -682,11 +682,49 @@ function rcube_webmail() {
 
                 input_tz.val(tz ? tz : (new Date().getStdTimezoneOffset() / -60));
 
+                var loaded = Date.now();
+
                 // display 'loading' message on form submit, lock submit button
-                $('form').submit(function () {
+                $('form').submit(function (e) {
+                    var form = this, done = false,
+                        submit = function () {
+                            if (!done) {
+                                done = true;
+                                // submit again, so other submit handlers still run (and can cancel)
+                                $(form).trigger('submit');
+                            }
+                        };
+
                     $('[type=submit]', this).prop('disabled', true);
                     ref.clear_messages();
                     ref.display_message('', 'loading');
+
+                    // a logon form older than its session would fail (#8194), so first load
+                    // the form again in the background for a new session and token. The server
+                    // keeps a session for at least 120 seconds, but an unchanged session may
+                    // expire after half of its lifetime.
+                    if (input_user.length && form == input_user[0].form
+                        && Date.now() - loaded > Math.max(120, ref.env.session_lifetime || 0) * 450
+                    ) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        loaded = Date.now();
+                        // fetch(), not $.ajax(), which would get a JSON reply instead of the page
+                        fetch(location.pathname + '?_task=login', { credentials: 'same-origin' })
+                            .then(function (response) {
+                                return response.text();
+                            })
+                            .then(function (html) {
+                                var token = $('input[name="_token"]', new DOMParser().parseFromString(html, 'text/html')).val();
+                                if (token) {
+                                    $('input[name="_token"]', form).val(token);
+                                }
+                            })
+                            .catch(function () {})
+                            .then(submit);
+                        // don't keep the user waiting if the request hangs
+                        setTimeout(submit, 10000);
+                    }
                 });
 
                 break;
