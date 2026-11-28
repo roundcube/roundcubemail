@@ -49,6 +49,7 @@ class rcube_message
     protected $parse_alternative = false;
     protected $got_html_part = false;
     protected $tnef_decode = false;
+    protected $smime_level = 0;
 
     /**
      * This holds a list of Content-IDs and Content-Locations by which parts of
@@ -900,6 +901,16 @@ class rcube_message
         }
         // this is an S/MIME encrypted message -> create a plaintext body with the according message
         elseif ($mimetype == 'application/pkcs7-mime' || $mimetype == 'application/x-pkcs7-mime') {
+            // S/MIME signed (not encrypted) message: parse the signed content instead (#10398)
+            if ($content = $this->smime_signed_structure($structure)) {
+                $this->smime_level++;
+                // the content takes the place of the S/MIME part, its headers were handled already
+                $this->parse_structure($content);
+                $this->smime_level--;
+
+                return;
+            }
+
             $p = new rcube_message_part();
             $p->type = 'content';
             $p->ctype_primary = 'text';
@@ -1312,6 +1323,115 @@ class rcube_message
         }
 
         return $parts;
+    }
+
+    /**
+     * Get the content of an S/MIME signed-data part ("opaque" signed message) as message
+     * structure. The signature is not verified, like for multipart/signed messages (#10398).
+     *
+     * @param rcube_message_part $structure S/MIME part or message/rfc822 part with such a body
+     *
+     * @return rcube_message_part|null Structure of the signed content, Null if not signed-data or on error
+     */
+    protected function smime_signed_structure($structure)
+    {
+        $part = $structure->mimetype == 'message/rfc822' ? ($structure->parts[0] ?? null) : $structure;
+
+        // One signed message inside another is supported.
+        // The content is parsed in memory, we need up to 10x more memory than the size (#1487424)
+        if (!$part || $this->smime_level > 1 || !rcube_utils::mem_check($part->size * 10)) {
+            return null;
+        }
+
+        $smime_type = strtolower($part->ctype_parameters['smime-type'] ?? '');
+
+        // encrypted, compressed or certificates only
+        if (in_array($smime_type, ['enveloped-data', 'authenveloped-data', 'compressed-data', 'certs-only'])) {
+            return null;
+        }
+
+        // No (or unknown) smime-type parameter, check the CMS content type before fetching the whole body
+        if ($smime_type != 'signed-data'
+            && !rcube_mime::is_smime_signed_data($this->get_part_body($part->mime_id, false, 64))
+        ) {
+            return null;
+        }
+
+        $content = rcube_mime::smime_signed_content($this->get_part_body($part->mime_id));
+
+        if ($content === null) {
+            return null;
+        }
+
+        // rcube_mime_decode needs CRLF line endings
+        if (!str_contains($content, "\r\n")) {
+            $content = str_replace("\n", "\r\n", $content);
+        }
+
+        // parse the content like rcube_mime::parse_message() does
+        $decoder = new rcube_mime_decode(['decode_headers' => false, 'default_charset' => rcube_mime::get_charset()]);
+        $struct = $decoder->decode($content);
+
+        if (!$struct) {
+            return null;
+        }
+
+        // replace the S/MIME part with the content
+        unset($this->mime_parts[$part->mime_id]);
+        $this->smime_signed_part($struct, $part->mime_id);
+
+        return $struct;
+    }
+
+    /**
+     * Set the MIME ID of a part of the signed content (and its sub-parts) and
+     * register it, with the body in memory (like enigma does with decrypted parts)
+     *
+     * @param rcube_message_part $part    Message part
+     * @param string             $part_id MIME ID of the S/MIME part
+     */
+    private function smime_signed_part($part, $part_id)
+    {
+        // The content's top part has MIME ID '0', it takes the place of the S/MIME part
+        $part->mime_id = $part->mime_id ? ($part_id . '.' . $part->mime_id) : $part_id;
+
+        // never fetch the body from IMAP and never cache it
+        $part->encoding = 'stream';
+        $part->body_modified = true;
+        $part->body ??= '';
+
+        // Normalize the properties like for parts from IMAP (rcube_imap::structure_part()).
+        // A header that occurs more than once is an array here, use the first one like IMAP servers do.
+        foreach ($part->headers as $name => $value) {
+            if (is_array($value)) {
+                $part->headers[$name] = $value[0];
+            }
+        }
+
+        $part->mimetype = strtolower($part->mimetype);
+        [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype);
+
+        if ($part->disposition) {
+            $part->disposition = strtolower($part->disposition);
+            if ($part->disposition !== 'inline' && $part->disposition !== 'attachment') {
+                $part->disposition = 'attachment';
+            }
+        }
+
+        if (!rcube_charset::is_valid($part->charset)) {
+            $part->charset = '';
+        }
+
+        // decode the file name like for named parts from IMAP (e.g. RFC2231 with a charset)
+        if ($part->filename !== '') {
+            $part->normalize();
+        }
+
+        $this->mime_parts[$part->mime_id] = $part;
+
+        foreach ($part->parts as $subpart) {
+            $this->smime_signed_part($subpart, $part_id);
+        }
     }
 
     /**

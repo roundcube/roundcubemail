@@ -261,6 +261,48 @@ class IndexTest extends ActionTestCase
     }
 
     /**
+     * Test js_message_list() passing the S/MIME type to the list (#10398)
+     */
+    public function test_js_message_list_smime_type()
+    {
+        $action = new \rcmail_action_mail_index();
+        $output = $this->initOutput(\rcmail_action::MODE_AJAX, 'mail', 'list');
+
+        self::mockStorage()
+            ->registerFunction('get_search_set', null)
+            ->registerFunction('get_threading', false)
+            ->registerFunction('get_folder', 'INBOX')
+            ->registerFunction('get_folder', 'INBOX');
+
+        $_SESSION['sort_col'] = 'date';
+
+        $headers = [];
+        foreach ([1 => 'signed-data', 2 => 'enveloped-data', 3 => null] as $uid => $smime_type) {
+            $header = new \rcube_message_header();
+            $header->uid = $uid;
+            $header->size = 1000;
+            $header->folder = 'INBOX';
+            $header->subject = 'Test';
+            $header->from = 'test@example.org';
+            $header->date = 'Mon, 1 Jun 2020 10:00:00 +0000';
+            $header->ctype = 'application/pkcs7-mime';
+            $header->smime_type = $smime_type;
+            $headers[] = $header;
+        }
+
+        $action->js_message_list($headers);
+
+        $rows = array_values(array_filter($output->getProperty('commands'), static fn ($cmd) => $cmd[0] == 'add_message_row'));
+        $this->assertCount(3, $rows);
+
+        // command arguments: uid, columns, flags
+        $this->assertSame([1, 'application/pkcs7-mime', 'signed-data'], [$rows[0][1], $rows[0][3]['ctype'], $rows[0][3]['smime_type']]);
+        $this->assertSame([2, 'application/pkcs7-mime', 'enveloped-data'], [$rows[1][1], $rows[1][3]['ctype'], $rows[1][3]['smime_type']]);
+        $this->assertSame([3, 'application/pkcs7-mime'], [$rows[2][1], $rows[2][3]['ctype']]);
+        $this->assertArrayNotHasKey('smime_type', $rows[2][3]);
+    }
+
+    /**
      * Test options_menu_link() method
      */
     public function test_options_menu_link()

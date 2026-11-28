@@ -77,6 +77,67 @@ class rcube_mime
     }
 
     /**
+     * Check if the given data is an S/MIME (CMS) signed-data object,
+     * by its content type (RFC 5652, section 3)
+     *
+     * @param string $data DER or BER encoded data (the first 17 bytes are enough)
+     *
+     * @return bool True if the data is a signed-data object
+     */
+    public static function is_smime_signed_data($data)
+    {
+        // ContentInfo ::= SEQUENCE { contentType OBJECT IDENTIFIER, content [0] EXPLICIT ANY }
+        if (strlen($data) < 13 || $data[0] !== "\x30") {
+            return false;
+        }
+
+        // skip the length of the SEQUENCE (short, long or indefinite form)
+        $length = ord($data[1]);
+        $pos = $length > 0x80 ? 2 + $length - 0x80 : 2;
+
+        // id-signedData (1.2.840.113549.1.7.2)
+        return substr($data, $pos, 11) === "\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x07\x02";
+    }
+
+    /**
+     * Extract the content of an S/MIME signed-data object ("opaque" signed message).
+     * The signature is not verified.
+     *
+     * @param string $data DER or BER encoded signed-data object
+     *
+     * @return string|null The signed content (a MIME entity), Null on error
+     */
+    public static function smime_signed_content($data)
+    {
+        if (!function_exists('openssl_cms_verify') || !self::is_smime_signed_data($data)) {
+            return null;
+        }
+
+        $input = rcube_utils::temp_filename('smime');
+        $output = rcube_utils::temp_filename('smime');
+        $content = null;
+
+        // Get the content only. Like with multipart/signed messages we display it without checking the signature.
+        // Without OPENSSL_CMS_BINARY PHP opens the input file in text mode on Windows, which breaks the DER data.
+        $flags = \OPENSSL_CMS_NOVERIFY | \OPENSSL_CMS_NOSIGS | \OPENSSL_CMS_BINARY;
+        if (file_put_contents($input, $data) !== false
+            && openssl_cms_verify($input, $flags, null, [], null, $output, null, null, \OPENSSL_ENCODING_DER)
+        ) {
+            $content = file_get_contents($output);
+        }
+
+        // clear the OpenSSL error queue
+        while (openssl_error_string() !== false) {
+            continue;
+        }
+
+        @unlink($input);
+        @unlink($output);
+
+        return is_string($content) && $content !== '' ? $content : null;
+    }
+
+    /**
      * Split an address list into a structured array list
      *
      * @param string|array $input    Input string (or list of strings)

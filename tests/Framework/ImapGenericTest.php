@@ -239,6 +239,71 @@ class ImapGenericTest extends TestCase
     }
 
     /**
+     * Test for fetchHeaders() reading the S/MIME type from the Content-Type header (#10398)
+     */
+    public function test_fetchHeaders_smime_type()
+    {
+        $headers = [
+            1 => "Content-Type: application/pkcs7-mime; smime-type=signed-data;\r\n\tname=smime.p7m\r\n\r\n",
+            2 => "Content-Type: application/pkcs7-mime;\r\n smime-type=\"Signed-Data\"; name=\"smime.p7m\"\r\n\r\n",
+            3 => "Content-Type: application/x-pkcs7-mime; name=smime.p7m; smime-type=enveloped-data\r\n\r\n",
+            4 => "Content-Type: application/pkcs7-mime; name=\"smime-type=signed-data.p7m\"\r\n\r\n",
+            5 => "Content-Type: application/pkcs7-mime; name=smime.p7m\r\n\r\n",
+            6 => "Content-Type: text/plain; charset=utf-8\r\n\r\n",
+        ];
+
+        $conn = new class extends \rcube_imap_generic {
+            public $response = [];
+
+            public function __construct()
+            {
+                // fetch() reads up to the tagged response only on an open connection
+                $this->fp = fopen('php://memory', 'r');
+            }
+
+            /**
+             * @return int
+             */
+            #[\Override]
+            protected function putLine($string, $endln = true, $anonymized = false)
+            {
+                return strlen($string);
+            }
+
+            #[\Override]
+            protected function readLine($size = 1024)
+            {
+                return (string) array_shift($this->response);
+            }
+
+            #[\Override]
+            protected function readBytes($bytes)
+            {
+                return (string) array_shift($this->response);
+            }
+        };
+
+        foreach ($headers as $id => $header) {
+            $conn->response[] = "* {$id} FETCH (UID 1{$id} BODY[HEADER.FIELDS (CONTENT-TYPE)] {" . strlen($header) . "}\r\n";
+            $conn->response[] = $header;
+            $conn->response[] = ")\r\n";
+        }
+        $conn->response[] = "A0001 OK Completed\r\n";
+        $conn->selected = 'INBOX';
+
+        $result = $conn->fetchHeaders('INBOX', '1:6');
+
+        $this->assertSame('application/pkcs7-mime', $result[1]->ctype);
+        $this->assertSame('signed-data', $result[1]->smime_type);
+        $this->assertSame('signed-data', $result[2]->smime_type);
+        $this->assertSame('enveloped-data', $result[3]->smime_type);
+        $this->assertNull($result[4]->smime_type);
+        $this->assertNull($result[5]->smime_type);
+        $this->assertNull($result[6]->smime_type);
+        $this->assertSame('utf-8', $result[6]->charset);
+    }
+
+    /**
      * Test for decodeContent() with no encoding
      */
     public function test_decode_content_plain()

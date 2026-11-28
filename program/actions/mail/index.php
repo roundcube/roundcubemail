@@ -614,6 +614,9 @@ class rcmail_action_mail_index extends rcmail_action
             }
 
             $a_msg_flags['ctype'] = rcube::Q($header->ctype);
+            if (!empty($header->smime_type)) {
+                $a_msg_flags['smime_type'] = rcube::Q($header->smime_type);
+            }
             $a_msg_flags['mbox'] = $header->folder;
 
             // Merge with plugin result
@@ -1701,8 +1704,8 @@ class rcmail_action_mail_index extends rcmail_action
      */
     public static function search_has_attachment()
     {
-        // Content-Type values of messages with attachments
-        // the same as in app.js:add_message_row()
+        // Content-Type values of messages that may have attachments. The list in app.js:add_message_row() shows
+        // the paperclip for them, or its own icon for signed and encrypted messages, which may contain attachments, too
         $ctypes = ['application/', 'multipart/mixed', 'multipart/signed', 'multipart/report'];
 
         // Build search string of "with attachment" filter

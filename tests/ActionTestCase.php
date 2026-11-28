@@ -161,6 +161,36 @@ class ActionTestCase extends TestCase
     }
 
     /**
+     * Create a rcube_message object for a message structure, with a mocked storage
+     *
+     * @param \rcube_message_part $structure Message structure, as rcube_imap::get_message() builds it
+     * @param array               $bodies    Part bodies the storage returns, in the order they are fetched
+     *
+     * @return \rcube_message The message object
+     */
+    public static function mockMessage($structure, $bodies = [])
+    {
+        $headers = new \rcube_message_header();
+        $headers->uid = 10;
+        $headers->subject = 'Test';
+        $headers->from = 'Sender <sender@example.test>';
+        $headers->date = 'Sun, 22 Nov 2026 10:00:00 +0000';
+        $headers->ctype = $structure->mimetype;
+        $headers->structure = $structure;
+
+        $storage = self::mockStorage()
+            ->registerFunction('set_folder')
+            ->registerFunction('set_options')
+            ->registerFunction('get_message', $headers);
+
+        foreach ($bodies as $body) {
+            $storage->registerFunction('set_folder')->registerFunction('get_message_part', $body);
+        }
+
+        return new \rcube_message(10, 'INBOX');
+    }
+
+    /**
      * Create a temp file
      */
     protected function createTempFile($content = '')

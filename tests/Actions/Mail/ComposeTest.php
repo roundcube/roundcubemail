@@ -95,4 +95,29 @@ class ComposeTest extends ActionTestCase
         $result = $action->compose_part_body($part, false);
         $this->assertSame('_test_ it!', $result);
     }
+
+    /**
+     * Test the reply body of an opaque S/MIME signed message (#10398)
+     */
+    public function test_prepare_message_body_smime_signed_data()
+    {
+        $file = TESTS_DIR . 'MessageRendering/data/greenmail/test-message-rendering@localhost/INBOX/smime-signed-data.eml';
+        [, $body] = explode("\r\n\r\n", file_get_contents($file), 2);
+
+        $part = new \rcube_message_part();
+        $part->mime_id = '1';
+        [$part->ctype_primary, $part->ctype_secondary] = explode('/', $part->mimetype = 'application/pkcs7-mime');
+        $part->ctype_parameters = ['smime-type' => 'signed-data', 'name' => 'smime.p7m'];
+        $part->encoding = 'base64';
+        $part->size = strlen($body);
+        $part->filename = 'smime.p7m';
+
+        $action = new \rcmail_action_mail_compose();
+        setProperty($action, 'MESSAGE', self::mockMessage($part, [base64_decode($body)]));
+        setProperty($action, 'COMPOSE', ['mode' => \rcmail_sendmail::MODE_REPLY, 'id' => 'test']);
+
+        $result = $action->prepare_message_body();
+
+        $this->assertStringContainsString("\n> This message is signed, not encrypted. Grüße!", $result);
+    }
 }

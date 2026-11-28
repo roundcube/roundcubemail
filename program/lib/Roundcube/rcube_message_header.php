@@ -129,6 +129,13 @@ class rcube_message_header
     public $ctype;
 
     /**
+     * S/MIME type (the smime-type parameter of Content-Type), e.g. signed-data
+     *
+     * @var ?string
+     */
+    public $smime_type;
+
+    /**
      * Message timestamp (based on message date)
      *
      * @var ?int
