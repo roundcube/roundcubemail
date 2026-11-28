@@ -30,7 +30,7 @@ class Search_CreateTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-create', $result['action']);
-        $this->assertSame('this.display_message("Could not create saved search.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not create saved search.', 'error', 0]], $result['js_calls']);
     }
 
     /**
@@ -58,13 +58,13 @@ class Search_CreateTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('search-create', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Saved search created successfully.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.insert_saved_search("test2",'));
+        $this->assertContains(['display_message', 'Saved search created successfully.', 'confirmation', 0], $result['js_calls']);
 
         $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `searches` WHERE `name` = \'test2\'');
-        $result = $db->fetch_assoc($query);
+        $search = $db->fetch_assoc($query);
 
-        $this->assertTrue(!empty($result));
+        $this->assertTrue(!empty($search));
+        $this->assertContains(['insert_saved_search', 'test2', $search['search_id']], $result['js_calls']);
     }
 }

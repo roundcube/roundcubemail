@@ -31,14 +31,18 @@ class ListTest extends ActionTestCase
         $this->assertSame('list', $result['action']);
         $this->assertSame(1, $result['env']['pagecount']);
 
-        $commands = explode("\n", trim($result['exec']));
+        $commands = $result['js_calls'];
 
         $this->assertCount(9, $commands);
-        $this->assertSame('this.set_group_prop(null);', $commands[0]);
-        $this->assertSame('this.set_rowcount("Contacts 1 to 7 of 7");', $commands[1]);
-        $this->assertStringMatchesFormat(
-            'this.add_contact_row("%i",{"name":"George Bush"},"person",'
-            . '{"name":"George Bush","email":"g.bush@gov.com","ID":"%i"});',
+        $this->assertSame(['set_group_prop', null], $commands[0]);
+        $this->assertSame(['set_rowcount', 'Contacts 1 to 7 of 7'], $commands[1]);
+
+        $db = \rcmail::get_instance()->get_dbh();
+        $query = $db->query('SELECT `contact_id` FROM `contacts` WHERE `email` = \'g.bush@gov.com\'');
+        $id = $db->fetch_assoc($query)['contact_id'];
+
+        $this->assertSame(
+            ['add_contact_row', $id, ['name' => 'George Bush'], 'person', ['name' => 'George Bush', 'email' => 'g.bush@gov.com', 'ID' => $id]],
             $commands[2]
         );
     }

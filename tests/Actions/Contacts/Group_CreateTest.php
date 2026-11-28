@@ -30,7 +30,7 @@ class Group_CreateTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
-        $this->assertSame('this.display_message("An error occurred while saving.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'An error occurred while saving.', 'error', 0]], $result['js_calls']);
 
         // Readonly addressbook
         $_POST = ['_source' => \rcube_addressbook::TYPE_RECIPIENT, '_name' => 'test'];
@@ -41,7 +41,7 @@ class Group_CreateTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
-        $this->assertSame('this.display_message("This address source is read only.","warning",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'This address source is read only.', 'warning', 0]], $result['js_calls']);
     }
 
     /**
@@ -64,8 +64,8 @@ class Group_CreateTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('group-create', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Group created successfully.","confirmation",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.insert_contact_group({"source":"0","id":"2","name":"test"});'));
+        $this->assertContains(['display_message', 'Group created successfully.', 'confirmation', 0], $result['js_calls']);
+        $this->assertContains(['insert_contact_group', ['source' => '0', 'id' => '2', 'name' => 'test']], $result['js_calls']);
 
         $db = \rcmail::get_instance()->get_dbh();
         $query = $db->query('SELECT * FROM `contactgroups` WHERE `user_id` = 1 AND `name` = \'test\'');

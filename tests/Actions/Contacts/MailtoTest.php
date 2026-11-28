@@ -36,10 +36,10 @@ class MailtoTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('mailto', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.open_compose_step({"_mailto":"'));
 
-        preg_match('/_mailto":"([0-9a-z]+)/', $result['exec'], $m);
+        $mailto_id = array_key_first($_SESSION['mailto']);
 
-        $this->assertSame('John+Doe+%3Cjohndoe%40example.org%3E', $_SESSION['mailto'][$m[1]]);
+        $this->assertSame(['John+Doe+%3Cjohndoe%40example.org%3E'], array_values($_SESSION['mailto']));
+        $this->assertSame([['open_compose_step', ['_mailto' => $mailto_id]]], $result['js_calls']);
     }
 }

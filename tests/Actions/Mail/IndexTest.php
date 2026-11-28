@@ -131,8 +131,7 @@ class IndexTest extends ActionTestCase
             $result = $output->getOutput();
 
             $this->assertIsArray($result, "Action '{$act}' was not aborted");
-            $this->assertStringContainsString('display_message', $result['exec']);
-            $this->assertStringContainsString('"error"', $result['exec']);
+            $this->assertSame([['display_message', 'The search result is not available anymore. Please repeat the search.', 'error', 0]], $result['js_calls']);
         }
 
         // Same with a search context in the session that does not match the request
@@ -154,8 +153,7 @@ class IndexTest extends ActionTestCase
         $result = $output->getOutput();
 
         $this->assertIsArray($result);
-        $this->assertStringContainsString('display_message', $result['exec']);
-        $this->assertStringContainsString('"error"', $result['exec']);
+        $this->assertSame([['display_message', 'The search result is not available anymore. Please repeat the search.', 'error', 0]], $result['js_calls']);
 
         unset($_SESSION['search'], $_SESSION['search_request']);
 

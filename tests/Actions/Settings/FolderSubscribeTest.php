@@ -34,7 +34,7 @@ class FolderSubscribeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-subscribe', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Folder successfully subscribed.","confirmation",0);'));
+        $this->assertContains(['display_message', 'Folder successfully subscribed.', 'confirmation', 0], $result['js_calls']);
 
         // TODO: Test a special folder subscription
     }
@@ -63,8 +63,8 @@ class FolderSubscribeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-subscribe', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);'));
-        $this->assertTrue(str_contains($result['exec'], 'this.reset_subscription("Test",false);'));
+        $this->assertContains(['display_message', 'Unable to perform operation. Folder is read-only.', 'error', 0], $result['js_calls']);
+        $this->assertContains(['reset_subscription', 'Test', false], $result['js_calls']);
 
         // TODO: Test TRYCREATE error handling
     }

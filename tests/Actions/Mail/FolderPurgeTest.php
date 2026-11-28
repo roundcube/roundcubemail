@@ -28,6 +28,6 @@ class FolderPurgeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('purge', $result['action']);
-        $this->assertStringContainsString('this.display_message("An internal error occurred', $result['exec']);
+        $this->assertSame([['display_message', 'An internal error occurred. Please try again.', 'error', 0]], $result['js_calls']);
     }
 }

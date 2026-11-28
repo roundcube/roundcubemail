@@ -33,7 +33,7 @@ class FolderSizeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-size', $result['action']);
-        $this->assertSame('this.folder_size_update("100 B");', trim($result['exec']));
+        $this->assertSame([['folder_size_update', '100 B']], $result['js_calls']);
     }
 
     /**
@@ -58,6 +58,6 @@ class FolderSizeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('folder-size', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Unable to perform operation. Folder is read-only.","error",0);'));
+        $this->assertContains(['display_message', 'Unable to perform operation. Folder is read-only.', 'error', 0], $result['js_calls']);
     }
 }

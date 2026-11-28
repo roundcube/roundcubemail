@@ -50,7 +50,7 @@ class AttachmentDeleteTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('delete-attachment', $result['action']);
-        $this->assertSame('this.remove_from_attachment_list("rcmfile' . $file['id'] . '");', trim($result['exec']));
+        $this->assertSame([['remove_from_attachment_list', 'rcmfile' . $file['id']]], $result['js_calls']);
         $this->assertNull($rcmail->get_uploaded_file($file['id']));
     }
 }

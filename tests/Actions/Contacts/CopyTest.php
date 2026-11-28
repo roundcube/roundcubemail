@@ -33,7 +33,7 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not copy any contacts.', 'error', 0]], $result['js_calls']);
 
         // target = source
         $_POST['_to'] = '0';
@@ -44,7 +44,7 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not copy any contacts.', 'error', 0]], $result['js_calls']);
 
         // target readonly
         $_POST['_to'] = \rcube_addressbook::TYPE_RECIPIENT;
@@ -55,7 +55,7 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not copy any contacts.', 'error', 0]], $result['js_calls']);
 
         // Non-existing contact
         $_POST = [
@@ -70,7 +70,7 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Could not copy any contacts.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Could not copy any contacts.', 'error', 0]], $result['js_calls']);
     }
 
     /**
@@ -102,7 +102,7 @@ class CopyTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('copy', $result['action']);
-        $this->assertSame('this.display_message("Successfully copied 1 contacts.","confirmation",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Successfully copied 1 contacts.', 'confirmation', 0]], $result['js_calls']);
 
         // Check that the contact has been really added to the contacts db
         $db = $rcmail->get_dbh();

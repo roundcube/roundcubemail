@@ -43,8 +43,7 @@ class FolderExpungeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('expunge', $result['action']);
-        $this->assertTrue(str_contains($result['exec'], 'this.display_message("Folder successfully compacted.","confirmation",0);'));
-        $this->assertTrue(!str_contains($result['exec'], 'this.set_quota('));
+        $this->assertSame([['display_message', 'Folder successfully compacted.', 'confirmation', 0]], $result['js_calls']);
     }
 
     /**
@@ -81,7 +80,7 @@ class FolderExpungeTest extends ActionTestCase
             $commands[0]
         );
         $this->assertSame('set_quota', $commands[1][0]);
-        $this->assertSame('message_list.clear', $commands[2][0]);
+        $this->assertSame('message_list_clear', $commands[2][0]);
     }
 
     /**
@@ -106,7 +105,7 @@ class FolderExpungeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('expunge', $result['action']);
-        $this->assertSame('this.display_message("Unable to perform operation. Folder is read-only.","error",0);', trim($result['exec']));
+        $this->assertSame([['display_message', 'Unable to perform operation. Folder is read-only.', 'error', 0]], $result['js_calls']);
     }
 
     /**
@@ -127,6 +126,6 @@ class FolderExpungeTest extends ActionTestCase
 
         $this->assertContains('Content-Type: application/json; charset=UTF-8', $output->headers);
         $this->assertSame('expunge', $result['action']);
-        $this->assertStringContainsString('this.display_message("An internal error occurred', $result['exec']);
+        $this->assertSame([['display_message', 'An internal error occurred. Please try again.', 'error', 0]], $result['js_calls']);
     }
 }
