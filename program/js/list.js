@@ -599,6 +599,32 @@ rcube_list_widget.prototype = {
         $(this.list).removeClass('focus');
     },
 
+
+    /**
+     * Set focus to a row
+     */
+    focus_row: function (id) {
+        if (this.rows[id]) {
+            $(this.rows[id].obj).addClass('focused');
+            // set cursor focus to link inside selected row
+            if (this.focused) {
+                this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_column()).attr('tabindex', '0'));
+            }
+        }
+    },
+
+
+    /**
+     * remove focus from a row
+     */
+    blur_row: function (id) {
+        if (id && this.rows[id]) {
+            $(this.rows[id].obj).removeClass('focused')
+                .find(this.col_tagname()).eq(this.subject_column()).removeAttr('tabindex');
+        }
+    },
+
+
     /**
      * Focus the given element without scrolling the list container
      */
@@ -1107,10 +1133,7 @@ rcube_list_widget.prototype = {
             this.multi_selecting = true;
         }
 
-        if (this.last_selected && this.rows[this.last_selected]) {
-            $(this.rows[this.last_selected].obj).removeClass('focused')
-                .find(this.col_tagname()).eq(this.subject_column()).removeAttr('tabindex');
-        }
+        this.blur_row(this.last_selected);
 
         // unselect if toggleselect is active and the same row was clicked again
         if (this.toggleselect && in_selection_before && !mod_key) {
@@ -1121,13 +1144,7 @@ rcube_list_widget.prototype = {
             this.triggerEvent('select');
         }
 
-        if (this.rows[id]) {
-            $(this.rows[id].obj).addClass('focused');
-            // set cursor focus to link inside selected row
-            if (this.focused) {
-                this.focus_noscroll($(this.rows[id].obj).find(this.col_tagname()).eq(this.subject_column()).attr('tabindex', '0'));
-            }
-        }
+        this.focus_row(id);
 
         if (!this.selection.length) {
             this.shift_start = null;
@@ -1350,6 +1367,7 @@ rcube_list_widget.prototype = {
 
         if (num_select && !this.selection.length && !no_event) {
             this.triggerEvent('select');
+            this.blur_row(this.last_selected);
             this.last_selected = null;
         }
     },
