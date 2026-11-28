@@ -111,7 +111,7 @@ class rcmail_action_mail_send extends rcmail_action
                         // replace signature's div ID (#6073)
                         '/ id="_rc_sig"/',
                         // add inline css for blockquotes and container
-                        '/<blockquote>/',
+                        '/<blockquote( type="cite")?>/',
                         '/<div class="pre">/',
                         // convert TinyMCE's new-line sequences (#1490463)
                         '/<p>&nbsp;<\/p>/',

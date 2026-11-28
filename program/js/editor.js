@@ -51,7 +51,11 @@ function rcube_text_editor(config, id) {
             toolbar_drawer: 'sliding',
             toolbar: 'bold italic underline | alignleft aligncenter alignright alignjustify'
                 + ' | $font | forecolor backcolor',
-            extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]',
+            // Keep type="cite" of quotes, mail clients use it to tell a quote from an indentation.
+            // This replaces TinyMCE's default rule for blockquote: list every attribute a quote may keep,
+            // the leading "-" keeps removing empty quotes.
+            extended_valid_elements: 'font[face|size|color|style],span[id|class|align|style]'
+                + ',-blockquote[cite|type|id|class|style|dir|lang|title]',
             // Allow style tag, have to be allowed inside body/div/blockquote (#7088)
             valid_children: '+body[style],+blockquote[style],+div[style]',
             relative_urls: false,

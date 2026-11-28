@@ -875,7 +875,8 @@ class rcmail_action_mail_compose extends rcmail_action_mail_index
             $suffix = '';
 
             if ($reply_indent) {
-                $prefix .= '<blockquote>';
+                // type="cite" marks the quote also in drafts, which other mail clients may open
+                $prefix .= '<blockquote type="cite">';
                 $suffix .= '</blockquote>';
             }
 

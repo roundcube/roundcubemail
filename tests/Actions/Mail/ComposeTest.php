@@ -95,4 +95,39 @@ class ComposeTest extends ActionTestCase
         $result = $action->compose_part_body($part, false);
         $this->assertSame('_test_ it!', $result);
     }
+
+    /**
+     * Test create_reply_body() with an HTML body: the quote is marked as quote (type="cite") already in the draft
+     */
+    public function test_create_reply_body_html()
+    {
+        $rcmail = \rcmail::get_instance();
+        $message = new MessageMock(123);
+        $message->headers = new \rcube_message_header();
+        $message->headers->from = 'Bob <bob@example.test>';
+        $message->headers->date = 'Mon, 23 Nov 2026 12:00:00 +0000';
+        $message->headers->charset = 'UTF-8';
+
+        $action = new \rcmail_action_mail_compose();
+        setProperty($action, 'MESSAGE', $message);
+        $intro = '<p id="reply-intro">' . \rcube::Q($action->get_reply_header($message)) . '</p>';
+
+        // bottom-posting
+        $rcmail->config->set('reply_mode', 0);
+        $result = $action->create_reply_body('<p>Hello</p>', true);
+        $this->assertSame($intro . '<blockquote type="cite"><p>Hello</p></blockquote><p><br/></p>', $result);
+
+        // top-posting
+        $rcmail->config->set('reply_mode', 1);
+        $result = $action->create_reply_body('<p>Hello</p>', true);
+        $this->assertSame('<br>' . $intro . '<blockquote type="cite"><p>Hello</p></blockquote>', $result);
+
+        // top-posting without indentation has no quote
+        $rcmail->config->set('reply_mode', 2);
+        $result = $action->create_reply_body('<p>Hello</p>', true);
+        $this->assertStringNotContainsString('<blockquote', $result);
+        $this->assertStringEndsWith('<p>Hello</p>', $result);
+
+        $rcmail->config->set('reply_mode', null);
+    }
 }
