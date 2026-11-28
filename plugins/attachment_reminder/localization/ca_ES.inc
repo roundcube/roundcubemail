@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Hi falta l'adjunt?";
 $messages['forgotattachment'] = "Us heu oblidat afegir un fitxer?";
 $messages['reminderoption'] = "Recordatori de fitxers adjunts oblidats";
-$messages['keywords'] = "adjunt,fitxer,adjunta,adjuntat,adjuntant,delimitat,CV,carta";
+$messages['keywords'] = "adjunt(s|a|es|at|ats|ada|ades|ant),fitxer(s),delimitat,CV,carta de presentaci(ó|o)";

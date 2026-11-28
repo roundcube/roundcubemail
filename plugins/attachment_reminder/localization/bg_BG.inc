@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Липсва прикачен файл?";
 $messages['forgotattachment'] = "Забравихте ли да прикрепите файл към съобщението?";
 $messages['reminderoption'] = "Напомняне за забравени прикачени файлове";
-$messages['keywords'] = "прикачен,прикрепен,прикачам,прикачвам,прикрепям,прикрепвам,файл,attachment,file,attach,attached,attaching,enclosed,CV,cover letter";
+$messages['keywords'] = "прикачен*,прикрепен*,прикачам*,прикачвам*,прикрепям*,прикрепвам*,файл*,attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s)";

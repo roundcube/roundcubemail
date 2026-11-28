@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Annexo mancante?";
 $messages['forgotattachment'] = "Ha tu oblidate de annexar un file?";
 $messages['reminderoption'] = "Rememorar me de annexos oblidate";
-$messages['keywords'] = "annexo,annexe,annexate,file,attachamento,attachar,attachate,attachante,CV,curriculo de vita";
+$messages['keywords'] = "annexo,annexe,annexate,file(s),attachamento,attachar,attachate,attachante,CV,curriculo de vita";

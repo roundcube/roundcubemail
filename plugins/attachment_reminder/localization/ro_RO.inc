@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Lipsă atașament?";
 $messages['forgotattachment'] = "Ați uitat să atașati ?";
 $messages['reminderoption'] = "Adu-mi aminte de atașamente";
-$messages['keywords'] = "atașament,atasament,atas,atasat,ataș,attach,fisier,fișier,attach,atach,attache";
+$messages['keywords'] = "atașament(e|ul|ele),atasament(e|ul|ele),atașat(ă|a|e),atasat(a|e),atașez,atasez,fișier(e|ul|ele),fisier(e|ul|ele),attach(ed|ing|ment(s)),atach";

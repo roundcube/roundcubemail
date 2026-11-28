@@ -14,4 +14,4 @@
 $messages['missingattachment'] = "Missing attachment?";
 $messages['forgotattachment'] = "Did you forget to attach a file?";
 $messages['reminderoption'] = "Remind about forgotten attachments";
-$messages['keywords'] = "attachment,file,attach,attached,attaching,enclosed,CV,cover letter";
+$messages['keywords'] = "attach(ed|ing|ment(s)),file(s),enclosed,CV,cover letter(s)";
